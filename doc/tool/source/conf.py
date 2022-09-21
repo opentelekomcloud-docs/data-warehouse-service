@@ -80,7 +80,7 @@ html_theme_options = {
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
 
-html_title = "Data Warehouse Service - API Reference"
+html_title = "Data Warehouse Service - Tool Guide"
 
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -91,7 +91,7 @@ html_static_path = ['_static']
 # -- Options for PDF output --------------------------------------------------
 latex_documents = [
 ('index',
-     'dws-api-ref.tex',
-     u'Data Warehouse Service - API Reference',
+     'dws-tool-guide.tex',
+     u'Data Warehouse Service - Tool Guide',
      u'OpenTelekomCloud', 'manual'),
 ]
