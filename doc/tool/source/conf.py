@@ -28,8 +28,6 @@ project = 'Data Warehouse Service'
 otcdocs_repo_name = 'opentelekomcloud-docs/data-warehouse-service'
 # Those variables are required for edit/bug links
 
-
-
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -38,6 +36,9 @@ sys.path.insert(0, os.path.abspath('../'))
 sys.path.insert(0, os.path.abspath('./'))
 
 # -- General configuration ----------------------------------------------------
+# https://docutils.sourceforge.io/docs/user/smartquotes.html - it does not
+# what it is expected
+smartquotes = False
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
@@ -90,7 +91,7 @@ html_static_path = ['_static']
 
 # -- Options for PDF output --------------------------------------------------
 latex_documents = [
-('index',
+    ('index',
      'dws-tool-guide.tex',
      u'Data Warehouse Service - Tool Guide',
      u'OpenTelekomCloud', 'manual'),
