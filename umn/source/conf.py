@@ -90,9 +90,4 @@ html_title = "Data Warehouse Service - User Guide"
 html_static_path = ['_static']
 
 # -- Options for PDF output --------------------------------------------------
-latex_documents = [
-    ('index',
-     'dws-umn.tex',
-     u'Data Warehouse Service - User Guide',
-     u'OpenTelekomCloud', 'manual'),
-]
+latex_documents = []
