@@ -1,0 +1,155 @@
+:original_name: dws_06_0240.html
+
+.. _dws_06_0240:
+
+UPDATE
+======
+
+Function
+--------
+
+**UPDATE** updates data in a table. **UPDATE** changes the values of the specified columns in all rows that satisfy the condition. The **WHERE** clause clarifies conditions. The columns to be modified need be mentioned in the **SET** clause; columns not explicitly modified retain their previous values.
+
+Precautions
+-----------
+
+-  You must have the **UPDATE** permission on a table to be updated.
+-  You must have the **SELECT** permission on all tables involved in the expressions or conditions.
+-  The distribution column of a table cannot be modified.
+-  For column-store tables, the **RETURNING** clause is currently not supported.
+-  Column-store tables do not support non-deterministic update. If you update data in one row with multiple rows of data in a column-store table, an error is reported.
+-  Memory space that records update operations in column-store tables is not reclaimed. You need to clean it by executing **VACUUM FULL table_name**.
+-  Currently, **UPDATE** cannot be used in column-store replication tables.
+-  You are not advised to create a table that needs to be frequently updated as a replication table.
+-  Column-store tables support lightweight **UPDATE** operations. Lightweight **UPDATE** operations only rewrite the updated columns to reduce space usage. Lightweight **UPDATE** for column-store tables is controlled by GUC parameter **enable_light_colupdate**.
+-  Column-store lightweight **UPDATE** is unavailable and automatically changes to the regular **UPDATE** operation in the following scenarios: updating an index column, updating a primary key column, updating a partition column, updating a PCK column, and online scaling.
+
+Syntax
+------
+
+::
+
+   UPDATE [ ONLY ] table_name [ * ] [ [ AS ] alias ]
+   SET {column_name = { expression | DEFAULT }
+       |( column_name [, ...] ) = {( { expression | DEFAULT } [, ...] ) |sub_query }}[, ...]
+       [ FROM from_list] [ WHERE condition ]
+       [ RETURNING {*
+                   | {output_expression [ [ AS ] output_name ]} [, ...] }];
+
+   where sub_query can be:
+   SELECT [ ALL | DISTINCT [ ON ( expression [, ...] ) ] ]
+   { * | {expression [ [ AS ] output_name ]} [, ...] }
+   [ FROM from_item [, ...] ]
+   [ WHERE condition ]
+   [ GROUP BY grouping_element [, ...] ]
+   [ HAVING condition [, ...] ]
+
+Parameter Description
+---------------------
+
+-  **table_name**
+
+   Name (optionally schema-qualified) of the table to be updated.
+
+   Value range: an existing table name
+
+-  **alias**
+
+   Specifies the alias for the target table.
+
+   Value range: a string. It must comply with the naming convention.
+
+-  **column_name**
+
+   Renames a column.
+
+   You can refer to this column by specifying the table name and column name of the target table. Example:
+
+   ::
+
+      UPDATE foo SET foo.col_name = 'GaussDB';
+
+   You can refer to this column by specifying the target table alias and the column name. For example:
+
+   ::
+
+      UPDATE foo AS f SET f.col_name = 'GaussDB';
+
+   Value range: an existing column name
+
+-  **expression**
+
+   An expression or value to assign to the column.
+
+-  **DEFAULT**
+
+   Sets the column to its default value.
+
+   The value is **NULL** if no specified default value has been assigned to it.
+
+-  **sub_query**
+
+   Specifies a subquery.
+
+   This command can be executed to update a table with information for other tables in the same database. For details about clauses in the **SELECT** statement, see :ref:`SELECT <dws_06_0238>`.
+
+-  **from_list**
+
+   A list of table expressions, allowing columns from other tables to appear in the **WHERE** condition and the update expressions. This is similar to the list of tables that can be specified in the **FROM** clause of a **SELECT** statement.
+
+   .. important::
+
+      Note that the target table must not appear in the **from_list**, unless you intend a self-join (in which case it must appear with an alias in the **from_list**).
+
+-  **condition**
+
+   An expression that returns a value of type **boolean**. Only rows for which this expression returns **true** are updated.
+
+-  **output_expression**
+
+   An expression to be computed and returned by the **UPDATE** command after each row is updated.
+
+   Value range: The expression can use any column names of the table named by **table_name** or table(s) listed in **FROM**. Write \* to return all columns.
+
+-  **output_name**
+
+   A name to use for a returned column.
+
+Examples
+--------
+
+Update the values of all records.
+
+::
+
+   UPDATE reason SET r_reason_sk = r_reason_sk * 2;
+
+If the **WHERE** clause is not included, all **r_reason_sk** values are updated.
+
+::
+
+   UPDATE reason SET r_reason_sk = r_reason_sk + 100;
+
+Redefine **r_reason_sk** whose **r_reason_desc** is **reason2** in the **reason** table.
+
+::
+
+   UPDATE reason SET r_reason_sk = 5 WHERE r_reason_desc = 'reason2';
+
+Redefine **r_reason_sk** whose value is **2** in the **reason** table.
+
+::
+
+   UPDATE reason SET r_reason_sk = r_reason_sk + 100 WHERE r_reason_sk = 2;
+
+Redefine the course IDs whose **r_reason_sk** is greater than 2 in the **reason** table.
+
+::
+
+   UPDATE reason SET r_reason_sk = 201 WHERE r_reason_sk > 2;
+
+You can run an **UPDATE** statement to update multiple columns by specifying multiple values in the **SET** clause. For example:
+
+::
+
+   UPDATE reason SET r_reason_sk = 5, r_reason_desc = 'reason5' WHERE r_reason_id = 'fourth';
