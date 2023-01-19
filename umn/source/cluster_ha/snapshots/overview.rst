@@ -1,0 +1,23 @@
+:original_name: dws_01_0151.html
+
+.. _dws_01_0151:
+
+Overview
+========
+
+A snapshot is a full or incremental backup of a GaussDB(DWS) cluster at a specific point in time. It records the current database data and cluster information, including the number of nodes, node specifications, and database administrator name. Snapshots can be created manually or automatically. For details, see :ref:`Manual Snapshots <dws_01_0092>` and :ref:`Automated Snapshots <dws_01_1013>`.
+
+When a snapshot is used for restoration, GaussDB(DWS) creates a new cluster based on the cluster information recorded in the snapshot and restores data from the snapshot. For details about how to restore a cluster from a snapshot, see :ref:`Restoring a Snapshot to a New Cluster <dws_01_0029>`.
+
+.. note::
+
+   -  Snapshot storage space
+
+      -  The cluster storage is provided by GaussDB(DWS) free of charge. Cluster storage = Storage space per node x Number of nodes
+
+   -  The dependencies of the snapshot service are as follows:
+
+      -  Only the snapshots stored in OBS can be used to restore data to a new cluster.
+
+   -  A new cluster created from the snapshot has the same configurations (including the number and flavor of nodes) as those of the original cluster.
+   -  If you create a new cluster based on a snapshot without modifying parameters, the parameters of the new cluster will be the same as those of the snapshot.
