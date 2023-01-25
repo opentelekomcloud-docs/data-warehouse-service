@@ -22,7 +22,7 @@ FAQs
    cluster_management/index
    database_connections/index
    data_import_and_export/index
-   account,_password,_and_permissions/index
+   account_password_and_permissions/index
    database_usage/index
    database_performance/index
    logs/index

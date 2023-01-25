@@ -20,5 +20,5 @@ Cluster Management
    how_can_i_upgrade_or_downgrade_gaussdbdws
    how_can_i_clear_and_reclaim_storage
    why_did_the_used_storage_reduce_after_scale-out
-   how_do_i_view_node_metrics_cpu,_memory,_and_disk_usage
+   how_do_i_view_node_metrics_cpu_memory_and_disk_usage
    how_is_the_disk_space_or_capacity_of_gaussdbdws_calculated
