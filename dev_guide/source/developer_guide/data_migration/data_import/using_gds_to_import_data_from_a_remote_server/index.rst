@@ -20,7 +20,7 @@ Using GDS to Import Data from a Remote Server
 
    importing_data_in_parallel_using_gds
    preparing_source_data
-   installing,_configuring,_and_starting_gds
+   installing_configuring_and_starting_gds
    creating_a_gds_foreign_table
    importing_data
    handling_import_errors

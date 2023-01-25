@@ -30,5 +30,5 @@ Hint-based Tuning
    sublink_name_hints
    skew_hints
    configuration_parameter_hints
-   hint_errors,_conflicts,_and_other_warnings
+   hint_errors_conflicts_and_other_warnings
    plan_hint_cases

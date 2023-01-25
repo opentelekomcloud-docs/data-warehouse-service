@@ -19,4 +19,4 @@ Type Conversion
    operators
    functions
    value_storage
-   union,_case,_and_related_constructs
+   union_case_and_related_constructs

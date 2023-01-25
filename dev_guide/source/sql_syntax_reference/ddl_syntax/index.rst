@@ -133,7 +133,7 @@ DDL Syntax
    create_barrier
    create_database
    create_foreign_table_for_gds_import_and_export
-   create_foreign_table__sql_on_obs_or_hadoop
+   create_foreign_table_sql_on_obs_or_hadoop
    create_foreign_table_for_obs_import_and_export
    create_function
    create_group
