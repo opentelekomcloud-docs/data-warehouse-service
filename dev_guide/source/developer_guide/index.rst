@@ -28,7 +28,7 @@ Developer Guide
    welcome/index
    system_overview/index
    data_migration/index
-   syntax_compatibility_differences_among_oracle,_teradata,_and_mysql
+   syntax_compatibility_differences_among_oracle_teradata_and_mysql
    database_security_management/index
    development_and_design_proposal/index
    guide_jdbc-_or_odbc-based_development/index

@@ -14,7 +14,7 @@ Differences Between GaussDB(DWS) and PostgreSQL
    :maxdepth: 1
    :hidden: 
 
-   gaussdbdws_gsql,_postgresql_psql,_and_libpq
+   gaussdbdws_gsql_postgresql_psql_and_libpq
    data_type_differences
    function_differences
    postgresql_features_unsupported_by_gaussdbdws

@@ -19,7 +19,7 @@ Using GDS to Export Data to a Remote Server
 
    exporting_data_in_parallel_using_gds
    planning_data_export
-   installing,_configuring,_and_starting_gds
+   installing_configuring_and_starting_gds
    creating_a_gds_foreign_table
    exporting_data
    stopping_gds
