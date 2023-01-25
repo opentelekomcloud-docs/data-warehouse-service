@@ -22,7 +22,7 @@ Database Usage
 
    do_i_need_to_set_a_distribution_key_after_setting_a_primary_key
    is_gaussdbdws_compatible_with_postgresql_stored_procedures
-   what_are_partitioned_tables,_partitions,_and_partition_keys
+   what_are_partitioned_tables_partitions_and_partition_keys
    how_can_i_export_the_table_structure
    how_can_i_export_all_tables_and_views_from_a_database
    how_can_i_change_the_character_encoding_format_of_a_database
