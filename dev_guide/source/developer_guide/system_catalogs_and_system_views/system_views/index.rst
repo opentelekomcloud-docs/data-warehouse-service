@@ -478,5 +478,5 @@ System Views
    user_tables
    user_triggers
    user_views
-   v$session
-   v$session_longops
+   vsession
+   vsession_longops
