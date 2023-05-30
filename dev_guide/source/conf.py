@@ -28,6 +28,15 @@ project = 'Data Warehouse Service'
 otcdocs_repo_name = 'opentelekomcloud-docs/data-warehouse-service'
 # Those variables are required for edit/bug links
 
+# Those variables are needed for indexing into OpenSearch
+otcdocs_doc_environment = 'public'
+otcdocs_doc_link = '/data-warehouse-service/dev-guide/'
+otcdocs_doc_title = 'Developer Guide'
+otcdocs_doc_type = 'dev'
+otcdocs_service_category = 'big_data'
+otcdocs_service_title = 'Data Warehouse Service'
+otcdocs_service_type = 'dws'
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
