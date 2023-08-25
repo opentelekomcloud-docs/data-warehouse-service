@@ -2,7 +2,7 @@
 
 .. _dws_07_0102:
 
-.. _en-us_topic_0000001148856437:
+.. _en-us_topic_0000001233922249:
 
 gs_dumpall
 ==========
@@ -249,7 +249,7 @@ Connection parameters:
 Description
 -----------
 
-The **gs_dumpall** internally invokes :ref:`gs_dump <en-us_topic_0000001149216491>`. For details about the diagnosis information, see :ref:`gs_dump <en-us_topic_0000001149216491>`.
+The **gs_dumpall** internally invokes :ref:`gs_dump <en-us_topic_0000001188362608>`. For details about the diagnosis information, see :ref:`gs_dump <en-us_topic_0000001188362608>`.
 
 Once **gs_dumpall** is restored, run ANALYZE on each database so that the optimizer can provide useful statistics.
 
@@ -277,4 +277,4 @@ Run **gs_dumpall** to export all databases from a cluster at a time.
 Helpful Links
 -------------
 
-:ref:`gs_dump <en-us_topic_0000001149216491>` and :ref:`gs_restore <en-us_topic_0000001102016632>`
+:ref:`gs_dump <en-us_topic_0000001188362608>` and :ref:`gs_restore <en-us_topic_0000001188521068>`

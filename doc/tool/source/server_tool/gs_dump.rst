@@ -2,31 +2,31 @@
 
 .. _dws_07_0101:
 
-.. _en-us_topic_0000001149216491:
+.. _en-us_topic_0000001188362608:
 
 gs_dump
 =======
 
-Background
-----------
+Context
+-------
 
 **gs_dump** is tool provided by GaussDB(DWS) to export database information. You can export a database or its objects, such as schemas, tables, and views. The database can be the default **postgres** database or a user-specified database.
 
-When **gs_dump** is used to export data, other users still can access the database (readable or writable).
+When **gs_dump** is used to export data, other users can still access the database (readable or writable).
 
 **gs_dump** can export complete, consistent data. For example, if **gs_dump** is started to export database A at T1, data of the database at that time point will be exported, and modifications on the database after that time point will not be exported.
 
 **gs_dump** can export database information to a plain-text SQL script file or archive file.
 
 -  Plain-text SQL script: It contains the SQL statements required to restore the database. You can use **gsql** to execute the SQL script. With only a little modification, the SQL script can rebuild a database on other hosts or database products.
--  Archive file: It contains data required to restore the database. It can be a tar-, directory-, or custom-format archive. For details, see :ref:`Table 1 <en-us_topic_0000001149216491__en-us_topic_0000001145713855_en-us_topic_0000001099130242_teb56550d78ba40669508ee8a78bce1bc>`. The export result must be used with :ref:`gs_restore <en-us_topic_0000001102016632>` to restore the database. The system allows you to select or even to sort the content to import.
+-  Archive file: It contains data required to restore the database. It can be a tar-, directory-, or custom-format archive. For details, see :ref:`Table 1 <en-us_topic_0000001188362608__en-us_topic_0000001188680980_en-us_topic_0000001099130242_teb56550d78ba40669508ee8a78bce1bc>`. The export result must be used with :ref:`gs_restore <en-us_topic_0000001188521068>` to restore the database. The system allows you to select or even to sort the content to import.
 
 Functions
 ---------
 
-**gs_dump** can create export files in four formats, which are specified by **-F** or **--format=**, as listed in :ref:`Table 1 <en-us_topic_0000001149216491__en-us_topic_0000001145713855_en-us_topic_0000001099130242_teb56550d78ba40669508ee8a78bce1bc>`.
+**gs_dump** can create export files in four formats, which are specified by **-F** or **--format=**, as listed in :ref:`Table 1 <en-us_topic_0000001188362608__en-us_topic_0000001188680980_en-us_topic_0000001099130242_teb56550d78ba40669508ee8a78bce1bc>`.
 
-.. _en-us_topic_0000001149216491__en-us_topic_0000001145713855_en-us_topic_0000001099130242_teb56550d78ba40669508ee8a78bce1bc:
+.. _en-us_topic_0000001188362608__en-us_topic_0000001188680980_en-us_topic_0000001099130242_teb56550d78ba40669508ee8a78bce1bc:
 
 .. table:: **Table 1** Formats of exported files
 
@@ -35,7 +35,7 @@ Functions
    +============+=============+=======================================================================================================================================================================================================+==================================================================================+================================================================================================================================+
    | Plain-text | p           | A plain-text script file containing SQL statements and commands. The commands can be executed on **gsql**, a command line terminal, to recreate database objects and load table data.                 | You are advised to use plain-text export files for small databases.              | Before using **gsql** to restore database objects, you can use a text editor to edit the exported plain-text file as required. |
    +------------+-------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+
-   | Custom     | c           | A binary file that allows the restoration of all or selected database objects from an exported file.                                                                                                  | You are advised to use custom-format archive files for medium or large database. | You can use :ref:`gs_restore <en-us_topic_0000001102016632>` to import database objects from a custom-format archive.          |
+   | Custom     | c           | A binary file that allows the restoration of all or selected database objects from an exported file.                                                                                                  | You are advised to use custom-format archive files for medium or large database. | You can use :ref:`gs_restore <en-us_topic_0000001188521068>` to import database objects from a custom-format archive.          |
    +------------+-------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+
    | Directory  | d           | A directory containing directory files and the data files of tables and BLOB objects.                                                                                                                 | ``-``                                                                            |                                                                                                                                |
    +------------+-------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+
@@ -208,7 +208,7 @@ Dump parameters:
 
    This parameter is used only for the plain-text format. For the archive format, you can specify the option when using **gs_restore**.
 
--  .. _en-us_topic_0000001149216491__en-us_topic_0000001145713855_en-us_topic_0000001099130242_l95dba45fc0df4807a8b924830aafbaf5:
+-  .. _en-us_topic_0000001188362608__en-us_topic_0000001188680980_en-us_topic_0000001099130242_l95dba45fc0df4807a8b924830aafbaf5:
 
    -s, --schema-only
 
@@ -300,7 +300,7 @@ Dump parameters:
 
    **--exclude-table-data** can be entered more than once to exclude tables matching any of several patterns. When the user needs the specified table definition rather than data in the table, this option is helpful.
 
-   To exclude data of all tables in the database, see :ref:`--schema-only <en-us_topic_0000001149216491__en-us_topic_0000001145713855_en-us_topic_0000001099130242_l95dba45fc0df4807a8b924830aafbaf5>`.
+   To exclude data of all tables in the database, see :ref:`--schema-only <en-us_topic_0000001188362608__en-us_topic_0000001188680980_en-us_topic_0000001099130242_l95dba45fc0df4807a8b924830aafbaf5>`.
 
 -  --inserts
 
@@ -611,4 +611,4 @@ Restore the views for the new **testtable** table.
 Helpful Links
 -------------
 
-:ref:`gs_dumpall <en-us_topic_0000001148856437>` and :ref:`gs_restore <en-us_topic_0000001102016632>`
+:ref:`gs_dumpall <en-us_topic_0000001233922249>` and :ref:`gs_restore <en-us_topic_0000001188521068>`

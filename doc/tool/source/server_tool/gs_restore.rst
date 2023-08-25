@@ -2,7 +2,7 @@
 
 .. _dws_07_0103:
 
-.. _en-us_topic_0000001102016632:
+.. _en-us_topic_0000001188521068:
 
 gs_restore
 ==========
@@ -395,7 +395,11 @@ Example 6: Execute the **gs_restore** tool and run the following commands to imp
    gs_restore[2017-07-21 19:16:26]: restore operation successful
    gs_restore[2017-07-21 19:16:26]: total time: 20203  ms
 
+.. note::
+
+   When a cluster is created, the scheduler is started and some resources of the scheduler are created, including the schema scheduler where the tables of the scheduler are located, and the tables created when the scheduler is running, such as **bandwidth_history_table**, **cpu_template_storage**, **io_template_storage**, **mem_template_storage**, **scheduler_config**, **scheduler_storage**, **task_history_storage**, **task_storage**, **vacuum_full_rslt**, **function scheduler_workload_query_func**, and **pg_task**. When **gs_restore** is executed, the tables, schemas, and indexes of the scheduler are also restored. The scheduler is a resident process, and the new cluster automatically creates these objects. Therefore, an error message is displayed when gs_restore is executed, indicating that the objects of the scheduler exist. This error has no impact on normal cluster operations and can be ignored.
+
 Helpful Links
 -------------
 
-:ref:`gs_dump <en-us_topic_0000001149216491>` and :ref:`gs_dumpall <en-us_topic_0000001148856437>`
+:ref:`gs_dump <en-us_topic_0000001188362608>` and :ref:`gs_dumpall <en-us_topic_0000001233922249>`
