@@ -8,7 +8,7 @@ SQL Diagnosis
 Prerequisites
 -------------
 
-To enable SQL diagnosis, enable monitoring on real-time and historical queries on the **Queries** and **History** tabs, respectively. For details, see .
+To enable SQL diagnosis, enable monitoring on real-time and historical queries on the **Queries** and **History** tabs, respectively. For details, see :ref:`Monitoring Collection <en-us_topic_0000001467074038__en-us_topic_0000001076708691_section149871230683>`.
 
 Viewing SQL Diagnosis
 ---------------------
@@ -42,7 +42,7 @@ Viewing SQL Diagnosis
 
    |image1|
 
-.. _en-us_topic_0000001134400694__en-us_topic_0000001076708521_section3665174263916:
+.. _en-us_topic_0000001517355169__en-us_topic_0000001076708521_section3665174263916:
 
 Setting GUC Parameters
 ----------------------
@@ -115,4 +115,4 @@ GUC parameters related to SQL diagnosis are as follows. For details, see "GUC Pa
 
          When this parameter is enabled, you are advised to set **topsql_retention_time** properly to configure the aging time. Otherwise, data in the **GS_WLM_SESSION_INFO** or **GS_WLM_OPERATOR_INFO** table will expand.
 
-.. |image1| image:: /_static/images/en-us_image_0000001180320279.png
+.. |image1| image:: /_static/images/en-us_image_0000001518033873.png

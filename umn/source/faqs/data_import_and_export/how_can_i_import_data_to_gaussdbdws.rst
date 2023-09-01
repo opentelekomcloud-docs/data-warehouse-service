@@ -5,7 +5,7 @@
 How Can I Import Data to GaussDB(DWS)?
 ======================================
 
-GaussDB(DWS) supports efficient data import from multiple data sources. The following lists typical data import modes. For details, see "Import Modes" in the *Data Warehouse Service (DWS) Developer Guide*.
+GaussDB(DWS) supports efficient data import from multiple data sources. The following lists typical data import modes. For details, see section "Importing Data" in the *Data Warehouse Service (DWS) Developer Guide*.
 
 -  Importing data from the OBS
 

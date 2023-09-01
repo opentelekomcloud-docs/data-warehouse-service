@@ -8,10 +8,10 @@ Monitoring
 -  :ref:`Node Monitoring <dws_01_1331>`
 -  :ref:`Performance Monitoring <dws_01_1337>`
 -  :ref:`Database Monitoring <dws_01_1332>`
--  :ref:`Session Monitoring <dws_01_1333>`
--  :ref:`Query Monitoring <dws_01_1334>`
+-  :ref:`Real-Time Queries <dws_01_1334>`
+-  :ref:`Historical Queries <dws_01_1333>`
 -  :ref:`Instance Monitoring <dws_01_1338>`
--  :ref:`Load Monitoring <dws_01_1339>`
+-  :ref:`Resource Pool Monitoring <dws_01_1339>`
 
 .. toctree::
    :maxdepth: 1
@@ -20,7 +20,7 @@ Monitoring
    node_monitoring
    performance_monitoring
    database_monitoring
-   session_monitoring
-   query_monitoring
+   real-time_queries
+   historical_queries
    instance_monitoring
-   load_monitoring
+   resource_pool_monitoring

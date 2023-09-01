@@ -24,8 +24,8 @@ Prerequisites
 
 To modify the cluster's security configuration, ensure that the following conditions are met:
 
--  The cluster status is **Available** or **Unbalanced**.
--  The value of **Task Information** cannot be **Creating snapshot**, **Resizing**, **Configuring**, or **Restarting**.
+-  The cluster status is **Available**, **To be restarted**, or **Unbalanced**.
+-  The **Task Information** cannot be **Creating snapshot**, **Scaling out**, **Configuring**, or **Restarting**.
 
 Procedure
 ---------
@@ -43,12 +43,6 @@ Procedure
    |image1| indicates that the function is enabled. When separation of permissions is enabled, configure the username and password for **Security Administrator** and **Audit Administrator**. Then the system automatically creates these two users. You can use these two users to connect to the database and perform database-related operations.
 
    |image2| indicates that **Rights Separation** is disabled. **Rights Separation** is disabled by default.
-
-
-   .. figure:: /_static/images/en-us_image_0000001134401020.png
-      :alt: **Figure 1** Security configuration
-
-      **Figure 1** Security configuration
 
    .. table:: **Table 1** Security parameters
 
@@ -101,5 +95,5 @@ Procedure
    -  **Synchronized**: The settings have been saved and taken effect.
    -  **Take effect after restart**: The settings have been saved but have not taken effect. Restart the cluster for the settings to take effect.
 
-.. |image1| image:: /_static/images/en-us_image_0000001134560798.png
-.. |image2| image:: /_static/images/en-us_image_0000001180440227.jpg
+.. |image1| image:: /_static/images/en-us_image_0000001467074238.png
+.. |image2| image:: /_static/images/en-us_image_0000001517754413.jpg

@@ -32,6 +32,11 @@ MRS
 
 Data can be migrated from MRS to GaussDB(DWS) clusters for analysis after the data is processed by Hadoop.
 
+DRS
+---
+
+You can use Data Replication Service (DRS) to synchronize stream data to GaussDB(DWS) in real time.
+
 Cloud Eye
 ---------
 
@@ -42,6 +47,11 @@ CTS
 
 GaussDB(DWS) uses Cloud Trace Service (CTS) to audit your non-query operations on the management console to ensure that no invalid or unauthorized operations are performed, enhancing service security management.
 
+LTS
+---
+
+GaussDB(DWS) users can view collected cluster logs or dump logs on the Log Tank Service (LTS) console.
+
 TMS
 ---
 
@@ -51,3 +61,8 @@ DNS
 ---
 
 GaussDB(DWS) uses Domain Name Service (DNS) to provide the cluster IP addresses mapped from domain names.
+
+ELB
+---
+
+With Elastic Load Balance (ELB) health checks, the CN requests of a cluster can be quickly forwarded to normal CNs. If a CN is faulty, the workload can be immediately shifted to a healthy node, minimizing cluster access faults.

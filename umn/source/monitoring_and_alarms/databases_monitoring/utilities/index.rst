@@ -6,11 +6,13 @@ Utilities
 =========
 
 -  :ref:`SQL Diagnosis <dws_01_00134>`
--  :ref:`DDL Audit <dws_01_01752>`
+-  :ref:`SQL Probes <dws_01_01753>`
+-  :ref:`Table Diagnosis <dws_01_01752>`
 
 .. toctree::
    :maxdepth: 1
    :hidden: 
 
    sql_diagnosis
-   ddl_audit
+   sql_probes
+   table_diagnosis

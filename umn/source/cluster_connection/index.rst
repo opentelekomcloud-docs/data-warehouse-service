@@ -7,9 +7,11 @@ Cluster Connection
 
 -  :ref:`Methods of Connecting to a Cluster <dws_01_0137>`
 -  :ref:`Obtaining the Cluster Connection Address <dws_01_0033>`
--  :ref:`Using the gsql CLI Client to Connect to a Cluster <dws_01_0093>`
 -  :ref:`Using the Data Studio GUI Client to Connect to a Cluster <dws_01_0094>`
+-  :ref:`Using the gsql CLI Client to Connect to a Cluster <dws_01_0093>`
 -  :ref:`Using the JDBC and ODBC Drivers to Connect to a Cluster <dws_01_0081>`
+-  :ref:`Using the Third-Party Function Library psycopg2 of Python to Connect to a Cluster <dws_01_0120>`
+-  :ref:`Using the Python Library PyGreSQL to Connect to a Cluster <dws_01_0171>`
 -  :ref:`Managing Database Connections <dws_01_0039>`
 
 .. toctree::
@@ -18,7 +20,9 @@ Cluster Connection
 
    methods_of_connecting_to_a_cluster
    obtaining_the_cluster_connection_address
-   using_the_gsql_cli_client_to_connect_to_a_cluster/index
    using_the_data_studio_gui_client_to_connect_to_a_cluster
+   using_the_gsql_cli_client_to_connect_to_a_cluster/index
    using_the_jdbc_and_odbc_drivers_to_connect_to_a_cluster/index
+   using_the_third-party_function_library_psycopg2_of_python_to_connect_to_a_cluster
+   using_the_python_library_pygresql_to_connect_to_a_cluster
    managing_database_connections

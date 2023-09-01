@@ -29,8 +29,12 @@ Viewing Alarm Rules
 -------------------
 
 #. Log in to the GaussDB(DWS) management console.
+
 #. In the navigation pane on the left, choose **Alarms**.
-#. Click **View Alarm Rule** in the upper left corner. On the page that is displayed, you can see the threshold alarm rules of database cluster monitoring metrics, as shown in the following figure.\ |image1|
+
+#. Click **View Alarm Rule** in the upper left corner. On the page that is displayed, you can see the threshold alarm rules of database cluster monitoring metrics, as shown in the following figure.
+
+   |image1|
 
 Modifying an Alarm Rule
 -----------------------
@@ -95,7 +99,7 @@ Creating an Alarm Rule
       -  **Alarm Severity**: includes **Urgent**, **Important**, **Minor**, and **Prompt**.
 
 
-         .. figure:: /_static/images/en-us_image_0000001214965259.png
+         .. figure:: /_static/images/en-us_image_0000001518033757.png
             :alt: **Figure 1** Creating an alarm rule
 
             **Figure 1** Creating an alarm rule
@@ -104,5 +108,5 @@ Creating an Alarm Rule
 
             Currently, only alarm rules of schema usage metrics can be created on GaussDB(DWS).
 
-.. |image1| image:: /_static/images/en-us_image_0000001152679414.png
-.. |image2| image:: /_static/images/en-us_image_0000001198758917.png
+.. |image1| image:: /_static/images/en-us_image_0000001466754594.png
+.. |image2| image:: /_static/images/en-us_image_0000001467074082.png

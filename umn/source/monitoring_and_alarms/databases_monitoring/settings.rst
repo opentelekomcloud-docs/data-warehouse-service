@@ -13,7 +13,7 @@ The **Monitoring** page displays the collection period and data aging period of 
    -  Disable the function if the cluster is being recovered. Enable the function when the fault is rectified.
    -  When a node in the cluster is powered off or the management IP address of the cluster is unavailable, the cluster monitoring switch and the button for configuring cluster indicator collection are unavailable.
 
-.. _en-us_topic_0000001180320167__en-us_topic_0000001076708691_section149871230683:
+.. _en-us_topic_0000001467074038__en-us_topic_0000001076708691_section149871230683:
 
 Monitoring Collection
 ---------------------
@@ -47,6 +47,6 @@ Collection Storage
 
    |image3|
 
-.. |image1| image:: /_static/images/en-us_image_0000001180440311.png
-.. |image2| image:: /_static/images/en-us_image_0000001148353740.png
-.. |image3| image:: /_static/images/en-us_image_0000001134400944.png
+.. |image1| image:: /_static/images/en-us_image_0000001467074270.png
+.. |image2| image:: /_static/images/en-us_image_0000001517754469.png
+.. |image3| image:: /_static/images/en-us_image_0000001517914049.png

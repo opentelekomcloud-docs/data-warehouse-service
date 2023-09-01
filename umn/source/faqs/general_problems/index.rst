@@ -10,10 +10,9 @@ General Problems
 -  :ref:`Why Should I Use Public Cloud GaussDB(DWS)? <dws_03_0006>`
 -  :ref:`Should I Choose Public Cloud GaussDB(DWS) or RDS? <dws_03_0009>`
 -  :ref:`When Should I Use GaussDB(DWS) and MRS? <dws_03_0010>`
--  :ref:`Can GaussDB(DWS) SQL on OBS Replace MRS? <dws_03_0011>`
--  :ref:`What Are the Differences Between GaussDB(DWS) and Hive in Functions? <dws_03_0037>`
 -  :ref:`What Is the User Quota? <dws_03_0034>`
 -  :ref:`What Are the Differences Between Users and Roles? <dws_03_0067>`
+-  :ref:`How Do I Check the Creation Time of a Database User? <dws_03_0063>`
 -  :ref:`Regions and AZs <dws_03_0052>`
 -  :ref:`Is My Data Secure in GaussDB(DWS)? <dws_03_0022>`
 -  :ref:`How Is GaussDB(DWS) Secured? <dws_03_0023>`
@@ -29,10 +28,9 @@ General Problems
    why_should_i_use_public_cloud_gaussdbdws
    should_i_choose_public_cloud_gaussdbdws_or_rds
    when_should_i_use_gaussdbdws_and_mrs
-   can_gaussdbdws_sql_on_obs_replace_mrs
-   what_are_the_differences_between_gaussdbdws_and_hive_in_functions
    what_is_the_user_quota
    what_are_the_differences_between_users_and_roles
+   how_do_i_check_the_creation_time_of_a_database_user
    regions_and_azs
    is_my_data_secure_in_gaussdbdws
    how_is_gaussdbdws_secured

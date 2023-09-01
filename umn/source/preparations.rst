@@ -7,26 +7,9 @@ Preparations
 
 Before using GaussDB(DWS), make the following preparations:
 
--  :ref:`Registering a Public Cloud Account and Completing Real-Name Authentication <en-us_topic_0000001180320193__section269013516364>`
--  :ref:`Determining the Cluster Ports <en-us_topic_0000001180320193__section788591414617>`
+-  :ref:`Determining the Cluster Ports <en-us_topic_0000001517754161__section788591414617>`
 
-.. _en-us_topic_0000001180320193__section269013516364:
-
-Registering a Public Cloud Account and Completing Real-Name Authentication
---------------------------------------------------------------------------
-
-If you do not have a public cloud account, register one. If you already have an account with real-name authentication, skip this step and use the account.
-
-#. Open the official public cloud website and click **Register** in the upper right corner. The registration page is displayed.
-#. Fill in user information as instructed to complete the registration.
-#. Click the username in the upper right corner to enter the **Account Info** page. Then click **Real-Name Authentication** in the left navigation pane.
-#. Perform real-name authentication as prompted.
-
-   .. note::
-
-      You must perform real-name authentication before enabling cloud services.
-
-.. _en-us_topic_0000001180320193__section788591414617:
+.. _en-us_topic_0000001517754161__section788591414617:
 
 Determining the Cluster Ports
 -----------------------------

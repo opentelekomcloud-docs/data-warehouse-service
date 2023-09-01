@@ -30,4 +30,4 @@ After a role is granted to a user through **GRANT**, the user will have all the 
 
 -  Role C is assigned operation permissions D and E. After role C is allocated to user C, user C can obtain operation permissions D and F.
 
-.. |image1| image:: /_static/images/en-us_image_0000001199655548.png
+.. |image1| image:: /_static/images/en-us_image_0000001332017022.png

@@ -5,7 +5,7 @@
 How Do I Grant Schema Permissions to a User?
 ============================================
 
-This section describes how to grant the query permission for a schema as an example. For more information, see "How Do I Grant Table Permissions to a User?" in FAQ. You can grant:
+This section describes how to grant the query permission for a schema as an example. For more information, see "How Do I Grant Table Permissions to a User?" in *FAQs*:
 
 -  Permission for a table in a schema
 -  Permission for all the tables in a schema
@@ -35,7 +35,7 @@ Assume that there are users **u1** and **u2**, and two schemas named after them.
 
       GRANT USAGE ON SCHEMA u1 TO u2;
 
-#. .. _en-us_topic_0000001239662887__li185386414379:
+#. .. _en-us_topic_0000001330808760__en-us_topic_0000001239662887_li185386414379:
 
    Grant user **u2** the permission to query table **u1.t1** in schema **u1**.
 
@@ -88,7 +88,7 @@ Assume that there are users **u1** and **u2**, and two schemas named after them.
       ALTER DEFAULT PRIVILEGES FOR ROLE u1 IN SCHEMA u1 GRANT SELECT ON TABLES TO u2;
       CREATE TABLE u1.t4 (c1 int, c2 int);
 
-#. In the session started by user **u2**, verify that user **u2** can access table **u1.t4**, but does not have the permission to access **u1.t3**. To let the user access table **u1.t3**, you can grant permissions by performing :ref:`4 <en-us_topic_0000001239662887__li185386414379>`.
+#. In the session started by user **u2**, verify that user **u2** can access table **u1.t4**, but does not have the permission to access **u1.t3**. To let the user access table **u1.t3**, you can grant permissions by performing :ref:`4 <en-us_topic_0000001330808760__en-us_topic_0000001239662887_li185386414379>`.
 
    ::
 
@@ -96,8 +96,8 @@ Assume that there are users **u1** and **u2**, and two schemas named after them.
 
    |image5|
 
-.. |image1| image:: /_static/images/en-us_image_0000001318546125.png
-.. |image2| image:: /_static/images/en-us_image_0000001318103277.png
-.. |image3| image:: /_static/images/en-us_image_0000001318263369.png
-.. |image4| image:: /_static/images/en-us_image_0000001318423893.png
-.. |image5| image:: /_static/images/en-us_image_0000001268864780.png
+.. |image1| image:: /_static/images/en-us_image_0000001381609457.png
+.. |image2| image:: /_static/images/en-us_image_0000001330488880.png
+.. |image3| image:: /_static/images/en-us_image_0000001381728633.png
+.. |image4| image:: /_static/images/en-us_image_0000001381889129.png
+.. |image5| image:: /_static/images/en-us_image_0000001381808809.png
