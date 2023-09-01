@@ -7,67 +7,6 @@ Functions
 
 GaussDB(DWS) enables you to use this service through various methods, such as the GaussDB(DWS) management console, GaussDB(DWS) client, and REST APIs. This section describes the main functions of GaussDB(DWS).
 
-Cluster Management
-------------------
-
-A data warehouse cluster contains nodes with the same flavor in the same subnet. These nodes jointly provide services. GaussDB(DWS) provides a professional, efficient, and centralized management console, allowing you to quickly apply for clusters, easily manage data warehouses, and focus on data and services.
-
-Main functions of cluster management are described as follows:
-
--  Creating a cluster
-
-   To use data warehouse services on the cloud, create a GaussDB(DWS) cluster first. You can select product and node specifications to quickly create a cluster.
-
--  Managing snapshots
-
-   A snapshot is a complete backup that records point-in-time configuration data and service data of a GaussDB(DWS) cluster. A snapshot can be used to restore a cluster at a certain time. You can manually create snapshots for a cluster or enable automated snapshot creation (periodic). Automated snapshots have a limited retention period. You can copy automatic snapshots for long-term retention.
-
-   When you restore a cluster from a snapshot, the system creates a new cluster with the same flavor and node quantity as the original one, and imports the snapshot data.
-
-   You can delete snapshots that are no longer needed to release the storage space.
-
--  Managing nodes
-
-   You can check the nodes in a cluster, including the status, specifications, and usage of each node. To prepare for a large scale-out, you can add nodes in batches. For example, if 180 more BMS nodes are needed for a scale-out, add them in three batches (60 in each batch). If some nodes fail to be added, add them again. After all the 180 nodes are successfully added, use the nodes for cluster scale-out. Adding nodes does not affect cluster services.
-
--  Scaling out a cluster
-
-   As the service volume increases, the current scale of a cluster may not meet service requirements. In this case, you can scale out the cluster by adding compute nodes to it. Services are not interrupted during the scale-out. You can enable online scale-out and automatic redistribution if necessary.
-
--  Managing redistribution
-
-   By default, redistribution is automatically started after cluster scale-out. For enhanced reliability, disable the automatic redistribution function and manually start a redistribution task after the scale-out is successful. Data redistribution can accelerate service response. Currently, offline redistribution, online redistribution, and offline scheduling are supported. The default mode is offline redistribution.
-
--  Managing workloads
-
-   When multiple database users query jobs at the same time, some complex queries may occupy cluster resources for a long time, affecting the performance of other queries. For example, a group of database users continuously submit complex and time-consuming queries, while another group of users frequently submit short queries. In this case, short queries may have to wait in the queue for the time-consuming queries to complete. To improve efficiency, you can use the GaussDB(DWS) workload management function to handle such problems. GaussDB(DWS) workload management uses workload queues as resource bearers. You can create different workload queues for different service types and configure different resource ratios for these queues. Then, add database users to the corresponding queues to restrict their resource usages.
-
--  Logical cluster
-
-   A physical cluster can be divided into logical clusters that use the node-group mechanism. Tables in a database can be allocated to different physical nodes by logical cluster. A logical cluster can contain tables from multiple databases.
-
--  Restarting a cluster
-
-   Restarting a cluster may cause data loss in running services. If you have to restart a cluster, ensure that there is no running service and all data has been saved.
-
--  Deleting a cluster
-
-   You can delete a cluster when you do not need it. Deleting a cluster is risky and may cause data loss. Therefore, exercise caution when performing this operation.
-
-GaussDB(DWS) allows you to manage clusters and snapshots in either of the following ways:
-
--  Management console
-
-   Use the management console to access GaussDB(DWS) clusters. When you have registered an account, log in to the management console and choose **Data Warehouse Service**.
-
-   For more information about cluster management, see "Cluster Management".
-
--  REST APIs
-
-   Use REST APIs provided by GaussDB(DWS) to manage clusters. In addition, if you need to integrate GaussDB(DWS) into a third-party system for secondary development, use APIs to access the service.
-
-   For details, see the *Data Warehouse Service API Reference*.
-
 Enterprise-Level Data Warehouses and Compatibility with Standard SQL
 --------------------------------------------------------------------
 
@@ -85,23 +24,92 @@ GaussDB(DWS) has comprehensive SQL capabilities:
 
 -  Supports SQL 92 and SQL 2003 standards, stored procedures, GBK and UTF-8 character sets, and SQL standard functions and OLAP analysis functions.
 -  Compatible with the PostgreSQL ecosystem and supports interconnection with mainstream database ETL and BI tools provided by third-party vendors.
+-  Supports roaring bitmaps and common functions used with them, which are widely used for user feature extraction, user profiling, and more applications in the Internet, retail, education, and gaming industries.
+-  List partitioning (**PARTITION BY LIST** *(partition_key,[...])*) and range partitioning are supported.
+-  Read-only HDFS and OBS foreign tables in JSON file format are supported.
+-  Permissions on system catalogs can be granted to common users. The **VACUUM** permission can be granted separately. Roles with predefined, extensible permissions are supported, including:
+
+   -  **ALTER**, **DROP** and **VACUUM** permissions at table level
+   -  **ALTER** and **DROP** permissions at schema level
+   -  Preset roles **role_signal_backend** and **role_read_all_stats**
 
 For details about the SQL syntax and database operation guidance, see the *Data Warehouse Service Database Development Guide*.
+
+Cluster Management
+------------------
+
+A data warehouse cluster contains nodes with the same flavor in the same subnet. These nodes jointly provide services. GaussDB(DWS) provides a professional, efficient, and centralized management console, allowing you to quickly apply for clusters, easily manage data warehouses, and focus on data and services.
+
+Main functions of cluster management are described as follows:
+
+-  Creating Clusters
+
+   To use data warehouse services on the cloud, create a GaussDB(DWS) cluster first. You can select product and node specifications to quickly create a cluster.
+
+-  Managing Snapshots
+
+   A snapshot is a complete backup that records point-in-time configuration data and service data of a GaussDB(DWS) cluster. A snapshot can be used to restore a cluster at a certain time. You can manually create snapshots for a cluster or enable automated snapshot creation (periodic). Automated snapshots have a limited retention period. You can copy automatic snapshots for long-term retention.
+
+   When you restore a cluster from a snapshot, the system creates a new cluster with the same flavor and node quantity as the original one, and imports the snapshot data.
+
+   You can delete snapshots that are no longer needed to release the storage space.
+
+-  Managing nodes
+
+   You can check the nodes in a cluster, including the status, specifications, and usage of each node. To prepare for a large scale-out, you can add nodes in batches. For example, if 180 more BMS nodes are needed, add them in three batches (60 for each batch). If some nodes fail to be added, add them again. After all the 180 nodes are successfully added, use the nodes for cluster scale-out. Adding nodes does not affect cluster services.
+
+-  Scaling out clusters
+
+   As the service volume increases, the current scale of a cluster may not meet service requirements. In this case, you can scale out the cluster by adding compute nodes to it. Services are not interrupted during the scale-out. You can enable online scale-out and automatic redistribution if necessary.
+
+-  Managing redistribution
+
+   By default, redistribution is automatically started after cluster scale-out. For enhanced reliability, disable the automatic redistribution function and manually start a redistribution task after the scale-out is successful. Data redistribution can accelerate service response. Currently, offline redistribution, online redistribution, and offline scheduling are supported. The default mode is offline redistribution.
+
+-  Resource management
+
+   When multiple database users query jobs at the same time, some complex queries may occupy cluster resources for a long time, affecting the performance of other queries. For example, a group of database users continuously submit complex and time-consuming queries, while another group of users frequently submit short queries. In this case, short queries may have to wait in the queue for the time-consuming queries to complete. To improve efficiency, you can use the GaussDB(DWS) resource management function to handle such problems. You can create different resource pools for different types of services, and configure different resource ratios for these pools. Then, add database users to the corresponding pools to restrict their resource usages.
+
+-  Logical cluster
+
+   A physical cluster can be divided into logical clusters that use the node-group mechanism. Tables in a database can be allocated to different physical nodes by logical cluster. A logical cluster can contain tables from multiple databases.
+
+-  Restarting clusters
+
+   Restarting a cluster may cause data loss in running services. If you have to restart a cluster, ensure that there is no running service and all data has been saved.
+
+-  Deleting Clusters
+
+   You can delete a cluster when you do not need it. Deleting a cluster is risky and may cause data loss. Therefore, exercise caution when performing this operation.
+
+GaussDB(DWS) allows you to manage clusters and snapshots in either of the following ways:
+
+-  Management console
+
+   Use the management console to access GaussDB(DWS) clusters. When you have registered an account, log in to the management console and choose **Data Warehouse Service**.
+
+   For more information about cluster management, see "Cluster Management" in the *Data Warehouse Service User Guide*.
+
+-  REST APIs
+
+   Use REST APIs provided by GaussDB(DWS) to manage clusters. In addition, if you need to integrate GaussDB(DWS) into a third-party system for secondary development, use APIs to access the service.
+
+   For details, see the *Data Warehouse Service API Reference*.
 
 Diverse Data Import Modes
 -------------------------
 
-GaussDB(DWS) supports efficient data import from multiple data sources. The following lists typical data import modes. For details, see "Data Import" in the *Data Warehouse Service (DWS) Developer Guide*.
+GaussDB(DWS) supports efficient data import from multiple data sources. The following lists typical data import modes. For details, see "Data Migration to GaussDB(DWS)" in *Data Warehouse Service (DWS) Developer Guide*.
 
--  Concurrently Importing Data from OBS
--  Using GDS to Import Data from a Remote Server
--  Running the INSERT Statement to Insert Data
--  Running the COPY FROM STDIN Statement to Import Data
--  Using a gsql Meta-Command to Import Data
--  Importing Data from MRS to a Data Warehouse Cluster
--  Using Database Schema Convertor (DSC) to Migrate SQL Scripts
-
-In addition, GaussDB(DWS)supports data import using mainstream third-party ETL tools.
+-  Importing data from OBS in parallel
+-  Using GDS to import data from a remote server
+-  Importing data from MRS to a data warehouse cluster
+-  Importing data from one GaussDB(DWS) cluster to another
+-  Using the gsql meta-command **\\COPY** to import data
+-  Running the **COPY FROM STDIN** statement to import data
+-  Using Database Schema Convertor (DSC) to migrate SQL scripts
+-  Using **gs_dump** and **gs_dumpall** to export metadata
+-  Using **gs_restore** to import data
 
 APIs
 ----
@@ -132,20 +140,20 @@ Monitoring and Auditing
 
 -  Monitoring Clusters
 
-   GaussDB(DWS) integrates with Cloud Eye, allowing you to monitor compute nodes and databases in the cluster in real time. For details, see "Cluster Monitoring" in the *Data Warehouse Service (DWS) User Guide*.
+   GaussDB(DWS) integrates with Cloud Eye, allowing you to monitor compute nodes and databases in the cluster in real time. For details, see "Monitoring Clusters" in the *Data Warehouse Service (DWS) User Guide*.
 
--  Monitoring databases
+-  Database Monitoring
 
-   DMS is provided by GaussDB(DWS) to ensure the fast and stable running of databases. It collects, monitors, and analyzes the disk, network, and OS metric data used by the service database, as well as key performance metric data of cluster running. It also diagnoses database hosts, instances, and service SQL statements based on the collected metrics to expose key faults and performance problems in a database in a timely manner, and guides customers to optimize and resolve the problems. For details, see "Database Monitoring" in *Data Warehouse Service User Guide*.
+   DMS is provided by GaussDB(DWS) to ensure the fast and stable running of databases. It collects, monitors, and analyzes the disk, network, and OS metric data used by the service database, as well as key performance metric data of cluster running. It also diagnoses database hosts, instances, and service SQL statements based on the collected metrics to expose key faults and performance problems in a database in a timely manner, and guides customers to optimize and resolve the problems. For details, see "Database Monitoring" in the *Data Warehouse Service (DWS) User Guide*.
 
--  Managing alarms
+-  Alarms
 
-   Alarm management includes viewing and configuring alarm rules and subscribing to alarm information. Alarm rules display alarm statistics and details of the past week for users to view tenant alarms. In addition to providing a set of default GaussDB(DWS) alarm rules, this feature allows you to modify alarm thresholds based on your own services. For details, see "Alarms" in *Data Warehouse Service User Guide*.
+   Alarm management includes viewing and configuring alarm rules and subscribing to alarm information. Alarm rules display alarm statistics and details of the past week for users to view tenant alarms. In addition to providing a set of default GaussDB(DWS) alarm rules, this feature allows you to modify alarm thresholds based on your own services. For details, see "Alarm Management" in the *Data Warehouse Service (DWS) User Guide*.
 
 -  Audit Logs
 
    -  GaussDB(DWS) integrates with Cloud Trace Service (CTS), allowing you to audit operations performed on the management console and API invocation operations. For details, see "Viewing Audit Logs of Key Operations on the Management Console".
-   -  GaussDB(DWS) records all SQL operations, including connection attempts, query attempts, and database changes. For details, see "Configuring the Database Audit Logs" in the *Data Warehouse Service (DWS) User Guide*.
+   -  GaussDB(DWS) records all SQL operations, including connection attempts, query attempts, and database changes. For details, see "Setting Database Audit Logs" in the *Data Warehouse Service (DWS) User Guide*.
 
 Multiple Database Tools
 -----------------------
@@ -171,3 +179,13 @@ GaussDB(DWS) provides the following self-developed tools. You can download the t
    The DSC is a command-line tool running on the Linux or Windows OS. It is dedicated to providing customers with simple, fast, reliable application SQL script migration services. It parses SQL scripts of source database applications by using the built-in syntax migration logic, and migrates them to be applicable to GaussDB(DWS) databases.
 
    The DSC can migrate SQL scripts of Teradata, Oracle, Netezza, MySQL, and DB2 databases.
+
+-  **gs_dump** and **gs_dumpall**
+
+   **gs_dump** exports a single database or its objects. **gs_dumpall** exports all databases or global objects in a cluster.
+
+   To migrate database information, you can use a tool to import the exported metadata to a target database.
+
+-  gs_restore
+
+   During database migration, you can export files using **gs_dump tool** and import them to GaussDB(DWS) by using **gs_restore**. In this way, metadata, such as table definitions and database object definitions, can be imported.

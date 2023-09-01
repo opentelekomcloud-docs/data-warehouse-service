@@ -14,7 +14,6 @@ Service Overview
 -  :ref:`GaussDB(DWS) Permissions Management <dws_01_0144>`
 -  :ref:`GaussDB(DWS) Access <dws_01_0009>`
 -  :ref:`Restrictions <dws_01_0010>`
--  :ref:`Technical Specifications <dws_01_00113>`
 
 .. toctree::
    :maxdepth: 1
@@ -24,9 +23,8 @@ Service Overview
    advantages
    application_scenarios
    functions
-   concepts/index
+   concepts
    related_services
    gaussdbdws_permissions_management
    gaussdbdws_access
    restrictions
-   technical_specifications

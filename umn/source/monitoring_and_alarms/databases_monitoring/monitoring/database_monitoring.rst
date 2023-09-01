@@ -31,16 +31,10 @@ You can select a database and check its resource usage. For details, see :ref:`M
 -  Applications
 -  Sessions
 -  Queries
--  Scanning Rows
--  Index Query Rows
 -  Inserted Rows
 -  Updated Rows
 -  Deleted Rows
--  Executed Transactions
--  Transaction Rollbacks
 -  Deadlocks
--  Logical Read Times
--  Physical Read Times
 -  Temporary Files
 -  Temporary File Capacity
 
@@ -57,6 +51,6 @@ In the **Monitoring** column of a database, click |image2| to view the performan
 
 |image3|
 
-.. |image1| image:: /_static/images/en-us_image_0000001180440255.png
-.. |image2| image:: /_static/images/en-us_image_0000001134400890.png
-.. |image3| image:: /_static/images/en-us_image_0000001180320323.png
+.. |image1| image:: /_static/images/en-us_image_0000001517355353.png
+.. |image2| image:: /_static/images/en-us_image_0000001518033849.png
+.. |image3| image:: /_static/images/en-us_image_0000001466754682.png

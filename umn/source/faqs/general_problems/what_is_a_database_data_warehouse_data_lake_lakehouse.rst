@@ -5,7 +5,7 @@
 What Is a Database/Data Warehouse/Data Lake/Lakehouse?
 ======================================================
 
-The evolving Internet and IoT produce massive volumes of data. This data needs to be managed, using concepts like database, data warehouse, data lake, and lakehouse. Here is an overview of how they map with our products and solutions.
+The evolving Internet and IoT produce massive volumes of data. This data needs to be managed, using concepts like database, data warehouse, data lake, and lakehouse. What are these concepts? What are their relationships? What are the specific products and solutions? This document helps you understand them through comparison.
 
 Database
 --------
@@ -84,20 +84,20 @@ Although the application scenarios and architectures of a data warehouse and a d
 
 A lakehouse, the convergence of a data warehouse and a data lake, aims to enable data mobility and streamline construction. The key of the lakehouse architecture is to enable the free flow of data/metadata between the data warehouse and the data lake. The explicit-value data in the lake can flow to or even be directly used by the warehouse. The implicit-value data in the warehouse can also flow to the lake for long-term storage at a low cost and for future data mining.
 
-Data Enablement Solution
-------------------------
+Intelligent Data Solution
+-------------------------
 
-Data Lake Governance Center (DGC) is a data enablement platform that helps large government agencies and companies customize intelligent data resource management solutions. This solution can import all-domain data into the data lake, eliminating data silos, unleashing the value of data, and empowering data-driven digital transformation.
+DataArts Studio is a data enablement platform that helps large government agencies and companies customize intelligent data resource management solutions. This solution can import all-domain data into the data lake, eliminating data silos, unleashing the value of data, and empowering data-driven digital transformation.
 
-DGC features the FusionInsight intelligent data lake as its core. Around it are computing engines such as the database, data warehouse, data lake, and data platform. DGC provides comprehensive data enablement, covering data collection, aggregation, computing, asset management, and data openness.
+DataArts Studio features the FusionInsight intelligent data lake as its core. Around it are computing engines such as the database, data warehouse, data lake, and data platform. It provides comprehensive data enablement, covering data collection, aggregation, computing, asset management, and data openness.
 
 Lake, warehouse, and database engines enable agile data lake construction, fast migration of GaussDB databases, and real-time analysis of the data warehouse. For more information, go to:
 
 -  Database
 
-   -  Relational database: Relational Database Service (RDS), GaussDB(for MySQL), GaussDB(for openGauss), RDS for PostgreSQL, RDS for SQL Server
+   -  Relational databases include: Relational Database Service (RDS) , GaussDB(for MySQL) , GaussDB , RDS for PostgreSQL , RDS for SQL Server .
    -  Non-relational database: Document Database Service (DDS), GaussDB NoSQL (including Influx, Redis, Mongo, Cassandra)
 
 -  Data warehouse: GaussDB(DWS)
--  Data lake or lakehouse: MapReduce Service (MRS), Data Lake Insight (DLI)
--  Data governance center: Data Lake Governance Center (DGC)
+-  Data lake and warehouse integration: MapReduce Service (MRS), Data Lake Insight (DLI) .
+-  Data governance center: DataArts Studio.

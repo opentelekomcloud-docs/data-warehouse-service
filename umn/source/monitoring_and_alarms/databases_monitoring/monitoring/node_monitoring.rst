@@ -33,8 +33,11 @@ On the **Overview** tab page, you can view the key resources of a specified node
 -  TCP Protocol Stack Retransmission Rate (%)
 -  Network I/O (KB/s)
 -  Status
+-  Monitoring: You can click |image1| in the **Monitoring** column to view the performance metric topology of the node in the last 1 hour, last 3 hours, last 12 hours, or last 24 hours.
 
-|image1|
+|image2|
+
+|image3|
 
 Disks
 -----
@@ -43,6 +46,12 @@ On the **Disks** tab page, view the real-time disk resource consumption of a nod
 
 -  Node Name
 -  Disk Name
+-  Disk Type
+
+   -  System disk
+   -  Data disk
+   -  Log disk
+
 -  Disk Capacity (GB)
 -  Disk Usage (%)
 -  Disk Read Rate (KB/s)
@@ -50,8 +59,11 @@ On the **Disks** tab page, view the real-time disk resource consumption of a nod
 -  I/O Wait Time (await, ms)
 -  I/O Service Time (svctm, ms)
 -  I/O Utility (util, %)
+-  Monitoring: You can click |image4| in the **Monitoring** column to view the disk performance metric topology of the node in the last 1 hour, last 3 hours, last 12 hours, or last 24 hours.
 
-|image2|
+|image5|
+
+|image6|
 
 .. note::
 
@@ -59,7 +71,7 @@ On the **Disks** tab page, view the real-time disk resource consumption of a nod
 
    Run the Linux **df** command to collect the disk capacity information, as shown in the following figure.
 
-   |image3|
+   |image7|
 
    /dev/sda4: Used(5757444) + Available(540228616) != Total(569616888)
 
@@ -84,10 +96,19 @@ On the **Network** tab page, view the real-time network resource consumption of 
 -  Lost Packets Received
 -  Receive Rate (KB/s)
 -  Transmit Rate (KB/s)
+-  Monitoring: You can click |image8| in the **Monitoring** column to view the network performance metric topology of the node in the last 1 hour, last 3 hours, last 12 hours, or last 24 hours.
 
-|image4|
+|image9|
 
-.. |image1| image:: /_static/images/en-us_image_0000001198667977.png
-.. |image2| image:: /_static/images/en-us_image_0000001198668023.png
-.. |image3| image:: /_static/images/en-us_image_0000001180440405.png
-.. |image4| image:: /_static/images/en-us_image_0000001198668101.png
+|image10|
+
+.. |image1| image:: /_static/images/en-us_image_0000001517355277.png
+.. |image2| image:: /_static/images/en-us_image_0000001466594950.png
+.. |image3| image:: /_static/images/en-us_image_0000001466594946.png
+.. |image4| image:: /_static/images/en-us_image_0000001517913873.png
+.. |image5| image:: /_static/images/en-us_image_0000001518033777.png
+.. |image6| image:: /_static/images/en-us_image_0000001466594942.png
+.. |image7| image:: /_static/images/en-us_image_0000001517355273.png
+.. |image8| image:: /_static/images/en-us_image_0000001517913873.png
+.. |image9| image:: /_static/images/en-us_image_0000001517754309.png
+.. |image10| image:: /_static/images/en-us_image_0000001517355281.png

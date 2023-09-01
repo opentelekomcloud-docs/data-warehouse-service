@@ -9,11 +9,19 @@ GaussDB(DWS) provides client tool packages that match the cluster versions. You 
 
 The client tool package contains the following:
 
--  **Database connection tool gsql and the script for testing sample data**
+-  **Linux database connection tool gsql and the script for testing sample data**
 
-   gsql is a command line client running on the Linux operating system. It is used to connect to the database in a data warehouse cluster.
+   Linux gsql is a Linux command line client running in Linux. It is used to connect to the database in a data warehouse cluster.
 
    The script for testing sample data is used when you start an example.
+
+-  **Windows gsql**
+
+   Windows gsql is a command line client running on the Windows OS. It is used to connect to the database in a data warehouse cluster.
+
+   .. note::
+
+      Only 8.1.3.101 and later versions can be downloaded from the console.
 
 -  **GDS tool package**
 
@@ -42,40 +50,48 @@ Downloading the Client
       -  SLES 11.1 to SLES 11.4
       -  SLES 12.0 to SLES 12.3
 
+   -  The **Microsoft Windows** client can be used on the following OSs:
 
-   .. figure:: /_static/images/en-us_image_0000001180320363.png
-      :alt: **Figure 1** Downloading a gsql client
+      -  Windows 7 or later
+      -  Windows Server 2008 or later
 
-      **Figure 1** Downloading a gsql client
+#. Click **Download** to download the gsql tool matching the 8.1.x cluster version. Click **Historical Version** to download the gsql tool corresponding to the cluster version.
 
-#. Click **Download** to download the gsql tool matching the current cluster version. Click **Historical Version** to download the gsql tool corresponding to the cluster version.
+   -  You are advised to download the gsql tool that matches the cluster version. That is, use gsql 8.1.x for clusters of 8.1.0 or later, and use gsql 8.2.x for clusters of 8.2.0 or later.
+   -  The following table describes the files and folders in the Linux gsql tool package.
 
-   If clusters of different versions are available, you will download the gsql tool matching the earliest cluster version after clicking **Download**. If there is no cluster, you will download the gsql tool of the earliest version after clicking **Download**. GaussDB(DWS) clusters are compatible with earlier versions of gsql tools.
+      .. table:: **Table 1** Files and folders in the Linux gsql tool package
 
-   .. note::
+         +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+         | File or Folder                    | Description                                                                                                                                                                                          |
+         +===================================+======================================================================================================================================================================================================+
+         | bin                               | This folder contains the executable files of gsql on Linux, including the tools gsql, GDS, gs_dump, gs_dumpall, and gs_restore. For details, see "Server Tool".                                      |
+         +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+         | gds                               | This folder contains the files of the GDS data service tool. The GDS tool is used for parallel data loading and can import the data files stored in a common file system to a GaussDB(DWS) database. |
+         +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+         | lib                               | This folder contains the **lib** library required for executing the gsql client.                                                                                                                     |
+         +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+         | sample                            | This folder contains the following directories and files:                                                                                                                                            |
+         |                                   |                                                                                                                                                                                                      |
+         |                                   | -  **setup.sh**: script file for configuring the AK/SK before using gsql to import sample data                                                                                                       |
+         |                                   | -  **tpcds_load_data_from_obs.sql**: script file for importing the TPC-DS sample data using the gsql client                                                                                          |
+         |                                   | -  **query_sql** directory: script file for querying the TPC-DS sample data                                                                                                                          |
+         +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+         | gsql_env.sh                       | Script file for configuring environment variables before running the gsql client.                                                                                                                    |
+         +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-      -  In the cluster list on the **Clusters** page, click the name of the specified cluster and click the **Basic Information** tab to view the cluster version.
+   -  The following table describes the files and folders in the Windows gsql tool package.
 
-   :ref:`Table 1 <en-us_topic_0000001180320153__t8fecf5f1a1ff445ba5451382c11182a8>` lists the files and folders in the downloaded tool package.
+      .. table:: **Table 2** Files and folders in the Windows gsql tool package
 
-   .. _en-us_topic_0000001180320153__t8fecf5f1a1ff445ba5451382c11182a8:
+         +----------------+---------------------------------------------------------------------------------------------+
+         | File or Folder | Description                                                                                 |
+         +================+=============================================================================================+
+         | x64            | This folder contains the 64-bit Windows gsql execution binary file and the dynamic library. |
+         +----------------+---------------------------------------------------------------------------------------------+
+         | x86            | This folder contains the 32-bit Windows gsql execution binary file and the dynamic library. |
+         +----------------+---------------------------------------------------------------------------------------------+
 
-   .. table:: **Table 1** Files and folders in the downloaded tool package
+      .. note::
 
-      +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | File or Folder                    | Description                                                                                                                                                                                          |
-      +===================================+======================================================================================================================================================================================================+
-      | bin                               | This folder contains the executable files of gsql on Linux, including the tools gsql, GDS, gs_dump, gs_dumpall, and gs_restore. For details, see "Server Tool".                                      |
-      +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | gds                               | This folder contains the files of the GDS data service tool. The GDS tool is used for parallel data loading and can import the data files stored in a common file system to a GaussDB(DWS) database. |
-      +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | lib                               | This folder contains the **lib** library required for executing the gsql client.                                                                                                                     |
-      +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | sample                            | This folder contains the following directories and files:                                                                                                                                            |
-      |                                   |                                                                                                                                                                                                      |
-      |                                   | -  **setup.sh**: script file for configuring the AK/SK before using gsql to import sample data                                                                                                       |
-      |                                   | -  **tpcds_load_data_from_obs.sql**: script file for importing the TPC-DS sample data using the gsql client                                                                                          |
-      |                                   | -  **query_sql** directory: script file for querying the TPC-DS sample data                                                                                                                          |
-      +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | gsql_env.sh                       | Script file for configuring environment variables before running the gsql client.                                                                                                                    |
-      +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+         -  In the cluster list on the **Clusters** page, click the name of the specified cluster to go to the **Cluster Information** page and view the cluster version.

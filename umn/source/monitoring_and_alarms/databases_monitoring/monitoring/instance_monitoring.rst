@@ -28,4 +28,8 @@ The **Instance Monitoring** page consists of two parts. The upper part displays 
 
 |image1|
 
-.. |image1| image:: /_static/images/en-us_image_0000001180440315.png
+.. note::
+
+   If the period of an instance exceeds 240 seconds, the instance is reported as a slow instance.
+
+.. |image1| image:: /_static/images/en-us_image_0000001517754565.png

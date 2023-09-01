@@ -16,7 +16,7 @@ Creating a Subscription
 
 #. Click **Create Subscription** in the upper left corner of the page.
 
-#. .. _en-us_topic_0000001149986888__li18772435125416:
+#. .. _en-us_topic_0000001467074026__li18772435125416:
 
    In the **Subscription Settings** area, configure the basic information and alarm severity of the subscription.
 
@@ -39,7 +39,7 @@ Creating a Subscription
       | Alarm Severity                    | Severity of the alarm you want to subscribe to: **Urgent**, **Important**, **Minor**, or **Prompt**                                                                                                                                                           |
       +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-#. .. _en-us_topic_0000001149986888__li125355552147:
+#. .. _en-us_topic_0000001467074026__li125355552147:
 
    The **Subscribed Alarms** area displays the subscribed alarms by subscription settings. Select an SMN topic from the drop-down list.
 
@@ -49,7 +49,7 @@ Creating a Subscription
 
    .. note::
 
-      The selected topic must have granted GaussDB(DWS) the permission for publishing messages to the topic. To grant permissions, configure topic policies on the SMN management console. When configuring the topic policy, select **DWS** as the service that can publish messages to this topic.
+      The selected topic must have granted GaussDB(DWS) the permission for publishing messages to the topic. To grant permissions, configure topic policies on the SMN management console. For details, see . When configuring the topic policy, select **DWS** for services that can publish messages to this topic.
 
 #. Confirm the information and click **OK**.
 
@@ -58,13 +58,13 @@ Modifying a Subscription
 
 #. Log in to the GaussDB(DWS) management console.
 
-#. In the navigation pane on the left, choose **Alarms** and click the **Subscriptions** tab.
+#. In the navigation pane on the left, choose **Alarms** > **Subscriptions**.
 
 #. In the **Operation** column of the target subscription, click **Edit**.
 
    |image5|
 
-#. On the **Edit Subscription** page displayed, modify the parameters. For details, see :ref:`4 <en-us_topic_0000001149986888__li18772435125416>` to :ref:`5 <en-us_topic_0000001149986888__li125355552147>`.
+#. On the **Edit Subscription** page displayed, modify the parameters. For details, see :ref:`4 <en-us_topic_0000001467074026__li18772435125416>` to :ref:`5 <en-us_topic_0000001467074026__li125355552147>`.
 
    |image6|
 
@@ -83,10 +83,10 @@ Deleting a Subscription
 
 #. Click **Yes** to delete the subscription.
 
-.. |image1| image:: /_static/images/en-us_image_0000001198531105.png
-.. |image2| image:: /_static/images/en-us_image_0000001198531291.png
-.. |image3| image:: /_static/images/en-us_image_0000001152771466.png
-.. |image4| image:: /_static/images/en-us_image_0000001204558821.png
-.. |image5| image:: /_static/images/en-us_image_0000001152832004.png
-.. |image6| image:: /_static/images/en-us_image_0000001152687116.png
-.. |image7| image:: /_static/images/en-us_image_0000001198763919.png
+.. |image1| image:: /_static/images/en-us_image_0000001517355421.png
+.. |image2| image:: /_static/images/en-us_image_0000001466914370.png
+.. |image3| image:: /_static/images/en-us_image_0000001466914366.png
+.. |image4| image:: /_static/images/en-us_image_0000001517754437.png
+.. |image5| image:: /_static/images/en-us_image_0000001467074226.png
+.. |image6| image:: /_static/images/en-us_image_0000001466595098.png
+.. |image7| image:: /_static/images/en-us_image_0000001466754746.png

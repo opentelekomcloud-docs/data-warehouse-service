@@ -5,4 +5,4 @@
 What Is the User Quota?
 =======================
 
-For cloud services, quotas limit the number of resources available to users. If you need more, submit a service ticket to increase your quotas. Once approved, we will update your resource quota accordingly and send you a notification.
+For CLOUD services, quotas limit the number of resources available to users. If you need more, submit a service ticket to increase your quotas. Once approved, we will update your resource quota accordingly and send you a notification.

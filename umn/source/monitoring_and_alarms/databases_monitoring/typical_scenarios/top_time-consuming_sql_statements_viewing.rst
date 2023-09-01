@@ -22,4 +22,4 @@ Troubleshooting Procedure
 
 #. On the **Cluster Overview** page, click and view the **Top5 Time-Consuming Queries** page.
 #. Find the IDs of time-consuming queries and query the pid field (session_id) in the database view **PGXC_WLM_SESSION_STATISTICS**.
-#. On the **Session Monitoring** page, locate the session_id and kill the time-consuming SQL statement.
+#. On the **Session Monitoring** page, locate the **session_id** and kill the time-consuming SQL statement.

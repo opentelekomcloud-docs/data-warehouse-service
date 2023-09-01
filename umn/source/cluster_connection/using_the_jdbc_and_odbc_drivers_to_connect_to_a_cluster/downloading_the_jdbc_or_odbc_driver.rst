@@ -22,7 +22,9 @@ Downloading the JDBC or ODBC Driver
 
    -  **JDBC Driver**
 
-      Select **DWS JDBC Driver** and click **Download** to download the JDBC driver matching the current cluster version. If clusters of different versions are available, you will download the JDBC driver matching the earliest cluster version after clicking **Download**. If there is no cluster, you will download the JDBC driver of the earliest version after clicking **Download**. GaussDB(DWS) clusters are compatible with earlier versions of JDBC drivers.
+      Select **DWS JDBC Driver** and click **Download** to download the JDBC driver matching the current cluster version. The driver package name is **dws_8.1.x_jdbc_driver.zip**.
+
+      If clusters of different versions are available, you will download the JDBC driver matching the earliest cluster version after clicking **Download**. If there is no cluster, you will download the JDBC driver of the earliest version after clicking **Download**. GaussDB(DWS) clusters are compatible with earlier versions of JDBC drivers.
 
       Click **Historical Version** to download the corresponding JDBC driver version. You are advised to download the JDBC driver based on the cluster version.
 
@@ -36,10 +38,21 @@ Downloading the JDBC or ODBC Driver
 
       The ODBC driver is applicable to the following operating systems only:
 
-      -  Windows Server 2008 or Windows 7 or later
-      -  x86 servers: RHEL 6.4 to RHEL 7.6
-      -  x86 servers: CentOS 6.4 to CentOS 7.4
-      -  x86 servers: SUSE 11.1 to SUSE 11.4; SUSE 12.0 to SUSE 12.3
+      -  The Microsoft Windows x86_64 driver is applicable to the following OSs:
+
+         -  Windows 7 or later
+         -  Windows Server 2008 or later
+
+      -  The Redhat x86_64 driver is applicable to the following OSs:
+
+         -  RHEL 6.4 to RHEL 7.6
+         -  CentOS 6.4 to CentOS 7.4
+         -  EulerOS 2.3
+
+      -  The SUSE x86_64 driver is applicable to the following OSs:
+
+         -  SLES 11.1 to SLES 11.4
+         -  SLES 12.0 to SLES 12.3
 
       .. note::
 

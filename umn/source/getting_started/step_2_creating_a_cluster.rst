@@ -5,7 +5,7 @@
 Step 2: Creating a Cluster
 ==========================
 
-Before using GaussDB(DWS) to analyze data, create a cluster. A cluster consists of multiple nodes in the same subnet. These nodes together provide services. This section describes how to create a GaussDB(DWS) cluster.
+Before using GaussDB(DWS) to analyze data, create a cluster. A cluster consists of multiple nodes in the same subnet. These nodes jointly provide services. This section describes how to create a GaussDB(DWS) cluster.
 
 Creating a Cluster
 ------------------
@@ -23,32 +23,26 @@ Creating a Cluster
 
 #. Configure node parameters.
 
-   -  **Cluster Type**: For example, **Standard**.
+   -  **Resource**: For example, **Standard**.
    -  **CPU Architecture**: Select a CPU architecture based on your requirements, for example, **x86**.
    -  **Node Flavor**: Retain the default value.
    -  **Nodes**: Retain the default value. At least **3** nodes are required.
-
-
-   .. figure:: /_static/images/en-us_image_0000001180320497.png
-      :alt: **Figure 1** Configuring node parameters
-
-      **Figure 1** Configuring node parameters
 
 #. Configure cluster parameters.
 
    -  **Cluster Name**: Enter **dws-demo**.
    -  **Cluster Version**: The current cluster version is displayed and cannot be changed.
-   -  **Default Database**: The value is **gaussdb**, which cannot be changed.
-   -  **Administrator Account**: The default value is **dbadmin**. Use the default value. After a cluster is created, the client uses this account and its password to connect to the cluster's database.
+   -  **Default Database**: The value is **gaussdb**. which cannot be changed.
+   -  **Administrator Account**: The default value is **dbadmin**. Use the default value. After a cluster is created, the client uses this database administrator account and its password to connect to the cluster's database.
    -  **Administrator Password**: Enter the password.
-   -  **Confirm Password**: Enter the password again.
+   -  **Confirm Password**: Enter the database administrator password again.
    -  **Database Port**: Use the default port number. This port is used by the client or application to connect to the cluster's database.
 
 
-   .. figure:: /_static/images/en-us_image_0000001134401058.png
-      :alt: **Figure 2** Configuring the cluster
+   .. figure:: /_static/images/en-us_image_0000001517754449.png
+      :alt: **Figure 1** Configuring the cluster
 
-      **Figure 2** Configuring the cluster
+      **Figure 1** Configuring the cluster
 
 #. Configure network parameters.
 
@@ -60,9 +54,9 @@ Creating a Cluster
 
       The automatically created security group is named **GaussDB(DWS)**-<*Cluster name*>-<*GaussDB(DWS) cluster database port*>. The outbound allows all access requests, while the inbound enables only **Database Port** for access requests from clients or applications.
 
-      If you select a custom security group, add an inbound rule to it to enable **Database Port** for client hosts to access GaussDB(DWS). :ref:`Table 1 <en-us_topic_0000001134400820__table19508017113430>` shows an example. For details about how to add an inbound rule, see "Security > Security Group > Adding a Security Group Rule" in the *Virtual Private Cloud User Guide*.
+      If you select a custom security group, add an inbound rule to it to enable **Database Port** for client hosts to access GaussDB(DWS). :ref:`Table 1 <en-us_topic_0000001517754209__table19508017113430>` shows an example. For details about how to add an inbound rule, see "Security > Security Group > Adding a Security Group Rule" in the *Virtual Private Cloud User Guide*.
 
-      .. _en-us_topic_0000001134400820__table19508017113430:
+      .. _en-us_topic_0000001517754209__table19508017113430:
 
       .. table:: **Table 1** Inbound rule example
 
@@ -83,10 +77,10 @@ Creating a Cluster
    -  **EIP**: Select **Automatically assign** to apply for a cluster EIP as the public network IP address of the cluster. In addition, set the EIP bandwidth.
 
 
-   .. figure:: /_static/images/en-us_image_0000001134560836.png
-      :alt: **Figure 3** Configuring the network
+   .. figure:: /_static/images/en-us_image_0000001518033917.png
+      :alt: **Figure 2** Configuring the network
 
-      **Figure 3** Configuring the network
+      **Figure 2** Configuring the network
 
 #. Configure the enterprise project to which the cluster belongs. You can configure this parameter only when the Enterprise Project Management service is enabled. The default value is **default**.
 
@@ -100,10 +94,9 @@ Creating a Cluster
 
       -  **Automated Snapshot**: By default, the policy for automatically creating cluster snapshots is enabled.
       -  **CNs**: Three CNs are deployed by default.
-      -  **Parameter Template**: The default database parameter template is associated with the cluster.
       -  **Tag**: By default, no tag is added to the cluster.
 
-   -  **Custom**: Select this option to configure the following advanced parameters: **Automated Snapshot**, **CNs**, **Parameter Template**, **Tag**
+   -  **Custom**: Select this option to configure the following advanced parameters: **Automated Snapshot**, **CNs**, **Tag**
 
 #. Click **Create Now**. The **Confirm** page is displayed.
 
@@ -111,4 +104,4 @@ Creating a Cluster
 
    After the submission is successful, the creation starts. Click **Back to Cluster List**. The **Clusters** page is displayed. The initial status of the cluster is **Creating**. Cluster creation takes some time. Wait for a while. Clusters in the **Available** state are ready for use.
 
-.. |image1| image:: /_static/images/en-us_image_0000001180320487.png
+.. |image1| image:: /_static/images/en-us_image_0000001466595090.png

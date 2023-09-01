@@ -23,7 +23,7 @@ Unlike conventional data warehouses, GaussDB(DWS) excels in massive data process
 
 -  Heterogeneous database migration tools
 
-   GaussDB(DWS) provides various migration tools to migrate SQL scripts of Oracleand Teradata to GaussDB(DWS).
+   GaussDB(DWS) provides various migration tools to migrate SQL scripts of Oracle and Teradata to GaussDB(DWS).
 
 **High performance**
 

@@ -12,13 +12,13 @@ This section describes how to use a database client to connect to the database i
 
 #. Obtain the name, username, and password of the database to be connected.
 
-   If you use the client to connect to the cluster for the first time, use the database administrator username and password set in :ref:`Step 2: Creating a Cluster <dws_01_0013>` to connect to the default database **gaussdb**.
+   If you use the client to connect to the cluster for the first time, use the administrator username and password set in :ref:`Step 2: Creating a Cluster <dws_01_0013>` to connect to the default database **gaussdb**.
 
-#. :ref:`Obtaining the Public Network Address of the Cluster <en-us_topic_0000001180440165__section2301113635>`: Connect to the cluster database using the public network address.
+#. :ref:`Obtaining the Public Network Address of the Cluster <en-us_topic_0000001517355189__section2301113635>`: Connect to the cluster database using the public network address.
 
-#. :ref:`Connecting to the Cluster Database Using Data Studio <en-us_topic_0000001180440165__section99729517811>`: Download and configure the Data Studio client and connect to the cluster database.
+#. :ref:`Connecting to the Cluster Database Using Data Studio <en-us_topic_0000001517355189__section99729517811>`: Download and configure the Data Studio client and connect to the cluster database.
 
-.. _en-us_topic_0000001180440165__section2301113635:
+.. _en-us_topic_0000001517355189__section2301113635:
 
 Obtaining the Public Network Address of the Cluster
 ---------------------------------------------------
@@ -29,15 +29,15 @@ Obtaining the Public Network Address of the Cluster
 
 #. In the cluster list, select a created cluster (for example, **dws-demo**) and click |image1| next to the cluster name to obtain the public network address.
 
-   The public network address will be used in :ref:`Connecting to the Cluster Database Using Data Studio <en-us_topic_0000001180440165__section99729517811>`.
+   The public network address will be used in :ref:`Connecting to the Cluster Database Using Data Studio <en-us_topic_0000001517355189__section99729517811>`.
 
 
-   .. figure:: /_static/images/en-us_image_0000001134560782.png
+   .. figure:: /_static/images/en-us_image_0000001517754441.png
       :alt: **Figure 1** Cluster management
 
       **Figure 1** Cluster management
 
-.. _en-us_topic_0000001180440165__section99729517811:
+.. _en-us_topic_0000001517355189__section99729517811:
 
 Connecting to the Cluster Database Using Data Studio
 ----------------------------------------------------
@@ -59,27 +59,27 @@ Connecting to the Cluster Database Using Data Studio
    -  Click **Historical Version** to download the corresponding Data Studio version. You are advised to download the Data Studio based on the cluster version.
 
 
-   .. figure:: /_static/images/en-us_image_0000001134560774.png
+   .. figure:: /_static/images/en-us_image_0000001466595094.png
       :alt: **Figure 2** Downloading clients
 
       **Figure 2** Downloading clients
 
 #. Decompress the downloaded client software package (32-bit or 64-bit) to the installation directory.
 
-#. Open the installation directory and double-click **Data Studio.exe** to start the Data Studio client. See :ref:`Figure 3 <en-us_topic_0000001180440165__fig6324139192412>`.
+#. Open the installation directory and double-click **Data Studio.exe** to start the Data Studio client. See :ref:`Figure 3 <en-us_topic_0000001517355189__fig6324139192412>`.
 
-   .. _en-us_topic_0000001180440165__fig6324139192412:
+   .. _en-us_topic_0000001517355189__fig6324139192412:
 
-   .. figure:: /_static/images/en-us_image_0000001134400858.png
+   .. figure:: /_static/images/en-us_image_0000001466754750.png
       :alt: **Figure 3** Starting the client
 
       **Figure 3** Starting the client
 
-#. Choose **File** > **New Connection** from the main menu. See :ref:`Figure 4 <en-us_topic_0000001180440165__fig14311312192811>`.
+#. Choose **File** > **New Connection** from the main menu. See :ref:`Figure 4 <en-us_topic_0000001517355189__fig14311312192811>`.
 
-   .. _en-us_topic_0000001180440165__fig14311312192811:
+   .. _en-us_topic_0000001517355189__fig14311312192811:
 
-   .. figure:: /_static/images/en-us_image_0000001134400854.png
+   .. figure:: /_static/images/en-us_image_0000001518033901.png
       :alt: **Figure 4** Creating a connection
 
       **Figure 4** Creating a connection
@@ -113,7 +113,7 @@ Connecting to the Cluster Database Using Data Studio
       | Enable SSL            | If **Enable SSL** is selected, the client can use SSL to encrypt connections. The SSL mode is more secure than common modes, so you are advised to enable SSL connection. | ``-``                 |
       +-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
 
-   When **Enable SSL** is selected, download and decompress the SSL certificate. For details, see :ref:`(Optional) Downloading the SSL Certificate <dws_01_0083>`. Click the **SSL** tab and configure the following parameters:
+   If **Enable SSL** is selected, download and decompress the SSL certificate. For details, see :ref:`Downloading the SSL Certificate <en-us_topic_0000001517913817__li13478842115911>`. Click the **SSL** tab and configure the following parameters:
 
    .. table:: **Table 2** Configuring SSL parameters
 
@@ -137,7 +137,7 @@ Connecting to the Cluster Database Using Data Studio
       +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 
-   .. figure:: /_static/images/en-us_image_0000001134560646.png
+   .. figure:: /_static/images/en-us_image_0000001517754433.png
       :alt: **Figure 5** Configuring SSL parameters
 
       **Figure 5** Configuring SSL parameters
@@ -149,11 +149,11 @@ Connecting to the Cluster Database Using Data Studio
    After the login is successful, the **RECENT LOGIN ACTIVITY** dialog box is displayed, indicating that Data Studio is connected to the database. You can run the SQL statement in the **SQL Terminal** window on the Data Studio page.
 
 
-   .. figure:: /_static/images/en-us_image_0000001134400862.png
+   .. figure:: /_static/images/en-us_image_0000001466595086.png
       :alt: **Figure 6** Successful login
 
       **Figure 6** Successful login
 
    For details about how to use other functions of Data Studio, press **F1** to view the Data Studio user manual.
 
-.. |image1| image:: /_static/images/en-us_image_0000001180440353.png
+.. |image1| image:: /_static/images/en-us_image_0000001517914013.png

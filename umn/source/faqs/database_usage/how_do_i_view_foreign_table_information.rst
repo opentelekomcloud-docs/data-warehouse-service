@@ -19,4 +19,4 @@ The following uses table **traffic_data.GCJL_OBS** as an example:
 
 |image1|
 
-.. |image1| image:: /_static/images/en-us_image_0000001165989868.png
+.. |image1| image:: /_static/images/en-us_image_0000001331537466.png

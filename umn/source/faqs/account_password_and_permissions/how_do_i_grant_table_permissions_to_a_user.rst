@@ -5,7 +5,7 @@
 How Do I Grant Table Permissions to a User?
 ===========================================
 
-This section describes how to grant users the SELECT, INSERT, UPDATE, or full permissions for tables.
+This section describes how to grant users the SELECT, INSERT, UPDATE, or full permissions of tables to users.
 
 Syntax
 ------
@@ -27,38 +27,38 @@ Assume there are users **u1**, **u2**, **u3**, **u4**, and **u5** and five schem
 -  User **u2** is a read-only user and requires the SELECT permission for the **u1.t1** table.
 -  User **u3** requires the SELECT permission for the **u1.t1** table.
 -  User **u3** requires the UPDATE permission for the **u1.t1** table.
--  User **u5** requires the full permissions for the **u1.t1** table.
+-  User **u5** requires all permissions of table **u1.t1**.
 
 |image1|
 
 .. table:: **Table 1** Permissions of the u1.t1 table
 
-   +---------+----------------+-----------------------------------------------------------------------------------------------------------------+---------+---------+---------+---------+
-   | User    | Type           | GRANT Statement                                                                                                 | Query   | Insert  | Update  | Delete  |
-   +=========+================+=================================================================================================================+=========+=========+=========+=========+
-   | u1      | Owner          | ``-``                                                                                                           | **Y**   | **Y**   | **Y**   | **Y**   |
-   +---------+----------------+-----------------------------------------------------------------------------------------------------------------+---------+---------+---------+---------+
-   | u2      | Read-only user | ::                                                                                                              | **Y**   | x       | x       | x       |
-   |         |                |                                                                                                                 |         |         |         |         |
-   |         |                |    GRANT SELECT ON u1.t1 TO u2;                                                                                 |         |         |         |         |
-   +---------+----------------+-----------------------------------------------------------------------------------------------------------------+---------+---------+---------+---------+
-   | u3      | INSERT user    | ::                                                                                                              | x       | **Y**   | x       | x       |
-   |         |                |                                                                                                                 |         |         |         |         |
-   |         |                |    GRANT INSERT ON u1.t1 TO u3;                                                                                 |         |         |         |         |
-   +---------+----------------+-----------------------------------------------------------------------------------------------------------------+---------+---------+---------+---------+
-   | u4      | UPDATE user    | ::                                                                                                              | **Y**   | x       | **Y**   | x       |
-   |         |                |                                                                                                                 |         |         |         |         |
-   |         |                |    GRANT SELECT,UPDATE ON u1.t1 TO u4;                                                                          |         |         |         |         |
-   |         |                |                                                                                                                 |         |         |         |         |
-   |         |                | .. important::                                                                                                  |         |         |         |         |
-   |         |                |                                                                                                                 |         |         |         |         |
-   |         |                |    NOTICE:                                                                                                      |         |         |         |         |
-   |         |                |    The UPDATE permission must be granted together with the SELECT permission, or information leakage may occur. |         |         |         |         |
-   +---------+----------------+-----------------------------------------------------------------------------------------------------------------+---------+---------+---------+---------+
-   | u5      | Super user     | ::                                                                                                              | **Y**   | **Y**   | **Y**   | **Y**   |
-   |         |                |                                                                                                                 |         |         |         |         |
-   |         |                |    GRANT ALL PRIVILEGES ON u1.t1 TO u5;                                                                         |         |         |         |         |
-   +---------+----------------+-----------------------------------------------------------------------------------------------------------------+---------+---------+---------+---------+
+   +---------+----------------------------+-----------------------------------------------------------------------------------------------------------------+---------+---------+---------+---------+
+   | User    | Type                       | GRANT Statement                                                                                                 | Query   | Insert  | Update  | Delete  |
+   +=========+============================+=================================================================================================================+=========+=========+=========+=========+
+   | u1      | Owner                      | ``-``                                                                                                           | **Y**   | **Y**   | **Y**   | **Y**   |
+   +---------+----------------------------+-----------------------------------------------------------------------------------------------------------------+---------+---------+---------+---------+
+   | u2      | Read-only user             | ::                                                                                                              | **Y**   | x       | x       | x       |
+   |         |                            |                                                                                                                 |         |         |         |         |
+   |         |                            |    GRANT SELECT ON u1.t1 TO u2;                                                                                 |         |         |         |         |
+   +---------+----------------------------+-----------------------------------------------------------------------------------------------------------------+---------+---------+---------+---------+
+   | u3      | INSERT user                | ::                                                                                                              | x       | **Y**   | x       | x       |
+   |         |                            |                                                                                                                 |         |         |         |         |
+   |         |                            |    GRANT INSERT ON u1.t1 TO u3;                                                                                 |         |         |         |         |
+   +---------+----------------------------+-----------------------------------------------------------------------------------------------------------------+---------+---------+---------+---------+
+   | u4      | UPDATE user                | ::                                                                                                              | **Y**   | x       | **Y**   | x       |
+   |         |                            |                                                                                                                 |         |         |         |         |
+   |         |                            |    GRANT SELECT,UPDATE ON u1.t1 TO u4;                                                                          |         |         |         |         |
+   |         |                            |                                                                                                                 |         |         |         |         |
+   |         |                            | .. important::                                                                                                  |         |         |         |         |
+   |         |                            |                                                                                                                 |         |         |         |         |
+   |         |                            |    NOTICE:                                                                                                      |         |         |         |         |
+   |         |                            |    The UPDATE permission must be granted together with the SELECT permission, or information leakage may occur. |         |         |         |         |
+   +---------+----------------------------+-----------------------------------------------------------------------------------------------------------------+---------+---------+---------+---------+
+   | u5      | Users with all permissions | ::                                                                                                              | **Y**   | **Y**   | **Y**   | **Y**   |
+   |         |                            |                                                                                                                 |         |         |         |         |
+   |         |                            |    GRANT ALL PRIVILEGES ON u1.t1 TO u5;                                                                         |         |         |         |         |
+   +---------+----------------------------+-----------------------------------------------------------------------------------------------------------------+---------+---------+---------+---------+
 
 Procedure
 ---------
@@ -138,7 +138,7 @@ Perform the following steps to grant and verify permissions:
 
     |image4|
 
-10. Start a new session and connect to the database as user **u5**. Verify that user **u4** can query, insert, modify, and delete data in the **u1.t1** table.
+10. Start a new session and connect to the database as user **u5**. Verify that user **u5** can query, insert, modify, and delete data in the **u1.t1** table.
 
     ::
 
@@ -167,9 +167,9 @@ Perform the following steps to grant and verify permissions:
     -  **u4=rw/u1** indicates that **u4** has the read and update permissions.
     -  **u5=arwdDxtA/u1** indicates that **u5** has full permissions.
 
-.. |image1| image:: /_static/images/en-us_image_0000001318300585.png
-.. |image2| image:: /_static/images/en-us_image_0000001318571169.png
-.. |image3| image:: /_static/images/en-us_image_0000001269695730.png
-.. |image4| image:: /_static/images/en-us_image_0000001318295749.png
-.. |image5| image:: /_static/images/en-us_image_0000001269536006.png
-.. |image6| image:: /_static/images/en-us_image_0000001364353761.png
+.. |image1| image:: /_static/images/en-us_image_0000001381728629.png
+.. |image2| image:: /_static/images/en-us_image_0000001381889117.png
+.. |image3| image:: /_static/images/en-us_image_0000001381808801.png
+.. |image4| image:: /_static/images/en-us_image_0000001330808808.png
+.. |image5| image:: /_static/images/en-us_image_0000001330648836.png
+.. |image6| image:: /_static/images/en-us_image_0000001330329232.png

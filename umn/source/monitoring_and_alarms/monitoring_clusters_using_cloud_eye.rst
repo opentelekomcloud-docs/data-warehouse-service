@@ -12,98 +12,100 @@ This section describes how to check cluster metrics on Cloud Eye. By monitoring 
 
 This section is organized as follows:
 
--  :ref:`Namespace <en-us_topic_0000001134400830__section54481685355>`
--  :ref:`Cluster Monitoring Metrics <en-us_topic_0000001134400830__section185715586432>`
--  :ref:`Dimensions <en-us_topic_0000001134400830__section6596194111819>`
--  :ref:`Cluster and Node Monitoring Information <en-us_topic_0000001134400830__section26007147165750>`
--  :ref:`Comparing the Monitoring Metrics of Multiple Nodes <en-us_topic_0000001134400830__section20548025153518>`
--  :ref:`Creating Alarm Rules <en-us_topic_0000001134400830__section104751927123616>`
+-  :ref:`Namespace <en-us_topic_0000001517355213__section54481685355>`
+-  :ref:`Cluster Monitoring Metrics <en-us_topic_0000001517355213__section185715586432>`
+-  :ref:`Dimensions <en-us_topic_0000001517355213__section6596194111819>`
+-  :ref:`Cluster and Node Monitoring Information <en-us_topic_0000001517355213__section26007147165750>`
+-  :ref:`Comparing the Monitoring Metrics of Multiple Nodes <en-us_topic_0000001517355213__section20548025153518>`
+-  :ref:`Creating Alarm Rules <en-us_topic_0000001517355213__section104751927123616>`
 
-.. _en-us_topic_0000001134400830__section54481685355:
+.. _en-us_topic_0000001517355213__section54481685355:
 
 Namespace
 ---------
 
 SYS.DWS
 
-.. _en-us_topic_0000001134400830__section185715586432:
+.. _en-us_topic_0000001517355213__section185715586432:
 
 Cluster Monitoring Metrics
 --------------------------
 
 With the GaussDB(DWS) monitoring metrics provided by Cloud Eye, you can obtain information about the cluster running status and performance. This information will provide a better understanding of the node-level information.
 
-:ref:`Table 1 <en-us_topic_0000001134400830__table17857105810438>` describes GaussDB(DWS) monitoring metrics.
+:ref:`Table 1 <en-us_topic_0000001517355213__table17857105810438>` describes GaussDB(DWS) monitoring metrics.
 
-.. _en-us_topic_0000001134400830__table17857105810438:
+.. _en-us_topic_0000001517355213__table17857105810438:
 
 .. table:: **Table 1** GaussDB(DWS) monitoring metrics
 
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | Metric ID                         | Name                        | Description                                                                 | Value Range    | Monitored Object       | Monitoring Period (Raw Data) |
-   +===================================+=============================+=============================================================================+================+========================+==============================+
-   | dws001_shared_buffer_hit_ratio    | Cache Hit Ratio             | Percentage of data volume obtained from memory, expressed in percentage     | 0% to 100%     | Data warehouse cluster | 4 minutes                    |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws002_in_memory_sort_ratio       | In-memory Sort Ratio        | Percentage of data volume that is sorted in memory, expressed in percentage | 0% to 100%     | Data warehouse cluster | 4 minutes                    |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws003_physical_reads             | File Reads                  | Total number of database file reads                                         | > 0            | Data warehouse cluster | 4 minutes                    |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws004_physical_writes            | File Writes                 | Total number of database file writes                                        | > 0            | Data warehouse cluster | 4 minutes                    |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws005_physical_reads_per_second  | File Reads per Second       | Number of database file reads per second                                    | >= 0           | Data warehouse cluster | 4 minutes                    |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws006_physical_writes_per_second | File Writes per Second      | Number of database file writes per second                                   | >= 0           | Data warehouse cluster | 4 minutes                    |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws007_db_size                    | Data Volume                 | Total size of data in the database, in MB                                   | >= 0 MB        | Data warehouse cluster | 4 minutes                    |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws008_active_sql_count           | Active SQL Count            | Number of active SQLs in the database                                       | >= 0           | Data warehouse cluster | 4 minutes                    |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws009_session_count              | Session Count               | Number of sessions that access the database                                 | >= 0           | Data warehouse cluster | 4 minutes                    |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws010_cpu_usage                  | CPU Usage                   | CPU usage of each node in a cluster, in percentage                          | 0% to 100%     | Data warehouse node    | 1 minute                     |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws011_mem_usage                  | Memory Usage                | Memory usage of each node in a cluster, in percentage                       | 0% to 100%     | Data warehouse node    | 1 minute                     |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws012_iops                       | IOPS                        | Number of I/O requests processed by each node in the cluster per second     | >= 0           | Data warehouse node    | 1 minute                     |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws013_bytes_in                   | Network Input Throughput    | Data input to each node in the cluster per second over the network          | >= 0 bytes/s   | Data warehouse node    | 1 minute                     |
-   |                                   |                             |                                                                             |                |                        |                              |
-   |                                   |                             | Unit: byte/s                                                                |                |                        |                              |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws014_bytes_out                  | Network Output Throughput   | Data sent to the network per second from each node in the cluster           | >= 0 bytes/s   | Data warehouse node    | 1 minute                     |
-   |                                   |                             |                                                                             |                |                        |                              |
-   |                                   |                             | Unit: byte/s                                                                |                |                        |                              |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws015_disk_usage                 | Disk Usage                  | Disk usage of each node in a cluster, in percentage                         | 0% to 100%     | Data warehouse node    | 1 minute                     |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws016_disk_total_size            | Total Disk Size             | Total disk space of each node in the cluster                                | 100 to 2000 GB | Data warehouse node    | 1 minute                     |
-   |                                   |                             |                                                                             |                |                        |                              |
-   |                                   |                             | Unit: GB                                                                    |                |                        |                              |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws017_disk_used_size             | Used Disk Space             | Used disk space of each node in the cluster                                 | 0 to 3600 GB   | Data warehouse node    | 1 minute                     |
-   |                                   |                             |                                                                             |                |                        |                              |
-   |                                   |                             | Unit: GB                                                                    |                |                        |                              |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws018_disk_read_throughput       | Disk Read Throughput        | Data volume read from each disk in the cluster per second                   | >= 0 bytes/s   | Data warehouse node    | 1 minute                     |
-   |                                   |                             |                                                                             |                |                        |                              |
-   |                                   |                             | Unit: byte/s                                                                |                |                        |                              |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws019_disk_write_throughput      | Disk Write Throughput       | Data volume written to each disk in the cluster per second                  | >= 0 bytes/s   | Data warehouse node    | 1 minute                     |
-   |                                   |                             |                                                                             |                |                        |                              |
-   |                                   |                             | Unit: byte/s                                                                |                |                        |                              |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws020_avg_disk_sec_per_read      | Average Time per Disk Read  | Average time used each time when a disk reads data                          | > 0s           | Data warehouse node    | 1 minute                     |
-   |                                   |                             |                                                                             |                |                        |                              |
-   |                                   |                             | Unit: second                                                                |                |                        |                              |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws021_avg_disk_sec_per_write     | Average Time per Disk Write | Average time used each time when data is written to a disk                  | > 0s           | Data warehouse node    | 1 minute                     |
-   |                                   |                             |                                                                             |                |                        |                              |
-   |                                   |                             | Unit: second                                                                |                |                        |                              |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
-   | dws022_avg_disk_queue_length      | Average Disk Queue Length   | Average I/O queue length of a disk                                          | >= 0           | Data warehouse node    | 1 minute                     |
-   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+------------------------+------------------------------+
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | Metric ID                         | Name                        | Description                                                                 | Value Range    | Monitored Object        | Monitoring Period (Raw Data) |
+   +===================================+=============================+=============================================================================+================+=========================+==============================+
+   | dws001_shared_buffer_hit_ratio    | Cache Hit Ratio             | Percentage of data volume obtained from memory, expressed in percentage     | 0% to 100%     | Data warehouse cluster  | 4 minutes                    |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws002_in_memory_sort_ratio       | In-memory Sort Ratio        | Percentage of data volume that is sorted in memory, expressed in percentage | 0% to 100%     | Data warehouse cluster  | 4 minutes                    |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws003_physical_reads             | File Reads                  | Total number of database file reads                                         | > 0            | Data warehouse cluster  | 4 minutes                    |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws004_physical_writes            | File Writes                 | Total number of database file writes                                        | > 0            | Data warehouse cluster  | 4 minutes                    |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws005_physical_reads_per_second  | File Reads per Second       | Number of database file reads per second                                    | >= 0           | Data warehouse cluster  | 4 minutes                    |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws006_physical_writes_per_second | File Writes per Second      | Number of database file writes per second                                   | >= 0           | Data warehouse cluster  | 4 minutes                    |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws007_db_size                    | Data Volume                 | Total size of data in the database, in MB                                   | >= 0 MB        | Data warehouse cluster  | 4 minutes                    |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws008_active_sql_count           | Active SQL Count            | Number of active SQLs in the database                                       | >= 0           | Data warehouse cluster  | 4 minutes                    |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws009_session_count              | Session Count               | Number of sessions that access the database                                 | >= 0           | Data warehouse cluster  | 4 minutes                    |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws010_cpu_usage                  | CPU Usage                   | CPU usage of each node in a cluster, in percentage                          | 0% to 100%     | Data warehouse node     | 1 minute                     |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws011_mem_usage                  | Memory Usage                | Memory usage of each node in a cluster, in percentage                       | 0% to 100%     | Data warehouse node     | 1 minute                     |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws012_iops                       | IOPS                        | Number of I/O requests processed by each node in the cluster per second     | >= 0           | Data warehouse node     | 1 minute                     |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws013_bytes_in                   | Network Input Throughput    | Data input to each node in the cluster per second over the network          | >= 0 bytes/s   | Data warehouse node     | 1 minute                     |
+   |                                   |                             |                                                                             |                |                         |                              |
+   |                                   |                             | Unit: byte/s                                                                |                |                         |                              |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws014_bytes_out                  | Network Output Throughput   | Data sent to the network per second from each node in the cluster           | >= 0 bytes/s   | Data warehouse node     | 1 minute                     |
+   |                                   |                             |                                                                             |                |                         |                              |
+   |                                   |                             | Unit: byte/s                                                                |                |                         |                              |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws015_disk_usage                 | Disk Usage                  | Disk usage of each node in a cluster, in percentage                         | 0% to 100%     | Data warehouse node     | 1 minute                     |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws016_disk_total_size            | Total Disk Size             | Total disk space of each node in the cluster                                | 100 to 2000 GB | Data warehouse node     | 1 minute                     |
+   |                                   |                             |                                                                             |                |                         |                              |
+   |                                   |                             | Unit: GB                                                                    |                |                         |                              |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws017_disk_used_size             | Used Disk Space             | Used disk space of each node in the cluster                                 | 0 to 3600 GB   | Data warehouse node     | 1 minute                     |
+   |                                   |                             |                                                                             |                |                         |                              |
+   |                                   |                             | Unit: GB                                                                    |                |                         |                              |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws018_disk_read_throughput       | Disk Read Throughput        | Data volume read from each disk in the cluster per second                   | >= 0 bytes/s   | Data warehouse node     | 1 minute                     |
+   |                                   |                             |                                                                             |                |                         |                              |
+   |                                   |                             | Unit: byte/s                                                                |                |                         |                              |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws019_disk_write_throughput      | Disk Write Throughput       | Data volume written to each disk in the cluster per second                  | >= 0 bytes/s   | Data warehouse node     | 1 minute                     |
+   |                                   |                             |                                                                             |                |                         |                              |
+   |                                   |                             | Unit: byte/s                                                                |                |                         |                              |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws020_avg_disk_sec_per_read      | Average Time per Disk Read  | Average time used each time when a disk reads data                          | > 0s           | Data warehouse node     | 1 minute                     |
+   |                                   |                             |                                                                             |                |                         |                              |
+   |                                   |                             | Unit: second                                                                |                |                         |                              |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws021_avg_disk_sec_per_write     | Average Time per Disk Write | Average time used each time when data is written to a disk                  | > 0s           | Data warehouse node     | 1 minute                     |
+   |                                   |                             |                                                                             |                |                         |                              |
+   |                                   |                             | Unit: second                                                                |                |                         |                              |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws022_avg_disk_queue_length      | Average Disk Queue Length   | Average I/O queue length of a disk                                          | >= 0           | Data warehouse node     | 1 minute                     |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
+   | dws_024_dn_diskio_util            | DN I/O usage                | Average disk I/O usage of DNs in a cluster                                  | 0% to 100%     | Data warehouse instance | 1 minute                     |
+   +-----------------------------------+-----------------------------+-----------------------------------------------------------------------------+----------------+-------------------------+------------------------------+
 
-.. _en-us_topic_0000001134400830__section6596194111819:
+.. _en-us_topic_0000001517355213__section6596194111819:
 
 Dimensions
 ----------
@@ -115,7 +117,7 @@ datastore_id    Data warehouse cluster ID
 dws_instance_id Data warehouse node ID
 =============== =========================
 
-.. _en-us_topic_0000001134400830__section26007147165750:
+.. _en-us_topic_0000001517355213__section26007147165750:
 
 Cluster and Node Monitoring Information
 ---------------------------------------
@@ -126,13 +128,13 @@ Cluster and Node Monitoring Information
 
    Additionally, you can specify a specific monitoring metric and the time range to view the performance curve.
 
-#. **View the node information**. Click |image1| to return to the Cloud Eye management console. On the **Data Warehouse Nodes** tab page, you can view metrics of each node in the cluster.
+#. **View the node information**. Click |image1| to return to the Cloud Eye management console. On the **Data Warehouse Nodes** tab page in the right pane, you can view metrics of each node in the cluster.
 
    Additionally, you can specify a specific monitoring metric and the time range to view the performance curve.
 
-   Cloud Eye also supports the ability to compare the monitoring metrics of multiple nodes. For details, see :ref:`Comparing the Monitoring Metrics of Multiple Nodes <en-us_topic_0000001134400830__section20548025153518>`.
+   Cloud Eye also supports the ability to compare the monitoring metrics of multiple nodes. For details, see :ref:`Comparing the Monitoring Metrics of Multiple Nodes <en-us_topic_0000001517355213__section20548025153518>`.
 
-.. _en-us_topic_0000001134400830__section20548025153518:
+.. _en-us_topic_0000001517355213__section20548025153518:
 
 Comparing the Monitoring Metrics of Multiple Nodes
 --------------------------------------------------
@@ -173,7 +175,7 @@ Comparing the Monitoring Metrics of Multiple Nodes
 
    Then you can view the corresponding monitoring graph on the **Panels** page. Move the cursor to the graph and click |image2| in the upper right corner to zoom in the graph and view detailed metric comparison data.
 
-.. _en-us_topic_0000001134400830__section104751927123616:
+.. _en-us_topic_0000001517355213__section104751927123616:
 
 Creating Alarm Rules
 --------------------
@@ -184,9 +186,9 @@ A GaussDB(DWS) alarm rule includes the alarm rule name, monitored object, metric
 
 #. Log in to the GaussDB(DWS) management console.
 
-#. In the navigation pane on the left, choose **Clusters**.
+#. In the navigation pane on the left, click **Clusters**.
 
-#. Locate the row containing the target cluster, click **More** > **View Metric** in the **Operation** column to enter the Cloud Eye management console and view the GaussDB(DWS) monitoring information.
+#. Locate the row containing the target cluster, click **View Metric** in the **Operation** column to enter the Cloud Eye management console and view the GaussDB(DWS) monitoring information.
 
    The status of the target cluster must be **Available**. Otherwise, you cannot create alarm rules.
 
@@ -234,7 +236,7 @@ A GaussDB(DWS) alarm rule includes the alarm rule name, monitored object, metric
          |                       |                                                                                                                                                                                                                                                                 |                        |
          |                       | Set the policy that triggers an alarm. For example, trigger an alarm if the CPU usage equals to or is greater than 80% for 3 consecutive periods.                                                                                                               |                        |
          |                       |                                                                                                                                                                                                                                                                 |                        |
-         |                       | :ref:`Table 1 <en-us_topic_0000001134400830__table17857105810438>` describes the GaussDB(DWS) monitoring metrics.                                                                                                                                               |                        |
+         |                       | :ref:`Table 1 <en-us_topic_0000001517355213__table17857105810438>` lists the GaussDB(DWS) monitoring metrics.                                                                                                                                                   |                        |
          +-----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------+
          | Alarm Severity        | Severity of an alarm. Valid values are **Critical**, **Major**, **Minor**, and **Informational**.                                                                                                                                                               | Major                  |
          +-----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------+
@@ -263,12 +265,12 @@ A GaussDB(DWS) alarm rule includes the alarm rule name, monitored object, metric
 
       After the alarm rule is created, if the metric data reaches the specified threshold, Cloud Eye will immediately inform you that an exception has occurred.
 
-.. |image1| image:: /_static/images/en-us_image_0000001180440467.png
-.. |image2| image:: /_static/images/en-us_image_0000001134560878.png
-.. |image3| image:: /_static/images/en-us_image_0000001400244856.png
-.. |image4| image:: /_static/images/en-us_image_0000001450965281.png
-.. |image5| image:: /_static/images/en-us_image_0000001450885665.png
-.. |image6| image:: /_static/images/en-us_image_0000001400246588.png
-.. |image7| image:: /_static/images/en-us_image_0000001450766717.png
-.. |image8| image:: /_static/images/en-us_image_0000001134560868.png
-.. |image9| image:: /_static/images/en-us_image_0000001450967281.png
+.. |image1| image:: /_static/images/en-us_image_0000001467074326.png
+.. |image2| image:: /_static/images/en-us_image_0000001518033973.png
+.. |image3| image:: /_static/images/en-us_image_0000001517355485.png
+.. |image4| image:: /_static/images/en-us_image_0000001466754818.png
+.. |image5| image:: /_static/images/en-us_image_0000001517754497.png
+.. |image6| image:: /_static/images/en-us_image_0000001517754525.png
+.. |image7| image:: /_static/images/en-us_image_0000001517754529.png
+.. |image8| image:: /_static/images/en-us_image_0000001467074302.png
+.. |image9| image:: /_static/images/en-us_image_0000001517914101.png

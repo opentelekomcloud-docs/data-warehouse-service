@@ -12,9 +12,7 @@ Data Studio versions include **Windows x86** (32-bit Windows system) and **Windo
 Preparations Before Connecting to a Cluster
 -------------------------------------------
 
--  An EIP has been bound to the GaussDB(DWS) cluster.
-
--  You have obtained the database administrator username and password for logging in to the data warehouse cluster.
+-  You have obtained the administrator username and password for logging in to the database in the data warehouse cluster.
 
 -  You have obtained the public network address, including the IP address and port number in the data warehouse cluster. For details, see :ref:`Obtaining the Cluster Connection Address <dws_01_0033>`.
 
@@ -31,7 +29,7 @@ Connecting to the Cluster Database Using Data Studio
 
       Only JDK 1.8 is supported.
 
-   In the Windows operating system, you can download the required JDK version from the official website of SDK, and install it by following the installation guidance.
+   In the Windows operating system, you can download the required JDK version from the official website of JDK, and install it by following the installation guide.
 
 #. Log in to the GaussDB(DWS) management console.
 
@@ -47,11 +45,11 @@ Connecting to the Cluster Database Using Data Studio
 
 #. Decompress the downloaded client software package (32-bit or 64-bit) to the installation directory.
 
-#. Open the installation directory and double-click **Data Studio.exe** to start the Data Studio client. See :ref:`Figure 1 <en-us_topic_0000001180440077__febe974d888e24ddd8948572b362f7ef2>`.
+#. Open the installation directory and double-click **Data Studio.exe** to start the Data Studio client. See :ref:`Figure 1 <en-us_topic_0000001517754221__febe974d888e24ddd8948572b362f7ef2>`.
 
-   .. _en-us_topic_0000001180440077__febe974d888e24ddd8948572b362f7ef2:
+   .. _en-us_topic_0000001517754221__febe974d888e24ddd8948572b362f7ef2:
 
-   .. figure:: /_static/images/en-us_image_0000001134400858.png
+   .. figure:: /_static/images/en-us_image_0000001466754750.png
       :alt: **Figure 1** Starting the client
 
       **Figure 1** Starting the client
@@ -60,20 +58,14 @@ Connecting to the Cluster Database Using Data Studio
 
       If your computer blocks the running of the application, you can unlock the **Data Studio.exe** file to start the application.
 
-#. Choose **File** > **New Connection** from the main menu. See :ref:`Figure 2 <en-us_topic_0000001180440077__f5e30eb5f20c9434e971d8b2786b02dbf>`.
+#. Choose **File** > **New Connection** from the main menu. See :ref:`Figure 2 <en-us_topic_0000001517754221__f5e30eb5f20c9434e971d8b2786b02dbf>`.
 
-   .. _en-us_topic_0000001180440077__f5e30eb5f20c9434e971d8b2786b02dbf:
+   .. _en-us_topic_0000001517754221__f5e30eb5f20c9434e971d8b2786b02dbf:
 
-   .. figure:: /_static/images/en-us_image_0000001134400854.png
+   .. figure:: /_static/images/en-us_image_0000001518033901.png
       :alt: **Figure 2** New connection
 
       **Figure 2** New connection
-
-
-   .. figure:: /_static/images/en-us_image_0000001180320283.png
-      :alt: **Figure 3** New connection
-
-      **Figure 3** New connection
 
 #. In the displayed **New Database Connection** window, enter the connection parameters.
 
@@ -104,7 +96,7 @@ Connecting to the Cluster Database Using Data Studio
       | Enable SSL            | If **Enable SSL** is selected, the client can use SSL to encrypt connections. The SSL connection mode is more secure than common modes, so you are advised to enable SSL connection. | ``-``                 |
       +-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
 
-   When **Enable SSL** is selected, download the SSL certificate and decompress it by referring to :ref:`(Optional) Downloading the SSL Certificate <dws_01_0083>`. Click the **SSL** tab and configure the following parameters:
+   When **Enable SSL** is selected, download the SSL certificate and decompress it by referring to :ref:`Downloading SSL Certificate <en-us_topic_0000001517913817__li13478842115911>`. Click the **SSL** tab and configure the following parameters:
 
    .. table:: **Table 2** Configuring SSL parameters
 
@@ -128,10 +120,10 @@ Connecting to the Cluster Database Using Data Studio
       +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 
-   .. figure:: /_static/images/en-us_image_0000001134560646.png
-      :alt: **Figure 4** Configuring SSL parameters
+   .. figure:: /_static/images/en-us_image_0000001517754433.png
+      :alt: **Figure 3** Configuring SSL parameters
 
-      **Figure 4** Configuring SSL parameters
+      **Figure 3** Configuring SSL parameters
 
 #. Click **OK** to establish the database connection.
 
@@ -140,9 +132,13 @@ Connecting to the Cluster Database Using Data Studio
    After the login is successful, the **RECENT LOGIN ACTIVITY** dialog box is displayed, indicating that Data Studio is connected to the database. You can run the SQL statement in the **SQL Terminal** window on the Data Studio page.
 
 
-   .. figure:: /_static/images/en-us_image_0000001134400862.png
-      :alt: **Figure 5** Successful login
+   .. figure:: /_static/images/en-us_image_0000001466595086.png
+      :alt: **Figure 4** Successful login
 
-      **Figure 5** Successful login
+      **Figure 4** Successful login
 
    For details about how to use other functions of Data Studio, press **F1** to view the Data Studio user manual.
+
+   .. note::
+
+      Data cannot be rolled back after being added, deleted, modified, or queried in Data Studio.

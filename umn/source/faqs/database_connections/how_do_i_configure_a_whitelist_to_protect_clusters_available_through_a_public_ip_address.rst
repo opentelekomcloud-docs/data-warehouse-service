@@ -15,6 +15,12 @@ To enable the GaussDB(DWS) client to connect to the cluster, you need to add an 
 
 -  **Source**: Select **IP address** and use the host IP address of the client host, for example, **192.168.0.10/32**.
 
+
+   .. figure:: /_static/images/en-us_image_0000001330488876.png
+      :alt: **Figure 1** Adding an inbound rule
+
+      **Figure 1** Adding an inbound rule
+
    The whitelist will be added.
 
-.. |image1| image:: /_static/images/en-us_image_0000001196492200.png
+.. |image1| image:: /_static/images/en-us_image_0000001381609449.png

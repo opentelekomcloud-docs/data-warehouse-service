@@ -16,8 +16,8 @@ Function
 
 It has the same effect as the unconditional **DELETE**, but **TRUNCATE** is faster, especially for large tables, because it does not scan tables.
 
-Features
---------
+Functions
+---------
 
 -  **TRUNCATE TABLE** works like a **DELETE** statement with no **WHERE** clause, that is, emptying a table.
 -  **TRUNCATE TABLE** uses less system and transaction log resources.
@@ -31,8 +31,8 @@ Features
    -  **DELETE TABLE** deletes content, but does not delete definitions or release space.
    -  **DROP TABLE** deletes content and definitions, and releases space.
 
-Example
--------
+Examples
+--------
 
 ::
 
@@ -71,5 +71,5 @@ Example
    --Truncate the partitioned table.
    TRUNCATE TABLE tpcds.reason_p;
 
-   --Drop the table.
+   -- Delete the table:
    DROP TABLE tpcds.reason_p;

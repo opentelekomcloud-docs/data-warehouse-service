@@ -11,7 +11,7 @@ Policy Structure
 An RBAC policy consists of a Version, a Statement, and Depends.
 
 
-.. figure:: /_static/images/en-us_image_0000001180440441.jpg
+.. figure:: /_static/images/en-us_image_0000001466914522.jpg
    :alt: **Figure 1** RBAC policy structure
 
    **Figure 1** RBAC policy structure
@@ -22,7 +22,7 @@ Policy Syntax
 When selecting a policy for a user group, click |image1| below the policy to view the details of the policy. The **DWS Administrator** policy is used as an example to describe the syntax of RBAC policies.
 
 
-.. figure:: /_static/images/en-us_image_0000001180440439.png
+.. figure:: /_static/images/en-us_image_0000001518034061.png
    :alt: **Figure 2** Syntax of RBAC Policies
 
    **Figure 2** Syntax of RBAC Policies
@@ -78,4 +78,4 @@ When selecting a policy for a user group, click |image1| below the policy to vie
 
    For example, the **DWS Administrator** permission depends on the **Server Administrator** and **Tenant Guest** permissions. When granting the **DWS Administrator** permission to users, you also need to grant the two dependent permissions to the users.
 
-.. |image1| image:: /_static/images/en-us_image_0000001134401070.png
+.. |image1| image:: /_static/images/en-us_image_0000001466754894.png

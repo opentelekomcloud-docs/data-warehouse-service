@@ -12,7 +12,7 @@ FAQs
 -  :ref:`Account, Password, and Permissions <dws_03_0110>`
 -  :ref:`Database Usage <dws_03_0065>`
 -  :ref:`Database Performance <dws_03_0035>`
--  :ref:`Logs <dws_03_0068>`
+-  :ref:`Snapshot Backup and Restoration <dws_03_2010>`
 
 .. toctree::
    :maxdepth: 1
@@ -25,4 +25,4 @@ FAQs
    account_password_and_permissions/index
    database_usage/index
    database_performance/index
-   logs/index
+   snapshot_backup_and_restoration/index

@@ -7,6 +7,6 @@ What Are the Differences Between Data Formats Supported by OBS and GDS Foreign T
 
 The file formats supported by OBS and GDS foreign tables are as follows:
 
-OBS file formats: CSV, TEXT, ORC, and CARBONDATA. The default format is TEXT.
+OBS supports ORC, TEXT, JSON, CSV, CARBONDATA and PARQUET file formats for data import and ORC, CSV, and TEXT file formats for data export. The default format is TEXT.
 
-GDS file formats: CSV and TEXT. The default format is TEXT.
+GDS supports the following file formats: TEXT, CSV, and FIXED. The default format is TEXT.

@@ -5,58 +5,66 @@
 How Do I Revoke the CONNECT ON DATABASE Permission from a User?
 ===============================================================
 
-GaussDB(DWS) provides an implicitly defined group **public** that contains all roles. By default, all new users and roles have the permissions of **public**. To revoke permissions of **public** from a user or role, or re-grant these permissions to them, add the **public** keyword in the **REVOKE** or **GRANT** statement.
+Scenario
+--------
 
-GaussDB(DWS) grants the permissions for objects of certain types to **public**. By default, permissions on tables, columns, sequences, foreign data sources, foreign servers, schemas, and tablespaces are not granted to **PUBLIC**, but the following permissions are granted to **PUBLIC**: **CONNECT** and **CREATE TEMP TABLE** permissions on databases, **EXECUTE** permission on functions, and **USAGE** permission on languages and data types (including domains). An object owner can revoke the default permissions granted to **public** and grant permissions to other users. For security purposes, create an object and set its permissions in the same transaction so that other users do not have time windows to use the object. In addition, you can run the **ALTER DEFAULT PRIVILEGES** statement to modify the default permissions.
+In a service, the permission of user **u1** to connect to a database needs to be revoked. After the **REVOKE CONNECT ON DATABASE gaussdb FROM u1;** command is executed successfully, user **u1** can still connect to the database. This means the revocation does not take effect.
 
-The following shows an example of revoking the **CONNECT ON DATABASE** permission from a user.
+Cause Analysis
+--------------
 
-#. Connect to the default database **gaussdb** of a GaussDB(DWS) cluster.
+If you run the **REVOKE CONNECT ON DATABASE gaussdb from u1** command to revoke the permissions of user **u1**, the revocation does not take effect because the **CONNECT** permission of the database is granted to **PUBLIC**. Therefore, you need to specify **PUBLIC**.
 
-   .. code-block::
+-  GaussDB(DWS) provides an implicitly defined group **PUBLIC** that contains all roles. By default, all new users and roles have the permissions of **PUBLIC**. To revoke permissions of **PUBLIC** from a user or role, or re-grant these permissions to them, add the **PUBLIC** keyword in the **REVOKE** or **GRANT** statement.
+-  GaussDB(DWS) grants the permissions for objects of certain types to **PUBLIC**. By default, permissions on tables, columns, sequences, foreign data sources, foreign servers, schemas, and tablespaces are not granted to **PUBLIC**, but the following permissions are granted to **PUBLIC**;
 
-      gsql -d gaussdb -h 192.168.0.89 -U dbadmin -p 8000 -r
+   -  **CONNECT** permission of a database
+   -  **CREATE TEMP TABLE** permission of a database
+   -  **EXECUTE** permission of a function
+   -  **USAGE** permission for languages and data types (including domains)
 
-   If the following information is displayed after you enter the password as prompted, the connection is successful.
+-  An object owner can revoke the default permissions granted to **PUBLIC** and grant permissions to other users as needed.
+
+Example Operations
+------------------
+
+Run the following command to revoke the permission for user **u1** to access database **gaussdb**:
+
+#. Connect to the GaussDB(DWS) database **gaussdb**.
 
    ::
 
+      gsql -d gaussdb -p 8000 -h 192.168.x.xx -U dbadmin -W password -r
       gaussdb=>
 
 #. Create user **u1**.
 
-   .. code-block::
+   ::
 
-      CREATE USER u1 IDENTIFIED BY 'password';
-      CREATE USER
+      gaussdb=> CREATE USER u1 IDENTIFIED BY 'xxxxxxxx';
 
-#. Check whether access of **u1** is normal.
+#. Verify that user **u1** can access GaussDB.
 
-   .. code-block::
+   ::
 
-      gsql -d gaussdb -h 192.168.0.89 -U u1 -p 8000 -W password -r
-      gsql ((GaussDB 8.1.0 build be03b9a0) compiled at 2021-03-12 14:18:02 commit 1237 last mr 2001 release)
-      SSL connection (protocol: TLSv1.3, cipher: TLS_AES_128_GCM_SHA256, bits: 128)
-      Type "help" for help.
-
-#. Revoke the **CONNECT ON DATABASE** permission from **public**.
-
-   .. code-block::
-
-      gsql -d gaussdb -h 192.168.0.89 -U dbadmin -p 8000 -r
+      gsql -d gaussdb -p 8000 -h 192.168.x.xx -U u1 -W password -r
       gaussdb=>
 
-      REVOKE CONNECT ON database gaussdb FROM public;
+#. Connect to database **gaussdb** as administrator **dbadmin** and run the REVOKE command to revoke the **connect on database** permission of user **public**.
+
+   ::
+
+      gsql -d gaussdb -h 192.168.x.xx -U dbadmin -p 8000 -r
+
+   ::
+
+      gaussdb=> REVOKE CONNECT ON DATABASE gaussdb FROM public;
       REVOKE
 
-   .. note::
+#. Verify the result. Use **u1** to connect to the database. If the following information is displayed, the **connect on database** permission of user **u1** has been revoked successfully:
 
-      **revoke connect on database postgres from u1** cannot be used directly because the **CONNECT** permission is granted to **public**.
+   ::
 
-#. Verify the result. If the following information is displayed, the **CONNECT ON DATABASE** permission has been revoked from user **u1**.
-
-   .. code-block::
-
-      gsql -d gaussdb -h 192.168.0.89 -U u1 -p 8000
+      gsql -d gaussdb -p 8000 -h 192.168.x.xx -U u1 -W password -r
       gsql: FATAL:  permission denied for database "gaussdb"
       DETAIL:  User does not have CONNECT privilege.

@@ -5,7 +5,7 @@
 How Do I Change Distribution Columns?
 =====================================
 
-In a data warehouse database, you need to carefully choose distribution columns for large tables, because they can affect your database and query performance. If an improper distribution key is used, data skew may occur after data is imported. As a result, the usage of some disks will be much higher than that of other disks, and the cluster may even become read-only. If the hash distribution policy is used and data skew occurs, the I/O performance of some DNs will be poor, affecting the overall query performance. You also need to consider how to adjust the distribution column of existing tables to improve performance.
+In a data warehouse database, you need to carefully choose distribution columns for large tables, because they can affect your database and query performance. If an improper distribution key is used, data skew may occur after data is imported. As a result, the usage of some disks will be much higher than that of other disks, and the cluster may even become read-only. If the hash distribution policy is used and data skew occurs, the I/O performance of some DNs will be poor, affecting the overall query performance. Proper selection and adjustment of distribution columns are critical to table query performance.
 
 If the hash distribution policy is used, you need to check tables to ensure their data is evenly distributed on each DN. Generally, over 5% difference between the amount of data on different DNs is regarded as data skew. If the difference is over 10%, you have to choose another distribution column.
 
@@ -101,7 +101,7 @@ Run the **select version();** statement to query the current database version. R
 
    |image5|
 
-.. |image1| image:: /_static/images/en-us_image_0000001268125113.png
+.. |image1| image:: /_static/images/en-us_image_0000001330488884.png
 .. |image2| image:: /_static/images/en-us_image_0000001248712703.png
 .. |image3| image:: /_static/images/en-us_image_0000001204596316.png
 .. |image4| image:: /_static/images/en-us_image_0000001248996617.png

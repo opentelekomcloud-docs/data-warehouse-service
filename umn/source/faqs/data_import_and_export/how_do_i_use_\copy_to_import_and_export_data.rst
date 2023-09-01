@@ -15,7 +15,7 @@ GaussDB(DWS) is a fully managed service on the cloud. Users cannot log in to the
 
    .. code-block::
 
-      \copy table_name from '/directory_name/file_name' with(...);
+      \copy tb_name from '/directory_name/file_name' with(...);
 
 #. Run the following command to export data to a local file. Retain the default settings of parameters.
 
