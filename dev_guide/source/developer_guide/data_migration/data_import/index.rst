@@ -20,5 +20,5 @@ Data Import
    using_gds_to_import_data_from_a_remote_server/index
    importing_data_from_mrs_to_a_cluster/index
    importing_data_from_one_gaussdbdws_cluster_to_another
-   using_the_gsql_meta-command_\copy_to_import_data
+   using_the_gsql_meta-command_copy_to_import_data
    running_the_copy_from_stdin_statement_to_import_data/index
