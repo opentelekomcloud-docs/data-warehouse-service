@@ -24,7 +24,7 @@ Data Import and Export
    how_do_i_import_incremental_data_using_an_obs_foreign_table
    how_can_i_import_data_to_gaussdbdws
    how_much_service_data_can_a_data_warehouse_store
-   how_do_i_use_\copy_to_import_and_export_data
+   how_do_i_use_copy_to_import_and_export_data
    how_do_i_implement_fault_tolerance_import_between_different_encoding_libraries
    can_i_export_gaussdbdws_data_from_to_obs_across_regions
    how_do_i_import_gaussdbdws_oracle_mysql_sql_server_data_to_gaussdbdws_whole_database_migration
