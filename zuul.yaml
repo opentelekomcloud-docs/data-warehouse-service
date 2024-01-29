@@ -1,21 +1,12 @@
-- job:
-    name: build-otc-dws-tool-guide
-    parent: otc-tox-docs
-    description: Build tool-guide document using tox
-    files:
-    - ^doc/tool/source/.*
-    vars:
-      tox_envlist: tool-guide
+---
 - project:
     merge-mode: squash-merge
     default-branch: main
     templates:
-    - api-ref-hc-jobs
-    - umn-hc-jobs
-    - helpcenter-base-jobs
-    - dev-guide-hc-jobs
+      - helpcenter-base-jobs
     check:
-      # Separate documents are rendered in check, while published through regular otc-tox-docs job part of the basic template
       jobs:
-      - noop
-      - build-otc-dws-tool-guide
+        - noop
+    gate:
+      jobs:
+        - noop

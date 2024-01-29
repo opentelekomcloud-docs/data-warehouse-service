@@ -104,9 +104,4 @@ html_static_path = ['_static']
 html_copy_source = False
 
 # -- Options for PDF output --------------------------------------------------
-latex_documents = [
-    ('index',
-     'None.tex',
-     u'Data Warehouse Service - User Guide',
-     u'OpenTelekomCloud', 'manual'),
-]
+latex_documents = []
