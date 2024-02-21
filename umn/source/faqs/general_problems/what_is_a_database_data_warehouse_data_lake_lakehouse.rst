@@ -96,7 +96,7 @@ Lake, warehouse, and database engines enable agile data lake construction, fast 
 -  Database
 
    -  Relational databases include: Relational Database Service (RDS) , GaussDB(for MySQL) , GaussDB , RDS for PostgreSQL , RDS for SQL Server .
-   -  Non-relational database: Document Database Service (DDS), GaussDB NoSQL (including Influx, Redis, Mongo, Cassandra)
+   -  Non-relational database: Document Database Service (DDS), GaussDB NoSQL (including Influx, Cassandra)
 
 -  Data warehouse: GaussDB(DWS)
 -  Data lake and warehouse integration: MapReduce Service (MRS), Data Lake Insight (DLI) .
