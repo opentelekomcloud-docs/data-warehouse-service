@@ -16,7 +16,7 @@ A cluster ID (**cluster_id**) is required for some URLs when an API is called. T
 #. View the cluster ID.
 
 
-   .. figure:: /_static/images/en-us_image_0000001134404912.png
+   .. figure:: /_static/images/en-us_image_0000001231472779.png
       :alt: **Figure 1** Viewing the cluster ID
 
       **Figure 1** Viewing the cluster ID

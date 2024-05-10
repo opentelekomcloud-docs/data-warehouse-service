@@ -38,9 +38,10 @@ Request Message
 
    .. code-block:: text
 
-      POST /v1.0/89cd04f168b84af6be287f71730fdb4b/clusters/4ca46bf1-5c61-48ff-b4f3-0ad4e5e3ba90/restart
+      POST https://{Endpoint}/v1.0/89cd04f168b84af6be287f71730fdb4b/clusters/4ca46bf1-5c61-48ff-b4f3-0ad4e5e3ba90/restart
+
       {
-          "restart":{}
+        "restart" : { }
       }
 
 -  Parameter description

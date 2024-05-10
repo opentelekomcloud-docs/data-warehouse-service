@@ -36,7 +36,7 @@ Request example
 
 .. code-block:: text
 
-   GET /v1.0/89cd04f168b84af6be287f71730fdb4b/snapshots
+   GET https://{Endpoint}/v1.0/89cd04f168b84af6be287f71730fdb4b/snapshots
 
 Response Message
 ----------------
@@ -45,7 +45,6 @@ Response Message
 
    .. code-block::
 
-      status CODE 200
       {
           "snapshots": [
               {
@@ -81,12 +80,12 @@ Response Message
       +-----------+------------------------------------------------------------------------------------------------------------------+----------------------------------+
       | Parameter | Type                                                                                                             | Description                      |
       +===========+==================================================================================================================+==================================+
-      | snapshots | Array of :ref:`Snapshots <en-us_topic_0000001179166016__en-us_topic_0000001099136608_table443117441668>` objects | List of snapshot objects         |
+      | snapshots | Array of :ref:`Snapshots <en-us_topic_0000001186151630__en-us_topic_0000001099136608_table443117441668>` objects | List of snapshot objects         |
       +-----------+------------------------------------------------------------------------------------------------------------------+----------------------------------+
       | count     | Integer                                                                                                          | Total number of snapshot objects |
       +-----------+------------------------------------------------------------------------------------------------------------------+----------------------------------+
 
-   .. _en-us_topic_0000001179166016__en-us_topic_0000001099136608_table443117441668:
+   .. _en-us_topic_0000001186151630__en-us_topic_0000001099136608_table443117441668:
 
    .. table:: **Table 3** Snapshots
 

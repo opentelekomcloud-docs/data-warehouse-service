@@ -36,13 +36,14 @@ Request Message
 
    .. code-block:: text
 
-      POST /v1.0/89cd04f168b84af6be287f71730fdb4b/snapshots
+      POST https://{Endpoint}/v1.0/89cd04f168b84af6be287f71730fdb4b/snapshots
+
       {
-          "snapshot": {
-             "name": "snapshot-3",
-             "cluster_id": "44b277eb-39be-4921-be31-3d61b43651d7",
-             "description": "Snapshot-3 description"
-           }
+        "snapshot" : {
+          "name" : "snapshot-3",
+          "cluster_id" : "44b277eb-39be-4921-be31-3d61b43651d7",
+          "description" : "Snapshot-3 description"
+        }
       }
 
 -  Parameter description
@@ -52,10 +53,10 @@ Request Message
       +-----------+-----------+------------------------------------------------------------------------------------------------------+------------------+
       | Parameter | Mandatory | Type                                                                                                 | Description      |
       +===========+===========+======================================================================================================+==================+
-      | snapshot  | Yes       | :ref:`Snapshot <en-us_topic_0000001179325982__en-us_topic_0000001098656810_request_snapshot>` object | Snapshot object. |
+      | snapshot  | Yes       | :ref:`Snapshot <en-us_topic_0000001185673172__en-us_topic_0000001098656810_request_snapshot>` object | Snapshot object. |
       +-----------+-----------+------------------------------------------------------------------------------------------------------+------------------+
 
-   .. _en-us_topic_0000001179325982__en-us_topic_0000001098656810_request_snapshot:
+   .. _en-us_topic_0000001185673172__en-us_topic_0000001098656810_request_snapshot:
 
    .. table:: **Table 3** Snapshot
 
@@ -76,7 +77,6 @@ Response Message
 
    .. code-block::
 
-      status CODE 200
       {
           "snapshot": {
               "id": "2a4d0f86-67cd-408a-8b66-017454fb7793"
@@ -90,10 +90,10 @@ Response Message
       +-----------+-------------------------------------------------------------------------------------------------------------+-----------------+
       | Parameter | Type                                                                                                        | Description     |
       +===========+=============================================================================================================+=================+
-      | snapshot  | :ref:`SnapshotResp <en-us_topic_0000001179325982__en-us_topic_0000001098656810_response_snapshot_1>` object | Snapshot object |
+      | snapshot  | :ref:`SnapshotResp <en-us_topic_0000001185673172__en-us_topic_0000001098656810_response_snapshot_1>` object | Snapshot object |
       +-----------+-------------------------------------------------------------------------------------------------------------+-----------------+
 
-   .. _en-us_topic_0000001179325982__en-us_topic_0000001098656810_response_snapshot_1:
+   .. _en-us_topic_0000001185673172__en-us_topic_0000001098656810_response_snapshot_1:
 
    .. table:: **Table 5** SnapshotResp
 

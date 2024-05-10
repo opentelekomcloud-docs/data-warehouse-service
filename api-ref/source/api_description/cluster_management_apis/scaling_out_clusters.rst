@@ -40,11 +40,12 @@ Request Message
 
    .. code-block:: text
 
-      POST /v1.0/89cd04f168b84af6be287f71730fdb4b/clusters/4ca46bf1-5c61-48ff-b4f3-0ad4e5e3ba90/resize
+      POST https://{Endpoint}/v1.0/89cd04f168b84af6be287f71730fdb4b/clusters/4ca46bf1-5c61-48ff-b4f3-0ad4e5e3ba90/resize
+
       {
-          "scale_out":{
-             "count":3
-          }
+        "scale_out" : {
+          "count" : 3
+        }
       }
 
 -  Parameter description
@@ -54,10 +55,10 @@ Request Message
       +-----------+-----------+---------------------------------------------------------------------------------------------------------+----------------------+
       | Parameter | Mandatory | Type                                                                                                    | Description          |
       +===========+===========+=========================================================================================================+======================+
-      | scale_out | No        | :ref:`ScaleOut <en-us_topic_0000001224324257__en-us_topic_0000001098816630_table18225133616155>` object | Scale out an object. |
+      | scale_out | No        | :ref:`ScaleOut <en-us_topic_0000001231472767__en-us_topic_0000001098816630_table18225133616155>` object | Scale out an object. |
       +-----------+-----------+---------------------------------------------------------------------------------------------------------+----------------------+
 
-   .. _en-us_topic_0000001224324257__en-us_topic_0000001098816630_table18225133616155:
+   .. _en-us_topic_0000001231472767__en-us_topic_0000001098816630_table18225133616155:
 
    .. table:: **Table 3** ScaleOut
 

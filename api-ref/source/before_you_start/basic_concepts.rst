@@ -28,7 +28,7 @@ Basic Concepts
    Projects group and isolate resources (including compute, storage, and network resources) across physical regions. A default project is provided for each service region, and subprojects can be created under each default project. Users can be granted permissions to access all resources in a specific project. For more refined access control, create subprojects under a project and apply for resources in the subprojects. IAM users can then be assigned permissions to access only specific resources in the subprojects.
 
 
-   .. figure:: /_static/images/en-us_image_0000001180444281.png
+   .. figure:: /_static/images/en-us_image_0000001231391281.png
       :alt: **Figure 1** Project isolating model
 
       **Figure 1** Project isolating model
