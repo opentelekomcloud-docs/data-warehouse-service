@@ -5,9 +5,9 @@
 Status Code
 ===========
 
-:ref:`Table 1 <en-us_topic_0000001134564676__t086f984f5caa4d1da9258d7d871e1e62>` describes the status code.
+:ref:`Table 1 <en-us_topic_0000001231472773__t086f984f5caa4d1da9258d7d871e1e62>` describes the status code.
 
-.. _en-us_topic_0000001134564676__t086f984f5caa4d1da9258d7d871e1e62:
+.. _en-us_topic_0000001231472773__t086f984f5caa4d1da9258d7d871e1e62:
 
 .. table:: **Table 1** Status code
 

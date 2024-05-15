@@ -20,7 +20,7 @@ An account has all of the permissions required to call all APIs, but IAM users m
 Supported Actions
 -----------------
 
-DWS provides system-defined policies that can be directly used in IAM. Database administrators can also create custom policies and use them to supplement system-defined policies, implementing more refined access control. Actions supported by policies are specific to APIs. The following are common concepts related to policies:
+DWS provides system-defined policies that can be directly used in IAM. You can also create custom policies and use them to supplement system-defined policies, implementing more refined access control. Actions supported by policies are specific to APIs. The following are common concepts related to policies:
 
 -  **Permissions**: Allow or deny operations on specified resources under specific conditions.
 -  **APIs**: RESTful APIs that can be called in a custom policy.
@@ -33,36 +33,36 @@ DWS provides system-defined policies that can be directly used in IAM. Database 
 
 GaussDB(DWS) supports the following actions that can be defined in custom policies:
 
--  :ref:`Managing Clusters <en-us_topic_0000001134564664__section15829194192310>`
--  :ref:`Managing Snapshots <en-us_topic_0000001134564664__section936022411233>`
--  :ref:`Managing Tags <en-us_topic_0000001134564664__section1916320474239>`
+-  :ref:`Managing Clusters <en-us_topic_0000001185673170__section15829194192310>`
+-  :ref:`Managing Snapshots <en-us_topic_0000001185673170__section936022411233>`
+-  :ref:`Managing Tags <en-us_topic_0000001185673170__section1916320474239>`
 
-.. _en-us_topic_0000001134564664__section15829194192310:
+.. _en-us_topic_0000001185673170__section15829194192310:
 
 Managing Clusters
 -----------------
 
-+----------------------------------------------+--------------------------------------------------------------+-------------------------------------+-------------+--------------------+
-| Permissions                                  | APIs                                                         | Actions                             | IAM Project | Enterprise Project |
-+==============================================+==============================================================+=====================================+=============+====================+
-| Creating clusters                            | POST /v1.0/{project_id}/clusters                             | dws:openAPICluster:create           | Y           | Y                  |
-+----------------------------------------------+--------------------------------------------------------------+-------------------------------------+-------------+--------------------+
-| Querying the cluster list                    | GET /v1.0/{project_id}/clusters                              | dws:openAPICluster:list             | Y           | Y                  |
-+----------------------------------------------+--------------------------------------------------------------+-------------------------------------+-------------+--------------------+
-| Querying cluster details                     | GET /v1.0/{project_id}/clusters/{cluster_id}                 | dws:openAPICluster:getDetail        | Y           | Y                  |
-+----------------------------------------------+--------------------------------------------------------------+-------------------------------------+-------------+--------------------+
-| Querying the node type                       | GET /v2/{project_id}/node-types                              | dws:openAPIFlavors:get              | Y           | Y                  |
-+----------------------------------------------+--------------------------------------------------------------+-------------------------------------+-------------+--------------------+
-| Deleting clusters                            | DELETE /v1.0/{project_id}/clusters/{cluster_id}              | dws:openAPICluster:delete           | Y           | Y                  |
-+----------------------------------------------+--------------------------------------------------------------+-------------------------------------+-------------+--------------------+
-| Restarting clusters                          | POST /v1.0/{project_id}/clusters/{cluster_id}/restart        | dws:openAPICluster:restart          | Y           | Y                  |
-+----------------------------------------------+--------------------------------------------------------------+-------------------------------------+-------------+--------------------+
-| Scales out a cluster.                        | POST /v1.0/{project_id}/clusters/{cluster_id}/resize         | dws:cluster:scaleOutOrOpenAPIResize | Y           | Y                  |
-+----------------------------------------------+--------------------------------------------------------------+-------------------------------------+-------------+--------------------+
-| Resetting the cluster administrator password | POST /v1.0/{project_id}/clusters/{cluster_id}/reset-password | dws:openAPICluster:resetPassword    | Y           | Y                  |
-+----------------------------------------------+--------------------------------------------------------------+-------------------------------------+-------------+--------------------+
++------------------------------------------------+--------------------------------------------------------------+-------------------------------------+-------------+--------------------+
+| Permissions                                    | APIs                                                         | Actions                             | IAM Project | Enterprise Project |
++================================================+==============================================================+=====================================+=============+====================+
+| Creating clusters                              | POST /v1.0/{project_id}/clusters                             | dws:openAPICluster:create           | Y           | Y                  |
++------------------------------------------------+--------------------------------------------------------------+-------------------------------------+-------------+--------------------+
+| Querying the cluster list                      | GET /v1.0/{project_id}/clusters                              | dws:openAPICluster:list             | Y           | Y                  |
++------------------------------------------------+--------------------------------------------------------------+-------------------------------------+-------------+--------------------+
+| Querying cluster details                       | GET /v1.0/{project_id}/clusters/{cluster_id}                 | dws:openAPICluster:getDetail        | Y           | Y                  |
++------------------------------------------------+--------------------------------------------------------------+-------------------------------------+-------------+--------------------+
+| Querying the node type                         | GET /v2/{project_id}/node-types                              | dws:openAPIFlavors:get              | Y           | Y                  |
++------------------------------------------------+--------------------------------------------------------------+-------------------------------------+-------------+--------------------+
+| Deleting clusters                              | DELETE /v1.0/{project_id}/clusters/{cluster_id}              | dws:openAPICluster:delete           | Y           | Y                  |
++------------------------------------------------+--------------------------------------------------------------+-------------------------------------+-------------+--------------------+
+| Restarting clusters                            | POST /v1.0/{project_id}/clusters/{cluster_id}/restart        | dws:openAPICluster:restart          | Y           | Y                  |
++------------------------------------------------+--------------------------------------------------------------+-------------------------------------+-------------+--------------------+
+| Scales out a cluster.                          | POST /v1.0/{project_id}/clusters/{cluster_id}/resize         | dws:cluster:scaleOutOrOpenAPIResize | Y           | Y                  |
++------------------------------------------------+--------------------------------------------------------------+-------------------------------------+-------------+--------------------+
+| Resetting the cluster's administrator password | POST /v1.0/{project_id}/clusters/{cluster_id}/reset-password | dws:openAPICluster:resetPassword    | Y           | Y                  |
++------------------------------------------------+--------------------------------------------------------------+-------------------------------------+-------------+--------------------+
 
-.. _en-us_topic_0000001134564664__section936022411233:
+.. _en-us_topic_0000001185673170__section936022411233:
 
 Managing Snapshots
 ------------------
@@ -81,7 +81,7 @@ Managing Snapshots
 | Restoring clusters         | POST /v1.0/{project_id}/snapshots/{snapshot_id}/actions | dws:openAPISnapshot:restore | Y           | Y                  |
 +----------------------------+---------------------------------------------------------+-----------------------------+-------------+--------------------+
 
-.. _en-us_topic_0000001134564664__section1916320474239:
+.. _en-us_topic_0000001185673170__section1916320474239:
 
 Managing Tags
 -------------

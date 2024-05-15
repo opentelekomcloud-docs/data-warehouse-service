@@ -38,9 +38,10 @@ Request Message
 
    .. code-block:: text
 
-      POST /v1.0/89cd04f168b84af6be287f71730fdb4b/clusters/4ca46bf1-5c61-48ff-b4f3-0ad4e5e3ba90/reset-password
+      POST https://{Endpoint}/v1.0/89cd04f168b84af6be287f71730fdb4b/clusters/4ca46bf1-5c61-48ff-b4f3-0ad4e5e3ba90/reset-password
+
       {
-          "new_password": "NewPassword!"
+        "new_password" : "NewPassword!"
       }
 
 -  Parameter description
@@ -50,11 +51,11 @@ Request Message
       +-----------------+-----------------+-----------------+---------------------------------------------------------------------------------+
       | Parameter       | Mandatory       | Type            | Description                                                                     |
       +=================+=================+=================+=================================================================================+
-      | new_password    | Yes             | String          | New password of the GaussDB(DWS) cluster administrator                          |
+      | new_password    | Yes             | String          | New administrator password for logging in to a data warehouse cluster           |
       |                 |                 |                 |                                                                                 |
       |                 |                 |                 | A password must conform to the following rules:                                 |
       |                 |                 |                 |                                                                                 |
-      |                 |                 |                 | -  Contains 8 to 32 characters.                                                 |
+      |                 |                 |                 | -  Contains 12 to 32 characters.                                                |
       |                 |                 |                 | -  Cannot be the same as the username or the username written in reverse order. |
       |                 |                 |                 | -  Contains at least three types of the following:                              |
       |                 |                 |                 |                                                                                 |

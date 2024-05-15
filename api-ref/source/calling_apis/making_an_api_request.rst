@@ -23,7 +23,7 @@ Although a request URI is included in the request header, most programming langu
    +===================================+====================================================================================================================================================================================================================================================================+
    | URI-scheme                        | Protocol used to transmit requests. All APIs use HTTPS.                                                                                                                                                                                                            |
    +-----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | Endpoint                          | Domain name or IP address of the server bearing the REST service. The endpoint varies between services in different regions. It can be obtained from the **Regions and Endpoints** section.                                                                        |
+   | Endpoint                          | Domain name or IP address of the server bearing the REST service. The endpoint varies between services in different regions. It can be obtained from the "Regions and Endpoints" section.                                                                          |
    |                                   |                                                                                                                                                                                                                                                                    |
    |                                   | For example, the endpoint of IAM in the **eu-de** region is **iam.eu-de.otc.t-systems.com**.                                                                                                                                                                       |
    +-----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -72,9 +72,9 @@ Request Header
 
 You can also add additional header fields to a request, such as the fields required by a specified URI or HTTP method. For example, to request for the authentication information, add **Content-type**, which specifies the request body type.
 
-For details about common request headers, see :ref:`Table 3 <en-us_topic_0000001180444265__t771a2351c332419f86fd66136fc5ebae>`.
+For details about common request headers, see :ref:`Table 3 <en-us_topic_0000001185673174__t771a2351c332419f86fd66136fc5ebae>`.
 
-.. _en-us_topic_0000001180444265__t771a2351c332419f86fd66136fc5ebae:
+.. _en-us_topic_0000001185673174__t771a2351c332419f86fd66136fc5ebae:
 
 .. table:: **Table 3** Common request header fields
 
@@ -124,7 +124,7 @@ In the case of the API used to obtain a user token, the request parameters and p
 
 .. note::
 
-   The **scope** parameter specifies where a token takes effect. In the example, the token takes effect only on the resources specified by the project. In the following example, the token takes effect only for the resources in a specified project. For more information about this API, see "Obtaining a User Token".
+   The **scope** parameter specifies where a token takes effect. In the example, the token takes effect only on the resources specified by the project. In the following example, the token takes effect only for the resources in a specified project. For more information about this API, see Obtaining a User Token.
 
 .. code-block:: text
 
