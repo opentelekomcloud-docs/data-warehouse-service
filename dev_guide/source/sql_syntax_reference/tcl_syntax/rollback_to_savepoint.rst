@@ -36,13 +36,13 @@ Rolls back to a savepoint.
 Examples
 --------
 
-Undo the effects of the commands executed after my_savepoint was established.
+Undo the effects of the commands executed after my_savepoint was established:
 
 ::
 
    ROLLBACK TO SAVEPOINT my_savepoint;
 
-Cursor positions are not affected by savepoint rollback.
+Cursor positions are not affected by savepoint rollback:
 
 ::
 

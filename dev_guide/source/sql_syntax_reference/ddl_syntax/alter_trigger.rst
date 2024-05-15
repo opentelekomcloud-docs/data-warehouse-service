@@ -39,24 +39,57 @@ Parameter Description
 
 -  **new_name**
 
-   Specifies the new name after modification.
+   Specifies the new trigger name.
 
    Value range: a string that complies with the identifier naming convention. A value contains a maximum of 63 characters and cannot be the same as other triggers on the same table.
 
-Examples
---------
+Example
+-------
+
+Create a source table and a trigger table:
+
+::
+
+   DROP TABLE IF EXISTS test_trigger_src_tbl;
+   DROP TABLE IF EXISTS test_trigger_des_tbl;
+
+   CREATE TABLE test_trigger_src_tbl(id1 INT, id2 INT, id3 INT);
+   CREATE TABLE test_trigger_des_tbl(id1 INT, id2 INT, id3 INT);
+
+Create the trigger function **tri_insert_func()**:
+
+::
+
+   DROP FUNCTION IF EXISTS tri_insert_func;
+   CREATE OR REPLACE FUNCTION tri_insert_func() RETURNS TRIGGER AS
+              $$
+              DECLARE
+              BEGIN
+                      INSERT INTO test_trigger_des_tbl VALUES(NEW.id1, NEW.id2, NEW.id3);
+                      RETURN NEW;
+              END
+              $$ LANGUAGE PLPGSQL;
+
+Create an **INSERT** trigger:
+
+::
+
+   CREATE TRIGGER insert_trigger
+              BEFORE INSERT ON test_trigger_src_tbl
+              FOR EACH ROW
+              EXECUTE PROCEDURE tri_insert_func();
 
 Modified the trigger **delete_trigger**.
 
 ::
 
-   ALTER TRIGGER delete_trigger ON test_trigger_src_tbl RENAME TO delete_trigger_renamed;
+   ALTER TRIGGER insert_trigger ON test_trigger_src_tbl RENAME TO insert_trigger_renamed;
 
 Disable the trigger **insert_trigger**.
 
 ::
 
-   ALTER TABLE test_trigger_src_tbl DISABLE TRIGGER insert_trigger;
+   ALTER TABLE test_trigger_src_tbl DISABLE TRIGGER insert_trigger_renamed;
 
 Disable all triggers on the **test_trigger_src_tbl** table.
 

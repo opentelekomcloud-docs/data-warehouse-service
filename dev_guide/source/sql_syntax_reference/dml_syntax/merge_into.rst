@@ -17,6 +17,7 @@ Precautions
 -  **PREPARE** is not supported.
 -  **MERGE INTO** cannot be executed during redistribution.
 -  **MERGE INTO** cannot be executed for target tables that contain triggers.
+-  When executing **MERGE INTO** for the round-robin table, you are advised to disable the GUC parameter **allow_concurrent_tuple_update**. Otherwise, some **MERGE INTO** statements are not supported.
 
 Syntax
 ------
@@ -43,9 +44,9 @@ Parameter Description
 
 -  **INTO** clause
 
-   Specifies the target table that is being updated or has data being inserted. It cannot be a replication table.
+   Specifies the target table that is being updated or has data being inserted.
 
-   -  **talbe_name**
+   -  **table_name**
 
       Specifies the name of the target table.
 
@@ -90,10 +91,11 @@ Parameter Description
 Examples
 --------
 
-Create the target table **products** and source table **newproducts**, and insert data to them.
+Create the target table **products** and source table **newproducts**, and insert data to them:
 
 ::
 
+   DROP TABLE IF EXISTS products;
    CREATE TABLE products
    (
    product_id INTEGER,
@@ -107,6 +109,7 @@ Create the target table **products** and source table **newproducts**, and inser
    INSERT INTO products VALUES (1601, 'lamaze', 'toys');
    INSERT INTO products VALUES (1666, 'harry potter', 'dvd');
 
+   DROP TABLE IF EXISTS newproducts;
    CREATE TABLE newproducts
    (
    product_id INTEGER,
@@ -119,7 +122,7 @@ Create the target table **products** and source table **newproducts**, and inser
    INSERT INTO newproducts VALUES (1666, 'harry potter', 'toys');
    INSERT INTO newproducts VALUES (1700, 'wait interface', 'books');
 
-Run **MERGE INTO**.
+Run **MERGE INTO**:
 
 ::
 
@@ -130,26 +133,20 @@ Run **MERGE INTO**.
      UPDATE SET p.product_name = np.product_name, p.category = np.category WHERE p.product_name != 'play gym'
    WHEN NOT MATCHED THEN
      INSERT VALUES (np.product_id, np.product_name, np.category) WHERE np.category = 'books';
-   MERGE 4
 
-Query updates.
+Query updates:
 
 ::
 
    SELECT * FROM products ORDER BY product_id;
-    product_id |  product_name  | category
-   ------------+----------------+-----------
-          1501 | vivitar 35mm   | electrncs
-          1502 | olympus camera | electrncs
-          1600 | play gym       | toys
-          1601 | lamaze         | toys
-          1666 | harry potter   | toys
-          1700 | wait interface | books
-   (6 rows)
 
-Delete a table.
+|image1|
+
+Delete a table:
 
 ::
 
    DROP TABLE products;
    DROP TABLE newproducts;
+
+.. |image1| image:: /_static/images/en-us_image_0000001845501357.png

@@ -5,7 +5,9 @@
 Full-Text Retrieval
 ===================
 
-Textual search operators have been used in databases for years. GaussDB(DWS) has **~**, **~\***, **LIKE**, and **ILIKE** operators for textual data types, but they lack many essential properties required by modern information systems. They can be supplemented by indexes and dictionaries.
+Full text searching (or just text search) provides the capability to identify natural-language documents that satisfy a query, and optionally to sort them by relevance to the query. The most common type of search is to find all documents containing given query terms and return them in order of their similarity to the query.
+
+Textual search operators have been used in databases for years. The GaussDB(DWS) has **~**, **~\***, **LIKE**, and **ILIKE** operators for textual data types, but they lack many essential properties required by modern information systems. This problem can be solved by using indexes and dictionaries.
 
 .. note::
 
@@ -37,4 +39,4 @@ Full text indexing allows documents to be preprocessed and an index is saved for
 
 Dictionaries allow fine-grained control over how tokens are normalized. With appropriate dictionaries, you can define stop words that should not be indexed.
 
-A data type **tsvector** is provided for storing preprocessed documents, along with a type **tsquery** for storing query conditions. For details, see :ref:`Text Search Types <dws_06_0018>`. For details about the functions and operators available for these data types, see :ref:`Text Search Functions and Operators <dws_06_0039>`. The match operator **@@**, which is the most important among those functions and operators, is introduced in :ref:`Basic Text Matching <dws_06_0085>`.
+A data type **tsvector** is provided for storing preprocessed documents, along with a type **tsquery** for storing query conditions. For details, see :ref:`Text Search Types <dws_06_0018>`. For details about the functions and operators provided for the tsvector data type, see :ref:`Text Search Functions and Operators <dws_06_0039>`. The matching operator **@@** is the most important. For details, see :ref:`Basic Text Matching <dws_06_0085>`.

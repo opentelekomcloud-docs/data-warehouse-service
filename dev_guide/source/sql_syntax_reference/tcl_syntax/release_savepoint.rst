@@ -17,7 +17,7 @@ Destroying a savepoint makes it unavailable as a rollback point, but it has no o
 Precautions
 -----------
 
--  Specifying a savepoint name that was not previously defined causes an error.
+-  Releasing a savepoint name that was not previously defined causes an error.
 -  It is not possible to release a savepoint when the transaction is in an aborted state.
 -  If multiple savepoints have the same name, only the one that was most recently defined is released.
 
@@ -38,14 +38,15 @@ Specifies the name of the savepoint you want to destroy.
 Examples
 --------
 
-Create and then destroy a savepoint.
+Create and then destroy a savepoint:
 
 ::
 
    BEGIN;
-       INSERT INTO tpcds.table1 VALUES (3);
+       CREATE TABLE IF NOT EXISTS table1 (a int,b int);
+       INSERT INTO table1 VALUES (3);
        SAVEPOINT my_savepoint;
-       INSERT INTO tpcds.table1 VALUES (4);
+       INSERT INTO table1 VALUES (4);
        RELEASE SAVEPOINT my_savepoint;
    COMMIT;
 

@@ -23,16 +23,20 @@ Procedure
 
 #. Create an Ispell dictionary.
 
+   .. important::
+
+      // Hard-coded or plaintext AK and SK are risky. For security purposes, encrypt your AK and SK and store them in the configuration file or environment variables.
+
    ::
 
       CREATE TEXT SEARCH DICTIONARY norwegian_ispell (
           TEMPLATE = ispell,
           DictFile = nn_no,
           AffFile = nn_no,
-          FilePath = 'obs://bucket_name/path accesskey=ak secretkey=sk region=rg'
+          FilePath =  'obs://bucket01/obs.xxx.xxx.com accesskey=xxxxx secretkey=xxxxx region=xx-xx-xx'
       );
 
-   The full name of the Ispell dictionary file is **nn_no.dict** and **nn_no.affix**, and the dictionary is stored in the **'obs://bucket01/obs.xxx.xxx.com accesskey=xxxxx secretkey=xxxxx region=**\ *xx-xx-xx*'. For details about the syntax and parameters for creating an Ispell dictionary, see :ref:`CREATE TEXT SEARCH DICTIONARY <dws_06_0183>`.
+   The full name of the Ispell dictionary file is **nn_no.dict** and **nn_no.affix**, and the dictionary is stored in the **'obs://bucket01/obs.xxx.xxx.com accesskey=xxxxx secretkey=xxxxx region=\ xx-xx-xx** directory. For details about the syntax and parameters for creating an Ispell dictionary, see :ref:`CREATE TEXT SEARCH DICTIONARY <dws_06_0183>`.
 
 #. Use the Ispell dictionary to split compound words.
 

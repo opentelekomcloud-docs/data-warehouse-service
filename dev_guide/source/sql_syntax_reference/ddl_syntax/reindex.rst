@@ -54,7 +54,7 @@ Parameter Description
 
 -  **DATABASE**
 
-   Recreates all indexes within the current database. Indexes on the shared system directory will also be processed. This form of **REINDEX** cannot be executed within a transaction block.
+   Recreates all indexes within the current database.
 
 -  **SYSTEM**
 
@@ -88,14 +88,29 @@ Parameter Description
 Examples
 --------
 
-Rebuild a single index.
+Rebuild the partition index of partition **P1** in the partitioned table **customer_address**:
 
-::
+.. code-block::
 
-   REINDEX INDEX tpcds.tpcds_customer_index1;
+   DROP TABLE IF EXISTS customer_address;
+   CREATE TABLE customer_address
+   (
+       ca_address_sk       INTEGER                  NOT NULL   ,
+       ca_address_id       CHARACTER(16)            NOT NULL   ,
+       ca_street_number    CHARACTER(10)                       ,
+       ca_street_name      CHARACTER varying(60)               ,
+       ca_street_type      CHARACTER(15)                       ,
+       ca_suite_number     CHARACTER(10)
+   )
+   DISTRIBUTE BY HASH (ca_address_sk)
+   PARTITION BY RANGE(ca_address_sk)
+   (
+           PARTITION P1 VALUES LESS THAN(2450815),
+           PARTITION P2 VALUES LESS THAN(2451179),
+           PARTITION P3 VALUES LESS THAN(2451544),
+           PARTITION P4 VALUES LESS THAN(MAXVALUE)
+   );
 
-Rebuild all indexes on the **tpcds.customer_t1** table.
+   CREATE INDEX customer_address_index on customer_address(CA_ADDRESS_SK) LOCAL;
 
-::
-
-   REINDEX TABLE tpcds.customer_t1;
+   REINDEX TABLE customer_address PARTITION P1;

@@ -96,7 +96,7 @@ Parameter Description
 Examples
 --------
 
-Create a stored procedure.
+Create a stored procedure:
 
 ::
 
@@ -112,34 +112,34 @@ Create a stored procedure.
    END;
    /
 
-Call the stored procedure.
+Call the stored procedure:
 
 ::
 
    SELECT prc_add(2,3);
 
-Create a stored procedure whose parameter type is **VARIADIC**.
+Create a stored procedure whose parameter type is VARIADIC:
 
 ::
 
-   CREATE OR REPLACE PROCEDURE pro_variadic (var1 VARCHAR2(10) DEFAULT 'hello!',var4 VARIADIC int4[])
+   CREATE OR REPLACE PROCEDURE pro_variadic (param1 VARIADIC int4[], param2  OUT  TEXT)
    AS
    BEGIN
-       dbms_output.put_line(var1);
+       param2:= param1::text;
    END;
    /
 
-Execute the stored procedure.
+Execute the stored procedure:
 
 ::
 
-   SELECT pro_variadic(var1=>'hello', VARIADIC var4=> array[1,2,3,4]);
+   SELECT pro_variadic(VARIADIC param1=> array[1,2,3,4]);
 
-Create a stored procedure with the PACKAGE attribute.
+Create a stored procedure with the **package** attribute:
 
 ::
 
-   create or replace procedure package_func_overload(col int, col2 out varchar)
+   CREATE OR REPLACE PROCEDURE package_func_overload(col int, col2 out varchar)
    package
    as
    declare

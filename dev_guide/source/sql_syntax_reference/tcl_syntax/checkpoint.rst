@@ -33,7 +33,7 @@ None
 Examples
 --------
 
-Set a checkpoint.
+Set a checkpoint:
 
 ::
 

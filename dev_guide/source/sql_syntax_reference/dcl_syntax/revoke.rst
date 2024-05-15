@@ -28,7 +28,7 @@ Syntax
    ::
 
       REVOKE [ GRANT OPTION FOR ]
-          { { SELECT | INSERT | UPDATE | DELETE | TRUNCATE | REFERENCES | TRIGGER | ANALYZE | ANALYSE }[, ...]
+          { { SELECT | INSERT | UPDATE | DELETE | TRUNCATE | REFERENCES | TRIGGER | ANALYZE | ANALYSE | VACUUM | ALTER | DROP }[, ...]
           | ALL [ PRIVILEGES ] }
           ON { [ TABLE ] table_name [, ...]
              | ALL TABLES IN SCHEMA schema_name [, ...] }
@@ -93,7 +93,7 @@ Syntax
    ::
 
       REVOKE [ GRANT OPTION FOR ]
-          { { CREATE | USAGE } [, ...] | ALL [ PRIVILEGES ] }
+          { { CREATE | USAGE | ALTER | DROP } [, ...] | ALL [ PRIVILEGES ] }
           ON SCHEMA schema_name [, ...]
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
           [ CASCADE | RESTRICT ];
@@ -127,9 +127,9 @@ Parameter Description
 
 The keyword **PUBLIC** indicates an implicitly defined group that contains all roles.
 
-See :ref:`Parameter Description <en-us_topic_0000001145830781__s226158f44a8f4b908e69a283aeb813cd>` of the **GRANT** command for the meaning of the privileges and related parameters.
+See :ref:`Parameter Description <en-us_topic_0000001188270556__s226158f44a8f4b908e69a283aeb813cd>` of the **GRANT** command for the meaning of the privileges and related parameters.
 
-Permissions of a role include the permissions directly granted to the role, permissions inherited from the parent role, and permissions granted to **PUBLIC**. Therefore, revoking the **SELECT** permission on an object from **PUBLIC** does not necessarily mean that such permission has been revoked from all roles, because the **SELECT** permission directly granted to roles or inherited from parent roles remains. Similarly, if the **SELECT** permission is revoked from a user but is not revoked from **PUBLIC**, the user can still run the **SELECT** statement.
+Permissions of a role include the permissions directly granted to the role, permissions inherited from the parent role, and permissions granted to **PUBLIC**. Therefore, revoking the **SELECT** permission for an object from **PUBLIC** does not necessarily mean that the **SELECT** permission for the object has been revoked from all roles, because the **SELECT** permission directly granted to roles and inherited from parent roles still remains. Similarly, if the **SELECT** permission is revoked from a user but is not revoked from **PUBLIC**, the user can still run the **SELECT** statement.
 
 If **GRANT OPTION FOR** is specified, only the grant option for the right is revoked, not the right itself.
 
@@ -142,53 +142,88 @@ If the role executing **REVOKE** holds rights indirectly via more than one role 
 Examples
 --------
 
-Revoke all permissions of user **joe**.
+Create user **jim**:
 
 ::
 
-   REVOKE ALL PRIVILEGES FROM joe;
+   CREATE USER jim PASSWORD '{Password}';
 
-Revoke the permissions granted in a specified schema.
+Create a schema:
 
-::
+.. code-block::
 
-   REVOKE USAGE,CREATE ON SCHEMA tpcds FROM tpcds_manager;
+   CREATE SCHEMA tpcds;
 
-Revoke the **CONNECT** privilege from user **joe**.
+Create a database:
 
-::
+.. code-block::
 
-   REVOKE CONNECT FROM joe;
+   CREATE DATABASE mydatabase OWNER jim;
 
-Revoke the membership of role **admins** from user **joe**.
-
-::
-
-   REVOKE admins FROM joe;
-
-Revoke all the privileges of user **joe** for the **myView** view.
+Create a table:
 
 ::
 
-   REVOKE ALL PRIVILEGES ON myView FROM joe;
+   CREATE TABLE IF NOT EXISTS tpcds.reason(r_reason_sk int,r_reason_id int,r_reason_desc int);
+
+Create a view:
+
+::
+
+   CREATE VIEW myview AS select * from tpcds.reason;
+
+Revoke all permissions of user **jim**:
+
+::
+
+   REVOKE ALL PRIVILEGES FROM jim;
+
+Revoke the permissions granted in a specified schema:
+
+::
+
+   REVOKE USAGE,CREATE ON SCHEMA tpcds FROM jim;
+
+Revoke the **CONNECT** privilege from user **jim**:
+
+::
+
+   REVOKE CONNECT ON DATABASE mydatabase FROM jim;
+
+Revoke the membership of role **dbadmin** from user **jim**:
+
+::
+
+   REVOKE dbadmin FROM jim;
+
+Revoke all the privileges of user **jim** for the **myView** view:
+
+::
+
+   REVOKE ALL PRIVILEGES ON myView FROM jim;
 
 Revoke the public insert permission on the **customer_t1** table.
 
 ::
 
-   REVOKE INSERT ON customer_t1 FROM PUBLIC;
+   REVOKE INSERT ON tpcds.reason FROM PUBLIC;
 
-Revoke user **joe**'s permission for the **tpcds** schema.
-
-::
-
-   REVOKE USAGE ON SCHEMA tpcds FROM joe;
-
-Revoke the query permissions for **r_reason_sk** and **r_reason_id** in the **tpcds.reason table** from user **joe**.
+Revoke the query permissions for **r_reason_sk** and **r_reason_id** in the **tpcds.reason** table from user **jim**.
 
 ::
 
-   REVOKE select (r_reason_sk, r_reason_id) ON tpcds.reason FROM joe;
+   REVOKE select (r_reason_sk, r_reason_id) ON tpcds.reason FROM jim;
+
+Revoke a function permission from user **jim**.
+
+::
+
+   CREATE FUNCTION func_add_sql(integer, integer) RETURNS integer
+       AS 'select $1 + $2;'
+       LANGUAGE SQL
+       IMMUTABLE
+       RETURNS NULL ON NULL INPUT;
+   REVOKE execute ON FUNCTION func_add_sql(integer, integer) FROM jim CASCADE;
 
 Links
 -----

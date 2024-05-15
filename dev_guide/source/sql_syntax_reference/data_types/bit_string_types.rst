@@ -13,38 +13,48 @@ The **bit** type data must match the length **n** exactly. It is an error to att
 
 .. note::
 
-   If one explicitly casts a bit-string value to **bit(n)**, it will be truncated or zero-padded on the right to be exactly **n** bits, without raising an error.
+   If one explicitly casts a bit-string value to **bit(n)**, it will be truncated or zero-padded on the right to be exactly **n** bits, without raising an error. Similarly, if one explicitly casts a bit-string value to **bit varying(n)**, the bits after **n** places will be truncated.
 
-   Similarly, if one explicitly casts a bit-string value to **bit varying(n)**, it will be truncated on the right if it is more than **n** bits.
+The following is an example of using the bit string type:
 
-::
+#. Create a sample table **bit_type_t1**.
 
-   -- Create a table:
-   CREATE TABLE bit_type_t1
-   (
-       BT_COL1 INTEGER,
-       BT_COL2 BIT(3),
-       BT_COL3 BIT VARYING(5)
-   ) DISTRIBUTE BY REPLICATION;
+   ::
 
-   --Insert data:
-   INSERT INTO bit_type_t1 VALUES(1, B'101', B'00');
+      CREATE TABLE bit_type_t1
+      (
+          BT_COL1 INTEGER,
+          BT_COL2 BIT(3),
+          BT_COL3 BIT VARYING(5)
+      ) DISTRIBUTE BY REPLICATION;
 
-   -- Specify the type length. An error is reported if an inserted string exceeds this length.
-   INSERT INTO bit_type_t1 VALUES(2, B'10', B'101');
-   ERROR:  bit string length 2 does not match type bit(3)
-   CONTEXT:  referenced column: bt_col2
+#. Insert data:
 
-   -- Specify the type length. Data is converted if it exceeds this length.
-   INSERT INTO bit_type_t1 VALUES(2, B'10'::bit(3), B'101');
+   ::
 
-   -- View data:
-   SELECT * FROM bit_type_t1;
-    bt_col1 | bt_col2 | bt_col3
-   ---------+---------+---------
-          1 | 101     | 00
-          2 | 100     | 101
-   (2 rows)
+      INSERT INTO bit_type_t1 VALUES(1, B'101', B'00');
 
-   -- Delete the tables:
-   DROP TABLE bit_type_t1;
+   An error is reported if an inserted string exceeds the length of this data type.
+
+   ::
+
+      INSERT INTO bit_type_t1 VALUES(2, B'10', B'101');
+      ERROR:  bit string length 2 does not match type bit(3)
+      CONTEXT:  referenced column: bt_col2
+
+#. Data is converted if it exceeds the length of this data type.
+
+   ::
+
+      INSERT INTO bit_type_t1 VALUES(2, B'10'::bit(3), B'101');
+
+#. View data:
+
+   ::
+
+      SELECT * FROM bit_type_t1;
+       bt_col1 | bt_col2 | bt_col3
+      ---------+---------+---------
+             1 | 101     | 00
+             2 | 100     | 101
+      (2 rows)

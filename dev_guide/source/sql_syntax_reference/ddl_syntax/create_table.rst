@@ -8,7 +8,9 @@ CREATE TABLE
 Function
 --------
 
-**CREATE TABLE** creates a table in the current database. The table will be owned by the user who created it.
+Creates a new empty table in the current database.
+
+This table is owned by the user who executes the command. However, if the system administrator creates a table in the schema with the same name as a common user, the owner of the table is the user (not the system administrator).
 
 Precautions
 -----------
@@ -20,8 +22,8 @@ Precautions
 -  Column-store tables support the **PARTIAL CLUSTER KEY** and table-level primary key and unique constraints, but do not support table-level foreign key constraints.
 -  Only the NULL, NOT NULL, and DEFAULT constant values can be used as column-store table column constraints.
 -  Whether column-store tables support a delta table is specified by the **enable_delta** parameter. The threshold for storing data into a delta table is specified by the **deltarow_threshold** parameter.
--  Hot and cold tables support only partitioned column-store tables and depend on available OBS tablespaces.
--  Only the table-level and partition-level tablespaces of a hot or cold table can be set to general tablespaces.
+-  Multi-temperature tables support only partitioned column-store tables and depend on available OBS tablespaces.
+-  Multi-temperature tables support only the default tablespace **default_obs_tbs**. If you need to add an OBS tablespace, contact technical support.
 
 Syntax
 ------
@@ -29,16 +31,17 @@ Syntax
 ::
 
    CREATE [ [ GLOBAL | LOCAL ] { TEMPORARY | TEMP } | UNLOGGED ] TABLE [ IF NOT EXISTS ] table_name
-       ({ column_name data_type [ compress_mode ] [ COLLATE collation ] [ column_constraint [ ... ] ]
+       { ({ column_name data_type [ compress_mode ] [ COLLATE collation ] [ column_constraint [ ... ] ]
            | table_constraint
            | LIKE source_table [ like_option [...] ] }
-           [, ... ])
+           [, ... ])|
+           LIKE source_table [ like_option [...] ] }
        [ WITH ( {storage_parameter = value} [, ... ] ) ]
-       [ ON COMMIT { PRESERVE ROWS | DELETE ROWS | DROP } ]
+       [ ON COMMIT { PRESERVE ROWS | DELETE ROWS } ]
        [ COMPRESS | NOCOMPRESS ]
-
-       [ DISTRIBUTE BY { REPLICATION | { HASH ( column_name [,...] ) } } ]
-       [ TO { GROUP groupname | NODE ( nodename [, ... ] ) } ];
+       [ DISTRIBUTE BY { REPLICATION | ROUNDROBIN | { HASH ( column_name [,...] ) } } ]
+       [ TO { GROUP groupname | NODE ( nodename [, ... ] ) } ]
+       [ COMMENT [=] 'text' ];
 
 -  **column_constraint** is as follows:
 
@@ -49,6 +52,7 @@ Syntax
         NULL |
         CHECK ( expression ) |
         DEFAULT default_expr |
+        COMMENT 'text' |
         UNIQUE index_parameters |
         PRIMARY KEY index_parameters }
       [ DEFERRABLE | NOT DEFERRABLE | INITIALLY DEFERRED | INITIALLY IMMEDIATE ]
@@ -82,8 +86,8 @@ Syntax
 
       [ WITH ( {storage_parameter = value} [, ... ] ) ]
 
-Parameter Description
----------------------
+Parameters
+----------
 
 -  **UNLOGGED**
 
@@ -92,6 +96,10 @@ Parameter Description
    Usage scenario: Unlogged tables do not ensure safe data. Users can back up data before using unlogged tables; for example, users should back up the data before a system upgrade.
 
    Troubleshooting: If data is missing in the indexes of unlogged tables due to some unexpected operations such as an unclean shutdown, users should re-create the indexes with errors.
+
+   .. important::
+
+      The UNLOGGED table uses no primary/standby mechanism. In the case of system faults or abnormal breakpoints, data loss may occur. Therefore, the UNLOGGED table cannot be used to store basic data.
 
 -  **GLOBAL \| LOCAL**
 
@@ -116,6 +124,8 @@ Parameter Description
 
    The table name can contain a maximum of 63 characters, including letters, digits, underscores (_), dollar signs ($), and number signs (#). It must start with a letter or underscore (_).
 
+   A table name enclosed in double quotation marks can contain spaces and special characters. However, you are not advised to use these characters in a table name because they may make it difficult to reference and use. In addition, they may be processed differently under different database compatibility modes.
+
 -  **column_name**
 
    Specifies the name of a column to be created in the new table.
@@ -126,11 +136,20 @@ Parameter Description
 
    Specifies the data type of the column.
 
+   .. note::
+
+      In a database compatible with Teradata or MySQL syntax, if the data type of a column is set to DATE, the DATE type is returned. Otherwise, the TIMESTAMP type is returned.
+
 -  **compress_mode**
 
    Specifies the compress option of the table, only available for row-store table. The option specifies the algorithm preferentially used by table columns.
 
+   This compression option is irrelevant to the adaptive compression algorithm of column-store tables. The adaptive compression algorithm is used for internal data storage of column-store tables and does not allow users to specify the compression mode. For details, see the description of the :ref:`COMPRESSION <en-us_topic_0000001188429064__l770ea1d44c9f44bf8d17c8cb0a26bac6>` parameter.
+
    Value range: DELTA, PREFIX, DICTIONARY, NUMSTR, NOCOMPRESS
+
+   -  DELTA compression supports only data types with a length of 1 to 8 bytes (0 < pg_type.typlen<=8).
+   -  PREFIX and NUMSTR compression support only variable-length data types (pg_type.typlen=-1) and NULL-terminated C strings (pg_type.typlen=-2).
 
 -  **COLLATE collation**
 
@@ -155,7 +174,7 @@ Parameter Description
    -  If **INCLUDING DROPCOLUMNS** is specified, the deleted column information in the source table is copied to the new table. By default, the deleted column information of the source table is not copied.
    -  **INCLUDING ALL** contains the meaning of **INCLUDING DEFAULTS**, **INCLUDING CONSTRAINTS**, **INCLUDING INDEXES**, **INCLUDING STORAGE**, **INCLUDING COMMENTS**, **INCLUDING PARTITION**, **INCLUDING RELOPTIONS**, **INCLUDING DISTRIBUTION**, and **INCLUDING DROPCOLUMNS**.
    -  If EXCLUDING is specified, the specified parameters are not included.
-   -  For an OBS hot or cold table, all partitions of the new table are local hot partitions after **INCLUDING PARTITION** is specified.
+   -  For an OBS multi-temperature table, all partitions of the new table are local hot partitions after **INCLUDING PARTITION** is specified.
 
    .. important::
 
@@ -174,9 +193,9 @@ Parameter Description
 
    -  FILLFACTOR
 
-      The fillfactor of a table is a percentage between 10 and 100. 100 (complete packing) is the default value. When a smaller fillfactor is specified, **INSERT** operations pack table pages only to the indicated percentage. The remaining space on each page is reserved for updating rows on that page. This gives **UPDATE** a chance to place the updated copy of a row on the same page, which is more efficient than placing it on a different page. For a table whose records are never updated, setting the fillfactor to 100 (complete packing) is the appropriate choice, but in heavily updated tables smaller fillfactors are appropriate. The parameter has no meaning for column-based tables.
+      The fillfactor of a table is a percentage between 10 and 100. 100 (complete packing) is the default value. When a smaller fillfactor is specified, **INSERT** operations pack table pages only to the indicated percentage. The remaining space on each page is reserved for updating rows on that page. This gives **UPDATE** a chance to place the updated copy of a row on the same page, which is more efficient than placing it on a different page. For a table whose records are never updated, setting the fillfactor to 100 (complete packing) is the appropriate choice, but in heavily updated tables smaller fillfactors are appropriate. The parameter has no meaning for column-store tables.
 
-      Value range: 10-100
+      Value range: 10 to 100
 
    -  ORIENTATION
 
@@ -192,22 +211,25 @@ Parameter Description
 
          **COLUMN** applies to the data warehouse service, which has a large amount of aggregation computing, and involves a few column operations.
 
-      Default value:
+      Default value: ROW (row-store)
 
-      If an ordinary tablespace is specified, the default is **ROW**.
+      .. note::
 
-   -  COMPRESSION
+         In cluster 8.1.3 and later versions, the GUC parameter **default_orientation** (default value: **row**) is added. If the storage mode is not specified when a table is created, by default, the table is created based on the value of the parameter (row, column, column enabledelta).
+
+   -  .. _en-us_topic_0000001188429064__l770ea1d44c9f44bf8d17c8cb0a26bac6:
+
+      COMPRESSION
 
       Specifies the compression level of the table data. It determines the compression ratio and time. Generally, the higher the level of compression, the higher the ratio, the longer the time, and the lower the level of compression, the lower the ratio, the shorter the time. The actual compression ratio depends on the distribution characteristics of loading table data.
 
       Valid value:
 
-      -  The valid values for column-store tables are **YES**/**NO** and **LOW**/**MIDDLE**/**HIGH**, and the default is **LOW**.
-      -  The valid values for row-store tables are **YES** and **NO**, and the default is **NO**.
+      The valid values for column-store tables are **YES**/**NO** and **LOW**/**MIDDLE**/**HIGH**, and the default is **LOW**. When this parameter is set to **YES**, the compression level is **LOW** by default.
 
-         .. note::
+      .. note::
 
-            -  The row-store table compression function is not put into commercial use. To use this function, contact technical support.
+         -  Currently, row-store table compression is not supported.
 
       GaussDB(DWS) provides the following compression algorithms:
 
@@ -225,29 +247,25 @@ Parameter Description
 
    -  COMPRESSLEVEL
 
-      Specifies the compression level of the table data. It determines the compression ratio and time. This divides a compression level into sublevels, providing you with more choices for compression rate and duration. As the value becomes greater, the compression rate becomes higher and duration longer at the same compression level. The parameter is only valid for column-store table.
+      Specifies the compression level of the table data. It determines the compression ratio and time. This divides a compression level into sublevels, providing you with more choices for compression rate and duration. As the value becomes greater, the compression rate becomes higher and duration longer at the same compression level. The parameter is only valid for column-store tables.
 
       Value range: 0 to 3. The default value is **0**.
 
    -  MAX_BATCHROW
 
-      Specifies the maximum of a storage unit during data loading process. The parameter is only valid for column-store table.
+      Specifies the maximum of a storage unit during data loading process. The parameter is only valid for column-store tables.
 
       Value range: 10000 to 60000
 
-      Default value: **60000**
-
-      .. note::
-
-         When a column-store table is imported, the following error is reported: **cu.cpp: 249: The parameter destMax is equal to zero or larger than the macro: SECUREC_STRING_MAX_LEN.**
-
-         If the error persists after the statement or sorting is adjusted, change the maximum number of records in a storage unit from 60,000 to 30,000 by setting **MAX_BATCHROW**.
+      Default value: 60,000
 
    -  PARTIAL_CLUSTER_ROWS
 
-      Specifies the number of records to be partial cluster stored during data loading process. The parameter is only valid for column-store table.
+      Specifies the number of records to be partial cluster stored during data loading process. The parameter is only valid for column-store tables.
 
       Value range: 600000 to 2147483647
+
+      Default value: 4,200,000
 
    -  enable_delta
 
@@ -257,7 +275,7 @@ Parameter Description
 
    -  DELTAROW_THRESHOLD
 
-      Specifies the upper limit of to-be-imported rows for triggering the data import to a delta table when data is to be imported to a column-store table. This parameter takes effect only if the **enable_delta** table parameter is set to **on**. The parameter is only valid for column-store table.
+      Specifies the upper limit of to-be-imported rows for triggering the data import to a delta table when data is to be imported to a column-store table. This parameter takes effect only if the **enable_delta** table parameter is set to **on**. The parameter is only valid for column-store tables.
 
       The value ranges from **0** to **60000**. The default value is **6000**.
 
@@ -273,7 +291,7 @@ Parameter Description
 
       Default value: **2.0**
 
-      The value of **COLVERSION** can only be set to **2.0** for OBS hot and cold tables.
+      The value of **COLVERSION** can only be set to **2.0** for OBS multi-temperature tables.
 
       .. note::
 
@@ -285,25 +303,6 @@ Parameter Description
             #. The build and catch up time is greatly reduced.
             #. The occupied disk space decreases significantly.
 
-   -  COLD_TABLESPACE
-
-      Specifies the OBS tablespace for the cold partitions in a hot or cold table. This parameter is available only to partitioned column-store tables and cannot be modified. It must be used together with **storage_policy**.
-
-      Valid value: a valid OBS tablespace name
-
-   -  STORAGE_POLICY
-
-      Specifies the hot and cold partition switching policy. This parameter is supported only by hot and cold tables. This parameter must be used together with **cold_tablespace**.
-
-      Value range: *Cold and hot switchover policy name*:*Cold and hot switchover threshold*. Currently, only LMT and HPN policies are supported. LMT indicates that the switchover is performed based on the last update time of partitions. HPN indicates the switchover is performed based on a fixed number of reserved hot partitions.
-
-      -  **LMT:[**\ *day*\ **]**: Switch the hot partition data that is not updated in the last *[day]* days to the OBS tablespace as cold partition data. *[day]* is an integer ranging from 0 to 36500, in days.
-      -  **HPN:[**\ *hot_partition_num*\ **]**: [*hot_partition_num*] indicates the number of hot partitions (with data) to be retained. The rule is to find the maximum sequence ID of the partitions with data. The partitions without data whose sequence ID is greater than the maximum sequence ID are hot partitions, and [*hot_partition_num*] partitions are retained as hot partitions in descending order according to the sequence ID. A partition whose sequence ID is smaller than the minimum sequence ID of the retained hot partition is a cold partition. During hot and cold partition switchover, data needs to be migrated to the OBS tablespace. *[hot_partition_num]* is an integer ranging from 0 to 1600.
-
-      .. note::
-
-         The hybrid data warehouse (standalone) does not support cold and hot partition switchover.
-
    -  SKIP_FPI_HINT
 
       Indicates whether to skip the hint bits operation when the full-page writes (FPW) log needs to be written during sequential scanning.
@@ -314,13 +313,12 @@ Parameter Description
 
          If **SKIP_FPI_HINT** is set to **true** and the checkpoint operation is performed on a table, no Xlog will be generated when the table is sequentially scanned. This applies to intermediate tables that are queried less frequently, reducing the size of Xlogs and improving query performance.
 
--  **ON COMMIT { PRESERVE ROWS \| DELETE ROWS \| DROP }**
+-  **ON COMMIT { PRESERVE ROWS \| DELETE ROWS }**
 
-   **ON COMMIT** determines what to do when you commit a temporary table creation operation. The three options are as follows. Currently, only **PRESERVE ROWS** and **DELETE ROWS** can be used.
+   **ON COMMIT** determines what to do when you commit a temporary table creation operation.
 
    -  **PRESERVE ROWS** (Default): No special action is taken at the ends of transactions. The temporary table and its table data are unchanged.
    -  **DELETE ROWS**: All rows in the temporary table will be deleted at the end of each transaction block.
-   -  **DROP**: The temporary table will be dropped at the end of the current transaction block.
 
 -  **COMPRESS \| NOCOMPRESS**
 
@@ -335,21 +333,34 @@ Parameter Description
    Valid value:
 
    -  **REPLICATION**: Each row in the table exists on all DNs, that is, each DN has complete table data.
+   -  **ROUNDROBIN**: Each row in the table is sent to each DN in sequence. This distribution policy prevents data skew. However, data distribution nodes are random. As a result, there is a higher probability that table redistribution is triggered during computing. This distribution policy is recommended for large tables with severe column skew. This value is supported only in 8.1.2 or later.
    -  **HASH (column_name)**: Each row of the table will be placed into all the DNs based on the hash value of the specified column.
 
       .. note::
 
          -  When **DISTRIBUTE BY HASH (column_name)** is specified, the primary key and its unique index must contain the **column_name** column.
          -  When **DISTRIBUTE BY HASH (column_name)** in a referenced table is specified, the foreign key of the reference table must contain the **column_name** column.
+         -  If **TO GROUP** is set to a replication table node group (supported in 8.1.2 or later), **DISTRIBUTE BY** must be set to **REPLICATION**. If **DISTRIBUTE BY** is not specified, the created table is automatically set as a replication table.
          -  The hybrid data warehouse (standalone) has only one DN. Therefore, the distribution rule is ignored and cannot be modified.
 
-   Default value: **HASH(column_name)**, the key column of **column_name** (if any) or the column of distribution column supported by first data type.
+   Default value: determined by the GUC parameter **default_distribution_mode**
 
-   **column_name** supports the following data types:
+   -  When **default_distribution_mode** is set to **roundrobin**, the default value of **DISTRIBUTE BY** is selected according to the following rules:
 
-   -  Integer types: TINYINT, SMALLINT, INT, BIGINT, and NUMERIC/DECIMAL
-   -  Character types: CHAR, BPCHAR, VARCHAR, VARCHAR2, NVARCHAR2, and TEXT
-   -  Date/time types: DATE, TIME, TIMETZ, TIMESTAMP, TIMESTAMPTZ, INTERVAL, and SMALLDATETIME
+      #. If the primary key or unique constraint is included during table creation, hash distribution is selected. The distribution column is the column corresponding to the primary key or unique constraint.
+      #. If the primary key or unique constraint is not included during table creation, round-robin distribution is selected.
+
+   -  When **default_distribution_mode** is set to **hash**, the default value of **DISTRIBUTE BY** is selected according to the following rules:
+
+      #. If the primary key or unique constraint is included during table creation, hash distribution is selected. The distribution column is the column corresponding to the primary key or unique constraint.
+      #. If the primary key or unique constraint is not included during table creation but there are columns whose data types can be used as distribution columns, hash distribution is selected. The distribution column is the first column whose data type can be used as a distribution column.
+      #. If the primary key or unique constraint is not included during table creation and no column whose data type can be used as a distribution column exists, round-robin distribution is selected.
+
+   The following data types can be used as distribution columns:
+
+   -  Integer types: **TINYINT**, **SMALLINT**, **INT**, **BIGINT**, and **NUMERIC/DECIMAL**
+   -  Character types: **CHAR**, **BPCHAR**, **VARCHAR**, **VARCHAR2**, **NVARCHAR2**, and **TEXT**
+   -  Date/time types: **DATE**, **TIME**, **TIMETZ**, **TIMESTAMP**, **TIMESTAMPTZ**, **INTERVAL**, and **SMALLDATETIME**
 
    .. note::
 
@@ -375,6 +386,8 @@ Parameter Description
 
             With the above principles met, you can select join conditions as distribution keys so that join tasks can be pushed down to DNs, reducing the amount of data transferred between the DNs.
 
+         #. If a proper distribution column cannot be found to make data evenly distributed on each DN, you can use the **REPLICATION** or **ROUNDROBIN** data distribution mode. The **REPLICATION** data distribution mode stores complete data on each DN. Therefore, if a table is large and no proper distribution column can be found, the **ROUNDROBIN** data distribution mode is recommended. The **ROUNDROBIN** data distribution mode is supported in 8.1.2 or later.
+
       -  Selecting appropriate partition keys
 
          In range partitioning, the table is partitioned into ranges defined by a key column or set of columns, with no overlap between the ranges of values assigned to different partitions. Each range has a dedicated partition for data storage.
@@ -386,6 +399,14 @@ Parameter Description
 -  **TO { GROUP groupname \| NODE ( nodename [, ... ] ) }**
 
    **TO GROUP** specifies the Node Group in which the table is created. Currently, it cannot be used for HDFS tables. **TO NODE** is used for internal scale-out tools.
+
+   In logical cluster mode, if **TO GROUP** is not specified, the table is created in the node group associated with the logical cluster user by default. If the user, such as the administrator or a common user, does not manage the logical cluster, by default the table is created in the first logical cluster, which is the logical cluster with the smallest **OID** in **pgxc_group**.
+
+   If the node group specified by **TO GROUP** is a replication table node group, the table is created on all CNs and DNs, but the replication table data is distributed only on the DNs in the replication table node group.
+
+-  **COMMENT [=] 'text'**
+
+   The **COMMENT** clause can specify table comments during table creation.
 
 -  **CONSTRAINT constraint_name**
 
@@ -421,6 +442,10 @@ Parameter Description
    Assigns a default data value for a column. The value can be any variable-free expressions (Subqueries and cross-references to other columns in the current table are not allowed). The data type of the default expression must match the data type of the column.
 
    The default expression will be used in any insert operation that does not specify a value for the column. If there is no default value for a column, then the default value is **NULL**.
+
+-  **COMMENT** **'text'**
+
+   The **COMMENT** clause can specify a comment for a column.
 
 -  **UNIQUE index_parameters**
 
@@ -463,663 +488,112 @@ Parameter Description
 
    The constraint check time can be altered using the **SET CONSTRAINTS** command.
 
-Using the LIKE Clause to Declare a Table
-----------------------------------------
+Example
+-------
 
-The new table **films_bk** automatically inherits all column names, data types, and non-null constraints from the source table **films**.
-
-::
-
-   CREATE TABLE films (
-   code        char(5) PRIMARY KEY,
-   title       varchar(40) NOT NULL,
-   did         integer NOT NULL,
-   date_prod   date,
-   kind        varchar(10),
-   len         interval hour to minute
-   );
-   CREATE TABLE films_bk LIKE films;
-
-Creating a Table with Default Columns
--------------------------------------
-
-Specify that the default value of the **W_STATE** column to **GA**. At the end of the transaction, check for duplicate values in the **W_WAREHOUSE_NAME** column.
+Define a unique column constraint for the table.
 
 ::
 
-   CREATE TABLE tpcds.warehouse_t2
+   DROP TABLE IF EXISTS CUSTOMER;
+   CREATE TABLE CUSTOMER
+   (
+       C_CUSTKEY     BIGINT NOT NULL CONSTRAINT C_CUSTKEY_pk PRIMARY KEY  ,
+       C_NAME        VARCHAR(25)  ,
+       C_ADDRESS     VARCHAR(40)  ,
+       C_NATIONKEY   INT          ,
+       C_PHONE       CHAR(15)     ,
+       C_ACCTBAL     DECIMAL(15,2)
+   )
+   DISTRIBUTE BY HASH(C_CUSTKEY);
+
+Define a primary key table constraint for a table. You can define a primary key table constraint on one or more columns of a table.
+
+::
+
+   DROP TABLE IF EXISTS CUSTOMER;
+   CREATE TABLE CUSTOMER
+   (
+       C_CUSTKEY     BIGINT       ,
+       C_NAME        VARCHAR(25)  ,
+       C_ADDRESS     VARCHAR(40)  ,
+       C_NATIONKEY   INT          ,
+       C_PHONE       CHAR(15)     ,
+       C_ACCTBAL     DECIMAL(15,2)   ,
+       CONSTRAINT C_CUSTKEY_KEY PRIMARY KEY(C_CUSTKEY,C_NAME)
+   )
+   DISTRIBUTE BY HASH(C_CUSTKEY,C_NAME);
+
+Define the **CHECK** column constraint:
+
+::
+
+   DROP TABLE IF EXISTS CUSTOMER;
+   CREATE TABLE CUSTOMER
+   (
+       C_CUSTKEY     BIGINT NOT NULL CONSTRAINT C_CUSTKEY_pk PRIMARY KEY  ,
+       C_NAME        VARCHAR(25)  ,
+       C_ADDRESS     VARCHAR(40)  ,
+       C_NATIONKEY   INT NOT NULL  CHECK (C_NATIONKEY > 0)
+   )
+   DISTRIBUTE BY HASH(C_CUSTKEY);
+
+Define the **CHECK** table constraint:
+
+::
+
+   DROP TABLE IF EXISTS CUSTOMER;
+   CREATE TABLE CUSTOMER
+   (
+       C_CUSTKEY     BIGINT NOT NULL CONSTRAINT C_CUSTKEY_pk PRIMARY KEY  ,
+       C_NAME        VARCHAR(25)      ,
+       C_ADDRESS     VARCHAR(40)      ,
+       C_NATIONKEY   INT              ,
+       CONSTRAINT C_CUSTKEY_KEY2 CHECK(C_CUSTKEY > 0 AND C_NAME <> '')
+   )
+   DISTRIBUTE BY HASH(C_CUSTKEY);
+
+Create a column-store table and specify the storage format and compression mode:
+
+::
+
+   DROP TABLE IF EXISTS customer_address;
+   CREATE TABLE customer_address
+   (
+       ca_address_sk       INTEGER                  NOT NULL   ,
+       ca_address_id       CHARACTER(16)            NOT NULL   ,
+       ca_street_number    CHARACTER(10)                       ,
+       ca_street_name      CHARACTER varying(60)               ,
+       ca_street_type      CHARACTER(15)                       ,
+       ca_suite_number     CHARACTER(10)
+   )
+   WITH (ORIENTATION = COLUMN, COMPRESSION=HIGH,COLVERSION=2.0)
+   DISTRIBUTE BY HASH (ca_address_sk);
+
+Use **DEFAULT** to declare a default value for column **W_STATE**:
+
+::
+
+   DROP TABLE IF EXISTS warehouse_t;
+   CREATE TABLE warehouse_t
    (
        W_WAREHOUSE_SK            INTEGER                NOT NULL,
        W_WAREHOUSE_ID            CHAR(16)               NOT NULL,
        W_WAREHOUSE_NAME          VARCHAR(20)   UNIQUE DEFERRABLE,
        W_WAREHOUSE_SQ_FT         INTEGER                        ,
-       W_STREET_NUMBER           CHAR(10)                       ,
-       W_STREET_NAME             VARCHAR(60)                    ,
-       W_STREET_TYPE             CHAR(15)                       ,
-       W_SUITE_NUMBER            CHAR(10)                       ,
-       W_CITY                    VARCHAR(60)                    ,
        W_COUNTY                  VARCHAR(30)                    ,
        W_STATE                   CHAR(2)            DEFAULT 'GA',
-       W_ZIP                     CHAR(10)                       ,
-       W_COUNTRY                 VARCHAR(20)                    ,
-       W_GMT_OFFSET              DECIMAL(5,2)
+       W_ZIP                     CHAR(10)
    );
 
-Creating a Table with a Filler Factor
--------------------------------------
-
-Set the fill factor to 70%.
+Create the **CUSTOMER_bk** table in LIKE mode:
 
 ::
 
-   CREATE TABLE tpcds.warehouse_t3
-   (
-       W_WAREHOUSE_SK            INTEGER                NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)               NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                    ,
-       W_WAREHOUSE_SQ_FT         INTEGER                        ,
-       W_STREET_NUMBER           CHAR(10)                       ,
-       W_STREET_NAME             VARCHAR(60)                    ,
-       W_STREET_TYPE             CHAR(15)                       ,
-       W_SUITE_NUMBER            CHAR(10)                       ,
-       W_CITY                    VARCHAR(60)                    ,
-       W_COUNTY                  VARCHAR(30)                    ,
-       W_STATE                   CHAR(2)                        ,
-       W_ZIP                     CHAR(10)                       ,
-       W_COUNTRY                 VARCHAR(20)                    ,
-       W_GMT_OFFSET              DECIMAL(5,2),
-       UNIQUE(W_WAREHOUSE_NAME) WITH(fillfactor=70)
-   );
+   DROP TABLE IF EXISTS CUSTOMER_bk;
+   CREATE TABLE CUSTOMER_bk (LIKE CUSTOMER INCLUDING ALL);
 
-Alternatively, use the following syntax to create a table with its fillfactor set to 70%:
+Helpful Links
+-------------
 
-::
-
-   CREATE TABLE tpcds.warehouse_t4
-   (
-       W_WAREHOUSE_SK            INTEGER                NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)               NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)              UNIQUE,
-       W_WAREHOUSE_SQ_FT         INTEGER                        ,
-       W_STREET_NUMBER           CHAR(10)                       ,
-       W_STREET_NAME             VARCHAR(60)                    ,
-       W_STREET_TYPE             CHAR(15)                       ,
-       W_SUITE_NUMBER            CHAR(10)                       ,
-       W_CITY                    VARCHAR(60)                    ,
-       W_COUNTY                  VARCHAR(30)                    ,
-       W_STATE                   CHAR(2)                        ,
-       W_ZIP                     CHAR(10)                       ,
-       W_COUNTRY                 VARCHAR(20)                    ,
-       W_GMT_OFFSET              DECIMAL(5,2)
-   ) WITH(fillfactor=70);
-
-Creating a Table Whose Data Is Not Written to WALs
---------------------------------------------------
-
-Use **UNLOGGED** to specify that table data is not written to write-ahead logs (WALs).
-
-::
-
-   CREATE UNLOGGED TABLE tpcds.warehouse_t5
-   (
-       W_WAREHOUSE_SK            INTEGER               NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2)
-   );
-
-Creating a Table Without Reporting Errors for Duplicate Tables (If Any)
------------------------------------------------------------------------
-
-If **IF NOT EXISTS** is specified, a table will be created if there is no table using the specified name. If there is already a table using the specified name, no error will be reported. A message will be displayed indicating that the table already exists, and the database will skip table creation.
-
-::
-
-   CREATE TABLE IF NOT EXISTS tpcds.warehouse_t6
-   (
-       W_WAREHOUSE_SK            INTEGER               NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2)
-   );
-
-Creating a Table with a Primary Key Constraint
-----------------------------------------------
-
-Use **PRIMARY KEY** to declare the primary key.
-
-::
-
-   CREATE TABLE tpcds.warehouse_t7
-   (
-       W_WAREHOUSE_SK            INTEGER            PRIMARY KEY,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2)
-   );
-
-Alternatively, use the following syntax to create a table with a primary key constraint:
-
-::
-
-   CREATE TABLE tpcds.warehouse_t8
-   (
-       W_WAREHOUSE_SK            INTEGER               NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2),
-       PRIMARY KEY(W_WAREHOUSE_SK)
-   );
-
-Or use the following statement to specify the name of the constraint:
-
-::
-
-   CREATE TABLE tpcds.warehouse_t9
-   (
-       W_WAREHOUSE_SK            INTEGER               NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2),
-       CONSTRAINT W_CSTR_KEY1 PRIMARY KEY(W_WAREHOUSE_SK)
-   );
-
-Creating a Table with a Compound Primary Key Constraint
--------------------------------------------------------
-
-Use **PRIMARY KEY** to declare two primary keys at the same time.
-
-::
-
-   CREATE TABLE tpcds.warehouse_t10
-   (
-       W_WAREHOUSE_SK            INTEGER               NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2),
-       CONSTRAINT W_CSTR_KEY2 PRIMARY KEY(W_WAREHOUSE_SK, W_WAREHOUSE_ID)
-   );
-
-Creating a Column-store Table
------------------------------
-
-Use **ORIENTATION** to specify the storage mode of table data.
-
-::
-
-   CREATE TABLE tpcds.warehouse_t11
-   (
-       W_WAREHOUSE_SK            INTEGER               NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2)
-   ) WITH (ORIENTATION = COLUMN);
-
-Creating a Column-store Table Using Partial Clustered Storage
--------------------------------------------------------------
-
-When data is imported to a column-store table, perform partial sorting based on the one or more columns specified by **PARTIAL CLUSTER KEY**.
-
-::
-
-   CREATE TABLE tpcds.warehouse_t12
-   (
-       W_WAREHOUSE_SK            INTEGER               NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2),
-       PARTIAL CLUSTER KEY(W_WAREHOUSE_SK, W_WAREHOUSE_ID)
-   ) WITH (ORIENTATION = COLUMN)
-
-Defining a Column-store Table with Compression Enabled
-------------------------------------------------------
-
-Use the **with** clause to declare the compression level.
-
-::
-
-   CREATE TABLE tpcds.warehouse_t17
-   (
-       W_WAREHOUSE_SK            INTEGER               NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2)
-   ) WITH (ORIENTATION = COLUMN, COMPRESSION=HIGH);
-
-Defining a Table with Compression Enabled
------------------------------------------
-
-When creating a table, specify the keyword **COMPRESS**.
-
-::
-
-   CREATE TABLE tpcds.warehouse_t13
-   (
-       W_WAREHOUSE_SK            INTEGER               NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2)
-   ) COMPRESS;
-
-Creating a Table that Checks Column Constraints
------------------------------------------------
-
-Use **CONSTRAINT** to declare a constraint.
-
-::
-
-   CREATE TABLE tpcds.warehouse_t19
-   (
-       W_WAREHOUSE_SK            INTEGER               PRIMARY KEY CHECK (W_WAREHOUSE_SK > 0),
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)           CHECK (W_WAREHOUSE_NAME IS NOT NULL),
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2)
-   );
-
-::
-
-   CREATE TABLE tpcds.warehouse_t20
-   (
-       W_WAREHOUSE_SK            INTEGER               PRIMARY KEY,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)           CHECK (W_WAREHOUSE_NAME IS NOT NULL),
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2),
-       CONSTRAINT W_CONSTR_KEY2 CHECK(W_WAREHOUSE_SK > 0 AND W_WAREHOUSE_NAME IS NOT NULL)
-   );
-
-Creating a Temporary Table
---------------------------
-
-Specify the **TEMP** or **TEMPORARY** keyword to create a temporary table.
-
-::
-
-   CREATE TEMPORARY TABLE warehouse_t14
-   (
-       W_WAREHOUSE_SK            INTEGER               NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2)
-   );
-
-Create a temporary table in a transaction and specify that data of this table is deleted when the transaction is committed.
-
-::
-
-   CREATE TEMPORARY TABLE warehouse_t15
-   (
-       W_WAREHOUSE_SK            INTEGER               NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2)
-   ) ON COMMIT DELETE ROWS;
-
-Creating a Row-store Table
---------------------------
-
-Set **ORIENTATION** to **ROW**.
-
-::
-
-   CREATE TABLE tpcds.warehouse_t16
-   (
-       W_WAREHOUSE_SK            INTEGER               NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2)
-   ) WITH (ORIENTATION = ROW);
-
-Creating a Column-store Table in a Specified Version
-----------------------------------------------------
-
-Set **COLVERSION** to specify the version of the column storage format.
-
-::
-
-   CREATE TABLE tpcds.warehouse_t18
-   (
-       W_WAREHOUSE_SK            INTEGER               NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2)
-   ) WITH (ORIENTATION = COLUMN, COLVERSION=2.0);
-
-Creating a Column-store Table with the Delta Table Enabled
-----------------------------------------------------------
-
-Set **enable_delta=on** to enable the delta table in column-store tables.
-
-::
-
-   CREATE TABLE tpcds.warehouse_t21
-   (
-       W_WAREHOUSE_SK            INTEGER               NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2)
-   ) WITH (ORIENTATION = COLUMN, ENABLE_DELTA = ON);
-
-Defining a Table with **SKIP_FPI_HINT** Enabled
------------------------------------------------
-
-Use the **with** clause to set **SKIP_FPI_HINT**.
-
-::
-
-   CREATE TABLE tpcds.warehouse_t22
-   (
-       W_WAREHOUSE_SK            INTEGER               NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2)
-   ) WITH (SKIP_FPI_HINT = TRUE);
-
-Creating Hot and Cold Tables
-----------------------------
-
-Create an OBS tablespace that hot and cold tables depend on.
-
-::
-
-   CREATE TABLESPACE obs_location WITH(
-       filesystem = obs,
-       address = 'obs URL',
-       access_key = 'xxxxxxxx',
-       secret_access_key = 'xxxxxxxx',
-       encrypt = 'on',
-       storepath = '/obs_bucket/obs_tablespace'
-   );
-
-Create a hot or cold table. Only column-store partitioned tables are supported.
-
-::
-
-   CREATE TABLE tpcds.warehouse_t23
-   (
-       W_WAREHOUSE_SK            INTEGER               NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2)
-   )
-   WITH (ORIENTATION = COLUMN, cold_tablespace = "obs_location", storage_policy = 'LMT:30')
-   DISTRIBUTE BY HASH (W_WAREHOUSE_SK)
-   PARTITION BY RANGE(W_WAREHOUSE_SQ_FT)
-   (
-       PARTITION P1 VALUES LESS THAN(100000),
-       PARTITION P2 VALUES LESS THAN(200000),
-       PARTITION P3 VALUES LESS THAN(300000),
-       PARTITION P4 VALUES LESS THAN(400000),
-       PARTITION P5 VALUES LESS THAN(500000),
-       PARTITION P6 VALUES LESS THAN(600000),
-       PARTITION P7 VALUES LESS THAN(700000),
-       PARTITION P8 VALUES LESS THAN(MAXVALUE)
-   )ENABLE ROW MOVEMENT;
-
-Creating an Auto-increment Table That Uses UUID as the Primary Key
-------------------------------------------------------------------
-
-Set **W_UUID** to **SMALLSERIAL**.
-
-::
-
-   CREATE TABLE tpcds.warehouse_t24
-   (
-       W_WAREHOUSE_SK            INTEGER               NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_UUID                    SMALLSERIAL                   ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2)
-   ) WITH (ORIENTATION = ROW);
-
-Creating a Table that Uses Hash Distribution
---------------------------------------------
-
-Use **DISTRIBUTE BY** to specify table distribution across nodes.
-
-::
-
-   CREATE TABLE tpcds.warehouse_t25
-   (
-       W_WAREHOUSE_SK            INTEGER               NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2),
-       CONSTRAINT W_CONSTR_KEY3 UNIQUE(W_WAREHOUSE_SK)
-   )DISTRIBUTE BY HASH(W_WAREHOUSE_SK);
-
-Defining a Table with Each Row Stored in All DNs
-------------------------------------------------
-
-::
-
-   CREATE TABLE tpcds.warehouse_t26
-   (
-       W_WAREHOUSE_SK            INTEGER               NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_WAREHOUSE_SQ_FT         INTEGER                       ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_TYPE             CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      ,
-       W_CITY                    VARCHAR(60)                   ,
-       W_COUNTY                  VARCHAR(30)                   ,
-       W_STATE                   CHAR(2)                       ,
-       W_ZIP                     CHAR(10)                      ,
-       W_COUNTRY                 VARCHAR(20)                   ,
-       W_GMT_OFFSET              DECIMAL(5,2)
-   )DISTRIBUTE BY REPLICATION;
-
-Links
------
-
-:ref:`ALTER TABLE <dws_06_0142>`, :ref:`DROP TABLE <dws_06_0208>`
+:ref:`ALTER TABLE <dws_06_0142>`, :ref:`RENAME TABLE <dws_06_0276>`, :ref:`DROP TABLE <dws_06_0208>`

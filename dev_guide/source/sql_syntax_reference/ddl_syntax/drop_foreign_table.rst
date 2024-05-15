@@ -32,19 +32,19 @@ Parameter Description
 
 -  **table_name**
 
-   Specifies the name of the table.
+   Specifies the name of the foreign table to be deleted.
 
    Value range: An existing table name.
 
 -  **CASCADE \| RESTRICT**
 
-   -  **CASCADE**: automatically deletes all objects (such as views) that depend on the table to be deleted.
-   -  **RESTRICT**: refuses to delete the table if any objects depend on it. This is the default.
+   -  **CASCADE**: automatically deletes all objects (such as views) that depend on the foreign table to be deleted.
+   -  **RESTRICT**: refuses to delete the foreign table if any objects depend on it. This is the default behaviour.
 
 Examples
 --------
 
-Delete the foreign table named **customer_ft**.
+Delete the foreign table named **customer_ft**:
 
 ::
 
@@ -53,4 +53,4 @@ Delete the foreign table named **customer_ft**.
 Helpful Links
 -------------
 
-:ref:`ALTER FOREIGN TABLE (for GDS) <dws_06_0123>`, :ref:`ALTER FOREIGN TABLE (for HDFS or OBS) <dws_06_0124>`, :ref:`CREATE FOREIGN TABLE (for GDS Import and Export) <dws_06_0159>`, :ref:`CREATE FOREIGN TABLE (SQL on OBS or Hadoop) <dws_06_0161>`
+:ref:`ALTER FOREIGN TABLE (GDS Import and Export) <dws_06_0123>`, :ref:`ALTER FOREIGN TABLE (for HDFS or OBS) <dws_06_0124>`, :ref:`CREATE FOREIGN TABLE (for GDS Import and Export) <dws_06_0159>`, :ref:`CREATE FOREIGN TABLE (SQL on OBS or Hadoop) <dws_06_0161>`

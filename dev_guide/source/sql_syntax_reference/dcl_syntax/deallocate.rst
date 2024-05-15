@@ -8,9 +8,9 @@ DEALLOCATE
 Function
 --------
 
-**DEALLOCATE** deallocates a previously prepared statement. If you do not explicitly deallocate a prepared statement, it is deallocated when the session ends.
+Removes the prepared statements that were created earlier. If a prepared statement is not explicitly deleted, it is deleted at the end of the session.
 
-The **PREPARE** key word is always ignored.
+For details about prepared statements, see :ref:`PREPARE <dws_06_0251>`.
 
 Precautions
 -----------
@@ -26,6 +26,10 @@ Syntax
 
 Parameter Description
 ---------------------
+
+-  **PREPARE**
+
+   This keyword is optional and is often ignored.
 
 -  **name**
 

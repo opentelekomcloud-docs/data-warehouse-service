@@ -24,7 +24,7 @@ Four types of data can be created by using **CREATE TYPE**: composite data, base
 
 -  Shell types
 
-   A shell type is simply a placeholder for a type to be defined later. It can be created by delivering **CREATE TYPE** with no parameters except for a type name. Shell types are needed as forward references when base types are created.
+   This parameter allows you to create a shell type, which is a type name that has no definition yet. You can use CREATE TYPE with only the type name to make a shell type. Shell types are needed as forward references when base types are created.
 
 -  Enumerated types
 
@@ -33,7 +33,7 @@ Four types of data can be created by using **CREATE TYPE**: composite data, base
 Precautions
 -----------
 
-If a schema name is given, the type will be created in the specified schema. Otherwise, it will be created in the current schema. A type name must be different from the name of any existing type or domain in the same schema. (Since tables have associated data types, a type name must also be different from the name of any existing table in the same schema.)
+If a schema name is given, the type will be created in the specified schema. Otherwise, it will be created in the current schema. The type name must be distinct from the name of any existing type or domain in the same schema. (Because tables have associated data types, the type name must also be distinct from the name of any existing table in the same schema.)
 
 Syntax
 ------
@@ -48,13 +48,10 @@ Syntax
        OUTPUT = output_function
        [ , RECEIVE = receive_function ]
        [ , SEND = send_function ]
-       [ , TYPMOD_IN =
-   type_modifier_input_function ]
-       [ , TYPMOD_OUT =
-   type_modifier_output_function ]
+       [ , TYPMOD_IN = type_modifier_input_function ]
+       [ , TYPMOD_OUT = type_modifier_output_function ]
        [ , ANALYZE = analyze_function ]
-       [ , INTERNALLENGTH = { internallength |
-   VARIABLE } ]
+       [ , INTERNALLENGTH = { internallength | VARIABLE } ]
        [ , PASSEDBYVALUE ]
        [ , ALIGNMENT = alignment ]
        [ , STORAGE = storage ]
@@ -266,7 +263,7 @@ Example 3: Compile a .so file and create the shell type.
 
    CREATE TYPE complex;
 
-This statement creates a placeholder for the type to be created, which can then be referenced when defining its I/O function. Now you can define an I/O function. Note that the function must be declared in NOT FENCED mode when it is created.
+This statement creates a placeholder for the type to be created, which can then be referenced when defining its I/O functions. Now you can define an I/O function. Note that the function must be declared in NOT FENCED mode when it is created.
 
 ::
 
@@ -294,7 +291,7 @@ This statement creates a placeholder for the type to be created, which can then 
        AS 'filename'
        LANGUAGE C IMMUTABLE STRICT not fenced;
 
-Finally, provide a complete definition of the data type.
+-- Finally, provide a complete definition of the data type:
 
 ::
 

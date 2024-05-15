@@ -8,12 +8,12 @@ ALTER LARGE OBJECT
 Function
 --------
 
-**ALTER LARGE OBJECT** modifies the definition of a large object. It can only assign a new owner to a large object.
+**ALTER LARGE OBJECT** changes the owner of a large object.
 
 Precautions
 -----------
 
-Only the administrator or the owner of the to-be-modified large object can run **ALTER LARGE OBJECT**.
+Only the owner of a large object or a system administrator can run this statement.
 
 Syntax
 ------
@@ -28,15 +28,15 @@ Parameter Description
 
 -  **large_object_oid**
 
-   OID of a large object.
+   Specifies the OID of the large object to be modified.
 
-   Value range: an existing large object name
+   Value range: An existing large object name.
 
 -  **OWNER TO new_owner**
 
-   New owner of a large object
+   Specifies the new owner of the large object.
 
-   Value range: an existing user name/role
+   Value range: An existing user name/role.
 
 Examples
 --------

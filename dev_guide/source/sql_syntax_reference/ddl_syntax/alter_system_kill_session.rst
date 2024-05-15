@@ -40,7 +40,7 @@ Examples
 
 Query session information.
 
-.. code-block::
+::
 
    SELECT sid,serial#,username FROM V$SESSION;
 
@@ -58,6 +58,6 @@ Query session information.
 
 End the session whose SID is 140131075880720.
 
-.. code-block::
+::
 
    ALTER SYSTEM KILL SESSION '140131075880720,0' IMMEDIATE;

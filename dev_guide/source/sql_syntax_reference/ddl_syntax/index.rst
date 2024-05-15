@@ -7,8 +7,9 @@ DDL Syntax
 
 -  :ref:`DDL Syntax Overview <dws_06_0119>`
 -  :ref:`ALTER DATABASE <dws_06_0120>`
--  :ref:`ALTER FOREIGN TABLE (for GDS) <dws_06_0123>`
+-  :ref:`ALTER FOREIGN TABLE (GDS Import and Export) <dws_06_0123>`
 -  :ref:`ALTER FOREIGN TABLE (for HDFS or OBS) <dws_06_0124>`
+-  :ref:`ALTER FOREIGN TABLE (SQL on other GaussDB(DWS)) <dws_06_0125>`
 -  :ref:`ALTER FUNCTION <dws_06_0126>`
 -  :ref:`ALTER GROUP <dws_06_0127>`
 -  :ref:`ALTER INDEX <dws_06_0128>`
@@ -40,6 +41,7 @@ DDL Syntax
 -  :ref:`CREATE FOREIGN TABLE (for GDS Import and Export) <dws_06_0159>`
 -  :ref:`CREATE FOREIGN TABLE (SQL on OBS or Hadoop) <dws_06_0161>`
 -  :ref:`CREATE FOREIGN TABLE (for OBS Import and Export) <dws_06_0160>`
+-  :ref:`CREATE FOREIGN TABLE (SQL on other GaussDB(DWS)) <dws_06_0162>`
 -  :ref:`CREATE FUNCTION <dws_06_0163>`
 -  :ref:`CREATE GROUP <dws_06_0164>`
 -  :ref:`CREATE INDEX <dws_06_0165>`
@@ -87,6 +89,7 @@ DDL Syntax
 -  :ref:`FETCH <dws_06_0216>`
 -  :ref:`MOVE <dws_06_0217>`
 -  :ref:`REINDEX <dws_06_0218>`
+-  :ref:`RENAME TABLE <dws_06_0276>`
 -  :ref:`RESET <dws_06_0219>`
 -  :ref:`SET <dws_06_0220>`
 -  :ref:`SET CONSTRAINTS <dws_06_0221>`
@@ -102,8 +105,9 @@ DDL Syntax
 
    ddl_syntax_overview
    alter_database
-   alter_foreign_table_for_gds
+   alter_foreign_table_gds_import_and_export
    alter_foreign_table_for_hdfs_or_obs
+   alter_foreign_table_sql_on_other_gaussdbdws
    alter_function
    alter_group
    alter_index
@@ -135,6 +139,7 @@ DDL Syntax
    create_foreign_table_for_gds_import_and_export
    create_foreign_table_sql_on_obs_or_hadoop
    create_foreign_table_for_obs_import_and_export
+   create_foreign_table_sql_on_other_gaussdbdws
    create_function
    create_group
    create_index
@@ -182,6 +187,7 @@ DDL Syntax
    fetch
    move
    reindex
+   rename_table
    reset
    set
    set_constraints

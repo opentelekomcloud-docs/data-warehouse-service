@@ -5,7 +5,7 @@
 XML
 ===
 
-XML data type stores Extensible Markup Language (XML) formatted data. Such data can also be stored as text, but the advantage of the XML data type is that it checks whether each stored value is a well-formed XML value. XML can store well-formed documents and content fragments defined by XML standards. A content fragment can have multiple top-level elements or character nodes.
+XML data type stores Extensible Markup Language (XML) formatted data. XML data can also be stored as text, but the advantage of the XML data type is that it checks whether each stored value is a well-formed XML value. XML can store well-formed documents and content fragments defined by XML standards. A content fragment can have multiple top-level elements or character nodes.
 
 For functions that support the XML data type, see :ref:`XML Functions <dws_06_0067>`.
 
@@ -19,7 +19,7 @@ The syntax is as follows:
    SET XML OPTION { DOCUMENT | CONTENT };
    SET xmloption TO { DOCUMENT | CONTENT };
 
-If a string value is not converted to XML using the XMLPARSE or XMLSERIALIZE function, the XML OPTION session parameter determines the value, DOCUMENT or CONTENT.
+If a string value is not converted to XML using the **XMLPARSE** or **XMLSERIALIZE** function, the **XML OPTION** session parameter determines it is **DOCUMENT** or **CONTENT**.
 
 The default value is CONTENT, indicating that all types of XML data are allowed.
 

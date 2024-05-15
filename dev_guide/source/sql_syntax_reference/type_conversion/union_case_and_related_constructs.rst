@@ -12,7 +12,7 @@ Type Resolution for UNION, CASE, and Related Constructs
 
 -  If all inputs are of the same type, and it is not unknown, resolve as that type.
 -  If all inputs are of type **unknown**, resolve as type **text** (the preferred type of the string category). Otherwise, **unknown** inputs are ignored.
--  If the non-unknown inputs are not all of the same type category, fail. (Type **unknown** is not included.)
+-  If the non-unknown inputs are not all of the same type category, the query fails. (Type **unknown** is not included.)
 -  If the non-unknown inputs are all of the same type category, choose the first non-unknown input type which is a preferred type in that category, if there is one. (Exception: The UNION operation regards the type of the first branch as the selected type.)
 
    .. note::
@@ -79,83 +79,81 @@ Example 3: Use type resolution in a transposed union as the third example. Here,
 
 Example 4: Use type resolution in the **COALESCE** function with input values of types **int** and **varchar** as the fourth example. Type resolution fails in ORA-compatible mode. The types are resolved as type **varchar** in TD-compatible mode, and as type **text** in MySQL-compatible mode.
 
-Create the **ora_db**, **td_db**, and **mysql_db** databases by setting **dbcompatibility** to **ORA**, **TD**, and **MySQL**, respectively.
-
 ::
 
+   -- Create the ora_db, td_db, and mysql_db databases by setting dbcompatibility to ORA, TD, and MySQL, respectively:
    CREATE DATABASE ora_db dbcompatibility = 'ORA';
    CREATE DATABASE td_db dbcompatibility = 'TD';
    CREATE DATABASE mysql_db dbcompatibility = 'MySQL';
 
--  Switch to the **ora_db** database.
+   -- Switch to the ora_db database:
+   \c ora_db
 
-   ::
+   -- Create the t1 table:
+   ora_db=# CREATE TABLE t1(a int, b varchar(10));
 
-      gaussdb=# \c ora_db
+   -- Show the execution plan of a statement for querying the types int and varchar of input parameters for COALESCE:
+   ora_db=# EXPLAIN SELECT coalesce(a, b) FROM t1;
+   ERROR:  COALESCE types integer and character varying cannot be matched
+   CONTEXT:  referenced column: coalesce
 
-   Create table **t1**. Show the execution plan of a statement for querying the types **int** and **varchar** of input parameters for **COALESCE**.
+   -- Delete the table:
+   ora_db=# DROP TABLE t1;
 
-   ::
+   -- Switch to the td_db database:
+   ora_db=# \c td_db
 
-      ora_db=# CREATE TABLE t1(a int, b varchar(10));
-      ora_db=# EXPLAIN SELECT coalesce(a, b) FROM t1;
-      ERROR:  COALESCE types integer and character varying cannot be matched
-      CONTEXT:  referenced column: coalesce
+   -- Create the t2 table:
+   td_db=# CREATE TABLE t2(a int, b varchar(10));
 
--  Switch to the **td_db** database.
-
-   ::
-
-      ora_db=# \c td_db
-
-   Create table **t2**. Show the execution plan of a statement for querying the types **int** and **varchar** of input parameters for **COALESCE**.
-
-   ::
-
-      td_db=# CREATE TABLE t2(a int, b varchar(10));
-      td_db=# EXPLAIN VERBOSE select coalesce(a, b) from t2;
-                                                QUERY PLAN
-      -----------------------------------------------------------------------------------------------
-        id |                  operation                   | E-rows | E-distinct | E-width | E-costs
-       ----+----------------------------------------------+--------+------------+---------+---------
-         1 | ->  Data Node Scan on "__REMOTE_FQS_QUERY__" |      0 |            |       0 | 0.00
-
-                             Targetlist Information (identified by plan id)
-       -------------------------------------------------------------------------------------------
-         1 --Data Node Scan on "__REMOTE_FQS_QUERY__"
-               Output: (COALESCE((t2.a)::character varying, t2.b))
-               Node/s: All datanodes
-               Remote query: SELECT COALESCE(a::character varying, b) AS "coalesce" FROM public.t2
-      (10 rows)
-
--  Switch to the **mysql_db** database.
-
-   ::
-
-      td_db=# \c mysql_db
-
-   Create table **t3**. Show the execution plan of a statement for querying the types **int** and **varchar** of input parameters for **COALESCE**.
-
-   ::
-
-      mysql_db=# CREATE TABLE t3(a int, b varchar(10));
-      mysql_db=# EXPLAIN VERBOSE select coalesce(a, b) from t3;
-                                                QUERY PLAN
-      -----------------------------------------------------------------------------------------------
-        id |                  operation                   | E-rows | E-distinct | E-width | E-costs
-       ----+----------------------------------------------+--------+------------+---------+---------
-         1 | ->  Data Node Scan on "__REMOTE_FQS_QUERY__" |      0 |            |       0 | 0.00
+   -- Show the execution plan of a statement for querying the types int and varchar of input parameters for COALESCE:
+   td_db=# EXPLAIN VERBOSE SELECT coalesce(a, b) FROM t2;
+                                             QUERY PLAN
+   -----------------------------------------------------------------------------------------------
+     id |                  operation                   | E-rows | E-distinct | E-width | E-costs
+    ----+----------------------------------------------+--------+------------+---------+---------
+      1 | ->  Data Node Scan on "__REMOTE_FQS_QUERY__" |      0 |            |       0 | 0.00
 
                           Targetlist Information (identified by plan id)
-       ------------------------------------------------------------------------------------
-         1 --Data Node Scan on "__REMOTE_FQS_QUERY__"
-               Output: (COALESCE((t3.a)::text, (t3.b)::text))
-               Node/s: All datanodes
-               Remote query: SELECT COALESCE(a::text, b::text) AS "coalesce" FROM public.t3
-      (10 rows)
+    -------------------------------------------------------------------------------------------
+      1 --Data Node Scan on "__REMOTE_FQS_QUERY__"
+            Output: (COALESCE((t2.a)::character varying, t2.b))
+            Node/s: All datanodes
+            Remote query: SELECT COALESCE(a::character varying, b) AS "coalesce" FROM public.t2
+   (10 rows)
 
--  Switch to the **gaussdb** database.
+   -- Delete the table:
+   td_db=# DROP TABLE t2;
 
-   ::
+   -- Switch to the mysql_db database:
+   td_db=# \c mysql_db
 
-      mysql_db=# \c gaussdb
+   -- Create the t3 table:
+   mysql_db=# CREATE TABLE t3(a int, b varchar(10));
+
+   -- Show the execution plan of a statement for querying the types int and varchar of input parameters for COALESCE:
+   mysql_db=# EXPLAIN VERBOSE SELECT coalesce(a, b) FROM t3;
+                                             QUERY PLAN
+   -----------------------------------------------------------------------------------------------
+     id |                  operation                   | E-rows | E-distinct | E-width | E-costs
+    ----+----------------------------------------------+--------+------------+---------+---------
+      1 | ->  Data Node Scan on "__REMOTE_FQS_QUERY__" |      0 |            |       0 | 0.00
+
+                       Targetlist Information (identified by plan id)
+    ------------------------------------------------------------------------------------
+      1 --Data Node Scan on "__REMOTE_FQS_QUERY__"
+            Output: (COALESCE((t3.a)::text, (t3.b)::text))
+            Node/s: All datanodes
+            Remote query: SELECT COALESCE(a::text, b::text) AS "coalesce" FROM public.t3
+   (10 rows)
+
+   -- Delete the table:
+   mysql_db=# DROP TABLE t3;
+
+   -- Switch to the gaussdb database.
+   mysql_db=# \c gaussdb
+
+   -- Delete the databases:
+   DROP DATABASE ora_db;
+   DROP DATABASE td_db;
+   DROP DATABASE mysql_db;

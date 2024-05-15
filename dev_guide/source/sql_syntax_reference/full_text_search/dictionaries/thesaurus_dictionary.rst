@@ -27,16 +27,20 @@ Procedure
 
    Run the following statement to create the TZ:
 
+   .. important::
+
+      // Hard-coded or plaintext AK and SK are risky. For security purposes, encrypt your AK and SK and store them in the configuration file or environment variables.
+
    ::
 
       CREATE TEXT SEARCH DICTIONARY thesaurus_astro (
           TEMPLATE = thesaurus,
           DictFile = thesaurus_astro,
           Dictionary = pg_catalog.english_stem,
-          FILEPATH =  'obs://bucket01/obs.xxx.xxx.com accesskey=xxxxx secretkey=xxxxx region=xx-xx-xx'
+          FILEPATH = 'obs://bucket_name/path accesskey=ak secretkey=sk region=rg'
       );
 
-   The full name of the dictionary file is **thesaurus_astro.ths**, and the dictionary is stored in **'obs://bucket01/obs.xxx.xxx.com accesskey=xxxxx secretkey=xxxxx region=**\ *xx-xx-xx*'. **pg_catalog.english_stem** is the subdictionary (a **Snowball** English stemmer) used for input normalization. The subdictionary has its own configuration (for example, stop words), which is not shown here. For details about the syntax and parameters for creating a TZ, see :ref:`CREATE TEXT SEARCH DICTIONARY <dws_06_0183>`.
+   The full name of the thesaurus dictionary file is **thesaurus_astro.ths**, and the dictionary is stored in the **obs://bucket_name/path accesskey=ak secretkey=sk region=rg** directory. **pg_catalog.english_stem** is the subdictionary (a **Snowball** English stemmer) used for input normalization. The subdictionary has its own configuration (for example, stop words), which is not shown here. For details about the syntax and parameters for creating a TZ, see :ref:`CREATE TEXT SEARCH DICTIONARY <dws_06_0183>`.
 
 #. Bind the TZ to the desired token types in the text search configuration.
 

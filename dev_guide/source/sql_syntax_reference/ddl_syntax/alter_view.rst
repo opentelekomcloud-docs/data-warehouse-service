@@ -70,18 +70,18 @@ Syntax
       ALTER VIEW [ IF EXISTS ] view_name
           RESET ( view_option_name [, ... ] );
 
--  Rebuild a view.
+-  Rebuild the current view and its lower-layer and upper-layer dependent views.
 
    ::
 
       ALTER VIEW [ IF EXISTS ] view_name
           REBUILD;
 
--  Rebuild a dependent view.
+-  Rebuild the current view and its lower-layer dependent views.
 
    ::
 
-      ALTER VIEW ONLY [ IF EXISTS ] view_name
+      ALTER VIEW [ IF EXISTS ] ONLY view_name
           REBUILD;
 
 Parameter Description
@@ -134,40 +134,59 @@ Parameter Description
    -  View rebuilding starts from the current view and updates all associated backward views. If the forward views on which the current view depends are also unavailable, automatic rebuilding is triggered.
    -  The temporary tables and views that have dependency relationships cannot be decoupled and dropped. However, you can perform the REBUILD operation on temporary views that do not have dependency relationships.
    -  View schema names and view names can be modified. The names of rebuilt view schemas or views are re-created based on the latest name, but the query operation retains the original definition.
-   -  Only fields of the character, number, and time types in the base table can be modified.
+   -  Only fields of the character, number, and time types in the base table can be modified.Only fields of the character, number, and time types in the base table can be modified. When a field is added to the base table, the view is not invalidated and the definition remains unchanged.
    -  Invalid views are exported as comments during backup. You need to manually restore the invalid views.
    -  Views can be automatically rebuilt when **VIEW_INDEPENDENT** is set to **on**.
 
--  ONLY
+   .. note::
+
+      The upper-layer cascading views become invalid in the following scenarios:
+
+      -  DROP TABLE/VIEW
+      -  RENAME TABLE/VIEW
+      -  ALTER TABLE DROP COLUMN
+      -  ALTER TABLE CHANGE/ALTER COLUMN TYPE
+      -  ALTER TABLE CHANGE/ALTER COLUMN NAME
+      -  ALTER TABLE/VIEW NAMESPACE
+      -  ALTER TABLE/VIEW RENAME
+
+-  **ONLY**
 
    Only views and their dependent views are rebuilt. This function is available only if **view_independent** is set to **on**.
 
 Examples
 --------
 
+Create an example view **myview**:
+
+::
+
+   CREATE OR REPLACE VIEW myview AS
+       SELECT * FROM pg_tablespace WHERE spcname = 'pg_default';
+
 Rename a view.
 
 ::
 
-   ALTER VIEW tpcds.customer_details_view_v1 RENAME TO customer_details_view_v2;
+   ALTER VIEW myview RENAME TO product_view;
 
 Change the schema of a view.
 
 ::
 
-   ALTER VIEW tpcds.customer_details_view_v2 SET schema public;
+   ALTER VIEW product_view SET schema public;
 
 Rebuild a view.
 
 ::
 
-   ALTER VIEW public.customer_details_view_v2 REBUILD;
+   ALTER VIEW public.product_view REBUILD;
 
 Rebuild a dependent view.
 
 ::
 
-   ALTER VIEW ONLY public.customer_details_view_v2 REBUILD;
+   ALTER VIEW ONLY public.product_view REBUILD;
 
 Helpful Links
 -------------

@@ -39,7 +39,7 @@ Parameter Description
 
    Value range: a string. It must comply with the naming convention.
 
--  **ISOLATION_LEVEL_CLAUSE**
+-  **ISOLATION LEVEL**
 
    Specifies the transaction isolation level that determines the data that a transaction can view if other concurrent transactions exist.
 
@@ -61,7 +61,7 @@ Parameter Description
 Examples
 --------
 
-Set the isolation level of the current transaction to **READ COMMITTED** and the access mode to **READ ONLY**.
+Set the isolation level of the current transaction to **READ COMMITTED** and the access mode to **READ ONLY**:
 
 ::
 

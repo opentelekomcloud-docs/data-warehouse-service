@@ -8,7 +8,7 @@ DROP ROW LEVEL SECURITY POLICY
 Function
 --------
 
-**DROP ROW LEVEL SECURITY POLICY** deletes a row-level access control policy from a table.
+Deletes a row-level access control policy from a table.
 
 Precautions
 -----------
@@ -44,9 +44,9 @@ Parameter Description
 Examples
 --------
 
-Delete the row-level access control policy.
+Delete the row-level access control policy **all_data_rls** from table **all_data**:
 
-.. code-block::
+::
 
    DROP ROW LEVEL SECURITY POLICY all_data_rls ON all_data;
 

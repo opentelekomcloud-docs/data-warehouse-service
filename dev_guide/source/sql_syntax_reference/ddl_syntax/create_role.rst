@@ -12,8 +12,8 @@ Create a role.
 
 A role is an entity that has own database objects and permissions. In different environments, a role can be considered a user, a group, or both.
 
-Important Notes
----------------
+Precautions
+-----------
 
 -  **CREATE ROLE** adds a role to a database. The role does not have the login permission.
 -  Only the user who has the **CREATE ROLE** permission or a system administrator is allowed to create roles.
@@ -59,18 +59,18 @@ The syntax of role information configuration clause **option** is as follows:
        | PROFILE profile_name
        | PGUSER
        | AUTHINFO 'authinfo'
-       | PASSWORD EXPIRATOIN period
+       | PASSWORD EXPIRATION period
 
-.. _en-us_topic_0000001145710797__sd3fd937137c548e2ae142614383082aa:
+.. _en-us_topic_0000001233510143__sd3fd937137c548e2ae142614383082aa:
 
-Parameter Description
----------------------
+Parameters
+----------
 
 -  **role_name**
 
    Role name
 
-   Value range: a string. It must comply with the naming convention. and can contain a maximum of 63 characters.
+   Value range: a string. It must comply with the naming convention and can contain a maximum of 63 characters.
 
 -  **password**
 
@@ -90,7 +90,7 @@ Parameter Description
 
 -  **ENCRYPTED \| UNENCRYPTED**
 
-   Determines the password stored in the system is encrypted or unencrypted. (If neither is specified, the password status is determined by **password_encryption_type**.) According to product security requirements, the password must be stored encrypted. Therefore, **UNENCRYPTED** is forbidden in GaussDB(DWS). If the presented password string is already in SHA256-encrypted format, then it is stored encrypted as-is, regardless of whether **ENCRYPTED** or **UNENCRYPTED** is specified (since the system cannot decrypt the specified encrypted password string). This allows reloading of encrypted passwords during dump/restore.
+   Determines whether the password stored in the system will be encrypted. (If neither is specified, the password status is determined by **password_encryption_type**.) According to product security requirements, the password must be stored encrypted. Therefore, **UNENCRYPTED** is forbidden in GaussDB(DWS). If the password is SHA256-encrypted, it will be stored as-is, regardless of whether **ENCRYPTED** or **UNENCRYPTED** is specified (since the system cannot decrypt the specified encrypted password). This allows reloading of the encrypted password during dump/restore.
 
 -  **SYSADMIN \| NOSYSADMIN**
 
@@ -168,7 +168,7 @@ Parameter Description
 
    .. important::
 
-      To ensure the proper running of a cluster, the minimum value of **CONNECTION LIMIT** is the number of CNs in the cluster, because when a cluster runs ANALYZE on a CN, other CNs will connect to the running CN for metadata synchronization. For example, if there are three CNs in the cluster, set **CONNECTION LIMIT** to **3** or a greater value.
+      To ensure the proper running of a cluster, the minimum value of **CONNECTION LIMIT** is the number of CNs in the cluster, because when a cluster runs ANALYZE on a CN, other CNs will connect with the running CN for metadata synchronization. For example, if there are three CNs in the cluster, set **CONNECTION LIMIT** to **3** or a greater value.
 
 -  **VALID BEGIN**
 
@@ -184,19 +184,25 @@ Parameter Description
 
 -  **USER GROUP 'groupuser'**
 
-   Creates a sub-user. For details, see "Resource Load Management > Tenant Management > User Level Management" in the *Developer Guide*.
+   Creates a sub-user.
 
 -  **PERM SPACE**
 
    Sets the storage space of the user permanent table.
 
+   **space_limit**: specifies the upper limit of the storage space of the permanent table. Value range: A string consists of an integer and unit. The unit can be K/M/G/T/P currently. **0** indicates no limits.
+
 -  **TEMP SPACE**
 
    Sets the storage space of the user temporary table.
 
+   **tmpspacelimit**: specifies the storage space limit of the temporary table. Value range: A string consists of an integer and unit. The unit can be K/M/G/T/P currently. **0** indicates no limits.
+
 -  **SPILL SPACE**
 
    Sets the operator disk flushing space of the user.
+
+   **spillspacelimit**: specifies the operator spilling space limit. Value range: A string consists of an integer and unit. The unit can be K/M/G/T/P currently. **0** indicates no limits.
 
 -  **NODE GROUP**
 
@@ -247,11 +253,11 @@ Parameter Description
       ::
 
          # normaluser is a user that does not have the PGUSER attribute. psql is the Postgres client tool.
-         pg@MPPDB04:~> psql -d postgres -p 8000 -h 10.11.12.13 -U normaluser
+         pg@dws04:~> psql -d postgres -p 8000 -h 10.11.12.13 -U normaluser
          psql: authentication method 10 not supported
 
          # pguser is a user having the PGUSER attribute.
-         pg@MPPDB04:~> psql -d postgres -p 8000 -h 10.11.12.13 -U pguser
+         pg@dws04:~> psql -d postgres -p 8000 -h 10.11.12.13 -U pguser
          Password for user pguser:
 
 -  **AUTHINFO 'authinfo'**
@@ -263,44 +269,44 @@ Parameter Description
       -  Additional information about LDAP authentication can be added to **authinfo**, for example, **fulluser** in LDAP authentication, which is equivalent to **ldapprefix**\ +\ **username**\ +\ **ldapsuffix**. If the content of **authinfo** is **ldap**, the role authentication type is LDAP. In this case, the **ldapprefix** and **ldapsuffix** information is provided by the corresponding record in the **pg_hba.conf** file.
       -  When executing the **ALTER ROLE** command, users are not allowed to change the authentication type. Only LDAP users are allowed to modify LDAP attributes.
 
--  **PASSWORD EXPIRATOIN period**
+-  **PASSWORD EXPIRATION period**
 
    Number of days before the login password of the role expires. The user needs to change the password in time before the login password expires. If the login password expires, the user cannot log in to the system. In this case, the user needs to ask the administrator to set a new login password.
 
-   Value range: an integer greater than or equal to -1. The default value is -1, indicating that the password does not expire. The value 0 indicates that the password expires immediately.
+   Value range: an integer ranging from -1 to 999. The default value is **-1**, indicating that there is no restriction. The value **0** indicates that the login password expires immediately.
 
 Examples
 --------
 
-Create a role **manager**.
+Create a role named **manager**:
 
 ::
 
-   CREATE ROLE manager IDENTIFIED BY '{password}';
+   CREATE ROLE manager IDENTIFIED BY '{Password}';
 
-Create a role with a validity from January 1, 2015 to January 1, 2026.
+Create a role with a validity period from January 1, 2015 to January 1, 2026:
 
 ::
 
-   CREATE ROLE miriam WITH LOGIN PASSWORD '{password}' VALID BEGIN '2015-01-01' VALID UNTIL '2026-01-01';
+   CREATE ROLE miriam WITH LOGIN PASSWORD '{Password}' VALID BEGIN '2015-01-01' VALID UNTIL '2026-01-01';
 
-Create a role. The authentication type is LDAP. Other LDAP authentication information is provided by **pg_hba.conf**.
+-- Create a role. The authentication type is LDAP. Other LDAP authentication information is provided by **pg_hba.conf**:
 
 ::
 
    CREATE ROLE role1 WITH LOGIN AUTHINFO 'ldap' PASSWORD DISABLE;
 
-Create a role. The authentication type is LDAP. The **fulluser** information for LDAP authentication is specified during the role creation. In this case, LDAP is case sensitive and must be enclosed in single quotation marks.
+-- Create a role. The authentication type is LDAP. The **fulluser** information for LDAP authentication is specified during the role creation. In this case, LDAP is case sensitive and must be enclosed in single quotation marks:
 
 ::
 
    CREATE ROLE role2 WITH LOGIN AUTHINFO 'ldapcn=role2,cn=user,dc=lework,dc=com' PASSWORD DISABLE;
 
-Create a role and set the validity period of the login password to 30 days.
+-- Create a role and set the validity period of its login password to 30 days:
 
 ::
 
-   CREATE ROLE role3 WITH LOGIN PASSWORD '{password}' PASSWORD EXPIRATION 30;
+   CREATE ROLE role3 WITH LOGIN PASSWORD '{Password}' PASSWORD EXPIRATION 30;
 
 Links
 -----

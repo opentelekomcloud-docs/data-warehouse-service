@@ -122,7 +122,7 @@ Parameter Description
 
    Specifies a Boolean expression that determines whether a trigger function will actually be executed. If **WHEN** is specified, the function will be called only when **condition** returns **true**.
 
-   In **FOR EACH ROW** triggers, the **WHEN** condition can reference the columns of old or new row values by writing **OLD.**\ *column_name* or **NEW.**\ *column_name*, respectively. In addition, **INSERT** triggers cannot reference **OLD** and **DELETE** triggers cannot reference **NEW**.
+   In **FOR EACH ROW** triggers, the **WHEN** condition can reference the columns of old or new row values by writing **OLD.**\ *column_name* or **NEW.**\ *column_name*, respectively. Note that **INSERT** triggers cannot reference **OLD** and **DELETE** triggers cannot reference **NEW**.
 
    **INSTEAD OF** triggers do not support **WHEN** conditions.
 
@@ -192,20 +192,21 @@ Parameter Description
 Examples
 --------
 
-Create a source table and a target table.
+Create a source table and a trigger table:
 
 ::
+
+   DROP TABLE IF EXISTS test_trigger_src_tbl;
+   DROP TABLE IF EXISTS test_trigger_des_tbl;
 
    CREATE TABLE test_trigger_src_tbl(id1 INT, id2 INT, id3 INT);
-
-::
-
    CREATE TABLE test_trigger_des_tbl(id1 INT, id2 INT, id3 INT);
 
-Create the trigger function **tri_insert_func()**.
+Create the trigger function **tri_insert_func()**:
 
 ::
 
+   DROP FUNCTION IF EXISTS tri_insert_func;
    CREATE OR REPLACE FUNCTION tri_insert_func() RETURNS TRIGGER AS
               $$
               DECLARE
@@ -215,10 +216,11 @@ Create the trigger function **tri_insert_func()**.
               END
               $$ LANGUAGE PLPGSQL;
 
-Create the trigger function **tri_update_func()**.
+Create the trigger function **tri_update_func()**:
 
 ::
 
+   DROP FUNCTION IF EXISTS tri_update_func;
    CREATE OR REPLACE FUNCTION tri_update_func() RETURNS TRIGGER AS
               $$
               DECLARE
@@ -228,10 +230,11 @@ Create the trigger function **tri_update_func()**.
               END
               $$ LANGUAGE PLPGSQL;
 
-Create the trigger function **tri_delete_func()**.
+Create the trigger function **tri_delete_func()**:
 
 ::
 
+   DROP FUNCTION IF EXISTS tri_delete_func;
    CREATE OR REPLACE FUNCTION tri_delete_func() RETURNS TRIGGER AS
               $$
               DECLARE
@@ -241,28 +244,31 @@ Create the trigger function **tri_delete_func()**.
               END
               $$ LANGUAGE PLPGSQL;
 
-Create an **INSERT** trigger.
+Create an **INSERT** trigger:
 
 ::
 
+   DROP FUNCTION IF EXISTS insert_trigger;
    CREATE TRIGGER insert_trigger
               BEFORE INSERT ON test_trigger_src_tbl
               FOR EACH ROW
               EXECUTE PROCEDURE tri_insert_func();
 
-Create an **UPDATE** trigger.
+Create an **UPDATE** trigger:
 
 ::
 
+   DROP FUNCTION IF EXISTS update_trigger;
    CREATE TRIGGER update_trigger
               AFTER UPDATE ON test_trigger_src_tbl
               FOR EACH ROW
               EXECUTE PROCEDURE tri_update_func();
 
-Create a **DELETE** trigger.
+Create a **DELETE** trigger:
 
 ::
 
+   DROP FUNCTION IF EXISTS update_trigger;
    CREATE TRIGGER delete_trigger
               BEFORE DELETE ON test_trigger_src_tbl
               FOR EACH ROW

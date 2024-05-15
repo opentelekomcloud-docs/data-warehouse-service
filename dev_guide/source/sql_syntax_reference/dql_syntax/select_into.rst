@@ -15,7 +15,7 @@ Different from **SELECT**, data found by **SELECT INTO** is not returned to the 
 Precautions
 -----------
 
-**CREATE TABLE AS** provides functions similar to **SELECT INTO** in functions and provides a superset of functions provided by **SELECT INTO**. You are advised to use **CREATE TABLE AS**, because **SELECT INTO** cannot be used in a stored procedure.
+**CREATE TABLE AS** provides functions similar to **SELECT INTO** in functions and provides a superset of functions provided by **SELECT INTO**. You are advised to replace **SELECT INTO** with **CREATE TABLE AS** because **SELECT INTO** cannot be used in stored procedures and **SELECT INTO** (*column*) cannot receive blank lines.
 
 Syntax
 ------
@@ -44,27 +44,28 @@ Parameter Description
 
 **UNLOGGED** indicates that the table is created as an unlogged table. Data written to unlogged tables is not written to the write-ahead log, which makes them considerably faster than ordinary tables. However, they are not crash-safe: an unlogged table is automatically truncated after a crash or unclean shutdown. The contents of an unlogged table are also not replicated to standby servers. Any indexes created on an unlogged table are automatically unlogged as well.
 
-**new_table** specifies the name of a new table, which can be schema-qualified.
+**new_table** specifies the name of the new table.
 
 .. note::
 
-   For details about other **SELECT INTO** parameters, see :ref:`Parameter Description <en-us_topic_0000001098990922__s3d562432879c4244bcdbfdf9f30bcc5e>` in **SELECT**.
+   For details about other **SELECT INTO** parameters, see :ref:`Parameter Description <en-us_topic_0000001188270504__s3d562432879c4244bcdbfdf9f30bcc5e>` in **SELECT**.
 
 Example
 -------
 
-Add values that are less than 5 in the **r_reason_sk** column in the **tpcds.reason** table to the new table.
+Add values whose **TABLE_SK** is less than 3 in the **reason_t** table to the new table.
 
 ::
 
-   SELECT * INTO tpcds.reason_t1 FROM tpcds.reason WHERE r_reason_sk < 5;
-   INSERT 0 6
+   CREATE TABLE IF NOT EXISTS reason_t
+   (
+       TABLE_SK          INTEGER               ,
+       TABLE_ID          VARCHAR(20)           ,
+       TABLE_NA          VARCHAR(20)
+   );
+   INSERT INTO reason_t VALUES (1, 'S01', 'StudentA'),(2, 'T01', 'TeacherA'),(3, 'T02', 'TeacherB'),(3, 'S02', 'StudentB');
 
-Delete the **tpcds.reason_t1** table.
-
-::
-
-   DROP TABLE tpcds.reason_t1;
+   SELECT * INTO reason_t_bck FROM reason_t WHERE TABLE_SK < 3;
 
 Helpful Links
 -------------

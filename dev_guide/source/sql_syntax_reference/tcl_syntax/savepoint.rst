@@ -24,7 +24,7 @@ Precautions
 Syntax
 ------
 
-.. code-block::
+::
 
    SAVEPOINT savepoint_name;
 
@@ -38,11 +38,12 @@ Specifies the name of a new savepoint.
 Examples
 --------
 
--  Create a savepoint and undo all commands executed after the savepoint is created.
+-  Create a savepoint and undo all commands executed after the savepoint is created:
 
    ::
 
       START TRANSACTION;
+      CREATE TABLE IF NOT EXISTS table1 (a int,b int);
       INSERT INTO table1 VALUES (1);
       SAVEPOINT my_savepoint;
       INSERT INTO table1 VALUES (2);

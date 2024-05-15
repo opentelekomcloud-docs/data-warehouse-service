@@ -5,114 +5,124 @@
 Bit String Functions and Operators
 ==================================
 
-Bit string operators
---------------------
-
 Aside from the usual comparison operators, the following operators can be used. Bit string operands of **&**, **\|**, and **#** must be of equal length. When bit shifting, the original length of the string is preserved by zero padding (if necessary).
 
--  \|\|
+\|\|
+----
 
-   Description: Connects bit strings.
+Description: Connects bit strings.
 
-   For example:
+For example:
 
-   ::
+::
 
-      SELECT B'10001' || B'011' AS RESULT;
-        result
-      ----------
-       10001011
-      (1 row)
+   SELECT B'10001' || B'011' AS RESULT;
+     result
+   ----------
+    10001011
+   (1 row)
 
--  &
 
-   Description: AND operation between bit strings
+``&``
+-----
 
-   For example:
+Description: AND operation between bit strings
 
-   ::
+For example:
 
-      SELECT B'10001' & B'01101' AS RESULT;
-       result
-      --------
-       00001
-      (1 row)
+::
 
--  \|
+   SELECT B'10001' & B'01101' AS RESULT;
+    result
+   --------
+    00001
+   (1 row)
 
-   Description: OR operation between bit strings
 
-   For example:
+``|``
+-----
 
-   ::
+Description: OR operation between bit strings
 
-      SELECT B'10001' | B'01101' AS RESULT;
-       result
-      --------
-       11101
-      (1 row)
+For example:
 
--  #
+::
 
-   Description: OR operation between bit strings if they are inconsistent. If the same positions in the two bit strings are both 1 or 0, the position returns **0**.
+   SELECT B'10001' | B'01101' AS RESULT;
+    result
+   --------
+    11101
+   (1 row)
 
-   For example:
 
-   ::
+``#``
+-----
 
-      SELECT B'10001' # B'01101' AS RESULT;
-       result
-      --------
-       11100
-      (1 row)
+Description: OR operation between bit strings if they are inconsistent. If the same positions in the two bit strings are both 1 or 0, the position returns **0**.
 
--  ~
+For example:
 
-   Description: NOT operation between bit strings
+::
 
-   For example:
+   SELECT B'10001' # B'01101' AS RESULT;
+    result
+   --------
+    11100
+   (1 row)
 
-   ::
 
-      SELECT ~B'10001'AS RESULT;
-       result
-      ----------
-       01110
-      (1 row)
+``~``
+-----
 
--  <<
+Description: NOT operation between bit strings
 
-   Description: binary left shift
+For example:
 
-   For example:
+::
 
-   ::
+   SELECT ~B'10001'AS RESULT;
+    result
+   ----------
+    01110
+   (1 row)
 
-      SELECT B'10001' << 3 AS RESULT;
-       result
-      ----------
-       01000
-      (1 row)
 
--  >>
+<<
+--
 
-   Description: binary right shift
+Description: binary left shift
 
-   For example:
+For example:
 
-   ::
+::
 
-      SELECT B'10001' >> 2 AS RESULT;
-       result
-      ----------
-       00100
-      (1 row)
+   SELECT B'10001' << 3 AS RESULT;
+    result
+   ----------
+    01000
+   (1 row)
+
+
+>>
+--
+
+Description: binary right shift
+
+For example:
+
+::
+
+   SELECT B'10001' >> 2 AS RESULT;
+    result
+   ----------
+    00100
+   (1 row)
 
 The following SQL-standard functions work on bit strings as well as character strings: **length**, **bit_length**, **octet_length**, **position**, **substring**, and **overlay**.
 
 The following functions work on bit strings as well as binary strings: **get_bit** and **set_bit**. When working with a bit string, these functions number the first (leftmost) bit of the string as bit 0.
 
-In addition, it is possible to convert between integral values and type **bit**. For example:
+Integers and bits can be mutually converted. For example:
 
 ::
 

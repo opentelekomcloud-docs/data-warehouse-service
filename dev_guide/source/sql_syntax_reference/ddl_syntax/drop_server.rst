@@ -41,7 +41,7 @@ Parameter Description
 Examples
 --------
 
-Delete the **hdfs_server** server.
+Delete the **hdfs_server** server:
 
 ::
 

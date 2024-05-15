@@ -27,7 +27,7 @@ Parameter Description
 
 -  **IF EXISTS**
 
-   Send a notice instead of reporting an error if the specified synonym does not exist.
+   Sends a notice instead of reporting an error if the specified synonym does not exist.
 
 -  **synonym_name**
 
@@ -41,12 +41,11 @@ Parameter Description
 Examples
 --------
 
-Delete a synonym.
+Delete synonyms:
 
 ::
 
    DROP SYNONYM t1;
-   DROP SCHEMA ot CASCADE;
 
 Helpful Links
 -------------

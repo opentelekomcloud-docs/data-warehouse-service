@@ -12,7 +12,7 @@ Function
 
 .. note::
 
-   The resource pool cannot be deleted if it is associated with a role.
+   If a role has been associated with a resource pool, the resource pool cannot be deleted.
 
 Precautions
 -----------
@@ -39,18 +39,14 @@ Parameter Description
 
    Value range: a string. It must comply with the naming convention.
 
-.. note::
-
-   A resource pool can be independently deleted only when it is not associated with any users.
-
 Example
 -------
 
-Delete a resource pool.
+Delete the resource pool named **pool**:
 
-.. code-block::
+::
 
-   DROP RESOURCE POOL pool1;
+   DROP RESOURCE POOL pool;
 
 Links
 -----

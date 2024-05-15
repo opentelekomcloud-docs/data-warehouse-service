@@ -10,7 +10,7 @@ Function
 
 **CREATE ROW LEVEL SECURITY POLICY** creates a row-level access control policy for a table.
 
-The policy takes effect only after row-level access control is enabled (by running **ALTER TABLE... ENABLE ROW LEVEL SECURITY**).
+The policy takes effect only after row-level access control is enabled (by running **ALTER TABLE**... **ENABLE ROW LEVEL SECURITY**).
 
 Currently, row-level access control affects the read (**SELECT**, **UPDATE**, **DELETE**) of data tables and does not affect the write (**INSERT** and **MERGE INTO**) of data tables. The table owner or system administrators can create an expression in the **USING** clause. When the client reads the data table, the database server combines the expressions that meet the condition and applies it to the execution plan in the statement rewriting phase of a query. For each tuple in a data table, if the expression returns **TRUE**, the tuple is visible to the current user; if the expression returns **FALSE** or **NULL**, the tuple is invisible to the current user.
 
@@ -31,11 +31,11 @@ Precautions
 
 -  A maximum of 100 row-level access control policies cannot be defined for a table.
 
--  System administrators are not affected by row-level access control policies and can view all data in a table.
+-  Users with administrator permissions and initial O&M users (Ruby) are not subject to row-level access control and can view full data of the table.
 
 -  Tables queried by using SQL statements, views, functions, and stored procedures are affected by row-level access control policies.
 
--  The type of a column that a row-level access control policy depends on cannot be changed. For example, the following modifications are not supported:
+-  The type of a column on which a row-level access control policy depends cannot be changed. For example, the following modifications are not supported:
 
    ::
 
@@ -121,112 +121,116 @@ Parameter Description
 
    The expression cannot contain aggregate functions and window functions. In the statement rewriting phase of a query, if row-level access control for a data table is enabled, the expressions that meet the specified conditions will be added to the plan tree. The expression is calculated for each tuple in the data table. For **SELECT**, **UPDATE**, and **DELETE**, row data is visible to the current user only when the return value of the expression is **TRUE**. If the expression returns **FALSE**, the tuple is invisible to the current user. In this case, the user cannot view the tuple through the **SELECT** statement, update the tuple through the **UPDATE** statement, or delete the tuple through the **DELETE** statement.
 
-Example 1: Create a row-level access control policy that the current user can only view its own data.
------------------------------------------------------------------------------------------------------
+Examples
+--------
 
-#. Create users **alice** and **bob**.
+Create user **alice**.
 
-   .. code-block::
+::
 
-      CREATE ROLE alice PASSWORD '{password1}'
-      CREATE ROLE bob PASSWORD '{password2}';
+   CREATE ROLE alice PASSWORD '{Password}';
 
-#. Create the data table **public.all_data**.
+Create user **bob**.
 
-   .. code-block::
+::
 
-      CREATE TABLE public.all_data(id int, role varchar(100), data varchar(100));
+   CREATE ROLE bob PASSWORD '{Password}';
 
-#. Insert data into the table.
+Create the data table **public.all_data**:
 
-   .. code-block::
+::
 
-      INSERT INTO all_data VALUES(1, 'alice', 'alice data');
-      INSERT INTO all_data VALUES(2, 'bob', 'bob data');
-      INSERT INTO all_data VALUES(3, 'peter', 'peter data');
+   CREATE TABLE public.all_data(id int, role varchar(100), data varchar(100));
 
-#. Grant the read permission for the **all_data** table to users **alice** and **bob**.
+Insert data into the data table:
 
-   .. code-block::
+::
 
-      GRANT SELECT ON all_data TO alice, bob;
+   INSERT INTO all_data VALUES(1, 'alice', 'alice data');
+   INSERT INTO all_data VALUES(2, 'bob', 'bob data');
+   INSERT INTO all_data VALUES(3, 'peter', 'peter data');
 
-#. Enable row-level access control.
+Grant the read permission for the **all_data** table to users **alice** and **bob**:
 
-   ::
+::
 
-      ALTER TABLE all_data ENABLE ROW LEVEL SECURITY;
+   GRANT SELECT ON all_data TO alice, bob;
 
-#. Create a row-level access control policy to specify that the current user can view only its own data.
+Enable row-level access control.
 
-   .. code-block::
+::
 
-      CREATE ROW LEVEL SECURITY POLICY all_data_rls ON all_data USING(role = CURRENT_USER);
+   ALTER TABLE all_data ENABLE ROW LEVEL SECURITY;
 
-#. View information about the **all_data** table.
+Create a row-level access control policy to specify that the current user can view only their own data:
 
-   .. code-block::
+::
 
-      \d+ all_data
-                                     Table "public.all_data"
-       Column |          Type          | Modifiers | Storage  | Stats target | Description
-      --------+------------------------+-----------+----------+--------------+-------------
-       id     | integer                |           | plain    |              |
-       role   | character varying(100) |           | extended |              |
-       data   | character varying(100) |           | extended |              |
-      Row Level Security Policies:
-          POLICY "all_data_rls"
-            USING (((role)::name = "current_user"()))
-      Has OIDs: no
-      Distribute By: HASH(id)
-      Location Nodes: ALL DATANODES
-      Options: orientation=row, compression=no, enable_rowsecurity=true
+   CREATE ROW LEVEL SECURITY POLICY all_data_rls ON all_data USING(role = CURRENT_USER);
 
-#. Run **SELECT**.
+View information about the **all_data** table:
 
-   .. code-block::
+::
 
-      SELECT * FROM all_data;
-       id | role  |    data
-      ----+-------+------------
-        1 | alice | alice data
-        2 | bob   | bob data
-        3 | peter | peter data
-      (3 rows)
+   \d+ all_data
+                                  Table "public.all_data"
+    Column |          Type          | Modifiers | Storage  | Stats target | Description
+   --------+------------------------+-----------+----------+--------------+-------------
+    id     | integer                |           | plain    |              |
+    role   | character varying(100) |           | extended |              |
+    data   | character varying(100) |           | extended |              |
+   Row Level Security Policies:
+       POLICY "all_data_rls"
+         USING (((role)::name = "current_user"()))
+   Has OIDs: no
+   Distribute By: HASH(id)
+   Location Nodes: ALL DATANODES
+   Options: orientation=row, compression=no, enable_rowsecurity=true
 
-      EXPLAIN(COSTS OFF) SELECT * FROM all_data;
-               QUERY PLAN
-      ----------------------------
-       Streaming (type: GATHER)
-         Node/s: All datanodes
-         ->  Seq Scan on all_data
-      (3 rows)
+Run **SELECT**.
 
-#. Switch to the **alice** user.
+::
 
-   .. code-block::
+   SELECT * FROM all_data;
+    id | role  |    data
+   ----+-------+------------
+     1 | alice | alice data
+     2 | bob   | bob data
+     3 | peter | peter data
+   (3 rows)
+   EXPLAIN(COSTS OFF) SELECT * FROM all_data;
+            QUERY PLAN
+   ----------------------------
+    Streaming (type: GATHER)
+      Node/s: All datanodes
+      ->  Seq Scan on all_data
+   (3 rows)
 
-      set role alice password '{password1}';
+Switch to the **alice** user.
 
-#. Perform the SELECT operation.
+::
 
-   .. code-block::
+   set role alice password '{Password}';
 
-      SELECT * FROM all_data;
-       id | role  |    data
-      ----+-------+------------
-        1 | alice | alice data
-      (1 row)
+Perform the SELECT operation.
 
-      EXPLAIN(COSTS OFF) SELECT * FROM all_data;
-                                 QUERY PLAN
-      ----------------------------------------------------------------
-       Streaming (type: GATHER)
-         Node/s: All datanodes
-         ->  Seq Scan on all_data
-               Filter: ((role)::name = 'alice'::name)
-       Notice: This query is influenced by row level security feature
-      (5 rows)
+::
+
+   SELECT * FROM all_data;
+    id | role  |    data
+   ----+-------+------------
+     1 | alice | alice data
+   (1 row)
+
+   EXPLAIN(COSTS OFF) SELECT * FROM all_data;
+                              QUERY PLAN
+   ----------------------------------------------------------------
+    Streaming (type: GATHER)
+      Node/s: All datanodes
+      ->  Seq Scan on all_data
+            Filter: ((role)::name = 'alice'::name)
+    Notice: This query is influenced by row level security feature
+   (5 rows)
 
 Helpful Links
 -------------

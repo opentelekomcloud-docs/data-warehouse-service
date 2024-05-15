@@ -10,9 +10,7 @@ Function
 
 **ALTER DEFAULT PRIVILEGES** allows you to set the permissions that will be used for objects to be created. It does not affect permissions assigned to existing objects.
 
-To isolate permissions, the **WITH GRANT OPTION** syntax is disabled in the current GaussDB(DWS) version.
-
-A user can modify only the default permissions of the objects created by the user or the role to which the user belongs. These permissions can be set globally (that is, all objects created in the database) or for objects in a specified schema.
+A user can modify only the default permissions of objects created by the user or the role to which the user belongs. These permissions can be set globally (all objects created in the database) or for objects in a specified schema.
 
 To view information about the default permissions of database users, query the system catalog .
 
@@ -48,7 +46,7 @@ Syntax
 
    ::
 
-      GRANT { { SELECT | INSERT | UPDATE | DELETE | TRUNCATE | REFERENCES | TRIGGER | ANALYZE | ANALYSE }
+      GRANT { { SELECT | INSERT | UPDATE | DELETE | TRUNCATE | REFERENCES | TRIGGER | ANALYZE | ANALYSE | VACUUM | ALTER | DROP }
           [, ...] | ALL [ PRIVILEGES ] }
           ON TABLES
           TO { [ GROUP ] role_name | PUBLIC } [, ...]
@@ -87,7 +85,7 @@ Syntax
    ::
 
       REVOKE [ GRANT OPTION FOR ]
-          { { SELECT | INSERT | UPDATE | DELETE | TRUNCATE | REFERENCES | TRIGGER | ANALYZE | ANALYSE }
+          { { SELECT | INSERT | UPDATE | DELETE | TRUNCATE | REFERENCES | TRIGGER | ANALYZE | ANALYSE | VACUUM | ALTER | DROP }
           [, ...] | ALL [ PRIVILEGES ] }
           ON TABLES
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
@@ -135,15 +133,13 @@ Parameter Description
 
    ::
 
-      select a.rolname, n.nspname from pg_authid as a, pg_namespace as n where has_schema_privilege(a.oid, n.oid, 'CREATE');
+      SELECT a.rolname, n.nspname FROM pg_authid as a, pg_namespace as n WHERE has_schema_privilege(a.oid, n.oid, 'CREATE');
 
    Value range: An existing role name.
 
 -  **schema_name**
 
-   Specifies the name of an existing schema.
-
-   If a schema name is specified, the default permissions of all objects created in the schema will be modified. If **IN SCHEMA** is omitted, global permissions will be modified.
+   Indicates the name of an existing schema. If a schema name is specified, the default permissions of all objects created in the schema will be modified. If **IN SCHEMA** is omitted, global permissions will be modified.
 
    Value range: An existing schema name.
 
@@ -155,10 +151,22 @@ Parameter Description
 
 .. important::
 
-   If you want to delete a role that has been assigned default permissions, you must revoke the changes to the default permissions or use **DROP OWNED BY** to get rid of the default permission entry for the role.
+   To drop a role for which the default permissions have been assigned, to reverse the changes in its default permissions or use **DROP OWNED BY** to get rid of the default privileges entry for the role.
 
 Examples
 --------
+
+Run the following statements to create two users:
+
+::
+
+   CREATE USER jack PASSWORD '{Password}';
+
+Creating mode:
+
+::
+
+   CREATE SCHEMA tpcds;
 
 -  Grant the SELECT permission on all the tables (and views) in **tpcds** to every user.
 
@@ -181,11 +189,18 @@ Examples
 
 -  Assume that there are two users **test1** and **test2**. If you require that user **test2** can query tables created by user **test1**, execute the following statements.
 
+   -  Create users **test1** and **test2**:
+
+      ::
+
+         CREATE USER test1 PASSWORD '{Password}';
+         CREATE USER test2 PASSWORD '{Password}';
+
    -  Grant user **test2** the schema permission of user **test1**.
 
       ::
 
-         grant usage, create on schema test1 to test2;
+         GRANT usage, create ON SCHEMA test1 TO test2;
 
    -  Grant user **test2** the table query permission of user **test1**.
 
@@ -197,18 +212,15 @@ Examples
 
       ::
 
-         set role test1 password '{password1}';
-         create table test3( a int, b int);
+         SET ROLE test1 password '{Password}';
+         CREATE TABLE test3( a int, b int);
 
    -  Run the following statement as user **test2**.
 
       ::
 
-         set role test2 password '{password2}';
-         select * from test1.test3;
-          a | b
-         ---+---
-         (0 rows)
+         SET ROLE test2 password '{Password}';
+         SELECT * FROM test1.test3;
 
 Helpful Links
 -------------

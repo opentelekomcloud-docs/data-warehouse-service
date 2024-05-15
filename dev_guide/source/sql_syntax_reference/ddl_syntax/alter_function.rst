@@ -13,12 +13,12 @@ Function
 Precautions
 -----------
 
-Only the owner of a function or a system administrator can run this statement. If a function involves operations on temporary tables, the **ALTER FUNCTION** cannot be used.
+Only the owner of a function or a system administrator can run this statement. The user who wants to change the owner of a function must be a direct or indirect member of the new owner role. If a function involves operations on temporary tables, the **ALTER FUNCTION** cannot be used.
 
 Syntax
 ------
 
--  Modify the additional parameter of the customized function.
+-  Modify the additional parameter of the customized function:
 
    ::
 
@@ -41,21 +41,21 @@ Syntax
        | SET configuration_parameter { { TO | = } { value | DEFAULT }| FROM CURRENT}
        | RESET {configuration_parameter | ALL}
 
--  Modify the name of the customized function.
+-  Modify the name of the customized function:
 
    ::
 
       ALTER FUNCTION funname ( [ { [ argmode ] [ argname ] argtype} [, ...] ] )
           RENAME TO new_name;
 
--  Modify the owner of the customized function.
+-  Modify the owner of the customized function:
 
    ::
 
       ALTER FUNCTION funname ( [ { [ argmode ] [ argname ] argtype} [, ...] ] )
           OWNER TO new_owner;
 
--  Modify the schema of the customized function.
+-  Modify the schema of the customized function:
 
    ::
 
@@ -115,21 +115,20 @@ Parameter Description
 
 -  **SHIPPABLE**
 
--  **NOT SHIPPABLE**
+   **NOT SHIPPABLE**
 
    Indicates whether the function can be pushed down to DNs for execution.
 
-   Functions of the IMMUTABLE type can always be pushed down to the DNs.
-
-   Functions of the STABLE or VOLATILE type can be pushed down to DNs only if their attribute is **SHIPPABLE**.
+   -  Functions of the IMMUTABLE type can always be pushed down to the DNs.
+   -  Functions of the STABLE or VOLATILE type can be pushed down to DNs only if their attribute is **SHIPPABLE**.
 
 -  **LEAKPROOF**
 
-   Indicates that the function has no side effect and specifies that the parameter includes only the returned value. **LEAKPROOF** can be set only by the system administrator.
+   Indicates that the function has no side effect and specifies that the parameter includes only the returned value. **LEAKPROOF** can be set only by a system administrator.
 
--  **EXTERNAL**
+-  (Optional) **EXTERNAL**
 
-   (Optional) The objective is to be compatible with SQL. This feature applies to all functions, including external functions.
+   The objective is to be compatible with SQL. This feature applies to all functions, including external functions.
 
 -  **SECURITY INVOKER**
 
@@ -197,22 +196,34 @@ Parameter Description
 
    Value range: Existing schemas.
 
-Examples
---------
+Example
+-------
 
-Alter the execution rule of the **func_add_sql** function to **IMMUTABLE** (that is, the same result is returned if the parameter remains unchanged):
-
-::
-
-   ALTER FUNCTION func_add_sql(INTEGER, INTEGER) IMMUTABLE;
-
-Change the name of the **func_add_sql** function to **add_two_number**.
+Create a function that calculates the sum of two integers and returns the result. If the input is null, null will be returned.
 
 ::
 
-   ALTER FUNCTION func_add_sql(INTEGER, INTEGER) RENAME TO add_two_number;
+   DROP FUNCTION IF EXISTS func_add_sql2;
+   CREATE FUNCTION func_add_sql2(num1 integer, num2 integer) RETURN integer
+   AS
+   BEGIN
+   RETURN num1 + num2;
+   END;
+   /
 
-Change the owner of the **func_add_sql** function to **dbadmin**.
+Alter the execution rule of function add to IMMUTABLE (that is, the same result is returned if the parameter remains unchanged):
+
+::
+
+   ALTER FUNCTION func_add_sql2(INTEGER, INTEGER) IMMUTABLE;
+
+Rename the **func_add_sql2** function as **add_two_number**:
+
+::
+
+   ALTER FUNCTION func_add_sql2(INTEGER, INTEGER) RENAME TO add_two_number;
+
+Change the owner of function **add_two_number** to **dbadmin**:
 
 ::
 

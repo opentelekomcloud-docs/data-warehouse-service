@@ -8,7 +8,7 @@ ALTER TEXT SEARCH DICTIONARY
 Function
 --------
 
-**ALTER TEXT SEARCH DICTIONARY** modifies the definition of a full-text retrieval dictionary, including its parameters, name, owner, and schema.
+Modifies the definition of a full-text retrieval dictionary, including its parameters, name, owner, and schema.
 
 Precautions
 -----------
@@ -57,7 +57,7 @@ Parameter Description
 
 -  *option*
 
-   Specifies the name of a parameter to be modified. Each type of dictionaries has a template containing their custom parameters. Parameters function in a way irrelevant to their setting sequence. For details about parameters, see :ref:`option <en-us_topic_0000001145910877__li1286812455448>`.
+   Specifies the name of a parameter to be modified. Each type of dictionaries has a template containing their custom parameters. Parameters function in a way irrelevant to their setting sequence. For details about parameters, see :ref:`option <en-us_topic_0000001188270514__li1286812455448>`.
 
    .. note::
 
@@ -92,7 +92,19 @@ Parameter Description
 Examples
 --------
 
+.. code-block::
+
+   CREATE TEXT SEARCH DICTIONARY my_dict (
+       TEMPLATE = snowball,
+       Language = english,
+       StopWords = english
+   );
+
 Modify the definition of stop words in **Snowball** dictionaries. Retain the values of other parameters.
+
+.. important::
+
+   Hard-coded or plaintext AK and SK are risky. For security purposes, encrypt your AK and SK and store them in the configuration file or environment variables.
 
 ::
 

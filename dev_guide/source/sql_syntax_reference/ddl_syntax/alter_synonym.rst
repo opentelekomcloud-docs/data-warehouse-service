@@ -14,7 +14,7 @@ Precautions
 -----------
 
 -  Only the synonym owner can be changed.
--  Only the system administrator and the synonym owner has the permission to modify the synonym owner information.
+-  Only the system administrator and the synonym owner have the permission to modify the synonym owner information.
 -  The modifier must be a direct or indirect member of the new owner, and the new owner must have the CREATE permission on the schema to which the synonym belongs.
 
 Syntax
@@ -43,19 +43,19 @@ Parameter Description
 Examples
 --------
 
-Create synonym **t1**.
+Create synonym **t1**:
 
 ::
 
    CREATE OR REPLACE SYNONYM t1 FOR ot.t1;
 
-Create user **u1**.
+Create user **u1**:
 
 ::
 
-   CREATE USER u1 PASSWORD '{password}';
+   CREATE USER u1 PASSWORD '{Password}';
 
-Change the owner of the synonym **t1** to **u1**.
+Change the owner of the synonym **t1** to **u1**:
 
 ::
 

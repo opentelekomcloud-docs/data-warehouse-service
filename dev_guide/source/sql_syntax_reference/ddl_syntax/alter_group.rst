@@ -42,7 +42,7 @@ Syntax
 Parameter Description
 ---------------------
 
-See the :ref:`Example <en-us_topic_0000001098830946__s8302a739997543e0a22f9ee43ce9bfbf>` in **ALTER ROLE**.
+See the :ref:`Example <en-us_topic_0000001188589002__s8302a739997543e0a22f9ee43ce9bfbf>` in **ALTER ROLE**.
 
 Helpful Links
 -------------

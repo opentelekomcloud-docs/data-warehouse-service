@@ -76,15 +76,17 @@ Examples
    ::
 
       START TRANSACTION;
-      SELECT * FROM tpcds.reason;
+      CREATE TABLE IF NOT EXISTS table1 (a int,b int);
+      SELECT * FROM table1;
       END;
 
--  Start a transaction with the isolation level being **READ COMMITTED** and the access mode being **READ WRITE**.
+-  Start a transaction with the isolation level being **READ COMMITTED** and the access mode being **READ WRITE**:
 
    ::
 
       START TRANSACTION ISOLATION LEVEL READ COMMITTED READ WRITE;
-      SELECT * FROM tpcds.reason;
+      CREATE TABLE IF NOT EXISTS table1 (a int,b int);
+      SELECT * FROM table1;
       COMMIT;
 
 Helpful Links

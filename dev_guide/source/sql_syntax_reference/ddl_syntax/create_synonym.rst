@@ -50,20 +50,21 @@ Parameter Description
 Examples
 --------
 
-Create schema **ot**.
+Create schemas **ot** and **tpcds**:
 
 ::
 
    CREATE SCHEMA ot;
+   CREATE SCHEMA tpcds;
 
-Create table **ot.t1** and its synonym **t1**.
+Create table **ot.t1** and its synonym **t1**:
 
 ::
 
    CREATE TABLE ot.t1(id int, name varchar2(10)) DISTRIBUTE BY hash(id);
    CREATE OR REPLACE SYNONYM t1 FOR ot.t1;
 
-Use synonym **t1**.
+Use synonym **t1**:
 
 ::
 
@@ -71,20 +72,20 @@ Use synonym **t1**.
    INSERT INTO t1 VALUES (1, 'ada'), (2, 'bob');
    UPDATE t1 SET t1.name = 'cici' WHERE t1.id = 2;
 
-Create synonym **v1** and its associated view **ot.v_t1**.
+Create synonym **v1** and its associated view **ot.v_t1**:
 
 ::
 
    CREATE SYNONYM v1 FOR ot.v_t1;
    CREATE VIEW ot.v_t1 AS SELECT * FROM ot.t1;
 
-Use synonym **v1**.
+Use synonym **v1**:
 
 ::
 
    SELECT * FROM v1;
 
-Create overloaded function **ot.add** and its synonym **add**.
+Create overloaded function **ot.add** and its synonym **add**:
 
 ::
 
@@ -102,14 +103,14 @@ Create overloaded function **ot.add** and its synonym **add**.
 
    CREATE OR REPLACE SYNONYM add FOR ot.add;
 
-Use synonym **add**.
+Use synonym **add**:
 
 ::
 
    SELECT add(1,2);
    SELECT add(1.2,2.3);
 
-Create stored procedure **ot.register** and its synonym **register**.
+Create stored procedure **ot.register** and its synonym **register**:
 
 ::
 
@@ -123,7 +124,7 @@ Create stored procedure **ot.register** and its synonym **register**.
 
    CREATE OR REPLACE SYNONYM register FOR ot.register;
 
-Use synonym **register** to invoke the stored procedure.
+Use synonym **register** to invoke the stored procedure:
 
 ::
 
@@ -132,4 +133,4 @@ Use synonym **register** to invoke the stored procedure.
 Helpful Links
 -------------
 
-:ref:`ALTER SYNONYM <dws_06_0140>` :ref:`DROP SYNONYM <dws_06_0207>`
+:ref:`ALTER SYNONYM <dws_06_0140>`, :ref:`DROP SYNONYM <dws_06_0207>`

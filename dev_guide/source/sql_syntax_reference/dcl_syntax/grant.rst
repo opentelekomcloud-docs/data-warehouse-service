@@ -24,6 +24,10 @@ Function
 
    **GRANT** grants specified database object permissions to one or more roles. These permissions are appended to those already granted, if any.
 
+   The key word **PUBLIC** indicates that the permissions are to be granted to all roles, including those that might be created later. **PUBLIC** can be regarded as an implicitly defined group including all roles. Any particular role will have the sum of permissions granted directly to it using **GRANT**, permissions granted to any role it is presently a member of, and permissions granted to **PUBLIC**.
+
+   If **WITH GRANT OPTION** is specified, the recipient of a permission can in turn grant it to others. This option cannot be granted to **PUBLIC**. Only GaussDB(DWS) supports this operation.
+
    GaussDB(DWS) grants the permissions for objects of certain types to **PUBLIC**. By default, permissions for tables, table columns, sequences, external data sources, external servers, schemas, and tablespace are not granted to **PUBLIC**. However, permissions for the following objects are granted to **PUBLIC**: **CONNECT** and **CREATE TEMP TABLE** permissions for databases, **EXECUTE** permission for functions, and **USAGE** permission for languages and data types (including domains). An object owner can revoke the default permissions granted to **PUBLIC** and grant permissions to other users as needed. For security purposes, you are advised to create an object and set permissions for it in the same transaction so that other users do not have time windows to use the object. In addition, you can run the **ALTER DEFAULT PRIVILEGES** statement to modify the initial default permissions.
 
 -  **Granting a role's or user's permissions to other roles or users**
@@ -37,7 +41,7 @@ Function
 Precautions
 -----------
 
-To isolate permissions, GaussDB(DWS) disables **WITH GRANT OPTION** and **TO PUBLIC**.
+None
 
 Syntax
 ------
@@ -46,7 +50,7 @@ Syntax
 
    ::
 
-      GRANT { { SELECT | INSERT | UPDATE | DELETE | TRUNCATE | REFERENCES | TRIGGER | ANALYZE | ANALYSE } [, ...]
+      GRANT { { SELECT | INSERT | UPDATE | DELETE | TRUNCATE | REFERENCES | TRIGGER | ANALYZE | ANALYSE | VACUUM | ALTER | DROP } [, ...]
             | ALL [ PRIVILEGES ] }
           ON { [ TABLE ] table_name [, ...]
              | ALL TABLES IN SCHEMA schema_name [, ...] }
@@ -163,7 +167,7 @@ Syntax
 
    ::
 
-      GRANT { { CREATE | USAGE } [, ...] | ALL [ PRIVILEGES ] }
+      GRANT { { CREATE | USAGE | ALTER | DROP } [, ...] | ALL [ PRIVILEGES ] }
           ON SCHEMA schema_name [, ...]
           TO { [ GROUP ] role_name | PUBLIC } [, ...]
           [ WITH GRANT OPTION ];
@@ -200,7 +204,7 @@ Syntax
       GRANT ALL { PRIVILEGES | PRIVILEGE }
          TO role_name;
 
-.. _en-us_topic_0000001145830781__s226158f44a8f4b908e69a283aeb813cd:
+.. _en-us_topic_0000001188270556__s226158f44a8f4b908e69a283aeb813cd:
 
 Parameter Description
 ---------------------
@@ -249,6 +253,10 @@ Parameter Description
 
    Allows the user to connect to the specified database.
 
+-  **TEMPORARY \| TEMP**
+
+   Allows temporary tables to be created when the specified database is used.
+
 -  **EXECUTE**
 
    Allows the use of the specified function and the use of any operators that are implemented on top of the function.
@@ -257,7 +265,7 @@ Parameter Description
 
    -  For procedural languages, allows the use of the specified language for the creation of functions in that language.
    -  For schemas, allows access to objects contained in the specified schema. Without this permission, it is still possible to see the object names.
-   -  For sequences, allows the use of the nextval function.
+   -  For sequences, allows the use of the **NEXTVAL** function.
    -  For sub-clusters, allows users who can access objects contained in the specified schema to access tables in a specified sub-cluster.
 
 -  **COMPUTE**
@@ -267,6 +275,19 @@ Parameter Description
 -  **ALL PRIVILEGES**
 
    Grants all of the available permissions at once. Only system administrators have permission to run **GRANT ALL PRIVILEGES**.
+
+-  **WITH GRANT OPTION**
+
+   Specifies whether permission transfer is allowed. If **WITH GRANT OPTION** is specified, the recipient of a permission can in turn grant it to others. This option cannot be granted to **PUBLIC**.
+
+   .. note::
+
+      -  **WITH GRANT OPTION** cannot be used with **NODE GROUP**.
+      -  When using **WITH GRANT OPTION**, ensure that **enable_grant_option** is set to **on**.
+
+-  **WITH ADMIN OPTION**
+
+   Specifies whether permission transfer is allowed. If **WITH ADMIN OPTION** is specified, members of a role can grant membership of the role to others.
 
 **GRANT** parameters are as follows:
 
@@ -342,18 +363,31 @@ Parameter Description
 
    Value range: a string. It must comply with the naming convention.
 
--  **directory_name**
-
-   Specifies a directory name.
-
-   Value range: a string. It must comply with the naming convention.
-
 Examples
 --------
 
--  Grant system permissions to a user or role.
+Create two users:
 
-   -  Grant all available permissions of user **sysadmin** to user **joe**.
+::
+
+   CREATE USER joe PASSWORD '{Password}';
+   CREATE USER kim PASSWORD '{Password}';
+
+Create a schema:
+
+::
+
+   CREATE SCHEMA tpcds;
+
+Create a table:
+
+::
+
+   CREATE TABLE IF NOT EXISTS tpcds.reason(r_reason_sk int,r_reason_id int,r_reason_desc int);
+
+-  **Grant system permissions to a user or role.**
+
+   -  Grant all available permissions of user **sysadmin** to user **joe**:
 
       ::
 
@@ -361,7 +395,7 @@ Examples
 
       Afterward, user **joe** has the sysadmin permissions.
 
--  Grant object permissions to a user or role.
+-  **Grant object permissions to a user or role.**
 
    -  Grant the SELECT permission on the **tpcds.reason** table to user **joe**:
 
@@ -375,15 +409,17 @@ Examples
 
          GRANT ALL PRIVILEGES ON tpcds.reason TO kim;
 
-   -  Grant the usage permission of the schema **tpcds** to user **joe**:
+      After the granting succeeds, user **kim** has all the permissions of the **tpcds.reason** table, including the add, delete, modify, and query permissions.
+
+   -  Grant the permission to use the **tpcds** schema to user **joe**.
 
       ::
 
          GRANT USAGE ON SCHEMA tpcds TO joe;
 
-      After the granting succeeds, user **joe** has all the permissions of the **tpcds.reason** table, including the add, delete, modify, and query permissions.
+      After the authorization is successful, user **joe** has the **USAGE** permission of the schema and can access the objects contained in the schema.
 
-   -  Grant the query permission for the **r_reason_sk**, **r_reason_id**, and **r_reason_desc** columns and the update permission for the **r_reason_desc** column in the **tpcds.reason** table to user **joe**.
+   -  Grant the query permission for the **r_reason_sk**, **r_reason_id**, and **r_reason_desc** columns and the update permission for the **r_reason_desc** column in the **tpcds.reason** table to user **joe**:
 
       ::
 
@@ -399,39 +435,45 @@ Examples
 
       ::
 
-         GRANT EXECUTE ON FUNCTION func_add_sql TO joe;
+         CREATE FUNCTION func_add_sql(integer, integer) RETURNS integer
+             AS 'select $1 + $2;'
+             LANGUAGE SQL
+             IMMUTABLE
+             RETURNS NULL ON NULL INPUT;
+         GRANT EXECUTE ON FUNCTION func_add_sql(integer, integer) TO joe;
 
    -  Grant the **UPDATE** permission of the sequence **serial** to user **joe**.
 
       ::
 
+         CREATE SEQUENCE serial START 101 CACHE 20;
          GRANT UPDATE ON SEQUENCE serial TO joe;
 
-   -  Grant the **gaussdb** database connection permission and schema creation permission to user **joe**.
+   -  Grant the **gaussdb** database connection permission and schema creation permission to user **joe**:
 
       ::
 
          GRANT create,connect on database gaussdb TO joe ;
 
-   -  Grant the **tpcds** schema access permission and object creation permission to this role, but do not enable it to grant these permissions to others.
+   -  Grant the **tpcds** schema access permission and object creation permission to **joe**, but do not enable it to grant these permissions to others:
 
       ::
 
-         GRANT USAGE,CREATE ON SCHEMA tpcds TO tpcds_manager;
+         GRANT USAGE,CREATE ON SCHEMA tpcds TO joe;
 
--  Grant the permissions of a user or role to other users or roles.
+-  **Grant the permissions of a user or role to other users or roles.**
 
-   -  Grant the permissions of user **joe** to user **manager**, and allow **manager** to grant these permissions to others.
-
-      ::
-
-         GRANT joe TO manager WITH ADMIN OPTION;
-
-   -  Grant the permissions of user **manager** to user **senior_manager**.
+   -  Grant the permissions of user **joe** to user **kim**, and allow **kim** to grant these permissions to others:
 
       ::
 
-         GRANT manager TO senior_manager;
+         GRANT joe TO kim WITH ADMIN OPTION;
+
+   -  Grant the permissions of user **joe** to user **kim**:
+
+      ::
+
+         GRANT joe TO kim;
 
 Helpful Links
 -------------

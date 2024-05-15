@@ -15,7 +15,7 @@ Precautions
 
 -  A sequence is a special table that stores arithmetic sequence. Such a table is controlled by DBMS. It has no actual meaning and is usually used to generate unique identifiers for rows or tables.
 -  If a schema name is given, the sequence is created in the specified schema; otherwise, it is created in the current schema. The sequence name must be different from the names of other sequences, tables, indexes, views in the same schema.
--  After the sequence is created, functions **NEXTVAL()** and **generate_series(1,N)** insert data to the table. Make sure that the number of times for invoking **NEXTVAL** is greater than or equal to N+1. Otherwise, errors will be reported because the number of times for invoking the function **generate_series()** is N+1.
+-  After the sequence is created, functions nextval() and generate_series(1,N) insert data to the table. Make sure that the number of times for invoking nextval is greater than or equal to N+1. Otherwise, errors will be reported because the number of times for invoking function generate_series() is N+1.
 -  A sequence cannot be created in the **template1** database.
 
 Syntax
@@ -33,7 +33,7 @@ Parameter Description
 
 -  **name**
 
-   Specifies the name of a sequence to be created.
+   Specifies the name of the sequence to be created.
 
    Value range: The value can contain only lowercase letters, uppercase letters, special characters #_$, and digits.
 
@@ -45,25 +45,31 @@ Parameter Description
 
 -  **MINVALUE minvalue \| NO MINVALUE\| NOMINVALUE**
 
-   Specifies the minimum value of a sequence. If **MINVALUE** is not declared, or **NO MINVALUE** is declared, the default value of the ascending sequence is **1**, and that of the descending sequence is **-2\ 63-1**. **NOMINVALUE** is equivalent to **NO MINVALUE**.
+   Specifies the minimum value of the sequence. If **MINVALUE** is not declared, or **NO MINVALUE** is declared, the default value of the ascending sequence is **1**, and that of the descending sequence is **-2\ 63-1**.
+
+   **NOMINVALUE** is equivalent to **NO MINVALUE**.
 
 -  **MAXVALUE maxvalue \| NO MAXVALUE\| NOMAXVALUE**
 
-   Specifies the maximum value of a sequence. If **MAXVALUE** is not declared or **NO MAXVALUE** is declared, the default value of the ascending sequence is **2\ 63-1**, and that of the descending sequence is **-1**. **NOMAXVALUE** is equivalent to **NO MAXVALUE**.
+   Specifies the maximum value in a sequence. If **MAXVALUE** is not declared or **NO MAXVALUE** is declared, the default value of the ascending sequence is **2\ 63-1**, and that of the descending sequence is **-1**.
+
+   **NOMAXVALUE** is equivalent to **NO MAXVALUE**.
 
 -  **start**
 
-   Specifies the start value of the sequence. The default value for ascending sequences is **minvalue** and for descending sequences **maxvalue**.
+   Specifies the start value of the sequence.
+
+   The default value for ascending sequences is **minvalue** and for descending sequences **maxvalue**.
 
 -  **cache**
 
-   Specifies the number of sequence numbers stored in the memory for quick access. Within a cache period, the CN does not request a sequence number from the GTM. Instead, the CN uses the sequence number that is locally applied for in advance.
+   Specifies the number sequences stored in the memory for quick access purposes. Within a cache period, the CN does not request a sequence number from the GTM. Instead, the CN uses the sequence number that is locally applied for in advance.
 
    Default value **1** indicates that one value can be generated each time.
 
    .. note::
 
-      -  It is not recommended that **cache** and **maxvalue** or **minvalue** be defined at the same time. The continuity of sequences cannot be ensured after **cache** is defined because unacknowledged sequences may be generated, causing waste of sequence number segments.
+      -  It is not recommended that you define **cache**, and **maxvalue**, and **minvalue** at the same time. The continuity of sequences cannot be ensured after **cache** is defined because unacknowledged sequences may be generated, wasting sequence number segments.
       -  You are advised not to set a large value for **cache** (less than 100000000). Otherwise, it takes a long time to cache the sequence number (the first **NEXTVAL** in each cache period). Set a proper value for **cache** based on services to ensure quick access without wasting sequence numbers.
 
 -  **CYCLE**

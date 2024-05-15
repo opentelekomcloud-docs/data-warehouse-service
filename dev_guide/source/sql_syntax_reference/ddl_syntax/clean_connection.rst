@@ -36,7 +36,7 @@ Parameter Description
 
    This parameter can be specified only when the node list is specified as **TO ALL**. Setting this parameter will send SIGTERM signals to all the threads related to the specified **dbname** and **username** and forcibly shut them down.
 
--  **COORDINATOR ( nodename ,nodename ... } ) \| NODE ( nodename , nodename ... ) \| ALL**
+-  **COORDINATOR ( nodename [, ... ] ) \| NODE ( nodename [, ... ] ) \| ALL**
 
    Deletes connections on a specified node. There are three scenarios:
 

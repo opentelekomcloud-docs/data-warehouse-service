@@ -8,19 +8,29 @@ CREATE TABLE PARTITION
 Function
 --------
 
-**CREATE TABLE PARTITION** creates a partitioned table. Partitioning refers to splitting what is logically one large table into smaller physical pieces based on specific schemes. The table based on the logic is called a partition cable, and a physical piece is called a partition. Data is stored on these smaller physical pieces, namely, partitions, instead of the larger logical partitioned table.
+**CREATE TABLE PARTITION** creates a partitioned table. **Partitioned table**: refers to splitting what is logically one large table into smaller physical pieces based on specific schemes. The table based on the logic is called a partitioned cable, and a physical piece is called a partition. Data is stored on these smaller physical pieces, namely, partitions, instead of the larger logical partitioned table.
 
-The common forms of partitioning include range partitioning, hash partitioning, list partitioning, and value partitioning. Currently, row-store and column-store tables support only range partitioning.
+Common partitioning policies include range partitioning, hash partitioning, list partitioning, and value partitioning.
 
 In range partitioning, the table is partitioned into ranges defined by a key column or set of columns, with no overlap between the ranges of values assigned to different partitions. Each range has a dedicated partition for data storage.
 
-The partitioning policy for Range Partitioning refers to how data is inserted into partitions. Currently, range partitioning only allows the use of the range partitioning policy.
+Range partitioning maps data to partitions based on ranges of values of the partitioning key that you establish for each partition. This is the most commonly used partitioning policy. Currently, range partitioning only allows the use of the range partitioning policy.
 
-Range partitioning policy: Data is mapped to a created partition based on the partition key value. If the data can be mapped to, it is inserted into the specific partition; if it cannot be mapped to, error messages are returned. This is the most commonly used partitioning policy.
+List partitioning allocates records to partitions based on the key values in each partition. The key values do not overlap in different partitions. Create a partition for each group of key values to store corresponding data.
 
-Partitioning can provide several benefits:
+Range partitioning policy: Data is mapped to a created partition based on the partition key value. If the data can be mapped to, it is inserted into the specific partition; if it cannot be mapped to, error messages are returned.
 
--  Query performance can be improved dramatically in certain situations, particularly when most of the heavily accessed rows of the table are in a single partition or a small number of partitions. Partitioning narrows the range of data search and improves data access efficiency.
+In common partitioning policies, a data distribution range is defined based on one or more columns, and each partition carries data of a range. These columns are called partition keys.
+
+.. note::
+
+   -  Currently, row-store tables and column-store tables support only range partitioning and list partitioning.
+   -  List partitioning is supported only by clusters of 8.1.3 and later versions.
+
+Advantages of Partitioning
+--------------------------
+
+-  The performance of some types of queries can be greatly improved, especially when rows with high access rates in a table are located in a single partition or a few partitions. Partitioning narrows the range of data search and improves data access efficiency.
 -  When queries or updates access a large percentage of a single partition, performance can be improved by taking advantage of sequential scan of that partition instead of reads scattered across the whole table.
 -  Bulk loads and deletion can be performed by adding or removing partitions, if that requirement is planned into the partitioning design. It also entirely avoids the **VACUUM** overhead caused by a bulk **DELETE** (only for range partitioning).
 
@@ -42,13 +52,13 @@ Syntax
    ] )
        [ WITH ( {storage_parameter = value} [, ... ] ) ]
        [ COMPRESS | NOCOMPRESS ]
-       [ TABLESPACE tablespace_name ]
-       [ DISTRIBUTE BY { REPLICATION | { [ HASH ] ( column_name ) } } ]
+       [ DISTRIBUTE BY { REPLICATION | ROUNDROBIN | { [ HASH ] ( column_name ) } } ]
        [ TO { GROUP groupname | NODE ( nodename [, ... ] ) } ]
        PARTITION BY {
            {VALUES (partition_key)} |
            {RANGE (partition_key) ( partition_less_than_item [, ... ] )} |
-           {RANGE (partition_key) ( partition_start_end_item [, ... ] )}
+           {RANGE (partition_key) ( partition_start_end_item [, ... ] )} |
+           {LIST (partition_key) (list_partition_item [, ...])}
        } [ { ENABLE | DISABLE } ROW MOVEMENT ];
 
 -  **column_constraint** is as follows:
@@ -66,7 +76,7 @@ Syntax
 
 -  **table_constraint** is as follows:
 
-   .. code-block::
+   ::
 
       [ CONSTRAINT constraint_name ]
       { CHECK ( expression ) |
@@ -85,13 +95,14 @@ Syntax
    ::
 
       [ WITH ( {storage_parameter = value} [, ... ] ) ]
-      [ USING INDEX TABLESPACE tablespace_name ]
 
--  **partition_less_than_item** is as follows:
+-  .. _en-us_topic_0000001233510133__li1147714355320:
+
+   **partition_less_than_item** is as follows:
 
    ::
 
-      PARTITION partition_name VALUES LESS THAN ( { partition_value | MAXVALUE } ) [TABLESPACE tablespace_name]
+      PARTITION partition_name VALUES LESS THAN ( { partition_value | MAXVALUE } )
 
 -  **partition_start_end_item** is as follows:
 
@@ -102,7 +113,15 @@ Syntax
               {START(partition_value) END ({partition_value | MAXVALUE})} |
               {START(partition_value)} |
               {END({partition_value | MAXVALUE})}
-      } [TABLESPACE tablespace_name]
+      }
+
+-  .. _en-us_topic_0000001233510133__li135021622911:
+
+   list_partition_item:
+
+   ::
+
+      PARTITION partition_name VALUES ( { (partition_value) [, ...] | DEFAULT } )
 
 Parameter Description
 ---------------------
@@ -152,10 +171,10 @@ Parameter Description
 
    **NOT NULL** constraints are always copied to the new table. **CHECK** constraints will only be copied if **INCLUDING CONSTRAINTS** is specified; other types of constraints will never be copied. These rules also apply to column constraints and table constraints.
 
-   Unlike **INHERITS**, columns and constraints copied by **LIKE** are not merged with similarly named columns and constraints. If the same name is specified explicitly or in another **LIKE** clause, an error is reported.
+   Columns and constraints copied by **LIKE** are not merged with the same name. If the same name is specified explicitly or in another **LIKE** clause, an error is reported.
 
    -  Any indexes on the source table will not be created on the new table, unless the **INCLUDING INDEXES** clause is specified.
-   -  STORAGE settings for the copied column definitions will only be copied if **INCLUDING STORAGE** is specified. The default behavior is to exclude **STORAGE** settings.
+   -  **STORAGE** settings for the copied column definitions will only be copied if **INCLUDING STORAGE** is specified. The default behavior is to exclude **STORAGE** settings.
    -  Comments for the copied columns, constraints, and indexes will only be copied if **INCLUDING COMMENTS** is specified. The default behavior is to exclude comments.
    -  If **INCLUDING RELOPTIONS** is specified, the new table will copy the storage parameter (**WITH** clause of the source table) of the source table. The default behavior is to exclude partition definition of the storage parameter of the source table.
    -  If **INCLUDING DISTRIBUTION** is specified, the new table will copy the distribution information of the source table, including distribution type and column, and the new table cannot use **DISTRIBUTE BY** clause. The default behavior is to exclude distribution information of the source table.
@@ -187,16 +206,15 @@ Parameter Description
 
    -  COMPRESSION
 
-      -  The valid values for column-store tables are **YES**/**NO** and **LOW**/**MIDDLE**/**HIGH**, and the default is **LOW**.
-      -  The valid values for row-store tables are **YES** and **NO**, and the default is **NO**.
+      The valid values for column-store tables are **YES**/**NO** and **LOW**/**MIDDLE**/**HIGH**, and the default is **LOW**.
 
-         .. note::
+      .. note::
 
-            The row-store table compression function is not put into commercial use. To use this function, contact technical support engineers.
+         Currently, row-store table compression is not supported.
 
    -  MAX_BATCHROW
 
-      Specifies the maximum of a storage unit during data loading process. The parameter is only valid for column-store table.
+      Specifies the maximum of a storage unit during data loading process. The parameter is only valid for column-store tables.
 
       Value range: 10000 to 60000
 
@@ -204,7 +222,7 @@ Parameter Description
 
    -  PARTIAL_CLUSTER_ROWS
 
-      Specifies the number of records to be partial cluster stored during data loading process. The parameter is only valid for column-store table.
+      Specifies the number of records to be partial cluster stored during data loading process. The parameter is only valid for column-store tables.
 
       Value range: The valid value is no less than 100000. The value is the multiple of **MAX_BATCHROW**.
 
@@ -216,13 +234,13 @@ Parameter Description
 
    -  DELTAROW_THRESHOLD
 
-      A reserved parameter. The parameter is only valid for column-store table.
+      A reserved parameter. The parameter is only valid for column-store tables.
 
       The value ranges from **0** to **60000**. The default value is **6000**.
 
-   -  COLD_TABLECPACE
+   -  COLD_TABLESPACE
 
-      Specifies the OBS tablespace for the cold partitions in a hot or cold table. This parameter is available only to partitioned column-store tables and cannot be modified. It must be used together with **storage_policy**.
+      Specifies the OBS tablespace for the cold partitions in a multi-temperature table. This parameter is available only to partitioned column-store tables and cannot be modified. It must be used together with **storage_policy**. The parameter **STORAGE_POLICY** can be left unconfigured. In this case, the default value **default_obs_tbs** is used.
 
       Valid value: a valid OBS tablespace name
 
@@ -234,6 +252,55 @@ Parameter Description
 
       -  **LMT:[**\ *day*\ **]**: Switch the hot partition data that is not updated in the last *[day]* days to the OBS tablespace as cold partition data. *[day]* is an integer ranging from 0 to 36500, in days.
       -  **HPN:[**\ *hot_partition_num*\ **]**: [*hot_partition_num*] indicates the number of hot partitions (with data) to be retained. The rule is to find the maximum sequence ID of the partitions with data. The partitions without data whose sequence ID is greater than the maximum sequence ID are hot partitions, and [*hot_partition_num*] partitions are retained as hot partitions in descending order according to the sequence ID. A partition whose sequence ID is smaller than the minimum sequence ID of the retained hot partition is a cold partition. During hot and cold partition switchover, data needs to be migrated to the OBS tablespace. *[hot_partition_num]* is an integer ranging from 0 to 1600.
+
+         .. important::
+
+            -  The hybrid data warehouse (standalone) does not support cold and hot partition switchover.
+            -  For a LIST partition, you are advised to use the HPN policy with caution. Otherwise, the new partition may not be a hot partition.
+
+   -  .. _en-us_topic_0000001233510133__li672910401685:
+
+      PERIOD
+
+      Specifies the period of automatically creating partitions and enables the automatic partition creation function. Only row-store and column-store range partitioned tables, time series tables, and cold and hot tables are supported. The partition key must be unique and its type can only be TIMESTAMP[(p)] [WITHOUT TIME ZONE], TIMESTAMP[(p)] [WITH TIME ZONE] or DATE. maxvalue partitions are not supported. The value of **(nowTime - boundaryTime)/PERIOD** must be less than the upper limit of the number of partitions, where **nowTime** indicates the current time and **boundaryTime** indicates the earliest partition boundary time. It cannot be used on midrange computers, acceleration clusters, or single-node clusters.
+
+      Value range: 1 hour ~ 100 years
+
+      .. important::
+
+         -  In a database compatible with Teradata or MySQL, if the partition key type is **DATE**, **PERIOD** cannot be less than 1 day.
+
+         -  If PERIOD is set when a partitioned table is created, you can specify only the partition key. Two default partitions are created during table creation. The time ranges of the two default partitions are both PERIOD. The boundary time of the first default partition is the first hour, day, week, month, or year past the current time. The time unit is selected based on the maximum unit of PERIOD. The boundary time of the second default partition is the boundary time of the first partition plus PERIOD. Assume that the current time is 2022-02-17 16:32:45, and the boundary of the first default partition is described in :ref:`Table 1 <en-us_topic_0000001233510133__table9164621194711>`.
+
+            For more information about the default partitions, see :ref:`Example 5 <en-us_topic_0000001233510133__li9517101103811>`.
+
+         -  The hybrid data warehouse (standalone) does not support automatic partition creation.
+
+      .. _en-us_topic_0000001233510133__table9164621194711:
+
+      .. table:: **Table 1** Partition boundaries
+
+         ======= =================== ===================================
+         period  Maximum PERIOD Unit Boundary of First Default Partition
+         ======= =================== ===================================
+         1hour   Hour                2022-02-17 17:00:00
+         1day    Day                 2022-02-18 00:00:00
+         1month  Month               2022-03-01 00:00:00
+         13month Year                2023-01-01 00:00:00
+         ======= =================== ===================================
+
+   -  .. _en-us_topic_0000001233510133__li49277207810:
+
+      TTL
+
+      Specifies the partition expiration time in partition management and enables the automatic partition deletion function. This parameter cannot be set separately. You must set **PERIOD** in advance or at the same time. The value of this parameter must be greater than or equal to that of **PERIOD**.
+
+      Value range: 1 hour ~ 100 years
+
+      .. note::
+
+         -  PERIOD indicates that data is partitioned by time period. The partition size may affect the query performance. The :ref:`proc_add_partition <en-us_topic_0000001444998754__section9462151915274>`\ (relname,period) function is automatically invoked to create a partition after each period. Time To Live (TTL) specifies the data storage period of the table. The data that exceeds the TTL period will be cleared. To do this, the :ref:`proc_drop_partition <en-us_topic_0000001444998754__section9128833152714>`\ (relname,ttl) function is automatically invoked based on the period. The **PERIOD** and **TTL** values are of the Interval type, for example, **1 hour**, **1 day**, **1 week**, **1 month**, **1 year**, and **1 month 2 day 3 hour**.
+         -  The hybrid data warehouse (standalone) does not support automatic partition deletion.
 
    -  COLVERSION
 
@@ -247,7 +314,7 @@ Parameter Description
 
       Default value: **2.0**
 
-      The value of **COLVERSION** can only be set to **2.0** for OBS hot and cold tables.
+      The value of **COLVERSION** can only be set to **2.0** for OBS multi-temperature tables.
 
       .. note::
 
@@ -274,10 +341,6 @@ Parameter Description
 
    Default value: **NOCOMPRESS**, tuple data is not compressed before storage.
 
--  **TABLESPACE tablespace_name**
-
-   Specifies the new table will be created in **tablespace_name** tablespace. If not specified, default tablespace is used. The OBS tablespace is not supported.
-
 -  **DISTRIBUTE BY**
 
    Specifies how the table is distributed or replicated between DNs.
@@ -285,6 +348,7 @@ Parameter Description
    Valid value:
 
    -  **REPLICATION**: Each row in the table exists on all DNs, that is, each DN has complete table data.
+   -  **ROUNDROBIN**: Each row in the table is sent to each DN in turn. Therefore, data is evenly distributed on each DN. This value is supported only in 8.1.2 or later.
    -  **HASH (column_name)**: Each row of the table will be placed into all the DNs based on the hash value of the specified column.
 
    .. important::
@@ -292,29 +356,40 @@ Parameter Description
       -  When **DISTRIBUTE BY HASH (column_name)** is specified, the primary key and its unique index must contain the **column_name** column.
       -  When **DISTRIBUTE BY HASH (column_name)** in a referenced table is specified, the foreign key of the reference table must contain the **column_name** column.
 
-   Default value: **HASH(column_name)**, the key column of **column_name** (if any) or the column of distribution column supported by first data type.
+   Default value: determined by the GUC parameter **default_distribution_mode**
 
-   **column_name** supports the following data types:
+   -  When **default_distribution_mode** is set to **roundrobin**, the default value of **DISTRIBUTE BY** is selected according to the following rules:
 
-   -  INTEGER TYPES: TINYINT, SMALLINT, INT, BIGINT, NUMERIC/DECIMAL
-   -  CHARACTER TYPES: CHAR, BPCHAR, VARCHAR, VARCHAR2, NVARCHAR2
-   -  DATA/TIME TYPES: DATE, TIME, TIMETZ, TIMESTAMP, TIMESTAMPTZ, INTERVAL, SMALLDATETIME
+      #. If the primary key or unique constraint is included during table creation, hash distribution is selected. The distribution column is the column corresponding to the primary key or unique constraint.
+      #. If the primary key or unique constraint is not included during table creation, round-robin distribution is selected.
+
+   -  When **default_distribution_mode** is set to **hash**, the default value of **DISTRIBUTE BY** is selected according to the following rules:
+
+      #. If the primary key or unique constraint is included during table creation, hash distribution is selected. The distribution column is the column corresponding to the primary key or unique constraint.
+      #. If the primary key or unique constraint is not included during table creation but there are columns whose data types can be used as distribution columns, hash distribution is selected. The distribution column is the first column whose data type can be used as a distribution column.
+      #. If the primary key or unique constraint is not included during table creation and no column whose data type can be used as a distribution column exists, round-robin distribution is selected.
+
+   The following data types can be used as distribution columns:
+
+   -  Integer types: **TINYINT**, **SMALLINT**, **INT**, **BIGINT**, and **NUMERIC/DECIMAL**
+   -  Character types: **CHAR**, **BPCHAR**, **VARCHAR**, **VARCHAR2**, **NVARCHAR2**, and **TEXT**
+   -  Date/time types: **DATE**, **TIME**, **TIMETZ**, **TIMESTAMP**, **TIMESTAMPTZ**, **INTERVAL**, and **SMALLDATETIME**
 
 -  **TO { GROUP groupname \| NODE ( nodename [, ... ] ) }**
 
    **TO GROUP** specifies the Node Group in which the table is created. Currently, it cannot be used for HDFS tables. **TO NODE** is used for internal scale-out tools.
 
--  .. _en-us_topic_0000001099150744__lb144da954d4c4ac58c1e9ae1391e59ac:
+-  .. _en-us_topic_0000001233510133__lb144da954d4c4ac58c1e9ae1391e59ac:
 
    **PARTITION BY RANGE(partition_key)**
 
-   Creates a range partition. **partition_key** is the name of the partition key.
+   The syntax specifying range partitioning. **partition_key** indicates the name of a partition key.
 
    (1) Assume that the **VALUES LESS THAN** syntax is used.
 
    .. important::
 
-      In this case, a maximum of four partition keys are supported.
+      In this case, a maximum of four partition keys are supported, and the partition key must be a column name. If there are multiple partition keys, a column name can appear only once, and two adjacent partition keys must be separated by a comma (,).
 
    Data types supported by the partition keys are as follows: SMALLINT, INTEGER, BIGINT, DECIMAL, NUMERIC, REAL, DOUBLE PRECISION, CHARACTER VARYING(n), VARCHAR(n), CHARACTER(n), CHAR(n), CHARACTER, CHAR, TEXT, NVARCHAR2, NAME, TIMESTAMP[(p)] [WITHOUT TIME ZONE], TIMESTAMP[(p)] [WITH TIME ZONE], and DATE.
 
@@ -326,9 +401,23 @@ Parameter Description
 
    Data types supported by the partition key are as follows: SMALLINT, INTEGER, BIGINT, DECIMAL, NUMERIC, REAL, DOUBLE PRECISION, TIMESTAMP[(p)] [WITHOUT TIME ZONE], TIMESTAMP[(p)] [WITH TIME ZONE], and DATE.
 
--  **PARTITION partition_name VALUES LESS THAN ( { partition_value \| MAXVALUE } )**
+-  **PARTITION BY LIST (partition_key,[...])**
 
-   Specifies the information of partitions. **partition_name** is the name of a range partition. **partition_value** is the upper limit of range partition, and the value depends on the type of **partition_key**. **MAXVALUE** can specify the upper boundary of a range partition, and it is commonly used to specify the upper boundary of the last range partition.
+   The syntax specifying list partitioning. **partition_key** indicates the name of a partition key.
+
+   .. important::
+
+      In list partitioning, a partition key has a maximum of four columns.
+
+   In list partitioning, the partition key supports the following data types: TINYINT, SMALLINT, INTEGER, BIGINT, NUMERIC/DECIMAL, TEXT, NVARCHAR2, VARCHAR(n), CHAR, BPCHAR, TIME, TIME WITH TIMEZONE, TIMESTAMP, TIMESTAMP WITH TIME ZONE, DATE, INTERVAL and SMALLDATETIME.
+
+-  **partition_less_than_item**
+
+   ::
+
+      PARTITION partition_name VALUES LESS THAN ( { partition_value | DEFAULT } )
+
+   Partition definition syntax in range partitioning. **partition_name** is the name of a range partition. **partition_value** is the upper limit of range partition, and the value depends on the type of **partition_key**. **MAXVALUE** can specify the upper boundary of a range partition, and it is commonly used to specify the upper boundary of the last range partition.
 
    .. important::
 
@@ -337,11 +426,18 @@ Parameter Description
       -  In a partition list, partitions are arranged in ascending order of upper boundary values. Therefore, a partition with a certain upper boundary value is placed before another partition with a larger upper boundary value.
       -  If a partition key consists of multiple columns, the columns are used for partitioning in sequence. The first column is preferred to be used for partitioning. If the values of the first columns are the same, the second column is used. The subsequent columns are used in the same manner.
 
--  .. _en-us_topic_0000001099150744__li2094151861116:
+-  .. _en-us_topic_0000001233510133__li2094151861116:
 
-   **PARTITION partition_name {START (partition_value) END (partition_value) EVERY (interval_value)}** **\|** **{START (partition_value) END (partition_value|MAXVALUE)} \| {START(partition_value)} \| {END (partition_value \| MAXVALUE)**}
+   **partition_start_end_item**
 
-   Specifies partition definitions.
+   ::
+
+      PARTITION partition_name {START (partition_value) END (partition_value) EVERY (interval_value)}
+                             | {START (partition_value) END (partition_value|MAXVALUE)}
+                             | {START(partition_value)}
+                             | {END (partition_value| MAXVALUE)}
+
+   The syntax of using the start value and interval value to define a range partition. The parameters are described as follows:
 
    -  **partition_name**: name or name prefix of a range partition. It is the name prefix only in the following cases (assuming that **partition_name** is **p1**):
 
@@ -368,6 +464,36 @@ Parameter Description
       #. In statements for creating partitioned tables, **START END** and **LESS THAN** cannot be used together.
       #. The **START END** syntax in a partitioned table creation SQL statement will be replaced with the **VALUES LESS THAN** syntax when **gs_dump** is executed.
 
+-  list_partition_item
+
+   ::
+
+      PARTITION partition_name VALUES ( { (partition_value) [, ... ] | DEFAULT } )
+
+   Partition definition syntax in list partitioning. **partition_name** indicates the partition name. **partition_value** is an enumerated value of the list partition boundary. The value depends on the type of **partition_key**. **DEFAULT** indicates the default partition boundary.
+
+   .. important::
+
+      The following conventions and constraints apply to list partitioned tables:
+
+      -  .. _en-us_topic_0000001233510133__li105701736194813:
+
+         The partition whose boundary value is **DEFAULT** is the default partition.
+
+      -  Each list partitioned table can have only one DEFAULT partition.
+
+      -  The number of partitions in a partitioned table cannot exceed 32767, and the number of boundary values of all partitions cannot exceed 32767.
+
+      -  Regardless of the number of partition keys, the boundary of the DEFAULT partition can only be DEFAULT.
+
+      -  If a partition key consists of multiple columns, each **partition_value** must contain the values of all partition keys. If a partition key contains only one column, the parentheses on both sides of **partition_value** can be omitted. For details, see :ref:`Example 4: Creating a List Partitioned Table With Multiple Partition Keys <en-us_topic_0000001233510133__li72564306344>`.
+
+      -  If the partition key consists of multiple columns, compare the values in the columns one by one. If a value is different from another value, regardless of their columns, they are different values.
+
+      -  Each value of **partition_value** must be unique.
+
+      -  When data is inserted, if its partition key and value falls into the boundary of a non-DEFAULT partition, the data is written to the partition. Otherwise, the data is written to the DEFAULT partition.
+
 -  **{ ENABLE \| DISABLE } ROW MOVEMENT**
 
    Specifies the row movement switch.
@@ -378,6 +504,10 @@ Parameter Description
 
    -  **ENABLE**: Row movement is enabled.
    -  **DISABLE** (default value): Disable row movement.
+
+      .. note::
+
+         **ROW MOVEMENT** is disabled by default, if it is not specified in the partitioned table. In this case, cross-partition update is not allowed. If **ENABLE ROW MOVEMENT** is specified, cross-partition update is allowed. However, if **SELECT FOR UPDATE** is executed concurrently to query the partitioned table, the query results may be instantaneously inconsistent. Therefore, exercise caution when performing this operation.
 
 -  **NOT NULL**
 
@@ -442,199 +572,194 @@ Parameter Description
 
    The constraint check time can be altered using the **SET CONSTRAINTS** command.
 
--  **USING INDEX TABLESPACE tablespace_name**
-
-   Allows selection of the tablespace in which the index associated with a **UNIQUE** or **PRIMARY KEY** constraint will be created. If not specified, **default_tablespace** is consulted, or the default tablespace in the database if **default_tablespace** is empty. The OBS tablespace is not supported.
-
 Examples
 --------
 
--  Example 1: Create a range-partitioned table **tpcds.web_returns_p1**. The table has eight partitions and the data type of their partition key is integer. The ranges of the partitions are: wr_returned_date_sk < 2450815, 2450815 <= wr_returned_date_sk < 2451179, 2451179 <= wr_returned_date_sk < 2451544, 2451544 <= wr_returned_date_sk < 2451910, 2451910 <= wr_returned_date_sk < 2452275, 2452275 <= wr_returned_date_sk < 2452640, 2452640 <= wr_returned_date_sk < 2453005, and wr_returned_date_sk >= 2453005.
+-  Example 1: Use the **LESS THAN** syntax to create a range partitioned table.
+
+   The range partitioned table **customer_address** has four partitions and their partition keys are of the integer type. The ranges of the partitions are as follows: **ca_address_sk** < 2450815, 2450815 <= **ca_address_sk** < 2451179, 2451179 <= **ca_address_sk** < 2451544, 2451544 <= **ca_address_sk**.
 
    ::
 
-      CREATE TABLE tpcds.web_returns_p1
+      DROP TABLE IF EXISTS customer_address;
+      CREATE TABLE customer_address
       (
-          WR_RETURNED_DATE_SK       INTEGER                       ,
-          WR_RETURNED_TIME_SK       INTEGER                       ,
-          WR_ITEM_SK                INTEGER               NOT NULL,
-          WR_REFUNDED_CUSTOMER_SK   INTEGER                       ,
-          WR_REFUNDED_CDEMO_SK      INTEGER                       ,
-          WR_REFUNDED_HDEMO_SK      INTEGER                       ,
-          WR_REFUNDED_ADDR_SK       INTEGER                       ,
-          WR_RETURNING_CUSTOMER_SK  INTEGER                       ,
-          WR_RETURNING_CDEMO_SK     INTEGER                       ,
-          WR_RETURNING_HDEMO_SK     INTEGER                       ,
-          WR_RETURNING_ADDR_SK      INTEGER                       ,
-          WR_WEB_PAGE_SK            INTEGER                       ,
-          WR_REASON_SK              INTEGER                       ,
-          WR_ORDER_NUMBER           BIGINT                NOT NULL,
-          WR_RETURN_QUANTITY        INTEGER                       ,
-          WR_RETURN_AMT             DECIMAL(7,2)                  ,
-          WR_RETURN_TAX             DECIMAL(7,2)                  ,
-          WR_RETURN_AMT_INC_TAX     DECIMAL(7,2)                  ,
-          WR_FEE                    DECIMAL(7,2)                  ,
-          WR_RETURN_SHIP_COST       DECIMAL(7,2)                  ,
-          WR_REFUNDED_CASH          DECIMAL(7,2)                  ,
-          WR_REVERSED_CHARGE        DECIMAL(7,2)                  ,
-          WR_ACCOUNT_CREDIT         DECIMAL(7,2)                  ,
-          WR_NET_LOSS               DECIMAL(7,2)
+          ca_address_sk       INTEGER                  NOT NULL   ,
+          ca_address_id       CHARACTER(16)            NOT NULL   ,
+          ca_street_number    CHARACTER(10)                       ,
+          ca_street_name      CHARACTER varying(60)               ,
+          ca_street_type      CHARACTER(15)                       ,
+          ca_suite_number     CHARACTER(10)
       )
-      WITH (ORIENTATION = COLUMN,COMPRESSION=MIDDLE)
-      DISTRIBUTE BY HASH (WR_ITEM_SK)
-      PARTITION BY RANGE(WR_RETURNED_DATE_SK)
+      DISTRIBUTE BY HASH (ca_address_sk)
+      PARTITION BY RANGE(ca_address_sk)
       (
               PARTITION P1 VALUES LESS THAN(2450815),
               PARTITION P2 VALUES LESS THAN(2451179),
               PARTITION P3 VALUES LESS THAN(2451544),
-              PARTITION P4 VALUES LESS THAN(2451910),
-              PARTITION P5 VALUES LESS THAN(2452275),
-              PARTITION P6 VALUES LESS THAN(2452640),
-              PARTITION P7 VALUES LESS THAN(2453005),
-              PARTITION P8 VALUES LESS THAN(MAXVALUE)
+              PARTITION P4 VALUES LESS THAN(MAXVALUE)
       );
 
--  Example 2: Create a range partitioned table **tpcds.web_returns_p2**. The table has eight partitions and the data type of their partition key is integer. The upper limit of the eighth partition is **MAXVALUE**.
+   View the information of the partitioned table.
 
-   The ranges of the partitions are: wr_returned_date_sk < 2450815, 2450815 <= wr_returned_date_sk < 2451179, 2451179 <= wr_returned_date_sk < 2451544, 2451544 <= wr_returned_date_sk < 2451910, 2451910 <= wr_returned_date_sk < 2452275, 2452275 <= wr_returned_date_sk < 2452640, 2452640 <= wr_returned_date_sk < 2453005, and wr_returned_date_sk >= 2453005.
+   .. code-block::
 
-   Assume that *CN and DN data directory/pg_location/mount1/path1*, *CN and DN data directory/pg_location/mount2/path2*, *CN and DN data directory/pg_location/mount3/path3*, and *CN and DN data directory/pg_location/mount4/path4* are empty directories for which user **dwsadmin** has read and write permissions.
+      SELECT relname, boundaries FROM pg_partition p where p.parentid='customer_address'::regclass ORDER BY 1;
+           relname      | boundaries
+      ------------------+------------
+       customer_address |
+       p1               | {2450815}
+       p2               | {2451179}
+       p3               | {2451544}
+       p4               | {NULL}
+      (5 rows)
 
-   ::
-
-      CREATE TABLE tpcds.web_returns_p2
-      (
-          WR_RETURNED_DATE_SK       INTEGER                       ,
-          WR_RETURNED_TIME_SK       INTEGER                       ,
-          WR_ITEM_SK                INTEGER               NOT NULL,
-          WR_REFUNDED_CUSTOMER_SK   INTEGER                       ,
-          WR_REFUNDED_CDEMO_SK      INTEGER                       ,
-          WR_REFUNDED_HDEMO_SK      INTEGER                       ,
-          WR_REFUNDED_ADDR_SK       INTEGER                       ,
-          WR_RETURNING_CUSTOMER_SK  INTEGER                       ,
-          WR_RETURNING_CDEMO_SK     INTEGER                       ,
-          WR_RETURNING_HDEMO_SK     INTEGER                       ,
-          WR_RETURNING_ADDR_SK      INTEGER                       ,
-          WR_WEB_PAGE_SK            INTEGER                       ,
-          WR_REASON_SK              INTEGER                       ,
-          WR_ORDER_NUMBER           BIGINT                NOT NULL,
-          WR_RETURN_QUANTITY        INTEGER                       ,
-          WR_RETURN_AMT             DECIMAL(7,2)                  ,
-          WR_RETURN_TAX             DECIMAL(7,2)                  ,
-          WR_RETURN_AMT_INC_TAX     DECIMAL(7,2)                  ,
-          WR_FEE                    DECIMAL(7,2)                  ,
-          WR_RETURN_SHIP_COST       DECIMAL(7,2)                  ,
-          WR_REFUNDED_CASH          DECIMAL(7,2)                  ,
-          WR_REVERSED_CHARGE        DECIMAL(7,2)                  ,
-          WR_ACCOUNT_CREDIT         DECIMAL(7,2)                  ,
-          WR_NET_LOSS               DECIMAL(7,2)
-      )
-      DISTRIBUTE BY HASH (WR_ITEM_SK)
-      PARTITION BY RANGE(WR_RETURNED_DATE_SK)
-      (
-              PARTITION P1 VALUES LESS THAN(2450815),
-              PARTITION P2 VALUES LESS THAN(2451179),
-              PARTITION P3 VALUES LESS THAN(2451544),
-              PARTITION P4 VALUES LESS THAN(2451910),
-              PARTITION P5 VALUES LESS THAN(2452275),
-              PARTITION P6 VALUES LESS THAN(2452640),
-              PARTITION P7 VALUES LESS THAN(2453005),
-              PARTITION P8 VALUES LESS THAN(MAXVALUE)
-      )
-      ENABLE ROW MOVEMENT;
-
--  Example 3: Use **START END** to create and modify a range partitioned table.
-
-   Assume that **/home/dbadmin/startend_tbs1**, **/home/dbadmin/startend_tbs2**, **/home/dbadmin/startend_tbs3**, and **/home/dbadmin/startend_tbs4** are empty directories that user **dbadmin** has read and write permissions for.
-
-   Create a partitioned table with the partition key of type integer.
+   Query the number of rows in the **P1** partition:
 
    ::
 
-      CREATE TABLE tpcds.startend_pt (c1 INT, c2 INT)
+      SELECT count(*) FROM customer_address PARTITION (P1);
+      SELECT count(*) FROM customer_address PARTITION FOR (2450815);
 
-      DISTRIBUTE BY HASH (c1)
-      PARTITION BY RANGE (c2) (
-          PARTITION p1 START(1) END(1000) EVERY(200) ,
+-  Example 2: Use the **START END** syntax to create a column-store range partitioned table.
+
+   .. code-block::
+
+      CREATE TABLE customer_address_SE
+      (
+          ca_address_sk       INTEGER                  NOT NULL   ,
+          ca_address_id       CHARACTER(16)            NOT NULL   ,
+          ca_street_number    CHARACTER(10)                       ,
+          ca_street_name      CHARACTER varying(60)               ,
+          ca_street_type      CHARACTER(15)                       ,
+          ca_suite_number     CHARACTER(10)
+      )
+      WITH (ORIENTATION = COLUMN)
+      DISTRIBUTE BY HASH (ca_address_sk)
+      PARTITION BY RANGE(ca_address_sk)
+      (
+          PARTITION p1 START(1) END(1000) EVERY(200),
           PARTITION p2 END(2000),
-          PARTITION p3 START(2000) END(2500) ,
-          PARTITION p4 START(2500),
-          PARTITION p5 START(3000) END(5000) EVERY(1000)
+          PARTITION p3 START(2000) END(5000)
+      );
+
+   View the information of the partitioned table.
+
+   .. code-block::
+
+      SELECT relname, boundaries FROM pg_partition p where p.parentid='customer_address_SE'::regclass ORDER BY 1;
+           relname      | boundaries
+      ---------------------+------------
+       customer_address_se |
+       p1_0                | {1}
+       p1_1                | {201}
+       p1_2                | {401}
+       p1_3                | {601}
+       p1_4                | {801}
+       p1_5                | {1000}
+       p2                  | {2000}
+       p3                  | {5000}
+      (9 rows)
+
+-  Example 3: Create a list partitioned table with partition keys.
+
+   ::
+
+      CREATE TABLE data_list
+      (
+          id int,
+          time int,
+          sarlay decimal(12,2)
       )
-      ENABLE ROW MOVEMENT;
+      PARTITION BY LIST (time)
+      (
+              PARTITION P1 VALUES (202209),
+              PARTITION P2 VALUES (202210,202208),
+              PARTITION P3 VALUES (202211),
+              PARTITION P4 VALUES (202212),
+              PARTITION P5 VALUES (202301)
+      );
 
-   View the information of the partitioned table.
+-  .. _en-us_topic_0000001233510133__li72564306344:
 
-   ::
+   Example 4: Create list partitioned tables with partition keys.
 
-      SELECT relname, boundaries FROM pg_partition p where p.parentid='tpcds.startend_pt'::regclass ORDER BY 1;
-         relname   | boundaries
-      -------------+------------
-       p1_0        | {1}
-       p1_1        | {201}
-       p1_2        | {401}
-       p1_3        | {601}
-       p1_4        | {801}
-       p1_5        | {1000}
-       p2          | {2000}
-       p3          | {2500}
-       p4          | {3000}
-       p5_1        | {4000}
-       p5_2        | {5000}
-       tpcds.startend_pt |
-      (12 rows)
-
-   Import data and check the data volume in the partition.
+   A partitioned table has two partition keys, **period** and **city**.
 
    ::
 
-      INSERT INTO tpcds.startend_pt VALUES (GENERATE_SERIES(0, 4999), GENERATE_SERIES(0, 4999));
-      SELECT COUNT(*) FROM tpcds.startend_pt PARTITION FOR (0);
-      count
-      -------
-      1
+      CREATE TABLE sales_info
+      (
+      sale_time  timestamptz,
+      period     int,
+      city       text,
+      price      numeric(10,2),
+      remark     varchar2(100)
+      )
+      DISTRIBUTE BY HASH(sale_time)
+      PARTITION BY LIST (period, city)
+      (
+      PARTITION north_2022 VALUES (('202201', 'north1'), ('202202', 'north2')),
+      PARTITION south_2022 VALUES (('202201', 'south1'), ('202202', 'south2'), ('202203', 'south2')),
+      PARTITION rest VALUES (DEFAULT)
+      );
+
+-  .. _en-us_topic_0000001233510133__li9517101103811:
+
+   Example 5: Create a partitioned table with automatic partition management but without specified partitions. Set **PERIOD** to 1 day and the partition key to **time**.
+
+   ::
+
+      CREATE TABLE time_part
+       (
+          id integer,
+          time timestamp
+       ) with (PERIOD='1 day')
+       partition by range(time);
+
+   Two default partitions are created during table creation. The boundary time of the first default partition is the start of the day later than the current time, that is, 2022-12-13 00:00:00. The boundary time of the second default partition is the boundary time of the first partition plus PERIOD, that is, 2022-12-13 00:00:00+1 day=2022-12-14 00:00:00.
+
+   ::
+
+      SELECT now();
+                    now
+      -------------------------------
+       2022-12-12 20:41:21.603172+08
       (1 row)
 
-      SELECT COUNT(*) FROM tpcds.startend_pt PARTITION (p3);
-      count
-      -------
-      500
-      (1 row)
+      SELECT relname, boundaries FROM pg_partition p where p.parentid='time_part'::regclass ORDER BY 1;
+          relname     |       boundaries
+      ----------------+-------------------------
+       default_part_1 | {"2022-12-13 00:00:00"}
+       default_part_2 | {"2022-12-14 00:00:00"}
+       time_part      |
+      (3 rows)
 
-   View the information of the partitioned table.
+-  Example 6: Run the following command to create a partitioned table with automatic partition management and specified partitions:
 
    ::
 
-      SELECT relname, boundaries FROM pg_partition p where p.parentid='tpcds.startend_pt'::regclass ORDER BY 1;
-         relname   | boundaries
-      -------------+------------
-       p1_0        | {1}
-       p1_1        | {201}
-       p1_2        | {401}
-       p1_3        | {601}
-       p1_4        | {801}
-       p1_5        | {1000}
-       p2          | {2000}
-       p3          | {2500}
-       p4          | {3000}
-       p5_1        | {4000}
-       p6_1        | {5300}
-       p6_2        | {5600}
-       p6_3        | {5900}
-       p71         | {6000}
-       q1_1        | {4250}
-       q1_2        | {4500}
-       q1_3        | {4750}
-       q1_4        | {5000}
-       tpcds.startend_pt |
-      (19 rows)
+      CREATE TABLE CPU(
+          id integer,
+          idle numeric,
+          IO numeric,
+          scope text,
+          IP text,
+          time timestamp
+      ) with (TTL='7 days',PERIOD='1 day')
+      partition by range(time)
+      (
+          PARTITION P1 VALUES LESS THAN('2022-01-05 16:32:45'),
+          PARTITION P2 VALUES LESS THAN('2022-01-06 16:56:12')
+      );
 
--  Example 4: Create a partitioned table **customer_address** partitioned by month. The table has 13 partitions and the partition keys are dates.
+-  Example 7: Create a partitioned table **customer_address** partitioned by month. The table has 13 partitions and the partition keys are dates.
 
    Create a partitioned table **customer_address**.
 
    ::
 
+      DROP TABLE IF EXISTS customer_address;
       CREATE TABLE customer_address
       (
           ca_address_sk       integer           NOT NULL,
@@ -677,7 +802,7 @@ Examples
                    7 | 2020-08-05 00:00:00
       (1 row)
 
--  Example 5: Create multiple partition syntax at a time using the START END syntax.
+-  Example 8: Use **START END** to create a partitioned table with multiple partitions at a time.
 
    -  Create a partitioned table **day_part**. Each day is a partition, and the partition key is a date.
 
@@ -709,7 +834,33 @@ Examples
          (PARTITION p1 START('2021-01-01') END('2022-01-01') EVERY(interval '1 month'));
          ALTER TABLE  month_part ADD PARTITION pmax VALUES LESS THAN (maxvalue);
 
-Links
------
+-  Example 9: Create a table for hot and cold data.
+
+   Only a column-store partitioned table is supported. Use the default OBS tablespace. Set LMT to 30 for cold and hot switchover rules.
+
+   ::
+
+      DROP TABLE IF EXISTS cold_hot_table;
+      CREATE TABLE cold_hot_table
+      (
+          W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
+          W_WAREHOUSE_NAME          VARCHAR(20)                   ,
+          W_STREET_NUMBER           CHAR(10)                      ,
+          W_STREET_NAME             VARCHAR(60)                   ,
+          W_STREET_ID               CHAR(15)                      ,
+          W_SUITE_NUMBER            CHAR(10)
+      )
+      WITH (ORIENTATION = COLUMN, storage_policy = 'LMT:30')
+      DISTRIBUTE BY HASH (W_WAREHOUSE_ID)
+      PARTITION BY RANGE(W_STREET_ID)
+      (
+          PARTITION P1 VALUES LESS THAN(100000),
+          PARTITION P2 VALUES LESS THAN(200000),
+          PARTITION P3 VALUES LESS THAN(300000),
+          PARTITION P4 VALUES LESS THAN(MAXVALUE)
+      )ENABLE ROW MOVEMENT;
+
+Helpful Links
+-------------
 
 :ref:`ALTER TABLE PARTITION <dws_06_0143>`, :ref:`DROP TABLE <dws_06_0208>`

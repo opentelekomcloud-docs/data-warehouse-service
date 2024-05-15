@@ -5,7 +5,7 @@
 Ranking Search Results
 ======================
 
-Ranking attempts to measure how relevant documents are to a particular query, so that when there are many matches the most relevant ones can be shown first. GaussDB(DWS) provides two predefined ranking functions. which take into account lexical, proximity, and structural information; that is, they consider how often the query terms appear in the document, how close together the terms are in the document, and how important is the part of the document where they occur. However, the concept of relevancy is vague and application-specific. Different applications might require additional information for ranking, for example, document modification time. The built-in ranking functions are only examples. You can write your own ranking functions and/or combine their results with additional factors to fit your specific needs.
+Ranking attempts to measure how relevant documents are to a particular query, so that when there are many matches the most relevant ones can be shown first. GaussDB(DWS) provides two predefined ranking functions: **ts_rank** and **ts_rank_cd**. which take into account lexical, proximity, and structural information; that is, they consider how often the query terms appear in the document, how close together the terms are in the document, and how important is the part of the document where they occur. However, the concept of relevancy is vague and application-specific. Different applications might require additional information for ranking, for example, document modification time. The built-in ranking functions are only examples. You can write your own ranking functions and/or combine their results with additional factors to fit your specific needs.
 
 The two ranking functions currently available are:
 
@@ -43,9 +43,11 @@ Since a longer document has a greater chance of containing a query term it is re
 
 If more than one flag bit is specified, the transformations are applied in the order listed.
 
-It is important to note that the ranking functions do not use any global information, so it is impossible to produce a fair normalization to 1% or 100% as sometimes desired. Normalization option 32 (**rank/(rank+1)**) can be applied to scale all ranks into the range zero to one, but of course this is just a cosmetic change; it will not affect the ordering of the search results.
+It is important to note that the ranking functions do not use any global information, so it is impossible to produce a fair normalization to 1% or 100% as sometimes desired. Normalization option 32 **(rank/(rank+1))** can be used to scale all ranks into the range zero to one. This is just a cosmetic change, and it will not affect the ordering of the search results.
 
-The following example selects the top 10 matches. Run the following statements in a database that uses the UTF-8 or GBK encoding:
+Here is an example that selects only the ten highest-ranked matches:
+
+Run the following statements in a database that uses the UTF-8 or GBK encoding:
 
 ::
 
@@ -54,12 +56,12 @@ The following example selects the top 10 matches. Run the following statements i
    WHERE query @@ to_tsvector(body)
    ORDER BY rank DESC
    LIMIT 10;
-    id |  title  | rank
-   ----+---------+------
-    11 | Philology  |   .2
-     2 | Mathematics |   .1
-    12 | Geography  |   .1
-    13 | Computer science  |   .1
+    id |      title       | rank
+   ----+------------------+------
+     7 | Medical science  |   .2
+     3 | Computer science |   .1
+     2 | Mathematics      |   .1
+     5 | Geography        |   .1
    (4 rows)
 
 This is the same example using normalized ranking:
@@ -71,36 +73,12 @@ This is the same example using normalized ranking:
    WHERE  query @@ to_tsvector(body)
    ORDER BY rank DESC
    LIMIT 10;
-    id |  title  |   rank
-   ----+---------+----------
-    11 | Philology  |  .166667
-     2 | Mathematics | .0909091
-    12 | Geography  | .0909091
-    13 | Computer science  | .0909091
+    id |      title       |   rank
+   ----+------------------+----------
+     7 | Medical science  |  .166667
+     3 | Computer science | .0909091
+     2 | Mathematics      | .0909091
+     5 | Geography        | .0909091
    (4 rows)
-
-The following example sorts query by Chinese word segmentation:
-
-::
-
-   CREATE TABLE tsearch.ts_zhparser(id int, body text);
-   INSERT INTO tsearch.ts_zhparser VALUES (1, 'sort');
-   INSERT INTO tsearch.ts_zhparser VALUES(2, 'sort query');
-   INSERT INTO tsearch.ts_zhparser VALUES(3, 'query sort');
-   -- Accurate match
-   SELECT id, body, ts_rank_cd (to_tsvector ('zhparser', body), query) AS rank FROM tsearch.ts_zhparser, to_tsquery ('sort') query WHERE query @@ to_tsvector (body);
-    id | body | rank
-   ----+------+------
-     1 | sort |   .1
-   (1 row)
-
-   -- Fuzzy match
-   SELECT id, body, ts_rank_cd (to_tsvector ('zhparser', body), query) AS rank FROM tsearch.ts_zhparser, to_tsquery ('sort') query WHERE query @@ to_tsvector ('zhparser',body);
-    id |   body   | rank
-   ----+----------+------
-     3 | query sort |   .1
-     1 | sort     |   .1
-     2 | sort query |   .1
-   (3 rows)
 
 Ranking can be expensive since it requires consulting the **tsvector** of each matching document, which can be I/O bound and therefore slow. Unfortunately, it is almost impossible to avoid since practical queries often result in large numbers of matches.
