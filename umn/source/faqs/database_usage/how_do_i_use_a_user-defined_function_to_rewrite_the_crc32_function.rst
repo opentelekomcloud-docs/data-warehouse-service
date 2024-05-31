@@ -61,4 +61,4 @@ Verify the rewriting result.
           |     0 | 2212294583
    (1 row)
 
-For details about how to use user-defined functions, see .
+For details about how to use user-defined functions, see section "CREATE FUNCTION" in *SQL Syntax References*.

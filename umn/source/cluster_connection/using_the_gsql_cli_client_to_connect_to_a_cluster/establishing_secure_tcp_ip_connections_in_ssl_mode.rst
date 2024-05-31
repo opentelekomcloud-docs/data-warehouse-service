@@ -7,15 +7,15 @@ Establishing Secure TCP/IP Connections in SSL Mode
 
 GaussDB(DWS) supports the standard SSL. As a highly secure protocol, SSL authenticates bidirectional identification between the server and client using digital signatures and digital certificates to ensure secure data transmission. To support SSL connection, GaussDB(DWS) has obtained the formal certificates and keys for the server and client from the CA certification center. It is assumed that the key and certificate for the server are **server.key** and **server.crt** respectively; the key and certificate for the client are **client.key** and **client.crt** respectively, and the name of the CA root certificate is **cacert.pem**.
 
-The SSL connection mode is more secure. By default, the SSL feature in a cluster allows SSL and non-SSL connections from the client. For security purposes, you are advised to connect to the cluster via SSL from the client. Ensure the certificate, private key, and root certificate of the GaussDB(DWS) server have been configured by default. To forcibly use an SSL connection, configure the **require_ssl** parameter in the **Require SSL Connection** area of the cluster's **Security Settings** page on the GaussDB(DWS) management console. Require SSL Connection on the Security Settings page of the cluster. For more information, see :ref:`Configuring SSL Connection <en-us_topic_0000001517913817__section131774823014>` and :ref:`Combinations of SSL Connection Parameters on the Client and Server <en-us_topic_0000001517913817__section1916311515557>`.
+The SSL connection mode is more secure. By default, the SSL feature in a cluster allows SSL and non-SSL connections from the client. For security purposes, you are advised to connect to the cluster via SSL from the client. Ensure the certificate, private key, and root certificate of the GaussDB(DWS) server have been configured by default. To forcibly use an SSL connection, configure the **require_ssl** parameter in the **Require SSL Connection** area of the cluster's **Security Settings** page on the GaussDB(DWS) management console. Require SSL Connection on the Security Settings page of the cluster. For more information, see :ref:`Configuring SSL Connection <en-us_topic_0000001659054490__en-us_topic_0000001372520154_section131774823014>` and :ref:`Combinations of SSL Connection Parameters on the Client and Server <en-us_topic_0000001659054490__en-us_topic_0000001372520154_section1916311515557>`.
 
-The client or JDBC/ODBC driver needs to use SSL connection. Configure related SSL connection parameters in the client or application code. The GaussDB(DWS) management console provides the SSL certificate required by the client. The SSL certificate contains the default certificate, private key, root certificate, and private key password encryption file required by the client. Download the SSL certificate to the host where the client is installed, and specify the path of the certificate on the client. For more information, see :ref:`Configuring Digital Certificate Parameters Related to SSL Authentication on the gsql Client <en-us_topic_0000001517913817__s6d3b0bb119894929810147678d9c67a5>` and :ref:`SSL Authentication Modes and Client Parameters <en-us_topic_0000001517913817__s3a228fb4ac9c48ec8bc34e812c8879e8>`.
+The client or JDBC/ODBC driver needs to use SSL connection. Configure related SSL connection parameters in the client or application code. The GaussDB(DWS) management console provides the SSL certificate required by the client. The SSL certificate contains the default certificate, private key, root certificate, and private key password encryption file required by the client. Download the SSL certificate to the host where the client is installed, and specify the path of the certificate on the client. For more information, see :ref:`Configuring Digital Certificate Parameters Related to SSL Authentication on the gsql Client <en-us_topic_0000001659054490__en-us_topic_0000001372520154_s6d3b0bb119894929810147678d9c67a5>` and :ref:`SSL Authentication Modes and Client Parameters <en-us_topic_0000001659054490__en-us_topic_0000001372520154_s3a228fb4ac9c48ec8bc34e812c8879e8>`.
 
 .. note::
 
    Using the default certificate may pose security risks. To improve system security, you are advised to periodically change the certificate to prevent password cracking. If you need to replace the certificate, contact the database customer service.
 
-.. _en-us_topic_0000001517913817__section131774823014:
+.. _en-us_topic_0000001659054490__en-us_topic_0000001372520154_section131774823014:
 
 Configuring SSL Connection
 --------------------------
@@ -32,7 +32,7 @@ Configuring SSL Connection
 
 #. Log in to the GaussDB(DWS) management console.
 
-#. In the navigation pane on the left, click **Clusters**.
+#. In the navigation pane on the left, choose **Clusters** > **Dedicated Clusters**.
 
 #. In the cluster list, click the name of a cluster. On the page that is displayed, click **Security Settings**.
 
@@ -42,7 +42,7 @@ Configuring SSL Connection
 
    |image1| indicates the function is enabled. The **require_ssl** is set to **1**, indicating that the server forcibly requires the SSL connection.
 
-   |image2| indicates the function is disabled (default value). The **require_ssl** parameter is set to **0**, indicating that the server does not require SSL connections. For details about how to configure the **require_ssl** parameter, see :ref:`require_ssl (Server) <en-us_topic_0000001517913817__li107621516191913>`.
+   |image2| indicates the function is disabled (default value). The **require_ssl** parameter is set to **0**, indicating that the server does not require SSL connections. For details about how to configure the **require_ssl** parameter, see :ref:`require_ssl (Server) <en-us_topic_0000001659054490__en-us_topic_0000001372520154_li107621516191913>`.
 
    .. note::
 
@@ -53,16 +53,16 @@ Configuring SSL Connection
 
    The system automatically saves the SSL connection settings. On the **Security Settings** page, **Configuration Status** is **Applying**. After **Configuration Status** changes to **Synchronized**, the settings have been saved and taken effect.
 
-.. _en-us_topic_0000001517913817__s6d3b0bb119894929810147678d9c67a5:
+.. _en-us_topic_0000001659054490__en-us_topic_0000001372520154_s6d3b0bb119894929810147678d9c67a5:
 
 Configuring Digital Certificate Parameters Related to SSL Authentication on the gsql Client
 -------------------------------------------------------------------------------------------
 
 After a data warehouse cluster is deployed, the SSL authentication mode is enabled by default. The server certificate, private key, and root certificate have been configured by default. You need to configure the client parameters.
 
-#. Log in to the GaussDB(DWS) management console. In the navigation pane, choose **Connections**.
+#. Log in to the GaussDB(DWS) management console. In the navigation pane, choose **Client Connections**.
 
-#. .. _en-us_topic_0000001517913817__li13478842115911:
+#. .. _en-us_topic_0000001659054490__en-us_topic_0000001372520154_li13478842115911:
 
    In the **Driver** area, click **download an SSL certificate**.
 
@@ -79,7 +79,7 @@ After a data warehouse cluster is deployed, the SSL authentication mode is enabl
 
 #. Run the export command and configure digital certificate parameters related to SSL authentication on the host where the gsql client is installed.
 
-   There are two SSL authentication modes: bidirectional authentication and unidirectional authentication. Different authentication modes require different client environment variables. For details, see :ref:`SSL Authentication Modes and Client Parameters <en-us_topic_0000001517913817__s3a228fb4ac9c48ec8bc34e812c8879e8>`.
+   There are two SSL authentication modes: bidirectional authentication and unidirectional authentication. The client environment variables to be configured vary according to the authentication mode. For details, see :ref:`SSL Authentication Modes and Client Parameters <en-us_topic_0000001659054490__en-us_topic_0000001372520154_s3a228fb4ac9c48ec8bc34e812c8879e8>`.
 
    The following parameters must be configured for bidirectional authentication:
 
@@ -114,14 +114,14 @@ After a data warehouse cluster is deployed, the SSL authentication mode is enabl
       chmod 600 client.key.rand
       chmod 600 cacert.pem
 
-.. _en-us_topic_0000001517913817__s3a228fb4ac9c48ec8bc34e812c8879e8:
+.. _en-us_topic_0000001659054490__en-us_topic_0000001372520154_s3a228fb4ac9c48ec8bc34e812c8879e8:
 
 SSL Authentication Modes and Client Parameters
 ----------------------------------------------
 
-There are two SSL authentication modes: bidirectional authentication and unidirectional authentication. Table :ref:`Table 1 <en-us_topic_0000001517913817__table267519441727>` shows the differences between these two modes. You are advised to use bidirectional authentication for security purposes.
+There are two SSL authentication modes: bidirectional authentication and unidirectional authentication. Table :ref:`Table 1 <en-us_topic_0000001659054490__en-us_topic_0000001372520154_table267519441727>` shows the differences between these two modes. You are advised to use bidirectional authentication for security purposes.
 
-.. _en-us_topic_0000001517913817__table267519441727:
+.. _en-us_topic_0000001659054490__en-us_topic_0000001372520154_table267519441727:
 
 .. table:: **Table 1** Authentication modes
 
@@ -141,13 +141,13 @@ There are two SSL authentication modes: bidirectional authentication and unidire
    |                                            |                                                                                                                                                                                                                                                                     | -  PGSSLMODE                                 |                                                                                                                                                                                                                                          |
    +--------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-Configure environment variables related to SSL authentication on the client. For details, see :ref:`Table 2 <en-us_topic_0000001517913817__t8b0644779e4c40009b6fb1ad6a8ea986>`.
+Configure environment variables related to SSL authentication on the client. For details, see :ref:`Table 2 <en-us_topic_0000001659054490__en-us_topic_0000001372520154_t8b0644779e4c40009b6fb1ad6a8ea986>`.
 
 .. note::
 
    The path of environment variables is set to */home/dbadmin*\ **/dws_ssl/** as an example. Replace it with the actual path.
 
-.. _en-us_topic_0000001517913817__t8b0644779e4c40009b6fb1ad6a8ea986:
+.. _en-us_topic_0000001659054490__en-us_topic_0000001372520154_t8b0644779e4c40009b6fb1ad6a8ea986:
 
 .. table:: **Table 2** Client parameters
 
@@ -202,7 +202,7 @@ Configure environment variables related to SSL authentication on the client. For
    |                       |                                                                                                                                                                                               | Default value: null                                                                                                                                                                               |
    +-----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-.. _en-us_topic_0000001517913817__section1916311515557:
+.. _en-us_topic_0000001659054490__en-us_topic_0000001372520154_section1916311515557:
 
 Combinations of SSL Connection Parameters on the Client and Server
 ------------------------------------------------------------------
@@ -216,7 +216,7 @@ Whether the client uses the SSL encryption connection mode and whether to verify
    -  The default value is **on** for clusters whose version is 1.3.1 or later, and you cannot set this parameter on the GaussDB(DWS) management console.
    -  For clusters whose version is earlier than 1.3.1, the default value is **on**. You can set this parameter in the **SSL Connection** area on the cluster's **Security Settings** page of the GaussDB(DWS) management console.
 
--  .. _en-us_topic_0000001517913817__li107621516191913:
+-  .. _en-us_topic_0000001659054490__en-us_topic_0000001372520154_li107621516191913:
 
    **require_ssl (Server)**
 
@@ -280,5 +280,5 @@ The combinations of client parameter **sslmode** and server parameters **ssl** a
    |              | verify-ca        | off                  | The client requires SSL, but SSL is disabled on the server. Therefore, the connection cannot be set up.                |
    +--------------+------------------+----------------------+------------------------------------------------------------------------------------------------------------------------+
 
-.. |image1| image:: /_static/images/en-us_image_0000001517355433.png
-.. |image2| image:: /_static/images/en-us_image_0000001517914033.png
+.. |image1| image:: /_static/images/en-us_image_0000001759511717.png
+.. |image2| image:: /_static/images/en-us_image_0000001711592296.png

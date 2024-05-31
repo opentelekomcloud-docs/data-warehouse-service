@@ -5,34 +5,28 @@
 General Problems
 ================
 
--  :ref:`Why Are Data Warehouses Necessary? <dws_03_0003>`
--  :ref:`What Are the Differences Between a Data Warehouse and the Hadoop Big Data Platform? <dws_03_0005>`
--  :ref:`Why Should I Use Public Cloud GaussDB(DWS)? <dws_03_0006>`
+-  :ref:`Why Do I Need to Use a Data Warehouse? <dws_03_0003>`
 -  :ref:`Should I Choose Public Cloud GaussDB(DWS) or RDS? <dws_03_0009>`
--  :ref:`When Should I Use GaussDB(DWS) and MRS? <dws_03_0010>`
--  :ref:`What Is the User Quota? <dws_03_0034>`
 -  :ref:`What Are the Differences Between Users and Roles? <dws_03_0067>`
+-  :ref:`When Should I Use GaussDB(DWS) and MRS? <dws_03_0010>`
 -  :ref:`How Do I Check the Creation Time of a Database User? <dws_03_0063>`
 -  :ref:`Regions and AZs <dws_03_0052>`
 -  :ref:`Is My Data Secure in GaussDB(DWS)? <dws_03_0022>`
 -  :ref:`How Is GaussDB(DWS) Secured? <dws_03_0023>`
 -  :ref:`Can I Modify the Security Group of a GaussDB(DWS) Cluster? <dws_03_0053>`
--  :ref:`What Is a Database/Data Warehouse/Data Lake/Lakehouse? <dws_03_2121>`
+-  :ref:`How Are Dirty Pages Generated in GaussDB(DWS)? <dws_03_2143>`
 
 .. toctree::
    :maxdepth: 1
    :hidden: 
 
-   why_are_data_warehouses_necessary
-   what_are_the_differences_between_a_data_warehouse_and_the_hadoop_big_data_platform
-   why_should_i_use_public_cloud_gaussdbdws
+   why_do_i_need_to_use_a_data_warehouse
    should_i_choose_public_cloud_gaussdbdws_or_rds
-   when_should_i_use_gaussdbdws_and_mrs
-   what_is_the_user_quota
    what_are_the_differences_between_users_and_roles
+   when_should_i_use_gaussdbdws_and_mrs
    how_do_i_check_the_creation_time_of_a_database_user
    regions_and_azs
    is_my_data_secure_in_gaussdbdws
    how_is_gaussdbdws_secured
    can_i_modify_the_security_group_of_a_gaussdbdws_cluster
-   what_is_a_database_data_warehouse_data_lake_lakehouse
+   how_are_dirty_pages_generated_in_gaussdbdws

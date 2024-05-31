@@ -5,11 +5,11 @@
 Editing Logical Clusters
 ========================
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console. In the navigation pane, choose **Clusters** > **Dedicated Clusters**.
 
-#. In the cluster list, click the name of a cluster.
+#. In the cluster list, click the name of the target cluster. The **Cluster Information** page is displayed.
 
-#. Switch to the **Logical Clusters** tab and click **Edit** in the **Operation** column of the target cluster.
+#. In the navigation pane, choose **Logical Clusters** and click **Edit** in the **Operation** column of the target cluster.
 
    |image1|
 
@@ -28,6 +28,6 @@ Editing Logical Clusters
    -  The ring removed from the logical cluster will be added to the elastic cluster.
    -  Logical clusters of version 8.1.3 and later support online scale-out.
 
-.. |image1| image:: /_static/images/en-us_image_0000001518034037.png
-.. |image2| image:: /_static/images/en-us_image_0000001467074366.png
-.. |image3| image:: /_static/images/en-us_image_0000001466754870.png
+.. |image1| image:: /_static/images/en-us_image_0000001711048672.png
+.. |image2| image:: /_static/images/en-us_image_0000001711208184.png
+.. |image3| image:: /_static/images/en-us_image_0000001758847757.png

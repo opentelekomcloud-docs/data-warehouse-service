@@ -11,7 +11,7 @@ Data Import and Export
 -  :ref:`How Much Service Data Can a Data Warehouse Store? <dws_03_0028>`
 -  :ref:`How Do I Use \Copy to Import and Export Data? <dws_03_0073>`
 -  :ref:`How Do I Implement Fault Tolerance Import Between Different Encoding Libraries <dws_03_0080>`
--  :ref:`Can I Export GaussDB(DWS) Data from/to OBS Across Regions? <dws_03_0102>`
+-  :ref:`Can I Import and Export Data to and from OBS Across Regions? <dws_03_0102>`
 -  :ref:`How Do I Import GaussDB(DWS)/Oracle/MySQL/SQL Server Data to GaussDB(DWS) (Whole Database Migration)? <dws_03_0074>`
 -  :ref:`Can I Import Data over the Public/External Network Using GDS? <dws_03_0105>`
 -  :ref:`Which Are the Factors That Affect GaussDB(DWS) Import Performance? <dws_03_1549>`
@@ -26,7 +26,7 @@ Data Import and Export
    how_much_service_data_can_a_data_warehouse_store
    how_do_i_use_copy_to_import_and_export_data
    how_do_i_implement_fault_tolerance_import_between_different_encoding_libraries
-   can_i_export_gaussdbdws_data_from_to_obs_across_regions
+   can_i_import_and_export_data_to_and_from_obs_across_regions
    how_do_i_import_gaussdbdws_oracle_mysql_sql_server_data_to_gaussdbdws_whole_database_migration
    can_i_import_data_over_the_public_external_network_using_gds
    which_are_the_factors_that_affect_gaussdbdws_import_performance

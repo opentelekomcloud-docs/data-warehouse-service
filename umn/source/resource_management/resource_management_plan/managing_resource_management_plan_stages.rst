@@ -15,7 +15,7 @@ The following conditions must be met when you add or modify a resource managemen
 
    .. note::
 
-      -  The CPU limit can be configured only in 8.1.3 and later versions.
+      -  The CPU usage limit can be configured only in 8.1.3 and later versions.
 
 Adding a Resource Management Plan Stage
 ---------------------------------------
@@ -84,13 +84,13 @@ Deleting a Resource Management Plan Stage
 
    |image6|
 
-.. note::
+.. important::
 
    Stages in a running resource management plan cannot be deleted.
 
-.. |image1| image:: /_static/images/en-us_image_0000001466754670.png
-.. |image2| image:: /_static/images/en-us_image_0000001466914302.png
-.. |image3| image:: /_static/images/en-us_image_0000001518033837.png
-.. |image4| image:: /_static/images/en-us_image_0000001517754369.png
-.. |image5| image:: /_static/images/en-us_image_0000001517355341.png
-.. |image6| image:: /_static/images/en-us_image_0000001517913949.png
+.. |image1| image:: /_static/images/en-us_image_0000001759580345.png
+.. |image2| image:: /_static/images/en-us_image_0000001711661408.png
+.. |image3| image:: /_static/images/en-us_image_0000001711820920.png
+.. |image4| image:: /_static/images/en-us_image_0000001759420493.png
+.. |image5| image:: /_static/images/en-us_image_0000001759580349.png
+.. |image6| image:: /_static/images/en-us_image_0000001711661412.png

@@ -12,6 +12,7 @@ GaussDB(DWS) provides the resource management function. You can put resources in
 .. important::
 
    -  This feature is supported only in 8.0 or later.
+   -  Resources cannot be managed during offline scale-out. If a resource management plan is enabled, stop it before performing offline scale-out.
 
 Resource Management Functions
 -----------------------------

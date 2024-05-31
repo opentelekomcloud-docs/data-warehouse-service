@@ -12,8 +12,9 @@ Impact on the System
 
 -  Before the scale-in, exit the client connections that have created temporary tables, because temporary tables created before or during the scale-in will become invalid and operations performed on these temporary tables will fail. Temporary tables created after the scale-in will not be affected.
 -  If you start a scale-in, an automatic snapshot will be created for the cluster before scale-in. If you do not need the snapshot, you can disable the automated backup function on the scale-in page.
+-  Before scale-in, ensure that the skew rate does not exceed 10%. There is no general requirement for the dirty page rate. However, for a large table whose size is greater than 50 GB, ensure that the dirty page rate does not exceed 20% to 30%.
 -  In a cluster that is being scaled in, the following functions are disabled: cluster restart, cluster scale-out, snapshot creation, node management, intelligent O&M, resource management, parameter modification, security configurations, log service, database administrator password resetting, and cluster deletion.
--  During offline scale-in, stop all services or run only a few query statements. During table redistribution, a shared lock is added to tables. All insert, update, and delete operations as well as DDL operations on the tables are blocked for a long time, which may cause a lock wait timeout. After a table is redistributed, you can access the table. Do not perform queries that take more than 20 minutes during the redistribution (the default time for applying for the write lock during redistribution is 20 minutes). Otherwise, data redistribution may fail due to lock wait timeout.
+-  During offline scale-in, stop all services or run only a few query statements. During table redistribution, a shared lock is added to tables. All insert, update, and delete operations as well as DDL operations on the tables are blocked for a long time, which may cause a lock wait timeout. After a table is redistributed, you can access the table. During redistribution, avoid querying data for more than 20 minutes. The default time for applying a write lock during redistribution is 20 minutes. Exceeding this duration may lead to redistribution failure due to lock waiting timeout.
 -  During online scale-in, you can perform insert, update, and delete operations on tables, but data updates may still be blocked for a short period of time. Redistribution consumes lots of CPU and I/O resources, which will greatly impact job performance. Therefore, perform redistribution when services are stopped or during periods of light load.
 -  During offline scale-in, if a node is deleted while DDL statements are executed (to create a schema or function), these statements may report errors, because the DN cannot be found. In this case, you simply need to retry the statements.
 -  If a cluster scale-in fails, the database does not automatically roll back the scale-in operation, and no O&M operations can be performed. In this case, you need to click the **Scale In** on the console to try again.
@@ -52,7 +53,7 @@ Procedure
 
 #. Log in to the GaussDB(DWS) management console.
 
-#. Choose **Clusters**.
+#. Choose **Clusters** > **Dedicated Clusters**.
 
 #. In the **Operation** column of the target cluster, choose **More** > **Scale Node** > **Scale In**.
 
@@ -70,7 +71,13 @@ Procedure
 
    |image4|
 
-.. |image1| image:: /_static/images/en-us_image_0000001466754762.png
-.. |image2| image:: /_static/images/en-us_image_0000001466595110.png
-.. |image3| image:: /_static/images/en-us_image_0000001517754461.png
-.. |image4| image:: /_static/images/en-us_image_0000001517355437.png
+.. note::
+
+   -  If the cluster parameters fail the check, the scale-in will fail. To avoid this problem, ensure your parameter settings are correct.
+   -  If schemas fail the check, the scale-in will fail. To avoid this problem, check whether any schema that conflicts with the scale-in exists.
+   -  If the disk space fails the check, the scale-in may fail or the cluster may become read-only after the scale-in. To avoid this problem, increase your cluster disk capacity.
+
+.. |image1| image:: /_static/images/en-us_image_0000001711598592.png
+.. |image2| image:: /_static/images/en-us_image_0000001759517989.png
+.. |image3| image:: /_static/images/en-us_image_0000001711439104.png
+.. |image4| image:: /_static/images/en-us_image_0000001759358129.png

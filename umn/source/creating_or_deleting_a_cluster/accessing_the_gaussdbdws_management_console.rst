@@ -18,4 +18,4 @@ Procedure
 #. From the menu on top of the management console, choose **Service List**.
 #. Choose **EI Enterprise Intelligence** > **GaussDB(DWS)** to enter the GaussDB(DWS) management console.
 
-.. |image1| image:: /_static/images/en-us_image_0000001466914466.png
+.. |image1| image:: /_static/images/en-us_image_0000001759303589.png

@@ -7,12 +7,12 @@ Scaling Out a Cluster
 
 When you need more compute and storage resources, add more nodes for cluster scale-out on the management console.
 
-After the data in a data warehouse is deleted, the occupied disk space may not be released, resulting in dirty data and disk waste. Therefore, if you need to scale out your cluster due to insufficient storage capacity, run the **VACUUM** command to reclaim the storage space first. If the used storage capacity is still high after you run the **VACUUM** command, you can scale out your cluster. For details about the **VACUUM** syntax, see "SQL References > SQL Syntax > VACUUM" in the *Data Warehouse Service Database Developer Guide*.
+After the data in a data warehouse is deleted, the occupied disk space may not be released, resulting in dirty data and disk waste. Therefore, if you need to scale out your cluster due to insufficient storage capacity, run the **VACUUM** command to reclaim the storage space first. If the used storage capacity is still high after you run the **VACUUM** command, you can scale out your cluster. For details about the **VACUUM** syntax, see "SQL References > SQL Syntax > VACUUM" in the *Data Warehouse Service (DWS) Developer Guide*.
 
 Impact on the System
 --------------------
 
--  Before the scale-out, exit the client connections that have created temporary tables because temporary tables created before or during the scale-out will become invalid and operations performed on these temporary tables will fail. Temporary tables created after the scale-out will not be affected.
+-  Before the scale-out, disable the client connections that have created temporary tables because temporary tables created before or during the scale-out will become invalid and operations performed on these temporary tables will fail. Temporary tables created after the scale-out will not be affected.
 -  During the scale-out, functions such as cluster restart, scale-out, snapshot creation, database administrator password resetting, and cluster deletion are disabled.
 -  During an offline scale-out, the cluster automatically restarts. Therefore, the cluster stays **Unavailable** for a period of time. After the cluster is restarted, the status becomes **Available**. After scale-out, the system dynamically redistributes user data among all nodes in the cluster.
 
@@ -29,11 +29,11 @@ Scaling Out a Cluster
 .. note::
 
    -  A cluster becomes read-only during scale-out. Exercise caution when performing this operation.
-   -  For data security purposes, create a manual snapshot before scaling. For details about how to create a snapshot, see :ref:`Manual Snapshots <dws_01_0092>`.
+   -  To ensure data security, you are advised to create a snapshot before the scale-out. For details about how to create a snapshot, see :ref:`Manual Snapshots <dws_01_0092>`.
 
 #. Log in to the GaussDB(DWS) management console.
 
-#. Click **Clusters**.
+#. Choose **Clusters** > **Dedicated Clusters**.
 
    All clusters are displayed by default.
 
@@ -49,11 +49,17 @@ Scaling Out a Cluster
 
    -  The VPC, subnet, and security group of the cluster with new nodes added are the same as those of the original cluster.
 
-#. .. _en-us_topic_0000001466914106__li1283703664815:
+#. .. _en-us_topic_0000001707254605__en-us_topic_0000001372839430_li85162515474:
 
-   Configure advanced parameters. If you choose **Default**, **Online Scale-out** is disabled, **Auto Redistribution** is enabled, and **Redistribution Mode** is set to **Offline**. You can configure concurrency for redistribution.
+   Configure advanced parameters.
 
-   If you choose **Default**, **Online Scale-out** will be disabled, **Auto Redistribution** will be enabled, and **Redistribution Mode** will be **Offline mode** by default.
+   -  If you choose **Default**, **Scale Online** will be disabled, **Auto Redistribution** will be enabled, and **Redistribution Mode** will be **Offline** by default.
+   -  If you choose **Custom**, you can configure the following advanced configuration parameters for online scale-out:
+
+      -  **Scale Online**: Online scale-out can be enabled. During online scale-out, data can be added, deleted, modified, and queried in the database; and some DDL syntaxes are supported. Errors will be reported for unsupported syntaxes.
+      -  **Auto Redistribution**: Automatic redistribution can be enabled. If automatic redistribution is enabled, data will be redistributed immediately after the scale-out is complete. If this function is disabled, only the scale-out is performed. In this case, to redistribute data, select a cluster and choose **More** > **Scale Node** > **Redistribute**.
+      -  **Redistribution Concurrency**: If automatic redistribution is enabled, you can set the number of concurrent redistribution tasks. The value range is 1 to 32. The default value is 4.
+      -  **Redistribution Mode**: It can be set to **Online** or **Offline**. After confirming that the information is correct, click **OK** in the displayed dialog box.
 
 #. Click **Next: Confirm**.
 
@@ -68,15 +74,12 @@ Viewing Scaling Details
 
 #. Log in to the GaussDB(DWS) management console.
 
-#. Choose **Clusters**.
+#. Choose **Clusters** > **Dedicated Clusters**.
 
 #. In the **Task Information** column of a cluster, click **View Details**.
 
-   |image1|
-
 #. Check the scale-out status of the cluster on the scaling details page.
 
-   |image2|
+   |image1|
 
-.. |image1| image:: /_static/images/en-us_image_0000001467074158.png
-.. |image2| image:: /_static/images/en-us_image_0000001467074150.png
+.. |image1| image:: /_static/images/en-us_image_0000001758846097.png

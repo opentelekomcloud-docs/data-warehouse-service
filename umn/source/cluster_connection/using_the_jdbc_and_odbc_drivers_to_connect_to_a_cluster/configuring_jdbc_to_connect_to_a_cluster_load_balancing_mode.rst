@@ -22,15 +22,7 @@ Method 1: Using ELB to Connect to a Cluster
 
    |image1|
 
-#. Configure the driver.
-
-   ::
-
-      <dependency>
-          <groupId>com.huaweicloud.dws</groupId>
-          <artifactId>huaweicloud-dws-jdbc</artifactId>
-          <version>8.1.1.1</version>
-      </dependency>
+#. Configure the driver. For details, see :ref:`Downloading the JDBC or ODBC Driver <dws_01_0032>`.
 
 #. Obtain the database connection.
 
@@ -65,15 +57,7 @@ Method 2: Connecting to the Cluster in Multi-host Mode
 
    |image2|
 
-#. Configure the driver.
-
-   ::
-
-      <dependency>
-          <groupId>com.huaweicloud.dws</groupId>
-          <artifactId>huaweicloud-dws-jdbc</artifactId>
-          <version>8.1.1.1</version>
-      </dependency>
+#. Configure the driver. For details, see :ref:`Downloading the JDBC or ODBC Driver <dws_01_0032>`.
 
 #. Obtain the database connection.
 
@@ -101,5 +85,5 @@ Method 2: Connecting to the Cluster in Multi-host Mode
           return connection;
       }
 
-.. |image1| image:: /_static/images/en-us_image_0000001553900613.png
-.. |image2| image:: /_static/images/en-us_image_0000001553980681.png
+.. |image1| image:: /_static/images/en-us_image_0000001711432848.png
+.. |image2| image:: /_static/images/en-us_image_0000001759351901.png

@@ -5,7 +5,14 @@
 Audit Log Overview
 ==================
 
-GaussDB(DWS) provides database audit logs for users to query service logs, analyze problems, and learn product security and performance status.
+GaussDB(DWS) provides management console audit logs and database audit logs for users to query service logs, analyze problems, and learn product security and performance status.
+
+Management Console Audit Logs
+-----------------------------
+
+GaussDB(DWS) uses Cloud Trace Service (CTS) to record mission-critical operations performed on the GaussDB (DWS) management console, such as cluster creation, snapshot creation, cluster scale-out, and cluster restart. The logs can be used in purposes such as security analysis, compliance audit, resource tracing, and fault locating.
+
+For details about how to enable and view management console audit logs, see :ref:`Management Console Audit Logs <dws_01_0118>`.
 
 Database Audit Logs
 -------------------

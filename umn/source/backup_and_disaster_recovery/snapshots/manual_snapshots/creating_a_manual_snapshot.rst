@@ -31,7 +31,9 @@ Procedure
 
 #. Log in to the GaussDB(DWS) management console.
 
-#. In the navigation pane, choose **Snapshots**. Click **Create Snapshot** in the upper right corner. Alternatively, choose **More** > **Create Snapshot** in the **Operation** column.
+#. In the navigation pane, choose **Snapshots**.
+
+#. In the navigation pane, choose **Snapshots**. Click **Create Snapshot** in the upper right corner. Alternatively, choose **More** > **Create Snapshot** in the **Operation** column on the **Dedicated Clusters** page.
 
    |image1|
 
@@ -48,12 +50,12 @@ Procedure
 
 #. Click **Create**.
 
-   Task status of the cluster for which you are creating a snapshot is **Creating snapshot**. The status of the snapshot that is being created is **Creating**. After the snapshot is created, its status becomes **Available**.
+   Task status of the cluster for which you are creating a snapshot is **Creating snapshot**. The status of the snapshot that is being created is **Creating**. After the snapshot is created, its status changes to **Available**.
 
    .. note::
 
       If the snapshot size is much greater than that of the data stored in the cluster, the data is possibly labeled with a deletion tag, but is not cleared and reclaimed. In this case, clear the data and recreate a snapshot. For details, see :ref:`How Can I Clear and Reclaim the Storage Space? <dws_03_0033>`
 
-.. |image1| image:: /_static/images/en-us_image_0000001518033881.png
-.. |image2| image:: /_static/images/en-us_image_0000001467074206.png
-.. |image3| image:: /_static/images/en-us_image_0000001466754718.png
+.. |image1| image:: /_static/images/en-us_image_0000001759358513.png
+.. |image2| image:: /_static/images/en-us_image_0000001711598968.png
+.. |image3| image:: /_static/images/en-us_image_0000001711439500.png

@@ -9,16 +9,15 @@ If you only need to cope with occasional service peaks or only increase computin
 
 .. note::
 
-   -  This feature is supported only by clusters of version 8.1.1.300 or later. The agent version must be 8.2.0.2 or later.
+   -  Only cluster versions 8.1.1.300 and later support elastic flavor change. For an earlier version, contact technical support to upgrade it first.
    -  Currently, specifications can be modified only for offline clusters. The modification takes about 10 minutes.
-   -  Currently, you can only modify the specifications of standard data warehouse clusters and stream data warehouse clusters that only use ECS and EVS resources for computing and storage.
 
 Procedure
 ---------
 
 #. Log in to the GaussDB(DWS) management console.
 
-#. Choose **Clusters**. All clusters are displayed by default.
+#. Choose **Clusters** > **Dedicated Clusters**. All clusters are displayed by default.
 
 #. In the row of a cluster, choose **More** > **Change Specifications** in the **Operation** column and click **Change node flavor**.
 
@@ -30,11 +29,11 @@ Procedure
 
    .. important::
 
-      -  Decreasing the specifications of a cluster is to select the target specifications that are lower than the current specifications of the cluster. This operation may affect the cluster performance. Therefore, evaluate service impact before performing this operation.
+      Decreasing the specifications of a cluster is to select the target specifications that are lower than the current specifications of the cluster. This operation may affect the cluster performance. Therefore, evaluate service impact before performing this operation.
 
 #. Click **Next: confirm**.
 
 #. Return to the cluster list. The cluster status will change to **Changing node flavor**. Wait for about 10 minutes.
 
-.. |image1| image:: /_static/images/en-us_image_0000001517754477.png
-.. |image2| image:: /_static/images/en-us_image_0000001687101397.png
+.. |image1| image:: /_static/images/en-us_image_0000001758887437.png
+.. |image2| image:: /_static/images/en-us_image_0000001710968040.png

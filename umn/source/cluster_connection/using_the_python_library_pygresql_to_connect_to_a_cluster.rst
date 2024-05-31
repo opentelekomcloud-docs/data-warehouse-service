@@ -45,13 +45,13 @@ Preparations Before Connecting to a Cluster
 Constraints
 -----------
 
-PyGreSQL is a PostgreSQL-based client interface, and its functions are not fully supported by GaussDB(DWS). For details, see :ref:`Table 1 <en-us_topic_0000001517913785__table12568181118545>`.
+PyGreSQL is a PostgreSQL-based client interface, and its functions are not fully supported by GaussDB(DWS). For details, see :ref:`Table 1 <en-us_topic_0000001707254549__en-us_topic_0000001372679778_table12568181118545>`.
 
 .. note::
 
    The following APIs are supported based on Python 3.8.5 and PyGreSQL 5.2.4.
 
-.. _en-us_topic_0000001517913785__table12568181118545:
+.. _en-us_topic_0000001707254549__en-us_topic_0000001372679778_table12568181118545:
 
 .. table:: **Table 1** PyGreSQL APIs supported by DWS
 

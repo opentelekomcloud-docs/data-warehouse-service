@@ -15,7 +15,7 @@ Go to the Cloud Eye console and set the threshold to 70% to 80% of the obtained 
 
 Procedure:
 
-#. Go to the **Clusters** page on the GaussDB(DWS) management console.
+#. On the GaussDB(DWS) management console, choose **Clusters** > **Dedicated Clusters**.
 
 #. Click **View Metric** in the **Operation** column of the target cluster to go to the Cloud Eye console.
 

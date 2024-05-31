@@ -7,9 +7,9 @@ Using the Linux gsql Client to Connect to a Cluster
 
 This section describes how to connect to a database through an SQL client after you create a data warehouse cluster and before you use the cluster's database. GaussDB(DWS) provides the Linux gsql client that matches the cluster version for you to access the cluster through the cluster's public or private network address.
 
-The gsql command line client provided by GaussDB(DWS) runs on Linux. Before using it to remotely connect to a GaussDB(DWS) cluster, you need to prepare a Linux server for installing and running the gsql client. If you use a public network address to access the cluster, you can install the Linux gsql client on your own Linux server. Ensure that the Linux server has a public network address. If no EIPs are configured for your GaussDB(DWS) cluster, you are advised to create a Linux ECS for convenience purposes. For more information, see :ref:`(Optional) Preparing an ECS as the gsql Client Server <en-us_topic_0000001466594890__section634463134117>`.
+The gsql command line client provided by GaussDB(DWS) runs on Linux. Before using it to remotely connect to a GaussDB(DWS) cluster, you need to prepare a Linux server for installing and running the gsql client. If you use a public network address to access the cluster, you can install the Linux gsql client on your own Linux server. Ensure that the Linux server has a public network address. If no EIPs are configured for your GaussDB(DWS) cluster, you are advised to create a Linux ECS for convenience purposes. For more information, see :ref:`(Optional) Preparing an ECS as the gsql Client Server <en-us_topic_0000001707254537__en-us_topic_0000001422799513_section634463134117>`.
 
-.. _en-us_topic_0000001466594890__section634463134117:
+.. _en-us_topic_0000001707254537__en-us_topic_0000001422799513_section634463134117:
 
 (Optional) Preparing an ECS as the gsql Client Server
 -----------------------------------------------------
@@ -26,14 +26,14 @@ The created ECS must meet the following requirements:
 
    -  The **Redhat x86_64** client can be used on the following OSs:
 
-      -  RHEL 6.4 to RHEL 7.6
-      -  CentOS 6.4 to CentOS 7.4
+      -  RHEL 6.4~7.6
+      -  CentOS 6.4~7.4
       -  EulerOS 2.3
 
    -  The **SUSE x86_64** client can be used on the following OSs:
 
-      -  SLES 11.1 to SLES 11.4
-      -  SLES 12.0 to SLES 12.3
+      -  SLES 11.1~11.4
+      -  SLES 12.0~12.3
 
 -  If the client accesses the cluster using the private network address, ensure that the created ECS is in the same VPC as the GaussDB(DWS) cluster.
 
@@ -50,35 +50,35 @@ The created ECS must meet the following requirements:
    Ensure that the security group of the ECS contains rules meeting the following requirements. If the rules do not exist, add them to the security group:
 
    -  **Transfer Direction**: **Outbound**
-   -  **Protocol/Application**: The value must contain **TCP**, for example, **TCP** and **All**.
+   -  Protocol: The protocol must contain TCP. For example, **TCP** or **All**.
    -  **Port**: The value must contain the database port that provides services in the GaussDB(DWS) cluster. For example, set this parameter to **1-65535** or a specific GaussDB(DWS) database port.
-   -  **Destination:** The IP address set here must contain the IP address of the cluster to be connected. For example, set this parameter to **0.0.0.0/0** or the specific connection address of the GaussDB(DWS) cluster.
+   -  Destination: The IP address set here must contain the IP address of the GaussDB(DWS) cluster to be connected. **0.0.0.0/0** indicates any IP address.
 
 -  The security group rules of the data warehouse cluster must ensure that GaussDB(DWS) can receive network access requests from clients.
 
    Ensure that the cluster's security group contains rules meeting the following requirements. If the rules do not exist, add them to the security group:
 
    -  **Transfer Direction**: **Inbound**
-   -  **Protocol/Application**: The value must contain **TCP**, for example, **TCP** and **All**.
+   -  Protocol: The protocol must contain TCP. For example, **TCP** or **All**.
    -  **Port**: Set this parameter to the database port that provides services in the data warehouse cluster, for example, **8000**.
    -  **Source**: The IP address set here must contain the IP address of the GaussDB(DWS) client server, for example, **192.168.0.10/32**.
 
 Downloading the Linux gsql Client and Connecting to a Cluster
 -------------------------------------------------------------
 
-#. Download the Linux gsql client by referring to :ref:`Downloading the Client <dws_01_0031>`, and use an SSH file transfer tool (such as WinSCP) to upload the client to a target Linux server.
+#. Download the Linux gsql client by referring to :ref:`Downloading the Data Studio client <dws_01_0031>`, and use an SSH file transfer tool (such as WinSCP) to upload the client to a target Linux server.
 
    You are advised to download the gsql tool that matches the cluster version. That is, use gsql 8.1.x for clusters of 8.1.0 or later, and use gsql 8.2.x for clusters of 8.2.0 or later. To download gsql 8.2.x, replace **dws_client_8.1.x_redhat_x64.zip** with **dws_client_8.2.x_redhat_x64.zip**. The **dws_client_8.1.x_redhat_x64.zip** is used as an example.
 
    The user who uploads the client must have the full control permission on the target directory on the host to which the client is uploaded.
 
-   Alternatively, you can remotely log in to the Linux server where the gsql is to be installed in SSH mode and run the following command in the Linux command window to download the Linux gsql client:
+   Alternatively, you can remotely manage the Linux server where the gsql is to be installed in SSH mode and run the following command in the Linux command window to download the Linux gsql client:
 
    ::
 
       wget https://obs.otc.t-systems.com/dws/download/dws_client_8.1.x_redhat_x64.zip --no-check-certificate
 
-#. Use the SSH tool to remotely log in to the host where the client is installed.
+#. Use the SSH tool to remotely manage the host where the client is installed.
 
    For details about how to log in to an ECS, see "ECSs> Logging In to a Linux ECS > Login Using an SSH Password" in the *Elastic Cloud Server User Guide*.
 
@@ -106,7 +106,7 @@ Downloading the Linux gsql Client and Connecting to a Cluster
 
       source gsql_env.sh
 
-   If the following information is displayed, the GaussDB(DWS) client is successfully configured:
+   If the following information is displayed, the gsql client is successfully configured:
 
    .. code-block::
 
@@ -116,7 +116,7 @@ Downloading the Linux gsql Client and Connecting to a Cluster
 
    .. code-block::
 
-      gsql -d <Database_name> -h <Cluster_address> -U <Database_user> -p <Database_port> -r
+      gsql -d <Database_name> -h <Cluster_address> -U <Database_user> -p <Database_port> -W <Cluster_password> -r
 
    The parameters are described as follows:
 

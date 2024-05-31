@@ -17,6 +17,7 @@ Data Warehouse Service - User Guide
    intelligent_o_and_m/index
    cluster_management/index
    cluster_log_management
+   database_user_management/index
    audit_logs/index
    cluster_security_management/index
    resource_management/index

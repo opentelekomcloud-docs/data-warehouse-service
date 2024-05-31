@@ -5,14 +5,14 @@
 Tag Management
 ==============
 
-This section describes how to search for clusters based on tags and how to add, modify, and delete tags for clusters.
+This section describes how to search for clusters based on tags and how to add, modify, and delete tags.
 
-.. _en-us_topic_0000001517355193__section77515910494:
+.. _en-us_topic_0000001707254669__en-us_topic_0000001372520082_section77515910494:
 
 Adding a Tag to a Cluster
 -------------------------
 
-#. On the **Clusters** page, click the name of the cluster to which a tag is to be added, and choose **Tag**.
+#. On the **Clusters** > **Dedicated Clusters** page, click the name of the cluster to which a tag is to be added, and choose **Tag**.
 #. Click **Add Tag**.
 #. Configure tag information in the **Add Tag** dialog box. The value of a key cannot be left blank.
 
@@ -43,12 +43,12 @@ Adding a Tag to a Cluster
       |                       |                                                                                                                                                                                                                                                                                                                                                                                                |                       |
       |                       | -  Enter a tag value in the text box. The tag key can contain a maximum of 255 characters and cannot be an empty string.                                                                                                                                                                                                                                                                       |                       |
       |                       |                                                                                                                                                                                                                                                                                                                                                                                                |                       |
-      |                       |    Only letters, digits, spaces, and the following characters are allowed: \_ . : = + - @                                                                                                                                                                                                                                                                                                      |                       |
+      |                       |    Only letters, digits, spaces, and the following characters are allowed: : = + - @.                                                                                                                                                                                                                                                                                                          |                       |
       +-----------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
 
 #. Click **OK**.
 
-.. _en-us_topic_0000001517355193__section20922320396:
+.. _en-us_topic_0000001707254669__en-us_topic_0000001372520082_section20922320396:
 
 Searching for Clusters Based on Tags
 ------------------------------------
@@ -57,13 +57,13 @@ You can quickly locate a tagged cluster using tags.
 
 #. Log in to the GaussDB(DWS) management console.
 
-#. Click **Clusters**.
+#. Choose **Clusters** > **Dedicated Cluster**.
 
 #. Click **Search by Tag** on the upper right of the cluster list to expand the tab page.
 
 #. In the **Search by Tag** area, click the **Tag Key** text box to select a tag key from the drop-down list and then click the **Tag Value** text box to select the corresponding tag value.
 
-   You can only enter a tag key or value that exists in the drop-down list. If no tag key or value is available, create a tag for the cluster. For details, see :ref:`Adding a Tag to a Cluster <en-us_topic_0000001517355193__section77515910494>`.
+   You can only enter a tag key or value that exists in the drop-down list. If no tag key or value is available, create a tag for the cluster. For details, see :ref:`Adding a Tag to a Cluster <en-us_topic_0000001707254669__en-us_topic_0000001372520082_section77515910494>`.
 
 #. Click |image1| to add the selected tag to the area under the text boxes.
 
@@ -76,7 +76,7 @@ You can quickly locate a tagged cluster using tags.
 Modifying a Tag
 ---------------
 
-#. On the **Clusters** page, click the name of the cluster for which a tag is to be modified, and click the **Tags** tab.
+#. On the **Clusters** > **Dedicated Clusters** page, click the name of the cluster to which a tag is to be added, and choose **Tag**.
 #. Locate the row that contains the tag to be modified, and click **Edit** in the **Operation** column. The **Edit Tag** dialog box is displayed.
 #. Enter the new key value in the **Value** text box.
 #. Click **OK**.
@@ -84,10 +84,10 @@ Modifying a Tag
 Deleting a Tag
 --------------
 
-#. On the **Clusters** page, click the name of the cluster from which a tag is to be deleted, and click the **Tags** tab.
+#. On the **Clusters** > **Dedicated Clusters** page, click the name of the cluster from which a tag is to be deleted, and click the **Tags** tab.
 #. Locate the row that contains the tag to be deleted, click **Delete** in the **Operation** column. The **Delete Tag** dialog box is displayed.
 #. Click **Yes** to delete the tag.
 
-.. |image1| image:: /_static/images/en-us_image_0000001517754457.png
-.. |image2| image:: /_static/images/en-us_image_0000001517754457.png
-.. |image3| image:: /_static/images/en-us_image_0000001466595106.png
+.. |image1| image:: /_static/images/en-us_image_0000001711599740.png
+.. |image2| image:: /_static/images/en-us_image_0000001711599740.png
+.. |image3| image:: /_static/images/en-us_image_0000001759519141.png

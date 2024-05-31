@@ -52,4 +52,4 @@ The suggestions are based on database versions:
 
    ::
 
-      SELECT c.oid,c.relname, c.relkind, pg_relation_size(c.oid) AS size  FROM pg_class c  WHERE  c.relkind IN ('r') AND c.oid <16385 ORDER BY size DESC;
+      SELECT c.oid,c.relname, c.relkind, pg_relation_size(c.oid) AS size  FROM pg_class c WHERE c.relkind IN ('r') AND c.oid <16385 ORDER BY size DESC;

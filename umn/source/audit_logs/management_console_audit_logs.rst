@@ -85,7 +85,7 @@ Viewing Traces
    -  **Start Date** and **End Date**: You can specify the time period to query traces.
 
 
-      .. figure:: /_static/images/en-us_image_0000001517754605.png
+      .. figure:: /_static/images/en-us_image_0000001759579461.png
          :alt: **Figure 1** Querying traces
 
          **Figure 1** Querying traces
@@ -95,7 +95,7 @@ Viewing Traces
 #. Click |image1| on the left of the trace to be queried to extend its details.
 
 
-   .. figure:: /_static/images/en-us_image_0000001518034073.png
+   .. figure:: /_static/images/en-us_image_0000001759579465.png
       :alt: **Figure 2** Traces
 
       **Figure 2** Traces
@@ -103,11 +103,11 @@ Viewing Traces
 #. Locate the row containing the target trace and click **View Trace** in the **Operation** column.
 
 
-   .. figure:: /_static/images/en-us_image_0000001466754906.png
+   .. figure:: /_static/images/en-us_image_0000001759579469.png
       :alt: **Figure 3** Viewing a trace
 
       **Figure 3** Viewing a trace
 
    For details about the key fields in the CTS trace structure, see "Trace References > Trace Structure" and "Trace References > Example Traces" in the *Cloud Trace Service User Guide*.
 
-.. |image1| image:: /_static/images/en-us_image_0000001517754601.png
+.. |image1| image:: /_static/images/en-us_image_0000001759419629.png

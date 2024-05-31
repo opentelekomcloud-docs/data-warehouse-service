@@ -36,5 +36,5 @@ Importing a Resource Management Plan
 
    |image2|
 
-.. |image1| image:: /_static/images/en-us_image_0000001467074222.png
-.. |image2| image:: /_static/images/en-us_image_0000001466754734.png
+.. |image1| image:: /_static/images/en-us_image_0000001711820924.png
+.. |image2| image:: /_static/images/en-us_image_0000001759420497.png

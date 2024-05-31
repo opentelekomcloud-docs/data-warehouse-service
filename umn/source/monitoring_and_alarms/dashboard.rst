@@ -45,8 +45,8 @@ The **Dashboard** page consists of the following parts:
 
    |image5|
 
-.. |image1| image:: /_static/images/en-us_image_0000001518034033.png
-.. |image2| image:: /_static/images/en-us_image_0000001517914145.png
-.. |image3| image:: /_static/images/en-us_image_0000001466595218.png
-.. |image4| image:: /_static/images/en-us_image_0000001517355541.png
-.. |image5| image:: /_static/images/en-us_image_0000001466914494.png
+.. |image1| image:: /_static/images/en-us_image_0000001711437928.png
+.. |image2| image:: /_static/images/en-us_image_0000001711597404.png
+.. |image3| image:: /_static/images/en-us_image_0000001759516821.png
+.. |image4| image:: /_static/images/en-us_image_0000001711437932.png
+.. |image5| image:: /_static/images/en-us_image_0000001791711553.png

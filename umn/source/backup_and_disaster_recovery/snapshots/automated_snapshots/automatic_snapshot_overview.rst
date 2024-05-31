@@ -9,10 +9,10 @@ Automated snapshots adopt differential incremental backups. The automated snapsh
 
 During snapshot restoration, GaussDB(DWS) uses all backups between the latest full backup and the current incremental backup to restore the cluster. Therefore, no data loss occurs.
 
-If the retention period of an incremental snapshot exceeds the maximum retention period, GaussDB(DWS) does not delete the snapshot immediately. Instead, GaussDB(DWS) retains it until the next full backup, when the deletion of the snapshot will not hinder incremental data backup and restoration.
+If the retention period of an incremental snapshot exceeds the maximum retention period, GaussDB(DWS) does not delete the snapshot immediately. Instead, GaussDB(DWS) retains it until the next full backup is completed, when the deletion of the snapshot will not hinder incremental data backup and restoration.
 
 
-.. figure:: /_static/images/en-us_image_0000001467074394.png
+.. figure:: /_static/images/en-us_image_0000001759518413.png
    :alt: **Figure 1** Snapshot backup process
 
    **Figure 1** Snapshot backup process

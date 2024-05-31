@@ -22,8 +22,13 @@ Overview
 -  Alarm rule operations
 
    -  Modify: modifies an alarm rule. All alarm rules apply (all items of user-defined alarm rules but only some items of the default alarm rules).
-   -  Enable/Disable: enables or disables an alarm rule. All alarm rules apply. When an alarm rule is enabled, it is added to the check list of the alarm engine and can be triggered normally. Disabled rules are not in the check list.
+   -  Enable/Disable: enables or disables an alarm rule. All alarm rules can be enabled or disabled. After an alarm rule is enabled, it is added to the check list by the alarm engine and can be triggered normally. Disabled alarm rules will be removed from the check list by the alarm engine and will not be triggered.
    -  Delete: deletes an alarm rule. You can delete only user-defined rules. Default alarm rules cannot be deleted.
+
+Precautions
+-----------
+
+After a cluster is migrated, to monitor alarms of the new cluster, change the cluster bound to the alarm rule to the new cluster. You can also create an alarm rule for the new cluster.
 
 Viewing Alarm Rules
 -------------------
@@ -47,7 +52,7 @@ Modifying an Alarm Rule
 
 #. On the **Alarm Rules** page that is displayed, click **Modify** in the **Operation** column of the target alarm rule.
 
-   -  **Alarm Rule**
+   -  **Alarm rule name**: The rule name contains 6 to 64 characters (letters, digits, Chinese characters, slashes) and must start with a non-digit character.
    -  **Description**
    -  **Associated Cluster**: From the drop-down list, select the current tenant's clusters to which the alarm rule applies.
    -  **Triggered Policies**
@@ -78,7 +83,7 @@ Creating an Alarm Rule
 #. Click **View Alarm Rule** in the upper left corner.
 #. Click **Create Alarm Rule** in the upper right corner. You can configure items, such as the alarm rule name, rule description, clusters associated with the rule, and alarm policy.
 
-   -  **Alarm Rule**
+   -  **Alarm rule name**: The rule name contains 6 to 64 characters (letters, digits, Chinese characters, slashes) and must start with a non-digit character.
    -  **Description**
    -  **Associated Cluster**: From the drop-down list, select the current tenant's clusters to which the alarm rule applies.
    -  **Triggered Policies**
@@ -99,7 +104,7 @@ Creating an Alarm Rule
       -  **Alarm Severity**: includes **Urgent**, **Important**, **Minor**, and **Prompt**.
 
 
-         .. figure:: /_static/images/en-us_image_0000001518033757.png
+         .. figure:: /_static/images/en-us_image_0000001711597828.png
             :alt: **Figure 1** Creating an alarm rule
 
             **Figure 1** Creating an alarm rule
@@ -108,5 +113,5 @@ Creating an Alarm Rule
 
             Currently, only alarm rules of schema usage metrics can be created on GaussDB(DWS).
 
-.. |image1| image:: /_static/images/en-us_image_0000001466754594.png
-.. |image2| image:: /_static/images/en-us_image_0000001467074082.png
+.. |image1| image:: /_static/images/en-us_image_0000001759357369.png
+.. |image2| image:: /_static/images/en-us_image_0000001711438332.png

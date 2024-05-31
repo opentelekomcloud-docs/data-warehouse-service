@@ -5,20 +5,20 @@
 Using ODBC to Connect to a Cluster
 ==================================
 
-GaussDB(DWS) allows you to use an ODBC driver to connect to the database through an ECS on the cloud platform or over the Internet.
+In GaussDB(DWS), you can use an ODBC driver to connect to the database. The driver can connect to the database through an ECS on the cloud platform or over the Internet.
 
 For details about how to use the ODBC API, see the official document.
 
 Prerequisites
 -------------
 
--  You have downloaded ODBC driver packages **dws_odbc_driver_for_linux.zip** (for Linux) and **dws_odbc_driver_for_windows.zip** (for Windows). For details, see :ref:`Downloading the JDBC or ODBC Driver <dws_01_0032>`.
+-  You have downloaded ODBC driver packages **dws_x.x.x_odbc_driver_for_xxx.zip** (for Linux) and **dws_odbc_driver_for_windows.zip** (for Windows). For details, see :ref:`Downloading the JDBC or ODBC Driver <dws_01_0032>`.
 
    GaussDB(DWS) also supports open-source ODBC driver: PostgreSQL ODBC 09.01.0200 or later.
 
 -  You have downloaded the open-source unixODBC code file 2.3.0 from https://sourceforge.net/projects/unixodbc/files/unixODBC/2.3.0/unixODBC-2.3.0.tar.gz/download.
 
--  You have downloaded the SSL certificate file. For details, see :ref:`Downloading an SSL Certificate <en-us_topic_0000001517913817__li13478842115911>`.
+-  You have downloaded the SSL certificate file. For details, see :ref:`Downloading an SSL Certificate <en-us_topic_0000001659054490__en-us_topic_0000001372520154_li13478842115911>`.
 
 Using an ODBC Driver to Connect to a Database (Linux)
 -----------------------------------------------------
@@ -35,26 +35,26 @@ Using an ODBC Driver to Connect to a Database (Linux)
 
          tar -xvf unixODBC-2.3.0.tar.gz
 
-   b. Modify the configuration.
+   b. Compile the code file and install the driver.
 
-      .. code-block::
+      ::
 
          cd unixODBC-2.3.0
-         vi configure
-
-      Change the value of **LIB_VERSION** to the following. Save the change and exit.
-
-      .. code-block::
-
-         LIB_VERSION="1:0:0"
-
-   c. Compile the code file and install the driver.
-
-      .. code-block::
-
          ./configure --enable-gui=no
          make
          make install
+
+      .. note::
+
+         -  After the unixODBC is compiled and installed, the **\*.so.2** library file will be in the installation directory. To create the **\*.so.1** library file, change **LIB_VERSION** in the configure file to **1:0:0**.
+
+            ::
+
+               LIB_VERSION="1:0:0"
+
+         -  This driver dynamically loads the **libodbcinst.so.**\ \* library files. If one of the library files is successfully loaded, the library file is loaded. The loading priority is **libodbcinst.so** > **libodbcinst.so.1** > **libodbcinst.so.1.0.0** > **libodbcinst.so.2** > **libodbcinst.so.2.0.0**.
+
+            For example, a directory can be dynamically linked to **libodbcinst.so.1**, **libodbcinst.so.1.0.0**, and **libodbcinst.so.2**. The driver file loads **libodbcinst.so** first. If **libodbcinst.so** cannot be found in the current environment, the driver file searches for **libodbcinst.so.1**, which has a lower priority. After **libodbcinst.so.1** is loaded, the loading is complete.
 
 #. Replace the driver file. (This document uses the **dws_8.1.x_odbc_driver_for_x86_redhat.zip** package of Red Hat as an example.)
 
@@ -112,7 +112,7 @@ Using an ODBC Driver to Connect to a Database (Linux)
    +-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
    | Driver                | Driver name, corresponding to **DriverName** in **odbcinst.ini**.                                                                                                                                                                                                   | Driver=DWS            |
    +-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
-   | Servername            | Server IP address.                                                                                                                                                                                                                                                  | Servername=10.10.0.13 |
+   | Servername            | IP address of the server. When the cluster is bound to an ELB, set this parameter to the IP address of the ELB.                                                                                                                                                     | Servername=10.10.0.13 |
    +-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
    | Database              | Name of the database to be connected to.                                                                                                                                                                                                                            | Database=gaussdb      |
    +-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
@@ -140,7 +140,7 @@ Using an ODBC Driver to Connect to a Database (Linux)
 
    .. note::
 
-      You can view the values of **Servername** and **Port** on the GaussDB(DWS) management console. Log in to the GaussDB(DWS) management console and click **Connection Management**. In the **Data Warehouse Connection String** area, select the target cluster and obtain **Private Network Address** or **Public Network Address**. For details, see :ref:`Obtaining the Cluster Connection Address <dws_01_0033>`.
+      You can view the values of **Servername** and **Port** on the GaussDB(DWS) management console. Log in to the GaussDB(DWS) management console and click **Client Connections**. In the **Data Warehouse Connection String** area, select the target cluster and obtain **Private Network Address** or **Public Network Address**. For details, see :ref:`Obtaining the Cluster Connection Address <dws_01_0033>`.
 
 #. Configure environment variables.
 
@@ -207,31 +207,39 @@ Using an ODBC Driver to Connect to a Database (Windows)
 
 #. Open Driver Manager.
 
-   Currently, because GaussDB(DWS) only provides a 32-bit ODBC driver, it only supports 32-bit application development. Use the 32-bit Driver Manager when you configure the data source. (Assume the Windows system drive is drive C. If another disk drive is used, modify the path accordingly.)
+   GaussDB(DWS) provides 32-bit and 64-bit ODBC drivers. Choose the version suitable for your system when configuring the data source. (Assume the Windows system drive is drive C. If another disk drive is used, modify the path accordingly.)
 
-   -  In a 64-bit Windows operating system, open **C:\\Windows\\SysWOW64\\odbcad32.exe**.
+   -  If you want to develop 32-bit programs in the 64-bit OS and have installed the 32-bit driver, open the 32-bit Driver Manager at **C:\\Windows\\SysWOW64\\odbcad32.exe**.
 
       Do not choose **Control Panel** > **System and Security** > **Administrative Tools** > **Data Sources (ODBC)** directly.
 
       .. note::
 
-         WOW64 is the acronym for Windows 32-bit on Windows 64-bit. **C:\\Windows\\SysWOW64\\** stores the 32-bit environment on a 64-bit system. **C:\\Windows\\System32\\** stores the environment consistent with the current operating system. For technical details, see the Windows technical documents.
+         WOW64 is the acronym for Windows 32-bit on Windows 64-bit. **C:\\Windows\\SysWOW64\\** stores the 32-bit environment on a 64-bit system.
 
-   -  In a 32-bit Windows operating system, open **C:\\Windows\\System32\\odbcad32.exe**.
+   -  If you want to develop 64-bit programs in the 64-bit OS and have installed the 64-bit driver, open the 64-bit Driver Manager at **C:\\Windows\\System32\\odbcad32.exe**.
 
-      You can also open Driver Manager by choosing **Control Panel** > **System and Security** > **Administrative Tools** > **Data Sources (ODBC)**.
+      Do not choose **Control Panel** > **System and Security** > **Administrative Tools** > **Data Sources (ODBC)** directly.
+
+      .. note::
+
+         **C:\\Windows\\System32\\** stores the environment consistent with the current OS. For technical details, see Windows technical documents.
+
+   -  In a 32-bit OS, open **C:\\Windows\\System32\\odbcad32.exe**.
+
+      Alternatively, click **Computer**, and choose **Control Panel**. Click **Administrative Tools** and click **Data Sources (ODBC)**.
 
 #. Configure a data source to be connected to.
 
    a. On the **User DSN** tab, click **Add** and choose **PostgreSQL Unicode** for setup.
 
 
-      .. figure:: /_static/images/en-us_image_0000001466595178.png
+      .. figure:: /_static/images/en-us_image_0000001711592348.png
          :alt: **Figure 1** Configuring a data source to be connected to
 
          **Figure 1** Configuring a data source to be connected to
 
-      You can view the values of **Server** and **Port** on the GaussDB(DWS) management console. Log in to the GaussDB(DWS) management console and click **Connections**. In the **Data Warehouse Connection String** area, select the target cluster and obtain **Private Network Address** or **Public Network Address**. For details, see :ref:`Obtaining the Cluster Connection Address <dws_01_0033>`.
+      You can view the values of **Server** and **Port** on the GaussDB(DWS) management console. Log in to the GaussDB(DWS) management console and click **Client Connections**. In the **Data Warehouse Connection String** area, select the target cluster and obtain **Private Network Address** or **Public Network Address**. For details, see :ref:`Obtaining the Cluster Connection Address <dws_01_0033>`.
 
    b. Click **Test** to verify that the connection is correct. If **Connection successful** is displayed, the connection is correct.
 

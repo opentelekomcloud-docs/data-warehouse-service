@@ -71,7 +71,7 @@ When you are updating an MRS data source connection, the data warehouse cluster 
 Procedure
 ---------
 
-#. On the GaussDB(DWS) management console, click **Clusters**.
+#. On the GaussDB(DWS) management console, choose **Clusters > Dedicated Clusters**.
 
 #. In the cluster list, click the name of a cluster. On the page that is displayed, click **MRS Data Sources**.
 

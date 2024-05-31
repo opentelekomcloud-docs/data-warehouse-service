@@ -5,12 +5,12 @@
 Managing Clusters That Fail to Be Created
 =========================================
 
-If a cluster fails to be created, you can go to the **Clusters** page of the GaussDB(DWS) management console to view the cluster status and the cause of failure.
+If a cluster fails to be created, you can go to the **Clusters** > **Dedicated Clusters** page of the GaussDB(DWS) management console to view the cluster status and the cause of failure.
 
 Checking the Cause of a Creation Failure
 ----------------------------------------
 
-#. Log in to the GaussDB(DWS) management console and click **Clusters** in the left navigation pane on the left.
+#. Log in to the GaussDB(DWS) management console. In the navigation pane on the left, choose **Clusters > Dedicated Cluster**. The **Dedicated Clusters** page is displayed.
 
 #. In the cluster list, locate the cluster whose **Cluster Status** is **Creation failed**.
 
@@ -23,7 +23,7 @@ Deleting a Cluster That Fails to Be Created
 
 You can delete a cluster that fails to be created if you do not need it. Before deletion, check the cause of creation failure.
 
-#. Log in to the GaussDB(DWS) management console and click **Clusters** in the left navigation pane on the left.
+#. Log in to the GaussDB(DWS) management console. In the navigation pane on the left, choose **Clusters > Dedicated Cluster**. The **Dedicated Clusters** page is displayed.
 
 #. In the cluster list, locate the row containing the failed cluster to be deleted, and choose **More** > **Delete**.
 
@@ -33,4 +33,4 @@ You can delete a cluster that fails to be created if you do not need it. Before 
 
    If the cluster to be deleted uses an automatically created security group that is not used by other clusters, the security group is automatically deleted when the cluster is deleted.
 
-.. |image1| image:: /_static/images/en-us_image_0000001466914218.png
+.. |image1| image:: /_static/images/en-us_image_0000001711599792.png

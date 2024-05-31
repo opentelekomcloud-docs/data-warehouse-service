@@ -41,13 +41,13 @@ Preparations Before Connecting to a Cluster
 Constraints
 -----------
 
-psycopg2 is a PostgreSQL-based client interface, and its functions are not fully supported by GaussDB(DWS). For details, see :ref:`Table 1 <en-us_topic_0000001466754554__table147698595445>`.
+psycopg2 is a PostgreSQL-based client interface, and its functions are not fully supported by GaussDB(DWS). For details, see :ref:`Table 1 <en-us_topic_0000001658895178__en-us_topic_0000001422799441_table147698595445>`.
 
 .. note::
 
    The following APIs are supported based on Python 3.8.5 and psycopg 2.9.1.
 
-.. _en-us_topic_0000001466754554__table147698595445:
+.. _en-us_topic_0000001658895178__en-us_topic_0000001422799441_table147698595445:
 
 .. table:: **Table 1** psycopg2 APIs supported by DWS
 

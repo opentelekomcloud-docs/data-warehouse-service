@@ -11,7 +11,7 @@ If you restore a snapshot to a new cluster, GaussDB(DWS) creates a new cluster b
 
 If you restore a snapshot to the original cluster, GaussDB(DWS) clears the existing data in the cluster, and then restores the database information from the snapshot to the cluster. For more information, see :ref:`Restoring a Snapshot to the Original Cluster <dws_01_00097>`.
 
-The snapshot backup and restoration rates are as follows. (The statistics are obtained in the lab test and are for reference only. The actual rate depends on your disk, network, and bandwidth resources.)
+The snapshot backup and restoration rates are listed below. (The rates are obtained from the test environment with local SSDs as the backup media. The rates are for reference only.) The actual rate depends on your disk, network, and bandwidth resources.)
 
 -  Backup rate: 200 MB/s/DN
 -  Restoration rate: 125 MB/s/DN
@@ -26,7 +26,8 @@ The snapshot backup and restoration rates are as follows. (The statistics are ob
 
       -  Only the snapshots stored in OBS can be used to restore data to a new cluster.
 
-   -  A new cluster created from the snapshot has the same configurations (including the number and flavor of nodes) as those of the original cluster.
+   -  The new GaussDB(DWS) cluster created based on the snapshot must have the same configurations as the original cluster. That is, the number and specifications of nodes, memory, and disks in the new cluster must be the same as those in the original cluster.
    -  If you create a new cluster based on a snapshot without modifying parameters, the parameters of the new cluster will be the same as those of the snapshot.
    -  During snapshot creation, do not perform the VACUUM FULL operation, or the cluster may become read-only.
    -  Snapshot creation affects disk I/O performance. You are advised to create snapshots during off-peak hours.
+   -  During the snapshot creation, some intermediate files are retained, which occupy extra disk space. Therefore, create snapshots in off-peak hours and ensure that the disk capacity usage is less than 70%.

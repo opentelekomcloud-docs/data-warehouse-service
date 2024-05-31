@@ -5,12 +5,12 @@
 DR Management
 =============
 
-.. _en-us_topic_0000001467074014__section4432124194612:
+.. _en-us_topic_0000001707293893__en-us_topic_0000001423159725_section4432124194612:
 
 Starting a DR Task
 ------------------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane on the left, choose **DR Tasks**.
 
@@ -30,7 +30,7 @@ Starting a DR Task
 Stopping the DR Task
 --------------------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane on the left, choose **DR Tasks**.
 
@@ -50,7 +50,7 @@ Stopping the DR Task
 Switching to the DR Cluster
 ---------------------------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane on the left, choose **DR Tasks**.
 
@@ -74,8 +74,8 @@ Switching to the DR Cluster
          -  Production cluster in the **Available** state: RPO = 0
          -  Production cluster in the **Unavailable** state: A zero RPO may not be achieved, but data can at least be restored to that of the latest successful DR synchronization (**Last DR Succeeded**). For details, see :ref:`Viewing DR Information <dws_01_00083>`.
 
-Abnormal Switchover
--------------------
+Exception Switchover
+--------------------
 
 **Scenario**
 
@@ -83,7 +83,7 @@ The production cluster is unavailable, the DR cluster is normal, and the DR stat
 
 **Procedure**
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane on the left, choose **DR Tasks**.
 
@@ -100,7 +100,7 @@ The production cluster is unavailable, the DR cluster is normal, and the DR stat
    .. note::
 
       -  To perform a switchover when the DR cluster is abnormal or the production cluster is faulty, click **Exception Switchover**.
-      -  The abnormal switchover feature is supported only in cluster version 8.1.2 and later. The agent version must be 8.2.0 or later.
+      -  DR exception switchover is supported only by clusters of version 8.1.2 or later.
       -  Before a switchover, check the latest synchronization time in the DR cluster. The DR cluster will serve as a production cluster after an abnormal switchover, but the data that failed to be synchronized from the original production cluster to the DR cluster will not exist in the DR cluster.
       -  If the DR type is **Cross-region DR**, the switchover can be performed only in the region where the standby cluster is located.
 
@@ -113,7 +113,7 @@ After abnormal switchover, if you have confirmed that the original production cl
 
 **Procedure**
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane on the left, choose **DR Tasks**.
 
@@ -121,7 +121,13 @@ After abnormal switchover, if you have confirmed that the original production cl
 
    |image5|
 
-#. In the dialog box that is displayed, click **OK**.
+#. In the displayed dialog box, set **Synchronization Mode** to **Incremental** or **Full**.
+
+   .. note::
+
+      You are advised to set **Synchronization Mode** to **Incremental** when updating a DR creation task.
+
+#. Click **OK**.
 
    The **Status** will change to **Recovering**.
 
@@ -129,14 +135,14 @@ After abnormal switchover, if you have confirmed that the original production cl
 
    .. note::
 
-      -  The switchback feature is supported only in cluster version 8.1.2 and later. The agent version must be 8.2.0 or later.
+      -  DR is supported only by clusters of 8.1.2 or later.
       -  During DR recovery, data in the DR cluster will be deleted, and the DR relationship will be re-established with the new production cluster.
       -  If the DR type is **Cross-region DR**, the recovery can be performed only in the region where the standby cluster is located.
 
 Updating DR Configurations
 --------------------------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane on the left, choose **DR Tasks**.
 
@@ -151,12 +157,12 @@ Updating DR Configurations
       -  Only DR tasks in the **Not started** or **Stopped** state can be modified.
       -  The new configuration takes effect after DR is restarted.
 
-.. _en-us_topic_0000001467074014__section1631535174714:
+.. _en-us_topic_0000001707293893__en-us_topic_0000001423159725_section1631535174714:
 
 Deleting DR Tasks
 -----------------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane on the left, choose **DR Tasks**.
 
@@ -173,10 +179,10 @@ Deleting DR Tasks
       -  You can delete a DR task when **DR Status** is **Creation failed**, **Not started**, **Startup failed**, **Stopped**, **Stop failed**, or **Abnormal**.
       -  Data cannot be synchronized after a DR task is deleted, and the deleted task cannot be restored.
 
-.. |image1| image:: /_static/images/en-us_image_0000001517913989.png
-.. |image2| image:: /_static/images/en-us_image_0000001466595058.png
-.. |image3| image:: /_static/images/en-us_image_0000001466914342.png
-.. |image4| image:: /_static/images/en-us_image_0000001518033885.png
-.. |image5| image:: /_static/images/en-us_image_0000001517754409.png
-.. |image6| image:: /_static/images/en-us_image_0000001517355389.png
-.. |image7| image:: /_static/images/en-us_image_0000001517355385.png
+.. |image1| image:: /_static/images/en-us_image_0000001711599192.png
+.. |image2| image:: /_static/images/en-us_image_0000001711439700.png
+.. |image3| image:: /_static/images/en-us_image_0000001759518593.png
+.. |image4| image:: /_static/images/en-us_image_0000001759358737.png
+.. |image5| image:: /_static/images/en-us_image_0000001711599196.png
+.. |image6| image:: /_static/images/en-us_image_0000001759518597.png
+.. |image7| image:: /_static/images/en-us_image_0000001759358741.png

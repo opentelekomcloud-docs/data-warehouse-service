@@ -28,7 +28,7 @@ After a cluster is created, you can view the associated enterprise project in th
 -  In the cluster list, find the target cluster and click the cluster name. The **Cluster Information** page is displayed, on which you can view the enterprise project associated with the cluster. Click the enterprise project name to view and edit it on the Enterprise Management console.
 
 
-   .. figure:: /_static/images/en-us_image_0000001638675158.png
+   .. figure:: /_static/images/en-us_image_0000001759359325.png
       :alt: **Figure 1** Viewing the enterprise project
 
       **Figure 1** Viewing the enterprise project
@@ -38,7 +38,7 @@ After a cluster is created, you can view the associated enterprise project in th
 Searching for Clusters by Enterprise Project
 --------------------------------------------
 
-Log in to the GaussDB(DWS) management console, choose **Clusters**, click **All projects** above the cluster list, and select the required project name from the drop-down list to view all clusters associated with the project.
+Log in to the GaussDB(DWS) management console, choose **Clusters** > **Dedicated Clusters**, click **All projects** above the cluster list, and select the required project name from the drop-down list to view all clusters associated with the project.
 
 Migrating a Cluster to or Out of an Enterprise Project
 ------------------------------------------------------
@@ -67,7 +67,7 @@ If permissions preset in the system cannot meet requirements, you can customize 
       -  **DWS Administrator**: all execution permissions for GaussDB(DWS)
       -  **DWS Database Access**: Users granted this permission can generate temporary database user credentials based on IAM users to connect to databases in the data warehouse clusters.
 
-   -  You can add permissions corresponding to GaussDB(DWS) operations or RESTful APIs listed in :ref:`List of Supported Actions <en-us_topic_0000001466594910__section89181381475>` to the action list in the policy authorization statement, so that the policy can obtain the permissions.
+   -  You can add permissions corresponding to GaussDB(DWS) operations or RESTful APIs listed in :ref:`List of Supported Actions <en-us_topic_0000001659054650__en-us_topic_0000001422799425_section89181381475>` to the action list in the policy authorization statement, so that the policy can obtain the permissions.
 
       For example, if **dws:cluster:create** is added to the action list of a policy statement, the policy has the permission to create or restore clusters.
 

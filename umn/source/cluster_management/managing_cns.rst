@@ -10,8 +10,8 @@ Purpose
 
 After a cluster is created, the number of required CNs varies with service requirements. The CN management function enables you to adjust the number of CNs in the cluster. The operations are as follows:
 
--  :ref:`Adding CNs <en-us_topic_0000001466594862__en-us_topic_0000001083058054_section941730165216>`
--  :ref:`Deleting CNs <en-us_topic_0000001466594862__en-us_topic_0000001083058054_section7292342175210>`
+-  :ref:`Adding CNs <en-us_topic_0000001707293917__en-us_topic_0000001423119293_en-us_topic_0000001083058054_section941730165216>`
+-  :ref:`Deleting CNs <en-us_topic_0000001707293917__en-us_topic_0000001423119293_en-us_topic_0000001083058054_section7292342175210>`
 
 .. note::
 
@@ -29,44 +29,46 @@ Constraints and Limitations
 -  If DDL operations, such as schema and function creation, are performed during CN deletion, an error may be reported because the deleted CN cannot be found. In this case, try again.
 -  If one of your CNs is abnormal, you can only delete this abnormal CN. If two or more CNs are abnormal, you can delete CNs only after the CNs are recovered from faults.
 
-.. _en-us_topic_0000001466594862__en-us_topic_0000001083058054_section941730165216:
+.. _en-us_topic_0000001707293917__en-us_topic_0000001423119293_en-us_topic_0000001083058054_section941730165216:
 
 Adding CNs
 ----------
 
 #. Log in to the GaussDB(DWS) management console.
 
-#. On the **Clusters** page, locate the cluster to which you want to add CNs.
+#. On the **Clusters** > **Dedicated Clusters** page, locate the cluster to which you want to add CNs.
 
 #. In the **Operation** column of the specified cluster, choose **More** > **Manage CN** > **Add CN Node**.
 
    |image1|
 
-#. On the displayed page, set the number of CNs as required and click **OK**.
+#. In the displayed dialog box, determine whether to add CNs to a specified node. If you select **No**, set the number of CNs after adjustment and click **OK**. If you select **Yes**, select a node and click **OK**.
 
    |image2|
+
+   |image3|
 
    .. important::
 
       -  Before adding a CN, ensure that the cluster is in the **Available** or **Unbalanced** state.
       -  The number of CNs after adjustment cannot exceed the number of deployed CNs. It must be less than or equal to the number of nodes, and less than or equal to 20.
 
-.. _en-us_topic_0000001466594862__en-us_topic_0000001083058054_section7292342175210:
+.. _en-us_topic_0000001707293917__en-us_topic_0000001423119293_en-us_topic_0000001083058054_section7292342175210:
 
 Deleting CNs
 ------------
 
 #. Log in to the GaussDB(DWS) management console.
 
-#. On the **Clusters** page, locate the cluster from which you want to delete CNs.
+#. On the **Clusters** > **Dedicated Clusters** page, locate the cluster from which you want to delete CNs.
 
 #. In the **Operation** column of the specified cluster, choose **More** > **Manage CN** > **Delete CN Node**.
 
-   |image3|
+   |image4|
 
 #. On the displayed page, select the CN to be deleted and click **OK**.
 
-   |image4|
+   |image5|
 
    .. important::
 
@@ -78,7 +80,8 @@ Deleting CNs
          -  If one CN is faulty, only this CN can be deleted.
          -  If two or more CNs are faulty, no CN can be deleted.
 
-.. |image1| image:: /_static/images/en-us_image_0000001466754754.png
-.. |image2| image:: /_static/images/en-us_image_0000001466754758.png
-.. |image3| image:: /_static/images/en-us_image_0000001466595102.png
-.. |image4| image:: /_static/images/en-us_image_0000001517754453.png
+.. |image1| image:: /_static/images/en-us_image_0000001711599848.png
+.. |image2| image:: /_static/images/en-us_image_0000001759519269.png
+.. |image3| image:: /_static/images/en-us_image_0000001759359401.png
+.. |image4| image:: /_static/images/en-us_image_0000001711440376.png
+.. |image5| image:: /_static/images/en-us_image_0000001711599880.png

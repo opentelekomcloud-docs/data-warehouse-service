@@ -17,19 +17,15 @@ The number of connections supported by a cluster depends on its node flavor.
 
 .. table:: **Table 1** Number of supported connections
 
-   +-----------------+---------------------+--------------------------+------------------------------+
-   | Parameter       | Node Flavor         | Number of CN Connections | Number of DN Connections     |
-   +=================+=====================+==========================+==============================+
-   | max_connections | vCPUs < 16          | 512                      | Number of CN connections x 2 |
-   +-----------------+---------------------+--------------------------+------------------------------+
-   |                 | vCPUs > 16 && <= 32 | 1024                     | Number of CN connections x 2 |
-   +-----------------+---------------------+--------------------------+------------------------------+
-   |                 | other               | 2048                     | Number of CN connections x 2 |
-   +-----------------+---------------------+--------------------------+------------------------------+
-
-.. note::
-
-   -  The policies of **comm_max_stream**, **poolsize**, and **max_prepared_transactions** are the same as those of **max_connections**.
+   +---------------------------+-------------------------------------------------------------------------------------------------------+--------------------------+----------------------------------------------------------------------------+
+   | Parameter                 | Description                                                                                           | Number of CN Connections | Number of DN Connections                                                   |
+   +===========================+=======================================================================================================+==========================+============================================================================+
+   | max_connections           | Specifies the maximum number of concurrent connections to the database.                               | 800                      | Max (Number of vCPU cores/Number of DNs on a single node x 120 + 24, 5000) |
+   +---------------------------+-------------------------------------------------------------------------------------------------------+--------------------------+----------------------------------------------------------------------------+
+   | max_pool_size             | Specifies the maximum number of connections between the connection pool of a CN and another CN or DN. |                          |                                                                            |
+   +---------------------------+-------------------------------------------------------------------------------------------------------+--------------------------+----------------------------------------------------------------------------+
+   | max_prepared_transactions | Specifies the maximum number of transactions that can stay in the **prepared** state simultaneously.  |                          |                                                                            |
+   +---------------------------+-------------------------------------------------------------------------------------------------------+--------------------------+----------------------------------------------------------------------------+
 
 Viewing the Maximum Number of Connections
 -----------------------------------------
@@ -56,13 +52,13 @@ Viewing the Number of Used Connections
 
 #. Use the SQL client tool to connect to the database in a cluster.
 
-#. View the number of connections in scenarios described in :ref:`Table 2 <en-us_topic_0000001517355185__table573712172169>`.
+#. View the number of connections in scenarios described in :ref:`Table 2 <en-us_topic_0000001707293777__en-us_topic_0000001372520070_table573712172169>`.
 
    .. important::
 
       Except for database and user names that are enclosed with double quotation marks (") during creation, uppercase letters are not allowed in the database and user names in the commands in the following table.
 
-   .. _en-us_topic_0000001517355185__table573712172169:
+   .. _en-us_topic_0000001707293777__en-us_topic_0000001372520070_table573712172169:
 
    .. table:: **Table 2** Viewing the number of connections
 
@@ -132,6 +128,7 @@ Viewing the Number of Used Connections
       | View the number of session connections that have been used by all users.  | Run the following command to view the number of session connections that have been used by all users:                                                  |
       |                                                                           |                                                                                                                                                        |
       |                                                                           | ::                                                                                                                                                     |
+      |                                                                           |                                                                                                                                                        |
       |                                                                           |                                                                                                                                                        |
       |                                                                           |    SELECT COUNT(*) FROM PG_STAT_ACTIVITY;                                                                                                              |
       |                                                                           |     count                                                                                                                                              |

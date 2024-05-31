@@ -18,7 +18,7 @@ Deleting Resources
 
 After performing the steps in "Getting Started," if you do not need to use the sample data, clusters, ECSs, or VPCs, delete the resources so that your service quotas will not be wasted or occupied.
 
-#. Delete the ECS created in :ref:`Step 3: Connecting to a Cluster <dws_01_0107>` for connecting to the GaussDB(DWS) cluster.
+#. Delete the ECS created in :ref:`Step 3: Connecting to a Cluster <en-us_topic_0000001707254513>` for connecting to the GaussDB(DWS) cluster.
 
    a. Log in to the cloud console.
    b. Click **Service List** and choose **Computing** > **Elastic Cloud Server** to enter the ECS console.
@@ -27,7 +27,7 @@ After performing the steps in "Getting Started," if you do not need to use the s
 
 #. Delete a GaussDB(DWS) cluster.
 
-   On the GaussDB(DWS) management console, click **Clusters**, locate the row that contains **dws-demo** in the cluster list, and choose **More > Delete**. In the dialog box that is displayed, select **Release the EIP bound with the cluster** and click **OK**.
+   On the GaussDB(DWS) management console, click **Cluster** > **Dedicated Cluster**, locate the row that contains **dws-demo** in the cluster list, and choose **More > Delete**. In the dialog box that is displayed, select **Release the EIP bound with the cluster** and click **OK**.
 
    If the cluster to be deleted uses an automatically created security group that is not used by other clusters, the security group is automatically deleted when the cluster is deleted.
 

@@ -12,15 +12,13 @@ In conventional scaling, compute and storage resources are coupled. If a company
 
 .. note::
 
+   -  Disk capacity expansion can be performed only for standard data warehouses using SSD. Only version 8.1.1.203 and later are supported.
    -  Disk capacity can be expanded only if the cluster is in **Available**, **To be restarted**, **Read-only**, or **Node fault**, **Unbalanced** state.
 
 Precautions
 -----------
 
 -  Hot storage disks cannot be scaled down.
--  The disk capacity of each node can be expanded to up to 2000 GB.
--  A cluster can have up to 5000 disks. After scaling, the node storage capacity is evenly distributed based on the number of disks.
--  If the hot data storage capacity is increased and exceeds the quota in the discount package, excess capacity will be billed per use.
 -  Scale up hot data storage during off-peak hours.
 -  If the cluster is in the read-only state, a message will be displayed after you click **Expand Disk Capacity**. After you start expansion, wait until it is completed and the cluster changes to the available state.
 
@@ -29,9 +27,9 @@ Procedure
 
 #. Log in to the GaussDB(DWS) management console.
 
-#. Click **Clusters**. All clusters are displayed by default.
+#. Choose **Clusters** > **Dedicated Cluster**. All clusters are displayed by default.
 
-#. In the **Operation** column of the target cluster, choose **More** > **Change Specifications** and click **Change disk capacity**. The **Change disk capacity** page is displayed.
+#. In the **Operation** column of the target cluster, choose **More** > **Change Specifications** and click **Change disk capacity**. The **Expand Disk Capacity** page is displayed.
 
    |image1|
 
@@ -45,6 +43,6 @@ Procedure
 
    |image3|
 
-.. |image1| image:: /_static/images/en-us_image_0000001517355457.png
-.. |image2| image:: /_static/images/en-us_image_0000001507057774.png
-.. |image3| image:: /_static/images/en-us_image_0000001466914414.png
+.. |image1| image:: /_static/images/en-us_image_0000001759517993.png
+.. |image2| image:: /_static/images/en-us_image_0000001711439108.png
+.. |image3| image:: /_static/images/en-us_image_0000001711598600.png

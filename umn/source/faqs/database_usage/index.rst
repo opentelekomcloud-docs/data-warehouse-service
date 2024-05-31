@@ -13,7 +13,7 @@ Database Usage
 -  :ref:`Is GaussDB(DWS) Compatible with PostgreSQL Stored Procedures? <dws_03_0076>`
 -  :ref:`What Are Partitioned Tables, Partitions, and Partition Keys? <dws_03_0064>`
 -  :ref:`How Can I Export the Table Structure? <dws_03_0078>`
--  :ref:`How Can I Delete Table Data Efficiently? <dws_03_0088>`
+-  :ref:`How Do I Delete Table Data Efficiently? <dws_03_0088>`
 -  :ref:`How Do I View Foreign Table Information? <dws_03_2124>`
 -  :ref:`If No Distribution Column Is Specified, How Will Data Be Stored? <dws_03_2127>`
 -  :ref:`How Do I Replace the Null Result with 0? <dws_03_2102>`
@@ -27,6 +27,8 @@ Database Usage
 -  :ref:`In Which Scenarios Would a Statement Be "idle in transaction"? <dws_03_2109>`
 -  :ref:`How Does GaussDB(DWS) Implement Row-to-Column and Column-to-Row Conversion? <dws_03_2110>`
 -  :ref:`What Are the Differences Between Unique Constraints and Unique Indexes? <dws_03_1002>`
+-  :ref:`What Are the Differences Between Functions and Stored Procedures? <dws_03_0002>`
+-  :ref:`How Do I Delete Duplicate Table Data? <dws_03_1004>`
 
 .. toctree::
    :maxdepth: 1
@@ -40,7 +42,7 @@ Database Usage
    is_gaussdbdws_compatible_with_postgresql_stored_procedures
    what_are_partitioned_tables_partitions_and_partition_keys
    how_can_i_export_the_table_structure
-   how_can_i_delete_table_data_efficiently
+   how_do_i_delete_table_data_efficiently
    how_do_i_view_foreign_table_information
    if_no_distribution_column_is_specified_how_will_data_be_stored
    how_do_i_replace_the_null_result_with_0
@@ -54,3 +56,5 @@ Database Usage
    in_which_scenarios_would_a_statement_be_idle_in_transaction
    how_does_gaussdbdws_implement_row-to-column_and_column-to-row_conversion
    what_are_the_differences_between_unique_constraints_and_unique_indexes
+   what_are_the_differences_between_functions_and_stored_procedures
+   how_do_i_delete_duplicate_table_data

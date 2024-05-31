@@ -9,7 +9,7 @@ What Are the Differences Between Unique Constraints and Unique Indexes?
 
    A unique constraint specifies that the values in a column or a group of columns are all unique. If **DISTRIBUTE BY REPLICATION** is not specified, the column table that contains only unique values must contain distribution columns.
 
-   A unique index is used to ensure the uniqueness of a field value or the value combination of multiple fields. **CREATE UNIQUE UNDEX** creates a unique index.
+   A unique index is used to ensure the uniqueness of a field value or the value combination of multiple fields. **CREATE UNIQUE INDEX** creates a unique index.
 
 -  The functions of a unique constraint and a unique index are different.
 
@@ -27,11 +27,18 @@ Example: Create a composite index for two columns, which is not required to be a
 
 ::
 
-   CREATE TABLE t (n1 number,n2 number);
+   CREATE TABLE t (n1 number,n2 number,n3 number,PRIMARY KEY (n3));
    CREATE INDEX t_idx ON t(n1,n2);
 
-You can use the index **t_idx** created in the preceding example to create a unique constraint **t_uk**, which is unique only on column **n1**. A unique constraint is stricter than a unique index.
+GaussDB (DWS) supports multiple unique indexes for a table.
 
 ::
 
-   ALTER TABLE t ADD CONSTRAINT t_uk UNIQUE (n1) USING INDEX t_idx;
+   CREATE UNIQUE INDEX u_index ON t(n3);
+   CREATE UNIQUE INDEX u_index1 ON t(n3);
+
+You can use the index **t_idx** created in the example above to create a unique constraint **t_uk**, which is unique only on column **n1**. A unique constraint is stricter than a unique index.
+
+::
+
+   ALTER TABLE t ADD CONSTRAINT t_uk UNIQUE USING INDEX u_index;

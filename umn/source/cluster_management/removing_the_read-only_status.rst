@@ -24,9 +24,7 @@ Removing Read-only Status
 
 #. Log in to the GaussDB(DWS) management console.
 
-#. Click **Clusters**.
-
-   All clusters are displayed by default.
+#. Choose **Clusters** > **Dedicated Cluster**. All clusters are displayed by default.
 
 #. In the **Operation** column of the target cluster, choose **More** > **Cancel Read-only**.
 
@@ -34,7 +32,4 @@ Removing Read-only Status
 
 #. In the dialog box that is displayed, click **OK** to confirm and remove the read-only status for the cluster.
 
-   |image2|
-
-.. |image1| image:: /_static/images/en-us_image_0000001686996645.png
-.. |image2| image:: /_static/images/en-us_image_0000001638677906.png
+.. |image1| image:: /_static/images/en-us_image_0000001759519193.png

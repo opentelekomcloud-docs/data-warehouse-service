@@ -5,28 +5,26 @@
 Cluster Upgrade
 ===============
 
-After you create a data warehouse cluster, the system automatically configures a random maintenance window for the cluster. Alternatively, you can customize a maintenance window as required. For details about how to view and configure the maintenance window, see :ref:`Configuring the Maintenance Window <en-us_topic_0000001517913849__section1583412504297>`.
+By default, you do not need to manually upgrade a GaussDB(DWS) cluster. To upgrade a cluster on the console, see :ref:`Delivering a Cluster Upgrade Task on the Console <en-us_topic_0000001658895302__en-us_topic_0000001372520106_section1121565214183>`.
 
-The validity period of the maintenance window (maximum maintenance duration) is 4 hours. During this period, you can upgrade the cluster, install operating system patches, and harden the system. If no maintenance tasks are performed within the planned maintenance window, the cluster continues to run properly until the next maintenance window. GaussDB(DWS) will notify you of any cluster O&M operation by sending SMS messages. Exercise caution when performing operations on the cluster during the O&M period.
+GaussDB(DWS) will notify you of any cluster O&M operation by sending SMS messages. Exercise caution when performing operations on the cluster during the O&M period.
 
 If the upgrade affects the current query requests or service running, contact technical support for emergency handling.
-
-A cluster is charged by hour as long as it is in the **Available** state, so you will not see any difference in the bills if a faulty node or system upgrade causes a short interruption, for example, 15 minutes. If such events cause major system interruption, which is a very rare case, you will not be charged for those downtime hours.
 
 Upgrading a Cluster
 -------------------
 
-You do not need to care about GaussDB(DWS) cluster patching or upgrading because GaussDB(DWS) will handle version upgrade automatically. After GaussDB(DWS) is upgraded, the service automatically upgrades the clusters to the latest version within the maintenance window. During the upgrade, the cluster is automatically restarted and cannot provide services for a short period of time. Therefore, you are advised to set a suitable time range when the number of connected users and the number of active tasks are small.
+By default, you do not need to care about GaussDB(DWS) cluster patching or upgrading because GaussDB(DWS) will handle version upgrade automatically. After GaussDB(DWS) is upgraded, it will automatically upgrade the cluster to the latest version. During the upgrade, the cluster will be restarted and cannot provide services for a short period of time.
 
 .. note::
 
    -  After a cluster is upgraded to 8.1.3 or later, it enters the observation period. During this period, you can check service status and roll back to the earlier version if necessary.
-   -  Upgrading the cluster does not affect the original cluster data.
+   -  Upgrading the cluster does not affect the original cluster data or specifications.
 
 The following figure shows the cluster version.
 
 
-.. figure:: /_static/images/en-us_image_0000001517914133.png
+.. figure:: /_static/images/en-us_image_0000001711440304.png
    :alt: **Figure 1** Version description
 
    **Figure 1** Version description
@@ -34,28 +32,54 @@ The following figure shows the cluster version.
 -  **Service patch upgrade**: The last digit of cluster version *X.X.X* is changed. For example, the cluster is upgraded from 1.1.0 to 1.1.1.
 
    -  Duration: The whole process will take less than 10 minutes.
-   -  Impact on services: During this period, services will be interrupted for 1 to 3 minutes. If the source version is 8.1.2 or later, you can install patches online. During the patch upgrade, services do not need to be stopped, but may be interrupted for seconds. You are advised to perform the installation during off-peak hours.
+   -  Impact on services: During this period, if the source version is upgraded to 8.1.3 or later, online patching is supported. During the patch upgrade, you do not have to stop services, but the services will be intermittently interrupted for seconds. If the destination version is earlier than 8.1.3, services will be interrupted for 1 to 3 minutes. Therefore, you are advised to perform this operation during off-peak hours.
 
 -  **Service upgrade**: The first two digits of cluster version *X.X.X* are changed. For example, the cluster is upgraded from 1.1.0 to 1.2.0.
 
    -  Duration: The whole process will take less than 30 minutes.
-   -  Impact on services: During this period, the database cannot be accessed. If the source version is 8.1.1 or later, you can upgrade it online. During the upgrade, services do not need to be stopped, but may be interrupted for seconds. You are advised to perform the installation during off-peak hours.
+   -  Impact on services: Online upgrade is supported for update to 8.1.1 or later. During the upgrade, you are not required to stop services, but services are intermittently interrupted for seconds. You are advised to perform the upgrade during off-peak hours.
 
-.. _en-us_topic_0000001517913849__section1583412504297:
+.. _en-us_topic_0000001658895302__en-us_topic_0000001372520106_section1121565214183:
 
-Configuring the Maintenance Window
-----------------------------------
+Delivering a Cluster Upgrade Task on the Console
+------------------------------------------------
 
-#. Log in to the GaussDB(DWS) management console.
+**Prerequisites**
 
-#. Click **Clusters**.
+For clusters 8.1.1 or later, you need to deliver cluster upgrade operations on the console.
 
-#. In the cluster list, click the name of the target cluster. The **Cluster Information** page is displayed.
+**Procedure**
 
-   In the **Basic Information** area, you can view the maintenance window.
+#. Log in to the GaussDB(DWS) console.
 
-#. Click **Configure** next to **Maintenance Window**.
+#. In the cluster list, click the name of a cluster.
 
-#. In the dialog box that is displayed, configure the maintenance window.
+#. In the navigation pane, choose **Upgrade Management**.
 
-#. Click **OK**.
+#. On the **Upgrade Management** page, select a version from the **Target Version** drop-down list.
+
+   |image1|
+
+#. Click **Upgrade**. Click **OK** in the displayed dialog box.
+
+   |image2|
+
+#. Check whether the cluster is successfully upgraded.
+
+   -  If the cluster version is 8.1.3 or later, the cluster enters the service observation period after the upgrade is complete. If you have verified your services, click **Submit** on the **Upgrade Management** page to complete the cluster upgrade. If you find your cluster performance affected by the upgrade, you can click **Rollback** to roll back the upgrade.
+
+      .. note::
+
+         -  In versions earlier than 8.1.3, there is neither rollback nor submission button after the upgrade is complete.
+         -  If you do not submit the upgraded version, there will be a **wlm** thread which occupies the system storage space and affects the performance.
+
+      |image3|
+
+   -  If the cluster upgrade fails, click **Rollback** to roll back to the original cluster version, or click **Retry** to deliver the upgrade again.
+
+      |image4|
+
+.. |image1| image:: /_static/images/en-us_image_0000001711599804.png
+.. |image2| image:: /_static/images/en-us_image_0000001759519205.png
+.. |image3| image:: /_static/images/en-us_image_0000001759359337.png
+.. |image4| image:: /_static/images/en-us_image_0000001711440308.png

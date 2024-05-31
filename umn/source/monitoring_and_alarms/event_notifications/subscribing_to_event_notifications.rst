@@ -16,7 +16,7 @@ Creating a Subscription
 
 #. On the **Event Management** page, choose **Subscription** > **Create Subscription**.
 
-#. .. _en-us_topic_0000001466754514__li18772435125416:
+#. .. _en-us_topic_0000001658895230__en-us_topic_0000001423119165_li18772435125416:
 
    In the **Subscription Settings** area, set basic subscription information and event filtering.
 
@@ -51,7 +51,7 @@ Creating a Subscription
 
    -  To create a topic, click **Create Topic**. The SMN console is displayed. For details, see **Topic Management > Creating a Topic** in the *Simple Message Notification User Guide*.
 
-#. .. _en-us_topic_0000001466754514__li164751612342:
+#. .. _en-us_topic_0000001658895230__en-us_topic_0000001423119165_li164751612342:
 
    Click **OK** to complete the subscription.
 
@@ -60,7 +60,7 @@ Modifying the Subscription
 
 #. On the **Event Management** page of the GaussDB(DWS) management console, click the **Subscription** tab.
 #. In the **Operation** column of the row containing the specified subscription, click **Edit** to enter the **Edit Subscription** page.
-#. On the **Edit Subscription** page, set the parameters to be modified. For details, see :ref:`4 <en-us_topic_0000001466754514__li18772435125416>` to :ref:`6 <en-us_topic_0000001466754514__li164751612342>` in section "Creating a Subscription".
+#. On the **Edit Subscription** page, set the parameters to be modified. For details, see :ref:`4 <en-us_topic_0000001658895230__en-us_topic_0000001423119165_li18772435125416>` to :ref:`6 <en-us_topic_0000001658895230__en-us_topic_0000001423119165_li164751612342>` in section "Creating a Subscription".
 
 Deleting the Subscription
 -------------------------
@@ -69,5 +69,5 @@ Deleting the Subscription
 #. In the **Operation** column of the row containing the specified subscription, click **Delete**. The **Delete Subscription** dialog box is displayed.
 #. Click **Yes** to delete the subscription.
 
-.. |image1| image:: /_static/images/en-us_image_0000001517914005.png
-.. |image2| image:: /_static/images/en-us_image_0000001517754413.jpg
+.. |image1| image:: /_static/images/en-us_image_0000001759357481.png
+.. |image2| image:: /_static/images/en-us_image_0000001759517349.jpg

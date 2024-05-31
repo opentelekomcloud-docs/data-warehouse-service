@@ -28,7 +28,7 @@ Run the **select version();** statement to query the current database version. R
 
 |image1|
 
--  **For 8.0.x and earlier versions, rebuild a table.**
+-  **For 8.0.x and earlier versions, specify the distribution column when rebuilding a table.**
 
 #. Use Data Studio or gsql in Linux to access the database.
 
@@ -73,7 +73,7 @@ Run the **select version();** statement to query the current database version. R
 
    ::
 
-      select pg_get_tabledef('customer_t1');
+      SELECT pg_get_tabledef('customer_t1');
 
    |image2|
 
@@ -81,7 +81,7 @@ Run the **select version();** statement to query the current database version. R
 
    ::
 
-      update customer_t1 set c_last_name = 'Jimy' where c_customer_sk = 6885;
+      UPDATE customer_t1 SET c_last_name = 'Jimy' WHERE c_customer_sk = 6885;
 
    |image3|
 
@@ -89,7 +89,7 @@ Run the **select version();** statement to query the current database version. R
 
    ::
 
-      alter table customer_t1 DISTRIBUTE BY hash (c_customer_sk);
+      ALTER TABLE customer_t1 DISTRIBUTE BY hash (c_customer_sk);
 
    |image4|
 
@@ -97,7 +97,7 @@ Run the **select version();** statement to query the current database version. R
 
    ::
 
-      update customer_t1 set c_last_name = 'Jimy' where c_customer_sk = 6885;
+      UPDATE customer_t1 SET c_last_name = 'Jimy'WHERE c_customer_sk = 6885;
 
    |image5|
 

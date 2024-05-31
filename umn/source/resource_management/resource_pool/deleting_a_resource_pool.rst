@@ -21,4 +21,4 @@ Deleting a Resource Pool
 
    |image1|
 
-.. |image1| image:: /_static/images/en-us_image_0000001517355409.png
+.. |image1| image:: /_static/images/en-us_image_0000001711661340.png

@@ -25,4 +25,4 @@ The procedure for connecting to a cluster is as follows:
       -  :ref:`Using ODBC to Connect to a Cluster <dws_01_0086>`
       -  :ref:`Using the Third-Party Function Library psycopg2 of Python to Connect to a Cluster <dws_01_0120>`
       -  :ref:`Using the Python Library PyGreSQL to Connect to a Cluster <dws_01_0171>`
-      -  :ref:`Using JDBC to Connect to a Cluster (IAM Authentication Mode) <dws_01_0133>`
+      -  :ref:`Configuring JDBC to Connect to a Cluster (IAM Authentication Mode) <dws_01_0133>`

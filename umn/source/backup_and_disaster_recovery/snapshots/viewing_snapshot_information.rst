@@ -23,9 +23,9 @@ Viewing Snapshot Information
 
    You can also enter a snapshot name or cluster name in the upper right corner of the snapshot list and click |image3| to search for the specified snapshot. GaussDB(DWS) supports fuzzy search.
 
-   :ref:`Table 1 <en-us_topic_0000001466754510__en-us_topic_0000001307409978_en-us_topic_0000001180320191_table3259774163926>` describes snapshot status.
+   :ref:`Table 1 <en-us_topic_0000001658895266__en-us_topic_0000001422959269_en-us_topic_0000001307409978_en-us_topic_0000001180320191_table3259774163926>` describes snapshot status.
 
-   .. _en-us_topic_0000001466754510__en-us_topic_0000001307409978_en-us_topic_0000001180320191_table3259774163926:
+   .. _en-us_topic_0000001658895266__en-us_topic_0000001422959269_en-us_topic_0000001307409978_en-us_topic_0000001180320191_table3259774163926:
 
    .. table:: **Table 1** Snapshot status
 
@@ -72,6 +72,6 @@ Viewing Snapshot Information
       | OBS            | The created snapshot is an OBS snapshot and the backup data is stored on the OBS server. |
       +----------------+------------------------------------------------------------------------------------------+
 
-.. |image1| image:: /_static/images/en-us_image_0000001517754405.jpg
-.. |image2| image:: /_static/images/en-us_image_0000001466914334.png
-.. |image3| image:: /_static/images/en-us_image_0000001466754710.jpg
+.. |image1| image:: /_static/images/en-us_image_0000001759518485.jpg
+.. |image2| image:: /_static/images/en-us_image_0000001759358633.png
+.. |image3| image:: /_static/images/en-us_image_0000001711599096.jpg

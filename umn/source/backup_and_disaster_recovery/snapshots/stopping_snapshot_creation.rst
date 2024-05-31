@@ -34,6 +34,6 @@ Procedure
 
    |image3|
 
-.. |image1| image:: /_static/images/en-us_image_0000001518034025.png
-.. |image2| image:: /_static/images/en-us_image_0000001467074354.png
-.. |image3| image:: /_static/images/en-us_image_0000001466754862.png
+.. |image1| image:: /_static/images/en-us_image_0000001759358649.png
+.. |image2| image:: /_static/images/en-us_image_0000001711599112.png
+.. |image3| image:: /_static/images/en-us_image_0000001711439620.png

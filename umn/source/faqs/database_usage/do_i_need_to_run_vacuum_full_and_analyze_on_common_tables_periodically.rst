@@ -51,7 +51,7 @@ For details, see sections "VACUUM" and "ANALYZE \| ANALYSE" in the *Developer Gu
 VACUUM and VACUUM FULL
 ----------------------
 
-In GaussDB(DWS), the **VACUUM** operation is like a vacuum cleaner used to absorb dust. Here, "dust" means old data. If the data is not cleared in a timely manner, the database space will bloat, causing performance deterioration or even system breakdown.
+In GaussDB(DWS), the **VACUUM** operation is like a vacuum cleaner used to absorb dust. Here, "dust" means old data. If the data is not cleared in a timely manner, more database space will be used to store such data, causing performance downgrade or even a system breakdown.
 
 Purposes of VACUUM:
 
