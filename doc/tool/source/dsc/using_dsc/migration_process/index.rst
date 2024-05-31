@@ -1,24 +1,24 @@
-:original_name: dws_mt_0032.html
+:original_name: dws_16_0017.html
 
-.. _dws_mt_0032:
+.. _dws_16_0017:
+
+.. _en-us_topic_0000001819336065:
 
 Migration Process
 =================
 
--  :ref:`Overview <dws_mt_0207>`
--  :ref:`Prerequisites <dws_mt_0033>`
--  :ref:`Preparations <dws_mt_0034>`
--  :ref:`Migrating Data Using DSC <dws_mt_0035>`
--  :ref:`Viewing Output Files and Logs <dws_mt_0036>`
--  :ref:`Troubleshooting <dws_mt_0037>`
+-  :ref:`Prerequisites <dws_16_0018>`
+-  :ref:`Preparations <dws_16_0019>`
+-  :ref:`Executing DSC <dws_16_0020>`
+-  :ref:`Viewing Output Files and Logs <dws_16_0021>`
+-  :ref:`Troubleshooting <dws_16_0022>`
 
 .. toctree::
    :maxdepth: 1
    :hidden: 
 
-   overview
    prerequisites
    preparations
-   migrating_data_using_dsc
+   executing_dsc
    viewing_output_files_and_logs
    troubleshooting

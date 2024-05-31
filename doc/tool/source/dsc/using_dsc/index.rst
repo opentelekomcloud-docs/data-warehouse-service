@@ -1,26 +1,24 @@
-:original_name: dws_mt_0031.html
+:original_name: dws_16_0009.html
 
-.. _dws_mt_0031:
+.. _dws_16_0009:
 
 Using DSC
 =========
 
--  :ref:`Migration Process <dws_mt_0032>`
--  :ref:`Teradata SQL Migration <dws_mt_0038>`
--  :ref:`Oracle SQL Migration <dws_mt_0039>`
--  :ref:`Teradata Perl Migration <dws_mt_0041>`
--  :ref:`Netezza SQL Migration <dws_07_0675>`
--  :ref:`MySQL SQL Migration <dws_07_0676>`
--  :ref:`SQL Formatter <dws_mt_0042>`
+-  :ref:`Overview <dws_16_0010>`
+-  :ref:`Downloading and Installing DSC <dws_16_0212>`
+-  :ref:`Configuring DSC <dws_16_0012>`
+-  :ref:`Migration Process <dws_16_0017>`
+-  :ref:`CLI Reference <dws_16_0023>`
+-  :ref:`Log Reference <dws_16_0032>`
 
 .. toctree::
    :maxdepth: 1
    :hidden: 
 
+   overview
+   downloading_and_installing_dsc
+   configuring_dsc/index
    migration_process/index
-   teradata_sql_migration
-   oracle_sql_migration
-   teradata_perl_migration
-   netezza_sql_migration
-   mysql_sql_migration
-   sql_formatter
+   cli_reference/index
+   log_reference/index
