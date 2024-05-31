@@ -25,7 +25,7 @@ Procedure
 
 #. Log in to the GaussDB(DWS) management console.
 
-#. Click **Clusters**.
+#. Choose **Clusters** > **Dedicated Cluster**.
 
 #. In the **Operation** column of the cluster to be restarted, click **Restart**.
 

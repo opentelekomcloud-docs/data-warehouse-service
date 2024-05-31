@@ -25,8 +25,8 @@ CPU Share
 
 The share has two meanings:
 
--  Share: The CPU is shared by all Cgroups. Idle CPU resources can be used by other Cgroups.
--  Quota: When the CPU is fully loaded during peak hours, Cgroups preempt CPU resources based on their quotas.
+-  **Share**: The CPU is shared by all Cgroups, and other Cgroups can use idle CPU resources.
+-  **Limit**: When the CPU is fully loaded during peak hours, Cgroups preempt CPU resources based on their limits.
 
 CPU share is implemented based by cpu.shares and takes effect only when the CPU is fully loaded. When the CPU is idle, there is no guarantee that a Cgroup will preempt CPU resources appropriate to its quota. There can still be resource contention when the CPU is idle. Tasks in a Cgroup can use CPU resources without restriction. Although the average CPU usage may not be high, CPU resource contention may still occur at a specific time.
 
@@ -39,7 +39,7 @@ CPU Limit
 
 The limit has two meanings:
 
--  Dedicated: The CPU resources are dedicated to a Cgroup. Even the idle part cannot be used by other Cgroups.
+-  Dedicated: The CPU is dedicated to a Cgroup. Other Cgroups cannot use idle CPU resources.
 -  Quota: Only the CPU resources in the allocated quota can be used. Idle CPU resources of other Cgroups cannot be preempted.
 
 CPU limit is implemented based on cpuset.cpu. You can set a proper quota to implement absolute isolation of CPU resources between Cgroups. In this way, tasks of different Cgroups will not affect each other. However, the absolute CPU isolation will cause idle CPU resources in a Cgroup to be wasted. Therefore, the limit cannot be too large. A larger limit may not bring a better performance.

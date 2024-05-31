@@ -5,7 +5,7 @@
 MRS Data Sources
 ================
 
--  :ref:`Importing Data from MRS to GaussDB(DWS) <dws_01_0055>`
+-  :ref:`MRS Data Source Usage Overview <dws_01_0055>`
 -  :ref:`Creating an MRS Data Source Connection <dws_01_0059>`
 -  :ref:`Updating the MRS Data Source Configuration <dws_01_0156>`
 
@@ -13,6 +13,6 @@ MRS Data Sources
    :maxdepth: 1
    :hidden: 
 
-   importing_data_from_mrs_to_gaussdbdws
+   mrs_data_source_usage_overview
    creating_an_mrs_data_source_connection
    updating_the_mrs_data_source_configuration

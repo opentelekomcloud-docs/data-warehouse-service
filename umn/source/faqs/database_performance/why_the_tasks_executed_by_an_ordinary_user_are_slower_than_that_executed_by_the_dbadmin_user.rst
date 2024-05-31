@@ -19,7 +19,7 @@ Ordinary users queuing: **waiting in queue/waiting in global queue/waiting in cc
    Change the value of **max_active_statements** on the management console.
 
    a. Log in to the GaussDB(DWS) management console.
-   b. In the navigation pane on the left, click **Clusters**.
+   b. In the navigation tree on the left, choose **Clusters** > **Dedicated Clusters**.
    c. In the cluster list, find the target cluster and click the cluster name. The **Basic Information** page is displayed.
    d. Go to the **Parameter Modifications** page of the cluster, search for the **max_active_statements** parameter, change its value, and click **Save**.
 
@@ -64,6 +64,6 @@ Run the following command to check whether the resource pools corresponding to a
 
 ::
 
-   select * from pg_user;
+   SELECt * FROM pg_user;
 
 .. |image1| image:: /_static/images/en-us_image_0000001533637710.png

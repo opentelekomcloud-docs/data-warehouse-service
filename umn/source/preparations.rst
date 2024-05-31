@@ -7,9 +7,9 @@ Preparations
 
 Before using GaussDB(DWS), make the following preparations:
 
--  :ref:`Determining the Cluster Ports <en-us_topic_0000001517754161__section788591414617>`
+-  :ref:`Determining the Cluster Ports <en-us_topic_0000001658895150__en-us_topic_0000001422799485_section788591414617>`
 
-.. _en-us_topic_0000001517754161__section788591414617:
+.. _en-us_topic_0000001658895150__en-us_topic_0000001422799485_section788591414617:
 
 Determining the Cluster Ports
 -----------------------------

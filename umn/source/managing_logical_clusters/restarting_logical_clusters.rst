@@ -5,12 +5,12 @@
 Restarting Logical Clusters
 ===========================
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console. In the navigation pane, choose **Clusters** > **Dedicated Clusters**.
 
-#. In the cluster list, click the name of a cluster.
+#. In the cluster list, click the name of the target cluster. The **Cluster Information** page is displayed.
 
-#. Choose **Logical Clusters**. Click **Restart** in the **Operation** column of the target cluster, and click **OK** in the displayed dialog box.
+#. In the navigation pane, choose **Logical Clusters**. Click **Restart** in the **Operation** column of the target cluster, and click **OK** in the displayed dialog box.
 
    |image1|
 
-.. |image1| image:: /_static/images/en-us_image_0000001518034041.png
+.. |image1| image:: /_static/images/en-us_image_0000001711821144.png

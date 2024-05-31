@@ -16,14 +16,15 @@ GaussDB(DWS) provides petabyte-level (PB-level) high-performance databases with 
 
 -  MPP computing framework, hybrid row-column storage, and vectorized execution, enabling response to billion-level data correlation analysis within seconds
 -  Optimized in-memory computing based on Hash Join of Bloom Filter, improving the performance by 2 to 10 times
+-  Supports the symmetrically distributed, active-active multi-node cluster architecture, ensuring no SPOFs.
 
 -  Optimized communication between large-scale clusters based on telecommunication technologies, improving data transmission efficiency between compute nodes
 -  Cost-based intelligent optimizers, helping generate the optimal plan based on the cluster scale and data volume to improve execution efficiency
 
 GaussDB(DWS) has comprehensive SQL capabilities:
 
--  Supports SQL 92 and SQL 2003 standards, stored procedures, GBK and UTF-8 character sets, and SQL standard functions and OLAP analysis functions.
--  Compatible with the PostgreSQL ecosystem and supports interconnection with mainstream database ETL and BI tools provided by third-party vendors.
+-  Supports ANSI/ISO SQL 92, SQL99, and SQL 2003 standards, stored procedures, GBK and UTF-8 character sets, and SQL standard functions and OLAP analysis functions.
+-  Compatible with the PostgreSQL/Oracle/Teradata/MySQL ecosystem and supports interconnection with mainstream database ETL and BI tools provided by third-party vendors.
 -  Supports roaring bitmaps and common functions used with them, which are widely used for user feature extraction, user profiling, and more applications in the Internet, retail, education, and gaming industries.
 -  List partitioning (**PARTITION BY LIST** *(partition_key,[...])*) and range partitioning are supported.
 -  Read-only HDFS and OBS foreign tables in JSON file format are supported.
@@ -50,9 +51,9 @@ Main functions of cluster management are described as follows:
 
    A snapshot is a complete backup that records point-in-time configuration data and service data of a GaussDB(DWS) cluster. A snapshot can be used to restore a cluster at a certain time. You can manually create snapshots for a cluster or enable automated snapshot creation (periodic). Automated snapshots have a limited retention period. You can copy automatic snapshots for long-term retention.
 
-   When you restore a cluster from a snapshot, the system creates a new cluster with the same flavor and node quantity as the original one, and imports the snapshot data.
+   When you restore a cluster from a snapshot, the system can restore the snapshot data to a new cluster or the original cluster.
 
-   You can delete snapshots that are no longer needed to release the storage space.
+   You can delete snapshots that are no longer needed on the console to release storage space. Automated snapshots cannot be manually deleted.
 
 -  Managing nodes
 
@@ -82,7 +83,7 @@ Main functions of cluster management are described as follows:
 
    You can delete a cluster when you do not need it. Deleting a cluster is risky and may cause data loss. Therefore, exercise caution when performing this operation.
 
-GaussDB(DWS) allows you to manage clusters and snapshots in either of the following ways:
+GaussDB(DWS) allows you to manage clusters in either of the following ways:
 
 -  Management console
 
@@ -124,7 +125,7 @@ High Reliability
 -  Supports instance and data redundancy, ensuring zero single points of failure (SPOF) in the entire system.
 -  Supports multiple data backups, and all data can be manually backed up to OBS.
 -  Automatically isolates the faulty node, uses the backup to restore data, and replaces the faulty node when necessary.
--  Automatic snapshots work with OBS to implement cross-AZ disaster recovery (DR). If the production cluster fails to provide read and write services due to natural disasters in the specified region or cluster internal faults, the DR cluster becomes the production cluster to ensure service continuity.
+-  Automatic snapshots work with OBS to implement intra-region disaster recovery (DR). If the production cluster fails to provide read and write services due to natural disasters in the specified region or cluster internal faults, the DR cluster becomes the production cluster to ensure service continuity.
 -  In the **Unbalanced** state, the number of primary instances on some nodes increases. As a result, the load pressure is high. In this case, you can perform a primary/standby switchback for the cluster during off-peak hours to improve performance.
 -  If the internal IP address or EIP of a CN is used to connect to a cluster, the failure of this CN will lead to cluster connection failure. To avoid single-CN failures, GaussDB(DWS) uses Elastic Load Balance (ELB). An ELB distributes access traffic to multiple ECSs for traffic control based on forwarding policies. It improves the fault tolerance capability of application programs.
 -  After a cluster is created, the number of required CNs varies with service requirements. GaussDB(DWS) allows you to add or delete CNs as needed.

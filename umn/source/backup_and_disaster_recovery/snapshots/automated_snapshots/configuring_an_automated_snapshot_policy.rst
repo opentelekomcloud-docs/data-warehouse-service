@@ -7,14 +7,12 @@ Configuring an Automated Snapshot Policy
 
 You can select a snapshot type and set one or more automated snapshot policies for a cluster. After an automated snapshot policy is enabled, the system automatically creates snapshots based on the time, period, and snapshot type you configured.
 
-Perform the following steps to configure an automated snapshot policy.
-
 Procedure
 ---------
 
 #. Log in to the GaussDB(DWS) management console.
 
-#. In the navigation pane on the left, choose **Clusters**.
+#. In the navigation pane on the left, choose **Clusters** > **Dedicated Clusters**.
 
 #. In the cluster list, click the name of the target cluster. The **Cluster Information** page is displayed.
 
@@ -24,14 +22,14 @@ Procedure
    -  |image2| indicates that the automatic snapshot function is disabled.
 
 
-   .. figure:: /_static/images/en-us_image_0000001466914450.png
+   .. figure:: /_static/images/en-us_image_0000001711439524.png
       :alt: **Figure 1** Policy list
 
       **Figure 1** Policy list
 
-#. After this function is enabled, you can set the retention mode for automated snapshots. For more information, see :ref:`Table 1 <en-us_topic_0000001466754550__en-us_topic_0000001360169333_en-us_topic_0000001231278872_table11860173413712>`.
+#. After this function is enabled, you can set the retention mode for automated snapshots. For more information, see :ref:`Table 1 <en-us_topic_0000001658895258__en-us_topic_0000001423119261_en-us_topic_0000001360169333_en-us_topic_0000001231278872_table11860173413712>`.
 
-   .. _en-us_topic_0000001466754550__en-us_topic_0000001360169333_en-us_topic_0000001231278872_table11860173413712:
+   .. _en-us_topic_0000001658895258__en-us_topic_0000001423119261_en-us_topic_0000001360169333_en-us_topic_0000001231278872_table11860173413712:
 
    .. table:: **Table 1** Automated snapshot parameters
 
@@ -45,7 +43,7 @@ Procedure
       |                                   |    Snapshots that are automatically created cannot be deleted manually. The system automatically deletes these snapshots when their retention duration exceeds the threshold. |
       +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-#. After automated snapshot is enabled, you can configure its parameters. For more information, see :ref:`Table 2 <en-us_topic_0000001466754550__en-us_topic_0000001360169333_en-us_topic_0000001231278872_table1355651818416>`.
+#. After automated snapshot is enabled, you can configure its parameters. For more information, see :ref:`Table 2 <en-us_topic_0000001658895258__en-us_topic_0000001423119261_en-us_topic_0000001360169333_en-us_topic_0000001231278872_table1355651818416>`.
 
    .. note::
 
@@ -57,23 +55,21 @@ Procedure
 
          |image3|
 
+         .. warning::
+
+            Choosing the days in red (29th/30th/31st) may skip some monthly backups.
+
       -  **One-time**: Specify a day and the exact time on the day.
 
       |image4|
 
    -  Incremental snapshots can be set only to **Periodic**, as shown in the first figure below.
 
-      -  When configuring a periodic incremental snapshot policy, you can specify the days for every week/month and the exact time on the days. You can also specify the start time and interval for the snapshots.
+      When configuring a periodic incremental snapshot policy, you can specify the days for every week/month and the exact time on the days. You can also specify the start time and interval for the snapshots.
 
       |image5|
 
-      |image6|
-
-      .. warning::
-
-         Choosing the days in red (29th/30th/31st) may skip some monthly backups.
-
-   .. _en-us_topic_0000001466754550__en-us_topic_0000001360169333_en-us_topic_0000001231278872_table1355651818416:
+   .. _en-us_topic_0000001658895258__en-us_topic_0000001423119261_en-us_topic_0000001360169333_en-us_topic_0000001231278872_table1355651818416:
 
    .. table:: **Table 2** Snapshot policy parameters
 
@@ -87,6 +83,7 @@ Procedure
       |                                   | .. note::                                                                                                                                                                                                                                                                                                                                                                                        |
       |                                   |                                                                                                                                                                                                                                                                                                                                                                                                  |
       |                                   |    -  A full snapshot is created after every fifteen incremental snapshots are created.                                                                                                                                                                                                                                                                                                          |
+      |                                   |    -  Incremental snapshot restoration is based on full snapshots. Incremental snapshots are used to restore all data to the time point when they were created.                                                                                                                                                                                                                                  |
       |                                   |    -  An incremental snapshot records the changes made after the previous snapshot was created. A full snapshot backs up the data of an entire cluster. It takes a short time to create an incremental snapshot, and a long time to create a full snapshot. When restoring a snapshot to a new cluster, GaussDB(DWS) uses all snapshots between the latest full backup and the current snapshot. |
       +-----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
       | Policy                            | You can choose either periodic or one-time snapshots.                                                                                                                                                                                                                                                                                                                                            |
@@ -116,11 +113,11 @@ Procedure
 
 #. (Optional) To modify an automated snapshot policy, click **Modify** in the **Operation** column.
 
-   |image7|
+   |image6|
 
 #. (Optional) To preview a policy, click **Preview Policy**. The next seven snapshots of the cluster will be displayed. If no full snapshot policy is configured for the cluster, the default policy is used, that is, a full snapshot is taken after every 14 incremental snapshots.
 
-   |image8|
+   |image7|
 
    .. important::
 
@@ -132,11 +129,10 @@ Procedure
       -  If the time for triggering snapshots of multiple policies conflicts, the priorities of the policies are as follows: one-time > periodic > full > incremental.
       -  You can use any backup, full or incremental, to restore the full data of a resource.
 
-.. |image1| image:: /_static/images/en-us_image_0000001466914438.png
-.. |image2| image:: /_static/images/en-us_image_0000001517754517.png
-.. |image3| image:: /_static/images/en-us_image_0000001466754810.png
-.. |image4| image:: /_static/images/en-us_image_0000001517914089.png
-.. |image5| image:: /_static/images/en-us_image_0000001518033977.png
-.. |image6| image:: /_static/images/en-us_image_0000001517754521.png
-.. |image7| image:: /_static/images/en-us_image_0000001466595166.png
-.. |image8| image:: /_static/images/en-us_image_0000001517914097.png
+.. |image1| image:: /_static/images/en-us_image_0000001759358549.png
+.. |image2| image:: /_static/images/en-us_image_0000001711599016.png
+.. |image3| image:: /_static/images/en-us_image_0000001711599064.png
+.. |image4| image:: /_static/images/en-us_image_0000001711439584.png
+.. |image5| image:: /_static/images/en-us_image_0000001759518473.png
+.. |image6| image:: /_static/images/en-us_image_0000001759358617.png
+.. |image7| image:: /_static/images/en-us_image_0000001711599084.png

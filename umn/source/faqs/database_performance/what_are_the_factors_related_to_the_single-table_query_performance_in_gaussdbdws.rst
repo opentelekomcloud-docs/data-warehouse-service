@@ -9,7 +9,7 @@ GaussDB(DWS) uses the shared-nothing architecture, and data is stored in a distr
 
 #. Distribution Key Design
 
-   By default, GaussDB(DWS) takes the first column of the primary key as the distribution key. If both are set, the primary key must contain the distribution key. Distribution keys determine data distribution among partitions. If distribution keys are well distributed among partitions, query performance can be improved.
+   By default, GaussDB(DWS) takes the first column of the primary key as the distribution key. When you define both a primary key and a distribution key for a table, the distribution key must be a subset of the primary key. Distribution keys determine data distribution among partitions. If distribution keys are well distributed among partitions, query performance can be improved.
 
    If the distribution key is incorrectly selected, data skew may occur after data is imported. The usage of some disks may be much higher than that of other disks, and the cluster may become read-only in some extreme cases. Proper selection of distribution keys is critical to table query performance. In addition, proper distribution keys enable data indexes to be created and maintained more quickly.
 

@@ -5,11 +5,11 @@
 Adding Logical Clusters
 =======================
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console. In the navigation pane, choose **Clusters** > **Dedicated Clusters**.
 
-#. In the cluster list, click the name of a cluster.
+#. In the cluster list, click the name of the target cluster. The **Cluster Information** page is displayed.
 
-#. On the **Basic Information** page, enable **Logical Clusters**.
+#. Enable **Logical Clusters**. The **Logical Clusters** menu item will be displayed in the navigation pane on the left.
 
    |image1|
 
@@ -24,7 +24,8 @@ Adding Logical Clusters
 .. caution::
 
    -  If you access the **Logical Clusters** page for the first time, the metadata of the logical cluster created at the backend is synchronized to the frontend. After the synchronization is complete, you can view information about the logical clusters at the frontend. The logical cluster name is case sensitive. For example, metadata of **lc1** and **LC1** cannot be synchronized.
+   -  During the conversion from a physical cluster to a logical cluster, the original resource pool configuration will be cleared. The resource pool information configured after the cluster is converted to a logical cluster will be bound to the logical cluster.
 
-.. |image1| image:: /_static/images/en-us_image_0000001687033189.png
-.. |image2| image:: /_static/images/en-us_image_0000001466595034.png
-.. |image3| image:: /_static/images/en-us_image_0000001466754686.png
+.. |image1| image:: /_static/images/en-us_image_0000001711821136.png
+.. |image2| image:: /_static/images/en-us_image_0000001759420721.png
+.. |image3| image:: /_static/images/en-us_image_0000001711661636.png

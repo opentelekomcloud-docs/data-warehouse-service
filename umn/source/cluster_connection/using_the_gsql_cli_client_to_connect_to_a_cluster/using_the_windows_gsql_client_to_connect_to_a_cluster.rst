@@ -10,13 +10,15 @@ This section describes how to connect to a database through an SQL client after 
 Procedure
 ---------
 
-#. Prepare a Windows ECS to install and run the gsql client. Windows Server 2008/Windows 7 and later are supported.
+#. Install and run the gsql client on the local Windows server (in Windows CLI). Windows Server 2008/Windows 7 and later are supported.
 
-#. Download the Windows gsql client by referring to :ref:`Downloading the Client <dws_01_0031>` and decompress the package to a local folder.
+#. Download the Windows gsql client by referring to :ref:`Downloading the Data Studio client <dws_01_0031>` and decompress the package to a local folder.
+
+#. On the local server, click **Start**, search for **cmd**, and run the program as the administrator. Alternatively, press **Win**\ +\ **R** to open the Windows CLI.
 
 #. Set environment variables. For a 32-bit OS, select the **x86** folder. For a 64-bit OS, select the **x64** folder.
 
-   Method 1: Configure environment variables in the CLI. Open the command prompt and run the **set path=**\ *<window_gsql>*\ **;%path%** command, where *<window_gsql>* indicates the folder path where the Windows gsql client was decompressed to in the previous step. For example:
+   Method 1: Configure environment variables in the Windows CLI. Open the command prompt and run the **set path=**\ *<window_gsql>*\ **;%path%** command, where *<window_gsql>* indicates the folder path where the Windows gsql client was decompressed to in the previous step. For example:
 
    ::
 
@@ -25,7 +27,7 @@ Procedure
    Method 2: In the **Control Panel** window, search for **System** and click **View advanced system settings**. Click the **Advanced** tab, and click **Environment Variables**. Select the **Path** parameter and click **Edit**. Add the gsql path in the parameter value. For example:
 
 
-   .. figure:: /_static/images/en-us_image_0000001466595238.png
+   .. figure:: /_static/images/en-us_image_0000001711432800.png
       :alt: **Figure 1** Configuring Windows environment variables
 
       **Figure 1** Configuring Windows environment variables
@@ -36,11 +38,11 @@ Procedure
 
       The SSL connection mode is more secure than the non-SSL mode. You are advised to connect the client to the cluster in SSL mode.
 
-#. Run the following command to connect to the database in the GaussDB(DWS) cluster using the gsql client:
+#. In the Windows CLI, run the following command to connect to the database in the GaussDB(DWS) cluster using the gsql client:
 
    ::
 
-      gsql -d <Database_name> -h <Cluster_address> -U <Database_user> -p <Database_port> -r
+      gsql -d <Database_name> -h <Cluster_address> -U <Database_user> -p <Database_port> -W <Cluster_password> -r
 
    The parameters are as follows:
 
@@ -100,7 +102,7 @@ Precautions
 
    ::
 
-      gsql -h 192.168.233.189 -p 8109 -d postgres -U odbcuser -W odbc_234 -c "select 1 as id"
+      gsql -h 192.168.233.189 -p 8109 -d postgres -U odbcuser -W password -c "select 1 as id"
        id
       ----
         1
@@ -110,7 +112,7 @@ Precautions
 
    ::
 
-      gsql -h 192.168.233.189 -p 8109 -d postgres -U odbcuser -W odbc_234 -c 'select 1 as id'
+      gsql -h 192.168.233.189 -p 8109 -d postgres -U odbcuser -W password -c 'select 1 as id'
       gsql: warning: extra command-line argument "1" ignored
       gsql: warning: extra command-line argument "as" ignored
       gsql: warning: extra command-line argument "id'" ignored

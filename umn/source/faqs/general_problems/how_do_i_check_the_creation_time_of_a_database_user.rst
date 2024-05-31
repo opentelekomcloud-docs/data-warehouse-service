@@ -43,7 +43,7 @@ Check the **passwordtime** column in the **PG_AUTH_HISTORY** system catalog. Thi
 
 ::
 
-   select roloid, min(passwordtime) as create_time from pg_auth_history group by roloid order by roloid;
+   SELECT roloid, min(passwordtime) as create_time FROM pg_auth_history group by roloid order by roloid;
 
 The following is an example:
 
@@ -51,7 +51,7 @@ Query the **PG_USER** view to obtain the OID of user **jerry**, which is **45738
 
 ::
 
-   select roloid, min(passwordtime) as create_time from pg_auth_history group by roloid order by roloid;
+   SELECT roloid, min(passwordtime) as create_time FROM pg_auth_history group by roloid order by roloid;
     roloid |          create_time
    --------+-------------------------------
         10 | 2022-02-25 09:53:38.711785+08

@@ -33,7 +33,7 @@ For example, when a table is created, indexes are created in columns **a**, **b*
 
 ::
 
-   create table test(a int, b text, c date);
+   CREATE TABLE test(a int, b text, c date);
 
 -  Perform calculation on the indexed columns.
 

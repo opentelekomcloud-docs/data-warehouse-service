@@ -9,7 +9,7 @@ Using the JDBC and ODBC Drivers to Connect to a Cluster
 -  :ref:`Downloading the JDBC or ODBC Driver <dws_01_0032>`
 -  :ref:`Using JDBC to Connect to a Cluster <dws_01_0077>`
 -  :ref:`Configuring JDBC to Connect to a Cluster (Load Balancing Mode) <dws_01_0169>`
--  :ref:`Using JDBC to Connect to a Cluster (IAM Authentication Mode) <dws_01_0133>`
+-  :ref:`Configuring JDBC to Connect to a Cluster (IAM Authentication Mode) <dws_01_0133>`
 -  :ref:`Using ODBC to Connect to a Cluster <dws_01_0086>`
 
 .. toctree::
@@ -20,5 +20,5 @@ Using the JDBC and ODBC Drivers to Connect to a Cluster
    downloading_the_jdbc_or_odbc_driver
    using_jdbc_to_connect_to_a_cluster
    configuring_jdbc_to_connect_to_a_cluster_load_balancing_mode
-   using_jdbc_to_connect_to_a_cluster_iam_authentication_mode
+   configuring_jdbc_to_connect_to_a_cluster_iam_authentication_mode
    using_odbc_to_connect_to_a_cluster

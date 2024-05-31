@@ -17,7 +17,7 @@ For details about the default permissions mode and the separation of permissions
 Impact on the System
 --------------------
 
-After you have modified the security parameters and the modifications take effect, the cluster may be restarted, which makes the cluster unavailable temporarily.
+-  After you modified the security parameters and the modifications take effect, the cluster may be restarted, which makes the cluster unavailable temporarily.
 
 Prerequisites
 -------------
@@ -32,7 +32,7 @@ Procedure
 
 #. Log in to the GaussDB(DWS) management console.
 
-#. In the navigation pane on the left, click **Clusters**.
+#. In the navigation pane on the left, choose **Clusters** > **Dedicated Clusters**.
 
 #. In the cluster list, click the name of a cluster. On the page that is displayed, click **Security Settings**.
 
@@ -58,9 +58,9 @@ Procedure
       +------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
       | Password               | The password complexity requirements are as follows:                                                                                                                                                          | ``-``                 |
       |                        |                                                                                                                                                                                                               |                       |
-      |                        | -  Contains 8 to 32 characters.                                                                                                                                                                               |                       |
+      |                        | -  Contain 12 to 32 characters.                                                                                                                                                                               |                       |
       |                        | -  Cannot be the username or the username spelled backwards.                                                                                                                                                  |                       |
-      |                        | -  Must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters (:literal:`~!`?,.:;-_'"(){}[]/<>@#%^&*+|\\=`)                           |                       |
+      |                        | -  Must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters (``~!?,.:;_(){}[]/<>@#%^&*+|\=-``)                                      |                       |
       |                        | -  Passes the weak password check.                                                                                                                                                                            |                       |
       +------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
       | Confirm Password       | Enter the password of the security administrator again.                                                                                                                                                       | ``-``                 |
@@ -74,7 +74,7 @@ Procedure
       +------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
       | Password               | The password complexity requirements are as follows:                                                                                                                                                          | ``-``                 |
       |                        |                                                                                                                                                                                                               |                       |
-      |                        | -  Contains 8 to 32 characters.                                                                                                                                                                               |                       |
+      |                        | -  Contain 12 to 32 characters.                                                                                                                                                                               |                       |
       |                        | -  Cannot be the username or the username spelled backwards.                                                                                                                                                  |                       |
       |                        | -  Must contain at least 3 of the following character types: uppercase letters, lowercase letters, digits, and special characters ``~!@#%^&*()-_=+|[{}];:,<.>/?``                                             |                       |
       |                        | -  Passes the weak password check.                                                                                                                                                                            |                       |
@@ -95,5 +95,5 @@ Procedure
    -  **Synchronized**: The settings have been saved and taken effect.
    -  **Take effect after restart**: The settings have been saved but have not taken effect. Restart the cluster for the settings to take effect.
 
-.. |image1| image:: /_static/images/en-us_image_0000001467074238.png
-.. |image2| image:: /_static/images/en-us_image_0000001517754413.jpg
+.. |image1| image:: /_static/images/en-us_image_0000001759579485.png
+.. |image2| image:: /_static/images/en-us_image_0000001711820076.jpg

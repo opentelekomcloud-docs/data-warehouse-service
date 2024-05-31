@@ -8,7 +8,7 @@ Viewing Database Audit Logs
 Prerequisites
 -------------
 
--  The audit function has been enabled by setting **audit_enabled**. The default value of **audit_enabled** is **ON**. If **audit_enabled** is disabled, set it to **ON** by referring to :ref:`Modifying Database Parameters <dws_01_0152>`.
+-  The audit function has been enabled by setting **audit_enabled**. The default value of **audit_enabled** is **ON**. To disable audit, set it to **OFF** by referring to :ref:`Modifying Database Parameters <dws_01_0152>`.
 -  The audit items have been configured. For details about how to enable audit items, see :ref:`Configuring the Database Audit Logs <dws_01_0075>`.
 -  The database is running properly and a series of addition, modification, deletion, and query operations have been executed in the database. Otherwise, no audit result is generated.
 -  The audit logs of each database node are recorded separately.
@@ -18,13 +18,13 @@ Prerequisites
 Viewing Database Audit Logs
 ---------------------------
 
-Method 1: Audit logs will occupy disk space. To prevent excessive disk usage, GaussDB(DWS) supports audit log dumping. You can enable the **Log Dump** function to dump audit logs to OBS (you need to create an OBS bucket for storing audit logs first). For details about how to view the dumped logs, see :ref:`Viewing Audit Log Dumps <en-us_topic_0000001517355133__en-us_topic_0000001145696613_section1227433741613>`.
+Method 1: Audit logs will occupy disk space. To prevent excessive disk usage, GaussDB(DWS) supports audit log dumping. You can enable the **Log Dump** function to dump audit logs to OBS (you need to create an OBS bucket for storing audit logs first). For details about how to view the dumped logs, see :ref:`Viewing Audit Log Dumps <en-us_topic_0000001658895326__en-us_topic_0000001372520098_en-us_topic_0000001145696613_section1227433741613>`.
 
-Method 2: Use the **Log** function of LTS to view or download the collected database audit logs. For details, see :ref:`Checking Cluster Logs <en-us_topic_0000001466914082__section1600157575>`.
+Method 2: Use the **Log** function of LTS to view or download the collected database audit logs. For details, see :ref:`Checking Cluster Logs <en-us_topic_0000001707293933__en-us_topic_0000001372999362_section1600157575>`.
 
-Method 3: Database audit logs are stored in the database by default. After connecting to the cluster, you can use the **pg_query_audit** function to view the logs. For details, see :ref:`Using Functions to View Database Audit Logs <en-us_topic_0000001517913769__en-us_topic_0000001405788485_en-us_topic_0000001233761719_s0aec83296dc54e8f92966415aaaa3a6f>`.
+Method 3: Database audit logs are stored in the database by default. After connecting to the cluster, you can use the **pg_query_audit** function to view the logs. For details, see :ref:`Using Functions to View Database Audit Logs <en-us_topic_0000001707254701__en-us_topic_0000001422959325_en-us_topic_0000001405788485_en-us_topic_0000001233761719_s0aec83296dc54e8f92966415aaaa3a6f>`.
 
-.. _en-us_topic_0000001517913769__en-us_topic_0000001405788485_en-us_topic_0000001233761719_s0aec83296dc54e8f92966415aaaa3a6f:
+.. _en-us_topic_0000001707254701__en-us_topic_0000001422959325_en-us_topic_0000001405788485_en-us_topic_0000001233761719_s0aec83296dc54e8f92966415aaaa3a6f:
 
 Using Functions to View Database Audit Logs
 -------------------------------------------

@@ -9,9 +9,9 @@ This guide is an introductory tutorial that demonstrates how to create a sample 
 
 Before creating a GaussDB(DWS) cluster, ensure that the following prerequisites are met:
 
--  :ref:`Determining the Cluster Ports <en-us_topic_0000001518033685__section788591414617>`
+-  :ref:`Determining the Cluster Ports <en-us_topic_0000001659054462__en-us_topic_0000001423119173_section788591414617>`
 
-.. _en-us_topic_0000001518033685__section788591414617:
+.. _en-us_topic_0000001659054462__en-us_topic_0000001423119173_section788591414617:
 
 Determining the Cluster Ports
 -----------------------------

@@ -7,7 +7,7 @@ How Do I Query the Information About GaussDB(DWS) Column-Store Tables?
 
 The following SQL statements are used to query common information about column-store tables:
 
-Create a column-store partitioned table **my_table**.
+Create a column-store table named my_table, and insert data into the table.
 
 ::
 

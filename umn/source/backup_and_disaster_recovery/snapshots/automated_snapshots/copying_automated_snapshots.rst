@@ -27,7 +27,7 @@ Copying an Automated Snapshot
       This parameter is optional. Snapshot information contains 0 to 256 characters and does not support the following special characters: !<>'=&"
 
 
-   .. figure:: /_static/images/en-us_image_0000001518033793.png
+   .. figure:: /_static/images/en-us_image_0000001711439592.png
       :alt: **Figure 1** Copying a snapshot
 
       **Figure 1** Copying a snapshot

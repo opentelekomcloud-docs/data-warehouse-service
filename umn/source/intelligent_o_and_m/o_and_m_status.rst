@@ -18,13 +18,7 @@ O&M Status
 #. Click the name of a specified O&M task to view the status details.
 
    -  **O&M Task**: **Vacuum**
-   -  **Status**:
-
-      -  Waiting
-      -  Running
-      -  Finished
-      -  Canceled
-
+   -  Status: **Waiting**, **Running**, **Completed**, or **Failed**.
    -  **Progress**
    -  **Remaining Time Window**
    -  **Time Window (UTC)**
@@ -33,11 +27,9 @@ O&M Status
    -  **Vacuumed Tables**
    -  **Failed Tables**
 
-   |image2|
-
    .. note::
 
-      A maximum of 100 tables can be displayed for each category of the tables above.
+      -  A maximum of 100 tables can be displayed for each category of the tables above.
+      -  If the cluster is read-only, the INSERT statement cannot be executed for intelligent O&M tasks. There may be tasks remaining in the **Running** status. The **Running** status in this case is a historical status, and it indicates that the task is not completed within the specified time. If you manually pause the task and the task is not scheduled, the task may remain in the **Waiting** status. In this case, cancel the cluster read-only state and contact technical support to update the task status.
 
-.. |image1| image:: /_static/images/en-us_image_0000001467074182.png
-.. |image2| image:: /_static/images/en-us_image_0000001517913969.png
+.. |image1| image:: /_static/images/en-us_image_0000001759359073.png

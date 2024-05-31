@@ -9,14 +9,14 @@ To query information about OBS/GDS foreign tables such as OBS paths, run the fol
 
 ::
 
-   select * from pg_get_tabledef('Foreign_table_name')
+   SELECT * FROM pg_get_tabledef ('foreign_table_name')
 
 The following uses table **traffic_data.GCJL_OBS** as an example:
 
 ::
 
-   select * from pg_get_tabledef('traffic_data.GCJL_OBS');
+   SELECT * FROM pg_get_tabledef('traffic_data.GCJL_OBS');
 
 |image1|
 
-.. |image1| image:: /_static/images/en-us_image_0000001331537466.png
+.. |image1| image:: /_static/images/en-us_image_0000001381609461.png

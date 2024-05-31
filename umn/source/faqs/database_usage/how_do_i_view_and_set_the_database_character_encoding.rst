@@ -12,7 +12,7 @@ Use the **server_encoding** parameter to check the character set encoding of the
 
 ::
 
-   music=> show server_encoding;
+   music=> SHOW server_encoding;
     server_encoding
    -----------------
     UTF8
@@ -43,7 +43,7 @@ CREATE DATABASE syntax
 
 -  **TEMPLATE [ = ] template**
 
-   Indicates the template name, that is, the name of the template to be used to create the database. GaussDB(DWS) creates a database by coping a database template. GaussDB(DWS) has two initial template databases **template0** and **template1** and a default user database **postgres**.
+   Indicates the template name, that is, the name of the template to be used to create the database. GaussDB(DWS) creates a database by copying a database template. GaussDB(DWS) has two initial template databases **template0** and **template1** and a default user database **postgres**.
 
    Value range: an existing database name. If this is not specified, the system copies **template1** by default. Its value cannot be **postgres**.
 

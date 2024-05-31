@@ -24,7 +24,7 @@ Prerequisites
 
    GaussDB(DWS) also supports open-source JDBC driver: PostgreSQL JDBC 9.3-1103 or later.
 
--  You have downloaded the SSL certificate file. For details, see :ref:`Downloading an SSL Certificate <en-us_topic_0000001517913817__li13478842115911>`.
+-  You have downloaded the SSL certificate file. For details, see :ref:`Downloading an SSL Certificate <en-us_topic_0000001659054490__en-us_topic_0000001372520154_li13478842115911>`.
 
 Using a JDBC Driver to Connect to a Database
 --------------------------------------------
@@ -33,18 +33,18 @@ The procedure for connecting to the database using a JDBC driver in a Linux envi
 
 #. Determine whether you want to use the SSL mode to connect to the GaussDB(DWS) cluster.
 
-   -  If yes, enable SSL connection by referring to :ref:`Configuring SSL Connection <en-us_topic_0000001517913817__section131774823014>`. SSL connection is enabled by default. Then go to :ref:`2 <en-us_topic_0000001466594806__li55435426144245>`.
-   -  If no, disable SSL connection by referring to :ref:`Configuring SSL Connection <en-us_topic_0000001517913817__section131774823014>` and go to :ref:`4 <en-us_topic_0000001466594806__li19193115114292>`.
+   -  If yes, enable SSL connection by referring to :ref:`Configuring SSL Connection <en-us_topic_0000001659054490__en-us_topic_0000001372520154_section131774823014>`. SSL connection is enabled by default. Then go to :ref:`2 <en-us_topic_0000001658895174__en-us_topic_0000001372679694_li55435426144245>`.
+   -  If no, disable SSL connection by referring to :ref:`Configuring SSL Connection <en-us_topic_0000001659054490__en-us_topic_0000001372520154_section131774823014>` and go to :ref:`4 <en-us_topic_0000001658895174__en-us_topic_0000001372679694_li19193115114292>`.
 
-#. .. _en-us_topic_0000001466594806__li55435426144245:
+#. .. _en-us_topic_0000001658895174__en-us_topic_0000001372679694_li55435426144245:
 
    (Optional) On Linux, use WinSCP to upload the downloaded SSL certificate file to the Linux environment.
 
 #. Configure the certificate to enable SSL connection.
 
-   a. Download the OpenSSL toolkit for Windows at https://slproweb.com/products/Win32OpenSSL.html. OpenSSL 3.0.0 is currently not supported. Download Win64 OpenSSL v1.1.1L Light instead.
+   a. Download the OpenSSL tool for Windows. Download address: https://slproweb.com/products/Win32OpenSSL.html. Currently, OpenSSL 3.0.0 is not supported. Download **Win64 OpenSSL v1.1.1w Light**.
 
-   b. Double-click the installation package **Win64OpenSSL_Light-1_1_1L.exe** and install it to the default path on drive C. Copy the DLLs to the OpenSSL directory, as shown in the following figure. Retain the default settings in the remaining steps until the installation is successful.
+   b. Double-click the installation package **Win64OpenSSL_Light-1_1_1w.exe** and install it to the default path on drive C. Copy the DLLs to the OpenSSL directory, as shown in the following figure. Retain the default settings in the remaining steps until the installation is successful.
 
       |image1|
 
@@ -97,7 +97,7 @@ The procedure for connecting to the database using a JDBC driver in a Linux envi
 
             |image5|
 
-#. .. _en-us_topic_0000001466594806__li19193115114292:
+#. .. _en-us_topic_0000001658895174__en-us_topic_0000001372679694_li19193115114292:
 
    Download the driver package **dws_8.1.x_jdbc_driver.zip** and decompress it. There will be two JDBC drive JAR packages, **gsjdbc4.jar** and **gsjdbc200.jar**. Use either of them as required.
 
@@ -106,7 +106,7 @@ The procedure for connecting to the database using a JDBC driver in a Linux envi
    Take the Eclipse project as an example. Store the JAR file to the project directory, for example, the **lib** directory in the project directory. In the Eclipse project, right-click the JAR file in the **lib** directory and choose **Build Path** to reference the JAR file.
 
 
-   .. figure:: /_static/images/en-us_image_0000001466754614.png
+   .. figure:: /_static/images/en-us_image_0000001759511761.png
       :alt: **Figure 1** Referencing a JAR file
 
       **Figure 1** Referencing a JAR file
@@ -154,9 +154,7 @@ The procedure for connecting to the database using a JDBC driver in a Linux envi
       |                                   |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
       |                                   |       -  **database** indicates the name of the database to be connected.                                                                                                                                                                                                                                                                                                                                                                                                                                              |
       |                                   |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-      |                                   |       -  **host** indicates the name or IP address of the database server.                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-      |                                   |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-      |                                   |          If the connected GaussDB(DWS) server and cluster are on the same network, use a private IP address. Otherwise, use a public IP address.                                                                                                                                                                                                                                                                                                                                                                       |
+      |                                   |       -  **host** indicates the name or IP address of the database server. If an ELB is bound to the cluster, set **host** to the IP address of the ELB.                                                                                                                                                                                                                                                                                                                                                               |
       |                                   |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
       |                                   |       -  **port** indicates the port number of the database server. By default, the database running on port 8000 of the local host is connected.                                                                                                                                                                                                                                                                                                                                                                      |
       |                                   |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
@@ -178,6 +176,8 @@ The procedure for connecting to the database using a JDBC driver in a Linux envi
       |                                   | -  **ApplicationName**: string type. It indicates an application name. The default value is **PostgreSQL JDBC Driver**.                                                                                                                                                                                                                                                                                                                                                                                                |
       |                                   | -  **allowReadOnly**: boolean type. It indicates whether to enable the read-only mode for connection. The default value is **false**. If the value is not changed to **true**, the execution of **connection.setReadOnly** does not take effect.                                                                                                                                                                                                                                                                       |
       |                                   | -  **blobMode**: string type. It is used to set the **setBinaryStream** method to assign values to different data types. The value **on** indicates that values are assigned to the BLOB data type and **off** indicates that values are assigned to the BYTEA data type. The default value is **on**.                                                                                                                                                                                                                 |
+      |                                   | -  **currentSchema**: string type. It specifies the schema used for connecting to the database.                                                                                                                                                                                                                                                                                                                                                                                                                        |
+      |                                   | -  **defaultQueryMetaData**: Boolean. It specifies whether to query SQL metadata by default. The default value is **false**. After this function is enabled, raw data operations are supported. However, it is incompatible with the **create table as** and **select into** operations in **PrepareStatement**.                                                                                                                                                                                                       |
       |                                   | -  **connectionExtraInfo**: boolean type. This parameter indicates whether the JDBC driver reports the driver deployment path and process owner to the database.                                                                                                                                                                                                                                                                                                                                                       |
       |                                   |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
       |                                   |    .. note::                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
@@ -223,7 +223,7 @@ The procedure for connecting to the database using a JDBC driver in a Linux envi
               conn = DriverManager.getConnection(url, props);
               System.out.println("Connection succeed!");
           } catch (SQLException throwables) {
-              e.printStackTrace();
+              throwables.printStackTrace();
               return null;
           }
           return conn;
@@ -284,6 +284,7 @@ This code sample illustrates how to develop applications based on the JDBC API p
    import java.sql.DriverManager;
    import java.sql.PreparedStatement;
    import java.sql.SQLException;
+
    import java.sql.Statement;
    import java.sql.CallableStatement;
    import java.sql.Types;
@@ -445,8 +446,8 @@ This code sample illustrates how to develop applications based on the JDBC API p
 
    }
 
-.. |image1| image:: /_static/images/en-us_image_0000001467074094.png
-.. |image2| image:: /_static/images/en-us_image_0000001466594954.png
-.. |image3| image:: /_static/images/en-us_image_0000001467074102.png
-.. |image4| image:: /_static/images/en-us_image_0000001517754297.png
-.. |image5| image:: /_static/images/en-us_image_0000001518033769.png
+.. |image1| image:: /_static/images/en-us_image_0000001735984732.png
+.. |image2| image:: /_static/images/en-us_image_0000001759351881.png
+.. |image3| image:: /_static/images/en-us_image_0000001711592328.png
+.. |image4| image:: /_static/images/en-us_image_0000001711432840.png
+.. |image5| image:: /_static/images/en-us_image_0000001711592340.png

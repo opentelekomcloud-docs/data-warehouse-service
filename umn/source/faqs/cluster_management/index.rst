@@ -15,6 +15,7 @@ Cluster Management
 -  :ref:`When Should I Add CNs or Scale out a cluster? <dws_03_2140>`
 -  :ref:`How Should I Select from a Small-Flavor Many-Node Cluster and a Large-Flavor Three-Node Cluster with Same CPU Cores and Memory? <dws_03_3416>`
 -  :ref:`What Are the Differences Between Hot Data Storage and Cold Data Storage? <dws_03_2142>`
+-  :ref:`What Do I do if the Scale-in Button Is Dimmed? <dws_03_2149>`
 
 .. toctree::
    :maxdepth: 1
@@ -30,3 +31,4 @@ Cluster Management
    when_should_i_add_cns_or_scale_out_a_cluster
    how_should_i_select_from_a_small-flavor_many-node_cluster_and_a_large-flavor_three-node_cluster_with_same_cpu_cores_and_memory
    what_are_the_differences_between_hot_data_storage_and_cold_data_storage
+   what_do_i_do_if_the_scale-in_button_is_dimmed

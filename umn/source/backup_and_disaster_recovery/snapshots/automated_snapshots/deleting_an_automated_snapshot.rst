@@ -14,7 +14,7 @@ GaussDB(DWS) deletes an automated snapshot if:
 
 .. caution::
 
-   -  To help users restore a cluster deleted by mistake, GaussDB(DWS) provides the following policies (supported only in 8.2.0 and later) for cluster snapshots:
+   To help users restore a cluster deleted by mistake, GaussDB(DWS) provides the following policies (supported only in 8.2.0 and later) for cluster snapshots:
 
-      -  If the latest snapshot is an automated snapshot, it will be retained for one day.
-      -  If the latest snapshot is a manual snapshot, the automated snapshot of the cluster will be deleted.
+   -  If the latest snapshot is an automated snapshot, it will be retained for one day.
+   -  If the latest snapshot is a manual snapshot, the automated snapshot of the cluster will be deleted.

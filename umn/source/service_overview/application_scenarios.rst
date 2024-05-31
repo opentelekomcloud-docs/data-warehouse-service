@@ -8,7 +8,7 @@ Application Scenarios
 -  Enhanced ETL + Real-time BI analysis
 
 
-   .. figure:: /_static/images/en-us_image_0000001466914454.png
+   .. figure:: /_static/images/en-us_image_0000001185989936.png
       :alt: **Figure 1** ETL+BI analysis
 
       **Figure 1** ETL+BI analysis
@@ -24,7 +24,7 @@ Application Scenarios
 -  **E-commerce**
 
 
-   .. figure:: /_static/images/en-us_image_0000001467074318.png
+   .. figure:: /_static/images/en-us_image_0000001185989938.png
       :alt: **Figure 2** E-commerce
 
       **Figure 2** E-commerce
@@ -33,14 +33,14 @@ Application Scenarios
 
    Advantages of GaussDB(DWS) are as follows:
 
-   -  **Multi-dimensional analysis**: analysis from products, users, operation, and regions
+   -  **Multi-dimensional analysis**: analysis from products, users, operation, regions, and more
    -  **Scale-out as the business grows**: on-demand cluster scale-out as the business grows
    -  **High reliability**: long-term stable running of the e-commerce system
 
 -  **IoT**
 
 
-   .. figure:: /_static/images/en-us_image_0000001518033989.png
+   .. figure:: /_static/images/en-us_image_0000001231471001.png
       :alt: **Figure 3** IoT
 
       **Figure 3** IoT
@@ -49,5 +49,5 @@ Application Scenarios
 
    Advantages of GaussDB(DWS) are as follows:
 
-   -  **Device monitoring and prediction**: device monitoring, control, optimization, supply, self-diagnosis, and self-healing based on data analysis and prediction
+   -  **Device monitoring and prediction**: control, optimization, self-diagnosis, and self-healing based on data analysis, device monitoring, and behavior prediction
    -  **Information recommendation**: tailed recommendation based on data of users' connected devices

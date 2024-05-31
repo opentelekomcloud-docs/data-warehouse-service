@@ -16,7 +16,7 @@ In the window function **row_number()**, column **c** of table **t3** is queried
 
 ::
 
-   select * from t3 order by 1,2,3;
+   SELECT * FROM t3 order by 1,2,3;
     a | b | c
    ---+---+---
     1 | 2 | 1
@@ -24,12 +24,12 @@ In the window function **row_number()**, column **c** of table **t3** is queried
     1 | 2 | 3
    (3 rows)
 
-   select c,rn from (select c,row_number() over(order by a,b) as rn from t3) where rn = 1;
+   SELECT c,rn FROM (select c,row_number() over(order by a,b) as rn from t3) where rn = 1;
     c | rn
    ---+----
    1  |  1
    (1 row)
-   select c,rn from (select c,row_number() over(order by a,b) as rn from t3) where rn = 1;
+   SELECT c,rn FROM (select c,row_number() over(order by a,b) as rn from t3) where rn = 1;
     c | rn
    ---+----
     3 |  1
@@ -45,13 +45,7 @@ The values in column **c** need to be added to the sorting.
 
 ::
 
-   select c,rn from (select c,row_number() over(order by a,b,c) as rn from t3) where rn = 1;
-    c | rn
-   ---+----
-    1 |  1
-   (1 row)
-
-   select c,rn from (select c,row_number() over(order by a,b,c) as rn from t3) where rn = 1;
+   SELECT c,rn FROM (select c,row_number() over(order by a,b,c) as rn from t3) where rn = 1;
     c | rn
    ---+----
     1 |  1
@@ -66,7 +60,7 @@ After table **test** and view **v** are created, the query results are inconsist
 
 ::
 
-   CREATE TBALE test(a serial ,b int);
+   CREATE TABLE test(a serial ,b int);
    INSERT INTO test(b) VALUES(1);
    INSERT INTO test(b) SELECT b FROM test;
    ...
@@ -77,19 +71,19 @@ Problem SQL:
 
 ::
 
-   select * from v limit 1;
+   SELECT * FROM v limit 1;
     a | b
    ---+---
     3 | 1
    (1 row)
 
-   select * from (select *from test order by a) limit 10;
+   SELECT * FROM (select * from test order by a) limit 10;
     a  | b
    ----+---
     14 | 1
    (1 row)
 
-   select * from test order by a limit 10;
+   SELECT * FROM test order by a limit 10;
     a | b
    ---+---
     1 | 1
@@ -110,13 +104,13 @@ LIMIT in Subqueries
 
 ::
 
-   select * from (select a from test limit 1 ) order by 1;
+   SELECT * FROM (select a from test limit 1 ) order by 1;
     a
    ---
     5
    (1 row)
 
-   select * from (select a from test limit 1 ) order by 1;
+   SELECT * FROM (select a from test limit 1 ) order by 1;
     a
    ---
     1
@@ -137,7 +131,7 @@ Using String_agg
 
 ::
 
-   select * from employee;
+   SELECT * FROM employee;
     empno | ename  |   job   | mgr  |      hiredate       |  sal  | comm | deptno
    -------+--------+---------+------+---------------------+-------+------+--------
      7654 | MARTIN | SALEMAN | 7698 | 2022-11-08 00:00:00 | 12000 | 1400 |     30
@@ -145,13 +139,13 @@ Using String_agg
      7499 | ALLEN  | SALEMAN | 7698 | 2022-11-08 00:00:00 | 16000 |  300 |     30
    (3 rows)
 
-   select count(*) from (select deptno, string_agg(ename, ',') from employee group by deptno) t1, (select deptno, string_agg(ename, ',') from employee group by deptno) t2 where t1.string_agg = t2.string_agg;
+   SELECT count(*) FROM (select deptno, string_agg(ename, ',') from employee group by deptno) t1, (select deptno, string_agg(ename, ',') from employee group by deptno) t2 where t1.string_agg = t2.string_agg;
     count
    -------
         2
    (1 row)
 
-   select count(*) from (select deptno, string_agg(ename, ',') from employee group by deptno) t1, (select deptno, string_agg(ename, ',') from employee group by deptno) t2 where t1.string_agg = t2.string_agg;
+   SELECT count(*) FROM (select deptno, string_agg(ename, ',') from employee group by deptno) t1, (select deptno, string_agg(ename, ',') from employee group by deptno) t2 where t1.string_agg = t2.string_agg;
     count
    -------
         1
@@ -181,7 +175,7 @@ Add **ORDER BY** to **String_agg** to ensure that data is concatenated in sequen
 
 ::
 
-   select count(*) from (select deptno, string_agg(ename, ',' order by ename desc) from employee group by deptno) t1 ,(select deptno, string_agg(ename, ',' order by ename desc) from employee group by deptno) t2 where t1.string_agg = t2.string_agg;
+   SELECT count(*) FROM (select deptno, string_agg(ename, ',' order by ename desc) from employee group by deptno) t1 ,(select deptno, string_agg(ename, ',' order by ename desc) from employee group by deptno) t2 where t1.string_agg = t2.string_agg;
 
 Database Compatibility Mode
 ---------------------------
@@ -212,7 +206,7 @@ database2 (ORA compatible):
 
 The empty string query results are different because the syntax of the empty string is different from that of the null string in different database compatibility.
 
-Currently, GaussDB(DWS) supports three types of database compatibility: Oracle, TD, and MySQL. The syntax and behavior vary depending on the compatibility. For details about the compatibility differences, see "Syntax Compatibility Differences Among Oracle, Teradata, and MySQL" in *Developer Guide*
+Currently, GaussDB(DWS) supports three types of database compatibility: Oracle, TD, and MySQL. The syntax and behavior vary depending on the compatibility mode. For details about the compatibility differences, see "Syntax Compatibility Differences Among Oracle, Teradata, and MySQL" in *GaussDB(DWS) Developer Guide*.
 
 Databases in different compatibility modes have different compatibility issues. You can run **select datname, datcompatibility from pg_database;** to check the database compatibility.
 
@@ -229,7 +223,7 @@ database1:
 
 ::
 
-   select add_months('2018-02-28',3) from dual;
+   SELECT add_months('2018-02-28',3) from dual;
    add_months
    ---------------------
    2018-05-28 00:00:00
@@ -239,7 +233,7 @@ database2:
 
 ::
 
-   select add_months('2018-02-28',3) from dual;
+   SELECT add_months('2018-02-28',3) from dual;
    add_months
    ---------------------
    2018-05-31 00:00:00
@@ -247,7 +241,7 @@ database2:
 
 **Analysis:**
 
-Some behaviors vary according to the database compatibility configuration item **behavior_compat_options**. For details about the parameter options, see "GUC Parameters > Miscellaneous Parameters > behavior_compat_options" in *Developer Guide*.
+Some behaviors may vary depending on the settings of the database compatibility configuration item **behavior_compat_options**. For details about the options of this item, see "GUC Parameters > Miscellaneous Parameters > behavior_compat_options" in *GaussDB(DWS) Developer Guide*..
 
 The **end_month_calculate** in **behavior_compat_options** controls the calculation logic of the **add_months** function. If this parameter is specified, and the **Day** of **param1** indicates the last day of a month shorter than **result**, the **Day** in the calculation result will equal that in **result**.
 

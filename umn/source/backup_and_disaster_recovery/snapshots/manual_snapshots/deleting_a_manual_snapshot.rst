@@ -26,9 +26,6 @@ Procedure
 
       You can only delete snapshots that were manually created.
 
-#. In the dialog box that is displayed, confirm the information and click **Yes** to delete the snapshot.
+#. If the information is correct, enter **DELETE** and click **OK** to delete the snapshot.
 
-   |image2|
-
-.. |image1| image:: /_static/images/en-us_image_0000001517913985.png
-.. |image2| image:: /_static/images/en-us_image_0000001466914338.png
+.. |image1| image:: /_static/images/en-us_image_0000001711599004.png

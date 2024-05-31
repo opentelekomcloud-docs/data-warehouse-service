@@ -12,7 +12,7 @@ In the **Unbalanced** state, the number of primary instances on some nodes incre
 
 .. note::
 
-   -  Only and later versions support primary/standby cluster restoration.
+   -  Only 8.1.1.202 and later versions support primary/standby cluster restoration.
    -  Cluster restoration interrupts services for a short period of time. The interruption duration depends on the service volume. You are advised to perform this operation during off-peak hours.
 
 Procedure
@@ -20,7 +20,7 @@ Procedure
 
 #. Log in to the GaussDB(DWS) management console.
 
-#. On the **Clusters**, find a cluster in **Unbalanced** state.
+#. On the **Clusters > Dedicated Clusters** page, locate the cluster in unbalanced state.
 
 #. In the **Cluster Status** column of the cluster, click **Fix** under **Unbalanced**.
 
@@ -28,12 +28,9 @@ Procedure
 
 #. In the dialog box that is displayed, confirm that the service is in off-peak hours, and click **Yes**. A message will be displayed in the upper right corner, indicating that the switchback request is being processed.
 
-   |image2|
-
 #. Check the cluster status. During the switchback, the cluster status is **Switching back**. After the switchback, the cluster status will change to **Available**.
 
-   |image3|
+   |image2|
 
-.. |image1| image:: /_static/images/en-us_image_0000001638842550.png
-.. |image2| image:: /_static/images/en-us_image_0000001638843774.png
-.. |image3| image:: /_static/images/en-us_image_0000001638847146.png
+.. |image1| image:: /_static/images/en-us_image_0000001711440300.png
+.. |image2| image:: /_static/images/en-us_image_0000001759519201.png

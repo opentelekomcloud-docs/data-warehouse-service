@@ -56,7 +56,7 @@ Choose either of the preceding management methods as needed. In CPU share manage
 
 .. note::
 
-   Only 8.1.3 and later versions support the CPU limit management.
+   The CPU usage limit is supported only by clusters of version 8.1.3 or later.
 
 Exception Rules
 ---------------
@@ -67,7 +67,7 @@ To avoid query blocking or performance deterioration, you can configure exceptio
 
 The following table describes exception rules.
 
-.. _en-us_topic_0000001467074066__table595493692317:
+.. _en-us_topic_0000001658895346__en-us_topic_0000001372679822_table595493692317:
 
 .. table:: **Table 1** Exception rule parameters
 
@@ -89,8 +89,16 @@ The following table describes exception rules.
    | Total CPU Time Skew Rate on All DNs | CPU time skew rate of a job executed on DNs. The value depends on the setting of **Interval for Checking CPU Skew Rate**.                                                                                                      | An integer in the range 1 to 100. The value **0** indicates no limit.           | **Terminated** or **Not limited** |
    +-------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------+-----------------------------------+
    | Data Spilled to Disk Per DN         | Allowed maximum job data spilled to disks on a DN. The unit is MB.                                                                                                                                                             | An integer in the range 1 to 2,147,483,647. The value **0** indicates no limit. | **Terminated** or **Not limited** |
+   |                                     |                                                                                                                                                                                                                                |                                                                                 |                                   |
+   |                                     | .. note::                                                                                                                                                                                                                      |                                                                                 |                                   |
+   |                                     |                                                                                                                                                                                                                                |                                                                                 |                                   |
+   |                                     |    This rule is supported only by clusters of version 8.2.0 or later.                                                                                                                                                          |                                                                                 |                                   |
    +-------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------+-----------------------------------+
    | Average CPU Usage Per DN            | Average CPU usage of a job on each DN. If **Interval for Checking CPU Skew Rate** is configured, the interval takes effect for this parameter. If the interval is not configured, the check interval is 30 seconds by default. | An integer in the range 1 to 100. The value **0** indicates no limit.           | **Terminated** or **Not limited** |
+   |                                     |                                                                                                                                                                                                                                |                                                                                 |                                   |
+   |                                     | .. note::                                                                                                                                                                                                                      |                                                                                 |                                   |
+   |                                     |                                                                                                                                                                                                                                |                                                                                 |                                   |
+   |                                     |    This rule is supported only by clusters of version 8.2.0 or later.                                                                                                                                                          |                                                                                 |                                   |
    +-------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------+-----------------------------------+
 
-.. |image1| image:: /_static/images/en-us_image_0000001517914141.png
+.. |image1| image:: /_static/images/en-us_image_0000001759579597.png

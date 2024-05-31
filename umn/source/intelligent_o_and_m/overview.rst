@@ -5,11 +5,11 @@
 Overview
 ========
 
-Intelligent O&M helps GaussDB(DWS) users with O&M tasks. With this feature, you can specify the proper time window and number of tasks to execute based on the cluster workload. Besides, Intelligent O&M can adjust task execution policies according to service changes in a timely manner to reduce the impact on services. Periodic tasks and one-off tasks are supported, and you can configure the time window as required.
+GaussDB(DWS) provides the intelligent O&M feature to help users quickly and efficiently execute O&M tasks. Intelligent O&M selects a proper time window and concurrency to complete specified tasks based on the cluster load. During O&M tasks, intelligent O&M monitors user service changes and promptly adapts task execution policies to minimize the impact on user services. Periodic tasks and one-off tasks are supported, and you can configure the time window as required.
 
 Intelligent O&M ensures high availability. When the cluster is abnormal, failed O&M tasks will be retried. If some steps of an O&M task cannot be completed due to an abnormal cluster, the failed steps will be skipped for cost saving.
 
-As shown in the figure below, the **Intelligent O&M** page consists of the following parts:
+The intelligent O&M page consists of the following parts:
 
 -  Common configuration of O&M tasks: Currently, you can only configure **Maximum number of concurrent O&M tasks in the VacuumFull user table**. This configuration takes effect on all the VACUUM FULL tasks of user tables.
 -  Information about ongoing O&M tasks. (Currently, only VACUUM tasks are displayed. If disk space is insufficient because of table bloating, you can vacuum tables.).
@@ -25,6 +25,6 @@ As shown in the figure below, the **Intelligent O&M** page consists of the follo
 
    -  This feature is supported only in 8.1.3 or later.
    -  The intelligent O&M function is not supported in hybrid data warehouses (standalone mode).
-   -  Only clusters of version 8.1.3 and later allow common settings for O&M tasks. Ensure that the agent has been upgraded to version 8.2.0 or later.
+   -  Only cluster 8.1.3 and later versions support the common configuration module for O&M tasks. For earlier versions, contact technical support to upgrade them.
 
-.. |image1| image:: /_static/images/en-us_image_0000001517914129.png
+.. |image1| image:: /_static/images/en-us_image_0000001711439924.png

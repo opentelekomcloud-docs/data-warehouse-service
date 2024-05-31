@@ -5,58 +5,55 @@
 Checking the Cluster Status
 ===========================
 
-On the **Clusters** page of the GaussDB(DWS) management console, you can view the general information about a cluster in the cluster list, such as the cluster status, task information, recent events, and node flavor.
+On the **Clusters** > **Dedicated Clusters** page of the GaussDB(DWS) management console, you can view the general information about a cluster in the cluster list, such as the cluster status, task information, recent events, and node flavor.
 
 Querying General Information of a Cluster
 -----------------------------------------
 
-Log in to the GaussDB(DWS) management console. In the navigation tree on the left, click **Clusters**. The cluster list displays all clusters. If there are a large number of clusters, you can turn pages to view the clusters in any status.
+Log in to the GaussDB(DWS) management console. In the navigation tree on the left, click **Clusters** > **Dedicated Clusters**. The cluster list displays all clusters. If there are a large number of clusters, you can turn pages to view the clusters in any status.
 
-Enter the cluster name in the search box, and click |image1| to search for a cluster. Alternatively, in the **All projects** drop-down list above the cluster list, select the target project. Click |image2| to refresh the cluster list and billing mode. You can also click **Search by Tag** to search for clusters based on the criteria. For details, see :ref:`Searching for Clusters Based on Tags <en-us_topic_0000001517355193__section20922320396>`.
+Enter the cluster name in the search box, and click |image1| to search for a cluster. Alternatively, in the **All projects** drop-down list above the cluster list, select the target project. Click |image2| to refresh the cluster list. You can also click **Search by Tag** to search for clusters based on the criteria. For details, see :ref:`Searching for Clusters Based on Tags <en-us_topic_0000001707254669__en-us_topic_0000001372520082_section20922320396>`.
 
-Clusters are listed in chronological order by default, with the most recent clusters displayed at the top. :ref:`Table 1 <en-us_topic_0000001517754193__table3950169215120>` describes the cluster list parameters.
+Clusters are listed in chronological order by default, with the most recent clusters displayed at the top. :ref:`Table 1 <en-us_topic_0000001707293901__en-us_topic_0000001422959285_table3950169215120>` describes the cluster list parameters.
 
-.. _en-us_topic_0000001517754193__table3950169215120:
+.. _en-us_topic_0000001707293901__en-us_topic_0000001422959285_table3950169215120:
 
 .. table:: **Table 1** Cluster list parameters
 
-   +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------+
-   | Parameter                         | Description                                                                                                               |
-   +===================================+===========================================================================================================================+
-   | Cluster Name                      | Cluster name specified when a cluster is created.                                                                         |
-   |                                   |                                                                                                                           |
-   |                                   | .. note::                                                                                                                 |
-   |                                   |                                                                                                                           |
-   |                                   |    After a cluster is created, its name cannot be changed.                                                                |
-   +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------+
-   | Cluster Status                    | Cluster running status. For details, see :ref:`Cluster Status <en-us_topic_0000001517754193__section1594381611251>`.      |
-   +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------+
-   | Task Information                  | Cluster task status. For details, see :ref:`Cluster Task Information <en-us_topic_0000001517754193__section17463325251>`. |
-   +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------+
-   | Node Flavor                       | Node flavors of clusters.                                                                                                 |
-   +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------+
-   | Enterprise Project                | Enterprise project to which a cluster belongs.                                                                            |
-   +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------+
-   | Operation                         | -  **Monitoring Panel**: For details, see :ref:`Databases Monitoring <dws_01_00014>`.                                     |
-   |                                   | -  **More**                                                                                                               |
-   |                                   |                                                                                                                           |
-   |                                   |    -  **View Metric**: For details, see :ref:`Monitoring Clusters Using Cloud Eye <dws_01_0022>`.                         |
-   |                                   |    -  **Restart**: Click **Restart** to restart a cluster. For details, see :ref:`Cluster Restart <dws_01_0024>`.         |
-   |                                   |    -  **Scale Out**: For details, see :ref:`Scaling Out a Cluster <dws_01_0023>`.                                         |
-   |                                   |    -  **Change all specifications**: For details, see :ref:`Changing All Specifications <dws_01_0825>`.                   |
-   |                                   |    -  **Scale In**: For details, see :ref:`Scaling In a Cluster <dws_01_0821>`.                                           |
-   |                                   |    -  **Redistribute**: For details, see :ref:`Redistributing Data <dws_01_8201>`.                                        |
-   |                                   |    -  **View Scaling Details**: For details, see :ref:`Viewing Redistribution Details <dws_01_8202>`.                     |
-   |                                   |    -  **Expand Disk Capacity**: For details, see :ref:`Disk Capacity Expansion of an EVS Cluster <dws_01_0828>`.          |
-   |                                   |    -  **Reset Password**: For details, see :ref:`Resetting a Password <dws_01_0026>`.                                     |
-   |                                   |    -  **Create Snapshot**: For details, see :ref:`Manual Snapshots <dws_01_0092>`.                                        |
-   |                                   |    -  **Cancel Readonly**: For details, see :ref:`Removing the Read-only Status <dws_01_0035>`.                           |
-   |                                   |    -  **Delete**: Click **Delete** to delete a cluster. For details, see :ref:`Deleting a Cluster <dws_01_0025>`.         |
-   |                                   |    -  **Change node flavor**: For details, see :ref:`Changing the Node Flavor <dws_01_0829>`.                             |
-   |                                   |    -  **Manage CN**: For details, see :ref:`Managing CNs <dws_01_7115>`.                                                  |
-   +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------+
+   +-----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Parameter                         | Description                                                                                                                                            |
+   +===================================+========================================================================================================================================================+
+   | Cluster Name                      | Cluster name specified when a cluster is created.                                                                                                      |
+   |                                   |                                                                                                                                                        |
+   |                                   | .. note::                                                                                                                                              |
+   |                                   |                                                                                                                                                        |
+   |                                   |    After a cluster is created, its name cannot be changed.                                                                                             |
+   +-----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Cluster Status                    | Cluster running status. For details, see :ref:`Cluster Status <en-us_topic_0000001707293901__en-us_topic_0000001422959285_section1594381611251>`.      |
+   +-----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Task Information                  | Cluster task status. For details, see :ref:`Cluster Task Information <en-us_topic_0000001707293901__en-us_topic_0000001422959285_section17463325251>`. |
+   +-----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Node Flavor                       | Node flavors of clusters.                                                                                                                              |
+   +-----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Enterprise Project                | Enterprise project to which a cluster belongs.                                                                                                         |
+   +-----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Operation                         | -  **More**                                                                                                                                            |
+   |                                   |                                                                                                                                                        |
+   |                                   |    -  **View Metric**: For details, see :ref:`Monitoring Clusters Using Cloud Eye <dws_01_0022>`.                                                      |
+   |                                   |    -  **Restart**: Click **Restart** to restart a cluster. For details, see :ref:`Cluster Restart <dws_01_0024>`.                                      |
+   |                                   |    -  **Scale Out**: For details, see :ref:`Scaling Out a Cluster <dws_01_0023>`.                                                                      |
+   |                                   |    -  **Change all specifications**: For details, see :ref:`Changing All Specifications <dws_01_0825>`.                                                |
+   |                                   |    -  **Redistribute**: For details, see :ref:`Redistributing Data <dws_01_8201>`.                                                                     |
+   |                                   |    -  **View Scaling Details**: For details, see :ref:`Viewing Redistribution Details <dws_01_8202>`.                                                  |
+   |                                   |    -  **Reset Password**: For details, see :ref:`Resetting a Password <dws_01_0026>`.                                                                  |
+   |                                   |    -  **Create Snapshot**: For details, see :ref:`Manual Snapshots <dws_01_0092>`.                                                                     |
+   |                                   |    -  **Cancel Readonly**: For details, see :ref:`Removing the Read-only Status <dws_01_0035>`.                                                        |
+   |                                   |    -  **Delete**: Click **Delete** to delete a cluster. For details, see :ref:`Deleting a Cluster <dws_01_0025>`.                                      |
+   |                                   |    -  **Change node flavor**: For details, see :ref:`Changing the Node Flavor <dws_01_0829>`.                                                          |
+   |                                   |    -  **Manage CN**: For details, see :ref:`Managing CNs <dws_01_7115>`.                                                                               |
+   +-----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-.. _en-us_topic_0000001517754193__section1594381611251:
+.. _en-us_topic_0000001707293901__en-us_topic_0000001422959285_section1594381611251:
 
 Cluster Status
 --------------
@@ -74,7 +71,7 @@ Cluster Status
    |                                   |                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
    |                                   | -  Use the SQL client tool to connect to the database as the administrator and run the following command to periodically clear and reclaim the storage space:                                                                                                                                                                                                                                                                                              |
    |                                   |                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-   |                                   |    .. code-block::                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+   |                                   |    ::                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
    |                                   |                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
    |                                   |       VACUUM FULL;                                                                                                                                                                                                                                                                                                                                                                                                                                         |
    |                                   |                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
@@ -96,76 +93,43 @@ Cluster Status
    +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | Creation failed                   | A cluster goes into this state when it fails to be created.                                                                                                                                                                                                                                                                                                                                                                                                |
    +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | Creating, restoring               | A cluster goes into this state when it is being restored from a snapshot.                                                                                                                                                                                                                                                                                                                                                                                  |
+   | Creating, restoring               | Indicates that a cluster is being restored from a snapshot. A snapshot will be restored to a new cluster. During the process, the new cluster goes into this status.                                                                                                                                                                                                                                                                                       |
    +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-.. _en-us_topic_0000001517754193__section17463325251:
+.. _en-us_topic_0000001707293901__en-us_topic_0000001422959285_section17463325251:
 
 Cluster Task Information
 ------------------------
 
 .. table:: **Table 3** Task information description
 
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Status                            | Description                                                                                                                         |
-   +===================================+=====================================================================================================================================+
-   | Creating snapshot                 | Indicates that a snapshot is being created in the cluster.                                                                          |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Snapshot creation failed          | Indicates that a snapshot fails to be created.                                                                                      |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Configuring                       | Indicates that the system is storing modifications of cluster parameters.                                                           |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Restarting                        | Indicates that a cluster is being restarted.                                                                                        |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Restart failed                    | Indicates that a cluster fails to be restarted.                                                                                     |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Scaling out                       | Indicates that a cluster is being scaled out.                                                                                       |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Scale-out failed                  | Indicates that a cluster fails to be scaled out.                                                                                    |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Expanding disk capacity           | Indicates that disk capacity is being expanded.                                                                                     |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Disk expansion failed             | Indicates that disk capacity fails to be expanded.                                                                                  |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Associating ELB                   | Indicates that ELB is being associated.                                                                                             |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Failed to associate ELB           | Indicates that ELB fails to be associated.                                                                                          |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Disassociating ELB                | Indicates that ELB is being disassociated.                                                                                          |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Failed to disassociate ELB        | Indicates that ELB fails to be disassociated.                                                                                       |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Checking scale-in                 | The service is checking whether a cluster can be scaled in.                                                                         |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Scale-in check failed             | A cluster does not meet the scale-in requirements. For example:                                                                     |
-   |                                   |                                                                                                                                     |
-   |                                   | -  The value of **default_storage_nodegroup** is not **installation**.                                                              |
-   |                                   | -  In the cluster database, **data_redis** is a reserved redistribution schema, but the schema contains user tables.                |
-   |                                   | -  The cluster disk space does not meet the scale-in requirements. For details, see :ref:`Scaling In a Cluster <dws_01_0821>`.      |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Scaling in                        | A cluster is being scaled in.                                                                                                       |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Scale-in failed                   | The cluster scale-in fails. You need to manually scale in the cluster again as soon as possible, or your services will be affected. |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Switching back                    | The primary/standby relationship of a cluster is being restored.                                                                    |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Switchback failed                 | The primary/standby relationship of a cluster fails to be restored. Possible causes are as follows.                                 |
-   |                                   |                                                                                                                                     |
-   |                                   | -  Redo operations are being performed on DNs. Wait until the operations are completed and try again.                               |
-   |                                   | -  Failed to query DN redo information. Check tenant logs to identify the failure cause.                                            |
-   |                                   | -  Primary/standby catchup is in progress. Wait until it is completed and try again.                                                |
-   |                                   | -  Failed to query primary/standby catchup information. Check tenant logs to identify the failure cause.                            |
-   |                                   | -  Primary/standby catchup failed. Contact technical support or try again later. Check tenant logs to identify the failure cause.   |
-   |                                   | -  The cluster is abnormal.                                                                                                         |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Changing node flavor              | The cluster is being scaled.                                                                                                        |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Node flavor change failed         | All specifications change failed                                                                                                    |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | Changing all specifications       | All the specifications of the cluster being changed.                                                                                |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
-   | All specifications change failed  | Specifications change failed because of insufficient quotas or permissions, or abnormal cluster status.                             |
-   +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------+
+   +----------------------------------+----------------------------------------------------------------------------------------------------------------+
+   | Status                           | Description                                                                                                    |
+   +==================================+================================================================================================================+
+   | Creating snapshot                | Indicates that a snapshot is being created in the cluster.                                                     |
+   +----------------------------------+----------------------------------------------------------------------------------------------------------------+
+   | Snapshot creation failed         | Indicates that a snapshot fails to be created.                                                                 |
+   +----------------------------------+----------------------------------------------------------------------------------------------------------------+
+   | Observing                        | Indicates that the cluster is to be submitted after the automatic upgrade.                                     |
+   +----------------------------------+----------------------------------------------------------------------------------------------------------------+
+   | Configuring                      | Indicates that the system is storing modifications of cluster parameters.                                      |
+   +----------------------------------+----------------------------------------------------------------------------------------------------------------+
+   | Restarting                       | Indicates that a cluster is being restarted.                                                                   |
+   +----------------------------------+----------------------------------------------------------------------------------------------------------------+
+   | Restart failed                   | Indicates that a cluster fails to be restarted.                                                                |
+   +----------------------------------+----------------------------------------------------------------------------------------------------------------+
+   | Scaling out                      | Indicates that a cluster is being scaled out.                                                                  |
+   +----------------------------------+----------------------------------------------------------------------------------------------------------------+
+   | Scale-out failed                 | Indicates that a cluster fails to be scaled out.                                                               |
+   +----------------------------------+----------------------------------------------------------------------------------------------------------------+
+   | Changing all specifications      | All the specifications of the cluster being changed.                                                           |
+   +----------------------------------+----------------------------------------------------------------------------------------------------------------+
+   | All specifications change failed | Specifications change failed because of insufficient quotas or permissions, or abnormal cluster status.        |
+   +----------------------------------+----------------------------------------------------------------------------------------------------------------+
+   | Maintaining                      | A maintenance change operation, such as cluster upgrade or plug-in upgrade, is being performed on the cluster. |
+   +----------------------------------+----------------------------------------------------------------------------------------------------------------+
+   | Maintain_failure                 | A cluster fails to be restarted.                                                                               |
+   +----------------------------------+----------------------------------------------------------------------------------------------------------------+
 
-.. |image1| image:: /_static/images/en-us_image_0000001466754702.png
-.. |image2| image:: /_static/images/en-us_image_0000001466595050.png
+.. |image1| image:: /_static/images/en-us_image_0000001710972124.png
+.. |image2| image:: /_static/images/en-us_image_0000001758891589.png

@@ -47,12 +47,9 @@ Procedure
 
 #. Click **OK**.
 
-   |image2|
-
    .. note::
 
       -  The space quota limits only common users but not database administrators. Therefore, when the used space is equal to the space limit, the actual used space may exceed the specified value.
-      -  Quota of a single DN = Total quota/Number of DNs. Therefore, the configured value may slightly fluctuate with the displayed value.
+      -  Quota for a single DN = Total quota/Number of DNs. Therefore, the configured value may be slightly different from the displayed value.
 
-.. |image1| image:: /_static/images/en-us_image_0000001518034053.png
-.. |image2| image:: /_static/images/en-us_image_0000001466914514.png
+.. |image1| image:: /_static/images/en-us_image_0000001759580353.png

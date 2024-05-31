@@ -5,11 +5,11 @@
 Can I Modify the Security Group of a GaussDB(DWS) Cluster?
 ==========================================================
 
-Yes. When a data warehouse cluster is created, its security group cannot be changed. However, you can add, delete, or modify rules of the current security group.
+After a GaussDB(DWS) cluster is created, you can add, delete, or modify security group rules in the current security group.
 
-To edit the cluster security group:
+-  Modifying an existing security group rule:
 
-#. Log in to the GaussDB(DWS) management console.
-#. In the navigation pane on the left, click **Clusters**.
-#. In the cluster list, find the target cluster and click the cluster name. The **Basic Information** page is displayed.
-#. Locate the **Security Group** parameter and click the security group name to switch to the **Security Groups** page on the VPC console, on which you can set the security group.
+   #. Log in to the GaussDB(DWS) management console.
+   #. In the navigation tree on the left, choose **Clusters** > **Dedicated Clusters**.
+   #. In the cluster list, find the target cluster and click the cluster name. The **Basic Information** page is displayed.
+   #. Locate the **Security Group** parameter and click the security group name to switch to the **Security Groups** page on the VPC console, on which you can set the security group.
