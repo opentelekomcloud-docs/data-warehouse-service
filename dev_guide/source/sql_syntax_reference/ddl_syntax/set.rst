@@ -52,8 +52,6 @@ Syntax
           { {config_parameter { { TO | = } { value | DEFAULT }
                               | FROM CURRENT }}};
 
-.. _en-us_topic_0000001145510673__se8530cae21fd4932a87b96aedaebc0a9:
-
 Parameter Description
 ---------------------
 
@@ -116,13 +114,13 @@ Parameter Description
 Examples
 --------
 
-Configure the search path of the **tpcds** schema.
+Configure the search path of the **tpcds** schema:
 
 ::
 
    SET search_path TO tpcds, public;
 
-Set the date style to the traditional POSTGRES style (date placed before month).
+Set the date style to the traditional POSTGRES style (date placed before month):
 
 ::
 

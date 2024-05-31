@@ -10,7 +10,7 @@ Function
 
 **DO** executes an anonymous code block.
 
-A code block is a function body without parameters that returns void. It is analyzed and executed at the same time.
+A code block is a function body without parameters. Its return type is **void**. It is analyzed and executed at the same time.
 
 Precautions
 -----------
@@ -39,7 +39,7 @@ Parameter Description
 Examples
 --------
 
-Grant user **webuser** all the operation permissions on views in the **tpcds** schema.
+Grant user **webuser** all the operation permissions on views in the **tpcds** schema:
 
 ::
 

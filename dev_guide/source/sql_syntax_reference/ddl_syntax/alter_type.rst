@@ -132,47 +132,55 @@ Parameter Description
 
    .. important::
 
-      -  **ADD ATTRIBUTE**, **DROP ATTRIBUTE**, and **ALTER ATTRIBUTE** can be combined for processing. For example, it is possible to add several attributes or change the types of several attributes at the same time in one command.
-      -  Only type owners can run **ALTER TYPE**. To modify the schema of a type, you must also have the **CREATE** permission for the new schema. To modify the owner of a type, you must be a direct or indirect member of the new owner and have the **CREATE** permission for the schema of this type. (These restrictions force modification owners not to do anything that cannot be done by deleting and rebuilding types. However, system administrators can modify the ownership of any type in any way.) To add an attribute or modify the type of an attribute, you must also have the **USAGE** permission for this type.
+      -  **ADD ATTRIBUTE**, **DROP ATTRIBUTE**, and **ALTER ATTRIBUTE** can be combined for execution. For example, it is possible to add several attributes or change the types of several attributes at the same time in one command.
+      -  Only type owners can run **ALTER TYPE**. To modify the schema of a type, you must also have the **CREATE** permission for the new schema. To modify the owner of a type, you must be a direct or indirect member of the new owner and have the **CREATE** permission for the schema of this type. (These restrictions ensure that the ALTER owner will not do anything that cannot be done by deleting and rebuilding the type. However, system administrators can modify the ownership of any type in any way.) To add an attribute or modify the type of an attribute, you must also have the **USAGE** permission for this type.
 
 Examples
 --------
+
+Create an example composite type **test**, enumeration type **testdata**, and user **user_t**.
+
+::
+
+   CREATE TYPE test AS (col1 int, col text);
+   CREATE TYPE testdata AS ENUM ('create', 'modify', 'closed');
+   CREATE USER user_t PASSWORD '{Password}';
 
 Rename the data type.
 
 ::
 
-   ALTER TYPE compfoo RENAME TO compfoo1;
+   ALTER TYPE test RENAME TO test1;
 
-Change the owner of the user-defined type **compfoo1** to **usr1**.
-
-::
-
-   ALTER TYPE compfoo1 OWNER TO usr1;
-
-Change the schema of the user-defined type **compfoo1** to **usr1**.
+Change the owner of the user-defined type **test1** to **user_t**.
 
 ::
 
-   ALTER TYPE compfoo1 SET SCHEMA usr1;
+   ALTER TYPE test1 OWNER TO user_t;
 
-Add the **f3** attribute to the **compfoo1** data type.
-
-::
-
-   ALTER TYPE compfoo1 ADD ATTRIBUTE f3 int;
-
-Add a tag value to the enumeration type **bugstatus**.
+Change the schema of the user-defined type **test1** to **user_t**.
 
 ::
 
-   ALTER TYPE bugstatus ADD VALUE IF NOT EXISTS 'regress' BEFORE 'closed';
+   ALTER TYPE test1 SET SCHEMA user_t;
 
-Rename a tag value of the enumeration type **bugstatus**.
+Add the **f3** attribute to the **test1** data type.
 
 ::
 
-   ALTER TYPE bugstatus RENAME VALUE 'create' TO 'new';
+   ALTER TYPE user_t.test1 ADD ATTRIBUTE col3 int;
+
+Add a tag value to the enumeration type **testdata**.
+
+::
+
+   ALTER TYPE testdata ADD VALUE IF NOT EXISTS 'regress' BEFORE 'closed';
+
+Rename a tag value of the enumeration type **testdata**.
+
+::
+
+   ALTER TYPE testdata RENAME VALUE 'create' TO 'new';
 
 Helpful Links
 -------------

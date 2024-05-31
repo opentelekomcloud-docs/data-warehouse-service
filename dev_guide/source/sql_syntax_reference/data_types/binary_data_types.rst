@@ -5,9 +5,9 @@
 Binary Data Types
 =================
 
-:ref:`Table 1 <en-us_topic_0000001145830561__teea287ea2f5d4444bb3ebb521189b9e8>` lists the binary data types that can be used in GaussDB(DWS).
+:ref:`Table 1 <en-us_topic_0000001233708705__teea287ea2f5d4444bb3ebb521189b9e8>` lists the binary data types that can be used in GaussDB(DWS).
 
-.. _en-us_topic_0000001145830561__teea287ea2f5d4444bb3ebb521189b9e8:
+.. _en-us_topic_0000001233708705__teea287ea2f5d4444bb3ebb521189b9e8:
 
 .. table:: **Table 1** Binary Data Types
 
@@ -44,11 +44,13 @@ Binary Data Types
 
    In addition to the size limitation on each column, the total size of each tuple is 8203 bytes less than 1 GB.
 
-Examples
+Example
+-------
+
+Create a table:
 
 ::
 
-   -- Create a table:
    CREATE TABLE blob_type_t1
    (
        BT_COL1 INTEGER,
@@ -57,16 +59,24 @@ Examples
        BT_COL4 BYTEA
    ) DISTRIBUTE BY REPLICATION;
 
-   --Insert data:
-   INSERT INTO blob_type_t1 VALUES(10,empty_blob(),
-   HEXTORAW('DEADBEEF'),E'\\xDEADBEEF');
+Insert data:
 
-   -- Query data in the table:
+::
+
+   INSERT INTO blob_type_t1 VALUES(10,empty_blob(),HEXTORAW('DEADBEEF'),E'\\xDEADBEEF');
+
+Query data in the table:
+
+::
+
    SELECT * FROM blob_type_t1;
     bt_col1 | bt_col2 | bt_col3  |  bt_col4
    ---------+---------+----------+------------
          10 |         | DEADBEEF | \xdeadbeef
    (1 row)
 
-   -- Delete the tables:
+Delete the table:
+
+::
+
    DROP TABLE blob_type_t1;

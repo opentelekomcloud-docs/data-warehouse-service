@@ -19,7 +19,7 @@ Precautions
 Syntax
 ------
 
--  **SET ROLE** sets the current user identifier of the current session.
+-  Set the current user identifier of the current session.
 
    ::
 
@@ -61,19 +61,25 @@ Parameter Description
 Examples
 --------
 
-Set the current user to **paul**.
+Create a role named **manager**:
 
 ::
 
-   SET ROLE paul PASSWORD '{password}';
+   CREATE ROLE paul IDENTIFIED BY '{Password}';
 
-View the current session user and the current user.
+Set the current user to **paul**:
+
+::
+
+   SET ROLE paul PASSWORD '{Password}';
+
+View the current session user and the current user:
 
 ::
 
    SELECT SESSION_USER, CURRENT_USER;
 
-Reset the current user.
+Reset the current user:
 
 ::
 

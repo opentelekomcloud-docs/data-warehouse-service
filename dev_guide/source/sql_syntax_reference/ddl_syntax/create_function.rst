@@ -43,7 +43,7 @@ Syntax
               | [ NOT  ] LEAKPROOF
               | {CALLED ON NULL INPUT  | RETURNS NULL ON NULL INPUT | STRICT }
               | {[ EXTERNAL  ] SECURITY INVOKER | [ EXTERNAL  ] SECURITY DEFINER | AUTHID DEFINER  | AUTHID CURRENT_USER}
-              | {fenced | not fenced}
+              | {FENCED | NOT FENCED}
               | {PACKAGE}
 
               | COST execution_cost
@@ -86,11 +86,19 @@ Syntax
 Parameter Description
 ---------------------
 
+-  **OR REPLACE**
+
+   Redefines an existing function.
+
 -  **function_name**
 
    Indicates the name of the function to create (optionally schema-qualified).
 
    Value range: a string. It must comply with the naming convention.
+
+   .. note::
+
+      If the name of the function to be created is the same as that of a system function, you are advised to specify a schema. When invoking a user-defined function, you need to specify a schema. Otherwise, the system preferentially invokes the system function.
 
 -  **argname**
 
@@ -126,7 +134,7 @@ Parameter Description
 
 -  **DETERMINISTIC**
 
-   The adaptation oracle SQL syntax. You are not advised to use it.
+   Adapted to Oracle SQL syntax. You are not advised to use it.
 
 -  **column_name**
 
@@ -162,11 +170,11 @@ Parameter Description
 
    Examples:
 
-   #. .. _en-us_topic_0000001145510725__li144181920184412:
+   #. .. _en-us_topic_0000001188110530__li144181920184412:
 
       If a user-defined function references objects such as tables and views, the function cannot be defined as **IMMUTABLE**, because the function may return different results when the data in a referenced table changes.
 
-   #. .. _en-us_topic_0000001145510725__li1341819203448:
+   #. .. _en-us_topic_0000001188110530__li1341819203448:
 
       If a user-defined function references a **STABLE** or **VOLATILE** function, the function cannot be defined as IMMUTABLE.
 
@@ -174,7 +182,7 @@ Parameter Description
 
    #. If a user-defined function contains an aggregation operation that will generate **STREAM** plans to complete the operation (meaning that DNs and CNs are involved for results calculation, such as the **LISTAGG** function), the function cannot be defined as **IMMUTABLE**.
 
-   To prevent possible problems, you can set **behavior_compat_options** to **check_function_conflicts** in the database to check definition conflicts. This method can identify the :ref:`1 <en-us_topic_0000001145510725__li144181920184412>` and :ref:`2 <en-us_topic_0000001145510725__li1341819203448>` scenarios described above.
+   To prevent possible problems, you can set **behavior_compat_options** to **check_function_conflicts** in the database to check definition conflicts. This method can identify the :ref:`1 <en-us_topic_0000001188110530__li144181920184412>` and :ref:`2 <en-us_topic_0000001188110530__li1341819203448>` scenarios described above.
 
 -  **STABLE**
 
@@ -292,10 +300,6 @@ Parameter Description
 
       Uses the value of **configuration_parameter** of the current session.
 
--  **obj_file, link_symbol**
-
-   (Used for C functions) Specifies the absolute path of the dynamic library using **obj_file** and the link symbol (function name in C programming language) of the function using **link_symbol**.
-
 -  **plsql_body**
 
    Indicates the PL/SQL stored procedure body.
@@ -307,30 +311,33 @@ Parameter Description
 Examples
 --------
 
-Define the function as SQL query.
+Create the function **func_add_sql** as an SQL query.
 
 ::
 
+   DROP FUNCTION IF EXISTS func_add_sql;
    CREATE FUNCTION func_add_sql(integer, integer) RETURNS integer
        AS 'select $1 + $2;'
        LANGUAGE SQL
        IMMUTABLE
        RETURNS NULL ON NULL INPUT;
 
-Add an integer by parameter name using PL/pgSQL.
+Create the function **func_increment_plsql** that accepts a parameter name and returns an integer value that is one greater than the input.
 
 ::
 
+   DROP FUNCTION IF EXISTS func_increment_plsql;
    CREATE OR REPLACE FUNCTION func_increment_plsql(i integer) RETURNS integer AS $$
            BEGIN
                    RETURN i + 1;
            END;
    $$ LANGUAGE plpgsql;
 
-Return the RECORD type.
+Create a function that returns the RECORD type.
 
 ::
 
+   DROP FUNCTION IF EXISTS compute;
    CREATE OR REPLACE FUNCTION compute(i int, out result_1 bigint, out result_2 bigint)
    returns SETOF RECORD
    as $$
@@ -341,19 +348,21 @@ Return the RECORD type.
    end;
    $$language plpgsql;
 
-Get a record containing multiple output parameters.
+Create a function that that returns multiple output parameters.
 
 ::
 
+   DROP FUNCTION IF EXISTS func_dup_sql;
    CREATE FUNCTION func_dup_sql(in int, out f1 int, out f2 text)
        AS $$ SELECT $1, CAST($1 AS text) || ' is text' $$
        LANGUAGE SQL;
    SELECT * FROM func_dup_sql(42);
 
-Calculate the sum of two integers and get the result. If the input is null, null will be returned.
+Create a function that calculates the sum of two integers and gets the result. If the input is null, null will be returned.
 
 ::
 
+   DROP FUNCTION IF EXISTS func_add_sql2;
    CREATE FUNCTION func_add_sql2(num1 integer, num2 integer) RETURN integer
    AS
    BEGIN

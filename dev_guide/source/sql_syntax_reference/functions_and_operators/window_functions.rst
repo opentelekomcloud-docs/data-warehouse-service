@@ -7,35 +7,64 @@ Window Functions
 
 Regular aggregate functions return a single value calculated from values in a row, or group all rows into a single output row. Window functions perform a calculation across a set of rows and return a value for each row.
 
--  A window function call represents the application of an aggregate-like function over some portion of the rows selected by a query. Therefore, aggregate functions (:ref:`Aggregate Functions <dws_06_0046>`) can also be used as window functions. In addition, window functions are able to scan all the rows and divide the query rows into a partition by using the **PARTITION BY** clause.
--  Column-store tables support only the window functions **rank (expression)** and **row_number (expression)** and the aggregate functions **sum**, **count**, **avg**, **min**, and **max**. Row-store tables do not have such restrictions.
--  Invoking a window function requires special syntax using the **OVER** clause to specify a window. The **OVER** clause is used for grouping data and sorting the elements in a group. Window functions are used for generating sequence numbers for the values in the group.
--  **order by** in a window function must be followed by a column name. If it is followed by a number, the number is processed as a constant value and the target column is not ranked.
+A window function call represents the application of an aggregate-like function over some portion of the rows selected by a query. Therefore, aggregate functions (:ref:`Aggregate Functions <dws_06_0046>`) can also be used as window functions. A window function can scan all rows and display the raw data and aggregation analysis results at the same time.
 
-Syntax of a Window Function
----------------------------
+Precautions
+-----------
+
+-  Column-store tables support only the window functions **rank (expression)** and **row_number (expression)** and the aggregate functions **sum**, **count**, **avg**, **min**, and **max**. Row-store tables do not have such restrictions.
+
+-  A single query can contain one or more window function expressions.
+
+-  Window functions can appear only in output columns. If you want to use the values of a window function for condition filtering, you need to nest the window function in the subquery and use the aliases of the window function expression at the outer layer for condition filtering. Example:
+
+   .. code-block::
+
+      SELECT classid, id, score FROM(SELECT *, avg(score) OVER(PARTITION BY classid) as avg_score FROM score) WHERE score >= avg_score;
+
+-  In the query block where the window function is located, the **GROUP BY** expression can be used for grouping and deduplication. In this case, the PARTITION BY clause in the window function must be a subset of the GROUP BY expression to ensure that the window function performs calculation on the deduplication result. The expression of the **ORDER BY** clause must be a subset of the **GROUP BY** expression or an aggregate function of an aggregate operation. Example:
+
+   .. code-block::
+
+      SELECT classid,rank() OVER(PARTITION BY classid ORDER BY sum(score)) as avg_score FROM score GROUP BY classid, id;
+
+Syntax
+------
+
+A window function uses the **OVER** clause to define a window. The **OVER** clause is used for grouping data and sorting the elements in a group. Window functions are used for generating sequence numbers for the values in the group.
 
 ::
 
-   function_name ([expression [, expression ... ]]) OVER ( window_definition ) function_name ([expression [, expression ... ]]) OVER window_namefunction_name ( * ) OVER ( window_definition ) function_name ( * ) OVER window_name
+   function_name ([expression [, expression ... ]]) OVER ( window_definition )
+   function_name ([expression [, expression ... ]]) OVER window_name
+   function_name ( * ) OVER ( window_definition )
+   function_name ( * ) OVER window_name
 
 **window_definition** is defined as follows:
 
 ::
 
-   [ existing_window_name ] [ PARTITION BY expression [, ...] ] [ ORDER BY expression [ ASC | DESC | USING operator ] [ NULLS { FIRST | LAST } ] [, ...] ] [ frame_clause ]
+   [ existing_window_name ]
+   [ PARTITION BY expression [, ...] ]
+   [ ORDER BY expression [ ASC | DESC | USING operator ] [ NULLS { FIRST | LAST } ] [, ...] ]
+   [ frame_clause ]
+
+The **PARTITION BY** option specifies that rows with the same **PARTITION BY** expression value are grouped.
+
+The **ORDER BY** option is used to control the order in which the window function processes rows. **ORDER BY** must be followed by a column name. If **ORDER BY** is followed by a number, the number is processed as a constant and does not sort the target column.
 
 **frame_clause** is defined as follows:
 
 ::
 
-   [ RANGE | ROWS ] frame_start [ RANGE | ROWS ] BETWEEN frame_start AND frame_end
+   [ RANGE | ROWS ] frame_start
+   [ RANGE | ROWS ] BETWEEN frame_start AND frame_end
 
-You can use **RANGE** and **ROWS** to specify the window frame. **ROWS** specifies the window in physical units (rows). **RANGE** specifies the window as a logical offset.
+When you need to specify a window to calculate the results of all rows in a group, you need to specify the start row and end row of the window range. The window range supports the RANGE and ROWS modes. The ROWS mode specifies the window by the physical unit (row), and the RANGE mode specifies the window as the logical offset.
 
-In **RANGE** and **ROWS**, you can use **BETWEEN** *frame_start* **AND** *frame_end* to specify the window's first and last rows. If *frame_end* is left blank, it defaults to **CURRENT ROW**.
+In **RANGE** and **ROWS**, you can use **BETWEEN** *frame_start* **AND** *frame_end* to specify the window's first and last rows. If only **frame_start** is specified, **frame_end** is **CURRENT ROW** by default.
 
-The value options of **BETWEEN frame_start AND frame_end** are as follows:
+The values of **frame_start** and **frame_end** are as follows:
 
 -  **CURRENT ROW**: The current row is used as the window frame's start or end point.
 -  *N* **PRECEDING**: The window frame starts from the *n*\ th row to the current row.
@@ -43,239 +72,253 @@ The value options of **BETWEEN frame_start AND frame_end** are as follows:
 -  *N* **FOLLOWING**: The window frame starts from the current row to the *n*\ th row.
 -  **UNBOUNDED FOLLOWING**: The window frame ends with the last row of the partition.
 
-*frame_start* cannot be **UNBOUNDED FOLLOWING**, *frame_end* cannot be **UNBOUNDED PRECEDING**, and *frame_end* cannot be earlier than *frame_start*. For example, **RANGE BETWEEN CURRENT ROW AND** *value* **PRECEDING** is not allowed.
+*frame_start* cannot be **UNBOUNDED FOLLOWING**, *frame_end* cannot be **UNBOUNDED PRECEDING**, and *frame_end* cannot be earlier than *frame_start*. For example, **RANGE BETWEEN CURRENT ROW AND** *N* **PRECEDING** is not allowed.
 
+RANK()
+------
 
-Window Functions
-----------------
+Description: The **RANK** function is used for generating non-consecutive sequence numbers for the values in each group. The same values have the same rank value but with sequence numbers.
 
--  RANK()
+Return type: bigint
 
-   Description: The **RANK** function is used for generating non-consecutive sequence numbers for the values in each group. The same values have the same sequence number.
+Example:
 
-   Return type: bigint
+In the **score(id, classid, score)** table, the rows are student ID, class ID, and exam score.
 
-   For example:
+Use the **RANK** function to sort student scores.
 
-   ::
+::
 
-      SELECT d_mon, d_week_seq, rank() OVER(PARTITION BY d_mon ORDER BY d_week_seq) FROM reason_date WHERE d_mon < 4 AND d_week_seq < 7 ORDER BY 1,2;
-       d_mon | d_week_seq | rank
-      -------+------------+------
-           1 |          1 |    1
-           1 |          1 |    1
-           1 |          2 |    3
-           1 |          2 |    3
-           2 |          3 |    1
-           2 |          3 |    1
-      (6 rows)
+   CREATE TABLE score(id int,classid int,score int);
+   INSERT INTO score VALUES(1,1,95),(2,2,95),(3,2,85),(4,1,70),(5,2,88),(6,1,70);
 
--  ROW_NUMBER()
+   SELECT id, classid, score,RANK() OVER(ORDER BY score DESC) FROM score;
+    id | classid | score | rank
+   ----+---------+-------+------
+     1 |       1 |    95 |    1
+     2 |       2 |    95 |    1
+     6 |       1 |    70 |    5
+     4 |       1 |    70 |    5
+     5 |       2 |    88 |    3
+     3 |       2 |    85 |    4
+   (6 rows)
 
-   Description: The **ROW_NUMBER** function is used for generating consecutive sequence numbers for the values in each group. The same values have different sequence numbers.
+ROW_NUMBER()
+------------
 
-   Return type: bigint
+Description: The **ROW_NUMBER** function is used for generating consecutive sequence numbers for the values in each group. The same values have different sequence numbers.
 
-   For example:
+Return type: bigint
 
-   ::
+Example:
 
-      SELECT d_mon, d_week_seq, Row_number() OVER(PARTITION BY d_mon ORDER BY d_week_seq) FROM reason_date WHERE d_mon < 4 AND d_week_seq < 7 ORDER BY 1,2;
-       d_mon | d_week_seq | row_number
-      -------+------------+------------
-           1 |          1 |          1
-           1 |          1 |          2
-           1 |          2 |          3
-           1 |          2 |          4
-           2 |          3 |          1
-           2 |          3 |          2
-      (6 rows)
+::
 
--  DENSE_RANK()
+   SELECT id, classid, score,ROW_NUMBER() OVER(ORDER BY score DESC) FROM score ORDER BY score DESC;
+    id | classid | score | row_number
+   ----+---------+-------+------------
+     1 |       1 |    95 |          1
+     2 |       2 |    95 |          2
+     5 |       2 |    88 |          3
+     3 |       2 |    85 |          4
+     6 |       1 |    70 |          5
+     4 |       1 |    70 |          6
+   (6 rows)
 
-   Description: The **DENSE_RANK** function is used for generating consecutive sequence numbers for the values in each group. The same values have the same sequence number.
+DENSE_RANK()
+------------
 
-   Return type: bigint
+Description: The **DENSE_RANK** function is used for generating consecutive sequence numbers for the values in each group. The same values have the same rank value number and the same sequence number.
 
-   For example:
+Return type: bigint
 
-   ::
+Example:
 
-      SELECT d_mon, d_week_seq, dense_rank() OVER(PARTITION BY d_mon ORDER BY d_week_seq) FROM reason_date WHERE d_mon < 4 AND d_week_seq < 7 ORDER BY 1,2;
-       d_mon | d_week_seq | dense_rank
-      -------+------------+------------
-           1 |          1 |          1
-           1 |          1 |          1
-           1 |          2 |          2
-           1 |          2 |          2
-           2 |          3 |          1
-           2 |          3 |          1
-      (6 rows)
+::
 
--  PERCENT_RANK()
+   SELECT id, classid, score,DENSE_RANK() OVER(ORDER BY score DESC) FROM score;
+    id | classid | score | dense_rank
+   ----+---------+-------+------------
+     1 |       1 |    95 |          1
+     2 |       2 |    95 |          1
+     5 |       2 |    88 |          2
+     3 |       2 |    85 |          3
+     6 |       1 |    70 |          4
+     4 |       1 |    70 |          4
+   (6 rows)
 
-   Description: The **PERCENT_RANK** function is used for generating corresponding sequence numbers for the values in each group. That is, the function calculates the value according to the formula Sequence number = (**Rank** - 1)/(**Total rows** - 1). **Rank** is the corresponding sequence number generated based on the **RANK** function for the value and **Total rows** is the total number of elements in a group.
+PERCENT_RANK()
+--------------
 
-   Return type: double precision
+Description: The **PERCENT_RANK** function is used for generating corresponding sequence numbers for the values in each group. That is, the function calculates the value according to the formula Sequence number = (**Rank** - 1)/(**Total rows** - 1). **Rank** is the corresponding sequence number generated based on the **RANK** function for the value and **Total rows** is the total number of elements in a group.
 
-   For example:
+Return type: double precision
 
-   ::
+Example:
 
-      SELECT d_mon, d_week_seq, percent_rank() OVER(PARTITION BY d_mon ORDER BY d_week_seq) FROM reason_date WHERE d_mon < 4 AND d_week_seq < 7 ORDER BY 1,2;
-       d_mon | d_week_seq |   percent_rank
-      -------+------------+------------------
-           1 |          1 |                0
-           1 |          1 |                0
-           1 |          2 | .666666666666667
-           1 |          2 | .666666666666667
-           2 |          3 |                0
-           2 |          3 |                0
-      (6 rows)
+::
 
--  CUME_DIST()
+   SELECT id, classid, score,PERCENT_RANK() OVER(ORDER BY score DESC) FROM score;
+    id | classid | score | percent_rank
+   ----+---------+-------+--------------
+     1 |       1 |    95 |            0
+     2 |       2 |    95 |            0
+     3 |       2 |    85 |           .6
+     4 |       1 |    70 |           .8
+     5 |       2 |    88 |           .4
+     6 |       1 |    70 |           .8
+   (6 rows)
 
-   Description: The **CUME_DIST** function is used for generating accumulative distribution sequence numbers for the values in each group. That is, the function calculates the value according to the following formula: Sequence number = Number of rows preceding or peer with current row/Total rows.
+CUME_DIST()
+-----------
 
-   Return type: double precision
+Description: The **CUME_DIST** function is used for generating accumulative distribution sequence numbers for the values in each group. That is, the function calculates the value according to the following formula: Sequence number = Number of rows preceding or peer with current row/Total rows.
 
-   For example:
+Return type: double precision
 
-   ::
+Example:
 
-      SELECT d_mon, d_week_seq, cume_dist() OVER(PARTITION BY d_mon ORDER BY d_week_seq) FROM reason_date e_dim WHERE d_mon < 4 AND d_week_seq < 7 ORDER BY 1,2;
-       d_mon | d_week_seq | cume_dist
-      -------+------------+-----------
-           1 |          1 |        .5
-           1 |          1 |        .5
-           1 |          2 |         1
-           1 |          2 |         1
-           2 |          3 |         1
-           2 |          3 |         1
-      (6 rows)
+::
 
--  NTILE(num_buckets integer)
+   SELECT id,classid,score,CUME_DIST() OVER(ORDER BY score DESC) FROM score;
+    id | classid | score |    cume_dist
+   ----+---------+-------+------------------
+     1 |       1 |    95 | .333333333333333
+     2 |       2 |    95 | .333333333333333
+     5 |       2 |    88 |               .5
+     3 |       2 |    85 | .666666666666667
+     4 |       1 |    70 |                1
+     6 |       1 |    70 |                1
+   (6 rows)
 
-   Description: The **NTILE** function is used for equally allocating sequential data sets to the buckets whose quantity is specified by **num_buckets** according to **num_buckets integer** and allocating the bucket number to each row. Divide the partition as equally as possible.
+NTILE(num_buckets integer)
+--------------------------
 
-   Return type: integer
+Description: The **NTILE** function is used for equally allocating sequential data sets to the buckets whose quantity is specified by **num_buckets** according to **num_buckets integer** and allocating the bucket number to each row. Divide the partition as equally as possible.
 
-   For example:
+Return type: integer
 
-   ::
+Example:
 
-      SELECT d_mon, d_week_seq, ntile(3) OVER(PARTITION BY d_mon ORDER BY d_week_seq) FROM reason_date WHERE d_mon < 4 AND d_week_seq < 7 ORDER BY 1,2;
-       d_mon | d_week_seq | ntile
-      -------+------------+-------
-           1 |          1 |     1
-           1 |          1 |     1
-           1 |          2 |     2
-           1 |          2 |     3
-           2 |          3 |     1
-           2 |          3 |     2
-      (6 rows)
+::
 
--  LAG(value any [, offset integer [, default any ]])
+   SELECT id,classid,score,NTILE(3) OVER(ORDER BY score DESC) FROM score;
+    id | classid | score | ntile
+   ----+---------+-------+-------
+     1 |       1 |    95 |     1
+     2 |       2 |    95 |     1
+     5 |       2 |    88 |     2
+     3 |       2 |    85 |     2
+     4 |       1 |    70 |     3
+     6 |       1 |    70 |     3
+   (6 rows)
 
-   Description: The **LAG** function is used for generating lag values for the corresponding values in each group. That is, the value of the row obtained by moving forward the row corresponding to the current value by **offset** (integer) is the sequence number. If the row does not exist after the moving, the result value is the default value. If omitted, **offset** defaults to **1** and **default** to **null**.
+LAG(value any [, offset integer [, default any ]])
+--------------------------------------------------
 
-   Return type: same as the parameter type
+Description: The **LAG** function is used for generating lag values for the corresponding values in each group. That is, the value of the row obtained by moving forward the row corresponding to the current value by **offset** (integer) is the sequence number. If the row does not exist after the moving, the result value is the default value. If omitted, **offset** defaults to **1** and **default** to **null**.
 
-   For example:
+Return type: same as the parameter type
 
-   ::
+Example:
 
-      SELECT d_mon, d_week_seq, lag(d_mon,3,null) OVER(PARTITION BY d_mon ORDER BY d_week_seq) FROM reason_date WHERE d_mon < 4 AND d_week_seq < 7 ORDER BY 1,2;
-       d_mon | d_week_seq | lag
-      -------+------------+-----
-           1 |          1 |
-           1 |          1 |
-           1 |          2 |
-           1 |          2 |   1
-           2 |          3 |
-           2 |          3 |
-      (6 rows)
+::
 
--  LEAD(value any [, offset integer [, default any ]])
+   SELECT id,classid,score,LAG(id,3) OVER(ORDER BY score DESC) FROM score;
+    id | classid | score | lag
+   ----+---------+-------+-----
+     1 |       1 |    95 |
+     2 |       2 |    95 |
+     5 |       2 |    88 |
+     3 |       2 |    85 |   1
+     4 |       1 |    70 |   2
+     6 |       1 |    70 |   5
+   (6 rows)
 
-   Description: The **LEAD** function is used for generating leading values for the corresponding values in each group. That is, the value of the row obtained by moving backward the row corresponding to the current value by **offset** (integer) is the sequence number. If the number of rows after the moving exceeds the total number for the current group, the result value is the default value. If omitted, **offset** defaults to **1** and **default** to **null**.
+LEAD(value any [, offset integer [, default any ]])
+---------------------------------------------------
 
-   Return type: same as the parameter type
+Description: The **LEAD** function is used for generating leading values for the corresponding values in each group. That is, the value of the row obtained by moving backward the row corresponding to the current value by **offset** (integer) is the sequence number. If the number of rows after the moving exceeds the total number for the current group, the result value is the default value. If omitted, **offset** defaults to **1** and **default** to **null**.
 
-   For example:
+Return type: same as the parameter type
 
-   ::
+Example:
 
-      SELECT d_mon, d_week_seq, lead(d_week_seq,2) OVER(PARTITION BY d_mon ORDER BY d_week_seq) FROM  reason_date WHERE d_mon < 4 AND d_week_seq < 7 ORDER BY 1,2;
-       d_mon | d_week_seq | lead
-      -------+------------+------
-           1 |          1 |    2
-           1 |          1 |    2
-           1 |          2 |
-           1 |          2 |
-           2 |          3 |
-           2 |          3 |
-      (6 rows)
+::
 
--  FIRST_VALUE(value any)
+   SELECT id,classid,score,LEAD(id,3) OVER(ORDER BY score DESC) FROM score;
+    id | classid | score | lead
+   ----+---------+-------+------
+     1 |       1 |    95 |    3
+     2 |       2 |    95 |    4
+     5 |       2 |    88 |    6
+     3 |       2 |    85 |
+     4 |       1 |    70 |
+     6 |       1 |    70 |
+   (6 rows)
 
-   Description: The **FIRST_VALUE** function is used for returning the first value of each group.
+FIRST_VALUE(value any)
+----------------------
 
-   Return type: same as the parameter type
+Description: The **FIRST_VALUE** function is used for returning the first value of each group.
 
-   For example:
+Return type: same as the parameter type
 
-   ::
+Example:
 
-      SELECT d_mon, d_week_seq, first_value(d_week_seq) OVER(PARTITION BY d_mon ORDER BY d_week_seq) FROM reason_date WHERE d_mon < 4 AND d_week_seq < 7 ORDER BY 1,2;
-       d_mon | d_week_seq | first_value
-      -------+------------+-------------
-           1 |          1 |           1
-           1 |          1 |           1
-           1 |          2 |           1
-           1 |          2 |           1
-           2 |          3 |           3
-           2 |          3 |           3
-      (6 rows)
+::
 
--  LAST_VALUE(value any)
+   SELECT id,classid,score,FIRST_VALUE(id) OVER(ORDER BY score DESC) FROM score;
+    id | classid | score | first_value
+   ----+---------+-------+-------------
+     1 |       1 |    95 |           1
+     2 |       2 |    95 |           1
+     5 |       2 |    88 |           1
+     3 |       2 |    85 |           1
+     4 |       1 |    70 |           1
+     6 |       1 |    70 |           1
+   (6 rows)
 
-   Description: Returns the last value of each group.
+LAST_VALUE(value any)
+---------------------
 
-   Return type: same as the parameter type
+Description: Returns the last value of each group.
 
-   For example:
+Return type: same as the parameter type
 
-   ::
+Example:
 
-      SELECT d_mon, d_week_seq, last_value(d_mon) OVER(PARTITION BY d_mon ORDER BY d_week_seq) FROM reason_date WHERE d_mon < 4 AND d_week_seq < 6 ORDER BY 1,2;
-       d_mon | d_week_seq | last_value
-      -------+------------+------------
-           1 |          1 |          1
-           1 |          1 |          1
-           1 |          2 |          1
-           1 |          2 |          1
-           2 |          3 |          2
-           2 |          3 |          2
-      (6 rows)
+::
 
--  NTH_VALUE(value any, nth integer)
+   SELECT id,classid,score,LAST_VALUE(id) OVER(ORDER BY score DESC) FROM score;
+    id | classid | score | last_value
+   ----+---------+-------+------------
+     1 |       1 |    95 |          2
+     2 |       2 |    95 |          2
+     5 |       2 |    88 |          5
+     3 |       2 |    85 |          3
+     4 |       1 |    70 |          6
+     6 |       1 |    70 |          6
+   (6 rows)
 
-   Description: The *n*\ th row for a group is the returned value. If the row does not exist, **NULL** is returned by default.
+NTH_VALUE(value any, nth integer)
+---------------------------------
 
-   Return type: same as the parameter type
+Description: The *n*\ th row for a group is the returned value. If the row does not exist, **NULL** is returned by default.
 
-   For example:
+Return type: same as the parameter type
 
-   ::
+Example:
 
-      SELECT d_mon, d_week_seq, nth_value(d_week_seq,2) OVER(PARTITION BY d_mon ORDER BY d_week_seq) FROM reason_date WHERE d_mon < 4 AND d_week_seq < 6 ORDER BY 1,2;
-       d_mon | d_week_seq | nth_value
-      -------+------------+-----------
-           1 |          1 |         1
-           1 |          1 |         1
-           1 |          2 |         1
-           1 |          2 |         1
-           2 |          3 |         3
-           2 |          3 |         3
-      (6 rows)
+::
+
+   SELECT id,classid,score,NTH_VALUE(id,3) OVER(ORDER BY score DESC) FROM score;
+    id | classid | score | nth_value
+   ----+---------+-------+-----------
+     1 |       1 |    95 |
+     2 |       2 |    95 |
+     5 |       2 |    88 |         5
+     3 |       2 |    85 |         5
+     4 |       1 |    70 |         5
+     6 |       1 |    70 |         5
+   (6 rows)

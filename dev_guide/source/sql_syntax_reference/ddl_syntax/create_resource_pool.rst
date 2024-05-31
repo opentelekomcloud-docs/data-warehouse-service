@@ -57,7 +57,7 @@ Parameter Description
 
 -  **dop**
 
-   This is a reserved parameter.
+   Specifies the maximum number of simple SQL statements that can be concurrently executed in a resource pool.
 
    Value range: Numeric data ranging from **1** to **INT_MAX**.
 
@@ -81,19 +81,11 @@ Parameter Description
 
 -  **io_limits**
 
-   Specifies the upper limit of IOPS in a resource pool.
-
-   The IOPS is counted by ones for column storage and by 10 thousands for row storage.
+   This parameter has been discarded in 8.1.2 and is reserved for compatibility with earlier versions.
 
 -  **io_priority**
 
-   Specifies the I/O priority for jobs that consume many I/O resources. It takes effect when the I/O usage reaches 90%.
-
-   There are three priorities: **Low**, **Medium**, and **High**. If you do not want to control I/O resources, use the default value **None**.
-
-   .. note::
-
-      The settings of **io_limits** and **io_priority** are valid only for complex jobs, such as batch import (using **INSERT INTO SELECT**, **COPY FROM**, or **CREATE TABLE AS**), complex queries involving over 500 MB data on each DN, and **VACUUM FULL**.
+   This parameter has been discarded in 8.1.2 and is reserved for compatibility with earlier versions.
 
 -  **nodegroup**
 
@@ -103,7 +95,7 @@ Parameter Description
 
 -  **is_foreign**
 
-   In logical cluster mode, lets the current resource pool to control the resources of common users that are not associated with the logical cluster specified by **nodegroup**.
+   In logical cluster mode, the current resource pool is used to control the resources of common users who are not associated with the logical cluster specified by **nodegroup**.
 
    .. note::
 

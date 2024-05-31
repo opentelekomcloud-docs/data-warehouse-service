@@ -1,11 +1,11 @@
-:original_name: dws_06_0276.html
+:original_name: dws_06_0277.html
 
-.. _dws_06_0276:
+.. _dws_06_0277:
 
 DQL Syntax
 ==========
 
--  :ref:`DQL Syntax Overview <dws_06_0277>`
+-  :ref:`DQL Syntax Overview <dws_06_0278>`
 -  :ref:`SELECT <dws_06_0238>`
 -  :ref:`SELECT INTO <dws_06_0239>`
 

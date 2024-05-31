@@ -5,15 +5,15 @@
 Date/Time Types
 ===============
 
-:ref:`Table 1 <en-us_topic_0000001099150906__te36aedd5ecb747abb055a0d329a83c75>` lists date and time types supported by GaussDB(DWS). For the operators and built-in functions of the types, see :ref:`Date and Time Processing Functions and Operators <dws_06_0035>`.
+:ref:`Table 1 <en-us_topic_0000001233510097__te36aedd5ecb747abb055a0d329a83c75>` lists date and time types supported by GaussDB(DWS). For the operators and built-in functions of the types, see :ref:`Date and Time Processing Functions and Operators <dws_06_0035>`.
 
 .. note::
 
    If the time format of another database is different from that of GaussDB(DWS), modify the value of the **DateStyle** parameter to keep them consistent.
 
-.. _en-us_topic_0000001099150906__te36aedd5ecb747abb055a0d329a83c75:
+.. _en-us_topic_0000001233510097__te36aedd5ecb747abb055a0d329a83c75:
 
-.. table:: **Table 1** Date/Time types
+.. table:: **Table 1** Date/Time Types
 
    +------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------+
    | Name                               | Description                                                                                                                                                                                                                                                  | Storage Space                                      |
@@ -22,7 +22,7 @@ Date/Time Types
    |                                    |                                                                                                                                                                                                                                                              |                                                    |
    |                                    | In other modes, it records the date.                                                                                                                                                                                                                         | In Oracle compatibility mode, it occupies 4 bytes. |
    +------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------+
-   | TIME [(p)] [WITHOUT TIME ZONE]     | Specifies the time of day (no date).                                                                                                                                                                                                                         | 8 bytes                                            |
+   | TIME [(p)] [WITHOUT TIME ZONE]     | Specifies time within one day.                                                                                                                                                                                                                               | 8 bytes                                            |
    |                                    |                                                                                                                                                                                                                                                              |                                                    |
    |                                    | **p** indicates the precision after the decimal point. The value ranges from 0 to 6.                                                                                                                                                                         |                                                    |
    +------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------+
@@ -137,9 +137,9 @@ Remember that any date or time literal input needs to be enclosed with single qu
 
 type [ ( p ) ] 'value'
 
-The **p** that can be selected in the precision statement is an integer, indicating the number of fractional digits in the **seconds** column. :ref:`Table 2 <en-us_topic_0000001099150906__tc495b297873743f4b54c2a2dc171b42a>` shows some possible inputs for the **date** type.
+The **p** that can be selected in the precision statement is an integer, indicating the number of fractional digits in the **seconds** column. :ref:`Table 2 <en-us_topic_0000001233510097__tc495b297873743f4b54c2a2dc171b42a>` shows some possible inputs for the **date** type.
 
-.. _en-us_topic_0000001099150906__tc495b297873743f4b54c2a2dc171b42a:
+.. _en-us_topic_0000001233510097__tc495b297873743f4b54c2a2dc171b42a:
 
 .. table:: **Table 2** Date input
 
@@ -230,53 +230,40 @@ The time-of-day types are **TIME [(p)] [WITHOUT TIME ZONE]** and **TIME [(p)] [W
 
 If a time zone is specified in the input for **TIME WITHOUT TIME ZONE**, it is silently ignored.
 
-For details about the time input types, see :ref:`Table 3 <en-us_topic_0000001099150906__t24429c065d474feba61c1b0e490f9dac>`. For details about time zone input types, see :ref:`Table 4 <en-us_topic_0000001099150906__t63d0318275dc486081a76f7677ab0a5f>`.
+For details about the time input types, see :ref:`Table 3 <en-us_topic_0000001233510097__t24429c065d474feba61c1b0e490f9dac>`. For details about time zone input types, see :ref:`Table 4 <en-us_topic_0000001233510097__t63d0318275dc486081a76f7677ab0a5f>`.
 
-.. _en-us_topic_0000001099150906__t24429c065d474feba61c1b0e490f9dac:
+.. _en-us_topic_0000001233510097__t24429c065d474feba61c1b0e490f9dac:
 
 .. table:: **Table 3** Time input
 
-   +--------------------------------------+-----------------------------------------+
-   | Example                              | Description                             |
-   +======================================+=========================================+
-   | 05:06.8                              | ISO 8601                                |
-   +--------------------------------------+-----------------------------------------+
-   | 4:05:06                              | ISO 8601                                |
-   +--------------------------------------+-----------------------------------------+
-   | 4:05                                 | ISO 8601                                |
-   +--------------------------------------+-----------------------------------------+
-   | 40506                                | ISO 8601                                |
-   +--------------------------------------+-----------------------------------------+
-   | 4:05 AM                              | Same as 04:05. AM does not affect value |
-   +--------------------------------------+-----------------------------------------+
-   | 4:05 PM                              | Same as 16:05. Input hour must be <= 12 |
-   +--------------------------------------+-----------------------------------------+
-   | 04:05:06.789-8                       | ISO 8601                                |
-   +--------------------------------------+-----------------------------------------+
-   | 04:05:06-08:00                       | ISO 8601                                |
-   +--------------------------------------+-----------------------------------------+
-   | 04:05-08:00                          | ISO 8601                                |
-   +--------------------------------------+-----------------------------------------+
-   | 040506-08                            | ISO 8601                                |
-   +--------------------------------------+-----------------------------------------+
-   | 04:05:06 PST                         | Time zone specified by abbreviation     |
-   +--------------------------------------+-----------------------------------------+
-   | 2003-04-12 04:05:06 America/New_York | Time zone specified by full name        |
-   +--------------------------------------+-----------------------------------------+
+   ============== =======================================
+   Example        Description
+   ============== =======================================
+   05:06.8        ISO 8601
+   4:05:06        ISO 8601
+   4:05           ISO 8601
+   40506          ISO 8601
+   4:05 AM        Same as 04:05. AM does not affect value
+   4:05 PM        Same as 16:05. Input hour must be <= 12
+   04:05:06.789-8 ISO 8601
+   04:05:06-08:00 ISO 8601
+   04:05-08:00    ISO 8601
+   040506-08      ISO 8601
+   04:05:06 PST   Time zone specified by abbreviation
+   ============== =======================================
 
-.. _en-us_topic_0000001099150906__t63d0318275dc486081a76f7677ab0a5f:
+.. _en-us_topic_0000001233510097__t63d0318275dc486081a76f7677ab0a5f:
 
 .. table:: **Table 4** Time zone input
 
-   ================ ========================================
-   Example          Description
-   ================ ========================================
-   PST              Abbreviation (for Pacific Standard Time)
-   America/New_York Full time zone name
-   -8:00            ISO-8601 offset for PST
-   -800             ISO-8601 offset for PST
-   -8               ISO-8601 offset for PST
-   ================ ========================================
+   ======= ========================================
+   Example Description
+   ======= ========================================
+   PST     Abbreviation (for Pacific Standard Time)
+   -8:00   ISO-8601 offset for PST
+   -800    ISO-8601 offset for PST
+   -8      ISO-8601 offset for PST
+   ======= ========================================
 
 For example:
 
@@ -303,9 +290,9 @@ For example:
 Special Values
 --------------
 
-The special values supported by GaussDB(DWS) are converted to common date/time values when being read. For details, see :ref:`Table 5 <en-us_topic_0000001099150906__t5e86ad23ea5649969935ea26bf746e0f>`.
+The special values supported by GaussDB(DWS) are converted to common date/time values when being read. For details, see :ref:`Table 5 <en-us_topic_0000001233510097__t5e86ad23ea5649969935ea26bf746e0f>`.
 
-.. _en-us_topic_0000001099150906__t5e86ad23ea5649969935ea26bf746e0f:
+.. _en-us_topic_0000001233510097__t5e86ad23ea5649969935ea26bf746e0f:
 
 .. table:: **Table 5** Special Values
 
@@ -334,9 +321,9 @@ Interval Input
 
 The input of **reltime** can be any valid interval in TEXT format. It can be a number (negative numbers and decimals are also allowed) or a specific time, which must be in SQL standard format, ISO-8601 format, or POSTGRES format. In addition, the text input needs to be enclosed with single quotation marks ('').
 
-For details, see :ref:`Table 6 <en-us_topic_0000001099150906__table1747116463276>`.
+For details, see :ref:`Table 6 <en-us_topic_0000001233510097__table1747116463276>`.
 
-.. _en-us_topic_0000001099150906__table1747116463276:
+.. _en-us_topic_0000001233510097__table1747116463276:
 
 .. table:: **Table 6** Interval input
 

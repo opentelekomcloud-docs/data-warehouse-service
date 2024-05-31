@@ -28,7 +28,7 @@ Syntax
                   [ ENCODING [=] encoding ] |
                   [ LC_COLLATE [=] lc_collate ] |
                   [ LC_CTYPE [=] lc_ctype ] |
-                  [ DBCOMPATIBILITY [=] compatibilty_type ] |
+                  [ DBCOMPATIBILITY [=] compatibility_type ] |
 
                   [ CONNECTION LIMIT [=] connlimit ]}[...] ];
 
@@ -67,24 +67,23 @@ Parameter Description
 
    .. important::
 
-      -  To view the character encoding of the current database, run the **show server_encoding;** command .
+      -  To view the character encoding of the current database, run the **show server_encoding;** command.
       -  To make your database compatible with most characters, you are advised to use the UTF8 encoding when creating a database.
-
-      -  The character encoding set of the new database must be compatible with the local settings (**LC_COLLATE** and **LC_CTYPE**).
-      -  When the specified character encoding set is **GBK**, some uncommon Chinese characters cannot be used as object names. This is because when the encoding range of the second byte of GBK is between 0x40 and 0x7E, the byte encoding overlaps with the ASCII character @A-Z[\\]^_`a-z{|}. ``@[\]^_?{|}`` are operators in the database. If it is directly used as an object name, a syntax error will be reported. For example, the GBK hexadecimal code of an uncommon character is **0x8240**, and the second byte is **0x40**, which is the same as the ASCII character @. Therefore, the character cannot be used as an object name. If you really want to use it, you can avoid this problem by adding double quotation marks when creating and accessing objects.
+      -  The character set encoding of the new database must be compatible with the local settings (**LC_COLLATE** and **LC_CTYPE**).
+      -  When the specified character encoding set is **GBK**, some uncommon Chinese characters cannot be directly used as object names. This is because when the encoding range of the second byte of GBK is between 0x40 and 0x7E, the byte encoding overlaps with the ASCII character @A-Z[\\]^_`a-z{|}. ``@[\]^_?{|}`` is an operator in the database. If it is directly used as an object name, a syntax error will be reported. For example, the GBK hexadecimal code is **0x8240**, and the second byte is **0x40**, which is the same as the ASCII character @. Therefore, the character cannot be used as an object name. If you really want to use it, you can avoid this problem by adding double quotation marks when creating and accessing objects.
       -  In the current version, the GBK character set supports the character **€**, which is represented as **0x80** in hexadecimal code. You can use the **€** character in the GBK library, and the GBK character set of GaussDB(DWS) is compatible with the CP936 character set. Note that the GBK character set is approximately equal to the CP936 character set, but the GBK character set does not contain the definition of the character **€**.
 
 -  **LC_COLLATE [ = ] lc_collate**
 
    Specifies the collation order to use in the new database. For example, this parameter can be set using lc_collate = 'zh_CN.gbk'.
 
-   The use of this parameter affects the sort order applied to strings, for example, in queries with **ORDER BY**, as well as the order used in indexes on text columns. The default is to use the collation order of the template database.
+   The use of this parameter affects the sort order applied to strings, for example, in queries with **ORDER BY**, as well as the order used in indexes on text columns. The default is to use the collation order of the template database. To specify a character set when creating a database, use **template0** to create the database. To specify encoding, set **template** to **template0**.
 
    Value range: A valid order type.
 
 -  **LC_CTYPE [ = ] lc_ctype**
 
-   Specifies the character classification to use in the new database. For example, this parameter can be set using lc_ctype = 'zh_CN.gbk'. The use of this parameter affects the categorization of characters, for example, lower, upper and digit. The default is to use the character classification of the template database.
+   Specifies the character classification to use in the new database. For example, this parameter can be set using lc_ctype = 'zh_CN.gbk'. The use of this parameter affects the categorization of characters, for example, lower, upper and digit. The default is to use the character classification of the template database. To specify a character category when creating a database, use **template0** to create the database. To specify encoding, set **template** to **template0**.
 
    Value range: A valid character type.
 
@@ -93,16 +92,6 @@ Parameter Description
    Specifies the compatible database type.
 
    Value range: **ORA**, **TD**, and **MySQL**, representing the Oracle-, Teradata-, and MySQL-compatible modes, respectively. If this parameter is not specified, the default value **ORA** is used.
-
--  **TABLESPACE [ = ] tablespace_name**
-
-   Specifies the name of the tablespace that will be associated with the new database.
-
-   Value range: An existing tablespace name.
-
-   .. important::
-
-      The specified tablespace cannot be the OBS tablespace.
 
 -  **CONNECTION LIMIT [ = ] connlimit**
 
@@ -113,7 +102,7 @@ Parameter Description
    .. important::
 
       -  This limit does not apply to sysadmin.
-      -  To ensure the proper running of a cluster, the minimum value of **CONNECTION LIMIT** is the number of CNs in the cluster, because when a cluster runs ANALYZE on a CN, other CNs will connect to the running CN for metadata synchronization. For example, if there are three CNs in the cluster, set **CONNECTION LIMIT** to **3** or a greater value.
+      -  To ensure the proper running of a cluster, the minimum value of **CONNECTION LIMIT** is the number of CNs in the cluster, because when a cluster runs ANALYZE on a CN, other CNs will connect with the running CN for metadata synchronization. For example, if there are three CNs in the cluster, set **CONNECTION LIMIT** to **3** or a greater value.
 
 The following are limitations on character encoding:
 
@@ -142,7 +131,7 @@ Create database **music3** using template **template0** and specify **jim** as i
 
    CREATE DATABASE music3 OWNER jim TEMPLATE template0;
 
-Create a compatible Oracle database **ora_compatible_db**.
+Create a database compatible with Oracle.
 
 ::
 

@@ -78,28 +78,26 @@ Parameter Description
 
 -  **io_limits**
 
-   Specifies the upper limit of IOPS in a resource pool.
-
-   The IOPS is counted by ones for column storage and by 10 thousands for row storage.
+   This parameter has been discarded in 8.1.2 and is reserved for compatibility with earlier versions.
 
 -  **io_priority**
 
-   Specifies the I/O priority for jobs that consume many I/O resources. It takes effect when the I/O usage reaches 90%.
-
-   There are three priorities: **Low**, **Medium**, and **High**. If you do not want to control I/O resources, set this parameter to **None**, which is the default value.
-
-.. note::
-
-   The settings of **io_limits** and **io_priority** are valid only for complex jobs, such as batch import (using **INSERT INTO SELECT**, **COPY FROM**, or **CREATE TABLE AS**), complex queries involving over 500 MB data on each DN, and **VACUUM FULL**.
+   This parameter has been discarded in 8.1.2 and is reserved for compatibility with earlier versions.
 
 Examples
 --------
 
-Specify "High" Timeshare Workload under "DefaultClass" as the Cgroup for a resource pool.
+Create an example resource pool **pool_test**, whose Cgroup is **Medium Timeshare Workload** under **DefaultClass**.
 
 ::
 
-   ALTER RESOURCE POOL pool1 WITH (CONTROL_GROUP="High");
+   CREATE RESOURCE POOL pool_test;
+
+Specify **High Timeshare Workload** under **DefaultClass** as the Cgroup for the resource pool **pool_test**.
+
+::
+
+   ALTER RESOURCE POOL pool_test WITH (CONTROL_GROUP="High");
 
 Helpful Links
 -------------

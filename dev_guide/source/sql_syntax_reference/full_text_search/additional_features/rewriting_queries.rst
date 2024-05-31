@@ -5,7 +5,7 @@
 Rewriting Queries
 =================
 
-The **ts_rewrite** family of functions searches a given **tsquery** for occurrences of a target subquery, and replace each occurrence with a substitute subquery. In essence this operation is a **tsquery** specific version of substring replacement. A target and substitute combination can be thought of as a query rewrite rule. A collection of such rewrite rules can be a powerful search aid. For example, you can expand the search using synonyms (that is, new york, big apple, nyc, gotham) or narrow the search to direct the user to some hot topic.
+The **ts_rewrite** function searches a given **tsquery** for occurrences of a target subquery, and replace each occurrence with a substitute subquery. In essence this operation is a **tsquery** specific version of substring replacement. A target and substitute combination can be thought of as a query rewrite rule. A collection of such rewrite rules can be a powerful search aid. For example, you can expand the search using synonyms (that is, **new york**, **big apple**, **nyc**, **gotham**) or narrow the search to direct the user to some hot topic.
 
 -  ts_rewrite (query tsquery, target tsquery, substitute tsquery) returns tsquery
 
@@ -17,6 +17,7 @@ The **ts_rewrite** family of functions searches a given **tsquery** for occurren
        ts_rewrite
       ------------
        'b' & 'c'
+      (1 row)
 
 -  ts_rewrite (query tsquery, select text) returns tsquery
 
@@ -35,10 +36,10 @@ The **ts_rewrite** family of functions searches a given **tsquery** for occurren
       INSERT INTO tsearch.aliases VALUES(1, to_tsquery('supernovae'), to_tsquery('supernovae|sn'));
 
       SELECT ts_rewrite(to_tsquery('supernovae & crab'), 'SELECT t, s FROM tsearch.aliases');
-
                  ts_rewrite
       ---------------------------------
        'crab' & ( 'supernova' | 'sn' )
+      (1 row)
 
    We can change the rewriting rules just by updating the table:
 
@@ -49,17 +50,16 @@ The **ts_rewrite** family of functions searches a given **tsquery** for occurren
       WHERE t = to_tsquery('supernovae');
 
       SELECT ts_rewrite(to_tsquery('supernovae & crab'), 'SELECT t, s FROM tsearch.aliases');
-
                        ts_rewrite
       ---------------------------------------------
        'crab' & ( 'supernova' | 'sn' & !'nebula' )
+      (1 row)
 
    Rewriting can be slow when there are many rewriting rules, since it checks every rule for a possible match. To filter out obvious non-candidate rules we can use the containment operators for the **tsquery** type. In the example below, we select only those rules which might match the original query:
 
    ::
 
       SELECT ts_rewrite('a & b'::tsquery, 'SELECT t,s FROM tsearch.aliases WHERE ''a & b''::tsquery @> t');
-
        ts_rewrite
       ------------
        'b' & 'a'

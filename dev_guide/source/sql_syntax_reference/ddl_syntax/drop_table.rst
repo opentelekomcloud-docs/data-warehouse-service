@@ -13,7 +13,7 @@ Function
 Precautions
 -----------
 
--  Only the table owner, schema owner, and system administrator have the permission to delete a table. To delete all the rows in a table but retain the table definition, use **TRUNCATE** or **DELETE**.
+-  Only the table owner, schema owner, or a user granted with the DROP permission can run **DROP TABLE** on a table. A system administrator has this permission by default. To delete all the rows in a table but retain the table definition, use **TRUNCATE** or **DELETE**.
 -  **DROP TABLE** forcibly deletes a specified table. After a table is deleted, any indexes that exist for the table will be deleted; any functions or stored procedures that use this table cannot be run. Deleting a partitioned table also deletes all partitions in the table.
 
 Syntax
@@ -47,13 +47,13 @@ Parameter Description
 Example
 -------
 
-Delete the **warehouse_t1** table.
+Delete the **warehouse_t1** table:
 
 ::
 
    DROP TABLE tpcds.warehouse_t1;
 
-Links
------
+Helpful Links
+-------------
 
-:ref:`ALTER TABLE <dws_06_0142>`, :ref:`CREATE TABLE <dws_06_0177>`
+:ref:`ALTER TABLE <dws_06_0142>`, :ref:`12.101-RENAME TABLE <dws_06_0276>`, and :ref:`CREATE TABLE <dws_06_0177>`

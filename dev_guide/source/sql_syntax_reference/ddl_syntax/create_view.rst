@@ -13,7 +13,9 @@ Function
 Precautions
 -----------
 
-None
+-  After the base table on which a view depends is renamed, you need to manually rebuild the view.
+-  You can use **WITH (security_barriers)** to create a relatively secure view. This prevents attackers from printing hidden base table data by using the **RAISE** statement of low-cost functions.
+-  When the **view_independent** GUC parameter is enabled, columns can be deleted from common views. Note that if a column-level constraint exists, the corresponding column cannot be deleted.
 
 Syntax
 ------
@@ -24,13 +26,8 @@ Syntax
        [ WITH ( {view_option_name [= view_option_value]} [, ... ] ) ]
        AS query;
 
-.. note::
-
-   -  You can use **WITH (security_barriers)** to create a relatively secure view. This prevents attackers from printing hidden base table data by using the **RAISE** statement of low-cost functions.
-   -  When the **view_independent** GUC parameter is enabled, columns can be deleted from common views. Note that if a column-level constraint exists, the corresponding column cannot be deleted.
-
-Parameter Description
----------------------
+Parameters
+----------
 
 -  **OR REPLACE**
 
@@ -44,13 +41,13 @@ Parameter Description
 
    Specifies the name of a view to be created. It is optionally schema-qualified.
 
-   Value range: A string. It must comply with the naming convention.
+   Value range: a string. It must comply with the naming convention.
 
 -  **column_name**
 
    Specifies an optional list of names to be used for columns of the view. If not given, the column names are deduced from the query.
 
-   Value range: A string. It must comply with the naming convention.
+   Value range: a string. It must comply with the naming convention.
 
 -  **view_option_name [= view_option_value]**
 
@@ -66,7 +63,7 @@ Parameter Description
 
    .. important::
 
-      CTE names cannot be duplicate when the view decoupling function is enabled. The following shows an example.
+      Duplicate CTE names are not supported when the view decoupling function is enabled. The following shows an example:
 
       ::
 
@@ -77,7 +74,7 @@ Parameter Description
 Examples
 --------
 
-Create a view consisting of columns whose **spcname** is **pg_default**.
+Create a view consisting of columns whose **spcname** is **pg_default**:
 
 ::
 
@@ -91,7 +88,7 @@ Run the following command to redefine the existing view **myView** and create a 
    CREATE OR REPLACE VIEW myView AS
        SELECT * FROM pg_tablespace WHERE spcname = 'pg_global';
 
-Create a view consisting of rows with **c_customer_sk** smaller than 150.
+Create a view consisting of rows with **c_customer_sk** smaller than 150:
 
 ::
 
@@ -102,14 +99,16 @@ Create a view consisting of rows with **c_customer_sk** smaller than 150.
 Updatable Views
 ---------------
 
-After the **enable_view_update** parameter is enabled, simple views that meet all the following conditions can be updated using the INSERT, UPDATE, and DELETE statements:
+After the **enable_view_update** parameter is enabled, the **INSERT**, **UPDATE**, **DELETE**, and **MERGE INTO** statements can be used to update simple views. Only 8.1.2 or later supports updates using the **MERGE INTO** statement.
 
--  The FROM clause in the view definition contains only one common table, which cannot be a system table, foreign table, DFS table, delta table, TOAST table, or error table.
+Views that meet all the following conditions can be updated:
+
+-  The FROM clause in the view definition contains only one common table, which cannot be a system table, foreign table, delta table, TOAST table, or error table.
 -  The view contains updatable columns, which are simple references to the updatable columns of the base table.
 -  The view definition does not contain the WITH, DISTINCT, GROUP BY, ORDER BY, FOR UPDATE, FOR SHARE, HAVING, TABLESAMPLE, LIMIT or OFFSET clause.
 -  The view definition does not contain the UNION, INTERSECT, or EXCEPT operation.
 -  The selection list of the view definition does not contain aggregate functions, window functions, or functions that return collections.
--  The view does not contain the trigger whose trigger occasion is INSTEAD OF.
+-  Ensure that there is no trigger whose trigger occasion is **INSTEAD OF** in the view for **INSERT**, **UPDATE**, and **DELETE** statements. For the **MERGE INTO** statement, neither the view nor the underlying table can have triggers.
 -  The view definition does not contain sublinks.
 -  The view definition does not contain functions whose attribute is **VOLATILE**. The values of such functions can be changed during a table scan.
 -  The view definition does not set an alias for the column where the distribution key of the table resides, or name a common column as the distribution key column.
@@ -120,4 +119,4 @@ If the definition of the updatable view contains a WHERE condition, the conditio
 Helpful Links
 -------------
 
-:ref:`ALTER VIEW <dws_06_0150>` and :ref:`DROP VIEW <dws_06_0215>`
+:ref:`ALTER VIEW <dws_06_0150>`, :ref:`DROP VIEW <dws_06_0215>`

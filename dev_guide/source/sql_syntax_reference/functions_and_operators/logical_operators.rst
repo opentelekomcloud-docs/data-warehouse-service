@@ -7,9 +7,9 @@ Logical Operators
 
 The usual logical operators include AND, OR, and NOT. SQL uses a three-valued logical system with true, false, and null, which represents "unknown". Their priorities are NOT > AND > OR.
 
-:ref:`Table 1 <en-us_topic_0000001145830677__tddad89fc8a334725a6d9b2dca1969309>` lists operation rules, where a and b represent logical expressions.
+:ref:`Table 1 <en-us_topic_0000001188588998__tbaf36a0380cb4d0cbf0bbc6bef0d21d1>` lists operation rules, where a and b represent logical expressions.
 
-.. _en-us_topic_0000001145830677__tddad89fc8a334725a6d9b2dca1969309:
+.. _en-us_topic_0000001188588998__tbaf36a0380cb4d0cbf0bbc6bef0d21d1:
 
 .. table:: **Table 1** Operation rules
 

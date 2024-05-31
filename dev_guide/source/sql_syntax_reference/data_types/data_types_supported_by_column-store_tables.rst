@@ -5,9 +5,9 @@
 Data Types Supported by Column-Store Tables
 ===========================================
 
-:ref:`Table 1 <en-us_topic_0000001098830756__table1899319136548>` lists the data types supported by column-store tables.
+:ref:`Table 1 <en-us_topic_0000001188588992__table1899319136548>` lists the data types supported by column-store tables.
 
-.. _en-us_topic_0000001098830756__table1899319136548:
+.. _en-us_topic_0000001188588992__table1899319136548:
 
 .. table:: **Table 1** Data types supported by column-store tables
 
@@ -45,8 +45,6 @@ Data Types Supported by Column-Store Tables
    |                 | text                             | Variable length | Yes       |
    +-----------------+----------------------------------+-----------------+-----------+
    |                 | nvarchar2                        | Variable length | Yes       |
-   +-----------------+----------------------------------+-----------------+-----------+
-   |                 | name                             | 64              | No        |
    +-----------------+----------------------------------+-----------------+-----------+
    | Date/time types | timestamp with time zone         | 8               | Yes       |
    +-----------------+----------------------------------+-----------------+-----------+

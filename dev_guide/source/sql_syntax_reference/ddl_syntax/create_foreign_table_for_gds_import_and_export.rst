@@ -18,6 +18,7 @@ Precautions
 -  The foreign table is owned by the user who runs the command.
 -  The distribution mode of a GDS foreign table does not need to be explicitly specified. The default is **ROUNDROBIN**.
 -  All constraints (including column and row constraints) are invalid to the GDS foreign table.
+-  GDS supports the following file formats: TEXT, CSV, and FIXED.
 
 Syntax
 ------
@@ -41,48 +42,50 @@ Parameter Overview
 
 -  Mandatory parameters
 
-   -  :ref:`table_name <en-us_topic_0000001098990722__l20903b2b22b741bb839421d382d07c32>`
-   -  :ref:`column_name <en-us_topic_0000001098990722__l06b8baaf06ba44589e22b8c4f701c016>`
-   -  :ref:`type_name <en-us_topic_0000001098990722__l6722985a800f446c8860743139d762e4>`
-   -  :ref:`SERVER gsmpp_server <en-us_topic_0000001098990722__l56e9c7be738d42448d9ea638e32fe05e>`
-   -  :ref:`OPTIONS <en-us_topic_0000001098990722__l2631a88728a14f43857bb4c04b2d9104>`
+   -  :ref:`table_name <en-us_topic_0000001188589008__l20903b2b22b741bb839421d382d07c32>`
+   -  :ref:`column_name <en-us_topic_0000001188589008__l06b8baaf06ba44589e22b8c4f701c016>`
+   -  :ref:`type_name <en-us_topic_0000001188589008__l6722985a800f446c8860743139d762e4>`
+   -  :ref:`SERVER gsmpp_server <en-us_topic_0000001188589008__l56e9c7be738d42448d9ea638e32fe05e>`
+   -  :ref:`OPTIONS <en-us_topic_0000001188589008__l2631a88728a14f43857bb4c04b2d9104>`
+
+      -  Data source location parameter for foreign tables: :ref:`location <en-us_topic_0000001188589008__l6a4cdf99a0364e289119f03b114b8b62>`
+      -  Data format parameters
+
+         -  :ref:`format <en-us_topic_0000001188589008__l251896c64542407a912f06640ef49f5a>`
+         -  :ref:`header <en-us_topic_0000001188589008__l4509784974094c3a8e2e196463bba140>` (only for CSV and FIXED source data files)
+         -  :ref:`fileheader <en-us_topic_0000001188589008__l233844e8314043318e05730e92485ab7>` (only for CSV and FIXED source data files)
+         -  :ref:`out_filename_prefix <en-us_topic_0000001188589008__li02461414114117>`
+         -  :ref:`delimiter <en-us_topic_0000001188589008__en-us_topic_0059778310_li99825131592>`
+         -  :ref:`quote <en-us_topic_0000001188589008__l97b17ee10c314710a461ba967e9d0b8c>` (only for CSV source data files)
+         -  :ref:`escape <en-us_topic_0000001188589008__en-us_topic_0059778310_li74427391592>` (only for CSV source data files)
+         -  :ref:`null <en-us_topic_0000001188589008__l23f5b49658fe4a77b126c30aee563507>`
+         -  :ref:`noescaping <en-us_topic_0000001188589008__ldb9cda16bf2849678b91826adb3b4c96>` (only for TEXT source data files)
+         -  :ref:`encoding <en-us_topic_0000001188589008__l88460d19d60945e99eccf5f6429762b7>`
+         -  :ref:`eol <en-us_topic_0000001188589008__en-us_topic_0059778310_li62201592>`
+         -  :ref:`conflict_delimiter <en-us_topic_0000001188589008__li718215784217>`
+         -  :ref:`file_type <en-us_topic_0000001188589008__li148341029172620>`
+         -  :ref:`auto_create_pipe <en-us_topic_0000001188589008__li4151040112612>`
+         -  :ref:`del_pipe <en-us_topic_0000001188589008__li20789241193611>`
+
+      -  Error-tolerance parameters
+
+         -  :ref:`fill_missing_fields <en-us_topic_0000001188589008__l4217c10dcb944cc3a68346ad11014331>`
+         -  :ref:`ignore_extra_data <en-us_topic_0000001188589008__l6a63450436114055b9ea51a0174a1886>`
+         -  :ref:`reject_limit <en-us_topic_0000001188589008__lff1a3b7e86664932b1bb2f44bb740455>`
+         -  :ref:`compatible_illegal_chars <en-us_topic_0000001188589008__l1355aef8984145488d8b1e213302bf55>`
+
+      -  Performance parameter
+
+         -  :ref:`file_sequence <en-us_topic_0000001188589008__li1155623884317>`
 
 -  Optional parameters
 
-   -  Data source location parameter for foreign tables: :ref:`location <en-us_topic_0000001098990722__l6a4cdf99a0364e289119f03b114b8b62>`
-   -  Data format parameters
+   -  :ref:`WITH error_table_name <en-us_topic_0000001188589008__l38d1f5d8d31946d1ac878003337961a6>`
+   -  :ref:`LOG INTO error_table_name <en-us_topic_0000001188589008__l0197538463034921bffa55634fa035d2>`
+   -  :ref:`REMOTE LOG 'name' <en-us_topic_0000001188589008__leffe0ccd2877448f88dab7b30cea8b7d>`
+   -  :ref:`PER NODE REJECT LIMIT 'value' <en-us_topic_0000001188589008__l858bbb2e7da849a8a52f3e80dd08ff74>`
 
-      -  :ref:`format <en-us_topic_0000001098990722__l251896c64542407a912f06640ef49f5a>`
-      -  :ref:`header <en-us_topic_0000001098990722__l4509784974094c3a8e2e196463bba140>` (only for CSV and FIXED source data files)
-      -  :ref:`fileheader <en-us_topic_0000001098990722__l233844e8314043318e05730e92485ab7>` (only for CSV and FIXED source data files)
-      -  :ref:`out_filename_prefix <en-us_topic_0000001098990722__li02461414114117>`
-      -  :ref:`delimiter <en-us_topic_0000001098990722__en-us_topic_0059778310_li99825131592>`
-      -  :ref:`quote <en-us_topic_0000001098990722__l97b17ee10c314710a461ba967e9d0b8c>` (only for CSV source data files)
-      -  :ref:`escape <en-us_topic_0000001098990722__en-us_topic_0059778310_li74427391592>` (only for CSV source data files)
-      -  :ref:`null <en-us_topic_0000001098990722__l23f5b49658fe4a77b126c30aee563507>`
-      -  :ref:`noescaping <en-us_topic_0000001098990722__ldb9cda16bf2849678b91826adb3b4c96>` (only for TEXT source data files)
-      -  :ref:`encoding <en-us_topic_0000001098990722__l88460d19d60945e99eccf5f6429762b7>`
-      -  :ref:`eol <en-us_topic_0000001098990722__en-us_topic_0059778310_li62201592>`
-      -  :ref:`conflict_delimiter <en-us_topic_0000001098990722__li718215784217>`
-      -  :ref:`file_type <en-us_topic_0000001098990722__li148341029172620>`
-      -  :ref:`auto_create_pipe <en-us_topic_0000001098990722__li4151040112612>`
-
-   -  Error-tolerance parameters
-
-      -  :ref:`fill_missing_fields <en-us_topic_0000001098990722__l4217c10dcb944cc3a68346ad11014331>`
-      -  :ref:`ignore_extra_data <en-us_topic_0000001098990722__l6a63450436114055b9ea51a0174a1886>`
-      -  :ref:`reject_limit <en-us_topic_0000001098990722__lff1a3b7e86664932b1bb2f44bb740455>`
-      -  :ref:`compatible_illegal_chars <en-us_topic_0000001098990722__l1355aef8984145488d8b1e213302bf55>`
-      -  :ref:`WITH error_table_name <en-us_topic_0000001098990722__l38d1f5d8d31946d1ac878003337961a6>`
-      -  :ref:`LOG INTO error_table_name <en-us_topic_0000001098990722__l0197538463034921bffa55634fa035d2>`
-      -  :ref:`REMOTE LOG 'name' <en-us_topic_0000001098990722__leffe0ccd2877448f88dab7b30cea8b7d>`
-      -  :ref:`PER NODE REJECT LIMIT 'value' <en-us_topic_0000001098990722__l858bbb2e7da849a8a52f3e80dd08ff74>`
-
-   -  Performance parameter
-
-      -  :ref:`file_sequence <en-us_topic_0000001098990722__li155121304200>`
-
-.. _en-us_topic_0000001098990722__s949bbfb7d67e4891ac3744b6ecf3bb2a:
+.. _en-us_topic_0000001188589008__s949bbfb7d67e4891ac3744b6ecf3bb2a:
 
 Parameter Description
 ---------------------
@@ -91,7 +94,7 @@ Parameter Description
 
    Does not throw an error if a table with the same name already exists. A notice is issued in this case.
 
--  .. _en-us_topic_0000001098990722__l20903b2b22b741bb839421d382d07c32:
+-  .. _en-us_topic_0000001188589008__l20903b2b22b741bb839421d382d07c32:
 
    **table_name**
 
@@ -99,7 +102,7 @@ Parameter Description
 
    Value range: a string. It must comply with the naming convention.
 
--  .. _en-us_topic_0000001098990722__l06b8baaf06ba44589e22b8c4f701c016:
+-  .. _en-us_topic_0000001188589008__l06b8baaf06ba44589e22b8c4f701c016:
 
    **column_name**
 
@@ -107,7 +110,7 @@ Parameter Description
 
    Value range: a string. It must comply with the naming convention.
 
--  .. _en-us_topic_0000001098990722__l6722985a800f446c8860743139d762e4:
+-  .. _en-us_topic_0000001188589008__l6722985a800f446c8860743139d762e4:
 
    **type_name**
 
@@ -123,21 +126,21 @@ Parameter Description
 
    Value range: **offset** must be greater than 0 bytes, and its unit is byte.
 
-   The length of each record must be less than 1 GB. By default, columns not in the file are replaced with null.
+   The length of each record must be less than or equal to 1 GB. By default, columns not in the file are replaced with null.
 
--  .. _en-us_topic_0000001098990722__l56e9c7be738d42448d9ea638e32fe05e:
+-  .. _en-us_topic_0000001188589008__l56e9c7be738d42448d9ea638e32fe05e:
 
    **SERVER gsmpp_server**
 
    Specifies the server name of the foreign table. For the GDS foreign table, its server is created by initial database, which is **gsmpp_server**.
 
--  .. _en-us_topic_0000001098990722__l2631a88728a14f43857bb4c04b2d9104:
+-  .. _en-us_topic_0000001188589008__l2631a88728a14f43857bb4c04b2d9104:
 
    **OPTIONS ( { option_name ' value ' } [, ...] )**
 
    Specifies all types of parameters of foreign table data.
 
-   -  .. _en-us_topic_0000001098990722__l6a4cdf99a0364e289119f03b114b8b62:
+   -  .. _en-us_topic_0000001188589008__l6a4cdf99a0364e289119f03b114b8b62:
 
       location
 
@@ -157,29 +160,35 @@ Parameter Description
 
          -  If the URL begins with **gsfss://**, data is imported and exported in encryption mode, and DOP cannot exceed 10.
 
-         -  During GDS export, the **2019/09** subdirectory in THE **gsfs://127.0.0.1:7789/2019/09/** directory specified by the **location** table is automatically created when the export task is executed.
+         -  During GDS export, the **2019/09** subdirectory in the **gsfs://127.0.0.1:7789/2019/09/** directory specified by the **location** table is automatically created.
 
          -  If **file_type** is set to **pipe**, GDS determines whether the target file to be imported or exported is a pipe file or a directory based on whether the last character in the URL is a slash (/). Example:
 
             -  In **gsfs://192.168.0.90:5000/a/b**, GDS identifies **b** as a pipe file.
             -  In **gsfs://192.168.0.90:5000/a/b/**, GDS identifies **b** as a directory and creates a pipe file in the directory.
 
-   -  .. _en-us_topic_0000001098990722__l251896c64542407a912f06640ef49f5a:
+   -  .. _en-us_topic_0000001188589008__l251896c64542407a912f06640ef49f5a:
 
       format
 
       Specifies the format of the data source file in a foreign table.
 
-      Value range: CSV, TEXT. The default value is TEXT.
+      Value range: **CSV**, **TEXT**. The default value is **TEXT**.
 
       -  In CSV files, escape sequences are processed as common strings. Therefore, linefeeds are processed as data.
       -  In TEXT files, escape sequences are processed as they are. Therefore, linefeeds are not processed as data.
+      -  The FIXED file can process newline characters in data columns efficiently, but cannot process special characters very well.
 
       .. note::
 
          -  An escape sequence is a string starting with a backslash (\\), including **\\b** (backspace), **\\f** (formfeed page break), **\\n** (new line), **\\r** (carriage return), **\\t** (horizontal tab), \\v (vertical tab), **\\**\ *number* (octal number), and **\\x**\ *number* (hexadecimal number). In TEXT files, strings are processed as they are. In files of other formats, strings are processed as data.
+         -  **FIXED** is defined as follows: (**POSITION** must be specified for each column when **FIXED** is used.)
 
-   -  .. _en-us_topic_0000001098990722__l4509784974094c3a8e2e196463bba140:
+            #. The column length of each record is the same.
+            #. Spaces are used for column padding. Left padding is used for the numeric type and right padding is used for the char type.
+            #. No delimiters are used between columns.
+
+   -  .. _en-us_topic_0000001188589008__l4509784974094c3a8e2e196463bba140:
 
       header
 
@@ -187,11 +196,11 @@ Parameter Description
 
       When data is imported, if **header** is **on**, the first row of the data file will be identified as title row and ignored. If header is **off**, the first row is identified as data.
 
-      When data is exported, if **header** is **on**, :ref:`fileheader <en-us_topic_0000001098990722__l233844e8314043318e05730e92485ab7>` must be specified. **fileheader** is used to specify the export header file format. If header is **off**, the exported file does not include a title row.
+      When data is exported, if **header** is **on**, :ref:`fileheader <en-us_topic_0000001188589008__l233844e8314043318e05730e92485ab7>` must be specified. **fileheader** is used to specify the export header file format. If header is **off**, the exported file does not include a title row.
 
       Value range: **true**, **on**, **false**, and **off**. The default value is **false** or **off**.
 
-   -  .. _en-us_topic_0000001098990722__l233844e8314043318e05730e92485ab7:
+   -  .. _en-us_topic_0000001188589008__l233844e8314043318e05730e92485ab7:
 
       fileheader
 
@@ -208,7 +217,7 @@ Parameter Description
          -  The definition file can contain only one row of title information, and end with a newline character. Excess rows will be discarded. (Title information cannot contain newline character).
          -  The length of the definition file including the newline character cannot exceed 1 MB.
 
-   -  .. _en-us_topic_0000001098990722__li02461414114117:
+   -  .. _en-us_topic_0000001188589008__li02461414114117:
 
       out_filename_prefix
 
@@ -234,7 +243,7 @@ Parameter Description
 
          -  To concurrently perform export jobs, do not use the same file name prefix for them. Otherwise, the exported files may overwrite each other or be lost in the OS or file system.
 
-   -  .. _en-us_topic_0000001098990722__en-us_topic_0059778310_li99825131592:
+   -  .. _en-us_topic_0000001188589008__en-us_topic_0059778310_li99825131592:
 
       delimiter
 
@@ -253,7 +262,7 @@ Parameter Description
 
       The value of **delimiter** can be a multi-character delimiter whose length is less than or equal to 10 bytes.
 
-   -  .. _en-us_topic_0000001098990722__l97b17ee10c314710a461ba967e9d0b8c:
+   -  .. _en-us_topic_0000001188589008__l97b17ee10c314710a461ba967e9d0b8c:
 
       quote
 
@@ -265,7 +274,7 @@ Parameter Description
          -  The **quote** parameter must be a single-byte character.
          -  Invisible characters are recommended as **quote** values, such as 0x07, 0x08, and 0x1b.
 
-   -  .. _en-us_topic_0000001098990722__en-us_topic_0059778310_li74427391592:
+   -  .. _en-us_topic_0000001188589008__en-us_topic_0059778310_li74427391592:
 
       escape
 
@@ -273,7 +282,7 @@ Parameter Description
 
       Default value: the same as the value of QUOTE
 
-   -  .. _en-us_topic_0000001098990722__l23f5b49658fe4a77b126c30aee563507:
+   -  .. _en-us_topic_0000001188589008__l23f5b49658fe4a77b126c30aee563507:
 
       null
 
@@ -289,7 +298,7 @@ Parameter Description
       -  The default value is **\\n** for the TEXT format.
       -  The default value for the CSV format is an empty string without quotation marks.
 
-   -  .. _en-us_topic_0000001098990722__ldb9cda16bf2849678b91826adb3b4c96:
+   -  .. _en-us_topic_0000001188589008__ldb9cda16bf2849678b91826adb3b4c96:
 
       noescaping
 
@@ -301,7 +310,7 @@ Parameter Description
 
       Value range: **true**, **on**, **false**, and **off**. The default value is **false** or **off**.
 
-   -  .. _en-us_topic_0000001098990722__l88460d19d60945e99eccf5f6429762b7:
+   -  .. _en-us_topic_0000001188589008__l88460d19d60945e99eccf5f6429762b7:
 
       encoding
 
@@ -315,7 +324,7 @@ Parameter Description
 
          Currently, GDS cannot parse or write in a file using multiple encoding formats during foreign table import or export.
 
-   -  .. _en-us_topic_0000001098990722__l4217c10dcb944cc3a68346ad11014331:
+   -  .. _en-us_topic_0000001188589008__l4217c10dcb944cc3a68346ad11014331:
 
       fill_missing_fields
 
@@ -331,7 +340,7 @@ Parameter Description
 
             missing data for column "tt"
 
-   -  .. _en-us_topic_0000001098990722__l6a63450436114055b9ea51a0174a1886:
+   -  .. _en-us_topic_0000001188589008__l6a63450436114055b9ea51a0174a1886:
 
       ignore_extra_data
 
@@ -351,7 +360,7 @@ Parameter Description
 
          If the newline character at the end of the row is lost, setting the parameter to **true** will ignore data in the next row.
 
-   -  .. _en-us_topic_0000001098990722__lff1a3b7e86664932b1bb2f44bb740455:
+   -  .. _en-us_topic_0000001188589008__lff1a3b7e86664932b1bb2f44bb740455:
 
       reject_limit
 
@@ -365,7 +374,7 @@ Parameter Description
 
       Value range: a positive integer or **unlimited**
 
-      The default value is **0**, indicating that error information is returned immediately.
+      If this parameter is not specified, an error message is returned immediately.
 
       .. note::
 
@@ -379,7 +388,7 @@ Parameter Description
 
       -  **Normal** (default): supports all file types (CSV, TEXT, FIXED). Enabling Gauss data service to help data import.
 
-   -  .. _en-us_topic_0000001098990722__en-us_topic_0059778310_li62201592:
+   -  .. _en-us_topic_0000001188589008__en-us_topic_0059778310_li62201592:
 
       eol
 
@@ -391,13 +400,13 @@ Parameter Description
 
          -  The **eol** parameter supports only the TEXT format for data import and export and does not support the CSV or FIXED format for data import. For forward compatibility, the **eol** parameter can be set to **0x0D** or **0x0D0A** for data export in the CSV and FIXED formats.
          -  The value of the **eol** parameter cannot be the same as that of **DELIMITER** or **NULL**.
-         -  The **eol** parameter value cannot contain lowercase letters, digits, or dot (.).
+         -  The value of the **eol** parameter cannot contain digits, letters, or periods (.).
 
-   -  .. _en-us_topic_0000001098990722__li718215784217:
+   -  .. _en-us_topic_0000001188589008__li718215784217:
 
       conflict_delimiter
 
-      This parameter is generally used with the :ref:`compatible_illegal_chars <en-us_topic_0000001098990722__l1355aef8984145488d8b1e213302bf55>` parameter. If a data file contains a truncated Chinese character, the truncated character and a delimiter will be encoded into another Chinese character due to inconsistent encoding between the foreign table and the database. As a result, the delimiter is masked and an error will be reported, indicating that there are missing fields.
+      This parameter is generally used with the :ref:`compatible_illegal_chars <en-us_topic_0000001188589008__l1355aef8984145488d8b1e213302bf55>` parameter. If a data file contains a truncated Chinese character, the truncated character and a delimiter will be encoded into another Chinese character due to inconsistent encoding between the foreign table and the database. As a result, the delimiter is masked and an error will be reported, indicating that there are missing fields.
 
       This parameter is used to avoid encoding a truncated character and a delimiter into another character.
 
@@ -410,7 +419,7 @@ Parameter Description
 
          This parameter is disabled by default. It is recommended that you disable this parameter, because encoding a truncated character and a delimiter into another character is rarely required. If the parameter is enabled, the scenario may be incorrectly identified and thereby causing incorrect information imported to the table.
 
-   -  .. _en-us_topic_0000001098990722__li148341029172620:
+   -  .. _en-us_topic_0000001188589008__li148341029172620:
 
       file_type
 
@@ -421,7 +430,62 @@ Parameter Description
       -  If this parameter is set to **normal**, the file to be imported or exported is a common file.
       -  If this parameter is set to **pipe**, the file to be imported or exported is a named pipe.
 
-   -  .. _en-us_topic_0000001098990722__li4151040112612:
+   -  .. _en-us_topic_0000001188589008__li1155623884317:
+
+      file_sequence
+
+      Concurrently imports data in parallel through GDS foreign tables, to improve single-file import performance. This parameter is only used for data import.
+
+      The parameter format is **file_sequence**'*total number of shards*\ ``-``\ *current shard*'. Example:
+
+      **file_sequence '3-1'** indicates that the imported file is logically split into three shards and the data currently imported by the foreign table is the data on the first shard.
+
+      **file_sequence '3-2'** indicates that the imported file is logically split into three shards and the data currently imported by the foreign table is the data on the second shard.
+
+      **file_sequence '3-3'** indicates that the imported file is logically split into three shards and the data currently imported by the foreign table is the data on the third shard.
+
+      This parameter has the following constraints:
+
+      -  A file can be split to a maximum of 8 shards.
+      -  The number of currently imported shard should be less than or equal to the total number of split shards.
+      -  Only CSV and TXT files can be imported.
+
+      .. note::
+
+         When data is imported in parallel in CSV format, some shards fail to be imported in the following scenario because the CSV rules conflict with the GDS splitting logic:
+
+         Scenario: A CSV file contains a newline character that is not escaped, the newline character is contained in the character specified by **quote**, and the data of this line is in the first row of the logical shard.
+
+         For example, if you import the **big.csv** file in parallel, the following information is displayed:
+
+         .. code-block::
+
+            --id, username, address
+            10001,"customer1 name","Rose District"
+            10002,"customer2 name","
+            23 Road Rose
+            District NewCity"
+            10003,"customer3 name","NewCity"
+
+         After the file is split into two shards, the content of the first shard is as follows:
+
+         .. code-block::
+
+            10001,"customer1 name","Rose District"
+            10002,"customer2 name","
+            23
+
+         The content of the second shard is as follows:
+
+         .. code-block::
+
+            Road Rose
+            District NewCity"
+            10003,"customer3 name","NewCity"
+
+         The newline character after the first line of the second shard is contained between double quotation marks. As a result, GDS cannot determine whether the newline character is a newline character in the field or a separator in the line. Therefore, two data records on the first shard are successfully imported, but the second shard fails to be imported.
+
+   -  .. _en-us_topic_0000001188589008__li4151040112612:
 
       auto_create_pipe
 
@@ -437,7 +501,22 @@ Parameter Description
          -  When setting **auto_create_pipe**, set **file_type** to **pipe**. Otherwise, the foreign table cannot be created.
          -  If **auto_create_pipe** is set to **false** and no pipe is specified during data import and export, the *database name*\ \_\ *schema name*\ \_\ *foreign table name*\ **.pipe** file will be opened. If a pipe has been specified, the specified pipe in the location will be opened. If the named pipe is not written by other programs or is not opened in write mode within the period specified by the **pipe-timeout** parameter, an error message is displayed indicating that the import or export task times out. If the file is not a pipe, an error is reported when the import or export task is executed.
          -  If **auto_create_pipe** is set to **true** and no pipe file is specified during data import and export, the *database name*\ \_\ *schema name*\ \_\ *foreign table name*\ **.pipe** file will be opened. If the file is a common file, an error is reported when the file is imported or exported. If the file is a pipe, the system automatically deletes the file and re-creates the named pipe.
-         -  You can use the :ref:`location <en-us_topic_0000001098990722__l6a4cdf99a0364e289119f03b114b8b62>` parameter to specify the pipe when exporting data, for example, **location'gsfs://127.0.0.1:7789/aa.pipe**. When **auto_create_pipe** is set to **true**, GDS automatically creates the **aa.pipe** file in the data directory.
+         -  You can use the :ref:`location <en-us_topic_0000001188589008__l6a4cdf99a0364e289119f03b114b8b62>` parameter to specify the pipe when exporting data, for example, **location'gsfs://127.0.0.1:7789/aa.pipe**. When **auto_create_pipe** is set to **true**, GDS automatically creates the **aa.pipe** file in the data directory.
+
+   -  .. _en-us_topic_0000001188589008__li20789241193611:
+
+      del_pipe
+
+      This parameter specifies whether to automatically delete the pipe file after the import or export task is complete.
+
+      Value options: **true** or **on**; **false** or **off**. The default value is **true** or **on**.
+
+      -  If this parameter is set to **true** or **on**, the GDS process will automatically delete a named pipe file.
+      -  If this parameter is set to **false** or **off**, the GDS process will not delete a named pipe file.
+
+      .. important::
+
+         When setting **del_pipe**, set **file_type** to **pipe**. Otherwise, the foreign table cannot be created.
 
    -  fix
 
@@ -485,7 +564,7 @@ Parameter Description
 
       Value range: any valid SMALLDATETIME value. For details, see :ref:`Date and Time Processing Functions and Operators <dws_06_0035>`.
 
-   -  .. _en-us_topic_0000001098990722__l1355aef8984145488d8b1e213302bf55:
+   -  .. _en-us_topic_0000001188589008__l1355aef8984145488d8b1e213302bf55:
 
       compatible_illegal_chars
 
@@ -512,9 +591,9 @@ Parameter Description
 
 -  **WRITE ONLY**
 
-   Specifies whether a foreign table is write-only. This parameter is available only for data import.
+   Specifies whether a foreign table is write-only. This parameter is available only for data export.
 
--  .. _en-us_topic_0000001098990722__l38d1f5d8d31946d1ac878003337961a6:
+-  .. _en-us_topic_0000001188589008__l38d1f5d8d31946d1ac878003337961a6:
 
    **WITH error_table_name**
 
@@ -526,7 +605,7 @@ Parameter Description
 
    Value range: a string. It must comply with the naming convention.
 
--  .. _en-us_topic_0000001098990722__l0197538463034921bffa55634fa035d2:
+-  .. _en-us_topic_0000001188589008__l0197538463034921bffa55634fa035d2:
 
    **LOG INTO error_table_name**
 
@@ -538,68 +617,13 @@ Parameter Description
 
    Value range: a string. It must comply with the naming convention.
 
--  .. _en-us_topic_0000001098990722__li155121304200:
-
-   **file_sequence**
-
-   Concurrently imports data in parallel through GDS foreign tables, to improve single-file import performance. This parameter is only used for data import.
-
-   The parameter format is **file_sequence**'*total number of shards*\ ``-``\ *current shard*'. Example:
-
-   **file_sequence '3-1'** indicates that the imported file is logically split into three shards and the data currently imported by the foreign table is the data on the first shard.
-
-   **file_sequence '3-2'** indicates that the imported file is logically split into three shards and the data currently imported by the foreign table is the data on the second shard.
-
-   **file_sequence '3-3'** indicates that the imported file is logically split into three shards and the data currently imported by the foreign table is the data on the third shard.
-
-   This parameter has the following constraints:
-
-   -  A file can be split to a maximum of 8 shards.
-   -  The number of currently imported shard should be less than or equal to the total number of split shards.
-   -  Only CSV and TXT files can be imported.
-
-   .. note::
-
-      When data is imported in parallel in CSV format, some shards fail to be imported in the following scenario because the CSV rules conflict with the GDS splitting logic:
-
-      Scenario: A CSV file contains a newline character that is not escaped, the newline character is contained in the character specified by **quote**, and the data of this line is in the first row of the logical shard.
-
-      For example, if you import the **big.csv** file in parallel, the following information is displayed:
-
-      .. code-block::
-
-         --id, username, address
-         10001,"customer1 name","Rose District"
-         10002,"customer2 name","
-         23 Road Rose
-         District NewCity"
-         10003,"customer3 name","NewCity"
-
-      After the file is split into two shards, the content of the first shard is as follows:
-
-      .. code-block::
-
-         10001,"customer1 name","Rose District"
-         10002,"customer2 name","
-         23
-
-      The content of the second shard is as follows:
-
-      .. code-block::
-
-         Road Rose
-         District NewCity"
-         10003,"customer3 name","NewCity"
-
-      The newline character after **23 Road Rose** in the first line of the second shard is contained between double quotation marks. As a result, GDS cannot determine whether the newline character is a newline character in the field or a separator in the line. Therefore, two data records on the first shard are successfully imported, but the second shard fails to be imported.
-
--  .. _en-us_topic_0000001098990722__leffe0ccd2877448f88dab7b30cea8b7d:
+-  .. _en-us_topic_0000001188589008__leffe0ccd2877448f88dab7b30cea8b7d:
 
    **REMOTE LOG 'name'**
 
    The data format error information is saved as files in GDS. **name** is the prefix of the error data file.
 
--  .. _en-us_topic_0000001098990722__l858bbb2e7da849a8a52f3e80dd08ff74:
+-  .. _en-us_topic_0000001188589008__l858bbb2e7da849a8a52f3e80dd08ff74:
 
    **PER NODE REJECT LIMIT 'value'**
 
@@ -611,7 +635,7 @@ Parameter Description
 
       Examples of data format errors include the following: a column is lost, an extra column exists, a data type is incorrect, and encoding is incorrect. When a non-data format error occurs, the whole data import process stops.
 
-   Value range: integer, unlimited. The default value is **0**, indicating that error information is returned immediately.
+   Value range: integer, unlimited. If this parameter is not specified, an error information is returned immediately.
 
 -  **TO { GROUP groupname \| NODE ( nodename [, ... ] ) }**
 
@@ -620,7 +644,7 @@ Parameter Description
 Examples
 --------
 
-Create a foreign table\ **customer_ft** to import data from GDS server 10.10.123.234 in TEXT format.
+Create a foreign table\ **customer_ft** to import data from GDS server 10.10.123.234 in TEXT format:
 
 ::
 
@@ -674,7 +698,45 @@ Create a foreign table to import data from GDS servers 192.168.0.90 and 192.168.
      section_ID  NUMBER(4)
    ) SERVER gsmpp_server OPTIONS (location 'gsfs://192.168.0.90:5000/* | gsfs://192.168.0.91:5000/*', format 'TEXT', delimiter E'\x08',  null '',reject_limit '2') WITH err_HR_staffS_ft;
 
+Create a foreign table to import all files in the **input_data** directory in CSV format.
+
+::
+
+   CREATE FOREIGN TABLE foreign_HR_staffS_ft1
+   (
+     staff_ID       NUMBER(6) ,
+     FIRST_NAME     VARCHAR2(20),
+     LAST_NAME      VARCHAR2(25),
+     EMAIL          VARCHAR2(25),
+     PHONE_NUMBER   VARCHAR2(20),
+     HIRE_DATE      DATE,
+     employment_ID  VARCHAR2(10),
+     SALARY         NUMBER(8,2),
+     COMMISSION_PCT NUMBER(2,2),
+     MANAGER_ID     NUMBER(6),
+     section_ID     NUMBER(4)
+   ) SERVER gsmpp_server OPTIONS (location 'file:///input_data/*', format 'csv', quote E'\x08', mode 'private', delimiter ',') WITH err_HR_staffS_ft1;
+
+Create a foreign table to export data to the **output_data** directory in CSV format.
+
+::
+
+   CREATE FOREIGN TABLE foreign_HR_staffS_ft2
+   (
+     staff_ID       NUMBER(6) ,
+     FIRST_NAME     VARCHAR2(20),
+     LAST_NAME      VARCHAR2(25),
+     EMAIL          VARCHAR2(25),
+     PHONE_NUMBER   VARCHAR2(20),
+     HIRE_DATE      DATE,
+     employment_ID  VARCHAR2(10),
+     SALARY         NUMBER(8,2),
+     COMMISSION_PCT NUMBER(2,2),
+     MANAGER_ID     NUMBER(6),
+     section_ID  NUMBER(4)
+   ) SERVER gsmpp_server OPTIONS (location 'file:///output_data/', format 'csv', quote E'\x08', delimiter '|', header 'on') WRITE ONLY;
+
 Helpful Links
 -------------
 
-:ref:`ALTER FOREIGN TABLE (for GDS) <dws_06_0123>`, :ref:`DROP FOREIGN TABLE <dws_06_0192>`
+:ref:`ALTER FOREIGN TABLE (GDS Import and Export) <dws_06_0123>`, :ref:`DROP FOREIGN TABLE <dws_06_0192>`

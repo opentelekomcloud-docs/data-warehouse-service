@@ -19,7 +19,6 @@ Precautions
 -  For column-store tables, the **RETURNING** clause is currently not supported.
 -  Column-store tables do not support non-deterministic update. If you update data in one row with multiple rows of data in a column-store table, an error is reported.
 -  Memory space that records update operations in column-store tables is not reclaimed. You need to clean it by executing **VACUUM FULL table_name**.
--  Currently, **UPDATE** cannot be used in column-store replication tables.
 -  You are not advised to create a table that needs to be frequently updated as a replication table.
 -  Column-store tables support lightweight **UPDATE** operations. Lightweight **UPDATE** operations only rewrite the updated columns to reduce space usage. Lightweight **UPDATE** for column-store tables is controlled by GUC parameter **enable_light_colupdate**.
 -  Column-store lightweight **UPDATE** is unavailable and automatically changes to the regular **UPDATE** operation in the following scenarios: updating an index column, updating a primary key column, updating a partition column, updating a PCK column, and online scaling.
@@ -117,6 +116,20 @@ Parameter Description
 
 Examples
 --------
+
+Create the **reason** table:
+
+::
+
+   DROP TABLE IF EXISTS reason;
+   CREATE TABLE reason
+   (
+     r_reason_sk    int,
+     r_reason_desc    char(20),
+     r_reason_id    char(20)
+   );
+
+   INSERT INTO reason VALUES (1, '2', '3');
 
 Update the values of all records.
 

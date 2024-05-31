@@ -13,7 +13,8 @@ Function
 Precautions
 -----------
 
-If a function involves operations on temporary tables, the function cannot be deleted by running **DROP FUNCTION**.
+-  To delete an overloaded function, you must specify the function's parameter type. For non-overloaded functions, you can delete them by just specifying the function name.
+-  If a function involves operations on temporary tables, the function cannot be deleted by running **DROP FUNCTION**.
 
 Syntax
 ------
@@ -28,7 +29,7 @@ Parameter Description
 
 -  **IF EXISTS**
 
-   Sends a notice instead of an error if the function does not exist.
+   Sends a notice instead of an error if the specified function does not exist.
 
 -  **function_name**
 
@@ -56,7 +57,7 @@ Parameter Description
 Examples
 --------
 
-Delete a function named **add_two_number**.
+Delete a function named **add_two_number**:
 
 ::
 

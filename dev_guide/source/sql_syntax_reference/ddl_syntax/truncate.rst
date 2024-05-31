@@ -12,8 +12,6 @@ Function
 
 It has the same effect as an unqualified **DELETE** on each table, but it is faster since it does not actually scan the tables. This is most useful on large tables.
 
-**TRUNCATE** obtains an ACCESS EXCLUSIVE lock on each table it operates on, which blocks all other concurrent operations on that table. If concurrent access to the table is required, use the **DELETE** command instead.
-
 Precautions
 -----------
 
@@ -100,14 +98,37 @@ Parameter Description
 Examples
 --------
 
-Clear the **p1** partition of the **customer_address** table.
+Create a partitioned table **customer_address**:
 
 ::
 
-   ALTER TABLE tpcds.customer_address TRUNCATE PARTITION p1;
+   DROP TABLE IF EXISTS customer_address;
+   CREATE TABLE customer_address
+   (
+       ca_address_sk       INTEGER                  NOT NULL   ,
+       ca_address_id       CHARACTER(16)            NOT NULL   ,
+       ca_street_number    CHARACTER(10)                       ,
+       ca_street_name      CHARACTER varying(60)               ,
+       ca_street_type      CHARACTER(15)                       ,
+       ca_suite_number     CHARACTER(10)
+   )
+   DISTRIBUTE BY HASH (ca_address_sk)
+   PARTITION BY RANGE(ca_address_sk)
+   (
+           PARTITION P1 VALUES LESS THAN(2450815),
+           PARTITION P2 VALUES LESS THAN(2451179),
+           PARTITION P3 VALUES LESS THAN(2451544),
+           PARTITION P4 VALUES LESS THAN(MAXVALUE)
+   );
 
-Clear a partitioned table.
+Clear the **p1** partition of the **customer_address** table:
 
 ::
 
-   TRUNCATE TABLE tpcds.customer_address;
+   ALTER TABLE customer_address TRUNCATE PARTITION p1;
+
+Clear a partitioned table:
+
+::
+
+   TRUNCATE TABLE customer_address;

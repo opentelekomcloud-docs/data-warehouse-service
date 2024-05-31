@@ -20,7 +20,7 @@ If an options string is specified it must consist of a comma-separated list of o
 
 -  **ShortWord**: Words of this length or less will be dropped at the start and end of a headline. The default value of three eliminates common English articles.
 
--  **HighlightAll**: Boolean flag. If **true** the whole document will be used as the headline, ignoring the preceding three parameters.
+-  **HighlightAll**: Boolean flag. If the value is **true**, the entire document is used as an excerpt, ignoring the values of the first three parameters.
 
 -  **MaxFragments**: Maximum number of text excerpts or fragments to display. The default value of zero selects a non-fragment-oriented headline generation method. A value greater than zero selects fragment-based headline generation. This method finds text fragments with as many query words as possible and stretches those fragments around the query words. As a result query words are close to the middle of each fragment and have words on each side. Each fragment will be of at most **MaxWords** and words of length **ShortWord** or less are dropped at the start and end of each fragment. If not all query words are found in the document, then a single fragment of the first **MinWords** in the document will be displayed.
 
@@ -38,31 +38,16 @@ For example:
 
 ::
 
-   SELECT ts_headline('english',
-   'The most common type of search
-   is to find all documents containing given query terms
-   and return them in order of their similarity to the
-   query.',
-   to_tsquery('english', 'query & similarity'));
-                           ts_headline
-   ------------------------------------------------------------
-    containing given <b>query</b> terms
-    and return them in order of their <b>similarity</b> to the
-    <b>query</b>.
+   SELECT ts_headline('english','The most common type of search is to find all documents containing given query terms and return them in order of their similarity to the query.',to_tsquery('english', 'query & similarity'));
+                                                    ts_headline
+   --------------------------------------------------------------------------------------------------------------
+    containing given <b>query</b> terms and return them in order of their <b>similarity</b> to the <b>query</b>.
    (1 row)
 
-   SELECT ts_headline('english',
-   'The most common type of search
-   is to find all documents containing given query terms
-   and return them in order of their similarity to the
-   query.',
-   to_tsquery('english', 'query & similarity'),
-   'StartSel = <, StopSel = >');
-                         ts_headline
-   -------------------------------------------------------
-    containing given <query> terms
-    and return them in order of their <similarity> to the
-    <query>.
+   SELECT ts_headline('english','The most common type of search is to find all documents containing given query terms and return them in order of their similarity to the query.',to_tsquery('english', 'query & similarity'),'StartSel = <, StopSel = >');
+                                             ts_headline
+   -----------------------------------------------------------------------------------------------
+    containing given <query> terms and return them in order of their <similarity> to the <query>.
    (1 row)
 
 **ts_headline** uses the original document, not a **tsvector** summary, so it can be slow and should be used with care.

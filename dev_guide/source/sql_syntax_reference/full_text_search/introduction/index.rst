@@ -9,6 +9,7 @@ Introduction
 -  :ref:`What Is a Document? <dws_06_0084>`
 -  :ref:`Basic Text Matching <dws_06_0085>`
 -  :ref:`Configurations <dws_06_0086>`
+-  :ref:`Limitations <dws_06_0115>`
 
 .. toctree::
    :maxdepth: 1
@@ -18,3 +19,4 @@ Introduction
    what_is_a_document
    basic_text_matching
    configurations
+   limitations

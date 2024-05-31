@@ -5,14 +5,18 @@
 Text Search Types
 =================
 
-GaussDB(DWS) offers two data types that are designed to support full text search. The **tsvector** type represents a document in a form optimized for text search. The **tsquery** type similarly represents a text query.
+GaussDB(DWS) offers tsvector and tsquery data types to support full text search. The **tsvector** type represents a document in a form optimized for text search. The **tsquery** type similarly represents a text query.
 
 tsvector
 --------
 
-The **tsvector** type represents a retrieval unit, usually a textual column within a row of a database table, or a combination of such columns. A **tsvector** value is a sorted list of distinct lexemes, which are words that have been normalized to merge different variants of the same word. Sorting and deduplication are done automatically during input. The **to_tsvector** function is used to parse and normalize a document string. The **to_tsvector** function is used to parse and normalize a document string.
+The tsvector type represents a retrieval unit, usually a row of text fields in a database table or a combination of these fields.
 
-A **tsvector** value is a sorted list of distinct lexemes, which are words that have been formatted different entries. During segmentation, **tsvector** automatically performs duplicate-elimination to the entries for input in a certain order. For example:
+A tsvector value is a sorted list of distinct lexemes, which are words that have been normalized to merge different variants of the same word. Sorting and duplicate-elimination are done automatically during input.
+
+The **to_tsvector** function is used to parse and normalize a document string.
+
+Use tsvector to segment a string into lexemes by space. The lexemes are sorted by letter and length. The following is an example:
 
 ::
 
@@ -22,7 +26,7 @@ A **tsvector** value is a sorted list of distinct lexemes, which are words that 
     'a' 'and' 'ate' 'cat' 'fat' 'mat' 'on' 'rat' 'sat'
    (1 row)
 
-It can be seen from the preceding example that **tsvector** segments a string by spaces, and segmented lexemes are sorted based on their length and alphabetical order. To represent lexemes containing whitespace or punctuation, surround them with quotes:
+To represent lexemes containing whitespace or punctuation, surround them with quotes:
 
 ::
 
@@ -32,7 +36,7 @@ It can be seen from the preceding example that **tsvector** segments a string by
     '    ' 'contains' 'lexeme' 'spaces' 'the'
    (1 row)
 
-Use double dollar signs ($$) to mark entries containing single quotation marks (').
+If a string is enclosed in common single quotation marks, the single quotation marks (') and backslashes (\\) embedded in the string must be double-written for escape.
 
 ::
 
@@ -54,7 +58,7 @@ Optionally, integer positions can be attached to lexemes:
 
 A position normally indicates the source word's location in the document. Positional information can be used for proximity ranking. Position values range from 1 to 16383. The default maximum value is **16383**. Duplicate positions for the same lexeme are discarded.
 
-Lexemes that have positions can further be labeled with a weight, which can be **A**, **B**, **C**, or **D**. **D** is the default and hence is not shown on output:
+Lexemes that have positions can further be labeled with a weight, which can be **A**, **B**, **C**, or **D**. **D** is the default weight. It is not displayed in the output:
 
 ::
 
@@ -64,9 +68,9 @@ Lexemes that have positions can further be labeled with a weight, which can be *
     'a':1A 'cat':5 'fat':2B,4C
    (1 row)
 
-Weights are typically used to reflect document structure, for example, by marking title words differently from body words. Text search ranking functions can assign different priorities to the different weight markers.
+Weights usually are used to reflect document structure, for example, by marking title words differently from body words. Text search ranking functions can assign different priorities to the different weight markers.
 
-The following example is the standard usage of the **tsvector** type. For example:
+The following is an example of the standard usage of the tsvector type:
 
 ::
 
@@ -89,7 +93,7 @@ For most English-text-searching applications the above words would be considered
 tsquery
 -------
 
-The **tsquery** type represents a retrieval condition. A **tsquery** value stores lexemes that are to be searched for, and combines them honoring the **Boolean** operators **& (AND)**, **\| (OR)**, and **! (NOT)**. Parentheses can be used to enforce grouping of the operators. The **to_tsquery** and **plainto_tsquery** functions will normalize lexemes before the lexemes are converted to the **tsquery** type.
+The **tsquery** type represents a retrieval condition. A **tsquery** value stores lexemes that are to be searched for, and combines them honoring the **Boolean** operators **& (AND)**, **\| (OR)**, and **! (NOT)**. Parentheses can be used to enforce grouping of the operators. If there is no parenthesis, (**NOT**) has the highest priority, followed by **&**\ (**AND**), and finally **\|** (**OR**). The **to_tsquery** and **plainto_tsquery** functions will normalize lexemes before the lexemes are converted to the **tsquery** type.
 
 ::
 
@@ -111,9 +115,7 @@ The **tsquery** type represents a retrieval condition. A **tsquery** value store
     'fat' & 'rat' & !'cat'
    (1 row)
 
-In the absence of parentheses, **! (NOT)** binds most tightly, and **& (AND)** binds more tightly than **\| (OR)**.
-
-Lexemes in a **tsquery** can be labeled with one or more weight letters, which restrict them to match only **tsvector** lexemes with matching weights:
+Lexemes in a **tsquery** can be labeled with one or more weight letters, which match only **tsvector** lexemes with matching weights.
 
 ::
 
@@ -123,7 +125,7 @@ Lexemes in a **tsquery** can be labeled with one or more weight letters, which r
     'fat':AB & 'cat'
    (1 row)
 
-Also, lexemes in a **tsquery** can be labeled with \* to specify prefix matching:
+Also, lexemes in a **tsquery** can be labeled with \* to specify prefix matching. The following query will match any word in a **tsvector** that begins with "super".
 
 ::
 
@@ -133,9 +135,7 @@ Also, lexemes in a **tsquery** can be labeled with \* to specify prefix matching
     'super':*
    (1 row)
 
-This query will match any word in a **tsvector** that begins with "super".
-
-Note that prefixes are first processed by text search configurations, which means the following example returns true:
+Note that prefix matches are first checked by the text search analyzer. For example, the stem extracted from **postgres** is **postgr**, which matches **postgraduate**. The following result is true:
 
 ::
 
@@ -145,8 +145,6 @@ Note that prefixes are first processed by text search configurations, which mean
     t
    (1 row)
 
-because **postgres** gets stemmed to **postgr**:
-
 ::
 
    SELECT to_tsquery('postgres:*');
@@ -155,9 +153,7 @@ because **postgres** gets stemmed to **postgr**:
     'postgr':*
    (1 row)
 
-which then matches **postgraduate**.
-
-**'Fat:ab & Cats'** is normalized to the **tsquery** type as follows:
+The **to_tsquery** function normalizes words before converting them to the tsquery type. **'Fat:ab & Cats'** is normalized to the **tsquery** type as follows:
 
 ::
 

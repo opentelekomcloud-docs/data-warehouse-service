@@ -38,7 +38,7 @@ Parameter Description
 Examples
 --------
 
-Delete a stored procedure.
+Delete the stored procedure:
 
 ::
 

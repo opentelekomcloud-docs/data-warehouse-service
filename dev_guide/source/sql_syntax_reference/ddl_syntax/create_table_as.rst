@@ -10,7 +10,7 @@ Function
 
 **CREATE TABLE AS** creates a table based on the results of a query.
 
-It creates a table and fills it with data obtained using **SELECT**. The table columns have the names and data types associated with the output columns of the **SELECT**. Except that you can override the **SELECT** output column names by giving an explicit list of new column names.
+CREATE TABLE AS creates a table and fills it with the data returned by the SELECT statement. The columns in the new table match the names and data types of the output fields from the SELECT statement. Except that you can override the **SELECT** output column names by giving an explicit list of new column names.
 
 **CREATE TABLE AS** queries once the source table and writes data in the new table. The query result view changes when the source table changes. In contrast, a view re-evaluates its defining **SELECT** statement whenever it is queried.
 
@@ -30,8 +30,9 @@ Syntax
        [ WITH ( {storage_parameter = value} [, ... ] ) ]
        [ COMPRESS | NOCOMPRESS ]
 
-       [ DISTRIBUTE BY { REPLICATION | { [HASH ] ( column_name ) } } ]
+       [ DISTRIBUTE BY { REPLICATION | ROUNDROBIN | { [HASH ] ( column_name ) } } ]
 
+       [ COMMENT [=] 'text' ]
        AS query
        [ WITH [ NO ] DATA ];
 
@@ -44,6 +45,10 @@ Parameter Description
 
    -  Usage scenario: Unlogged tables do not ensure safe data. Users can back up data before using unlogged tables; for example, users should back up the data before a system upgrade.
    -  Troubleshooting: If data is missing in the indexes of unlogged tables due to some unexpected operations such as an unclean shutdown, users should re-create the indexes with errors.
+
+      .. caution::
+
+         The UNLOGGED table uses no primary/standby mechanism. In the case of system faults or abnormal breakpoints, data loss may occur. Therefore, the UNLOGGED table cannot be used to store basic data.
 
 -  **table_name**
 
@@ -63,9 +68,11 @@ Parameter Description
 
    -  FILLFACTOR
 
-      The fillfactor of a table is a percentage between 10 and 100. 100 (complete packing) is the default value. When a smaller fillfactor is specified, **INSERT** operations pack table pages only to the indicated percentage. The remaining space on each page is reserved for updating rows on that page. This gives **UPDATE** a chance to place the updated copy of a row on the same page, which is more efficient than placing it on a different page. For a table whose records are never updated, setting the fillfactor to 100 (complete packing) is the appropriate choice, but in heavily updated tables smaller fillfactors are appropriate. The parameter is only valid for row-store table.
+      The fillfactor of a table is a percentage between 10 and 100. When a smaller fillfactor is specified, **INSERT** operations pack table pages only to the indicated percentage. The remaining space on each page is reserved for updating rows on that page. This gives **UPDATE** a chance to place the updated copy of a row on the same page, which is more efficient than placing it on a different page. For a table whose records are never updated, setting the fillfactor to 100 (complete packing) is the appropriate choice, but in heavily updated tables smaller fillfactors are appropriate. The parameter is only valid for row-store tables.
 
       Value range: 10-100
+
+      Default value: 100, indicating the fill is complete.
 
    -  ORIENTATION
 
@@ -83,15 +90,13 @@ Parameter Description
 
       The valid values for column-store tables are **YES**/**NO** and **LOW**/**MIDDLE**/**HIGH**, and the default is **LOW**.
 
-      The valid values for row-store tables are **YES** and **NO**, and the default is **NO**.
-
       .. note::
 
-         The row-store table compression function is not put into commercial use. To use this function, contact technical support engineers.
+         Currently, row-store table compression is not supported.
 
    -  MAX_BATCHROW
 
-      Specifies the maximum of a storage unit during data loading process. The parameter is only valid for column-store table.
+      Specifies the maximum of a storage unit during data loading process. The parameter is only valid for column-store tables.
 
       Value range: 10000 to 60000
 
@@ -99,9 +104,11 @@ Parameter Description
 
    -  PARTIAL_CLUSTER_ROWS
 
-      Specifies the number of records to be partial cluster stored during data loading process. The parameter is only valid for column-store table.
+      Specifies the number of records to be partial cluster stored during data loading process. The parameter is only valid for column-store tables.
 
       Value range: 600000 to 2147483647
+
+      Default value: 4,200,000
 
    -  enable_delta
 
@@ -151,6 +158,7 @@ Parameter Description
    Specifies how the table is distributed or replicated between DNs.
 
    -  **REPLICATION**: Each row in the table exists on all DNs, that is, each DN has complete table data.
+   -  **ROUNDROBIN**: Each row in the table is sent to each DN in sequence. This distribution policy prevents data skew. However, data distribution nodes are random. As a result, there is a higher probability that table redistribution is triggered during computing. This distribution policy is recommended for large tables with severe column skew. This value is supported only in 8.1.2 or later.
    -  **HASH (column_name)**: Each row of the table will be placed into all the DNs based on the hash value of the specified column.
 
    .. important::
@@ -158,13 +166,28 @@ Parameter Description
       -  When **DISTRIBUTE BY HASH (column_name)** is specified, the primary key and its unique index must contain the **column_name** column.
       -  When **DISTRIBUTE BY HASH (column_name)** in a referenced table is specified, the foreign key of the reference table must contain the **column_name** column.
 
-   Default value: **HASH(column_name)**, the key column of **column_name** (if any) or the column of distribution column supported by first data type.
+   Default value: determined by the GUC parameter **default_distribution_mode**
 
-   **column_name** supports the following data types:
+   -  When **default_distribution_mode** is set to **roundrobin**, the default value of **DISTRIBUTE BY** is selected according to the following rules:
 
-   -  Integer types: TINYINT, SMALLINT, INT, BIGINT, and NUMERIC/DECIMAL
-   -  Character types: CHAR, BPCHAR, VARCHAR, VARCHAR2, NVARCHAR2, and TEXT
-   -  Date/time types: DATE, TIME, TIMETZ, TIMESTAMP, TIMESTAMPTZ, INTERVAL, and SMALLDATETIME
+      #. If the primary key or unique constraint is included during table creation, hash distribution is selected. The distribution column is the column corresponding to the primary key or unique constraint.
+      #. If the primary key or unique constraint is not included during table creation, round-robin distribution is selected.
+
+   -  When **default_distribution_mode** is set to **hash**, the default value of **DISTRIBUTE BY** is selected according to the following rules:
+
+      #. If the primary key or unique constraint is included during table creation, hash distribution is selected. The distribution column is the column corresponding to the primary key or unique constraint.
+      #. If the primary key or unique constraint is not included during table creation but there are columns whose data types can be used as distribution columns, hash distribution is selected. The distribution column is the first column whose data type can be used as a distribution column.
+      #. If the primary key or unique constraint is not included during table creation and no column whose data type can be used as a distribution column exists, round-robin distribution is selected.
+
+   The following data types can be used as distribution columns:
+
+   -  Integer types: **TINYINT**, **SMALLINT**, **INT**, **BIGINT**, and **NUMERIC/DECIMAL**
+   -  Character types: **CHAR**, **BPCHAR**, **VARCHAR**, **VARCHAR2**, **NVARCHAR2**, and **TEXT**
+   -  Date/time types: **DATE**, **TIME**, **TIMETZ**, **TIMESTAMP**, **TIMESTAMPTZ**, **INTERVAL**, and **SMALLDATETIME**
+
+-  **COMMENT [=] 'text'**
+
+   The **COMMENT** clause can specify table comments during table creation.
 
 -  **AS query**
 
@@ -177,13 +200,27 @@ Parameter Description
 Examples
 --------
 
-Create the **store_returns_t1** table and insert numbers that are greater than 4795 in the **sr_item_sk** column of the **store_returns** table.
+Create the **CUSTOMER** table:
 
 ::
 
-   CREATE TABLE store_returns_t1 AS SELECT * FROM store_returns WHERE sr_item_sk > '4795';
+   DROP TABLE IF EXISTS CUSTOMER;
+   CREATE TABLE CUSTOMER
+   (
+       C_CUSTKEY     BIGINT NOT NULL CONSTRAINT C_CUSTKEY_pk PRIMARY KEY  ,
+       C_NAME        VARCHAR(25)  ,
+       C_ADDRESS     VARCHAR(40)  ,
+       C_NATIONKEY   INT NOT NULL  CHECK (C_NATIONKEY > 0)
+   )
+   DISTRIBUTE BY HASH(C_CUSTKEY);
 
--- Copy **store_returns** to create the **store_returns_t2** table.
+Create the **store_returns_t1** table and insert numbers that are greater than 4795 in the **CUSTOMER** column of the **CUSTOMER** table:
+
+::
+
+   CREATE TABLE store_returns_t1 AS SELECT * FROM CUSTOMER WHERE C_CUSTKEY > 4795;
+
+Copy **store_returns** to create the **store_returns_t2** table:
 
 ::
 

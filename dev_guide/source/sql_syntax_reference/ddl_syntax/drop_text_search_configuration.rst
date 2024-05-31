@@ -44,7 +44,7 @@ Parameter Description
 Examples
 --------
 
-Delete the text search configuration **ngram1**.
+Delete the text search configuration **ngram1**:
 
 ::
 

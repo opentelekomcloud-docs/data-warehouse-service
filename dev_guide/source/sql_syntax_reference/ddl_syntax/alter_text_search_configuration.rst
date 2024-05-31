@@ -10,16 +10,8 @@ Function
 
 **ALTER TEXT SEARCH CONFIGURATION** modifies the definition of a text search configuration. You can modify its mappings from token types to dictionaries, change the configuration's name or owner, or modify the parameters.
 
-The **ADD MAPPING FOR** form installs a list of dictionaries to be consulted for the specified token types; an error will be generated if there is already a mapping for any of the token types.
-
-The **ALTER MAPPING FOR** form removes existing mapping for those token types and then adds specified mappings.
-
-ALTER MAPPING REPLACE ... WITH ... and **ALTER MAPPING FOR**... REPLACE ... **WITH ...** options replace **old_dictionary** with **new_dictionary**. Note that only when **pg_ts_config_map** has tuples corresponding to **maptokentype** and **old_dictionary**, the update will succeed. If the update fails, no messages are returned.
-
-The **DROP MAPPING FOR** form deletes all dictionaries for the specified token types in the text search configuration. If **IF EXISTS** is not specified and the string type mapping specified by **DROP MAPPING FOR** does not exist in text search configuration, an error will occur in database.
-
-Important Notes
----------------
+Precautions
+-----------
 
 -  If a search configuration is referenced (to create an index), users are not allowed to modify it.
 -  To use **ALTER TEXT SEARCH CONFIGURATION**, you must be the owner of the configuration.
@@ -92,6 +84,13 @@ Syntax
 
    ALTER TEXT SEARCH CONFIGURATION name RESET ( {configuration_option} [, ...] );
 
+.. note::
+
+   -  The **ADD MAPPING FOR** form installs a list of dictionaries to be consulted for the specified token types; an error will be generated if there is already a mapping for any of the token types.
+   -  The **ALTER MAPPING FOR** form removes existing mapping for those token types and then adds specified mappings.
+   -  ALTER MAPPING REPLACE ... WITH ... and **ALTER MAPPING FOR**... REPLACE ... **WITH ...** options replace **old_dictionary** with **new_dictionary**. Note that only when **pg_ts_config_map** has tuples corresponding to **maptokentype** and **old_dictionary**, the update will succeed. If the update fails, no messages are returned.
+   -  The **DROP MAPPING FOR** form deletes all dictionaries for the specified token types in the text search configuration. If **IF EXISTS** is not specified and the string type mapping specified by **DROP MAPPING FOR** does not exist in text search configuration, an error will occur in database.
+
 Parameter description
 ---------------------
 
@@ -101,7 +100,7 @@ Parameter description
 
 -  **token_type**
 
-   Specifies the name of a token type that is emitted by the configuration's parser. For details, see :ref:`Parsers <dws_06_0101>`.
+   Specifies the name of a token type that is emitted by the configuration's parser. For details, see :ref:`Text Search Parser <dws_06_0101>`.
 
 -  **dictionary_name**
 
@@ -138,6 +137,13 @@ Parameter description
 Examples
 --------
 
+Create a text search configuration:
+
+::
+
+   DROP TEXT SEARCH CONFIGURATION IF EXISTS ngram1;
+   CREATE TEXT SEARCH CONFIGURATION ngram1 (parser=ngram) WITH (gram_size = 2, grapsymbol_ignore = false);
+
 Add a type mapping for the text search type **ngram1**.
 
 ::
@@ -148,9 +154,10 @@ Change the owner of text search configuration.
 
 ::
 
+   CREATE ROLE joe password '{Password}';
    ALTER TEXT SEARCH CONFIGURATION ngram1 OWNER TO joe;
 
-Modify the schema of text search configuration.
+Change the schema of text search configuration.
 
 ::
 
@@ -167,6 +174,13 @@ Delete type mapping.
 ::
 
    ALTER TEXT SEARCH CONFIGURATION joe.ngram_1 DROP MAPPING IF EXISTS FOR multisymbol;
+
+Create a text search configuration:
+
+::
+
+   DROP TEXT SEARCH CONFIGURATION IF EXISTS english_1;
+   CREATE TEXT SEARCH CONFIGURATION english_1 (parser=default);
 
 Add text search configuration string mapping.
 

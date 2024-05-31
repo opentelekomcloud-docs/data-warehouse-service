@@ -10,7 +10,7 @@ Function
 
 **LOCK TABLE** obtains a table-level lock.
 
-GaussDB(DWS) always tries to select the lock mode with minimum constraints when automatically requesting a lock for a command referenced by a table. Use **LOCK** if users need a more strict lock mode. For example, suppose an application runs a transaction at the Read Committed isolation level and needs to ensure that data in a table remains stable in the duration of the transaction. To achieve this, you could obtain **SHARE** lock mode over the table before the query. This will prevent concurrent data changes and ensure subsequent reads of the table see a stable view of committed data. It is because the **SHARE** lock mode conflicts with the **ROW EXCLUSIVE** lock acquired by writers, and your **LOCK TABLE name IN SHARE MODE** statement will wait until any concurrent holders of **ROW EXCLUSIVE** mode locks commit or roll back. Therefore, once you obtain the lock, there are no uncommitted writes outstanding; furthermore none can begin until you release the lock.
+When the lock for commands referencing a table is automatically acquired, GaussDB(DWS) always uses the lock mode with minimum constraints. Use **LOCK** if users need a more strict lock mode. For example, suppose an application runs a transaction at the **Read Committed** isolation level and needs to ensure that data in a table remains stable in the duration of the transaction. To achieve this, you could obtain **SHARE** lock mode over the table before the query. This will prevent concurrent data changes and ensure subsequent reads of the table see a stable view of committed data. It is because the **SHARE** lock mode conflicts with the **ROW EXCLUSIVE** lock acquired by writers, and your **LOCK TABLE name IN SHARE MODE** statement will wait until any concurrent holders of **ROW EXCLUSIVE** mode locks commit or roll back. Therefore, once you obtain the lock, there are no uncommitted writes outstanding; furthermore none can begin until you release the lock.
 
 Precautions
 -----------
@@ -19,7 +19,7 @@ Precautions
 -  If no lock mode is specified, then **ACCESS EXCLUSIVE**, the most restrictive mode, is used.
 -  LOCK TABLE ... IN ACCESS SHARE MODE requires the **SELECT** permission on the target table. All other forms of **LOCK** require table-level **UPDATE** and/or the **DELETE** permission.
 -  There is no **UNLOCK TABLE** command. Locks are always released at transaction end.
--  **LOCK TABLE** only deals with table-level locks, and so the mode names involving **ROW** are all misnomers. These mode names should generally be read as indicating the intention of the user to acquire row-level locks within the locked table. Also, **ROW EXCLUSIVE** mode is a shareable table lock. Keep in mind that all the lock modes have identical semantics so far as **LOCK TABLE** is concerned, differing only in the rules about which modes conflict with which. For details about the rules, see :ref:`Table 1 <en-us_topic_0000001099150818__tec3c848278c344f9a15c8ab751ad98d7>`.
+-  **LOCK TABLE** only deals with table-level locks, and so the mode names involving **ROW** are all misnomers. These mode names should generally be read as indicating the intention of the user to acquire row-level locks within the locked table. Also, **ROW EXCLUSIVE** mode is a shareable table lock. Keep in mind that all the lock modes have identical semantics so far as **LOCK TABLE** is concerned, differing only in the rules about which modes conflict with which. For details about the rules, see :ref:`Table 1 <en-us_topic_0000001233430195__tec3c848278c344f9a15c8ab751ad98d7>`.
 
 Syntax
 ------
@@ -33,7 +33,7 @@ Syntax
 Parameter Description
 ---------------------
 
-.. _en-us_topic_0000001099150818__tec3c848278c344f9a15c8ab751ad98d7:
+.. _en-us_topic_0000001233430195__tec3c848278c344f9a15c8ab751ad98d7:
 
 .. table:: **Table 1** Lock mode conflicts
 
@@ -83,7 +83,7 @@ Parameter Description
 
 -  **ROW EXCLUSIVE**
 
-   Like **ROW SHARE**, **ROW EXCLUSIVE** allows concurrent read of a table but does not allow modification of data in the table. **UPDATE**, **DELETE**, and **INSERT** automatically acquire the **ROW SHARE** lock on the target table and add the **ACCESS SHARE** lock to other referenced tables. Generally, all commands that modify table data acquire the **ROW EXCLUSIVE** lock for tables.
+   Like **ROW SHARE**, **ROW EXCLUSIVE** allows concurrent read of a table and modification of data in the table. **UPDATE**, **DELETE**, and **INSERT** automatically acquire the **ROW SHARE** lock on the target table and add the **ACCESS SHARE** lock to other referenced tables. Generally, all commands that modify table data acquire the **ROW EXCLUSIVE** lock for tables.
 
 -  **SHARE UPDATE EXCLUSIVE**
 
@@ -128,40 +128,49 @@ Parameter Description
 Examples
 --------
 
-Obtain a **SHARE** lock on a primary key table when going to perform inserts into a foreign key table.
+Obtain a **SHARE** lock on a primary key table when going to perform inserts into a foreign key table:
 
 ::
 
+   DROP TABLE IF EXISTS customer_address;
+   CREATE TABLE customer_address
+   (
+       ca_address_sk       INTEGER                  NOT NULL   ,
+       ca_address_id       CHARACTER(16)            NOT NULL   ,
+       ca_street_number    CHARACTER(10)                       ,
+       ca_street_name      CHARACTER varying(60)               ,
+       ca_street_type      CHARACTER(15)                       ,
+       ca_suite_number     CHARACTER(10)
+   )
+   DISTRIBUTE BY HASH (ca_address_sk)
+   PARTITION BY RANGE(ca_address_sk)
+   (
+           PARTITION P1 VALUES LESS THAN(2450815),
+           PARTITION P2 VALUES LESS THAN(2451179),
+           PARTITION P3 VALUES LESS THAN(2451544),
+           PARTITION P4 VALUES LESS THAN(MAXVALUE)
+   );
    START TRANSACTION;
 
-   LOCK TABLE tpcds.reason IN SHARE MODE;
+   LOCK TABLE customer_address IN SHARE MODE;
 
-   SELECT r_reason_desc FROM tpcds.reason WHERE r_reason_sk=5;
-   r_reason_desc
-   -----------
-    Parts missing
-   (1 row)
+   SELECT ca_address_sk FROM customer_address WHERE ca_address_sk=5;
 
    COMMIT;
 
-Obtain a **SHARE ROW EXCLUSIVE** lock on a primary key table when going to perform a delete operation.
+Obtain a **SHARE ROW EXCLUSIVE** lock on a primary key table when going to perform a delete operation:
 
 ::
 
-   CREATE TABLE tpcds.reason_t1 AS TABLE tpcds.reason;
+   DROP TABLE IF EXISTS customer;
+   CREATE TABLE customer AS TABLE customer_address;
 
    START TRANSACTION;
 
-   LOCK TABLE tpcds.reason_t1 IN SHARE ROW EXCLUSIVE MODE;
+   LOCK TABLE customer IN SHARE ROW EXCLUSIVE MODE;
 
-   DELETE FROM tpcds.reason_t1 WHERE r_reason_desc IN(SELECT r_reason_desc FROM tpcds.reason_t1 WHERE r_reason_sk < 6 );
+   DELETE FROM customer WHERE ca_address_sk IN(SELECT ca_address_sk FROM customer WHERE ca_address_sk < 6 );
 
-   DELETE FROM tpcds.reason_t1 WHERE r_reason_sk = 7;
+   DELETE FROM customer WHERE ca_address_sk = 7;
 
    COMMIT;
-
-Delete the **tpcds.reason_t1** table.
-
-::
-
-   DROP TABLE tpcds.reason_t1;

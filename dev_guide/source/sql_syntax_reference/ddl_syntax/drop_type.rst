@@ -39,7 +39,7 @@ Parameter Description
 Examples
 --------
 
-Delete the **compfoo** type.
+Delete the **compfoo** type:
 
 ::
 

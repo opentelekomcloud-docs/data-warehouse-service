@@ -37,19 +37,20 @@ Parameter Description
 
 -  **statement**
 
-   Specifies a **SELECT**, **INSERT**, **UPDATE**, **DELETE**, or **VALUES** statement.
+   Specifies a SELECT, INSERT, UPDATE, DELETE, or VALUES statement.
 
 Examples
 --------
 
-Create and run a prepared statement for the **INSERT** statement.
+Create and run a prepared statement for the **INSERT** statement:
 
 ::
 
-   PREPARE insert_reason(integer,character(16),character(100)) AS INSERT INTO tpcds.reason_t1 VALUES($1,$2,$3);
+   CREATE TABLE IF NOT EXISTS reason_t1 (a int,b varchar(20),c varchar(20));
+   PREPARE insert_reason(integer,character(16),character(100)) AS INSERT INTO reason_t1 VALUES($1,$2,$3);
    EXECUTE insert_reason(52, 'AAAAAAAADDAAAAAA', 'reason 52');
 
 Helpful Links
 -------------
 
-:ref:`DEALLOCATE <dws_06_0246>`, :ref:`EXECUTE <dws_06_0248>`
+:ref:`DEALLOCATE <dws_06_0246>`

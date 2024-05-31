@@ -8,7 +8,7 @@ CREATE INDEX
 Function
 --------
 
-**CREATE INDEX-bak** defines a new index.
+**CREATE INDEX** creates an index in a specified table.
 
 Indexes are primarily used to enhance database performance (though inappropriate use can result in slower database performance). You are advised to create indexes on:
 
@@ -16,6 +16,7 @@ Indexes are primarily used to enhance database performance (though inappropriate
 -  Join conditions. For a query on joined columns, you are advised to create a composite index on the columns, for example, **select \* from t1 join t2 on t1.a=t2.a and t1.b=t2.b**. You can create a composite index on the **a** and **b** columns of table **t1**.
 -  Columns having filter criteria (especially scope criteria) of a **where** clause
 -  Columns that appear after **order by**, **group by**, and **distinct**.
+-  Create a B-tree index for point queries.
 
 The partitioned table does not support concurrent index creation, partial index creation, and **NULL FIRST**.
 
@@ -23,13 +24,15 @@ Precautions
 -----------
 
 -  Indexes consume storage and computing resources. Creating too many indexes has negative impact on database performance (especially the performance of data import. Therefore, you are advised to import the data before creating indexes). Create indexes only when they are necessary.
--  All functions and operators used in an index definition must be immutable, that is, their results must depend only on their arguments and never on any outside influence (such as the contents of another table or the current time). This restriction ensures that the behavior of the index is well-defined. To use a user-defined function in an index expression or **WHERE** clause, remember to mark the function **immutable** when you create it.
+-  All functions and operators used in an index definition must be immutable, that is, their results must depend only on their arguments and never on any outside influence (such as the contents of another table or the current time). This restriction ensures that the behavior of the index is well-defined. When using a user-defined function on an index or in a **WHERE** statement, mark it as an immutable function.
 -  A unique index created on a partitioned table must include a partition column and all the partition keys.
 -  GaussDB(DWS) can only create local indexes on partitioned tables.
 -  Column-store tables and HDFS tables support B-tree indexes. If the B-tree indexes are used, you cannot create expression and partial indexes.
 -  Column-store tables support creating unique indexes using B-tree indexes.
 -  Column-store and HDFS tables support psort indexes. If the psort indexes are used, you cannot create expression, partial, and unique indexes.
 -  Column-store tables support GIN indexes, rather than partial indexes and unique indexes. If GIN indexes are used, you can create expression indexes. However, an expression in this situation cannot contain empty splitters, empty columns, or multiple columns.
+-  A primary key or unique index cannot be created for a round-robin table.
+-  Performing **CREATE INDEX** or **REINDEX** operations on a table triggers index rebuilding. During this process, data is dumped to a new data file, and once rebuilding is complete, the original file is deleted. For large tables, index rebuilding can consume a significant amount of disk space. Exercise caution when disk space is insufficient to prevent the cluster from becoming read-only.
 
 Syntax
 ------
@@ -40,8 +43,9 @@ Syntax
 
       CREATE [ UNIQUE ] INDEX [ [ schema_name. ] index_name ] ON table_name [ USING method ]
           ({ { column_name | ( expression ) } [ COLLATE collation ] [ opclass ] [ ASC | DESC ] [ NULLS { FIRST | LAST } ] }[, ...] )
+          [ COMMENT 'text' ]
           [ WITH ( {storage_parameter = value} [, ... ] ) ]
-          [ TABLESPACE tablespace_name ]
+
           [ WHERE predicate ];
 
 -  Create an index for a partitioned table.
@@ -50,9 +54,10 @@ Syntax
 
       CREATE [ UNIQUE ] INDEX [ [ schema_name. ] index_name ] ON table_name [ USING method ]
           ( {{ column_name | ( expression ) } [ COLLATE collation ] [ opclass ] [ ASC | DESC ] [ NULLS LAST ] }[, ...] )
-          LOCAL [ ( { PARTITION index_partition_name [ TABLESPACE index_partition_tablespace ] } [, ...] ) ]
+          [ COMMENT 'text' ]
+          LOCAL [ ( { PARTITION index_partition_name  } [, ...] ) ]
           [ WITH ( { storage_parameter = value } [, ...] ) ]
-          [ TABLESPACE tablespace_name ];
+          ;
 
 Parameters
 ----------
@@ -69,7 +74,7 @@ Parameters
 
 -  **index_name**
 
-   Specifies the name of the index to be created. The schema of the index is the same as that of the table.
+   Specifies the name of the index to be created. The schema of the index is the same as that of the table. The index name cannot be the same as an existing table name in the database.
 
    Value range: a string. It must comply with the naming convention.
 
@@ -130,6 +135,10 @@ Parameters
 
    Specifies that nulls sort after not-null values. This is the default when **DESC** is not specified.
 
+-  **COMMENT 'text'**
+
+   Specifies the comment of an index.
+
 -  **WITH ( {storage_parameter = value} [, ... ] )**
 
    Specifies the name of an index-method-specific storage parameter.
@@ -175,10 +184,13 @@ Parameters
 Examples
 --------
 
--  Create a sample table named **tpcds.ship_mode_t1**.
+-  Create an index on a table.
+
+   Create a sample table named **tpcds.ship_mode_t1**.
 
    ::
 
+      DROP TABLE IF EXISTS tpcds.ship_mode_t1;
       CREATE TABLE tpcds.ship_mode_t1
       (
           SM_SHIP_MODE_SK           INTEGER               NOT NULL,
@@ -190,17 +202,29 @@ Examples
       )
       DISTRIBUTE BY HASH(SM_SHIP_MODE_SK);
 
-   -- Create a common index on the **SM_SHIP_MODE_SK** column in the **tpcds.ship_mode_t1** table:
+   Create a unique index on the **SM_SHIP_MODE_SK** column in the **tpcds.ship_mode_t1** table.
 
    ::
 
       CREATE UNIQUE INDEX ds_ship_mode_t1_index1 ON tpcds.ship_mode_t1(SM_SHIP_MODE_SK);
+
+   Add comment to the index when creating an index on the **SM_SHIP_MODE_SK** column of table **tpcds.ship_mode_t1**.
+
+   ::
+
+      CREATE INDEX ds_ship_mode_t1_index_comment ON tpcds.ship_mode_t1(SM_SHIP_MODE_SK) COMMENT 'index';
 
    Create a B-tree index on the **SM_SHIP_MODE_SK** column in the **tpcds.ship_mode_t1** table.
 
    ::
 
       CREATE INDEX ds_ship_mode_t1_index4 ON tpcds.ship_mode_t1 USING btree(SM_SHIP_MODE_SK);
+
+   Create a GIN index on the **SM_SHIP_MODE_SK** column in the **tpcds.ship_mode_t1** table.
+
+   .. code-block::
+
+      CREATE INDEX ship_mode_index ON tpcds.ship_mode_t1 USING gin(SM_SHIP_MODE_SK);
 
    Create an expression index on the **SM_CODE** column in the **tpcds.ship_mode_t1** table.
 
@@ -214,10 +238,13 @@ Examples
 
       CREATE UNIQUE INDEX ds_ship_mode_t1_index3 ON tpcds.ship_mode_t1(SM_SHIP_MODE_SK) WHERE SM_SHIP_MODE_SK>10;
 
--  Create a sample table named **tpcds.customer_address_p1**.
+-  Create an index on a partitioned table.
+
+   Create a sample table named **tpcds.customer_address_p1**.
 
    ::
 
+      DROP TABLE IF EXISTS tpcds.customer_address_p1;
       CREATE TABLE tpcds.customer_address_p1
       (
           CA_ADDRESS_SK             INTEGER               NOT NULL,
@@ -261,7 +288,19 @@ Examples
       )
       ;
 
-Links
------
+   Create the partitioned table index **ds_customer_address_p1_index_comment** and add index comments.
+
+   ::
+
+      CREATE INDEX ds_customer_address_p1_index_comment ON tpcds.customer_address_p1(CA_ADDRESS_SK) COMMENT 'index' LOCAL
+      (
+          PARTITION CA_ADDRESS_SK_index1,
+          PARTITION CA_ADDRESS_SK_index2,
+          PARTITION CA_ADDRESS_SK_index3
+      )
+      ;
+
+Helpful Links
+-------------
 
 :ref:`ALTER INDEX <dws_06_0128>`, :ref:`DROP INDEX <dws_06_0195>`

@@ -61,19 +61,19 @@ Parameter Description
 Examples
 --------
 
-Set the current user to **paul**.
+Set the current user to **paul**:
 
 ::
 
-   SET SESSION AUTHORIZATION paul password '{password}';
+   SET SESSION AUTHORIZATION paul password '{Password}';
 
-View the current session user and the current user.
+View the current session user and the current user:
 
 ::
 
    SELECT SESSION_USER, CURRENT_USER;
 
-Reset the current user.
+Reset the current user:
 
 ::
 

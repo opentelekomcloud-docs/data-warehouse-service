@@ -54,4 +54,4 @@ The **@@** operator also supports text input, allowing explicit conversion of a 
    text @@ tsquery
    text @@ text
 
-We already saw the first two of these. The form **text @@ tsquery** is equivalent to **to_tsvector(text) @@ tsquery**. The form **text @@ text** is equivalent to **to_tsvector(text) @@ plainto_tsquery(text)**.
+The form **text @@ tsquery** is equivalent to **to_tsvector(text) @@ tsquery**. The form **text @@ text** is equivalent to **to_tsvector(text) @@ plainto_tsquery(text)**.

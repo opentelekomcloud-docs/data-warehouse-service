@@ -56,7 +56,7 @@ Parameter Description
 Examples
 --------
 
-Set that constraints are checked when a transaction is committed.
+Set that constraints are checked when a transaction is committed:
 
 ::
 

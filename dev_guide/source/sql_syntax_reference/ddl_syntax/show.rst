@@ -33,24 +33,24 @@ Syntax
 Parameter Description
 ---------------------
 
-See :ref:`Parameter Description <en-us_topic_0000001145510787__se65334e5a0844cf2926813c622b3fc24>` in **RESET**.
+See :ref:`Parameter Description <en-us_topic_0000001188429092__se65334e5a0844cf2926813c622b3fc24>` in **RESET**.
 
 Examples
 --------
 
-Show the value of **timezone**.
+Show the value of **timezone**:
 
 ::
 
    SHOW timezone;
 
-Show the current setting of the **DateStyle** parameter.
+Show the current setting of the **DateStyle** parameter:
 
 ::
 
    SHOW DateStyle;
 
-Show the current setting of all parameters.
+Show the current setting of all parameters:
 
 ::
 

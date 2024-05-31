@@ -26,7 +26,7 @@ Syntax
 
    RESET {configuration_parameter | CURRENT_SCHEMA | TIME ZONE | TRANSACTION ISOLATION LEVEL | SESSION AUTHORIZATION | ALL };
 
-.. _en-us_topic_0000001145510787__se65334e5a0844cf2926813c622b3fc24:
+.. _en-us_topic_0000001188429092__se65334e5a0844cf2926813c622b3fc24:
 
 Parameter Description
 ---------------------
@@ -64,13 +64,13 @@ Parameter Description
 Examples
 --------
 
-Reset **timezone** to the default value.
+Reset **timezone** to the default value:
 
 ::
 
    RESET timezone;
 
-Set all parameters to their default values.
+Set all parameters to their default values:
 
 ::
 

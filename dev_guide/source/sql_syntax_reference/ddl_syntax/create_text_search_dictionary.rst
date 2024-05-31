@@ -8,7 +8,7 @@ CREATE TEXT SEARCH DICTIONARY
 Function
 --------
 
-**CREATE TEXT SEARCH DICTIONARY** creates a full-text search dictionary. A dictionary is used to identify and process specified words during full-text search.
+**CREATE TEXT SEARCH DICTIONARY** creates a full-text retrieval dictionary. A dictionary is used to identify and process particular words during full-text retrieval.
 
 Dictionaries are created by using predefined templates (defined in the **PG_TS_TEMPLATE** system catalog). Five types of dictionaries can be created, **Simple**, **Ispell**, **Synonym**, **Thesaurus**, and **Snowball**. Each type of dictionaries is used to handle different tasks.
 
@@ -42,9 +42,9 @@ Parameter Description
 
    Specifies a template name.
 
-   Value range: templates (**Simple**, **Synonym**, **Thesaurus**, **Ispell**, and **Snowball**) defined in the **PG_TS_TEMPLATE** system catalog
+   Valid value: templates (**Simple**, **Synonym**, **Thesaurus**, **Ispell**, and **Snowball**) defined in the **PG_TS_TEMPLATE** system catalog
 
--  .. _en-us_topic_0000001145910877__li1286812455448:
+-  .. _en-us_topic_0000001188270514__li1286812455448:
 
    *option*
 
@@ -62,7 +62,7 @@ Parameter Description
 
          If **ACCEPT=true** is set for a **Simple** dictionary, no token will be passed to subsequent dictionaries. In this case, you are advised to place the **Simple** dictionary at the end of the dictionary list. If **ACCEPT=false** is set, you are advised to place the **Simple** dictionary before at least one dictionary in the list.
 
-      -  .. _en-us_topic_0000001145910877__en-us_topic_0000001134718906_li13533193132616:
+      -  .. _en-us_topic_0000001188270514__li13533193132616:
 
          **FILEPATH**
 
@@ -82,9 +82,9 @@ Parameter Description
 
          #. Run the **CREATE TEXT SEARCH DICTIONARY** command to create a dictionary. The command is as follows:
 
-         .. code-block:: text
+         ::
 
-               CREATE TEXT SEARCH DICTIONARY french_dict ( TEMPLATE = pg_catalog.simple, STOPWORDS = french, FILEPATH = 'obs://gaussdb accesskey=xxx secretkey=yyy region=rg' );
+            CREATE TEXT SEARCH DICTIONARY french_dict ( TEMPLATE = pg_catalog.simple, STOPWORDS = french, FILEPATH = 'obs://gaussdb accesskey=xxx secretkey=yyy region=rg' );
 
          The **french.stop** file is stored in the root directory of the **gaussdb** bucket. Therefore, the *path* is empty.
 
@@ -102,7 +102,7 @@ Parameter Description
 
       -  **FILEPATH**
 
-         Specifies the directory for storing **Synonym** dictionary files. The directory can be a local directory or an OBS directory. The default value is the directory where predefined dictionary files are located. The directory format and the process of creating a **Synonym** dictionary using a file on the OBS server are the same as those of the :ref:`FILEPATH of the Simple dictionary <en-us_topic_0000001145910877__en-us_topic_0000001134718906_li13533193132616>`.
+         Specifies the directory for storing **Synonym** dictionary files. The directory can be a local directory or an OBS directory. The default value is the directory where predefined dictionary files are located. The directory format and the process of creating a **Synonym** dictionary using a file on the OBS server are the same as those of the :ref:`FILEPATH of the Simple dictionary <en-us_topic_0000001188270514__li13533193132616>`.
 
    -  Parameters for a **Thesaurus** dictionary
 
@@ -128,7 +128,7 @@ Parameter Description
 
       -  **FILEPATH**
 
-         Specifies the directory for storing dictionary definition files. The directory can be a local directory or an OBS directory. The default value is the directory where predefined dictionary files are located. The directory format and the process of creating a **Synonym** dictionary using a file on the OBS server are the same as those of the :ref:`FILEPATH of the Simple dictionary <en-us_topic_0000001145910877__en-us_topic_0000001134718906_li13533193132616>`.
+         Specifies the directory for storing dictionary definition files. The directory can be a local directory or an OBS directory. The default value is the directory where predefined dictionary files are located. The directory format and the process of creating a **Synonym** dictionary using a file on the OBS server are the same as those of the :ref:`FILEPATH of the Simple dictionary <en-us_topic_0000001188270514__li13533193132616>`.
 
    -  Parameters for an **Ispell** dictionary
 
@@ -146,7 +146,7 @@ Parameter Description
 
       -  **FILEPATH**
 
-         Specifies the directory for storing dictionary files. The directory can be a local directory or an OBS directory. The default value is the directory where predefined dictionary files are located. The directory format and the process of creating a **Synonym** dictionary using a file on the OBS server are the same as those of the :ref:`FILEPATH of the Simple dictionary <en-us_topic_0000001145910877__en-us_topic_0000001134718906_li13533193132616>`.
+         Specifies the directory for storing dictionary files. The directory can be a local directory or an OBS directory. The default value is the directory where predefined dictionary files are located. The directory format and the process of creating a **Synonym** dictionary using a file on the OBS server are the same as those of the :ref:`FILEPATH of the Simple dictionary <en-us_topic_0000001188270514__li13533193132616>`.
 
    -  Parameters for a **Snowball** dictionary
 
@@ -170,15 +170,20 @@ Parameter Description
 
 -  *value*
 
-   Specifies a parameter value. If the value is not an identifier or a number, enclose it with single quotation marks (''). You can also enclose identifiers and numbers with single quotation marks.
+   Specifies a parameter value. If the value is not an identifier or a number, enclose it with single quotation marks (''). You can also enclose identifiers and numbers.
 
 Examples
 --------
 
-Create an **Ispell** dictionary **english_ispell** (the dictionary definition file is from the open source dictionary).
+Create an **Ispell** dictionary **english_ispell** (the dictionary definition file is from the open source dictionary):
+
+.. important::
+
+   Hard-coded or plaintext AK and SK are risky. For security purposes, encrypt your AK and SK and store them in the configuration file or environment variables.
 
 ::
 
+   DROP TEXT SEARCH DICTIONARY IF EXISTS english_ispell;
    CREATE TEXT SEARCH DICTIONARY english_ispell (
        TEMPLATE = ispell,
        DictFile = english,
@@ -187,9 +192,23 @@ Create an **Ispell** dictionary **english_ispell** (the dictionary definition fi
        FilePath = 'obs://bucket_name/path accesskey=ak secretkey=sk region=rg'
    );
 
-See examples in :ref:`Configuration Examples <dws_06_0110>`.
+Create an **Snowball** dictionary **english_snowball** (the dictionary definition file is from the open source dictionary):
+
+.. important::
+
+   Hard-coded or plaintext AK and SK are risky. For security purposes, encrypt your AK and SK and store them in the configuration file or environment variables.
+
+.. code-block::
+
+   DROP TEXT SEARCH DICTIONARY IF EXISTS english_snowball;
+   CREATE TEXT SEARCH DICTIONARY english_snowball (
+       TEMPLATE = snowball,
+       Language = english,
+       StopWords = english,
+       FilePath = 'obs://bucket_name/path accesskey=ak secretkey=sk region=rg'
+   );
 
 Helpful Links
 -------------
 
-:ref:`ALTER TEXT SEARCH DICTIONARY <dws_06_0146>`, :ref:`DROP TEXT SEARCH DICTIONARY <dws_06_0211>`
+:ref:`ALTER TEXT SEARCH DICTIONARY <dws_06_0146>`, :ref:`CREATE TEXT SEARCH DICTIONARY <dws_06_0183>`

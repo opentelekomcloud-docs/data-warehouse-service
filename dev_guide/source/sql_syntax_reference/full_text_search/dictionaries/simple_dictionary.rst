@@ -33,7 +33,7 @@ Procedure
 
    ::
 
-      SELECT ts_lexize('public.simple_dict','YeS');
+      SELECT ts_lexize('public.simple_dict','Yes');
        ts_lexize
       -----------
        {yes}
@@ -50,7 +50,7 @@ Procedure
    ::
 
       ALTER TEXT SEARCH DICTIONARY public.simple_dict ( Accept = false );
-      SELECT ts_lexize('public.simple_dict','YeS');
+      SELECT ts_lexize('public.simple_dict','Yes');
        ts_lexize
       -----------
 

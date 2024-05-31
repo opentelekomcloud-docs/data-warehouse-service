@@ -5,48 +5,50 @@
 Trigger Functions
 =================
 
--  pg_get_triggerdef(oid)
+pg_get_triggerdef(oid)
+----------------------
 
-   Description: Obtains the definition information of a trigger.
+Description: Obtains the definition information of a trigger.
 
-   Parameter: OID of the trigger to be queried
+Parameter: OID of the trigger to be queried
 
-   Return type: text
+Return type: text
 
-   Example:
+Example:
 
-   ::
+::
 
-      select pg_get_triggerdef(oid) from pg_trigger;
-                                                        pg_get_triggerdef
-      ----------------------------------------------------------------------------------------------------------------------
-       CREATE TRIGGER insert_trigger BEFORE INSERT ON test_trigger_src_tbl FOR EACH ROW EXECUTE PROCEDURE tri_insert_func()
-      (1 row)
+   SELECT pg_get_triggerdef(oid) FROM pg_trigger;
+                                                     pg_get_triggerdef
+   ----------------------------------------------------------------------------------------------------------------------
+    CREATE TRIGGER insert_trigger BEFORE INSERT ON test_trigger_src_tbl FOR EACH ROW EXECUTE PROCEDURE tri_insert_func()
+   (1 row)
 
--  pg_get_triggerdef(oid, boolean)
+pg_get_triggerdef(oid, boolean)
+-------------------------------
 
-   Description: Obtains the definition information of a trigger.
+Description: Obtains the definition information of a trigger.
 
-   Parameter: OID of the trigger to be queried and whether it is displayed in pretty mode
+Parameter: OID of the trigger to be queried and whether it is displayed in pretty mode
 
-   Return type: text
+Return type: text
 
-   .. note::
+.. note::
 
-      The Boolean parameters take effect only when the WHEN condition is specified during trigger creation.
+   The Boolean parameters take effect only when the WHEN condition is specified during trigger creation.
 
-   Example:
+Example:
 
-   ::
+::
 
-      select pg_get_triggerdef(oid,true)from pg_trigger;
-                                                        pg_get_triggerdef
-      ----------------------------------------------------------------------------------------------------------------------
-       CREATE TRIGGER insert_trigger BEFORE INSERT ON test_trigger_src_tbl FOR EACH ROW EXECUTE PROCEDURE tri_insert_func()
-      (1 row)
+   SELECT pg_get_triggerdef(oid,true) FROM pg_trigger;
+                                                     pg_get_triggerdef
+   ----------------------------------------------------------------------------------------------------------------------
+    CREATE TRIGGER insert_trigger BEFORE INSERT ON test_trigger_src_tbl FOR EACH ROW EXECUTE PROCEDURE tri_insert_func()
+   (1 row)
 
-      select pg_get_triggerdef(oid,false)from pg_trigger;
-                                                        pg_get_triggerdef
-      ----------------------------------------------------------------------------------------------------------------------
-       CREATE TRIGGER insert_trigger BEFORE INSERT ON test_trigger_src_tbl FOR EACH ROW EXECUTE PROCEDURE tri_insert_func()
-      (1 row)
+   SELECT pg_get_triggerdef(oid,false) FROM pg_trigger;
+                                                     pg_get_triggerdef
+   ----------------------------------------------------------------------------------------------------------------------
+    CREATE TRIGGER insert_trigger BEFORE INSERT ON test_trigger_src_tbl FOR EACH ROW EXECUTE PROCEDURE tri_insert_func()
+   (1 row)

@@ -44,7 +44,7 @@ Parameter Description
 Examples
 --------
 
-Delete the sequence.
+Delete the sequence **serial**:
 
 ::
 

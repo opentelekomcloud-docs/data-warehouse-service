@@ -50,7 +50,7 @@ Parameter Description
 Examples
 --------
 
-Delete the **english** dictionary.
+Delete the **english** dictionary:
 
 ::
 

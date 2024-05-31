@@ -45,7 +45,7 @@ Close a cursor.
 
 ::
 
-   CLOSE cursor1;
+   CLOSE ALL;
 
 Links
 -----

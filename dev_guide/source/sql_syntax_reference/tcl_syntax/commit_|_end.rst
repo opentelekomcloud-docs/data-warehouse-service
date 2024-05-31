@@ -36,7 +36,7 @@ Parameter Description
 Examples
 --------
 
-Commit the transaction to make all changes permanent.
+Commit the transaction to make all changes permanent:
 
 ::
 

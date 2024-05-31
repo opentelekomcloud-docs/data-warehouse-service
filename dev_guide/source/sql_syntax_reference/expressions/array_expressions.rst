@@ -45,9 +45,8 @@ Example:
 
 .. note::
 
-   If the query statement result is null or the expression list does not meet the expression conditions and at least one empty value is returned for the expression list on the right, the result of **NOT IN** is **null** rather than **false**. This method is consistent with the Boolean rules used when SQL statements return empty values.
-
-In all situations, **X NOT IN Y** equals to **NOT(X IN Y)**.
+   -  If the query statement result is null or the expression list does not meet the expression conditions and at least one empty value is returned for the expression list on the right, the result of **NOT IN** is **null** rather than **false**. This method is consistent with the Boolean rules used when SQL statements return empty values.
+   -  In all situations, **X NOT IN Y** equals to **NOT(X IN Y)**.
 
 ANY/SOME (array)
 ----------------
@@ -79,9 +78,8 @@ The parentheses on the right contain an array expression, which must generate an
 
 .. note::
 
-   If no comparison result is true and the array expression generates at least one null value, the value of ANY is NULL, rather than false. This method is consistent with the Boolean rules used when SQL statements return empty values.
-
-**SOME** is a synonym of **ANY**.
+   -  If no comparison result is true and the array expression generates at least one null value, the value of ANY is NULL, rather than false. This method is consistent with the Boolean rules used when SQL statements return empty values.
+   -  **SOME** is a synonym of **ANY**.
 
 ALL (array)
 -----------

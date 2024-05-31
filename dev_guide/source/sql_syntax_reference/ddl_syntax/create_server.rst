@@ -15,13 +15,13 @@ An external server stores information of HDFS clusters, OBS servers, DLI connect
 Precautions
 -----------
 
-By default, only the system administrator can create a foreign server. Otherwise, creating a server requires permissions on the foreign data wrapper being used. Use the following syntax to grant permissions:
+By default, only the system administrator can create a foreign server. Otherwise, creating a server requires USAGE permission on the foreign-data wrapper being used. The syntax is as follows:
 
 ::
 
    GRANT USAGE ON FOREIGN DATA WRAPPER fdw_name TO username;
 
-**fdw_name** is the name of the foreign data wrapper, and **username** is the username of creating **SERVER**.
+**fdw_name** is the name of **FOREIGN DATA WRAPPER**, and **username** is the user name of creating **SERVER**.
 
 Syntax
 ------
@@ -55,17 +55,19 @@ Parameter Description
 
       Specifies the IP address of the OBS service endpoint or HDFS cluster.
 
-      OBS: **address** is the endpoint of OBS.
+      OBS: Specifies the endpoint of the OBS service.
 
       HDFS: Specifies the IP address and port number of a NameNode (metadata node) in the HDFS cluster, or the IP address and port number of a CN in other homogeneous clusters.
 
-      HDFS NameNodes are deployed in primary/secondary mode for HA. Add the addresses of the primary and secondary NameNodes to **address**. When accessing HDFS, GaussDB(DWS) dynamically searches for the active NameNode.
+      HDFS NameNodes are deployed in primary/secondary mode for HA. Add the addresses of the primary and secondary NameNodes to **ADDRESS**. When accessing HDFS, GaussDB(DWS) dynamically checks for the primary NameNode.
+
+      If the HDFS is in federation mode, you can add all router addresses to the **address** value. When GaussDB(DWS) accesses the HDFS service, the system dynamically and randomly searches for the active router.
 
       .. note::
 
-         **address option** must exist.
-
-         If the server type is DLI, the address is the OBS address stored on DLI.
+         -  The **address** option must exist. In the cross-cluster interconnection scenario, only one **address** option can be set.
+         -  If the server type is DLI, the address is the OBS address stored on DLI.
+         -  If the HDFS is in federation mode, that is, **fed 'rbf'**, address can be set to multiple groups of IP addresses and ports, corresponding to the address of the HDFS router.
 
    -  hdfscfgpath
 
@@ -75,11 +77,21 @@ Parameter Description
 
       If the **address option** is not specified, the address specified by **hdfscfgpath** in the configuration file is used by default.
 
+   -  fed
+
+      Indicates that **dfs_fdw** is connected to HDFS in federation mode.
+
+      The value **rbf** indicates that HDFS uses the RBF mode.
+
+      .. note::
+
+         This feature is supported in 8.1.2 or later.
+
    -  encrypt
 
       Specifies whether data is encrypted. This parameter is available only when **type** is **OBS**. The default value is **off**.
 
-      Value range:
+      Valid value:
 
       -  **on** indicates that data is encrypted.
       -  **off** indicates that data is not encrypted.
@@ -90,13 +102,13 @@ Parameter Description
 
    -  secret_access_key
 
-      Specifies the secret access key (SK) (obtained by users from the OBS console) used for the OBS access protocol. When you create a foreign table, its SK value is encrypted and saved to the metadata table of the database. This parameter is available only when **type** is **OBS**.
+      Indicates the secret access key (SK) (obtained by users from the OBS page) used for the OBS access protocol. When you create a foreign table, its SK value is encrypted and saved to the metadata table of the database. This parameter is available only when **type** is **OBS**.
 
    -  type
 
       Specifies the **dfs_fdw** connection type.
 
-      Value range:
+      Valid value:
 
       -  **OBS** indicates that OBS is connected.
       -  **HDFS** indicates that HDFS is connected.
@@ -116,24 +128,28 @@ Parameter Description
 
    -  dbname
 
-      Specifies the database name of a remote cluster to be connected. This parameter is used for collaborative analysis.
+      Specifies the database name of a remote cluster to be connected. This parameter is used for collaborative analysis and cross-cluster interconnection.
 
    -  username
 
-      Specifies the username of a remote cluster to be connected. This parameter is used for collaborative analysis.
+      Specifies the username of a remote cluster to be connected. This parameter is used for collaborative analysis and cross-cluster interconnection.
 
    -  password
 
-      Specifies the user password of a remote cluster to be connected. This parameter is used for collaborative analysis.
+      Specifies the password of a remote cluster to be connected. This parameter is used for collaborative analysis and cross-cluster interconnection.
 
       .. note::
 
          When an on-premises cluster is migrated to the cloud, the password in the server configuration exported from the on-premises cluster is in ciphertext. The encryption and decryption keys of the on-premises cluster are different from those of the cloud cluster. Therefore, if **CREATE SERVER** is executed on the cloud cluster, the execution fails and a decryption failure error is reported. In this case, you need to manually change the password in **CREATE SERVER** to a plaintext password.
 
+   -  syncsrv
+
+      This parameter is used only for cross-cluster interconnection and indicates the GDS service used during data synchronization. The method for setting this parameter is the same as that for setting the **location** attribute of the GDS foreign table.
+
 Examples
 --------
 
-Create the **hdfs_server** server, in which **hdfs_fdw** is the built-in foreign data wrapper.
+Create the **hdfs_server** server, in which **hdfs_fdw** is the foreign-data wrapper:
 
 ::
 
@@ -143,18 +159,26 @@ Create the **hdfs_server** server, in which **hdfs_fdw** is the built-in foreign
        type 'HDFS'
    ) ;
 
-Create the **obs_server** server, in which **dfs_fdw** is the built-in foreign data wrapper.
+Create the **obs_server** server, in which **dfs_fdw** is the foreign-data wrapper:
+
+.. important::
+
+   Hard-coded or plaintext AK and SK are risky. For security purposes, encrypt your AK and SK and store them in the configuration file or environment variables.
 
 ::
 
    CREATE SERVER obs_server FOREIGN DATA WRAPPER DFS_FDW OPTIONS (
      address 'obs.xxx.xxx.com',
-      access_key 'xxxxxxxxx',
+     access_key 'xxxxxxxxx',
      secret_access_key 'yyyyyyyyyyyyy',
      type 'obs'
    );
 
-Create the **dli_server** server, in which **dfs_fdw** is the built-in foreign data wrapper.
+Create the **dli_server** server, in which **dfs_fdw** is the foreign-data wrapper:
+
+.. important::
+
+   Hard-coded or plaintext AK and SK are risky. For security purposes, encrypt your AK and SK and store them in the configuration file or environment variables.
 
 ::
 
@@ -168,7 +192,7 @@ Create the **dli_server** server, in which **dfs_fdw** is the built-in foreign d
      dli_secret_access_key 'yyyyyyyyyyyyy'
    );
 
-Create another server in the homogeneous cluster, where **gc_fdw** is the foreign data wrapper in the database.
+You are advised to create another server in the homogeneous cluster, where **gc_fdw** is the foreign data wrapper in the database:
 
 ::
 
@@ -176,9 +200,10 @@ Create another server in the homogeneous cluster, where **gc_fdw** is the foreig
       (address '10.10.0.100:25000,10.10.0.101:25000',
      dbname 'test',
      username 'test',
-     password 'xxxxxxxx'
+     password '{Password}'
    );
 
 Helpful Links
+-------------
 
 :ref:`ALTER SERVER <dws_06_0138>` :ref:`DROP SERVER <dws_06_0206>`

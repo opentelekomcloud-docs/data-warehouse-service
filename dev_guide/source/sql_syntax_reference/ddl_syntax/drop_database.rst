@@ -10,8 +10,8 @@ Function
 
 **DROP DATABASE** deletes a database.
 
-Precautions
------------
+Important Notes
+---------------
 
 -  Only the owner of a database or a system administrator has the permission to run the **DROP DATABASE** command.
 -  **DROP DATABASE** does not take effect for the three preinstalled system databases (**gaussdb**, **TEMPLATE0**, and **TEMPLATE1**) because they are protected. To check databases in the current service, run the **\\l** command of **gsql**.
@@ -26,10 +26,10 @@ Syntax
 
 ::
 
-   DROP DATABASE [ IF EXISTS ] database_name;
+   DROP DATABASE [ IF EXISTS ] database_name ;
 
-Parameter Description
----------------------
+Parameters
+----------
 
 -  **IF EXISTS**
 

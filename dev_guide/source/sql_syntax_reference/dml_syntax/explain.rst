@@ -53,13 +53,13 @@ Syntax
           PLAN [ boolean ] |
           FORMAT { TEXT | XML | JSON | YAML }
 
--  Display the execution plan of an SQL statement, where options are in order.
+-  Display the execution plan of an SQL statement, where options are in order:
 
    ::
 
       EXPLAIN  { [  { ANALYZE  | ANALYSE  }  ] [ VERBOSE  ]  | PERFORMANCE  } statement;
 
--  Display information required for reproducing the execution plan of an SQL statement. The information is usually used for fault locating. The **STATS** option must be used independently.
+-  Display information required for reproducing the execution plan of an SQL statement. The information is usually used for fault locating. The **STATS** option must be used independently:
 
    ::
 
@@ -186,114 +186,71 @@ Parameter Description
 Examples
 --------
 
-Create the **tpcds.customer_address_p1** table.
+Create the **customer_address_p1** table:
 
 ::
 
-   CREATE TABLE tpcds.customer_address_p1 AS TABLE tpcds.customer_address;
+   CREATE TABLE customer_address_p1 AS TABLE customer_address;
 
-Change the value of **explain_perf_mode** to **normal**.
+Change the value of **explain_perf_mode** to **normal**:
 
 ::
 
    SET explain_perf_mode=normal;
 
-Display an execution plan for simple queries in the table.
+Display an execution plan for simple queries in the table:
 
 ::
 
-   EXPLAIN SELECT * FROM tpcds.customer_address_p1;
-                      QUERY PLAN
-   ----------------------------------------------------------------------------
-    Data Node Scan on "__REMOTE_FQS_QUERY__"  (cost=0.00..0.00 rows=0 width=0)
-      Node/s: All datanodes
-   (2 rows)
+   EXPLAIN SELECT * FROM customer_address_p1;
 
-Generate an execution plan in JSON format (assume **explain_perf_mode** is set to **normal**).
+|image1|
+
+Generate an execution plan in JSON format (assume **explain_perf_mode** is set to **normal**):
 
 ::
 
-   EXPLAIN(FORMAT JSON) SELECT * FROM tpcds.customer_address_p1;
-                       QUERY PLAN
-   ---------------------------------------------------
-    [                                                +
-      {                                              +
-        "Plan": {                                    +
-          "Node Type": "Data Node Scan",             +
-          "RemoteQuery name": "__REMOTE_FQS_QUERY__",+
-          "Alias": "__REMOTE_FQS_QUERY__",           +
-          "Startup Cost": 0.00,                      +
-          "Total Cost": 0.00,                        +
-          "Plan Rows": 0,                            +
-          "Plan Width": 0,                           +
-          "Nodes": "All datanodes"                   +
-        }                                            +
-      }                                              +
-    ]
-   (1 row)
+   EXPLAIN(FORMAT JSON) SELECT * FROM customer_address_p1;
 
-If there is an index and we use a query with an indexable **WHERE** condition, **EXPLAIN** might show a different pla.
+|image2|
+
+If there is an index and we use a query with an indexable **WHERE** condition, **EXPLAIN** might show a different plan:
 
 ::
 
-   EXPLAIN SELECT * FROM tpcds.customer_address_p1 WHERE ca_address_sk=10000;
-                                     QUERY PLAN
-   ------------------------------------------------------------------------------
-    Data Node Scan on "__REMOTE_LIGHT_QUERY__"  (cost=0.00..0.00 rows=0 width=0)
-      Node/s: datanode2
-   (2 rows)
+   EXPLAIN SELECT * FROM customer_address_p1 WHERE ca_address_sk=10000;
 
-Generate an execution plan in YAML format (assume **explain_perf_mode** is set to **normal**).
+|image3|
+
+Generate an execution plan in YAML format (assume **explain_perf_mode** is set to **normal**):
 
 ::
 
-   EXPLAIN(FORMAT YAML) SELECT * FROM tpcds.customer_address_p1 WHERE ca_address_sk=10000;
-                      QUERY PLAN
-   ------------------------------------------------
-    - Plan:                                       +
-        Node Type: "Data Node Scan"               +
-        RemoteQuery name: "__REMOTE_LIGHT_QUERY__"+
-        Alias: "__REMOTE_LIGHT_QUERY__"           +
-        Startup Cost: 0.00                        +
-        Total Cost: 0.00                          +
-        Plan Rows: 0                              +
-        Plan Width: 0                             +
-        Nodes: "datanode2"
-   (1 row)
+   EXPLAIN(FORMAT YAML) SELECT * FROM customer_address_p1 WHERE ca_address_sk=10000;
 
-Here is an example of an execution plan with cost estimates suppressed.
+Here is an example of an execution plan with cost estimates suppressed:
 
 ::
 
-   EXPLAIN(COSTS FALSE)SELECT * FROM tpcds.customer_address_p1 WHERE ca_address_sk=10000;
-                    QUERY PLAN
-   --------------------------------------------
-    Data Node Scan on "__REMOTE_LIGHT_QUERY__"
-      Node/s: datanode2
-   (2 rows)
+   EXPLAIN(COSTS FALSE)SELECT * FROM customer_address_p1 WHERE ca_address_sk=10000;
 
-Here is an example of an execution plan for a query that uses an aggregate function.
+Here is an example of an execution plan for a query that uses an aggregate function:
 
 ::
 
-   EXPLAIN SELECT SUM(ca_address_sk) FROM tpcds.customer_address_p1 WHERE ca_address_sk<10000;
-                                         QUERY PLAN
-   ---------------------------------------------------------------------------------------
-    Aggregate  (cost=18.19..14.32 rows=1 width=4)
-      ->  Streaming (type: GATHER)  (cost=18.19..14.32 rows=3 width=4)
-            Node/s: All datanodes
-            ->  Aggregate  (cost=14.19..14.20 rows=3 width=4)
-                  ->  Seq Scan on customer_address_p1  (cost=0.00..14.18 rows=10 width=4)
-                        Filter: (ca_address_sk < 10000)
-   (6 rows)
+   EXPLAIN SELECT SUM(ca_address_sk) FROM customer_address_p1 WHERE ca_address_sk<10000;
 
--- Delete the **tpcds.customer_address_p1** table.
+Delete the **customer_address_p1** table:
 
 ::
 
-   DROP TABLE tpcds.customer_address_p1;
+   DROP TABLE customer_address_p1;
 
 Helpful Links
 -------------
 
 :ref:`ANALYZE | ANALYSE <dws_06_0245>`
+
+.. |image1| image:: /_static/images/en-us_image_0000001798611242.png
+.. |image2| image:: /_static/images/en-us_image_0000001798454744.png
+.. |image3| image:: /_static/images/en-us_image_0000001845403749.png

@@ -77,6 +77,7 @@ Examples
       BEGIN
       dbms_output.put_line('Hello');
       END;
+      /
 
 Helpful Links
 -------------

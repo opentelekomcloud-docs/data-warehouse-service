@@ -8,7 +8,7 @@ Functions
 **Function Type Resolution**
 ----------------------------
 
-#. Select the functions to be considered from the **pg_proc** system catalog. If a non-schema-qualified function name was used, the functions in the current search path are considered. If a qualified function name was given, only functions in the specified schema are considered.
+#. Select the functions to be considered from the **PG_PROC** system catalog. If a non-schema-qualified function name was used, the functions in the current search path are considered. If a qualified function name was given, only functions in the specified schema are considered.
 
    If the search path finds multiple functions of different argument types, a proper function in the path is considered.
 
@@ -56,7 +56,7 @@ Example 2: Use the substring function type resolution as the second example. The
    SELECT substr('1234', 3);
     substr
    --------
-        34
+    34
    (1 row)
 
 If the string is declared to be of type **varchar**, as might be the case if it comes from a table, then the parser will try to convert it to become **text**:
@@ -77,7 +77,7 @@ This is transformed by the parser to effectively become:
 
 .. note::
 
-   The parser learns from the **pg_cast** catalog that **text** and **varchar** are binary-compatible, meaning that one can be passed to a function that accepts the other without doing any physical conversion. Therefore, no type conversion is inserted in this case.
+   The parser learns from the **PG_CAST** catalog that text and varchar are binary-compatible, meaning that one can be passed to a function that accepts the other without doing any physical conversion. Therefore, no type conversion is inserted in this case.
 
 And, if the function is called with an argument of type **integer**, the parser will try to convert that to **text**:
 
@@ -96,5 +96,5 @@ This is transformed by the parser to effectively become:
    SELECT substr(CAST (1234 AS text), 3);
     substr
    --------
-        34
+    34
    (1 row)

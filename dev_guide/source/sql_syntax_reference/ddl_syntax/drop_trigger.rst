@@ -49,7 +49,7 @@ Parameter Description
 Examples
 --------
 
-Delete the trigger **insert_trigger**.
+Delete the trigger **insert_trigger**:
 
 ::
 
@@ -58,4 +58,4 @@ Delete the trigger **insert_trigger**.
 Helpful Links
 -------------
 
-:ref:`CREATE TRIGGER <dws_06_0184>`, :ref:`ALTER TRIGGER <dws_06_0147>`, :ref:`ALTER TABLE <dws_06_0142>`
+:ref:`CREATE TRIGGER <dws_06_0184>`, :ref:`ALTER TRIGGER <dws_06_0147>`

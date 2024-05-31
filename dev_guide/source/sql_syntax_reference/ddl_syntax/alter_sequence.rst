@@ -8,7 +8,7 @@ ALTER SEQUENCE
 Function
 --------
 
-**ALTER SEQUENCE** modifies the parameters of an existing sequence.
+Modifies the sequence definition.
 
 Precautions
 -----------
@@ -39,19 +39,19 @@ Change the owner of a sequence.
 Parameter Description
 ---------------------
 
--  name
+-  **name**
 
    Specifies the sequence name to be changed.
 
--  IF EXISTS
+-  **IF EXISTS**
 
    Sends a notification instead of an error when you are modifying a non-existing sequence.
 
--  MAXVALUE maxvalue \| NO MAXVALUE
+-  **MAXVALUE maxvalue \| NO MAXVALUE**
 
    Maximum value of a sequence. If **NO MAXVALUE** is declared, the default value of the ascending sequence is **2\ 63-1**, and that of the descending sequence is **-1**. **NOMAXVALUE** is equivalent to **NO MAXVALUE**.
 
--  OWNED BY
+-  **OWNED BY**
 
    Associates a sequence with a specified column included in a table. In this way, the sequence will be deleted when you delete its associated field or the table where the field belongs.
 
@@ -61,30 +61,35 @@ Parameter Description
 
    If **OWNED BY NONE** is used, existing associations will be deleted.
 
--  new_owner
+-  **new_owner**
 
-   Specifies the user name of the new owner. To change the owner, you must also be a direct or indirect member of the new role, and this role must have CREATE permission on the sequence's schema.
+   Specifies the user name of the new owner. To change the owner, you must also be a direct or indirect member of the new role, and this role must have **CREATE** permission on the sequence's schema.
 
 Examples
 --------
+
+Create the example sequence **seq_test** and example table **t1**:
+
+::
+
+   CREATE SEQUENCE seq_test START 101;
+
+::
+
+   DROP TABLE IF EXISTS t1;
+   CREATE TABLE t1(c1 bigint default nextval('seq_test'));
 
 Modify the maximum value of **serial** to **200**.
 
 ::
 
-   ALTER SEQUENCE serial MAXVALUE 200;
+   ALTER SEQUENCE seq_test MAXVALUE 200;
 
-Create a table, and specify default values for the sequence.
-
-::
-
-   CREATE TABLE T1(C1 bigint default nextval('serial'));
-
-Change the owning column of the **serial** sequence to **T1.C1**.
+Change the column of the **seq_test** sequence to **t1.c1**.
 
 ::
 
-   ALTER SEQUENCE serial OWNED BY T1.C1;
+   ALTER SEQUENCE seq_test OWNED BY t1.c1;
 
 Helpful Links
 -------------

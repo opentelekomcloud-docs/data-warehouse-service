@@ -58,8 +58,8 @@ For example:
 ::
 
    SELECT attrelid,attname,atttypid,attstattarget FROM pg_attribute WHERE attrelid = 'pg_type'::REGCLASS;
-    attrelid |  attname   | atttypid | attstattarget
-   ----------+------------+----------+---------------
+    attrelid |    attname     | atttypid | attstattarget
+   ----------+----------------+----------+---------------
         1247 | xc_node_id     |       23 |             0
         1247 | tableoid       |       26 |             0
         1247 | cmax           |       29 |             0

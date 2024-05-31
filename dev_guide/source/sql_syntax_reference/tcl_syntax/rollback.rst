@@ -34,7 +34,7 @@ Optional keyword that more clearly illustrates the syntax.
 Examples
 --------
 
-Undo all changes in the current transaction.
+Undo all changes in the current transaction:
 
 ::
 
