@@ -15,21 +15,21 @@ If a large volume of data is stored on multiple data servers, install, configure
 Context
 -------
 
-#. The GDS version must match the cluster version. For example, GDS V100R008C00 matches DWS 1.3.\ *X*. Otherwise, the import or export may fail, or the import or export process may fail to respond.
+The GDS version must match the cluster version. For example, GDS V100R008C00 matches DWS 1.3.\ *X*. Otherwise, the import or export may fail, or the import or export process may fail to respond. Therefore, use the latest version of GDS.
 
-   Therefore, use the latest version of GDS. After the database is upgraded, download the latest version of GaussDB(DWS) GDS as instructed in :ref:`Procedure <en-us_topic_0000001503363660__en-us_topic_0000001188163708_se2a774b311864348a516131937610513>`. When the import or export starts, GaussDB(DWS) checks the GDS versions. If the versions do not match, an error message is displayed and the import or export is terminated.
+After the database is upgraded, download the latest version of GaussDB(DWS) GDS as instructed in :ref:`Procedure <en-us_topic_0000001503363660__en-us_topic_0000001188163708_se2a774b311864348a516131937610513>`. When the import or export starts, GaussDB(DWS) checks the GDS versions. If the versions do not match, an error message is displayed and the import or export is terminated.
 
-   To obtain the version number of GDS, run the following command in the GDS decompression directory:
+To obtain the version number of GDS, run the following command in the GDS decompression directory:
 
-   .. code-block::
+.. code-block::
 
-      gds -V
+   gds -V
 
-   To view the database version, run the following SQL statement after connecting to the database:
+To view the database version, run the following SQL statement after connecting to the database:
 
-   ::
+::
 
-      SELECT version();
+   SELECT version();
 
 .. _en-us_topic_0000001503363660__en-us_topic_0000001188163708_se2a774b311864348a516131937610513:
 

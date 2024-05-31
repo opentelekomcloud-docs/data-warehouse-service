@@ -199,7 +199,7 @@ Troubleshooting
    d. Enter the password again to log in to Data Studio.
 
 .. |image1| image:: /_static/images/en-us_image_0000001234200735.png
-.. |image2| image:: /_static/images/en-us_image_0000001188681130.png
-.. |image3| image:: /_static/images/en-us_image_0000001234042247.png
+.. |image2| image:: /_static/images/en-us_image_0000001809221997.png
+.. |image3| image:: /_static/images/en-us_image_0000001809304349.png
 .. |image4| image:: /_static/images/en-us_image_0000001188521212.png
 .. |image5| image:: /_static/images/en-us_image_0000001188521210.png

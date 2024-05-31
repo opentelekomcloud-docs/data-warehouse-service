@@ -5,11 +5,11 @@
 Downloading Related Tools
 =========================
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the management console and search for **GaussDB(DWS)**. The **GaussDB(DWS)** console page is displayed.
 
    Log in to the GaussDB(DWS) management console at: https://console.otc.t-systems.com/dws/
 
-#. In the navigation tree on the left, click **Connections**.
+#. In the navigation tree on the left, choose **Connections**.
 
 #. In the **Download Client and Driver** area, select the tools corresponding to the cluster version based on the computer OS and download them.
 
