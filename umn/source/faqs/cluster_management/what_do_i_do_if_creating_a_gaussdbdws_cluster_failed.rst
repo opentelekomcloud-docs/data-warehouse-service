@@ -5,13 +5,13 @@
 What Do I Do If Creating a GaussDB(DWS) Cluster Failed?
 =======================================================
 
-Troubleshooting
+Possible Causes
 ---------------
 
 Check that you have enough quota for creating the cluster.
 
-Technical Support
------------------
+Contacting Customer Service
+---------------------------
 
 Call the Customer Hotline for support.
 

@@ -7,23 +7,23 @@ Why the Tasks Executed by an Ordinary User Are Slower Than That Executed by the 
 
 The execution speed of an ordinary user is slower than that of the dbadmin user in the following scenarios:
 
-Scenario 1: Ordinary users are subject to resource management.
+Scenario 1: Ordinary Users Are Subject to Resource Management.
 --------------------------------------------------------------
 
-Ordinary users queuing: **waiting in queue/waiting in global queue/waiting in ccn queue**
+Ordinary users are queuing: **waiting in queue/waiting in global queue/waiting in ccn queue**.
 
-#. Ordinary users will be **waiting in queue/waiting in global queue** when the number of active statements exceeds the value of **max_active_statements**. While administrators do not need to queue.
+#. Ordinary users are **waiting in queue**/**waiting in global queue**.
 
-   You can increase the value of this parameter or clear some statements to avoid queuing.
-
-   Change the value of **max_active_statements** on the management console.
+   Ordinary users are queuing because the number of active statements exceeds the value of **max_active_statements**. Administrators do not need to wait in queue because they are not subject to resource management. You can change the value of **max_active_statements** on the management console.
 
    a. Log in to the GaussDB(DWS) management console.
    b. In the navigation tree on the left, choose **Clusters** > **Dedicated Clusters**.
    c. In the cluster list, find the target cluster and click the cluster name. The **Basic Information** page is displayed.
    d. Go to the **Parameter Modifications** page of the cluster, search for the **max_active_statements** parameter, change its value, and click **Save**.
 
-#. It takes a long time for ordinary users to wait in the ccn queue. When dynamic resource management is enabled (**enable_dynamic_workload** is set to **on**), if the concurrency is high and the available memory is small, ordinary users may get into this state when executing statements. Administrators are not controlled. You can stop some statements or increase the memory parameter value. If the memory usage of each DN is not high, you can disable the dynamic resource management parameter **enable_dynamic_workload** by setting it to **off**.
+#. It takes a long time for an ordinary user to wait in the ccn queue.
+
+   When dynamic resource management is enabled (**enable_dynamic_workload**\ =\ **on**), if the concurrency is high and the available memory is small, ordinary users may wait in the ccn queue. Administrators are not subject to these controls. To mitigate this, one can either terminate certain statements or increase the memory parameter value. If the memory consumption on each DN remain low, consider disabling dynamic resource management (**enable_dynamic_workload**\ =\ **off**).
 
 Scenario 2: The **OR** condition in the execution plan checks the statements executed by common users one by one. This consumes a lot of time.
 ----------------------------------------------------------------------------------------------------------------------------------------------

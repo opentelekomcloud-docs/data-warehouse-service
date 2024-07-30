@@ -51,7 +51,8 @@ Adding CNs
    .. important::
 
       -  Before adding a CN, ensure that the cluster is in the **Available** or **Unbalanced** state.
-      -  The number of CNs after adjustment cannot exceed the number of deployed CNs. It must be less than or equal to the number of nodes, and less than or equal to 20.
+      -  The number of CNs cannot exceed the total number of nodes after adjustment.
+      -  You cannot add more CNs than the number of CNs that have already been deployed.
 
 .. _en-us_topic_0000001707293917__en-us_topic_0000001423119293_en-us_topic_0000001083058054_section7292342175210:
 

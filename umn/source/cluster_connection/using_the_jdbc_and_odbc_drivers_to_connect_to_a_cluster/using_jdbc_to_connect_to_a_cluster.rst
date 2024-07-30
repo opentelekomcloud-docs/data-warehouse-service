@@ -258,7 +258,7 @@ This code sample illustrates how to develop applications based on the JDBC API p
 
 .. note::
 
-   Before completing the following example, you need to create a stored procedure. For details, see "Guide: JDBC- or ODBC-Based Development" in the *Data Warehouse Service Developer Guide*.
+   Before completing the following example, you need to create a stored procedure. For details, see "Tutorial: Development Using JDBC or ODBC" in the *Data Warehouse Service (DWS) Developer Guide*.
 
    ::
 
@@ -448,6 +448,6 @@ This code sample illustrates how to develop applications based on the JDBC API p
 
 .. |image1| image:: /_static/images/en-us_image_0000001735984732.png
 .. |image2| image:: /_static/images/en-us_image_0000001759351881.png
-.. |image3| image:: /_static/images/en-us_image_0000001711592328.png
+.. |image3| image:: /_static/images/en-us_image_0000001962140553.png
 .. |image4| image:: /_static/images/en-us_image_0000001711432840.png
 .. |image5| image:: /_static/images/en-us_image_0000001711592340.png

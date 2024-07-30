@@ -23,7 +23,7 @@ Resetting a Password
 
    -  Contains 12 to 32 characters.
    -  Cannot be the username or the username spelled backwards.
-   -  Must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters (``~!?,.:;_(){}[]/<>@#%^&*+|\=-``)
+   -  Must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters ``~!?,.:;_(){}[]/<>@#%^&*+|\=-``
    -  Passes the weak password check.
 
    -  The new password must be different from the old password, or old password spelled backwards.
