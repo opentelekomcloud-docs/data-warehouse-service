@@ -27,7 +27,7 @@ After performing the steps in "Getting Started," if you do not need to use the s
 
 #. Delete a GaussDB(DWS) cluster.
 
-   On the GaussDB(DWS) management console, click **Cluster** > **Dedicated Cluster**, locate the row that contains **dws-demo** in the cluster list, and choose **More > Delete**. In the dialog box that is displayed, select **Release the EIP bound with the cluster** and click **OK**.
+   On the GaussDB(DWS) console, click **Clusters** > **Dedicated Clusters**, locate the row that contains **dws-demo** in the cluster list, and choose **More** > **Delete**. In the dialog box that is displayed, select **Release the EIP bound with the cluster** and click **OK**.
 
    If the cluster to be deleted uses an automatically created security group that is not used by other clusters, the security group is automatically deleted when the cluster is deleted.
 

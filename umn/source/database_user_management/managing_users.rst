@@ -36,7 +36,7 @@ Creating a User
 
       .. note::
 
-         Must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters (``~!?,.:;_(){}[]/<>@#%^&*+|\=-``)
+         Must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters ``~!?,.:;_(){}[]/<>@#%^&*+|\=-``
 
    -  **Maximum Connections**: The maximum number of database connections that a user can set up. The value **-1** indicates that the number of connections is not limited.
    -  **Expires**: Set the expiration time of the user permission.
@@ -49,7 +49,7 @@ Creating a User
 
 #. Configure permissions not included in the roles of the user.
 
-   Click **Add** to add a permission configuration. Select the database object type and corresponding database object, and select the permission to complete assignment For details about permission definitions, see "DCL Syntax > GRANT" in *SQL Syntax Reference*.
+   Click **Add** to add a permission configuration. Select the database object type and corresponding database object, and select the permission to complete assignment For details about permission definitions, see "DCL Syntax" > "GRANT" in *SQL Syntax Reference*.
 
    |image2|
 

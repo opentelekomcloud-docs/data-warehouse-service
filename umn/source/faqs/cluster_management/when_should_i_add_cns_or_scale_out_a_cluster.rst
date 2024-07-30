@@ -8,7 +8,7 @@ When Should I Add CNs or Scale out a cluster?
 Introduction to CN Concurrency
 ------------------------------
 
-CN is short for Coordinator Node. A CN is an important component of GaussDB(DWS) and is closely related to users. It provides interfaces to external applications, optimizes global execution plans, distributes execution plans to DataNodes, and summarizes and processes execution results. A CN is an interface to external applications. The concurrency capability of the CN determines the service concurrency.
+Coordinator Node (CN) is an important component in GaussDB(DWS) that is most closely related to users. It provides external application interfaces, optimizes global execution plans, distributes the execution plans to DataNodes, and summarizes and processes execution results. A CN is an interface to external applications. The concurrency capability of the CN determines the service concurrency.
 
 CN concurrency is determined by the following parameters:
 

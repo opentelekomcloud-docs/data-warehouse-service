@@ -21,7 +21,7 @@ To solve the problem, you need to change the compatibility mode to MySQL. The co
    HINT: Please use 'DISTRIBUTE BY' clause to specify suitable data distribution column.
    CREATE TABLE
 
-If the problem cannot be solved by changing the compatibility, you can try to change the column type. For example, insert data of the date type as trings into a table. Example:
+If the problem cannot be solved by changing the compatibility, you can try to change the column type. For example, insert data of the date type as strings into a table. Example:
 
 ::
 

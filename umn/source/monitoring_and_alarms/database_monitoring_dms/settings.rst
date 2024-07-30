@@ -11,7 +11,7 @@ The **Monitoring** page displays the collection period and data aging period of 
 
    -  The cluster monitoring function is enabled by default.
    -  Disable the function if the cluster is being recovered. Enable the function when the fault is rectified.
-   -  When a node in the cluster is powered off or the IP address of the dedicated cluster is unavailable, the cluster monitoring switch and the button for configuring cluster meitric collection are unavailable.
+   -  When a node in the cluster is powered off or the IP address of the dedicated cluster is unavailable, the cluster monitoring switch and the button for configuring cluster metric collection are unavailable.
 
 .. _en-us_topic_0000001658895206__en-us_topic_0000001423119253_en-us_topic_0000001076708691_section149871230683:
 

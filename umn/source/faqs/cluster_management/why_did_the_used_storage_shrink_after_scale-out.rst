@@ -5,12 +5,12 @@
 Why Did the Used Storage Shrink After Scale-out?
 ================================================
 
-Possible Causes
----------------
+Cause Analysis
+--------------
 
 If you do not run **VACUUM** to clear and reclaim the storage space before the scale-out, the data deleted from GaussDB(DWS) may not free up the occupied disk space.
 
-During the scale-out, the system redistributes the data because the service data volume on the original nodes is significantly larger than that on the newly added nodes. When the redistribution starts, the system automatically performs **VACUUM** to free up the storage space. This causes a big drop in capacity.
+During the scale-out, the system redistributes the data because the service data volume on the original nodes is significantly larger than that on the newly added nodes. When the redistribution starts, the system automatically performs **VACUUM** to free up the storage space. In this way, the used storage is reduced.
 
 Handling Procedure
 ------------------
