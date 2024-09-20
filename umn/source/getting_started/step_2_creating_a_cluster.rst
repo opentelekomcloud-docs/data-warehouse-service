@@ -12,9 +12,9 @@ Creating a Cluster
 
 #. Log in to the GaussDB(DWS) management console.
 
-#. In the navigation pane on the left, choose **Cluster > Dedicated Cluster**.
+#. In the navigation pane, choose **Cluster** > **Dedicated Clusters**.
 
-#. On the **Dedicated Cluster** page, click **Create Cluster** in the upper right corner.
+#. On the **Dedicated Clusters** page, click **Create Cluster** in the upper right corner.
 
 #. Select the region to which the cluster to be created belongs.
 
@@ -46,7 +46,7 @@ Creating a Cluster
 
 #. Configure network parameters.
 
-   -  **VPC**: You can select an existing VPC from the drop-down list. If no VPC has been configured, click **View VPC** to enter the VPC management console to create one, for example, **vpc-dws**. Then, go back to the page for creating a cluster on the GaussDB(DWS) management console, click |image1| next to the **VPC** drop-down list, and select the new VPC.
+   -  **VPC**: You can select an existing VPC from the drop-down list. If no VPC has been configured, click **View VPC** to enter the VPC management console to create one, for example, **vpc-dws**. Then, go back to the page for creating a cluster on the GaussDB(DWS) console, click |image1| next to the **VPC** drop-down list, and select the new VPC.
 
    -  **Subnet**: When you create a VPC, a subnet is created by default. You can select the corresponding subnet.
 
@@ -102,6 +102,6 @@ Creating a Cluster
 
 #. Click **Submit**.
 
-   After the submission is successful, the creation starts. Click **Back to Cluster List**. The **Dedicated Cluster** page is displayed. The initial status of the cluster is **Creating**. Cluster creation takes some time. Wait for a while. Clusters in the **Available** state are ready for use.
+   After the submission is successful, the creation starts. Click **Back to Cluster List**. The **Dedicated Clusters** page is displayed. The initial status of the cluster is **Creating**. Cluster creation takes some time. Wait for a while. Clusters in the **Available** state are ready for use.
 
 .. |image1| image:: /_static/images/en-us_image_0000001231389491.png

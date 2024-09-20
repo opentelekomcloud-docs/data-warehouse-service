@@ -10,7 +10,7 @@ After subscribing to GaussDB(DWS) event notification, you will receive notificat
 Creating a Subscription
 -----------------------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation tree on the left, click **Event Management**.
 
