@@ -2,10 +2,8 @@
 
 .. _dws_02_0017:
 
-Cluster Management APIs
-=======================
-
-A data warehouse cluster is the smallest management unit in GaussDB(DWS). A cluster is a data warehouse that runs independently. You can manage the cluster life cycle in GaussDB(DWS).
+Managing Clusters
+=================
 
 -  :ref:`Creating a Cluster <dws_02_0020>`
 -  :ref:`Querying the Cluster List <dws_02_0018>`
@@ -13,7 +11,7 @@ A data warehouse cluster is the smallest management unit in GaussDB(DWS). A clus
 -  :ref:`Querying the Supported Node Types <dws_02_0022>`
 -  :ref:`Deleting a Cluster <dws_02_0021>`
 -  :ref:`Restarting a Cluster <dws_02_0052>`
--  :ref:`Scaling Out Clusters <dws_02_0053>`
+-  :ref:`Scaling Out a Cluster <dws_02_0053>`
 -  :ref:`Resetting a Password <dws_02_0054>`
 
 .. toctree::
@@ -26,5 +24,5 @@ A data warehouse cluster is the smallest management unit in GaussDB(DWS). A clus
    querying_the_supported_node_types
    deleting_a_cluster
    restarting_a_cluster
-   scaling_out_clusters
+   scaling_out_a_cluster
    resetting_a_password

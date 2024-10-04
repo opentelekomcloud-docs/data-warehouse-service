@@ -5,7 +5,7 @@
 API Description
 ===============
 
--  :ref:`Cluster Management APIs <dws_02_0017>`
+-  :ref:`Managing Clusters <dws_02_0017>`
 -  :ref:`Snapshot Management APIs <dws_02_0023>`
 -  :ref:`Tag Management APIs <dws_02_0045>`
 
@@ -13,6 +13,6 @@ API Description
    :maxdepth: 1
    :hidden: 
 
-   cluster_management_apis/index
+   managing_clusters/index
    snapshot_management_apis/index
    tag_management_apis/index
