@@ -29,7 +29,7 @@ Precautions
 Syntax
 ------
 
-.. code-block::
+::
 
    FETCH [ direction { FROM | IN } ] cursor_name;
 
@@ -52,7 +52,7 @@ The **direction** clause specifies optional parameters.
       | BACKWARD count
       | BACKWARD ALL
 
-.. _en-us_topic_0000001233430205__s680662240a104ac7a51873c7c888bdd1:
+.. _en-us_topic_0000001460880956__s680662240a104ac7a51873c7c888bdd1:
 
 Parameter Description
 ---------------------
@@ -153,13 +153,19 @@ Set up the **cursor1** cursor:
 
 ::
 
-   CURSOR cursor1 FOR SELECT * FROM customer_address ORDER BY 1;
+   CURSOR cursor1 FOR SELECT * FROM tpcds.customer_address ORDER BY 1;
 
 Fetch the first three rows from **cursor1**:
 
 ::
 
    FETCH FORWARD 3 FROM cursor1;
+    ca_address_sk |  ca_address_id   | ca_street_number |   ca_street_name   | ca_street_type  | ca_suite_number |     ca_city     |    ca_county    | ca_state |   ca_zip   |  ca_country   | ca_gmt_offset |   ca_location_type
+   ---------------+------------------+------------------+--------------------+-----------------+-----------------+-----------------+-----------------+----------+------------+---------------+---------------+----------------------
+                1 | AAAAAAAABAAAAAAA | 18               | Jackson            | Parkway         | Suite 280       | Fairfield       | Maricopa County | AZ       | 86192      | United States |         -7.00 | condo
+                2 | AAAAAAAACAAAAAAA | 362              | Washington 6th     | RD              | Suite 80        | Fairview        | Taos County     | NM       | 85709      | United States |         -7.00 | condo
+                3 | AAAAAAAADAAAAAAA | 585              | Dogwood Washington | Circle          | Suite Q         | Pleasant Valley | York County     | PA       | 12477      | United States |         -5.00 | single family
+   (3 rows)
 
 Example 2: Use a cursor to read the content in the **VALUES** clause.
 
@@ -174,6 +180,11 @@ Fetch the first two rows from **cursor2**:
 ::
 
    FETCH FORWARD 2 FROM cursor2;
+   column1 | column2
+   ---------+---------
+   0 |       3
+   1 |       2
+   (2 rows)
 
 Helpful Links
 -------------

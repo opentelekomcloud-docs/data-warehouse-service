@@ -8,14 +8,14 @@ CREATE SERVER
 Function
 --------
 
-**CREATE SERVER** creates an external server.
+Creates an external server.
 
 An external server stores information of HDFS clusters, OBS servers, DLI connections, or other homogeneous clusters.
 
 Precautions
 -----------
 
-By default, only the system administrator can create a foreign server. Otherwise, creating a server requires USAGE permission on the foreign-data wrapper being used. The syntax is as follows:
+By default, only the system administrator can create a foreign server. Otherwise, creating a server requires the **USAGE** permission on the foreign-data wrapper being used. The syntax is as follows:
 
 ::
 
@@ -45,7 +45,7 @@ Parameter Description
 
    Specifies the name of the foreign data wrapper.
 
-   Value range: **fdw_name** indicates the data wrapper created by the system in the initial phase of the database. Currently, **fdw_name** can be **hdfs_fdw** or **dfs_fdw** for the HDFS cluster, and can be **gc_fdw** for other homogeneous clusters.
+   Value range: **fdw_name** is the name of the data wrapper created by the system during database initialization. Currently, for the HDFS cluster, the value of **fdw_name** can be **hdfs_fdw** or **dfs_fdw**. For other homogeneous clusters, the value of **fdw_name** is **gc_fdw**. In data import and export scenarios, the GDS foreign table uses **gsmpp_server** and **fdw_name** is **dist_fdw**.
 
 -  **OPTIONS ( { option_name ' value ' } [, ...] )**
 
@@ -98,11 +98,31 @@ Parameter Description
 
    -  access_key
 
-      Specifies the access key (AK) (obtained by users from the OBS console) used for the OBS access protocol. When you create a foreign table, its AK value is encrypted and saved to the metadata table of the database. This parameter is available only when **type** is **OBS**.
+      Specifies the access key (AK) (obtained by users from the OBS console) used for the OBS access protocol. When you create a foreign table, its AK value is encrypted and saved to the metadata table of the database.
+
+      .. note::
+
+         -  If **FOREIGN DATA WRAPPER** is set to **dfs_fdw**, this parameter can be set only when type is set to OBS.
+         -  For clusters of version 8.2.0 or later, this parameter can be specified when **FOREIGN DATA WRAPPER** is set to **dist_fdw**.
 
    -  secret_access_key
 
-      Indicates the secret access key (SK) (obtained by users from the OBS page) used for the OBS access protocol. When you create a foreign table, its SK value is encrypted and saved to the metadata table of the database. This parameter is available only when **type** is **OBS**.
+      Indicates the secret access key (SK) (obtained by users from the OBS page) used for the OBS access protocol. When you create a foreign table, its SK value is encrypted and saved to the metadata table of the database.
+
+      .. note::
+
+         -  If **FOREIGN DATA WRAPPER** is set to **dfs_fdw**, this parameter can be set only when type is set to OBS.
+         -  For clusters of 8.2.0 or later, this parameter can be specified when **FOREIGN DATA WRAPPER** is set to **dist_fdw**.
+
+   -  security_token
+
+      Corresponds to the **SecurityToken** value of the temporary security credential in IAM. A temporary AK, a temporary SK, and a temporary security token form a temporary security credential. This parameter is supported by version 8.2.0 or later clusters.
+
+      .. note::
+
+         -  If **FOREIGN DATA WRAPPER** is set to **dfs_fdw**, this parameter can be set only when type is set to OBS.
+         -  For clusters of 8.2.0 or later, this parameter can be specified when **FOREIGN DATA WRAPPER** is set to **dist_fdw**.
+         -  When this parameter is used, **access_key** and **secret_access_key** correspond to the temporary AK and SK, respectively.
 
    -  type
 
@@ -161,33 +181,25 @@ Create the **hdfs_server** server, in which **hdfs_fdw** is the foreign-data wra
 
 Create the **obs_server** server, in which **dfs_fdw** is the foreign-data wrapper:
 
-.. important::
-
-   Hard-coded or plaintext AK and SK are risky. For security purposes, encrypt your AK and SK and store them in the configuration file or environment variables.
-
 ::
 
    CREATE SERVER obs_server FOREIGN DATA WRAPPER DFS_FDW OPTIONS (
-     address 'obs.xxx.xxx.com',
-     access_key 'xxxxxxxxx',
+     address 'obs.example.com',
+      access_key 'xxxxxxxxx',
      secret_access_key 'yyyyyyyyyyyyy',
      type 'obs'
    );
 
 Create the **dli_server** server, in which **dfs_fdw** is the foreign-data wrapper:
 
-.. important::
-
-   Hard-coded or plaintext AK and SK are risky. For security purposes, encrypt your AK and SK and store them in the configuration file or environment variables.
-
 ::
 
    CREATE SERVER dli_server FOREIGN DATA WRAPPER DFS_FDW OPTIONS (
-     address 'obs.xxx.xxx.com',
+     address 'obs.example.com',
      access_key 'xxxxxxxxx',
      secret_access_key 'yyyyyyyyyyyyy',
      type 'dli',
-     dli_address 'dli.xxx.xxx.com',
+     dli_address 'dli.example.com',
      dli_access_key 'xxxxxxxxx',
      dli_secret_access_key 'yyyyyyyyyyyyy'
    );
@@ -200,7 +212,17 @@ You are advised to create another server in the homogeneous cluster, where **gc_
       (address '10.10.0.100:25000,10.10.0.101:25000',
      dbname 'test',
      username 'test',
-     password '{Password}'
+     password 'xxxxxxxx'
+   );
+
+Create a server whose **FOREIGN DATA WRAPPER** is **dist_fdw** for importing and exporting text data on OBS.
+
+::
+
+   CREATE SERVER import_server FOREIGN DATA WRAPPER DIST_FDW OPTIONS
+   (
+     access_key 'ak_string',
+     secret_access_key 'sk_string'
    );
 
 Helpful Links

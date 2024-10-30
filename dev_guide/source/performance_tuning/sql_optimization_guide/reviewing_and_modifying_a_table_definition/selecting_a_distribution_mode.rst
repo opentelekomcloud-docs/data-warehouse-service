@@ -21,9 +21,9 @@ The round-robin table sends each row of the table to each DN in turn, so that da
 | Round-robin | Each row of the table is sent to each DN in turn. Therefore, data is evenly distributed on each DN. | Fact tables that contain a large amount of data and cannot find a proper distribution column in hash mode |
 +-------------+-----------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------+
 
-As shown in :ref:`Figure 1 <en-us_topic_0000001233681703__fig50793519161135>`, **T1** is a replication table and **T2** is a hash table.
+As shown in :ref:`Figure 1 <en-us_topic_0000001578590842__en-us_topic_0000001233681703_fig50793519161135>`, **T1** is a replication table and **T2** is a hash table.
 
-.. _en-us_topic_0000001233681703__fig50793519161135:
+.. _en-us_topic_0000001578590842__en-us_topic_0000001233681703_fig50793519161135:
 
 .. figure:: /_static/images/en-us_image_0000001188323792.png
    :alt: **Figure 1** Replication table and hash table

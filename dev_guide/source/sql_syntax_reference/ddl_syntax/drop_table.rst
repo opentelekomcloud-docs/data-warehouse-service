@@ -13,8 +13,10 @@ Function
 Precautions
 -----------
 
--  Only the table owner, schema owner, or a user granted with the DROP permission can run **DROP TABLE** on a table. A system administrator has this permission by default. To delete all the rows in a table but retain the table definition, use **TRUNCATE** or **DELETE**.
+-  Exercise caution when running the **DROP TABLE** statement. Ensure that the table can be deleted before running this statement. After you run the **DROP TABLE** statement to delete a table, data in the table cannot be restored.
+
 -  **DROP TABLE** forcibly deletes a specified table. After a table is deleted, any indexes that exist for the table will be deleted; any functions or stored procedures that use this table cannot be run. Deleting a partitioned table also deletes all partitions in the table.
+-  Only the table owner, schema owner, or a user granted with the **DROP** permission can run **DROP TABLE** on a table. A system administrator has this permission by default. To delete all the rows in a table but retain the table definition, use **TRUNCATE** or **DELETE**.
 
 Syntax
 ------

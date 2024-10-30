@@ -7,14 +7,14 @@ Ispell Dictionary
 
 The Ispell dictionary template supports morphological dictionaries, which can normalize many different linguistic forms of a word into the same lexeme. For example, an English Ispell dictionary can match all declensions and conjugations of the search term **bank**, such as **banking**, **banked**, **banks**, **banks'**, and **bank's**.
 
-GaussDB(DWS) does not provide any predefined Ispell dictionaries or dictionary files. The .dict files and .affix files support multiple open-source dictionary formats, including **Ispell**, **MySpell**, and **Hunspell**.
+GaussDB(DWS) does not provide any predefined Ispell dictionaries or dictionary files. The **.dict** files and **.affix** files support multiple open-source dictionary formats, including **Ispell**, **MySpell**, and **Hunspell**.
 
 Procedure
 ---------
 
 #. Obtain the dictionary definition file (.dict) and affix file (.affix).
 
-   You can use an open-source dictionary. The name extensions of the open-source dictionary may be .aff and .dic. In this case, you need to change them to .affix and .dict. In addition, for some dictionary files (for example, Norwegian dictionary files), you need to run the following commands to convert the character encoding to UTF-8:
+   You can use an open-source dictionary. The name extensions of the open-source dictionary may be **.aff** and **.dic**. In this case, you need to change them to **.affix** and **.dict**. In addition, for some dictionary files (for example, Norwegian dictionary files), you need to run the following commands to convert the character encoding to UTF-8:
 
    ::
 
@@ -23,20 +23,16 @@ Procedure
 
 #. Create an Ispell dictionary.
 
-   .. important::
-
-      // Hard-coded or plaintext AK and SK are risky. For security purposes, encrypt your AK and SK and store them in the configuration file or environment variables.
-
    ::
 
       CREATE TEXT SEARCH DICTIONARY norwegian_ispell (
           TEMPLATE = ispell,
           DictFile = nn_no,
           AffFile = nn_no,
-          FilePath =  'obs://bucket01/obs.xxx.xxx.com accesskey=xxxxx secretkey=xxxxx region=xx-xx-xx'
+          FilePath =  'obs://bucket01/obs.example.com accesskey=xxxxx secretkey=xxxxx region=xx-xx-xx'
       );
 
-   The full name of the Ispell dictionary file is **nn_no.dict** and **nn_no.affix**, and the dictionary is stored in the **'obs://bucket01/obs.xxx.xxx.com accesskey=xxxxx secretkey=xxxxx region=\ xx-xx-xx** directory. For details about the syntax and parameters for creating an Ispell dictionary, see :ref:`CREATE TEXT SEARCH DICTIONARY <dws_06_0183>`.
+   The full name of the Ispell dictionary file is **nn_no.dict** and **nn_no.affix**, and the dictionary is stored in 'obs://bucket01/obs.example.com accesskey=xxxxx secretkey=xxxxx region=\ *xx-xx-xx*'. For details about the syntax and parameters for creating an Ispell dictionary, see :ref:`CREATE TEXT SEARCH DICTIONARY <dws_06_0183>`.
 
 #. Use the Ispell dictionary to split compound words.
 

@@ -7,6 +7,7 @@ DDL Syntax
 
 -  :ref:`DDL Syntax Overview <dws_06_0119>`
 -  :ref:`ALTER DATABASE <dws_06_0120>`
+-  :ref:`ALTER EXCEPT RULE <dws_06_0280>`
 -  :ref:`ALTER FOREIGN TABLE (GDS Import and Export) <dws_06_0123>`
 -  :ref:`ALTER FOREIGN TABLE (for HDFS or OBS) <dws_06_0124>`
 -  :ref:`ALTER FOREIGN TABLE (SQL on other GaussDB(DWS)) <dws_06_0125>`
@@ -14,9 +15,11 @@ DDL Syntax
 -  :ref:`ALTER GROUP <dws_06_0127>`
 -  :ref:`ALTER INDEX <dws_06_0128>`
 -  :ref:`ALTER LARGE OBJECT <dws_06_0129>`
+-  :ref:`ALTER PUBLICATION <dws_06_0284>`
 -  :ref:`ALTER REDACTION POLICY <dws_06_0132>`
 -  :ref:`ALTER RESOURCE POOL <dws_06_0133>`
 -  :ref:`ALTER ROLE <dws_06_0134>`
+-  :ref:`ALTER SUBSCRIPTION <dws_06_0287>`
 -  :ref:`ALTER ROW LEVEL SECURITY POLICY <dws_06_0135>`
 -  :ref:`ALTER SCHEMA <dws_06_0136>`
 -  :ref:`ALTER SEQUENCE <dws_06_0137>`
@@ -38,6 +41,7 @@ DDL Syntax
 -  :ref:`COMMENT <dws_06_0154>`
 -  :ref:`CREATE BARRIER <dws_06_0155>`
 -  :ref:`CREATE DATABASE <dws_06_0156>`
+-  :ref:`CREATE EXCEPT RULE <dws_06_0281>`
 -  :ref:`CREATE FOREIGN TABLE (for GDS Import and Export) <dws_06_0159>`
 -  :ref:`CREATE FOREIGN TABLE (SQL on OBS or Hadoop) <dws_06_0161>`
 -  :ref:`CREATE FOREIGN TABLE (for OBS Import and Export) <dws_06_0160>`
@@ -45,14 +49,16 @@ DDL Syntax
 -  :ref:`CREATE FUNCTION <dws_06_0163>`
 -  :ref:`CREATE GROUP <dws_06_0164>`
 -  :ref:`CREATE INDEX <dws_06_0165>`
+-  :ref:`CREATE PROCEDURE <dws_06_0170>`
+-  :ref:`CREATE PUBLICATION <dws_06_0285>`
 -  :ref:`CREATE REDACTION POLICY <dws_06_0168>`
 -  :ref:`CREATE ROW LEVEL SECURITY POLICY <dws_06_0169>`
--  :ref:`CREATE PROCEDURE <dws_06_0170>`
 -  :ref:`CREATE RESOURCE POOL <dws_06_0171>`
 -  :ref:`CREATE ROLE <dws_06_0172>`
 -  :ref:`CREATE SCHEMA <dws_06_0173>`
 -  :ref:`CREATE SEQUENCE <dws_06_0174>`
 -  :ref:`CREATE SERVER <dws_06_0175>`
+-  :ref:`CREATE SUBSCRIPTION <dws_06_0288>`
 -  :ref:`CREATE SYNONYM <dws_06_0176>`
 -  :ref:`CREATE TABLE <dws_06_0177>`
 -  :ref:`CREATE TABLE AS <dws_06_0178>`
@@ -64,12 +70,15 @@ DDL Syntax
 -  :ref:`CREATE USER <dws_06_0186>`
 -  :ref:`CREATE VIEW <dws_06_0187>`
 -  :ref:`CURSOR <dws_06_0188>`
+-  :ref:`DISCARD <dws_06_0283>`
 -  :ref:`DROP DATABASE <dws_06_0189>`
+-  :ref:`DROP EXCEPT RULE <dws_06_0282>`
 -  :ref:`DROP FOREIGN TABLE <dws_06_0192>`
 -  :ref:`DROP FUNCTION <dws_06_0193>`
 -  :ref:`DROP GROUP <dws_06_0194>`
 -  :ref:`DROP INDEX <dws_06_0195>`
 -  :ref:`DROP OWNED <dws_06_0198>`
+-  :ref:`DROP PUBLICATION <dws_06_0286>`
 -  :ref:`DROP REDACTION POLICY <dws_06_0199>`
 -  :ref:`DROP ROW LEVEL SECURITY POLICY <dws_06_0200>`
 -  :ref:`DROP PROCEDURE <dws_06_0201>`
@@ -78,6 +87,7 @@ DDL Syntax
 -  :ref:`DROP SCHEMA <dws_06_0204>`
 -  :ref:`DROP SEQUENCE <dws_06_0205>`
 -  :ref:`DROP SERVER <dws_06_0206>`
+-  :ref:`DROP SUBSCRIPTION <dws_06_0289>`
 -  :ref:`DROP SYNONYM <dws_06_0207>`
 -  :ref:`DROP TABLE <dws_06_0208>`
 -  :ref:`DROP TEXT SEARCH CONFIGURATION <dws_06_0210>`
@@ -105,6 +115,7 @@ DDL Syntax
 
    ddl_syntax_overview
    alter_database
+   alter_except_rule
    alter_foreign_table_gds_import_and_export
    alter_foreign_table_for_hdfs_or_obs
    alter_foreign_table_sql_on_other_gaussdbdws
@@ -112,9 +123,11 @@ DDL Syntax
    alter_group
    alter_index
    alter_large_object
+   alter_publication
    alter_redaction_policy
    alter_resource_pool
    alter_role
+   alter_subscription
    alter_row_level_security_policy
    alter_schema
    alter_sequence
@@ -136,6 +149,7 @@ DDL Syntax
    comment
    create_barrier
    create_database
+   create_except_rule
    create_foreign_table_for_gds_import_and_export
    create_foreign_table_sql_on_obs_or_hadoop
    create_foreign_table_for_obs_import_and_export
@@ -143,14 +157,16 @@ DDL Syntax
    create_function
    create_group
    create_index
+   create_procedure
+   create_publication
    create_redaction_policy
    create_row_level_security_policy
-   create_procedure
    create_resource_pool
    create_role
    create_schema
    create_sequence
    create_server
+   create_subscription
    create_synonym
    create_table
    create_table_as
@@ -162,12 +178,15 @@ DDL Syntax
    create_user
    create_view
    cursor
+   discard
    drop_database
+   drop_except_rule
    drop_foreign_table
    drop_function
    drop_group
    drop_index
    drop_owned
+   drop_publication
    drop_redaction_policy
    drop_row_level_security_policy
    drop_procedure
@@ -176,6 +195,7 @@ DDL Syntax
    drop_schema
    drop_sequence
    drop_server
+   drop_subscription
    drop_synonym
    drop_table
    drop_text_search_configuration

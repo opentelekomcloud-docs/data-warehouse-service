@@ -8,7 +8,7 @@ Functions and Operators
 -  :ref:`Character Processing Functions and Operators <dws_06_0030>`
 -  :ref:`Binary String Functions and Operators <dws_06_0031>`
 -  :ref:`Bit String Functions and Operators <dws_06_0032>`
--  :ref:`Mathematical Functions and Operators <dws_06_0034>`
+-  :ref:`Numeric Functions and Operators <dws_06_0034>`
 -  :ref:`Date and Time Processing Functions and Operators <dws_06_0035>`
 -  :ref:`SEQUENCE Functions <dws_06_0043>`
 -  :ref:`Array Functions and Operators <dws_06_0044>`
@@ -22,7 +22,7 @@ Functions and Operators
 -  :ref:`Security Functions <dws_06_0048>`
 -  :ref:`Conditional Expression Functions <dws_06_0050>`
 -  :ref:`Range Functions and Operators <dws_06_0045>`
--  :ref:`Data Masking Functions <dws_06_0064>`
+-  :ref:`Data Redaction Functions <dws_06_0064>`
 -  :ref:`Roaring Bitmap Functions and Operators <dws_06_0991>`
 -  :ref:`UUID Functions <dws_06_0040>`
 -  :ref:`Text Search Functions and Operators <dws_06_0039>`
@@ -32,6 +32,7 @@ Functions and Operators
 -  :ref:`Network Address Functions and Operators <dws_06_0038>`
 -  :ref:`System Information Functions <dws_06_0051>`
 -  :ref:`System Administration Functions <dws_06_0052>`
+-  :ref:`Backup and Restoration Control Functions <dws_06_0056>`
 -  :ref:`Database Object Functions <dws_06_0058>`
 -  :ref:`Residual File Management Functions <dws_06_0060>`
 -  :ref:`Statistics Information Functions <dws_06_0065>`
@@ -46,7 +47,7 @@ Functions and Operators
    character_processing_functions_and_operators
    binary_string_functions_and_operators
    bit_string_functions_and_operators
-   mathematical_functions_and_operators/index
+   numeric_functions_and_operators/index
    date_and_time_processing_functions_and_operators/index
    sequence_functions
    array_functions_and_operators/index
@@ -60,7 +61,7 @@ Functions and Operators
    security_functions
    conditional_expression_functions
    range_functions_and_operators/index
-   data_masking_functions
+   data_redaction_functions
    roaring_bitmap_functions_and_operators/index
    uuid_functions
    text_search_functions_and_operators/index
@@ -70,6 +71,7 @@ Functions and Operators
    network_address_functions_and_operators/index
    system_information_functions/index
    system_administration_functions/index
+   backup_and_restoration_control_functions/index
    database_object_functions/index
    residual_file_management_functions/index
    statistics_information_functions

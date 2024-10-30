@@ -8,7 +8,7 @@ VACUUM
 Function
 --------
 
-**VACUUM** reclaims storage space occupied by tables or B-tree indexes. In normal database operation, rows that have been deleted are not physically removed from their table; they remain present until a **VACUUM** is done. Therefore, it is necessary to execute **VACUUM** periodically, especially on frequently-updated tables.
+Reclaims storage space occupied by tables or B-tree indexes. In normal database operation, rows that have been deleted are not physically removed from their table; they remain present until a **VACUUM** is done. Therefore, it is necessary to execute **VACUUM** periodically, especially on frequently-updated tables.
 
 Precautions
 -----------
@@ -25,10 +25,11 @@ Precautions
 -  **VACUUM ANALYZE** executes a VACUUM operation and then an ANALYZE operation for each selected table. This is a handy combination form for routine maintenance scripts.
 -  Plain **VACUUM** (without **FULL**) recycles space and makes it available for reuse. This form of the command can operate in parallel with normal reading and writing of the table, as an exclusive lock is not obtained. **VACUUM FULL** executes wider processing, including moving rows across blocks to compress tables so they occupy minimum number of disk blocks. This form is much slower and requires an exclusive lock on each table while it is being processed.
 -  When you do **VACUUM** to a column-store table, the following operations are internally performed: data in the delta table is migrated to the primary table, and the delta and desc tables of the primary table are vacuumed. **VACUUM** does not reclaim the storage space of the delta table. To reclaim it, do **VACUUM DELTAMERGE** to the column-store table.
+-  Running **VACUUM FULL** on system catalogs can only be done when the database is offline. Otherwise, table locks, exceptions, and errors may occur.
 -  If you perform VACUUM FULL when a long-running query accesses a system table, the long-running query may prevent VACUUM FULL from accessing the system table. As a result, the connection times out and an error is reported.
 -  Running **VACUUM FULL** on a column-store partitioned table locks the table and its partitions.
--  Concurrent VACUUM FULL operations on system catalogs may cause local deadlocks.
--  When a **VACUUM FULL** operation is performed on a table, it triggers table rebuilding. During this rebuilding process, data is dumped into a new data file. Once the rebuilding is complete, the original file is deleted. However, it is important to note that if the table is large, the rebuilding process can consume a significant amount of disk space. When the disk space is insufficient, exercise caution when performing the **VACUUM FULL** operation on large tables to prevent the cluster from being read-only.
+-  Running **VACUUM FULL** on different system tables simultaneously may cause local deadlocks.
+-  When a **VACUUM FULL** operation is performed on a table, it triggers table rebuilding. During this rebuilding process, data is dumped into a new data file. Once the rebuilding is complete, the original file is deleted. However, it is important to note that if the table is large, the rebuilding process can consume a large disk space. When the disk space is insufficient, performing the **VACUUM FULL** operation on large tables may cause the cluster to become read-only.
 
 Syntax
 ------
@@ -53,11 +54,11 @@ Syntax
       VACUUM [ FULL ] [ FREEZE ] [ VERBOSE ] { ANALYZE | ANALYSE } [ VERBOSE ]
           [ table_name [ (column_name [, ...] ) ] ] [ PARTITION ( partition_name ) ];
 
--  For HDFS tables, migrate data from the delta table to the primary table.
+-  For HDFS tables, migrate data from the delta table to the primary table. The **partition_name** parameter is supported only by clusters of version 8.2.1.300 or later.
 
    ::
 
-      VACUUM DELTAMERGE [ table_name ];
+      VACUUM DELTAMERGE [ table_name ][partition_name];
 
 -  For HDFS tables, delete the empty value partition directory of HDFS table in HDFS storage.
 
@@ -82,7 +83,7 @@ Parameter Description
 
 -  **FREEZE**
 
-   Specifying a **FREEZE** is equivalent to setting vacuum_freeze_min_age to **0** when VACUUM is executed.
+   Is equivalent to executing **VACUUM** with the **vacuum_freeze_min_age** parameter set to **zero**.
 
 -  **VERBOSE**
 
@@ -106,11 +107,11 @@ Parameter Description
 
 -  **PARTITION**
 
-   HDFS table does not support **PARTITION**. **COMPACT** and **PARTITION** cannot be used at the same time.
+   HDFS tables do not support **PARTITION**. **COMPACT** and **PARTITION** cannot be used at the same time.
 
    .. note::
 
-      If the **PARTITION** and **COMPACT** parameters are used at the same time, the following error message is displayed: **COMPACT can not be used with PARTITION**.
+      The following error message will be displayed if **PARTITION** and **COMPACT** are both used: **COMPACT can not be used with PARTITION**.
 
 -  **partition_name**
 
@@ -127,46 +128,23 @@ Parameter Description
 Examples
 --------
 
-Create a partitioned table **customer_address**:
-
-::
-
-   DROP TABLE IF EXISTS customer_address;
-   CREATE TABLE customer_address
-   (
-       ca_address_sk       INTEGER                  NOT NULL   ,
-       ca_address_id       CHARACTER(16)            NOT NULL   ,
-       ca_street_number    CHARACTER(10)                       ,
-       ca_street_name      CHARACTER varying(60)               ,
-       ca_street_type      CHARACTER(15)                       ,
-       ca_suite_number     CHARACTER(10)
-   )
-   DISTRIBUTE BY HASH (ca_address_sk)
-   PARTITION BY RANGE(ca_address_sk)
-   (
-           PARTITION P1 VALUES LESS THAN(2450815),
-           PARTITION P2 VALUES LESS THAN(2451179),
-           PARTITION P3 VALUES LESS THAN(2451544),
-           PARTITION P4 VALUES LESS THAN(MAXVALUE)
-   );
-
 Delete all tables in the current database.
 
 ::
 
    VACUUM;
 
-Reclaim the space of partition **P2** of the **customer_address** table without updating statistics.
+Reclaim the space of partition **P2** of the **tpcds.web_returns_p1** table without updating statistics.
 
 ::
 
-   VACUUM FULL customer_address PARTITION(P2);
+   VACUUM FULL tpcds.web_returns_p1 PARTITION(P2);
 
-Reclaim the space of the **customer_address** table and update statistics.
+Reclaim the space of the **tpcds.web_returns_p1** table and update statistics.
 
 ::
 
-   VACUUM FULL ANALYZE customer_address;
+   VACUUM FULL ANALYZE tpcds.web_returns_p1;
 
 Delete all tables in the current database and collect statistics about the query optimizer.
 
@@ -178,4 +156,4 @@ Delete only the **reason** table.
 
 ::
 
-   VACUUM (VERBOSE, ANALYZE) customer_address;
+   VACUUM (VERBOSE, ANALYZE) tpcds.reason;

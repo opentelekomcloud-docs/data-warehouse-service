@@ -2,6 +2,8 @@
 
 .. _dws_04_0209:
 
+.. _en-us_topic_0000001764817409:
+
 Using gs_restore to Import Data
 ===============================
 
@@ -27,7 +29,7 @@ Procedure
 
 .. note::
 
-   **gs_restore** incrementally imports data by default. To prevent data exception caused by consecutive imports, use the **-e** and **-c** parameters for each import. In this way, existing data is deleted from the target database before each import; the system exists the import task with an error (error message is displayed after the import process is complete) and proceeds with the next.
+   **gs_restore** incrementally imports data by default. To avoid data exceptions caused by consecutive imports, use the **-e** and **-c** parameters for each import. This will delete existing data from the target database before each import and exit the import task with an error message (which is displayed after the import process is complete) before proceeding with the next import.
 
 #. Log in to the server as the **root** user and run the following command to go to the data storage path:
 

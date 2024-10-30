@@ -2,10 +2,12 @@
 
 .. _dws_04_0425:
 
+.. _en-us_topic_0000001629230089:
+
 SMP Manual Optimization Suggestions
 ===================================
 
-To manually optimize SMP, you need to be familiar with :ref:`Suggestions for SMP Parameter Settings <dws_04_0424>`. This section describes how to optimize SMP.
+To manually optimize SMP, you need to be familiar with :ref:`Suggestions for SMP Parameter Settings <en-us_topic_0000001628950665>`. This section describes how to optimize SMP.
 
 Constraints
 -----------
@@ -17,7 +19,7 @@ Procedure
 
 #. Observe the current system load situation. If the resource is sufficient (the resource usage ratio is smaller than 50%), perform step 2. Otherwise, exit this system.
 
-#. Set **query_dop** to **1** (default value). Use **explain** to generate an execution plan and check whether the plan can be used in scenarios in :ref:`Application Scenarios and Restrictions <dws_04_0421>`. If the plan can be used, go to the next step.
+#. Set **query_dop** to **1** (default value). Use **explain** to generate an execution plan and check whether the plan can be used in scenarios in :ref:`Application Scenarios and Restrictions <en-us_topic_0000001578750678>`. If the plan can be used, go to the next step.
 
 #. Set **query_dop=-**\ *value*. The value range of the parallelism degree is [1, *value*].
 

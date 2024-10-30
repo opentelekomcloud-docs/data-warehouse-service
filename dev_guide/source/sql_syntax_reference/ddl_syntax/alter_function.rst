@@ -8,17 +8,17 @@ ALTER FUNCTION
 Function
 --------
 
-**ALTER FUNCTION** modifies the attributes of a customized function.
+Modifies the attributes of a customized function.
 
 Precautions
 -----------
 
-Only the owner of a function or a system administrator can run this statement. The user who wants to change the owner of a function must be a direct or indirect member of the new owner role. If a function involves operations on temporary tables, the **ALTER FUNCTION** cannot be used.
+Only the owner of a function or a system administrator can run this statement. The user who wants to change the owner of a function must be a direct or indirect member of the new owning role. If a function involves operations on temporary tables, the **ALTER FUNCTION** cannot be used.
 
 Syntax
 ------
 
--  Modify the additional parameter of the customized function:
+-  Modify the additional parameter of the customized function.
 
    ::
 
@@ -33,6 +33,7 @@ Syntax
        | {IMMUTABLE | STABLE | VOLATILE}
        | {SHIPPABLE | NOT SHIPPABLE}
        | {NOT FENCED | FENCED}
+
        | [ NOT ] LEAKPROOF
        | { [ EXTERNAL ] SECURITY INVOKER | [ EXTERNAL ] SECURITY DEFINER }
        | AUTHID { DEFINER | CURRENT_USER }
@@ -41,21 +42,23 @@ Syntax
        | SET configuration_parameter { { TO | = } { value | DEFAULT }| FROM CURRENT}
        | RESET {configuration_parameter | ALL}
 
--  Modify the name of the customized function:
+-  Change the name of a user-defined function. The new function name can be prefixed with the name of the schema where the original function is located. The schema name cannot be changed at the same time.
 
    ::
 
       ALTER FUNCTION funname ( [ { [ argmode ] [ argname ] argtype} [, ...] ] )
           RENAME TO new_name;
+      ALTER FUNCTION funname ( [ { [ argmode ] [ argname ] argtype} [, ...] ] )
+          RENAME TO schema.new_name;
 
--  Modify the owner of the customized function:
+-  Modify the owner of the customized function.
 
    ::
 
       ALTER FUNCTION funname ( [ { [ argmode ] [ argname ] argtype} [, ...] ] )
           OWNER TO new_owner;
 
--  Modify the schema of the customized function:
+-  Modify the schema of the customized function.
 
    ::
 
@@ -124,7 +127,7 @@ Parameter Description
 
 -  **LEAKPROOF**
 
-   Indicates that the function has no side effect and specifies that the parameter includes only the returned value. **LEAKPROOF** can be set only by a system administrator.
+   Indicates that the function has no side effect and specifies that the parameter includes only the returned value. **LEAKPROOF** can be set only by the system administrator.
 
 -  (Optional) **EXTERNAL**
 
@@ -166,7 +169,7 @@ Parameter Description
 
       Sets a specified database session parameter to a specified value. If the value is **DEFAULT** or **RESET**, the default setting is used in the new session. **OFF** closes the setting.
 
-      Value range: a string
+      Value range: A string
 
       -  DEFAULT
       -  OFF
@@ -196,20 +199,8 @@ Parameter Description
 
    Value range: Existing schemas.
 
-Example
--------
-
-Create a function that calculates the sum of two integers and returns the result. If the input is null, null will be returned.
-
-::
-
-   DROP FUNCTION IF EXISTS func_add_sql2;
-   CREATE FUNCTION func_add_sql2(num1 integer, num2 integer) RETURN integer
-   AS
-   BEGIN
-   RETURN num1 + num2;
-   END;
-   /
+Examples
+--------
 
 Alter the execution rule of function add to IMMUTABLE (that is, the same result is returned if the parameter remains unchanged):
 
@@ -217,13 +208,19 @@ Alter the execution rule of function add to IMMUTABLE (that is, the same result 
 
    ALTER FUNCTION func_add_sql2(INTEGER, INTEGER) IMMUTABLE;
 
-Rename the **func_add_sql2** function as **add_two_number**:
+Change the name of the **add** function to **add_two_number**.
 
 ::
 
    ALTER FUNCTION func_add_sql2(INTEGER, INTEGER) RENAME TO add_two_number;
 
-Change the owner of function **add_two_number** to **dbadmin**:
+Change the name of the function **add** in tpcds to **add_two_number**, and prefix it with the original schema name.
+
+::
+
+   ALTER FUNCTION tpcds.func_add_sql2(INTEGER, INTEGER) RENAME TO tpcds.add_two_number;
+
+Change the owner of function **add** to **dbadmin**:
 
 ::
 

@@ -61,13 +61,13 @@ The following describes the principles of exporting data from a cluster to OBS b
 
 -  Distributed hash table: the table for which **DISTRIBUTE BY HASH (Column_Name)** is specified in the table creation statement.
 
-   A distributed hash table stores data in hash mode. :ref:`Figure 1 <en-us_topic_0000001188323684__en-us_topic_0000001145491123_f3c36ca500176469491e1a5942e1f1722>` shows how to export data from table (**T2**) to OBS as an example.
+   A distributed hash table stores data in hash mode. :ref:`Figure 1 <en-us_topic_0000001717097352__en-us_topic_0000001188323684_en-us_topic_0000001145491123_f3c36ca500176469491e1a5942e1f1722>` shows how to export data from table (**T2**) to OBS as an example.
 
    During table data storage, the **col2** hash column in table **T2** is hashed, and a hash value is generated. The tuple is distributed to corresponding DNs for storage according to the mapping between the DNs and the hash value.
 
    When data is exported to OBS, DNs that store the exported data of **T2** directly export their data files to OBS. Original data on multiple nodes will be exported in parallel.
 
-   .. _en-us_topic_0000001188323684__en-us_topic_0000001145491123_f3c36ca500176469491e1a5942e1f1722:
+   .. _en-us_topic_0000001717097352__en-us_topic_0000001188323684_en-us_topic_0000001145491123_f3c36ca500176469491e1a5942e1f1722:
 
    .. figure:: /_static/images/en-us_image_0000001233681871.png
       :alt: **Figure 1** Hash distribution principle
@@ -115,13 +115,13 @@ Data Export Process
    +==============================+=============================================================================================================================================================================================================================+=======================+
    | Plan data export.            | Create an OBS bucket and a folder in the OBS bucket as the directory for storing exported data files.                                                                                                                       | ``-``                 |
    |                              |                                                                                                                                                                                                                             |                       |
-   |                              | For details, see :ref:`Planning Data Export <dws_04_0252>`.                                                                                                                                                                 |                       |
+   |                              | For details, see :ref:`Planning Data Export <en-us_topic_0000001764896641>`.                                                                                                                                                |                       |
    +------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
    | Create an OBS foreign table. | Create a foreign table to help OBS specify information about data files to be exported. The foreign table stores information, such as the destination location, format, encoding, and data delimiter of a source data file. | ``-``                 |
    |                              |                                                                                                                                                                                                                             |                       |
-   |                              | For details, see :ref:`Creating an OBS Foreign Table <dws_04_0253>`.                                                                                                                                                        |                       |
+   |                              | For details, see :ref:`Creating an OBS Foreign Table <en-us_topic_0000001717256780>`.                                                                                                                                       |                       |
    +------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
    | Export data.                 | After the foreign table is created, run the **INSERT** statement to efficiently export data to data files.                                                                                                                  | ``-``                 |
    |                              |                                                                                                                                                                                                                             |                       |
-   |                              | For details, see :ref:`Exporting Data <dws_04_0254>`.                                                                                                                                                                       |                       |
+   |                              | For details, see :ref:`Exporting Data <en-us_topic_0000001717097360>`.                                                                                                                                                      |                       |
    +------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+

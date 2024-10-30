@@ -19,7 +19,7 @@ The syntax is as follows:
    SET XML OPTION { DOCUMENT | CONTENT };
    SET xmloption TO { DOCUMENT | CONTENT };
 
-If a string value is not converted to XML using the **XMLPARSE** or **XMLSERIALIZE** function, the **XML OPTION** session parameter determines it is **DOCUMENT** or **CONTENT**.
+If a string value is not converted to XML using the XMLPARSE or XMLSERIALIZE function, the XML OPTION session parameter determines it is DOCUMENT or CONTENT.
 
 The default value is CONTENT, indicating that all types of XML data are allowed.
 

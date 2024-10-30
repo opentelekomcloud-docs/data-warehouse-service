@@ -5,9 +5,9 @@
 Creating a Foreign Table
 ========================
 
-After operations in :ref:`Creating a Foreign Server <dws_04_0162>` are complete, create an HDFS write-only foreign table in the GaussDB(DWS) database to access data stored in HDFS. The foreign table is write-only and can be used only for data export.
+After operations in :ref:`Creating a Foreign Server <en-us_topic_0000001764896657>` are complete, create an HDFS write-only foreign table in the GaussDB(DWS) database to access data stored in HDFS. The foreign table is write-only and can be used only for data export.
 
-The syntax for creating a foreign table is as follows. For details, see **CREATE FOREIGN TABLE (SQL on Hadoop or OBS)**.
+The syntax for creating a foreign table is as follows:
 
 ::
 
@@ -23,7 +23,7 @@ The syntax for creating a foreign table is as follows. For details, see **CREATE
        DISTRIBUTE BY {ROUNDROBIN | REPLICATION}
        [ PARTITION BY ( column_name ) [ AUTOMAPPED ] ] ;
 
-For example, when creating a foreign table *product_info_ext_obs*, configure the parameters in the syntax as follows.
+For example, when creating a foreign table **product_info_ext_obs**, configure the parameters in the syntax as follows.
 
 -  **table_name**
 
@@ -40,7 +40,7 @@ For example, when creating a foreign table *product_info_ext_obs*, configure the
 
    Specifies the foreign server name of the foreign table. This server must exist. The foreign table connects to OBS/HDFS to read data through the foreign server.
 
-   Enter the name of the foreign server created in :ref:`Creating a Foreign Server <dws_04_0162>`.
+   Enter the name of the foreign server created in :ref:`Creating a Foreign Server <en-us_topic_0000001764896657>`.
 
 -  **OPTIONS parameters**
 
@@ -86,7 +86,7 @@ For example, when creating a foreign table *product_info_ext_obs*, configure the
 
 -  **Other parameters in the syntax**
 
-   Other parameters are optional and can be configured as required. In this example, they do not need to be configured. For details, see **CREATE FOREIGN TABLE (SQL on Hadoop or OBS)**.
+   Other parameters are optional and can be configured as required. In this example, they do not need to be configured.
 
    Based on the preceding settings, the command for creating the foreign table is as follows:
 

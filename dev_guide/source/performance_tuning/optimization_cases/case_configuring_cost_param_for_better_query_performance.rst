@@ -2,6 +2,8 @@
 
 .. _dws_04_0479:
 
+.. _en-us_topic_0000001579070006:
+
 Case: Configuring cost_param for Better Query Performance
 =========================================================
 

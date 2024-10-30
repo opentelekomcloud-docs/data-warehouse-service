@@ -5,12 +5,12 @@
 Binary String Functions and Operators
 =====================================
 
-There are some binary string functions defined in SQL, which use keywords instead of commas to separate arguments. GaussDB(DWS) also provides the common syntax used for invoking functions.
+SQL defines some binary string functions that use keywords, rather than commas, to separate arguments. GaussDB(DWS) also provides the common syntax used for invoking functions.
 
 octet_length(string)
 --------------------
 
-Description: Number of bytes in binary string
+Description: Returns the number of bytes in the given binary string.
 
 Return type: integer
 
@@ -27,7 +27,7 @@ Examples:
 overlay(string placing string from int [for int])
 -------------------------------------------------
 
-Description: Replaces substring.
+Description: Replaces the given substring.
 
 Return type: bytea
 
@@ -44,7 +44,7 @@ Examples:
 position(substring in string)
 -----------------------------
 
-Description: Location of specified substring
+Description: Returns the location of the given substring.
 
 Return type: integer
 
@@ -61,7 +61,7 @@ Examples:
 substring(string [from int] [for int])
 --------------------------------------
 
-Description: Truncates substring.
+Description: Truncates the given substring.
 
 Return type: bytea
 
@@ -79,7 +79,7 @@ Truncate the time and obtain the number of hours.
 
 ::
 
-   select substring('2022-07-18 24:38:15',12,2)AS RESULT;
+   SELECT substring('2022-07-18 24:38:15',12,2)AS RESULT;
     result
    -----------
     24
@@ -102,6 +102,23 @@ Examples:
     \x546f6d
    (1 row)
 
+substring_index(string, delim, count)
+-------------------------------------
+
+Description: Searches for delimiters in a case-sensitive manner and returns the substring before the delimiter that appears for the **count** time. If **count** is a negative number, count for the delimiter reversely from the end. If the parameter contains NULL, NULL will be returned. This function is supported by version 8.2.0 or later clusters.
+
+Return type: text
+
+Example: In the string **www.wWw.cloud.wWw.com**, find the delimiter **.wWw.** that appears the second time in a case-sensitive manner. Return the substring before it: **www.wWw.cloud**.
+
+::
+
+   SELECT SUBSTRING_INDEX('www.wWw.cloud.wWw.com', '.wWw.', 2) AS RESULT;
+       result
+   ---------------
+    www.wWw.cloud
+   (1 row)
+
 btrim(string bytea,bytes bytea)
 -------------------------------
 
@@ -122,7 +139,7 @@ Examples:
 get_bit(string, offset)
 -----------------------
 
-Description: Extracts bit from string.
+Description: Returns the number of bits in the given string.
 
 Return type: integer
 
@@ -139,7 +156,7 @@ Examples:
 get_byte(string, offset)
 ------------------------
 
-Description: Extracts byte from string.
+Description: Returns the number of bytes in the given string.
 
 Return type: integer
 
@@ -156,7 +173,7 @@ Examples:
 set_bit(string,offset, newvalue)
 --------------------------------
 
-Description: Sets bit in string.
+Description: Sets bits in the given string.
 
 Return type: bytea
 
@@ -173,7 +190,7 @@ Examples:
 set_byte(string,offset, newvalue)
 ---------------------------------
 
-Description: Sets byte in string.
+Description: Sets bytes in the given string.
 
 Return type: bytea
 

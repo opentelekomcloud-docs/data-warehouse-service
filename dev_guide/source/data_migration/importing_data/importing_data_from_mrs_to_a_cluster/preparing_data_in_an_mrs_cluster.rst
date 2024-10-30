@@ -2,6 +2,8 @@
 
 .. _dws_04_0212:
 
+.. _en-us_topic_0000001717097320:
+
 Preparing Data in an MRS Cluster
 ================================
 
@@ -14,7 +16,7 @@ If you have completed the preparations, skip this section.
 
 In this tutorial, the Hive ORC table will be created in the MRS cluster as an example to complete the preparation work. The process and the SQL syntax for creating a Spark ORC table in the MRS cluster are similar to those in Hive.
 
-.. _en-us_topic_0000001188642198__en-us_topic_0000001082830951_en-us_topic_0109259515_en-us_topic_0101477888_section55166005141018:
+.. _en-us_topic_0000001717097320__en-us_topic_0000001188642198_en-us_topic_0000001082830951_en-us_topic_0109259515_en-us_topic_0101477888_section55166005141018:
 
 Data File
 ---------
@@ -65,7 +67,7 @@ Creating a Hive ORC Table in an MRS Cluster
 
          To obtain the client of an earlier version, choose **Services** > **Download Client** and set **Select Client Type** to **Configuration Files Only**.
 
-#. .. _en-us_topic_0000001188642198__en-us_topic_0000001082830951_en-us_topic_0109259515_en-us_topic_0101477888_li14725131112614:
+#. .. _en-us_topic_0000001717097320__en-us_topic_0000001188642198_en-us_topic_0000001082830951_en-us_topic_0109259515_en-us_topic_0101477888_li14725131112614:
 
    Log in to the Hive client of the MRS cluster.
 
@@ -73,7 +75,7 @@ Creating a Hive ORC Table in an MRS Cluster
 
       For details, see "Logging in to a cluster > Logging In to an ECS" in the MapReduce Service User Guide.
 
-   b. Run the following command to switch the user:
+   b. Switch the user.
 
       .. code-block::
 
@@ -121,7 +123,7 @@ Creating a Hive ORC Table in an MRS Cluster
 
       CREATE DATABASE demo;
 
-#. Create table **product_info** of the **Hive TEXTFILE** type in the database demo and import the :ref:`Data File <en-us_topic_0000001188642198__en-us_topic_0000001082830951_en-us_topic_0109259515_en-us_topic_0101477888_section55166005141018>` (**product_info.txt**) to the HDFS path corresponding to the table.
+#. Create table **product_info** of the **Hive TEXTFILE** type in the database demo and import the :ref:`Data File <en-us_topic_0000001717097320__en-us_topic_0000001188642198_en-us_topic_0000001082830951_en-us_topic_0109259515_en-us_topic_0101477888_section55166005141018>` (**product_info.txt**) to the HDFS path corresponding to the table.
 
    Run the following command to switch to the database demo:
 
@@ -129,7 +131,7 @@ Creating a Hive ORC Table in an MRS Cluster
 
       USE demo;
 
-   Run the following command to create table **product_info** and define the table fields based on data in the :ref:`Data File <en-us_topic_0000001188642198__en-us_topic_0000001082830951_en-us_topic_0109259515_en-us_topic_0101477888_section55166005141018>`.
+   Run the following command to create table **product_info** and define the table fields based on data in the :ref:`Data File <en-us_topic_0000001717097320__en-us_topic_0000001188642198_en-us_topic_0000001082830951_en-us_topic_0109259515_en-us_topic_0101477888_section55166005141018>`.
 
    ::
 
@@ -191,6 +193,6 @@ Creating a Hive ORC Table in an MRS Cluster
 
       SELECT * FROM product_info_orc;
 
-   If data displayed in the :ref:`Data File <en-us_topic_0000001188642198__en-us_topic_0000001082830951_en-us_topic_0109259515_en-us_topic_0101477888_section55166005141018>` can be queried, the data has been successfully inserted to the ORC table.
+   If data displayed in the :ref:`Data File <en-us_topic_0000001717097320__en-us_topic_0000001188642198_en-us_topic_0000001082830951_en-us_topic_0109259515_en-us_topic_0101477888_section55166005141018>` can be queried, the data has been successfully inserted to the ORC table.
 
 .. |image1| image:: /_static/images/en-us_image_0000001636122557.png

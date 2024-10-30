@@ -5,12 +5,12 @@
 Keyword
 =======
 
-The SQL contains reserved and non-reserved words. Standards require that reserved keywords not be used as other identifiers. Non-reserved keywords have special meanings only in a specific environment and can be used as identifiers in other environments.
+The SQL contains reserved and non-reserved words. Reserved keywords must not be used as other identifiers in accordance with standards. Non-reserved keywords have special meanings only in a specific environment and can be used as identifiers in other environments.
 
 .. table:: **Table 1** SQL keywords
 
    +-----------------------------+-----------------------------------------------------------------+--------------+--------------+
-   | Keyword                     | GaussDB(DWS)                                                    | SQL:1999     | SQL-92       |
+   | Keyword                     | GaussDB(DWS)                                                    | SQL:1999     | SQL:1992     |
    +=============================+=================================================================+==============+==============+
    | ABORT                       | Non-reserved                                                    | ``-``        | ``-``        |
    +-----------------------------+-----------------------------------------------------------------+--------------+--------------+
@@ -1315,6 +1315,8 @@ The SQL contains reserved and non-reserved words. Standards require that reserve
    | TRUNCATE                    | Non-reserved                                                    | ``-``        | ``-``        |
    +-----------------------------+-----------------------------------------------------------------+--------------+--------------+
    | TRUSTED                     | Non-reserved                                                    | ``-``        | ``-``        |
+   +-----------------------------+-----------------------------------------------------------------+--------------+--------------+
+   | TRY_CAST                    | Non-reserved                                                    | ``-``        | ``-``        |
    +-----------------------------+-----------------------------------------------------------------+--------------+--------------+
    | TSTAG                       | Reserved. This field is used only in the hybrid data warehouse. | ``-``        | ``-``        |
    +-----------------------------+-----------------------------------------------------------------+--------------+--------------+

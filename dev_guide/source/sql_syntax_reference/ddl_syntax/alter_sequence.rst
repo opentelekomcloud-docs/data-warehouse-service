@@ -28,6 +28,7 @@ Change the maximum value or home column of the sequence.
 
    ALTER SEQUENCE [ IF EXISTS ] name
        [ MAXVALUE maxvalue | NO MAXVALUE | NOMAXVALUE ]
+       [ CACHE cachevalue ]
        [ OWNED BY { table_name.column_name | NONE } ] ;
 
 Change the owner of a sequence.
@@ -39,19 +40,25 @@ Change the owner of a sequence.
 Parameter Description
 ---------------------
 
--  **name**
+-  name
 
    Specifies the sequence name to be changed.
 
--  **IF EXISTS**
+-  IF EXISTS
 
    Sends a notification instead of an error when you are modifying a non-existing sequence.
 
--  **MAXVALUE maxvalue \| NO MAXVALUE**
+-  MAXVALUE maxvalue \| NO MAXVALUE
 
    Maximum value of a sequence. If **NO MAXVALUE** is declared, the default value of the ascending sequence is **2\ 63-1**, and that of the descending sequence is **-1**. **NOMAXVALUE** is equivalent to **NO MAXVALUE**.
 
--  **OWNED BY**
+-  CACHE cachevalue
+
+   This parameter is supported only by clusters of version 8.2.1.100 or later.
+
+   Allocates sequence numbers and stores them in memory for faster access. The minimum value of **cachevalue** is **1**. (One value can be generated at a time, which means **NOCACHE**.) If this parameter is not specified, the old cache value is retained.
+
+-  OWNED BY
 
    Associates a sequence with a specified column included in a table. In this way, the sequence will be deleted when you delete its associated field or the table where the field belongs.
 
@@ -61,35 +68,36 @@ Parameter Description
 
    If **OWNED BY NONE** is used, existing associations will be deleted.
 
--  **new_owner**
+-  new_owner
 
-   Specifies the user name of the new owner. To change the owner, you must also be a direct or indirect member of the new role, and this role must have **CREATE** permission on the sequence's schema.
+   Specifies the user name of the new owner. To change the owner, you must also be a direct or indirect member of the new role, and this role must have the **CREATE** permission on the sequence's schema.
 
 Examples
 --------
-
-Create the example sequence **seq_test** and example table **t1**:
-
-::
-
-   CREATE SEQUENCE seq_test START 101;
-
-::
-
-   DROP TABLE IF EXISTS t1;
-   CREATE TABLE t1(c1 bigint default nextval('seq_test'));
 
 Modify the maximum value of **serial** to **200**.
 
 ::
 
-   ALTER SEQUENCE seq_test MAXVALUE 200;
+   ALTER SEQUENCE serial MAXVALUE 200;
 
-Change the column of the **seq_test** sequence to **t1.c1**.
+Create a table, and specify default values for the sequence.
 
 ::
 
-   ALTER SEQUENCE seq_test OWNED BY t1.c1;
+   CREATE TABLE T1(C1 bigint default nextval('serial'));
+
+Change the owning column of the **serial** sequence to **T1.C1**.
+
+::
+
+   ALTER SEQUENCE serial OWNED BY T1.C1;
+
+Change the incremental value and cache value of the serial sequence.
+
+::
+
+   ALTER SEQUENCE serial CACHE 5;
 
 Helpful Links
 -------------

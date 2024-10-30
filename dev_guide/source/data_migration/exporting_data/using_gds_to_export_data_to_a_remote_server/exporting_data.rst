@@ -2,6 +2,8 @@
 
 .. _dws_04_0266:
 
+.. _en-us_topic_0000001764896665:
+
 Exporting Data
 ==============
 
@@ -21,7 +23,7 @@ Syntax
 
 .. note::
 
-   Create batch processing scripts to export data in parallel. The degree of parallelism depends on the server resource usage. You can test several tables and monitor resource usage to determine whether to increase or reduce the amount. Common resource monitoring commands include **top** for memory and CPU usage, **iostat** for I/O usage, and **sar** for networks. For details about application cases, see :ref:`Exporting Data Using Multiple Threads <en-us_topic_0000001188482140__s855daf73006d4e05ba6d04f8db74e7f6>`.
+   Create batch processing scripts to export data in parallel. The degree of parallelism depends on the server resource usage. You can test several tables and monitor resource usage to determine whether to increase or reduce the amount. Common resource monitoring commands include **top** for memory and CPU usage, **iostat** for I/O usage, and **sar** for networks. For details about application cases, see :ref:`Exporting Data Using Multiple Threads <en-us_topic_0000001717097380__en-us_topic_0000001188482140_s855daf73006d4e05ba6d04f8db74e7f6>`.
 
 Examples
 --------

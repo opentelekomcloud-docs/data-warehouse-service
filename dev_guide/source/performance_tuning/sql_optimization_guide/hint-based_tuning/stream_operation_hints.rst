@@ -12,29 +12,30 @@ Specifies the stream method, which can be broadcast, redistribute, or specifying
 
 .. note::
 
-   Specifies the hint for the distribution column druing the Agg process.. This parameter is supported only by clusters of version 8.1.3.100 or later.
+   Specifies the hint for the distribution column during the Agg process. This parameter is supported only by clusters of version 8.1.3.100 or later.
 
 Syntax
 ------
 
-::
+.. code-block:: console
 
-   [no] broadcast | redistribute(table_list) | redistribute ((*) (columns))
+   [no] broadcast | redistribute([@block_name] table_list) | redistribute ([@block_name] (*) (columns))
 
 Parameter Description
 ---------------------
 
 -  **no** indicates that the hinted stream method is not used. When the hint is specified for the distribution columns in the **Agg** redistribution, **no** is invalid.
-
--  *table_list* specifies the tables to be joined. For details, see :ref:`Parameter Description <en-us_topic_0000001233563309__section35948678143011>`.
+-  *block_name* indicates the block name of the statement block. For details, see :ref:`block_name <en-us_topic_0000001460722632__li99021444551>`.
+-  *table_list* specifies the tables to be joined. For details, see :ref:`Parameter Description <en-us_topic_0000001510402197__section35948678143011>`.
 -  When hints are specified for distribution columns, the asterisk (*) is fixed and the table name cannot be specified.
--  **columns** specifies one or more columns in the **GROUP BY** clause. When there are no **GROUP BY** clauses, it can specify the columns in the **DISTINCT** clause.'
+-  **columns** specifies one or more columns in the **GROUP BY** clause. When there are no **GROUP BY** clauses, it can specify the columns in the **DISTINCT** clause.
 
-.. note::
+   .. note::
 
-   -  The specified distribution column must be represented by the column number in **GROUP BY** or **DISTINCT**. The column name cannot be specified.
-   -  For a multi-layer query, you can specify the distribution column hint at each layer. The hint takes effect only at the corresponding layer.
-   -  If the optimizer finds that redistribution is not required after estimation, the specified distribution column is invalid.
+      -  The specified distribution column must be specified using the column sequence number or column name in **group by** or **distinct**. The columns in **count(distinct)** can only be specified using column names.
+      -  For a multi-layer query, you can specify the distribution column hint at each layer. The hint takes effect only at the corresponding layer.
+      -  The column specified in **count(distinct)** takes effect only for two-level hashagg plans. Otherwise, the specified distribution column is invalid.
+      -  If the optimizer finds that redistribution is not required after estimation, the specified distribution column is invalid.
 
 Tips
 ----
@@ -46,7 +47,7 @@ Tips
 Example
 -------
 
--  Hint the query plan in :ref:`Examples <en-us_topic_0000001188642062__section671421102912>` as follows:
+-  Hint the query plan in :ref:`Examples <en-us_topic_0000001460562888__section671421102912>` as follows:
 
    ::
 
@@ -77,6 +78,6 @@ Example
 
    |image3|
 
-.. |image1| image:: /_static/images/en-us_image_0000001285555909.png
-.. |image2| image:: /_static/images/en-us_image_0000001241395974.png
-.. |image3| image:: /_static/images/en-us_image_0000001241715218.png
+.. |image1| image:: /_static/images/en-us_image_0000001460882748.png
+.. |image2| image:: /_static/images/en-us_image_0000001510402789.png
+.. |image3| image:: /_static/images/en-us_image_0000001460563240.png

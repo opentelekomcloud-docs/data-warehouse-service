@@ -2,6 +2,8 @@
 
 .. _dws_04_0454:
 
+.. _en-us_topic_0000001578910050:
+
 Hint-based Tuning
 =================
 
@@ -13,6 +15,7 @@ Hint-based Tuning
 -  :ref:`Scan Operation Hints <dws_04_0460>`
 -  :ref:`Sublink Name Hints <dws_04_0461>`
 -  :ref:`Skew Hints <dws_04_0462>`
+-  :ref:`Hint That Disables Subquery Pull-up <dws_04_1076>`
 -  :ref:`Configuration Parameter Hints <dws_04_0463>`
 -  :ref:`Hint Errors, Conflicts, and Other Warnings <dws_04_0464>`
 -  :ref:`Plan Hint Cases <dws_04_0465>`
@@ -29,6 +32,7 @@ Hint-based Tuning
    scan_operation_hints
    sublink_name_hints
    skew_hints
+   hint_that_disables_subquery_pull-up
    configuration_parameter_hints
    hint_errors_conflicts_and_other_warnings
    plan_hint_cases

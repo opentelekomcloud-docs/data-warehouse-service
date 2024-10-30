@@ -2,12 +2,14 @@
 
 .. _dws_04_0195:
 
+.. _en-us_topic_0000001717256736:
+
 Importing Data
 ==============
 
 This section describes how to create tables in GaussDB(DWS) and import data to the tables.
 
-Before importing all the data from a table containing over 10 million records, you are advised to import some of the data, and check whether there is data skew and whether the distribution keys need to be changed (for details, see :ref:`Checking for Data Skew <dws_04_0228>`). Troubleshoot the data skew if any. It is costly to address data skew and change the distribution keys after a large amount of data has been imported.
+Before importing all the data from a table containing over 10 million records, you are advised to import some of the data, and check whether there is data skew and whether the distribution keys need to be changed (for details, see :ref:`Checking for Data Skew <en-us_topic_0000001717256808>`). Troubleshoot the data skew if any. It is costly to address data skew and change the distribution keys after a large amount of data has been imported.
 
 Prerequisites
 -------------
@@ -42,19 +44,19 @@ Procedure
 
       INSERT INTO [Target table name] SELECT * FROM [Foreign table name]
 
-   -  If information similar to the following is displayed, the data has been imported. Query the error information table to check whether any data format errors occurred. For details, see :ref:`Handling Import Errors <dws_04_0196>`.
+   -  If information similar to the following is displayed, the data has been imported. Query the error information table to check whether any data format errors occurred. For details, see :ref:`Handling Import Errors <en-us_topic_0000001717097312>`.
 
       .. code-block::
 
          INSERT 0 9
 
-   -  If data fails to be loaded, troubleshoot the problem by following the instructions provided in :ref:`Handling Import Errors <dws_04_0196>` and try again.
+   -  If data fails to be loaded, rectify the problem by following the instructions provided in :ref:`Handling Import Errors <en-us_topic_0000001717097312>` and try again.
 
    .. note::
 
       -  If a data loading error occurs, the entire data import task will fail.
-      -  Compile a batch-processing task script to concurrently import data. The degree of parallelism (DOP) depends on the server resource usage. You can test-import several tables, monitor resource utilization, and increase or reduce concurrency accordingly. Common resource monitoring commands include **top** for monitoring memory and CPU usage, **iostat** for monitoring I/O usage, and **sar** for monitoring networks. For details about application cases, see :ref:`Data Import Using Multiple Threads <en-us_topic_0000001233761893__section197704383292>`.
-      -  If possible, more GDS servers can significantly improve the data import efficiency. For details about application cases, see :ref:`Parallel Import from Multiple Data Servers <en-us_topic_0000001233761893__section2041618243291>`.
+      -  Compile a batch-processing task script to concurrently import data. The degree of parallelism (DOP) depends on the server resource usage. You can test-import several tables, monitor resource utilization, and increase or reduce concurrency accordingly. Common resource monitoring commands include **top** for monitoring memory and CPU usage, **iostat** for monitoring I/O usage, and **sar** for monitoring networks. For details about application cases, see :ref:`Data Import Using Multiple Threads <en-us_topic_0000001764896601__en-us_topic_0000001233761893_section197704383292>`.
+      -  If possible, more GDS servers can significantly improve the data import efficiency. For details about application cases, see :ref:`Parallel Import from Multiple Data Servers <en-us_topic_0000001764896601__en-us_topic_0000001233761893_section2041618243291>`.
       -  In a scenario where many GDS servers import data concurrently, you can increase the TCP Keepalive interval for connections between GDS servers and DNs to ensure connection stability. (The recommended interval is 5 minutes.) TCP Keepalive settings of the cluster affect its fault detection response time.
 
 Example:

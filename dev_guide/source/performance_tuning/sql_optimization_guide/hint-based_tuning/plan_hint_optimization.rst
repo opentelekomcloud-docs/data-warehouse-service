@@ -10,13 +10,13 @@ In plan hints, you can specify a join order, join, stream, and scan operations, 
 Function
 --------
 
-The hint syntax must follow immediately after a **SELECT** keyword and is written in the following format:
+Plan hints can be specified using the keywords such as **SELECT**, **INSERT**, **UPDATE**, **MERGE**, and **DELETE**, in the following format:
 
 ::
 
-   /*+ */
+   /*+  */
 
-You can specify multiple hints for a query plan and separate them by spaces. A hint specified for a query plan does not apply to its subquery plans. To specify a hint for a subquery, add the hint following the **SELECT** of this subquery.
+You can specify multiple hints for a query plan and separate them by spaces. A hint specified for a query plan does not apply to its subquery plans. To specify a hint for a subquery, add the hint following the keyword of this subquery.
 
 For example:
 
@@ -45,7 +45,8 @@ Currently, the following hints are supported:
 -  Sublink name hints
 -  Skew hints, supporting only the skew in the redistribution involving Join or HashAgg
 -  Hint used for **Agg** distribution columns Only clusters of 8.1.3.100 and later versions support this function.
--  Configuration parameter hints, supporting the parameters described in :ref:`Configuration Parameter Hints <dws_04_0463>`
+-  Hint that disables subquery pull-up. Only clusters of 8.2.0 and later versions support this function.
+-  Configuration parameter hints. For details about supported parameters, see :ref:`Configuration Parameter Hints <dws_04_0463>`.
 
 Precautions
 -----------
@@ -54,7 +55,7 @@ Precautions
 -  Hints do not support SMP or Node Groups.
 -  Hints cannot be used for the target table of the **INSERT** statement.
 
-.. _en-us_topic_0000001188642062__section671421102912:
+.. _en-us_topic_0000001460562888__section671421102912:
 
 Examples
 --------
@@ -105,4 +106,4 @@ The following is the original plan and is used for comparing with the optimized 
 
 |image1|
 
-.. |image1| image:: /_static/images/en-us_image_0000001188482326.png
+.. |image1| image:: /_static/images/en-us_image_0000001510402793.png

@@ -8,10 +8,10 @@ ALTER ROLE
 Function
 --------
 
-**ALTER ROLE** changes the attributes of a role.
+Changes the attributes of a role.
 
-Precautions
------------
+Important Notes
+---------------
 
 None
 
@@ -90,7 +90,7 @@ Parameters
 
    Indicates the new name of a role.
 
-   Value range: a string. It must comply with the naming convention and can contain a maximum of 63 characters.
+   Value range: a string. It must comply with the naming convention. and can contain a maximum of 63 characters.
 
 -  **CREATEDB \| NOCREATEDB**
 
@@ -108,7 +108,7 @@ Parameters
 
 -  **INHERIT \| NOINHERIT**
 
-   Determines whether the role can inherit permissions of its group. You are not advised to use them.
+   Determines whether the role can inherit permissions of its group. You are not advised to execute them.
 
 -  **AUDITADMIN \| NOAUDITADMIN**
 
@@ -140,7 +140,7 @@ Parameters
 
    Determines whether a role is allowed to initiate streaming replication or put the system in and out of backup mode. A role having the **REPLICATION** attribute is a highly privileged role, and should only be used on roles used for replication.
 
-   If not specified, **NOREPLICATION** is used by default.
+   If not specified, **NOREPLICATION** is the default.
 
 -  **INDEPENDENT \| NOINDEPENDENT**
 
@@ -162,13 +162,13 @@ Parameters
 
 -  **CONNECTION LIMIT**
 
-   Indicates how many concurrent connections the role can make.
+   Indicates how many concurrent connections the role can use on a single CN.
 
-   Value range: Integer, >= -1. The default value is **-1**, which means unlimited.
+   Value range: Integer, **>=-1**. The default value is **-1**, which means unlimited.
 
    .. important::
 
-      To ensure the proper running of a cluster, the minimum value of **CONNECTION LIMIT** is the number of CNs in the cluster, because when a cluster runs ANALYZE on a CN, other CNs will connect to the running CN for metadata synchronization. For example, if there are three CNs in the cluster, set **CONNECTION LIMIT** to **3** or a greater value.
+      To ensure the proper running of a cluster, the minimum value of **CONNECTION LIMIT** is the number of CNs in the cluster, because when a cluster runs ANALYZE on a CN, other CNs will connect with the running CN for metadata synchronization. For example, if there are three CNs in the cluster, set **CONNECTION LIMIT** to **3** or a larger value.
 
 -  **ENCRYPTED \| UNENCRYPTED**
 
@@ -204,21 +204,21 @@ Parameters
 
 -  **PERM SPACE**
 
-   Sets the storage space of a user permanent table.
+   Sets the storage space of the user permanent table.
 
-   **space_limit**: specifies the upper limit of the storage space of the permanent table. Value range: A string consists of an integer and unit. The unit can be K/M/G/T/P. **0** indicates no limits.
+   **space_limit**: specifies the upper limit of the storage space of the permanent table. Value range: A string consists of an integer and unit. The unit can be K/M/G/T/P currently. **0** indicates no limits.
 
 -  **TEMP SPACE**
 
-   Sets the storage space of a user temporary table.
+   Sets the storage space of the user temporary table.
 
    **tmpspacelimit**: specifies the storage space limit of the temporary table. Value range: A string consists of an integer and unit. The unit can be K/M/G/T/P currently. **0** indicates no limits.
 
 -  **SPILL SPACE**
 
-   Sets the space limit for operator spilling.
+   Sets the operator disk flushing space of the user.
 
-   **spillspacelimit**: specifies the operator spilling space limit. Value range: A string consists of an integer and unit. The unit can be K/M/G/T/P. **0** indicates no limits.
+   **spillspacelimit**: specifies the operator spilling space limit. Value range: A string consists of an integer and unit. The unit can be K/M/G/T/P currently. **0** indicates no limits.
 
 -  **NODE GROUP**
 
@@ -282,7 +282,7 @@ Parameters
 
    **FROM CURRENT** uses the value of **configuration_parameter** of the current session.
 
--  **RESET configuration_parameter|ALL**
+-  **RESET configuration_parameter/ALL**
 
    The effect of clearing the **configuration_parameter** value is the same as setting it to **DEFAULT**.
 
@@ -291,43 +291,35 @@ Parameters
 Example
 -------
 
-Create example roles **r1**, **r2**, and **r3**:
+Modify the login permission of role **manager**.
 
 ::
 
-   CREATE ROLE r1 IDENTIFIED BY '{Password}';
-   CREATE ROLE r2 WITH LOGIN AUTHINFO 'ldapcn=r2,cn=user,dc=lework,dc=com' PASSWORD DISABLE;
-   CREATE ROLE r3 WITH LOGIN PASSWORD '{Password}' PASSWORD EXPIRATION 30;
+   ALTER ROLE manager login;
 
-Modify the login permission of role **r1**:
+Change the password of role **manager**:
 
 ::
 
-   ALTER ROLE r1 login;
-
-Change the password of role **r1**:
-
-::
-
-   ALTER ROLE r1 IDENTIFIED BY '{new_Password}' REPLACE '{Password}';
+   ALTER ROLE manager IDENTIFIED BY '{password}' REPLACE '{old_password}';
 
 Alter role **manager** to the system administrator:
 
 ::
 
-   ALTER ROLE r1 SYSADMIN;
+   ALTER ROLE manager SYSADMIN;
 
 Modify the **fulluser** information of the LDAP authentication role:
 
 ::
 
-   ALTER ROLE r2 WITH LOGIN AUTHINFO 'ldapcn=role2,cn=user2,dc=func,dc=com' PASSWORD DISABLE;
+   ALTER ROLE role2 WITH LOGIN AUTHINFO 'ldapcn=role2,cn=user2,dc=func,dc=com' PASSWORD DISABLE;
 
 Change the validity period of the login password of the role to 90 days:
 
 ::
 
-   ALTER ROLE r3 PASSWORD EXPIRATION 90;
+   ALTER ROLE role3 PASSWORD EXPIRATION 90;
 
 Links
 -----

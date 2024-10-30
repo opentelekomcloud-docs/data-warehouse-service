@@ -107,7 +107,7 @@ Example 4: Use type resolution in the **COALESCE** function with input values of
    td_db=# CREATE TABLE t2(a int, b varchar(10));
 
    -- Show the execution plan of a statement for querying the types int and varchar of input parameters for COALESCE:
-   td_db=# EXPLAIN VERBOSE SELECT coalesce(a, b) FROM t2;
+   td_db=# EXPLAIN VERBOSE select coalesce(a, b) from t2;
                                              QUERY PLAN
    -----------------------------------------------------------------------------------------------
      id |                  operation                   | E-rows | E-distinct | E-width | E-costs
@@ -132,7 +132,7 @@ Example 4: Use type resolution in the **COALESCE** function with input values of
    mysql_db=# CREATE TABLE t3(a int, b varchar(10));
 
    -- Show the execution plan of a statement for querying the types int and varchar of input parameters for COALESCE:
-   mysql_db=# EXPLAIN VERBOSE SELECT coalesce(a, b) FROM t3;
+   mysql_db=# EXPLAIN VERBOSE select coalesce(a, b) from t3;
                                              QUERY PLAN
    -----------------------------------------------------------------------------------------------
      id |                  operation                   | E-rows | E-distinct | E-width | E-costs

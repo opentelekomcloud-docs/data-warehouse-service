@@ -13,9 +13,9 @@ GaussDB(DWS) generates optimal execution plans based on the cost estimation. Opt
 Example 1: Poor Query Performance Due to the Lack of Statistics
 ---------------------------------------------------------------
 
-In most cases, the lack of statistics in tables or columns involved in the query greatly affects the query performance.
+The query performance is often significantly impacted by the absence of statistics for tables or columns involved in the query.
 
-The table structure is as follows:
+The structure of the example table is as follows:
 
 ::
 
@@ -78,16 +78,16 @@ The query statements are as follows:
    order by
    numwait desc;
 
-If such an issue occurs, you can use the following methods to check whether statistics in tables or columns has been collected using **ANALYZE**.
+You can perform the following operations to check whether **ANALYZE** has been executed on the tables or columns involved in the query to collect statistics.
 
-#. Execute **EXPLAIN VERBOSE** to analyze the execution plan and check the warning information:
+#. Execute **EXPLAIN VERBOSE** to analyze the execution plan and check the warning information.
 
    .. code-block::
 
       WARNING:Statistics in some tables or columns(public.lineitem(l_receiptdate,l_commitdate,l_orderkey, l_suppkey), public.orders(o_orderstatus,o_orderkey)) are not collected.
       HINT:Do analyze for them in order to generate optimized plan.
 
-#. Check whether the following information exists in the log file in the **pg_log** directory. If it does, the poor query performance was caused by the lack of statistics in some tables or columns.
+#. To determine if poor query performance was caused by a lack of statistics in certain tables or columns, check if the following information exists in the log file located in the **pg_log** directory.
 
    .. code-block::
 
@@ -95,12 +95,12 @@ If such an issue occurs, you can use the following methods to check whether stat
       .l_suppkey), public.orders(o_orderstatus,o_orderkey)) are not collected.
       2017-06-14 17:28:30.336 CST 140644024579856 20971684 [BACKEND] HINT:Do analyze for them in order to generate optimized plan.
 
-By using any of the preceding methods, you can identify tables or columns whose statistics have not been collected using **ANALYZE**. You can execute **ANALYZE** to warnings or tables and columns recorded in logs to resolve the problem.
+After confirming that **ANALYZE** has not been executed on the relevant tables or columns, you can execute **ANALYZE** on the tables or columns reported in the WARNING or logs to resolve the issue of slow query performance due to a lack of statistics
 
 Example 2: Setting **cost_param** to Optimize Query Performance
 ---------------------------------------------------------------
 
-For details, see :ref:`Case: Configuring cost_param for Better Query Performance <dws_04_0479>`.
+For details, see :ref:`Case: Configuring cost_param for Better Query Performance <en-us_topic_0000001579070006>`.
 
 Example 3: Optimization is Not Accurate When Intermediate Results Exist in the Query Where **JOIN** Is Used for Multiple Tables
 -------------------------------------------------------------------------------------------------------------------------------
@@ -131,9 +131,9 @@ Example 3: Optimization is Not Accurate When Intermediate Results Exist in the Q
    limit 10 offset 0
    ;
 
-:ref:`Figure 1 <en-us_topic_0000001233563159__fb2e54654e9f945dbbfcb3347aa535169>` shows the execution plan. This query takes about 12s.
+:ref:`Figure 1 <en-us_topic_0000001578750674__en-us_topic_0000001233563159_fb2e54654e9f945dbbfcb3347aa535169>` shows the execution plan. This query takes about 12s.
 
-.. _en-us_topic_0000001233563159__fb2e54654e9f945dbbfcb3347aa535169:
+.. _en-us_topic_0000001578750674__en-us_topic_0000001233563159_fb2e54654e9f945dbbfcb3347aa535169:
 
 .. figure:: /_static/images/en-us_image_0000001233681839.png
    :alt: **Figure 1** Using an unlogged table (1)
@@ -201,9 +201,9 @@ Example 3: Optimization is Not Accurate When Intermediate Results Exist in the Q
       limit 10 offset 0
       ;
 
-   The query takes about 7s. :ref:`Figure 2 <en-us_topic_0000001233563159__f57ecd89cf73847d1a2183ccf0eed5a4e>` shows the execution plan.
+   The query takes about 7s. :ref:`Figure 2 <en-us_topic_0000001578750674__en-us_topic_0000001233563159_f57ecd89cf73847d1a2183ccf0eed5a4e>` shows the execution plan.
 
-   .. _en-us_topic_0000001233563159__f57ecd89cf73847d1a2183ccf0eed5a4e:
+   .. _en-us_topic_0000001578750674__en-us_topic_0000001233563159_f57ecd89cf73847d1a2183ccf0eed5a4e:
 
    .. figure:: /_static/images/en-us_image_0000001188323770.png
       :alt: **Figure 2** Using an unlogged table (2)
@@ -220,9 +220,9 @@ Example 3: Optimization is Not Accurate When Intermediate Results Exist in the Q
 
       SET enable_hashjoin = off;
 
-   :ref:`Figure 3 <en-us_topic_0000001233563159__f962ab19471574220b202823b708cecaf>` shows the execution plan. The query takes about 3s.
+   :ref:`Figure 3 <en-us_topic_0000001578750674__en-us_topic_0000001233563159_f962ab19471574220b202823b708cecaf>` shows the execution plan. The query takes about 3s.
 
-   .. _en-us_topic_0000001233563159__f962ab19471574220b202823b708cecaf:
+   .. _en-us_topic_0000001578750674__en-us_topic_0000001233563159_f962ab19471574220b202823b708cecaf:
 
    .. figure:: /_static/images/en-us_image_0000001188642238.png
       :alt: **Figure 3** Using an unlogged table (3)
@@ -287,4 +287,4 @@ Example 3: Optimization is Not Accurate When Intermediate Results Exist in the Q
 
       Collecting global statistics using ANALYZE improves query performance.
 
-      If a performance problem occurs, you can use plan hint to adjust the query plan to the previous one. For details, see :ref:`Hint-based Tuning <dws_04_0454>`.
+      If a performance problem occurs, you can use plan hint to adjust the query plan to the previous one. For details, see :ref:`Hint-based Tuning <en-us_topic_0000001578910050>`.

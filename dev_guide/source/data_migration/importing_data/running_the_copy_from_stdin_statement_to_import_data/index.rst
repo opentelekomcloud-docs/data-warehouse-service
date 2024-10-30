@@ -2,6 +2,8 @@
 
 .. _dws_04_0203:
 
+.. _en-us_topic_0000001764817389:
+
 Running the COPY FROM STDIN Statement to Import Data
 ====================================================
 

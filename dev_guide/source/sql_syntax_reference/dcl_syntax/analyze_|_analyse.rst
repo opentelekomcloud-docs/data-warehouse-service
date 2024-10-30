@@ -8,7 +8,7 @@ ANALYZE \| ANALYSE
 Function
 --------
 
-ANALYZE collects statistics about table contents in databases, and stores the results in the **PG_STATISTIC** system catalog. The execution plan generator uses these statistics to generate a most effective execution plan.
+Collects statistics about table contents in databases, and stores the results in the **PG_STATISTIC** system catalog. The execution plan generator uses these statistics to determine which one is the most effective execution plan.
 
 If no parameters are specified, **ANALYZE** analyzes each table and partitioned table in the database. You can also specify **table_name**, **column**, and **partition_name** to limit the analysis to a specified table, column, or partitioned table.
 
@@ -21,7 +21,7 @@ To collect statistics using percentage sampling, you must have the **ANALYZE** a
 Precautions
 -----------
 
--  Only cluster versions 8.1.1 and later support using anonymous blocks, transaction blocks, functions, or stored procedures to perform the **ANALYZE** operation on an unsharded table.
+-  Performs the **ANALYZE** operation on an unsharded table in an anonymous block, transaction block, function, or stored procedure. This function is supported only by 8.1.1 and later versions.
 -  However, for analyzing an entire database, the **ANALYZE** operation of each table is in different transactions. Therefore, the current version does not support the **ANALYZE** execution for the entire database in anonymous blocks, transaction blocks, functions, or stored procedures.
 -  Statistics updates of PG_CLASS related columns cannot be rolled back.
 -  Most **ANALYZE VERIFY** operations are used for abnormal scenario detection, and require a release version. Remote read is not triggered in the **ANALYZE VERIFY** scenario. Therefore, the remote read parameter does not take effect. If the system detects that the page is damaged due to an error in the key system table, the system reports an error and stops the detection.
@@ -33,20 +33,21 @@ Syntax
 
    ::
 
-      { ANALYZE | ANALYSE } [ VERBOSE ]
+      { ANALYZE | ANALYSE } [ { VERBOSE } ]
           [ table_name [ ( column_name [, ...] ) ] ];
 
--  Collect statistics about a partitioned table.
+-  Collect statistics about a partition.
 
    ::
 
-      { ANALYZE | ANALYSE } [ VERBOSE ]
+      { ANALYZE | ANALYSE } [ { VERBOSE } ]
           [ table_name [ ( column_name [, ...] ) ] ]
-          PARTITION ( patrition_name ) ;
+          PARTITION ( partition_name ) ;
 
    .. note::
 
-      An ordinary partitioned table supports the syntax but not the function of collecting statistics about specified partitions. Run the ANALYZE command on a specified partition. A warning message is displayed.
+      -  Temporary sampling tables cannot be used to collect partition statistics.
+      -  Multi-column statistics and expression statistics on partitions are not supported.
 
 -  Collect statistics about a foreign table.
 
@@ -66,7 +67,7 @@ Syntax
 
       -  To sample data in percentage, set **default_statistics_target** to a negative number.
       -  The statistics about a maximum of 32 columns can be collected at a time.
-      -  You are not allowed to collect statistics about multiple columns in system catalogs or HDFS foreign tables.
+      -  You are not allowed to collect statistics about multiple columns in system catalogs, or HDFS foreign tables.
 
 -  Check the data files in the current database.
 
@@ -164,28 +165,18 @@ Parameter Description
 Examples
 --------
 
-::
+-  Do **ANALYZE** to update statistics in the **customer_info** table:
 
-   DROP TABLE IF EXISTS CUSTOMER;
-   CREATE TABLE CUSTOMER
-   (
-       C_CUSTKEY     BIGINT NOT NULL CONSTRAINT C_CUSTKEY_pk PRIMARY KEY  ,
-       C_NAME        VARCHAR(25)  ,
-       C_ADDRESS     VARCHAR(40)  ,
-       C_NATIONKEY   INT          ,
-       C_PHONE       CHAR(15)     ,
-       C_ACCTBAL     DECIMAL(15,2)
-   )
-   DISTRIBUTE BY HASH(C_CUSTKEY);
+   ::
 
-Do **ANALYZE** to update statistics in the **customer_info** table:
+      ANALYZE customer_info;
 
-::
+-  Do **ANALYZE VERBOSE** to update statistics and display table information in the **customer_info** table:
 
-   ANALYZE CUSTOMER;
+   ::
 
-Do **ANALYZE VERBOSE** to update statistics and display table information in the **customer_info** table:
-
-::
-
-   ANALYZE VERBOSE CUSTOMER;
+      ANALYZE VERBOSE customer_info;
+      INFO:  analyzing "cstore.pg_delta_3394584009"(cn_5002 pid=53078)
+      INFO:  analyzing "public.customer_info"(cn_5002 pid=53078)
+      INFO:  analyzing "public.customer_info" inheritance tree(cn_5002 pid=53078)
+      ANALYZE

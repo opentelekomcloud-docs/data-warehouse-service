@@ -2,6 +2,8 @@
 
 .. _dws_04_0452:
 
+.. _en-us_topic_0000001628950661:
+
 SQL Statement Rewriting Rules
 =============================
 

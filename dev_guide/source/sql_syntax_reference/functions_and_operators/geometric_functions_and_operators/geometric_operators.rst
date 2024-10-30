@@ -8,7 +8,7 @@ Geometric Operators
 ``+``
 -----
 
-Description: Translation
+Description: The operator implements a panning function by adding the coordinates of the second point to each corresponding point of the first parameter.
 
 Example:
 
@@ -24,7 +24,7 @@ Example:
 ``-``
 -----
 
-Description: Translation
+Description: The operator implements a panning function by subtracting the coordinates of the second point from each corresponding point of the first parameter.
 
 Example:
 

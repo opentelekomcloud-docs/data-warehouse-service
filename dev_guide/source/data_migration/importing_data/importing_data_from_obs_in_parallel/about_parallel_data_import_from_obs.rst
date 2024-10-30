@@ -13,18 +13,18 @@ You can import data in TXT, CSV, ORC, CARBONDATA, or JSON format from OBS to Gau
 
 Currently, data can be imported using either of the following methods:
 
--  Method 1: You do not need to create a server. Use the default server to create a foreign table. Data in TXT or CSV format is supported. For details, see :ref:`Importing CSV/TXT Data from the OBS <dws_04_0154>`.
--  Method 2: You need to create a server and use the server to create a foreign table. Data in ORC, CarbonData, TXT, CSV, PARQUET, or JSON format is supported. For details, see :ref:`Importing ORC or CarbonData Data from OBS <dws_04_0155>`.
+-  Method 1: You do not need to create a server. Use the default server to create a foreign table. Data in TXT or CSV format is supported. For details, see :ref:`Importing CSV/TXT Data from OBS <en-us_topic_0000001717097292>`.
+-  Method 2: You need to create a server and use the server to create a foreign table. Data in ORC, CarbonData, TXT, CSV, PARQUET, or JSON format is supported. For details, see :ref:`Importing ORC or CarbonData Data from OBS <en-us_topic_0000001717256724>`.
 
 .. important::
 
    -  Ensure that no Chinese characters are contained in paths used for importing data to or exporting data from OBS.
 
-   -  Data cannot be imported to or exported from OBS across regions. Ensure that OBS and the DWS cluster are in the same region.
+   -  Data cannot be imported to or exported from OBS across regions. Ensure that OBS and the GaussDB(DWS) cluster are in the same region.
 
    -  To ensure the correctness of data import or export, you need to import or export data from OBS in the same compatibility mode.
 
-      For example, data imported or exported in MySQL compatibility mode can be exported or imported only in MySQL compatibility mode.
+      If data is imported or exported in MySQL compatibility mode, it can only be exported or imported in the same mode.
 
 Overview
 --------
@@ -61,9 +61,9 @@ Related Concepts
 
 -  **Object**: a basic data storage unit in OBS. Data uploaded by users is stored in OBS buckets as objects. Object attributes include **Key**, **Metadata**, and **Data**.
 
-   Generally, objects are managed as files. However, OBS has no file system-related concepts, such as files and folders. To let users easily manage data, OBS allows them to simulate folders. Users can add a slash (/) in the object name, for example, **tpcds1000/stock.csv**. In this name, **tpcds1000** is regarded as the folder name and **stock.csv** the file name. The value of **key** (object name) is still **tpcds1000/stock.csv**, and the content of the object is the content of the **stock.csv** file.
+   Generally, objects are managed as files. However, OBS has no file system-related concepts, such as files and folders. To let users easily manage data, OBS allows them to simulate folders. Users can add a slash (/) in the object name, for example, **tpcds1000/stock.csv**. In this name, **tpcds1000** is regarded as the folder name and **stock.csv** the file name. The value of **Key** (object name) is still **tpcds1000/stock.csv**, and the content of the object is the content of the **stock.csv** file.
 
--  **Key**: name of an object. It is a UTF-8 character sequence containing 1 to 1024 characters. A key value must be unique in a bucket. Users can name the objects they stored or obtained as *Bucket name*\ +\ *Object name*.
+-  **Key**: name of an object. It is a UTF-8 character sequence containing 1 to 1024 characters. A key value must be unique in a bucket. Users can name the objects they stored or obtained as *Bucket name*\ **+**\ *Object name*.
 
 -  **Metadata**: object metadata, which contains information about the object. There are system metadata and user metadata. The metadata is uploaded to OBS as key-value pairs together with HTTP headers.
 
@@ -76,16 +76,16 @@ Related Concepts
 
 -  **Foreign table**: A foreign table is used to identify data in a source data file. The foreign table stores information, such as the location, format, encoding, and inter-data delimiter of a source data file.
 
-.. _en-us_topic_0000001233883255__en-us_topic_0000001082926905_en-us_topic_0117407705_sefc365e1804e4606aafdeb3398080e73:
+.. _en-us_topic_0000001717256716__en-us_topic_0000001233883255_en-us_topic_0000001082926905_en-us_topic_0117407705_sefc365e1804e4606aafdeb3398080e73:
 
 How Data Is Imported
 --------------------
 
-:ref:`Figure 1 <en-us_topic_0000001233883255__en-us_topic_0000001082926905_en-us_topic_0117407705_fb5a2ab52cbc942ce89ac96237380de66>` shows how data is imported from OBS. The CN plans and delivers data import tasks. It delivers tasks to each DN by file.
+:ref:`Figure 1 <en-us_topic_0000001717256716__en-us_topic_0000001233883255_en-us_topic_0000001082926905_en-us_topic_0117407705_fb5a2ab52cbc942ce89ac96237380de66>` shows how data is imported from OBS. The CN plans and delivers data import tasks. It delivers tasks to each DN by file.
 
 The delivery method is as follows:
 
-In :ref:`Figure 1 <en-us_topic_0000001233883255__en-us_topic_0000001082926905_en-us_topic_0117407705_fb5a2ab52cbc942ce89ac96237380de66>`, there are four DNs (DN0 to DN3) and OBS stores six files numbered from t1.data.0 to t1.data.5. The files are delivered as follows:
+In :ref:`Figure 1 <en-us_topic_0000001717256716__en-us_topic_0000001233883255_en-us_topic_0000001082926905_en-us_topic_0117407705_fb5a2ab52cbc942ce89ac96237380de66>`, there are four DNs (DN0 to DN3) and OBS stores six files numbered from t1.data.0 to t1.data.5. The files are delivered as follows:
 
 t1.data.0 -> DN0
 
@@ -103,7 +103,7 @@ Two files are delivered to DN0 and DN1, respectively. One file is delivered to e
 
 The import performance is the best when one OBS file is delivered to each DN and all the files have the same size. To improve the performance of loading data from OBS, split the data file into multiple files as evenly as possible before storing it to OBS. The recommended number of split files is an integer multiple of the DN quantity.
 
-.. _en-us_topic_0000001233883255__en-us_topic_0000001082926905_en-us_topic_0117407705_fb5a2ab52cbc942ce89ac96237380de66:
+.. _en-us_topic_0000001717256716__en-us_topic_0000001233883255_en-us_topic_0000001082926905_en-us_topic_0117407705_fb5a2ab52cbc942ce89ac96237380de66:
 
 .. figure:: /_static/images/en-us_image_0000001233761927.jpg
    :alt: **Figure 1** Parallel data import using OBS foreign tables
@@ -121,22 +121,22 @@ Import Flowchart
 
 .. table:: **Table 1** Procedure description
 
-   +--------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
-   | Procedure                            | Description                                                                                                                                                                                                                                                                      | Subtask               |
-   +======================================+==================================================================================================================================================================================================================================================================================+=======================+
-   | Upload data to OBS.                  | Plan the storage path on the OBS server and upload data files.                                                                                                                                                                                                                   | ``-``                 |
-   |                                      |                                                                                                                                                                                                                                                                                  |                       |
-   |                                      | For details, see :ref:`Uploading Data to OBS <dws_04_0184>`.                                                                                                                                                                                                                     |                       |
-   +--------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
-   | Create an OBS foreign table.         | Create a foreign table to identify source data files on the OBS server. The OBS foreign table stores data source information, such as its bucket name, object name, file format, storage location, encoding format, and delimiter.                                               | ``-``                 |
-   |                                      |                                                                                                                                                                                                                                                                                  |                       |
-   |                                      | For details, see :ref:`Creating an OBS Foreign Table <dws_04_0185>`.                                                                                                                                                                                                             |                       |
-   +--------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
-   | Import data.                         | After creating the foreign table, run the **INSERT** statement to efficiently import data to the target tables.                                                                                                                                                                  | ``-``                 |
-   |                                      |                                                                                                                                                                                                                                                                                  |                       |
-   |                                      | For details, see :ref:`Importing Data <dws_04_0186>`.                                                                                                                                                                                                                            |                       |
-   +--------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
-   | Handle the table with import errors. | If errors occur during data import, handle them based on the displayed error information described in :ref:`Handling Import Errors <dws_04_0187>` to ensure data integrity.                                                                                                      | ``-``                 |
-   +--------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
-   | Improve query efficiency.            | After data is imported, run the **ANALYZE** statement to generate table statistics. The **ANALYZE** statement stores the statistics in the **PG_STATISTIC** system catalog. When you run the plan generator, the statistics help you generate an efficient query execution plan. | ``-``                 |
-   +--------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+   +------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+   | Procedure                    | Description                                                                                                                                                                                                                                                                      | Subtask               |
+   +==============================+==================================================================================================================================================================================================================================================================================+=======================+
+   | Upload data to OBS.          | Plan the storage path on the OBS server and upload data files.                                                                                                                                                                                                                   | ``-``                 |
+   |                              |                                                                                                                                                                                                                                                                                  |                       |
+   |                              | For details, see :ref:`Uploading Data to OBS <en-us_topic_0000001764896577>`.                                                                                                                                                                                                    |                       |
+   +------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+   | Create an OBS foreign table. | Create a foreign table to identify source data files on the OBS server. The OBS foreign table stores data source information, such as its bucket name, object name, file format, storage location, encoding format, and delimiter.                                               | ``-``                 |
+   |                              |                                                                                                                                                                                                                                                                                  |                       |
+   |                              | For details, see :ref:`Creating an OBS Foreign Table <en-us_topic_0000001717256720>`.                                                                                                                                                                                            |                       |
+   +------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+   | Import data.                 | After creating the foreign table, run the **INSERT** statement to efficiently import data to the target tables.                                                                                                                                                                  | ``-``                 |
+   |                              |                                                                                                                                                                                                                                                                                  |                       |
+   |                              | For details, see :ref:`Importing Data <en-us_topic_0000001717097296>`.                                                                                                                                                                                                           |                       |
+   +------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+   | Handle import errors.        | If errors occur during data import, handle them based on the displayed error information described in :ref:`Handling Import Errors <en-us_topic_0000001764817357>` to ensure data integrity.                                                                                     | ``-``                 |
+   +------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+   | Improve query efficiency.    | After data is imported, run the **ANALYZE** statement to generate table statistics. The **ANALYZE** statement stores the statistics in the **PG_STATISTIC** system catalog. When you run the plan generator, the statistics help you generate an efficient query execution plan. | ``-``                 |
+   +------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+

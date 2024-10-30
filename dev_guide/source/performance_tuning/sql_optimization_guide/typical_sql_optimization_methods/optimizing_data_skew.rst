@@ -9,7 +9,7 @@ Data skew breaks the balance among nodes in the distributed MPP architecture. If
 
 -  Storage skew severely limits the system capacity. The skew on a single node hinders system storage utilization.
 -  Computing skew severely affects performance. The data to be processed on the skew node is much more than that on other nodes, deteriorating overall system performance.
--  Data skew severely affects the scalability of the MPP architecture. During storage or computing, data with the same values is often placed on the same node. Therefore, even if we add nodes after a data skew occurs, the skew data (data with the same values) is still placed on a single node, which become the capacity and performance bottleneck of the entire system.
+-  Data skew severely affects the scalability of the MPP architecture. During storage or computing, data with the same values is often placed on the same node. Therefore, even if you add nodes after a data skew occurs, the skew data (data with the same values) is still placed on the node and affects the system capacity or performance bottleneck.
 
 GaussDB(DWS) provides a complete solution for data skew, including storage and computing skew.
 
@@ -101,7 +101,7 @@ The table definition indicates that the table uses the **inv_date_sk** column as
 
 Data skew is solved.
 
-In addition to the **table_skewness()** view, you can use the **table_distribution** function and the :ref:`PGXC_GET_TABLE_SKEWNESS <dws_04_0805>` view to efficiently query the data skew of each table.
+In addition to the **table_skewness()** view, you can use the table_distribution function and the :ref:`PGXC_GET_TABLE_SKEWNESS <dws_04_0805>` view. You can efficiently query the data skew status of each table.
 
 Data Skew in the Computing Layer
 --------------------------------
@@ -137,7 +137,7 @@ In the following example, the **s** and **t** tables are joined, and **s.x** and
             datanode3 (rows=5174272)
             datanode4 (rows=5219328)
 
-It is more difficult to detect skew in computing than in storage. To solve skew in computing, GaussDB provides the Runtime Load Balance Technology (RLBT) solution controlled by the :ref:`skew_option <en-us_topic_0000001188482092__section1211182712176>` parameter. The RLBT solution addresses how to detect and solve data skew.
+It is more difficult to detect skew in computing than in storage. To solve skew in computing, GaussDB provides the Runtime Load Balance Technology (RLBT) solution controlled by the :ref:`skew_option <en-us_topic_0000001510522673__section1211182712176>` parameter. The RLBT solution addresses how to detect and solve data skew.
 
 #. Detect data skew.
 
@@ -147,7 +147,7 @@ It is more difficult to detect skew in computing than in storage. To solve skew 
 
       Run the **ANALYZE** statement to collect statistics on tables. The optimizer will automatically identify skew data on redistribution keys based on the statistics and generate optimization plans for queries having potential skew. When the redistribution key has multiple columns, statistics information can be used for identification only when all columns belong to the same base table.
 
-      The statistics information can only provide the skew of the base table. If a column in the base table is skewed, or other columns have filtering conditions, or after the join of other tables, we cannot determine whether the skewed data still exists on the skewed column. If :ref:`skew_option <en-us_topic_0000001188482092__section1211182712176>` is set to **normal**, it indicates that data skew persists and the base tables will be optimized to solve the skew. If :ref:`skew_option <en-us_topic_0000001188482092__section1211182712176>` is set to **lazy**, it indicates that data skew is solved and the optimization will stop.
+      The statistics information can only provide the skew of the base table. If a column in the base table is skewed, or other columns have filtering conditions, or after the join of other tables, we cannot determine whether the skewed data still exists on the skewed column. If :ref:`skew_option <en-us_topic_0000001510522673__section1211182712176>` is set to **normal**, it indicates that data skew persists and the base tables will be optimized to solve the skew. If :ref:`skew_option <en-us_topic_0000001510522673__section1211182712176>` is set to **lazy**, it indicates that data skew is solved and the optimization will stop.
 
    -  Detection based on specified hints
 
@@ -200,7 +200,7 @@ It is more difficult to detect skew in computing than in storage. To solve skew 
 
          5 --Vector Hash Join (6,8)
                Hash Cond: s.x = t.x
-               Skew Join Optimizated by Statistic
+               Skew Join Optimized by Statistic
          6 --Streaming(type: PART REDISTRIBUTE PART ROUNDROBIN)
                datanode1 (rows=7635968)
                datanode2 (rows=7517184)

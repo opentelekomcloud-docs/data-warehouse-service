@@ -20,10 +20,45 @@ Examples:
     1997-10-22 00:00:00
    (1 row)
 
+cast(x, y)
+----------
+
+Description: Converts **x** into the type specified by **y**. This function is supported by version 8.2.0 or later clusters.
+
+Example:
+
+::
+
+   SELECT cast('22-oct-1997', timestamp);
+         timestamp
+   ---------------------
+    1997-10-22 00:00:00
+   (1 row)
+
+try_cast(x as type)
+-------------------
+
+Description: Converts **x** to a value of certain type. If the conversion fails and the conversion is allowed by GaussDB(DWS), **NULL** is returned. Otherwise, an error is reported. This function is supported by version 8.2.0 or later clusters.
+
+Example:
+
+::
+
+   SELECT cast('a' as int4);
+         int4
+   ---------------
+
+   (1 row)
+   SELECT cast('22-oct-1997', timestamp);
+         timestamp
+   ---------------------
+    1997-10-22 00:00:00
+   (1 row)
+
 hextoraw(string)
 ----------------
 
-Description: Converts characters containing hexadecimal digits in the CHAR, VARCHAR2, NCHAR, or NVARCHAR2 data type to :ref:`RAW data type <en-us_topic_0000001233708705__teea287ea2f5d4444bb3ebb521189b9e8>`.
+Description: Converts a string in hexadecimal format into binary format.
 
 Return type: raw
 
@@ -74,7 +109,7 @@ Examples:
 rawtohex(string)
 ----------------
 
-Description: Converts the :ref:`RAW data type <en-us_topic_0000001233708705__teea287ea2f5d4444bb3ebb521189b9e8>` value into a hexadecimal string. Each byte in **string** is converted to a double-byte string.
+Description: Converts a string in binary format into hexadecimal format.
 
 The result is the ACSII code of the input characters in hexadecimal format.
 
@@ -95,7 +130,7 @@ to_char (datetime/interval [, fmt])
 
 Description: Converts a DATETIME or INTERVAL value of the DATE/TIMESTAMP/TIMESTAMP WITH TIME ZONE/TIMESTAMP WITH LOCAL TIME ZONE type into the VARCHAR type according to the format specified by **fmt**.
 
--  The optional parameter **fmt** includes the following types: date, time, week, quarter, and century. Each type has a unique template. The templates can be combined together. Common templates include: HH, MM, SS, YYYY, MM, and DD.
+-  The optional parameter **fmt** includes the following types: date, time, week, quarter, and century. Each type has a unique template. The templates can be combined together. Common templates include: HH, MM, SS, YYYY, MM, and DD. For details, see :ref:`Table 2 <en-us_topic_0000001460561424__tecb001c170ee45b38a3522119b2c5aae>`.
 -  A template may have a modification word. FM is a common modification word and is used to suppress the preceding zero or the following blank spaces.
 
 Return type: varchar
@@ -140,9 +175,9 @@ to_char (integer/number[, fmt])
 
 Descriptions: Converts an integer or a value in floating point format into a string in specified format.
 
--  The optional parameter **fmt** can be the following types: decimal characters, grouping characters, positive/negative sign and currency sign. Each type has a unique template. The templates can be combined together. Common templates include: 9, 0, millesimal sign (,), and decimal point (.).
+-  The optional parameter **fmt** can be the following types: decimal characters, grouping characters, positive/negative sign and currency sign. Each type has a unique template. The templates can be combined together. Common templates include: 9, 0, millesimal sign (,), and decimal point (.). For details, see :ref:`Table 1 <en-us_topic_0000001460561424__t351061e37e45427ead6ddec4cd1ad376>`.
 -  A template can have a modification word, similar to FM. However, FM does not suppress 0 which is output according to the template.
--  Use the template X or x to convert an integer value into a string in hexadecimal format.
+-  Use the template **X** or **x** to convert an integer value into a string in hexadecimal format.
 
 Return type: varchar
 
@@ -369,7 +404,9 @@ Examples:
 to_date(string, fmt)
 --------------------
 
-Description: Converts a string into a value of the DATE type according to the format specified by **fmt**. This function cannot support the CLOB type directly. However, a parameter of the CLOB type can be converted using implicit conversion.
+Description: Converts a string into a value of the DATE type according to the format specified by **fmt**. For details about the fmt format, see :ref:`Table 2 <en-us_topic_0000001460561424__tecb001c170ee45b38a3522119b2c5aae>`.
+
+This function cannot support the CLOB type directly. However, a parameter of the CLOB type can be converted using implicit conversion.
 
 Return type: date
 
@@ -388,7 +425,7 @@ to_number ( expr [, fmt])
 
 Description: Converts **expr** into a value of the NUMBER type according to the specified format.
 
-For details about the type conversion formats, see :ref:`Table 1 <en-us_topic_0000001233628621__t351061e37e45427ead6ddec4cd1ad376>`.
+For details about the type conversion formats, see :ref:`Table 1 <en-us_topic_0000001460561424__t351061e37e45427ead6ddec4cd1ad376>`.
 
 If a hexadecimal string is converted into a decimal number, the hexadecimal string can include a maximum of 16 bytes if it is to be converted into a sign-free number.
 
@@ -443,7 +480,7 @@ Examples:
 to_timestamp(string [,fmt])
 ---------------------------
 
-Description: Converts a string into a value of the timestamp type according to the format specified by **fmt**. When **fmt** is not specified, perform the conversion according to the format specified by **nls_timestamp_format**.
+Description: Converts a string into a value of the timestamp type according to the format specified by **fmt**. When **fmt** is not specified, perform the conversion according to the format specified by **nls_timestamp_format**. For details about the fmt format, see :ref:`Table 2 <en-us_topic_0000001460561424__tecb001c170ee45b38a3522119b2c5aae>`.
 
 In **to_timestamp** in GaussDB(DWS):
 
@@ -521,9 +558,9 @@ Examples:
 
 The following table describes the value formats of the **to_number** function.
 
-.. _en-us_topic_0000001233628621__t351061e37e45427ead6ddec4cd1ad376:
+.. _en-us_topic_0000001460561424__t351061e37e45427ead6ddec4cd1ad376:
 
-.. table:: **Table 1** Template patterns for numeric formatting
+.. table:: **Table 1** Template Patterns for Numeric Formatting
 
    +------------+-----------------------------------------------------------------------+
    | Schema     | Description                                                           |
@@ -559,9 +596,9 @@ The following table describes the value formats of the **to_number** function.
    | V          | Shifts specified number of digits (decimal)                           |
    +------------+-----------------------------------------------------------------------+
 
-:ref:`Table 2 <en-us_topic_0000001233628621__tecb001c170ee45b38a3522119b2c5aae>` describes the patterns of date and time values. They can be used for the **to_date**, **to_timestamp**, and **to_char** functions, and the **nls_timestamp_format** parameter.
+:ref:`Table 2 <en-us_topic_0000001460561424__tecb001c170ee45b38a3522119b2c5aae>` describes the patterns of date and time values. They can be used for the **to_date**, **to_timestamp**, and **to_char** functions, and the **nls_timestamp_format** parameter.
 
-.. _en-us_topic_0000001233628621__tecb001c170ee45b38a3522119b2c5aae:
+.. _en-us_topic_0000001460561424__tecb001c170ee45b38a3522119b2c5aae:
 
 .. table:: **Table 2** Schemas for formatting date and time
 

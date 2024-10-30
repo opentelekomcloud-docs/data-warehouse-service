@@ -7,20 +7,20 @@ Deleting Resources
 
 After completing operations in this tutorial, if you no longer need to use the resources created during the operations, you can delete them to avoid resource waste or quota occupation. The procedure is as follows:
 
-#. :ref:`Deleting the Foreign Table and Target Table <en-us_topic_0000001233761887__en-us_topic_0000001145491107_en-us_topic_0102810711_section436416582815>`
+#. :ref:`Deleting the Foreign Table and Target Table <en-us_topic_0000001717097304__en-us_topic_0000001233761887_en-us_topic_0000001145491107_en-us_topic_0102810711_section436416582815>`
 
-#. :ref:`Deleting the Created Foreign Server <en-us_topic_0000001233761887__en-us_topic_0000001145491107_en-us_topic_0102810711_section12369357281>`
+#. :ref:`Deleting the Created Foreign Server <en-us_topic_0000001717097304__en-us_topic_0000001233761887_en-us_topic_0000001145491107_en-us_topic_0102810711_section12369357281>`
 
-#. :ref:`Deleting the Database and the User to Which the Database Belongs <en-us_topic_0000001233761887__en-us_topic_0000001145491107_en-us_topic_0102810711_section12067301412>`
+#. :ref:`Deleting the Database and the User to Which the Database Belongs <en-us_topic_0000001717097304__en-us_topic_0000001233761887_en-us_topic_0000001145491107_en-us_topic_0102810711_section12067301412>`
 
-   If you have performed steps in :ref:`(Optional) Creating a User and a Database and Granting the User Foreign Table Permissions <en-us_topic_0000001188323676__en-us_topic_0000001099130938_en-us_topic_0102810708_section590417587243>`, delete the database and the user to which the database belongs.
+   If you have performed steps in :ref:`(Optional) Creating a User and a Database and Granting the User Foreign Table Permissions <en-us_topic_0000001764817361__en-us_topic_0000001188323676_en-us_topic_0000001099130938_en-us_topic_0102810708_section590417587243>`, delete the database and the user to which the database belongs.
 
-.. _en-us_topic_0000001233761887__en-us_topic_0000001145491107_en-us_topic_0102810711_section436416582815:
+.. _en-us_topic_0000001717097304__en-us_topic_0000001233761887_en-us_topic_0000001145491107_en-us_topic_0102810711_section436416582815:
 
 Deleting the Foreign Table and Target Table
 -------------------------------------------
 
-#. (Optional) If you have performed steps in :ref:`Querying Data After Importing It <en-us_topic_0000001188642102__en-us_topic_0000001099130958_en-us_topic_0102810710_section152121815193012>`, run the following command to delete the target table:
+#. (Optional) If you have performed steps in :ref:`Querying Data After Importing It <en-us_topic_0000001717256728__en-us_topic_0000001188642102_en-us_topic_0000001099130958_en-us_topic_0102810710_section152121815193012>`, run the following command to delete the target table:
 
    ::
 
@@ -44,7 +44,7 @@ Deleting the Foreign Table and Target Table
 
       DROP FOREIGN TABLE
 
-.. _en-us_topic_0000001233761887__en-us_topic_0000001145491107_en-us_topic_0102810711_section12369357281:
+.. _en-us_topic_0000001717097304__en-us_topic_0000001233761887_en-us_topic_0000001145491107_en-us_topic_0102810711_section12369357281:
 
 Deleting the Created Foreign Server
 -----------------------------------
@@ -71,7 +71,7 @@ Deleting the Created Foreign Server
 
 #. Delete the created foreign server.
 
-   Run the following command to delete the server. For details about the syntax, see DROP SERVER.
+   Run the following command to delete it:
 
    ::
 
@@ -97,12 +97,12 @@ Deleting the Created Foreign Server
       ---------+----------+--------+---------+------------+--------+------------
       (0 rows)
 
-.. _en-us_topic_0000001233761887__en-us_topic_0000001145491107_en-us_topic_0102810711_section12067301412:
+.. _en-us_topic_0000001717097304__en-us_topic_0000001233761887_en-us_topic_0000001145491107_en-us_topic_0102810711_section12067301412:
 
 Deleting the Database and the User to Which the Database Belongs
 ----------------------------------------------------------------
 
-If you have performed steps in :ref:`(Optional) Creating a User and a Database and Granting the User Foreign Table Permissions <en-us_topic_0000001188323676__en-us_topic_0000001099130938_en-us_topic_0102810708_section590417587243>`, perform the following steps to delete the database and the user to which the database belongs.
+If you have performed steps in :ref:`(Optional) Creating a User and a Database and Granting the User Foreign Table Permissions <en-us_topic_0000001764817361__en-us_topic_0000001188323676_en-us_topic_0000001099130938_en-us_topic_0102810708_section590417587243>`, perform the following steps to delete the database and the user to which the database belongs.
 
 #. Delete the customized database.
 
@@ -154,4 +154,4 @@ If you have performed steps in :ref:`(Optional) Creating a User and a Database a
 
       DROP USER dbuser;
 
-   You can run the **\\du** command to query for the user and check whether the user has been deleted.
+   To check if a user has been deleted, you can use the **\\du** command to query for the user.

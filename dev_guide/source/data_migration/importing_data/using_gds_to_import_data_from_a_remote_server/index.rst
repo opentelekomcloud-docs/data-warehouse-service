@@ -2,6 +2,8 @@
 
 .. _dws_04_0189:
 
+.. _en-us_topic_0000001764896589:
+
 Using GDS to Import Data from a Remote Server
 =============================================
 

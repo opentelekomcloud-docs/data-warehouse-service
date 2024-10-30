@@ -5,11 +5,11 @@
 SQL Self-Diagnosis
 ==================
 
-Performance problems may occur when you run the **INSERT/UPDATE/DELETE/SELECT/MERGE INTO** or **CREATE TABLE AS** statement. The product supports automatic performance diagnosis and saves related diagnosis information to the :ref:`Real-time Top SQL <dws_04_0397>`. When **enable_resource_track** is set to **on**, the diagnosis information is dumped to the :ref:`Historical Top SQL <dws_04_0398>`. You can query the warning field in the views :ref:`GS_WLM_SESSION_STATISTICS <dws_04_0706>`, :ref:`GS_WLM_SESSION_HISTORY <dws_04_0705>`, :ref:`GS_WLM_SESSION_INFO <dws_04_0566>` in *Developer Guide* to obtain the corresponding performance diagnosis information for performance optimization.
+Performance problems may occur when you run the **INSERT/UPDATE/DELETE/SELECT/MERGE INTO** or **CREATE TABLE AS** statement. The product integrates the automatic performance diagnosis function and saves related diagnosis information to the . When **enable_resource_track** is set to **on**, the diagnosis information is dumped to the . You can query the warning field in the views :ref:`GS_WLM_SESSION_STATISTICS <dws_04_0706>`, :ref:`GS_WLM_SESSION_HISTORY <dws_04_0705>`, :ref:`GS_WLM_SESSION_INFO <dws_04_0704>` in *Developer Guide* to obtain the corresponding performance diagnosis information for performance optimization.
 
-Alarms that can trigger SQL self-diagnosis depend on the settings of :ref:`resource_track_level <en-us_topic_0000001233563121__section153571329142612>`. When **resource_track_level** is set to **query**, you can diagnose alarms such as uncollected multi-column/single-column statistics, partitions not pruned, and failure of pushing down SQL statements. When **resource_track_level** is set to **perf** or **operator**, all alarms can be diagnosed.
+Alarms that can trigger SQL self-diagnosis depend on the settings of :ref:`resource_track_level <en-us_topic_0000001510522653__section153571329142612>`. When **resource_track_level** is set to **query**, you can diagnose alarms such as uncollected multi-column/single-column statistics, partitions not pruned, and failure of pushing down SQL statements. When **resource_track_level** is set to **perf** or **operator**, all alarms can be diagnosed.
 
-Whether a SQL plan will be diagnosed depends on the settings of :ref:`resource_track_cost <en-us_topic_0000001233563121__section1089022732713>`. A SQL plan will be diagnosed only if its execution cost is greater than **resource_track_cost**. You can use the **EXPLAIN** keyword to check the plan execution cost.
+Whether a SQL plan will be diagnosed depends on the settings of :ref:`resource_track_cost <en-us_topic_0000001510522653__section1089022732713>`. A SQL plan will be diagnosed only if its execution cost is greater than **resource_track_cost**. You can use the **EXPLAIN** keyword to check the plan execution cost.
 
 When **EXPLAIN PERFORMANCE** or **EXPLAIN VERBOSE** is executed, SQL self-diagnosis information, except that without multi-column statistics, will be generated. For details, see :ref:`SQL Execution Plan <dws_04_0432>`.
 
@@ -85,6 +85,34 @@ Currently, the following performance alarms will be reported:
 
       SQL is not plan-shipping
               "v_test_unshipping_log" is VIEW that will be treated as Record type can't be shipped
+
+-  Vectorized plans are not supported.
+
+   For SQL statements that cannot use vectorized plans, report the detailed reasons why vectorized plans cannot be used.
+
+   Common reasons are as follows:
+
+   -  The target column contains functions whose return type is set.
+   -  The target column or query condition, the distribution key of the Stream operator, and the **Limit** and **Offset** clauses contain expressions that cannot be vectorized (such as geospatial types, array expressions, Row expressions, XML expressions, and functions whose parameters or return values contain the refcursor type).
+   -  The **Group By** clause contains an array equivalent judgment expression.
+   -  **GC_FDW** and **LOG_FDW** do not support vectorization.
+   -  The plan contains operators such as Cte Scan, Recursive Union, Merge Append and Lock Rows.
+
+   Example alarms:
+
+   .. code-block::
+
+      SQL is un-vectorized
+               Function regexp_split_to_table that returns set is un-vectorized
+
+      SQL is un-vectorized
+               Array expression is un-vectorized
+
+      SQL is un-vectorized
+               Function array_agg is un-vectorized
+
+      SQL is un-vectorized
+               RecursiveUnion is un-vectorized
 
 -  In a hash join, the larger table is used as the inner table.
 

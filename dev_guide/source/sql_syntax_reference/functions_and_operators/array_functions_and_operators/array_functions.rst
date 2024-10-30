@@ -166,6 +166,8 @@ Example:
 
 .. note::
 
+   In **string_to_array**, if the null-string parameter is omitted or NULL, none of the substrings of the input will be replaced by NULL.
+
    In **array_to_string**, if the null-string parameter is omitted or NULL, any null elements in the array are simply skipped and not represented in the output string.
 
 string_to_array(text, text [, text])
@@ -192,8 +194,7 @@ Example:
 
 .. note::
 
-   -  In **string_to_array**, if the delimiter parameter is NULL, each character in the input string will become a separate element in the resulting array. If the delimiter is an empty string, then the entire input string is returned as a one-element array. Otherwise the input string is split at each occurrence of the delimiter string.
-   -  In **string_to_array**, if the null-string parameter is omitted or NULL, none of the substrings of the input will be replaced by NULL.
+   In **string_to_array**, if the delimiter parameter is NULL, each character in the input string will become a separate element in the resulting array. If the delimiter is an empty string, then the entire input string is returned as a one-element array. Otherwise the input string is split at each occurrence of the delimiter string.
 
 unnest(anyarray)
 ----------------
@@ -225,3 +226,42 @@ The **unnest** function is used together with the **string_to_array** array. To 
     c
     d
    (4 rows)
+
+interval(N, N1, N2, N3 ... )
+----------------------------
+
+Description: Searches for the last array index that is less than or equal to the target parameter **n** from the input integer array. If n is NULL, **-1** is returned. The **interval()** function does not support the interval(N, N1) scenario. This function is supported by version 8.2.0 or later clusters.
+
+Return type: int
+
+Example:
+
+::
+
+   SELECT INTERVAL(10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 11) AS RESULT;
+    result
+   --------
+        11
+   (1 row)
+
+split(string, delim)
+--------------------
+
+Description: Separates strings by a delimiter and returns an array. This function is supported by version 8.2.0 or later clusters.
+
+Return type: text[]
+
+Example:
+
+::
+
+   SELECT SPLIT('a-b-c-d-e', '-') AS RESULT;
+      result
+   -------------
+    {a,b,c,d,e}
+   (1 row)
+   SELECT SPLIT('a-b-c-d-e', '-')[4] AS RESULT;
+    result
+   --------
+    d
+   (1 row)

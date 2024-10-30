@@ -2,7 +2,7 @@
 
 .. _dws_04_0277:
 
-.. _en-us_topic_0000001233761781:
+.. _en-us_topic_0000001717256772:
 
 Exporting Global Objects
 ========================

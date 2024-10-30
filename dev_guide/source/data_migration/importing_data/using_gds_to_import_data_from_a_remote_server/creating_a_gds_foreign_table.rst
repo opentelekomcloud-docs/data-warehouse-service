@@ -10,7 +10,7 @@ The source data information and GDS access information are configured in a forei
 Procedure
 ---------
 
-#. .. _en-us_topic_0000001188323596__li175507108553:
+#. .. _en-us_topic_0000001764896593__en-us_topic_0000001188323596_li175507108553:
 
    Collect source data information and GDS access information.
 
@@ -27,7 +27,7 @@ Procedure
 
    **location**: GDS URL. GDS information in :ref:`Installing, Configuring, and Starting GDS <dws_04_0193>` is used as an example. In non-SSL mode, **location** is set to **gsfs**://*192.168.0.90:5000*/*/input_data/*. In SSL mode, **location** is set to **gsfss**://*192.168.0.90:5000*/*/input_data/*. **192.168.0.90:5000** indicates the IP address and port number of GDS. **input_data** indicates the path of data source files managed by GDS. Replace the values as required.
 
-#. .. _en-us_topic_0000001188323596__la571bf23a4b24288b5dce0d83a176a56:
+#. .. _en-us_topic_0000001764896593__en-us_topic_0000001188323596_la571bf23a4b24288b5dce0d83a176a56:
 
    Design an error tolerance mechanism for data import.
 
@@ -67,22 +67,25 @@ Procedure
 
    -  **per node reject_limit**: This parameter specifies the number of data format errors allowed on each DN. If the number of errors recorded in the error table on a DN exceeds the specified value, the import will fail and an error message will be reported. You can also set it to **unlimited**.
 
-   -  **compatible_illegal_chars**: When an illegal character is encountered, this parameter specifies whether to import an error, or convert it and proceed with the import.
+   -  compatible_illegal_chars
+
+      Enables or disables fault tolerance on invalid characters during their import and export. This syntax takes effect for read-only and write-only foreign tables.
+
+      Only clusters of version 8.1.3.331 or later support export fault tolerance.
+
+      Value range: **true**, **on**, **false**, and **off**. The default value is **false** or **off**.
+
+      -  If the parameter is **true** or **on**, invalid characters are tolerated and imported to or exported from the database after being converted.
+      -  If the parameter is **false** or **off**, and an error occurs when there are invalid characters, the import or export will be interrupted.
 
       .. note::
 
-         Valid value: **true**, **on**, **false**, and **off**.
+         The rule of error tolerance when you import or export invalid characters is as follows:
 
-         -  When the parameter is **true** or **on**, invalid characters are tolerated and imported to the database after conversion.
-         -  If the parameter is **false** or **off**, and an error occurs when there are invalid characters, the import will be interrupted.
-
-         Default value: **false** or **off**
-
-      The following describes the rules for converting an invalid character:
-
-      -  **\\0** is converted to a space.
-      -  Other invalid characters are converted to question marks (?).
-      -  If **NULL**, **DELIMITER**, **QUOTE**, or **ESCAPE** is also set to a space or question mark, an error message such as "illegal chars conversion may confuse COPY escape 0x20" is displayed, prompting you to modify parameter settings that may cause import errors.
+         -  **\\0** is converted to a space.
+         -  Other invalid characters are converted to question marks.
+         -  If **compatible_illegal_chars** is set to **true** or **on**, the database will convert and accept the invalid characters. If **NULL**, **DELIMITER**, **QUOTE**, and **ESCAPE** are set to a spaces or question marks. Errors like "illegal chars conversion may confuse COPY escape 0x20" will be displayed to prompt user to modify parameter values that cause confusion, preventing import and export errors.
+         -  Enabling error tolerance for foreign table export will result in invalid characters being exported as question marks (?), which can lead to inconsistencies between the exported and original data when imported back into the GaussDB(DWS) database.
 
    -  **error_table_name**: This parameter specifies the name of the table that records data format errors. After the parallel import, you can query this table for error details.
 
@@ -120,9 +123,9 @@ Procedure
 
    -  The columns specified in the foreign table must be the same as those in the target table.
    -  Retain the value **gsmpp_server** for **SERVER**.
-   -  Set **location** based on the GDS access information collected in :ref:`1 <en-us_topic_0000001188323596__li175507108553>`. If SSL is used, replace **gsfs** with **gsfss**.
-   -  Set **FORMAT**, **DELIMITER**, **ENCODING**, and **HEADER** based on the source data information collected in :ref:`1 <en-us_topic_0000001188323596__li175507108553>`.
-   -  Set **FILL_MISSING_FIELDS**, **IGNORE_EXTRA_DATA**, **LOG INTO**, and **PER NODE REJECT LIMIT** based on the error tolerance mechanism designed in :ref:`2 <en-us_topic_0000001188323596__la571bf23a4b24288b5dce0d83a176a56>`. **LOG INTO** specifies the name of the error table.
+   -  Set **location** based on the GDS access information collected in :ref:`1 <en-us_topic_0000001764896593__en-us_topic_0000001188323596_li175507108553>`. If SSL is used, replace **gsfs** with **gsfss**.
+   -  Set **FORMAT**, **DELIMITER**, **ENCODING**, and **HEADER** based on the source data information collected in :ref:`1 <en-us_topic_0000001764896593__en-us_topic_0000001188323596_li175507108553>`.
+   -  Set **FILL_MISSING_FIELDS**, **IGNORE_EXTRA_DATA**, **LOG INTO**, and **PER NODE REJECT LIMIT** based on the error tolerance mechanism designed in :ref:`2 <en-us_topic_0000001764896593__en-us_topic_0000001188323596_la571bf23a4b24288b5dce0d83a176a56>`. **LOG INTO** specifies the name of the error table.
 
    For details about the CREATE FOREIGN TABLE syntax, see CREATE FOREIGN TABLE (for GDS Import and Export).
 

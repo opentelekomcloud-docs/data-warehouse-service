@@ -13,20 +13,18 @@ Specifies the join method. It can be nested loop join, hash join, or merge join.
 Syntax
 ------
 
-::
+.. code-block:: console
 
-   [no] nestloop|hashjoin|mergejoin(table_list)
+   [no] nestloop|hashjoin|mergejoin([@block_name] table_list)
 
-.. _en-us_topic_0000001233563309__section35948678143011:
+.. _en-us_topic_0000001510402197__section35948678143011:
 
 Parameter Description
 ---------------------
 
 -  **no** indicates that the specified hint will not be used for a join.
-
--  .. _en-us_topic_0000001233563309__li1090312446510:
-
-   *table_list* specifies the tables to be joined. The values are the same as those of :ref:`join_table_list <en-us_topic_0000001188163600__section1280444714345>` but contain no parentheses.
+-  *block_name* indicates the block name of the statement block. For details, see :ref:`block_name <en-us_topic_0000001460722632__li99021444551>`.
+-  *table_list* specifies the tables to be joined. The values are the same as those of :ref:`join_table_list <en-us_topic_0000001460722632__section1280444714345>` but contain no parentheses.
 
 For example:
 
@@ -35,7 +33,7 @@ For example:
 Examples
 --------
 
-Hint the query plan in :ref:`Examples <en-us_topic_0000001188642062__section671421102912>` as follows:
+Hint the query plan in :ref:`Examples <en-us_topic_0000001460562888__section671421102912>` as follows:
 
 ::
 
@@ -46,4 +44,4 @@ Hint the query plan in :ref:`Examples <en-us_topic_0000001188642062__section6714
 
 |image1|
 
-.. |image1| image:: /_static/images/en-us_image_0000001188323794.png
+.. |image1| image:: /_static/images/en-us_image_0000001460723036.png

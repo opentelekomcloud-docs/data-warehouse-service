@@ -2,13 +2,15 @@
 
 .. _dws_04_0265:
 
+.. _en-us_topic_0000001764817437:
+
 Creating a GDS Foreign Table
 ============================
 
 Procedure
 ---------
 
-#. Set the **location** parameter for the foreign table based on the path planned in :ref:`Planning Data Export <dws_04_0263>`.
+#. Set the **location** parameter for the foreign table based on the path planned in :ref:`Planning Data Export <en-us_topic_0000001717256800>`.
 
    -  **Remote** mode
 
@@ -25,11 +27,11 @@ Procedure
 
       .. note::
 
-         -  **location** can be set to a subdirectory, for example, **gsfs://192.168.0.90:5000/2019/11/**, so that the same table can be exported to different directories by date.
-         -  In the current version, when an **export** task is executed, the system checks whether the **/output_data/2019/11** directory exists. If the directory does not exist, the system creates it. During the export, files are written to this directory. In this way, you do not need to manually run the **mkdir -p /output_data/2019/11** command after creating or modifying a foreign table.
+         -  By setting **location** to a subdirectory, for example, **gsfs://192.168.0.90:5000/2019/11/**, you can export the same table to different directories based on the date.
+         -  In the current version, the system checks if the **/output_data/2019/11** directory exists when an export task is executed. If it does not exist, the system creates it. During the export, files are written to this directory. In this way, you do not need to manually run the **mkdir -p /output_data/2019/11** command after creating or modifying a foreign table.
 
-#. Set data format parameters in the foreign table based on the planned data file formats. For details about format parameters, see data format parameters.
-#. Create a GDS foreign table based on the parameter settings in the preceding steps. For details about how to create a foreign table, see CREATE FOREIGN TABLE (for GDS Import and Export).
+#. Set data format parameters in the foreign table based on the planned data file formats.
+#. Create a GDS foreign table based on the parameter settings in the preceding steps.
 
 Example
 -------

@@ -2,13 +2,15 @@
 
 .. _dws_04_0253:
 
+.. _en-us_topic_0000001717256780:
+
 Creating an OBS Foreign Table
 =============================
 
 Procedure
 ---------
 
-#. Based on the path planned in :ref:`Planning Data Export <dws_04_0252>`, determine the value of the **location** parameter used for creating a foreign table.
+#. Based on the path planned in :ref:`Planning Data Export <en-us_topic_0000001764896641>`, determine the value of the **location** parameter used for creating a foreign table.
 
 #. Obtain the access keys (AK and SK) to access OBS.
 
@@ -16,7 +18,7 @@ Procedure
 
 #. Examine the formats of data to be exported and determine the values of data format parameters used for creating a foreign table. For details, see data format parameters.
 
-#. Create an OBS table based on the parameter settings in the preceding steps. For details about how to create a foreign table, see CREATE FOREIGN TABLE (for GDS Import and Export).
+#. Create an OBS table based on the parameter settings in the preceding steps.
 
 Example 1
 ---------
@@ -25,7 +27,7 @@ For example, in the GaussDB(DWS) database, create a write-only foreign table wit
 
 -  **location**
 
-   The OBS path of the source data file has been obtained in :ref:`step 2 <en-us_topic_0000001188482188__en-us_topic_0000001145410931_en-us_topic_0102810712_li123314509351>` in :ref:`Planning Data Export <dws_04_0252>`.
+   The OBS path of the source data file has been obtained in :ref:`step 2 <en-us_topic_0000001717097300__en-us_topic_0000001188482188_en-us_topic_0000001145410931_en-us_topic_0102810712_li123314509351>` in :ref:`Planning Data Export <en-us_topic_0000001764896641>`.
 
    For example, set **location** as follows:
 
@@ -92,7 +94,7 @@ For example, in the GaussDB(DWS) database, create a write-only foreign table wit
 
 -  **location**
 
-   The OBS path of the source data file has been obtained in :ref:`step 2 <en-us_topic_0000001188482188__en-us_topic_0000001145410931_en-us_topic_0102810712_li123314509351>` in :ref:`Planning Data Export <dws_04_0252>`.
+   The OBS path of the source data file has been obtained in :ref:`step 2 <en-us_topic_0000001717097300__en-us_topic_0000001188482188_en-us_topic_0000001145410931_en-us_topic_0102810712_li123314509351>` in :ref:`Planning Data Export <en-us_topic_0000001764896641>`.
 
    For example, set **location** as follows:
 

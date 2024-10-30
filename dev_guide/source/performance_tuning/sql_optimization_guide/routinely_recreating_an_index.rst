@@ -2,6 +2,8 @@
 
 .. _dws_04_0467:
 
+.. _en-us_topic_0000001629350017:
+
 Routinely Recreating an Index
 =============================
 

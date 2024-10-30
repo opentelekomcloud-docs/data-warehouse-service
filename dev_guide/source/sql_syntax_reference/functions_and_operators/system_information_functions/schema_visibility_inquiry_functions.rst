@@ -5,10 +5,6 @@
 Schema Visibility Inquiry Functions
 ===================================
 
-
-Schema Visibility Inquiry Functions
------------------------------------
-
 Schema visibility inquiry functions perform visibility checks on database objects. For functions and operators, an object in the search path is visible if there is no object of the same name and argument data type(s) earlier in the path. For operator classes, both name and associated index access method are considered.
 
 All these functions require OIDs to identify the objects to be checked. If you want to test an object by name, it is convenient to use the OID alias types (**regclass**, **regtype**, **regprocedure**, **regoperator**, **regconfig**, or **regdictionary**).

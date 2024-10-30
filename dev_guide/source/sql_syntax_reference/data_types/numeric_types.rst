@@ -7,7 +7,7 @@ Numeric Types
 
 Numeric types consist of two-, four-, and eight-byte integers, four- and eight-byte floating-point numbers, and selectable-precision decimals.
 
-For details about numeric operators and functions, see :ref:`Mathematical Functions and Operators <dws_06_0034>`.
+For details about numeric operators and functions, see :ref:`Numeric Functions and Operators <dws_06_0034>`.
 
 GaussDB(DWS) supports integers, arbitrary precision numbers, floating point types, and serial integers.
 
@@ -69,7 +69,7 @@ Arbitrary Precision Types
 
 The type NUMBER can store numbers with a very large number of digits. It is especially recommended for storing monetary amounts and other quantities where exactness is required. The arbitrary precision numbers require larger storage space and have lower storage efficiency, operation efficiency, and poorer compression ratio results than integer types.
 
-The scale of a NUMBER value is the count of decimal digits in the fractional part, to the right of the decimal point. The precision of a NUMBER value is the total count of significant digits in the whole number, that is, the number of digits to both sides of the decimal point. So the number 23.5141 has a precision of 6 and a scale of 4. Integers can be considered to have a scale of zero.
+The scale of a NUMBER value is the count of decimal digits in the fractional part, to the right of the decimal point. The precision of a NUMBER value is the total count of significant digits in the whole number, that is, the number of digits to both sides of the decimal point. So the number 23.1234 has a precision of 6 and a scale of 4. Integers can be considered to have a scale of zero.
 
 To configure a numeric or decimal column, you are advised to specify both the maximum precision (p) and the maximum scale (s) of the column.
 
@@ -100,6 +100,7 @@ Insert data.
 ::
 
    INSERT INTO decimal_type_t1 VALUES(123456.122331);
+   INSERT INTO decimal_type_t1 VALUES(123456.452399);
 
 View data.
 
@@ -109,7 +110,8 @@ View data.
       dt_col1
    -------------
     123456.1223
-   (1 row)
+    123456.4524
+   (2 rows)
 
 Floating-Point Types
 --------------------
@@ -228,3 +230,10 @@ View data.
     1
     2
    (2 rows)
+
+An error is reported when a NULL value is inserted.
+
+::
+
+   INSERT INTO smallserial_type_tab VALUES(NULL);
+   ERROR:  dn_6001_6002: null value in column "a" violates not-null constraint
