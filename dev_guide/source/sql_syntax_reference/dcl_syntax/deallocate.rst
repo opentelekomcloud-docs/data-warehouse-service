@@ -8,7 +8,7 @@ DEALLOCATE
 Function
 --------
 
-Removes the prepared statements that were created earlier. If a prepared statement is not explicitly deleted, it is deleted at the end of the session.
+Deallocates a previously prepared statement. If a prepared statement is not explicitly deleted, it is deleted at the end of the session.
 
 For details about prepared statements, see :ref:`PREPARE <dws_06_0251>`.
 

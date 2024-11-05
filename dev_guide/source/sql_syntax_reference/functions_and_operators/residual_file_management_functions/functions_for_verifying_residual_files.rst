@@ -5,6 +5,10 @@
 Functions for Verifying Residual Files
 ======================================
 
+.. note::
+
+   The pgxc residual file management function only operates on the CN and the current primary DN, and does not verify or clear residual files on the standby DN. Therefore, after the primary DN is cleared, you need to clear residual files on the standby DN or build the standby DN in a timely manner. This prevents residual files on the standby DN from being copied back to the primary DN due to incremental build after a primary/standby switchover.
+
 pg_verify_residualfiles(filepath)
 ---------------------------------
 

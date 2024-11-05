@@ -24,7 +24,7 @@ Precautions
 -----------
 
 -  Indexes consume storage and computing resources. Creating too many indexes has negative impact on database performance (especially the performance of data import. Therefore, you are advised to import the data before creating indexes). Create indexes only when they are necessary.
--  All functions and operators used in an index definition must be immutable, that is, their results must depend only on their arguments and never on any outside influence (such as the contents of another table or the current time). This restriction ensures that the behavior of the index is well-defined. When using a user-defined function on an index or in a **WHERE** statement, mark it as an immutable function.
+-  All functions and operators used in an index definition must be immutable, that is, their results must depend only on their parameters and never on any outside influence (such as the contents of another table or the current time). This restriction ensures that the behavior of the index is well-defined. When using a user-defined function on an index or in a **WHERE** statement, mark it as an immutable function.
 -  A unique index created on a partitioned table must include a partition column and all the partition keys.
 -  GaussDB(DWS) can only create local indexes on partitioned tables.
 -  Column-store tables and HDFS tables support B-tree indexes. If the B-tree indexes are used, you cannot create expression and partial indexes.
@@ -43,6 +43,7 @@ Syntax
 
       CREATE [ UNIQUE ] INDEX [ [ schema_name. ] index_name ] ON table_name [ USING method ]
           ({ { column_name | ( expression ) } [ COLLATE collation ] [ opclass ] [ ASC | DESC ] [ NULLS { FIRST | LAST } ] }[, ...] )
+          [ NULLS [ NOT ] DISTINCT | NULLS IGNORE ]
           [ COMMENT 'text' ]
           [ WITH ( {storage_parameter = value} [, ... ] ) ]
 
@@ -54,6 +55,7 @@ Syntax
 
       CREATE [ UNIQUE ] INDEX [ [ schema_name. ] index_name ] ON table_name [ USING method ]
           ( {{ column_name | ( expression ) } [ COLLATE collation ] [ opclass ] [ ASC | DESC ] [ NULLS LAST ] }[, ...] )
+          [ NULLS [ NOT ] DISTINCT | NULLS IGNORE ]
           [ COMMENT 'text' ]
           LOCAL [ ( { PARTITION index_partition_name  } [, ...] ) ]
           [ WITH ( { storage_parameter = value } [, ...] ) ]
@@ -74,7 +76,7 @@ Parameters
 
 -  **index_name**
 
-   Specifies the name of the index to be created. The schema of the index is the same as that of the table. The index name cannot be the same as an existing table name in the database.
+   Specifies the name of the index to be created. The schema of the index is the same as that of the table.
 
    Value range: a string. It must comply with the naming convention.
 
@@ -135,6 +137,32 @@ Parameters
 
    Specifies that nulls sort after not-null values. This is the default when **DESC** is not specified.
 
+-  NULLS [ NOT ] DISTINCT \| NULLS IGNORE
+
+   Specifies how NULL values of index columns in a Unique index are processed.
+
+   Default value: This parameter is left empty by default. NULL values can be inserted repeatedly.
+
+   When the inserted data is compared with the original data in the table, the NULL value can be processed in any of the following ways:
+
+   -  NULLS DISTINCT: NULL values are unequal and can be inserted repeatedly.
+   -  NULLS NOT DISTINCT: NULL values are equal. If all index columns are NULL, NULL values cannot be inserted repeatedly. If some index columns are NULL, data can be inserted only when non-null values are different.
+   -  NULLS IGNORE: NULL values are skipped during the equivalent comparison. If all index columns are NULL, NULL values can be inserted repeatedly. If some index columns are NULL, data can be inserted only when non-null values are different.
+
+   The following table lists the behaviors of the three processing modes.
+
+   .. table:: **Table 1** Processing of NULL values in index columns in unique indexes
+
+      +--------------------+--------------------------------+------------------------------------------------------------------------------------------------------------+
+      | Constraint         | All Index Columns Are NULL     | Some Index Columns Are NULL.                                                                               |
+      +====================+================================+============================================================================================================+
+      | NULLS DISTINCT     | Can be inserted repeatedly.    | Can be inserted repeatedly.                                                                                |
+      +--------------------+--------------------------------+------------------------------------------------------------------------------------------------------------+
+      | NULLS NOT DISTINCT | Cannot be inserted repeatedly. | Cannot be inserted if the non-null values are equal. Can be inserted if the non-null values are not equal. |
+      +--------------------+--------------------------------+------------------------------------------------------------------------------------------------------------+
+      | NULLS IGNORE       | Can be inserted repeatedly.    | Cannot be inserted if the non-null values are equal. Can be inserted if the non-null values are not equal. |
+      +--------------------+--------------------------------+------------------------------------------------------------------------------------------------------------+
+
 -  **COMMENT 'text'**
 
    Specifies the comment of an index.
@@ -145,7 +173,7 @@ Parameters
 
    Valid value:
 
-   Only the GIN index supports the **FASTUPDATE** and **GIN_PENDING_LIST_LIMIT** parameters. The indexes other than GIN and psort support the **FILLFACTOR** parameter.
+   Only the GIN index supports the **FASTUPDATE** and **GIN_PENDING_LIST_LIMIT** parameters. The indexes other than GIN and psort support the **FILLFACTOR** parameter. All indexes support the **INVISIBLE** parameter.
 
    -  FILLFACTOR
 
@@ -169,6 +197,17 @@ Parameters
 
       Default value: The default value of **gin_pending_list_limit** depends on **gin_pending_list_limit** specified in GUC parameters. By default, the value is **4** MB.
 
+   -  INVISIBLE
+
+      Controls whether the optimizer generates index scan plans.
+
+      Value range:
+
+      -  **ON** indicates that no index scan plan is generated.
+      -  **OFF** indicates that an index scan plan is generated.
+
+      Default value: **OFF**
+
 -  **WHERE predicate**
 
    Creates a partial index. A partial index is an index that contains entries for only a portion of a table, usually a portion that is more useful for indexing than the rest of the table. For example, if you have a table that contains both billed and unbilled orders where the unbilled orders take up a small fraction of the total table and yet that is an often used section, you can improve performance by creating an index on just that portion. Another possible application is to use **WHERE** with **UNIQUE** to enforce uniqueness over a subset of a table.
@@ -184,13 +223,10 @@ Parameters
 Examples
 --------
 
--  Create an index on a table.
-
-   Create a sample table named **tpcds.ship_mode_t1**.
+-  Create a sample table named **tpcds.ship_mode_t1**.
 
    ::
 
-      DROP TABLE IF EXISTS tpcds.ship_mode_t1;
       CREATE TABLE tpcds.ship_mode_t1
       (
           SM_SHIP_MODE_SK           INTEGER               NOT NULL,
@@ -208,6 +244,12 @@ Examples
 
       CREATE UNIQUE INDEX ds_ship_mode_t1_index1 ON tpcds.ship_mode_t1(SM_SHIP_MODE_SK);
 
+   Create a UNQIUE index on the **SM_SHIP_MODE_SK** column in the **tpcds.ship_mode_t1** table and specify how to process null values.
+
+   ::
+
+      CREATE UNIQUE INDEX ds_ship_mode_t1_index5 ON tpcds.ship_mode_t1(SM_SHIP_MODE_SK) NULLS NOT DISTINCT;
+
    Add comment to the index when creating an index on the **SM_SHIP_MODE_SK** column of table **tpcds.ship_mode_t1**.
 
    ::
@@ -219,12 +261,6 @@ Examples
    ::
 
       CREATE INDEX ds_ship_mode_t1_index4 ON tpcds.ship_mode_t1 USING btree(SM_SHIP_MODE_SK);
-
-   Create a GIN index on the **SM_SHIP_MODE_SK** column in the **tpcds.ship_mode_t1** table.
-
-   .. code-block::
-
-      CREATE INDEX ship_mode_index ON tpcds.ship_mode_t1 USING gin(SM_SHIP_MODE_SK);
 
    Create an expression index on the **SM_CODE** column in the **tpcds.ship_mode_t1** table.
 
@@ -238,13 +274,10 @@ Examples
 
       CREATE UNIQUE INDEX ds_ship_mode_t1_index3 ON tpcds.ship_mode_t1(SM_SHIP_MODE_SK) WHERE SM_SHIP_MODE_SK>10;
 
--  Create an index on a partitioned table.
-
-   Create a sample table named **tpcds.customer_address_p1**.
+-  Create a sample table named **tpcds.customer_address_p1**.
 
    ::
 
-      DROP TABLE IF EXISTS tpcds.customer_address_p1;
       CREATE TABLE tpcds.customer_address_p1
       (
           CA_ADDRESS_SK             INTEGER               NOT NULL,

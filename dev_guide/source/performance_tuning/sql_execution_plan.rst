@@ -12,7 +12,7 @@ You can run the **EXPLAIN** command to view the execution plan generated for eac
 Execution Plan Information
 --------------------------
 
-In addition to setting different display formats for an execution plan, you can use different **EXPLAIN** syntax to display execution plan information in detail. The common usages are as follows. For more usages, see "EXPLAIN Syntax" in *SQL Syntax Reference*.
+In addition to setting different display formats for an execution plan, you can use different **EXPLAIN** syntax to display execution plan information in detail. The common usages are as follows. For more usages, see .
 
 -  EXPLAIN *statement*: only generates an execution plan and does not execute. The *statement* indicates SQL statements.
 -  EXPLAIN ANALYZE *statement*: generates and executes an execution plan, and displays the execution summary. Then actual execution time statistics are added to the display, including the total elapsed time expended within each plan node (in milliseconds) and the total number of rows it actually returned.
@@ -83,20 +83,20 @@ Execution Plan Display Format
 
 GaussDB(DWS) provides four display formats: **normal**, **pretty**, **summary**, and **run**. You can change the display format of execution plans by setting **explain_perf_mode**.
 
--  **normal** indicates that the default printing format is used. :ref:`Figure 1 <en-us_topic_0000001614371009__en-us_topic_0000001610880741_fig1273152712379>` shows the display format.
+-  **normal** indicates that the default printing format is used. :ref:`Figure 1 <en-us_topic_0000001578590834__en-us_topic_0000001614371009_en-us_topic_0000001610880741_fig1273152712379>` shows the display format.
 
-   .. _en-us_topic_0000001614371009__en-us_topic_0000001610880741_fig1273152712379:
+   .. _en-us_topic_0000001578590834__en-us_topic_0000001614371009_en-us_topic_0000001610880741_fig1273152712379:
 
-   .. figure:: /_static/images/en-us_image_0000001614452181.png
+   .. figure:: /_static/images/en-us_image_0000001627074390.png
       :alt: **Figure 1** Example of an execution plan in normal format
 
       **Figure 1** Example of an execution plan in normal format
 
--  **pretty** indicates that the optimized display mode of GaussDB(DWS) is used. A new format contains a plan node ID, directly and effectively analyzing performance. :ref:`Figure 2 <en-us_topic_0000001614371009__en-us_topic_0000001610880741_fig098629163812>` is an example.
+-  **pretty** indicates that the optimized display mode of GaussDB(DWS) is used. A new format contains a plan node ID, directly and effectively analyzing performance. :ref:`Figure 2 <en-us_topic_0000001578590834__en-us_topic_0000001614371009_en-us_topic_0000001610880741_fig098629163812>` is an example.
 
-   .. _en-us_topic_0000001614371009__en-us_topic_0000001610880741_fig098629163812:
+   .. _en-us_topic_0000001578590834__en-us_topic_0000001614371009_en-us_topic_0000001610880741_fig098629163812:
 
-   .. figure:: /_static/images/en-us_image_0000001614571737.png
+   .. figure:: /_static/images/en-us_image_0000001675274357.png
       :alt: **Figure 2** Example of an execution plan using the pretty format
 
       **Figure 2** Example of an execution plan using the pretty format
@@ -240,9 +240,9 @@ The output of EXPLAIN PERFORMANCE consists of the following parts:
 
    |image4|
 
-   The plan is displayed as a table, which contains 11 columns: **id**, **operation**, **A-time**, **A-rows**, **E-rows**, **E-distinct**, **Peak Memory**, **E-memory**, **A-width**, **E-width**, and **E-costs**. :ref:`Table 1 <en-us_topic_0000001614371009__en-us_topic_0000001610880741_table94981536102>` describes the meanings of the columns.
+   The plan is displayed as a table, which contains 11 columns: **id**, **operation**, **A-time**, **A-rows**, **E-rows**, **E-distinct**, **Peak Memory**, **E-memory**, **A-width**, **E-width**, and **E-costs**. :ref:`Table 1 <en-us_topic_0000001578590834__en-us_topic_0000001614371009_en-us_topic_0000001610880741_table94981536102>` describes the columns.
 
-   .. _en-us_topic_0000001614371009__en-us_topic_0000001610880741_table94981536102:
+   .. _en-us_topic_0000001578590834__en-us_topic_0000001614371009_en-us_topic_0000001610880741_table94981536102:
 
    .. table:: **Table 1** Execution column description
 
@@ -352,22 +352,22 @@ The output of EXPLAIN PERFORMANCE consists of the following parts:
 
    The total execution time and network traffic, including the maximum and minimum execution time in the initialization and end phases on each DN, initialization, execution, and time in the end phase on each CN, and the system available memory during the current statement execution, and statement estimation memory information.
 
-   -  DataNode executor start time: start time of the DN executor. The format is [min_node_name, max_node_name]: [min_time, max_time].
-   -  DataNode executor run time: running time of the DN executor. The format is [min_node_name, max_node_name]: [min_time, max_time].
-   -  DataNode executor end time: end time of the DN executor. The format is [min_node_name, max_node_name]: [min_time, max_time].
+   -  **DataNode executor start time**: start time of the DN executor. The format is [min_node_name, max_node_name]: [min_time, max_time].
+   -  **DataNode executor run time**: running time of the DN executor. The format is [min_node_name, max_node_name]: [min_time, max_time].
+   -  **DataNode executor end time**: end time of the DN executor. The format is [min_node_name, max_node_name]: [min_time, max_time].
    -  **Remote query poll time**: poll waiting time for receiving results
-   -  System available mem: available system memory
-   -  Query Max mem: maximum query memory.
-   -  Enqueue time: enqueuing time
-   -  Coordinator executor start time: start time of the CN executor
-   -  Coordinator executor run time: CN executor running time
-   -  Coordinator executor end time: end time of the CN executor
-   -  Parser runtime: parser running time
-   -  Planner runtime: optimizer execution time
+   -  **System available mem**: available system memory
+   -  **Query Max mem**: maximum query memory.
+   -  **Enqueue time**: enqueuing time
+   -  **Coordinator executor start time**: start time of the CN executor
+   -  **Coordinator executor run time**: CN executor running time
+   -  **Coordinator executor end time**: end time of the CN executor
+   -  **Parser runtime**: parser running time
+   -  **Planner runtime**: optimizer execution time
    -  Network traffic, or, the amount of data sent by the stream operator
-   -  Query Id: query ID.
-   -  Unique SQL ID: constraint SQL ID
-   -  Total runtime: total execution time
+   -  **Query Id**: query ID.
+   -  **Unique SQL ID**: constraint SQL ID
+   -  **Total runtime**: total execution time
 
 .. important::
 
@@ -375,16 +375,16 @@ The output of EXPLAIN PERFORMANCE consists of the following parts:
    -  If the difference of the A-time values is large, it indicates that the operator computing skew (difference between execution time on DNs) is large and that manual performance tuning is required. Generally, for two adjacent operators, the execution time of the upper-layer operator includes that of the lower-layer operator. However, if the upper-layer operator is a stream operator, its execution time may be less than that of the lower-layer operator, as there is no driving relationship between threads.
    -  **Max Query Peak Memory** is often used to estimate the consumed memory of SQL statements, and is also used as an important basis for setting a memory parameter during SQL statement optimization. Generally, the output from **EXPLAIN ANALYZE** or **EXPLAIN PERFORMANCE** is provided for the input for further optimization.
 
-.. |image1| image:: /_static/images/en-us_image_0000001566368234.png
-.. |image2| image:: /_static/images/en-us_image_0000001616926901.png
-.. |image3| image:: /_static/images/en-us_image_0000001616687341.png
-.. |image4| image:: /_static/images/en-us_image_0000001564012364.png
-.. |image5| image:: /_static/images/en-us_image_0000001563853052.png
-.. |image6| image:: /_static/images/en-us_image_0000001564171976.png
-.. |image7| image:: /_static/images/en-us_image_0000001564331880.png
-.. |image8| image:: /_static/images/en-us_image_0000001614371749.png
-.. |image9| image:: /_static/images/en-us_image_0000001614252121.png
-.. |image10| image:: /_static/images/en-us_image_0000001614452197.png
-.. |image11| image:: /_static/images/en-us_image_0000001614571749.png
-.. |image12| image:: /_static/images/en-us_image_0000001564012372.png
-.. |image13| image:: /_static/images/en-us_image_0000001563853056.png
+.. |image1| image:: /_static/images/en-us_image_0000001675634277.png
+.. |image2| image:: /_static/images/en-us_image_0000001626914438.png
+.. |image3| image:: /_static/images/en-us_image_0000001675434169.png
+.. |image4| image:: /_static/images/en-us_image_0000001626594698.png
+.. |image5| image:: /_static/images/en-us_image_0000001626754514.png
+.. |image6| image:: /_static/images/en-us_image_0000001627074398.png
+.. |image7| image:: /_static/images/en-us_image_0000001675274369.png
+.. |image8| image:: /_static/images/en-us_image_0000001675634285.png
+.. |image9| image:: /_static/images/en-us_image_0000001626914446.png
+.. |image10| image:: /_static/images/en-us_image_0000001675434173.png
+.. |image11| image:: /_static/images/en-us_image_0000001675394257.png
+.. |image12| image:: /_static/images/en-us_image_0000001626594702.png
+.. |image13| image:: /_static/images/en-us_image_0000001626754518.png

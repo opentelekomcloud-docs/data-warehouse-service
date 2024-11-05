@@ -140,6 +140,28 @@ Parameters
 
       Default value: **off**
 
+   -  enable_hstore
+
+      Specifies whether to create a table as an HStore table (based on column-store tables). The parameter is only valid for column-store tables. This parameter is supported by version 8.2.0.100 or later clusters.
+
+      Default value: **off**
+
+      .. note::
+
+         If this parameter is enabled, the following GUC parameters must be set to ensure that HStore tables are cleared.
+
+         **autovacuum**\ =\ **true**, **autovacuum_max_workers**\ =\ **6**, **autovacuum_max_workers_hstore**\ =\ **3**.
+
+   -  enable_disaster_cstore
+
+      Specifies whether fine-grained DR will be enabled for column-store tables. This parameter only takes effect on column-store tables whose COLVERSION is 2.0 and cannot be set to **on** if **enable_hstore** is **on**. This parameter is supported by version 8.2.0.100 or later clusters.
+
+      Default value: **off**
+
+      .. caution::
+
+         Before turning on this parameter, set the GUC parameter **enable_metadata_tracking** to **on**. Otherwise, the fine-grained DR may fail to be enabled.
+
    -  SUB_PARTITION_COUNT
 
       Specifies the number of level-2 partitions. This parameter specifies the number of level-2 partitions during data import. This parameter is configured during table creation and cannot be modified after table creation. You are not advised to set the default value, which may affect the import and query performance.

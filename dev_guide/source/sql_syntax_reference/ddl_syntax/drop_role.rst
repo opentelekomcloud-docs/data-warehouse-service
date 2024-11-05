@@ -22,7 +22,7 @@ Syntax
 
    DROP ROLE [ IF EXISTS ] role_name [, ...];
 
-.. _en-us_topic_0000001188270544__s56aa378dd3884fe5b99b87329c9e93c2:
+.. _en-us_topic_0000001510520953__s56aa378dd3884fe5b99b87329c9e93c2:
 
 Parameter Description
 ---------------------

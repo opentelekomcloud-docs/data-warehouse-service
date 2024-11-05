@@ -11,10 +11,10 @@ The same database object name can be used in different schemas in a database wit
 
 If a user is created, a schema named after the user will also be created in the current database.
 
-The Default Schema **Public**
------------------------------
+Public mode
+-----------
 
-Each database has a schema named **Public**. If you do not create any schema, the object will be created in the schema named public. All database roles (users) have the CREATE and USAGE permissions in the public schema. When creating a schema, you need to grant the access permission to users.
+Each database has a schema named **public**. All users have the ability to use the public schema in the database, but only certain roles have the authority to create objects within it.
 
 Creating a Schema
 -----------------

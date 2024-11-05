@@ -13,9 +13,7 @@ Function
 Precautions
 -----------
 
--  After the base table on which a view depends is renamed, you need to manually rebuild the view.
--  You can use **WITH (security_barriers)** to create a relatively secure view. This prevents attackers from printing hidden base table data by using the **RAISE** statement of low-cost functions.
--  When the **view_independent** GUC parameter is enabled, columns can be deleted from common views. Note that if a column-level constraint exists, the corresponding column cannot be deleted.
+None
 
 Syntax
 ------
@@ -25,6 +23,11 @@ Syntax
    CREATE [ OR REPLACE ] [ TEMP | TEMPORARY ] VIEW view_name [ ( column_name [, ...] ) ]
        [ WITH ( {view_option_name [= view_option_value]} [, ... ] ) ]
        AS query;
+
+.. note::
+
+   -  You can use **WITH (security_barriers)** to create a relatively secure view. This prevents attackers from printing hidden base table data by using the **RAISE** statement of low-cost functions.
+   -  When the **view_independent** GUC parameter is enabled, columns can be deleted from common views. Note that if a column-level constraint exists, the corresponding column cannot be deleted.
 
 Parameters
 ----------
@@ -103,7 +106,7 @@ After the **enable_view_update** parameter is enabled, the **INSERT**, **UPDATE*
 
 Views that meet all the following conditions can be updated:
 
--  The FROM clause in the view definition contains only one common table, which cannot be a system table, foreign table, delta table, TOAST table, or error table.
+-  The FROM clause in the view definition contains only one common table, which cannot be a system table, foreign table, DFS table, delta table, TOAST table, or error table.
 -  The view contains updatable columns, which are simple references to the updatable columns of the base table.
 -  The view definition does not contain the WITH, DISTINCT, GROUP BY, ORDER BY, FOR UPDATE, FOR SHARE, HAVING, TABLESAMPLE, LIMIT or OFFSET clause.
 -  The view definition does not contain the UNION, INTERSECT, or EXCEPT operation.

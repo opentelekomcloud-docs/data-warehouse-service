@@ -24,8 +24,8 @@ Automatically Analyzing a Table
 
 GaussDB(DWS) provides automatic table analysis for the following two scenarios.
 
--  If **ANALYZE** is triggered because a query contains a table that has no statistics or a table whose amount of data modification reaches the threshold, and the execution plan does not use Fast Query Shipping (FQS), the GUC parameter :ref:`autoanalyze <en-us_topic_0000001188323574__section114241119217>` is used to control the automatic collection of table statistics. In this case, a better execution plan is generated based on the collected statistics.
--  If :ref:`autovacuum <en-us_topic_0000001188482222__s8d6c38309e594a16a07f79ae412b63c6>` is set to **on**, the system periodically starts the autovacuum thread and automatically collects statistics on the tables whose amount of data modification reaches the threshold for triggering **ANALYZE** in the background.
+-  If **ANALYZE** is triggered because a query contains a table that has no statistics or a table whose amount of data modification reaches the threshold, and the execution plan does not use Fast Query Shipping (FQS), the GUC parameter :ref:`autoanalyze <en-us_topic_0000001460562696__section114241119217>` is used to control the automatic collection of table statistics. In this case, a better execution plan is generated based on the collected statistics.
+-  If :ref:`autovacuum <en-us_topic_0000001510283565__s8d6c38309e594a16a07f79ae412b63c6>` is set to **on**, the system periodically starts the autovacuum thread and automatically collects statistics on the tables whose amount of data modification reaches the threshold for triggering **ANALYZE** in the background.
 
    .. table:: **Table 1** Automatically Analyzing a Table
 
@@ -49,5 +49,5 @@ GaussDB(DWS) provides automatic table analysis for the following two scenarios.
    -  When **ANALYZE** is triggered during a query, a level-4 lock is added to all partitions in the partitioned table. The lock is released only after the transaction containing the query is committed. The level-4 lock does not block adding, deletion, modification, and query operations, but blocks partition modification operations such as **TRUNCATE**. You can set **object_mtime_record_mode** to **disable_partition** to release the partition locks in advance.
    -  The autovacuum function also depends on the following two GUC parameters in addition to **autovacuum**:
 
-      -  :ref:`track_counts <en-us_topic_0000001233883261__s4682d08468f84845bfdc6ae9477126e8>` must be set to **on** to enable statistics collection about the database.
-      -  :ref:`autovacuum_max_workers <en-us_topic_0000001188482222__s502d4304994d4da5bd3cda661aab27ac>` must be set to a value greater than 0 to specify the maximum number of concurrent autovacuum threads.
+      -  :ref:`track_counts <en-us_topic_0000001510402293__s4682d08468f84845bfdc6ae9477126e8>` must be set to **on** to enable statistics collection about the database.
+      -  :ref:`autovacuum_max_workers <en-us_topic_0000001510283565__s502d4304994d4da5bd3cda661aab27ac>` must be set to a value greater than 0 to specify the maximum number of concurrent autovacuum threads.

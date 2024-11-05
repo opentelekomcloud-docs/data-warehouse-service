@@ -8,7 +8,7 @@ DROP OWNED
 Function
 --------
 
-**DROP OWNED** deletes the database objects of a database role.
+Deletes the database objects owned by a database role.
 
 Precautions
 -----------
@@ -22,8 +22,8 @@ Syntax
 
    DROP OWNED BY name [, ...] [ CASCADE | RESTRICT ];
 
-Parameters
-----------
+Parameter Description
+---------------------
 
 -  **name**
 
@@ -32,10 +32,10 @@ Parameters
 -  **CASCADE \| RESTRICT**
 
    -  **CASCADE**: automatically deletes objects that depend on the affected objects.
-   -  **RESTRICT** (default): refuses to delete objects with dependent objects.
+   -  **RESTRICT** (default): refuses to delete objects that have other objects depend on them.
 
-Example
--------
+Examples
+--------
 
 Remove all database objects owned by role **u1**:
 

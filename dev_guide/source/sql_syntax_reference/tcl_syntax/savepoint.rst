@@ -8,7 +8,7 @@ SAVEPOINT
 Function
 --------
 
-**SAVEPOINT** establishes a new savepoint within the current transaction.
+Establishes a new savepoint within the current transaction.
 
 A savepoint is a special mark inside a transaction that rolls back all commands that are executed after the savepoint was established, restoring the transaction state to what it was at the time of the savepoint.
 
@@ -24,7 +24,7 @@ Precautions
 Syntax
 ------
 
-::
+.. code-block::
 
    SAVEPOINT savepoint_name;
 
@@ -43,7 +43,6 @@ Examples
    ::
 
       START TRANSACTION;
-      CREATE TABLE IF NOT EXISTS table1 (a int,b int);
       INSERT INTO table1 VALUES (1);
       SAVEPOINT my_savepoint;
       INSERT INTO table1 VALUES (2);

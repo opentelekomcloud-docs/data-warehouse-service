@@ -5,10 +5,7 @@
 Statistics Information Functions
 ================================
 
-Statistics functions are classified into the following types based on the objects:
-
--  Functions used to access a database. Table OIDs and indexes in the database can be used to identify the database.
--  Functions used to accesses a server. The server process ID is used as a parameter. The value ranges from 1 to the number of active servers.
+Statistics information functions are divided into the following two categories: functions that access databases, using the OID of each table or index in a database to mark the database for which statistics are generated; functions that access servers, identified by the server process ID, whose value ranges from 1 to the number of currently active servers.
 
 pg_stat_get_db_numbackends(oid)
 -------------------------------
@@ -250,7 +247,7 @@ or number of index scans done if parameters are in an index
 
 Return type: bigint
 
-.. _en-us_topic_0000001188270492__section4444448123716:
+.. _en-us_topic_0000001460561420__section541910505294:
 
 pg_stat_get_tuple()
 -------------------
@@ -269,51 +266,49 @@ Return type: record
 
 The following table describes return columns.
 
-.. table:: **Table 1** pg_stat_get_tuple() return fields
-
-   +-------------------+--------------------------+--------------------------------------------+
-   | Name              | Type                     | Description                                |
-   +===================+==========================+============================================+
-   | nodename          | text                     | Node name                                  |
-   +-------------------+--------------------------+--------------------------------------------+
-   | tableid           | oid                      | Table OID                                  |
-   +-------------------+--------------------------+--------------------------------------------+
-   | partid            | oid                      | Partition OID of the partitioned table     |
-   +-------------------+--------------------------+--------------------------------------------+
-   | last_vacuum       | timestamp with time zone | Time of the last manual **VACUUM**         |
-   +-------------------+--------------------------+--------------------------------------------+
-   | last_autovacuum   | timestamp with time zone | Time of the last **AUTOVACUUM**            |
-   +-------------------+--------------------------+--------------------------------------------+
-   | last_analyze      | timestamp with time zone | Time of the last manual **ANALYZE**        |
-   +-------------------+--------------------------+--------------------------------------------+
-   | last_autoanalyze  | timestamp with time zone | Time of the last **AUTOANALYZE**           |
-   +-------------------+--------------------------+--------------------------------------------+
-   | vacuum_count      | bigint                   | Number of times **VACUUM** operations      |
-   +-------------------+--------------------------+--------------------------------------------+
-   | autovacuum_count  | bigint                   | Number of **AUTOVACUUM** operations        |
-   +-------------------+--------------------------+--------------------------------------------+
-   | analyze_count     | bigint                   | Number of **ANALYZE** operations           |
-   +-------------------+--------------------------+--------------------------------------------+
-   | autoanalyze_count | bigint                   | Number of **AUTOANALYZE_COUNT** operations |
-   +-------------------+--------------------------+--------------------------------------------+
-   | n_tup_ins         | bigint                   | Number of rows inserted                    |
-   +-------------------+--------------------------+--------------------------------------------+
-   | n_tup_upd         | bigint                   | Number of rows updated                     |
-   +-------------------+--------------------------+--------------------------------------------+
-   | n_tup_del         | bigint                   | Number of rows deleted                     |
-   +-------------------+--------------------------+--------------------------------------------+
-   | n_tup_hot_upd     | bigint                   | Number of rows with HOT updates            |
-   +-------------------+--------------------------+--------------------------------------------+
-   | n_tup_change      | bigint                   | Number of changed rows after **ANALYZE**   |
-   +-------------------+--------------------------+--------------------------------------------+
-   | n_live_tup        | bigint                   | Estimated number of live rows              |
-   +-------------------+--------------------------+--------------------------------------------+
-   | n_dead_tup        | bigint                   | Estimated number of dead rows              |
-   +-------------------+--------------------------+--------------------------------------------+
-   | dirty_rate        | bigint                   | Dirty page rate of a single CN or DN       |
-   +-------------------+--------------------------+--------------------------------------------+
-   | last_data_changed | timestamp with time zone | Time when a table was last modified        |
-   +-------------------+--------------------------+--------------------------------------------+
++-------------------+--------------------------+--------------------------------------------+
+| Name              | Type                     | Description                                |
++===================+==========================+============================================+
+| nodename          | text                     | Node name                                  |
++-------------------+--------------------------+--------------------------------------------+
+| tableid           | oid                      | Table OID                                  |
++-------------------+--------------------------+--------------------------------------------+
+| partid            | oid                      | Partition OID of the partitioned table     |
++-------------------+--------------------------+--------------------------------------------+
+| last_vacuum       | timestamp with time zone | Time of the last manual **VACUUM**         |
++-------------------+--------------------------+--------------------------------------------+
+| last_autovacuum   | timestamp with time zone | Time of the last **AUTOVACUUM**            |
++-------------------+--------------------------+--------------------------------------------+
+| last_analyze      | timestamp with time zone | Time of the last manual **ANALYZE**        |
++-------------------+--------------------------+--------------------------------------------+
+| last_autoanalyze  | timestamp with time zone | Time of the last **AUTOANALYZE**           |
++-------------------+--------------------------+--------------------------------------------+
+| vacuum_count      | bigint                   | Number of **VACUUM** operations            |
++-------------------+--------------------------+--------------------------------------------+
+| autovacuum_count  | bigint                   | Number of **AUTOVACUUM** operations        |
++-------------------+--------------------------+--------------------------------------------+
+| analyze_count     | bigint                   | Number of **ANALYZE** operations           |
++-------------------+--------------------------+--------------------------------------------+
+| autoanalyze_count | bigint                   | Number of **AUTOANALYZE_COUNT** operations |
++-------------------+--------------------------+--------------------------------------------+
+| n_tup_ins         | bigint                   | Number of rows inserted                    |
++-------------------+--------------------------+--------------------------------------------+
+| n_tup_upd         | bigint                   | Number of rows updated                     |
++-------------------+--------------------------+--------------------------------------------+
+| n_tup_del         | bigint                   | Number of rows deleted                     |
++-------------------+--------------------------+--------------------------------------------+
+| n_tup_hot_upd     | bigint                   | Number of rows with HOT updates            |
++-------------------+--------------------------+--------------------------------------------+
+| n_tup_change      | bigint                   | Number of changed rows after **ANALYZE**   |
++-------------------+--------------------------+--------------------------------------------+
+| n_live_tup        | bigint                   | Estimated number of live rows              |
++-------------------+--------------------------+--------------------------------------------+
+| n_dead_tup        | bigint                   | Estimated number of dead rows              |
++-------------------+--------------------------+--------------------------------------------+
+| dirty_rate        | bigint                   | Dirty page rate of a single CN or DN       |
++-------------------+--------------------------+--------------------------------------------+
+| last_data_changed | timestamp with time zone | Time when a table was last modified        |
++-------------------+--------------------------+--------------------------------------------+
 
 pg_stat_get_tuples_returned(oid)
 --------------------------------
@@ -329,7 +324,7 @@ pg_stat_get_tuples_fetched(oid)
 
 Description: Number of table rows fetched by bitmap scans if parameters are in a table,
 
-or table rows fetched by simple index scans using the index if parameters are in an index
+or table rows fetched by simple index scan using the index if parameters are in an index
 
 Return type: bigint
 
@@ -634,10 +629,22 @@ Description: Specifies whether to analyze the status of a table on the current n
 
 -  If the number of modified rows in the table exceeds the ANALYZE threshold (calculated based on autovacuum_analyze_threshold + autovacuum_analyze_scale_factor x reltuples, where **reltuples** is the estimated number of rows in the table recorded in **pg_class**), **Analyze needed** is returned.
 -  If the number of modified rows in the table does not exceed the threshold of **analyze**, the message **Analyze not needed** is returned.
--  If the table is being analyzed, the message **Analyze in progress** is returned.
--  If whether to analyze the table is unknown, the message **Unknown analyze status** is returned.
 
 Return type: text
+
+pg_stat_get_runtime_relstats(oid)
+---------------------------------
+
+Description: Returns memory table-level statistics generated by lightweight autoanalyze.
+
+Return type: SETOF record
+
+pg_stat_get_runtime_attstats(oid)
+---------------------------------
+
+Description: Returns memory table- and column- level statistics generated by lightweight autoanalyze.
+
+Return type: SETOF record
 
 pg_total_autovac_tuples(bool)
 -----------------------------
@@ -647,6 +654,7 @@ Description: Gets the tuple records related to **total autovac**, such as **node
 Return type: SETOF record
 
 pg_autovac_status(oid)
+----------------------
 
 Description: Returns autovac information, such as **nodename**, **nspname**, **relname**, **analyze**, **vacuum**, thresholds of **analyze** and **vacuum**, and the number of analyzed or vacuumed tuples.
 
@@ -690,7 +698,7 @@ Return type: SETOF record
 pg_stat_get_last_data_changed_time(oid)
 ---------------------------------------
 
-Description: Returns the time when **INSERT**, **UPDATE**, **DELETE**, or **EXCHANGE**/**DROP** **PARTITION** was performed last time on a table. The data in the **last_data_changed** column of the PG_STAT_ALL_TABLES view is calculated by using this function. The performance of obtaining the last modification time by using the view is poor when the table has a large amount of data. In this case, you are advised to use the function.
+Description: Returns the time when **INSERT**, **UPDATE**, **DELETE**, or **EXCHANGE**/**TRUNCATE**/**DROP** **PARTITION** was performed last time on a table. The data in the **last_data_changed** column of the PG_STAT_ALL_TABLES view is calculated by using this function. The performance of obtaining the last modification time by using the view is poor when the table has a large amount of data. In this case, you are advised to use the function.
 
 Return type: timestamptz
 
@@ -698,6 +706,13 @@ pg_stat_set_last_data_changed_time(oid)
 ---------------------------------------
 
 Description: Manually changes the time when **INSERT**, **UPDATE**, **DELETE**, or **EXCHANGE**/**TRUNCATE**/**DROP** **PARTITION** was performed last time.
+
+Return type: void
+
+pg_stat_set_last_data_changed_num(oid)
+--------------------------------------
+
+Description: Sets the history modification times of a table node.
 
 Return type: void
 
@@ -736,25 +751,23 @@ Description: This function has been discarded in version 8.1.2 and is reserved f
 
 Return type: record
 
-.. table:: **Table 2** pg_user_iostat(text) return fields
-
-   +---------------+------+----------------------------------------------------------------+
-   | Name          | Type | Description                                                    |
-   +===============+======+================================================================+
-   | userid        | oid  | User ID.                                                       |
-   +---------------+------+----------------------------------------------------------------+
-   | min_curr_iops | int4 | Minimum I/O of the current user across DNs.                    |
-   +---------------+------+----------------------------------------------------------------+
-   | max_curr_iops | int4 | Maximum I/O of the current user across DNs.                    |
-   +---------------+------+----------------------------------------------------------------+
-   | min_peak_iops | int4 | Minimum peak I/O of the current user across DNs.               |
-   +---------------+------+----------------------------------------------------------------+
-   | max_peak_iops | int4 | Maximum peak I/O of the current user across DNs.               |
-   +---------------+------+----------------------------------------------------------------+
-   | io_limits     | int4 | **io_limits** set for the resource pool specified by the user. |
-   +---------------+------+----------------------------------------------------------------+
-   | io_priority   | text | **io_priority** set for the user.                              |
-   +---------------+------+----------------------------------------------------------------+
++---------------+------+----------------------------------------------------------------+
+| Name          | Type | Description                                                    |
++===============+======+================================================================+
+| userid        | oid  | User ID                                                        |
++---------------+------+----------------------------------------------------------------+
+| min_curr_iops | int4 | Minimum I/O of the current user across DNs.                    |
++---------------+------+----------------------------------------------------------------+
+| max_curr_iops | int4 | Maximum I/O of the current user across DNs.                    |
++---------------+------+----------------------------------------------------------------+
+| min_peak_iops | int4 | Minimum peak I/O of the current user across DNs.               |
++---------------+------+----------------------------------------------------------------+
+| max_peak_iops | int4 | Maximum peak I/O of the current user across DNs.               |
++---------------+------+----------------------------------------------------------------+
+| io_limits     | int4 | **io_limits** set for the resource pool specified by the user. |
++---------------+------+----------------------------------------------------------------+
+| io_priority   | text | **io_priority** set for the user.                              |
++---------------+------+----------------------------------------------------------------+
 
 pg_stat_get_function_calls(oid)
 -------------------------------
@@ -876,6 +889,7 @@ Description: The number of times the background writer has started timed checkpo
 Return type: bigint
 
 pg_stat_get_bgwriter_requested_checkpoints()
+--------------------------------------------
 
 Description: The number of times the background writer has started checkpoints based on requests from the backend because **checkpoint_segments** has been exceeded or the **CHECKPOINT** command has been executed
 
@@ -1028,44 +1042,42 @@ Description: Kills all UDF Work processes.
 
 Return type: bool
 
-GS_ALL_NODEGROUP_CONTROL_GROUP_INFO(text)
+gs_all_nodegroup_control_group_info(text)
 -----------------------------------------
 
-Description: Provides Cgroup information for all logical clusters. Before invoking this function, you need to specify the name of a logical cluster to be queried. For example, to query the Cgroup information for the **installation** logical cluster, run the following command:
+Description: Provides Cgroup information for all logical clusters. Before invoking this function, you need to specify the name of a logical cluster to be queried. For example, to query the Cgroup information of the **installation** logical cluster, run the following statement:
 
 ::
 
-   SELECT * FROM GS_ALL_NODEGROUP_CONTROL_GROUP_INFO('installation')
+   SELECT * FROM gs_all_nodegroup_control_group_info('installation');
 
 Return type: record
 
 The following table describes return columns.
 
-.. table:: **Table 3** GS_ALL_NODEGROUP_CONTROL_GROUP_INFO(text)
-
-   +----------+--------+----------------------------------------------------------------+
-   | Name     | Type   | Description                                                    |
-   +==========+========+================================================================+
-   | name     | text   | Name of a Cgroup                                               |
-   +----------+--------+----------------------------------------------------------------+
-   | type     | text   | Type of the Cgroup                                             |
-   +----------+--------+----------------------------------------------------------------+
-   | gid      | bigint | Cgroup ID                                                      |
-   +----------+--------+----------------------------------------------------------------+
-   | classgid | bigint | ID of the **Class** Cgroup where a **Workload** Cgroup belongs |
-   +----------+--------+----------------------------------------------------------------+
-   | class    | text   | **Class** Cgroup                                               |
-   +----------+--------+----------------------------------------------------------------+
-   | workload | text   | **Workload** Cgroup                                            |
-   +----------+--------+----------------------------------------------------------------+
-   | shares   | bigint | CPU quota allocated to a Cgroup                                |
-   +----------+--------+----------------------------------------------------------------+
-   | limits   | bigint | Limit of CPUs allocated to a Cgroup                            |
-   +----------+--------+----------------------------------------------------------------+
-   | wdlevel  | bigint | **Workload** Cgroup level                                      |
-   +----------+--------+----------------------------------------------------------------+
-   | cpucores | text   | Usage of CPU cores in a Cgroup                                 |
-   +----------+--------+----------------------------------------------------------------+
++----------+--------+----------------------------------------------------------------+
+| Name     | Type   | Description                                                    |
++==========+========+================================================================+
+| name     | text   | Name of a Cgroup                                               |
++----------+--------+----------------------------------------------------------------+
+| type     | text   | Type of the Cgroup                                             |
++----------+--------+----------------------------------------------------------------+
+| gid      | bigint | Cgroup ID                                                      |
++----------+--------+----------------------------------------------------------------+
+| classgid | bigint | ID of the **Class** Cgroup where a **Workload** Cgroup belongs |
++----------+--------+----------------------------------------------------------------+
+| class    | text   | **Class** Cgroup                                               |
++----------+--------+----------------------------------------------------------------+
+| workload | text   | **Workload** Cgroup                                            |
++----------+--------+----------------------------------------------------------------+
+| shares   | bigint | CPU quota allocated to a Cgroup                                |
++----------+--------+----------------------------------------------------------------+
+| limits   | bigint | Limit of CPUs allocated to a Cgroup                            |
++----------+--------+----------------------------------------------------------------+
+| wdlevel  | bigint | **Workload** Cgroup level                                      |
++----------+--------+----------------------------------------------------------------+
+| cpucores | text   | Usage of CPU cores in a Cgroup                                 |
++----------+--------+----------------------------------------------------------------+
 
 gs_get_nodegroup_tablecount(name)
 ---------------------------------
@@ -1139,29 +1151,27 @@ Return type: record
 
 The following information is displayed:
 
-.. table:: **Table 4** gs_control_group_info(pool text) return fields
-
-   +-----------+---------------------+---------------------------------------------------------+
-   | Attribute | Value               | Description                                             |
-   +===========+=====================+=========================================================+
-   | name      | class_a:workload_a1 | Class name and workload name                            |
-   +-----------+---------------------+---------------------------------------------------------+
-   | class     | class_a             | **Class** Cgroup name                                   |
-   +-----------+---------------------+---------------------------------------------------------+
-   | workload  | workload_a1         | **Workload** Cgroup name                                |
-   +-----------+---------------------+---------------------------------------------------------+
-   | type      | DEFWD               | Cgroup type (Top, CLASS, BAKWD, DEFWD, and TSWD)        |
-   +-----------+---------------------+---------------------------------------------------------+
-   | gid       | 87                  | Cgroup ID                                               |
-   +-----------+---------------------+---------------------------------------------------------+
-   | shares    | 30                  | Percentage of CPU resources to those on the parent node |
-   +-----------+---------------------+---------------------------------------------------------+
-   | limits    | 0                   | Percentage of CPU cores to those on the parent node     |
-   +-----------+---------------------+---------------------------------------------------------+
-   | rate      | 0                   | Allocation ratio in Timeshare                           |
-   +-----------+---------------------+---------------------------------------------------------+
-   | cpucores  | 0-3                 | Number of CPU cores                                     |
-   +-----------+---------------------+---------------------------------------------------------+
++-----------+---------------------+---------------------------------------------------------+
+| Attribute | Value               | Description                                             |
++===========+=====================+=========================================================+
+| name      | class_a:workload_a1 | Class name and workload name                            |
++-----------+---------------------+---------------------------------------------------------+
+| class     | class_a             | Class Cgroup name                                       |
++-----------+---------------------+---------------------------------------------------------+
+| workload  | workload_a1         | Workload Cgroup name                                    |
++-----------+---------------------+---------------------------------------------------------+
+| type      | DEFWD               | Cgroup type (Top, CLASS, BAKWD, DEFWD, and TSWD)        |
++-----------+---------------------+---------------------------------------------------------+
+| gid       | 87                  | Cgroup ID                                               |
++-----------+---------------------+---------------------------------------------------------+
+| shares    | 30                  | Percentage of CPU resources to those on the parent node |
++-----------+---------------------+---------------------------------------------------------+
+| limits    | 0                   | Percentage of CPU cores to those on the parent node     |
++-----------+---------------------+---------------------------------------------------------+
+| rate      | 0                   | Allocation ratio in Timeshare                           |
++-----------+---------------------+---------------------------------------------------------+
+| cpucores  | 0-3                 | Number of CPU cores                                     |
++-----------+---------------------+---------------------------------------------------------+
 
 gs_wlm_user_resource_info(name text)
 ------------------------------------
@@ -1170,12 +1180,12 @@ Description: Queries for a user's resource quota and resource usage.
 
 Return type: record
 
-pgxc_stat_single_table(schema, talename)
-----------------------------------------
+pgxc_stat_single_table(schema, tablename)
+-----------------------------------------
 
 Description: Executed on CNs, with the schema name and table name passed. This function queries the statistics of a single table in the entire database and the dirty page rate of the table on each DN.
 
-This function is supported by version 8.1.3 or later clusters.
+This function is supported only by version 8.1.3 or later clusters.
 
 .. note::
 
@@ -1183,7 +1193,7 @@ This function is supported by version 8.1.3 or later clusters.
 
 Return type: record
 
-The return value fields are the same as those of the :ref:`pg_stat_get_tuple() <en-us_topic_0000001188270492__section4444448123716>` function.
+The return value fields are the same as those of the :ref:`pg_stat_get_tuple() <en-us_topic_0000001460561420__section541910505294>` function.
 
 ::
 
@@ -1195,3 +1205,284 @@ The return value fields are the same as those of the :ref:`pg_stat_get_tuple() <
     datanode1 | 1270075 |        | 2000-01-01 08:00:00+08 | 2000-01-01 08:00:00+08 | 2023-01-09 09:38:43.220876+08 | 2000-01-01 08:00:00+08 |            0 |                0 |             1 |                 0 |         0 |
          0 |         0 |             0 |            0 |          0 |          0 |          0 |
    (1 row)
+
+pgxc_stat_wal_write()
+---------------------
+
+Description: Records information about DN threads that interact with CNs, and collects statistics on WAL logs and data page import volume and rate. This function is executed on all CNs. This parameter is supported by version 8.2.0 or later clusters.
+
+Return type: bigint
+
+Fields in the returned value:
+
+-  **node_name**: instance name.
+-  **application_name**: application name.
+-  **query_start**: start time of the statement that is being executed.
+-  **datapage_write**: total size of data pages generated by the current query, in bytes
+-  **datapage_write_speed**: data page import speed, in bytes/s.
+-  **wal_write**: total size WAL logs imported by the current query, in bytes.
+-  **wal_write_speed**: WAL log import speed, in bytes/s.
+-  **total_datapage_write**: total size of data pages generated by the current thread, in bytes.
+-  **total_wal_write**: total size of WAL logs, in bytes.
+
+::
+
+   SELECT * FROM pgxc_stat_wal_write();
+    node_name | datid |       pid       | lwtid | usesysid |    application_name    | state  |          query_start          |         backend_start         |     query_id      | datapage_write | datapage_write_speed | wal_write | wal_write_speed | total_datapage_write | total_wal_write
+   -----------+-------+-----------------+-------+----------+------------------------+--------+-------------------------------+-------------------------------+-------------------+----------------+----------------------+-----------+-----------------+----------------------+-----------------
+    datanode1 | 15979 | 140328473442048 | 12408 |       10 | CalculateSpaceInfo     | active | 2022-11-15 10:39:45.00219+08  | 2022-11-15 10:39:45.000918+08 |                 0 |              0 |                    0 |     70697 |               0 |                    0 |               0
+    datanode1 |     0 | 140328075503360 | 12510 |       10 | WalSender to Secondary | idle   |                               | 2022-11-15 10:39:46.708557+08 |                 0 |              0 |                      |       210 |               0 |                    0 |               0
+    datanode1 | 15979 | 140327896741632 | 13612 |       10 | coordinator1           | active | 2022-11-15 10:46:32.832548+08 | 2022-11-15 10:40:20.117516+08 | 72620543991349940 |      586579968 |             17425000 |  11743056 |          348000 |           5337505792 |       107245825
+    datanode1 | 15979 | 140327583217408 | 13614 |       10 | coordinator1           | active | 2022-11-15 10:46:32.832548+08 |                               | 72620543991349940 |              0 |                    0 |         0 |               0 |                    0 |               0
+    datanode1 | 15979 | 140327485175552 | 27914 |       10 | coordinator1           | active | 2022-11-15 10:47:06.493584+08 | 2022-11-15 10:47:06.489062+08 | 72620543991350020 |              0 |                    0 |         0 |               0 |                    0 |            8675
+   (5 rows)
+
+.. note::
+
+   When row-store data is imported in batches without indexes, the Xlogs related to logical new pages are generated during data page copy. If the volume of Xlogs is greater than the default value, flow control will be triggered.
+
+pg_stat_wal_write()
+-------------------
+
+Description: This function is executed on a CN or DN to record thread information on it and collect statistics on WAL logs and the volume and rate of imported data pages. The following uses a CN as an example.
+
+This parameter is supported by version 8.2.0 or later clusters.
+
+Return type: bigint
+
+Fields in the returned value:
+
+-  **node_name**: instance name.
+-  **application_name**: application name.
+-  **query_start**: start time of the statement that is being executed.
+-  **datapage_write**: total size of data pages generated by the current query, in bytes
+-  **datapage_write_speed**: data page import speed, in bytes/s.
+-  **wal_write**: total size WAL logs imported by the current query, in bytes.
+-  **wal_write_speed**: WAL log import speed, in bytes/s.
+-  **total_datapage_write**: total size of data pages generated by the current thread, in bytes.
+-  **total_wal_write**: total size of WAL logs, in bytes.
+
+::
+
+   SELECT * FROM pg_stat_wal_write();
+     node_name   | datid |       pid       | lwtid | usesysid |  application_name  | state  |          query_start          |         backend_start         |     query_id      | datapage_write | datapage_write_speed | wal_write | wal_write_speed | total_datapage_write | total_wal_write
+   --------------+-------+-----------------+-------+----------+--------------------+--------+-------------------------------+-------------------------------+-------------------+----------------+----------------------+-----------+-----------------+----------------------+-----------------
+    coordinator1 | 15979 | 140234153498368 | 25353 |       10 | JobScheduler       | active |                               | 2022-11-15 11:57:54.396347+08 |                 0 |              0 |                      |         0 |               0 |                    0 |               0
+    coordinator1 | 15979 | 140234132027136 | 25354 |       10 | StatCollector      | idle   |                               |                               |                 0 |              0 |                      |         0 |               0 |                    0 |               0
+    coordinator1 | 15979 | 140234090084096 | 25356 |       10 | WDRSnapshot        | idle   | 2022-11-15 11:57:54.388948+08 | 2022-11-15 11:57:54.403055+08 |                 0 |              0 |                    0 |         0 |               0 |                    0 |               0
+    coordinator1 | 15979 | 140234027169536 | 25359 |       10 | workload           | active | 2022-11-15 11:57:54.404836+08 | 2022-11-15 11:57:54.389259+08 | 72620543991404472 |              0 |                    0 |   1722112 |               0 |                    0 |               0
+    coordinator1 | 15979 | 140234004621056 | 25360 |       10 | CalculateSpaceInfo | active | 2022-11-15 11:57:54.405677+08 | 2022-11-15 11:57:54.389847+08 | 72620543991349266 |              0 |                    0 |    191326 |               0 |                    0 |               0
+    coordinator1 | 15979 | 140233987839744 | 25361 |       10 | WorkloadMonitor    | active | 2022-11-15 11:57:54.406263+08 | 2022-11-15 11:57:54.390373+08 | 72620543991404418 |              0 |                    0 |   1183741 |               0 |                    0 |               0
+    coordinator1 | 15979 | 140233971058432 | 25362 |       10 | WLMArbiter         | active | 2022-11-15 11:57:54.406367+08 | 2022-11-15 11:57:54.390947+08 |                 0 |              0 |                    0 |         0 |               0 |                    0 |               0
+    coordinator1 | 15979 | 140233228666624 | 14415 |       10 | gsql               | active | 2022-11-15 21:19:32.200305+08 | 2022-11-15 21:09:38.916931+08 | 72620543991404422 |              0 |                    0 |     30872 |            1000 |                    0 |               0
+    coordinator1 | 15979 | 140233172035328 | 15516 |       10 | gsql               | active | 2022-11-15 21:19:49.7877+08   | 2022-11-15 21:10:13.447312+08 | 72620543991404485 |              0 |                    0 |         0 |               0 |                    0 |               0
+    coordinator1 |     0 | 140234245269248 | 25348 |        0 | Background writer  | idle   |                               | 2022-11-15 11:57:54.383651+08 |                 0 |              0 |                      |         0 |               0 |                    0 |               0
+    coordinator1 |     0 | 140234291410688 | 25347 |        0 | CheckPointer       | idle   |                               | 2022-11-15 11:57:54.383231+08 |                 0 |              0 |                      |         0 |               0 |                    0 |               0
+    coordinator1 |     0 | 140234228487936 | 25349 |        0 | Wal Writer         | idle   |                               | 2022-11-15 11:57:54.384069+08 |                 0 |              0 |                      |         0 |               0 |                    0 |               0
+    coordinator1 |     0 | 140234068584192 | 25357 |        0 | TwoPhase Cleaner   | idle   |                               | 2022-11-15 11:57:54.388332+08 |                 0 |              0 |                      |         0 |               0 |                    0 |               0
+    coordinator1 |     0 | 140234048657152 | 25358 |        0 | LWLock Monitor     | idle   |                               | 2022-11-15 11:57:54.389239+08 |                 0 |              0 |                      |         0 |               0 |                    0 |               0
+    coordinator1 |     0 | 140234194925312 | 25351 |        0 | CBM Writer         | idle   |                               | 2022-11-15 11:57:54.38506+08  |                 0 |              0 |                      |         0 |               0 |                    0 |               0
+    coordinator1 |     0 | 140234211706624 | 25350 |        0 | Tick service       | idle   |                               | 2022-11-15 11:57:54.384136+08 |                 0 |              0 |                      |         0 |               0 |                    0 |               0
+   (16 rows)
+
+.. note::
+
+   When row-store data is imported in batches without indexes, the Xlogs related to logical new pages are generated during data page copy. If the volume of Xlogs is greater than the default value, flow control will be triggered.
+
+gs_stack()
+----------
+
+Description: Obtains the stack information of CN or DN processes. The input parameter **tid** needs to be obtained from views. **lwtid** is not supported. This function is supported by version 8.2.1 or later clusters.
+
+**gs_stack()** provides a more flexible and quicker method to obtain the stack than **gdb** and **gstack** commands. It is recommended for administrators to use during problem analysis and locating. It is not recommended that this tool be used as a routine monitoring tool.
+
+Fields in the returned value:
+
+-  **tid**: thread ID.
+-  **lwtid**: lightweight thread ID.
+-  **stack**: stack information corresponding to the **tid** or **lwtid** thread.
+
+The **gs_stack()** function can be used in the following four ways:
+
+-  Method 1: If the input parameter value of the **gs_stack(**\ *tid*\ **)** function is 0, stacks of all threads in the CN or DN process connected to gsql are printed.
+
+   .. note::
+
+      -  This statement can be executed by connecting to a CN or DN using gsql.
+      -  The process of obtaining the running stacks of all threads in a CN or DN takes a long time, which affects normal service running. Therefore, you are advised not to run this command frequently.
+
+   ::
+
+      SELECT * FROM gs_stack(0);
+             tid       | lwtid |                                                         stack
+      -----------------+-------+------------------------------------------------------------------------------------------------------------------------
+       140186894757888 | 95275 | __poll + 0x2d                                                                                                         +
+                       |       | ServerLoop() + 0x457                                                                                                  +
+                       |       | PmStartupThreads() + 0x151                                                                                            +
+                       |       | PostmasterMain(int, char**) + 0x22a                                                                                   +
+                       |       | main + 0x250                                                                                                          +
+                       |       | __libc_start_main + 0xf5                                                                                              +
+                       |       | 0xb8d2d7                                                                                                              +
+                       |       |
+       140185903825152 | 95316 | __poll + 0x2d                                                                                                         +
+                       |       | GsWaiter::wait(void*, long) + 0x11a                                                                                   +
+                       |       | GsWaiter::wait(void*, int, int, long) + 0x7e                                                                          +
+                       |       | SysLoggerMain() + 0x109                                                                                               +
+                       |       | SubPostmasterMain(tag_gs_thread_args*) + 0xc9f                                                                        +
+                       |       | MainStarterThreadFunc(void*) + 0x6a                                                                                   +
+                       |       | ThreadStarterFunc(void*) + 0x66                                                                                       +
+                       |       | start_thread + 0xc5                                                                                                   +
+                       |       | clone + 0x6d                                                                                                          +
+                       |       |
+       140185903825528 | 95317 | __poll + 0x2d                                                                                                         +
+                       |       | GsWaiter::wait(void*, long) + 0x11a                                                                                   +
+                       |       | AlarmCheckerMain() + 0x21b                                                                                            +
+                       |       | SubPostmasterMain(tag_gs_thread_args*) + 0xcc6                                                                        +
+                       |       | MainStarterThreadFunc(void*) + 0x6a                                                                                   +
+                       |       | ThreadStarterFunc(void*) + 0x66                                                                                       +
+                       |       | start_thread + 0xc5                                                                                                   +
+                       |       | clone + 0x6d                                                                                                          +
+                       |       |
+       140185903825904 | 95320 | __poll + 0x2d                                                                                                         +
+                       |       | GsWaiter::wait(void*, long) + 0x11a                                                                                   +
+                       |       | ReaperBackendMain() + 0x1ee                                                                                           +
+                       |       | SubPostmasterMain(tag_gs_thread_args*) + 0xd6f                                                                        +
+                       |       | MainStarterThreadFunc(void*) + 0x6a                                                                                   +
+                       |       | ThreadStarterFunc(void*) + 0x66                                                                                       +
+                       |       | start_thread + 0xc5                                                                                                   +
+                       |       | clone + 0x6d                                                                                                          +
+                       |       |
+       140185903826656 | 95324 | __poll + 0x2d                                                                                                         +
+                       |       | GsWaiter::wait(void*, long) + 0x11a                                                                                   +
+                       |       | CheckpointerMain() + 0x8bb                                                                                            +
+                       |       | AuxiliaryThreadUnderPm(AuxProcType) + 0x210                                                                           +
+                       |       | SubPostmasterMain(tag_gs_thread_args*) + 0x7e0                                                                        +
+                       |       | MainStarterThreadFunc(void*) + 0x6a                                                                                   +
+                       |       | ThreadStarterFunc(void*) + 0x66                                                                                       +
+                       |       | start_thread + 0xc5                                                                                                   +
+                       |       | clone + 0x6d                                                                                                          +
+                       |       |
+       140185903827032 | 95325 | __poll + 0x2d                                                                                                         +
+                       |       | GsWaiter::wait(void*, long) + 0x11a                                                                                   +
+                       |       | BackgroundWriterMain() + 0x541                                                                                        +
+                       |       | AuxiliaryThreadUnderPm(AuxProcType) + 0x210                                                                           +
+                       |       | SubPostmasterMain(tag_gs_thread_args*) + 0x7e0                                                                        +
+                       |       | MainStarterThreadFunc(void*) + 0x6a                                                                                   +
+                       |       | ThreadStarterFunc(void*) + 0x66                                                                                       +
+
+-  Method 2: If the input parameter of the **gs_stack(**\ *tid*\ **)** function is set to a specified tid, the stack information of the tid thread in the CN or DN process connected using gsql is printed.
+
+   .. note::
+
+      -  This statement can be executed by connecting to a CN or DN using gsql.
+      -  **tid** must be the ID of an existing thread on the connected CN or DN process. Otherwise, the error message "invalid thread id" is displayed.
+      -  **tid** is obtained from other views. **lwtid** is not supported.
+      -  The process of obtaining the running stack of a specified thread in a specified CN or DN process takes a short time, which does not affect services. Therefore, this method is recommended.
+
+   ::
+
+      SELECT * FROM gs_stack(140185903826656);
+             tid       | lwtid |                     stack
+      -----------------+-------+------------------------------------------------
+       140185903826656 | 95275 | __poll + 0x2d                                 +
+                       |       | GsWaiter::wait(void*, long) + 0x11a           +
+                       |       | CheckpointerMain() + 0x8bb                    +
+                       |       | AuxiliaryThreadUnderPm(AuxProcType) + 0x210   +
+                       |       | SubPostmasterMain(tag_gs_thread_args*) + 0x7e0+
+                       |       | MainStarterThreadFunc(void*) + 0x6a           +
+                       |       | ThreadStarterFunc(void*) + 0x66               +
+                       |       | start_thread + 0xc5                           +
+                       |       | clone + 0x6d                                  +
+                       |       |
+      (1 row)
+
+-  Method 3: If the **gs_stack()** function is set to **gs_stack('nodename', 0)**, stacks of all threads in the process specified by **nodename** are printed.
+
+   .. note::
+
+      -  The underlying implementation uses **execute direct on**. Therefore, you must use gsql to connect to the CN to run the command.
+      -  The first parameter **nodename** must be enclosed in single quotation marks.
+      -  The process of obtaining the running stacks of all threads in a CN or DN takes a long time, which affects normal service running. Therefore, you are advised not to run this command frequently.
+
+   ::
+
+      SELECT * FROM gs_stack('datanode2', 0);
+             tid       | lwtid |                                                         stack
+      -----------------+-------+------------------------------------------------------------------------------------------------------------------------
+       140634541242112 | 95442 | do_futex_wait + 0x5f                                                                                                  +
+                       |       | __new_sem_wait_slow + 0x57                                                                                            +
+                       |       | sem_timedwait + 0x35                                                                                                  +
+                       |       | tagBinarySemaphore::timed_wait(int) + 0x4f                                                                            +
+                       |       | AuxiliaryThreadMain(void*) + 0x6d                                                                                     +
+                       |       | LibcommThreadRoutine(void*) + 0x41                                                                                    +
+                       |       | start_thread + 0xc5                                                                                                   +
+                       |       | clone + 0x6d                                                                                                          +
+                       |       |
+       140634549634816 | 95438 | epoll_wait + 0x33                                                                                                     +
+                       |       | LibcommEpollWait(int, int) + 0x38                                                                                     +
+                       |       | RecvDataThreadMain(void*) + 0x8e                                                                                      +
+                       |       | LibcommThreadRoutine(void*) + 0x41                                                                                    +
+                       |       | start_thread + 0xc5                                                                                                   +
+                       |       | clone + 0x6d                                                                                                          +
+                       |       |
+       140634558027520 | 95432 | epoll_wait + 0x33                                                                                                     +
+                       |       | LibcommEpollWait(int, int) + 0x38                                                                                     +
+                       |       | RecvDataThreadMain(void*) + 0x8e                                                                                      +
+                       |       | LibcommThreadRoutine(void*) + 0x41                                                                                    +
+                       |       | start_thread + 0xc5                                                                                                   +
+                       |       | clone + 0x6d                                                                                                          +
+                       |       |
+       140634566420224 | 95430 | epoll_wait + 0x33                                                                                                     +
+                       |       | LibcommEpollWait(int, int) + 0x38                                                                                     +
+                       |       | RecvDataThreadMain(void*) + 0x8e                                                                                      +
+                       |       | LibcommThreadRoutine(void*) + 0x41                                                                                    +
+                       |       | start_thread + 0xc5                                                                                                   +
+                       |       | clone + 0x6d                                                                                                          +
+                       |       |
+       140634589476608 | 95426 | epoll_wait + 0x33                                                                                                     +
+                       |       | LibcommEpollWait(int, int) + 0x38                                                                                     +
+                       |       | RecvDataThreadMain(void*) + 0x8e                                                                                      +
+                       |       | LibcommThreadRoutine(void*) + 0x41                                                                                    +
+                       |       | start_thread + 0xc5                                                                                                   +
+                       |       | clone + 0x6d                                                                                                          +
+                       |       |
+       140634597869312 | 95424 | do_futex_wait + 0x5f                                                                                                  +
+                       |       | __new_sem_wait_slow + 0x57                                                                                            +
+                       |       | sem_timedwait + 0x35                                                                                                  +
+                       |       | tagBinarySemaphore::timed_wait(int) + 0x4f                                                                            +
+                       |       | SendDataWait() + 0x58                                                                                                 +
+                       |       | SendDataThreadMain(void*) + 0xe4                                                                                      +
+                       |       | LibcommThreadRoutine(void*) + 0x41                                                                                    +
+                       |       | start_thread + 0xc5                                                                                                   +
+                       |       | clone + 0x6d                                                                                                          +
+                       |       |
+       140634606262016 | 95387 | do_futex_wait + 0x5f                                                                                                  +
+                       |       | __new_sem_wait_slow + 0x57                                                                                            +
+                       |       | sem_timedwait + 0x35                                                                                                  +
+                       |       | tagBinarySemaphore::timed_wait(int) + 0x4f                                                                            +
+                       |       | SendDataWait() + 0x58                                                                                                 +
+                       |       | SendDataThreadMain(void*) + 0xe4                                                                                      +
+
+-  Method 4: If the **gs_stack()** function is set to **gs_stack('nodename', tid)**, stack information of the **tid** thread in the process specified by **nodename** are printed.
+
+   .. note::
+
+      -  The underlying implementation uses **execute direct on**. Therefore, you must use gsql to connect to the CN to run the command.
+      -  The first parameter **nodename** must be enclosed in single quotation marks.
+      -  The second parameter must be a thread that exists in the process specified by **nodename**. Otherwise, the error message "invalid thread id" is displayed.
+      -  **tid** is obtained from other views. **lwtid** is not supported.
+      -  The process of obtaining the running stack of a specified thread in a specified CN or DN process takes a short time, which does not affect services. Therefore, this method is recommended.
+
+   ::
+
+      SELECT * FROM gs_stack('datanode2', 140634549634816);
+             tid       | lwtid |               stack
+      -----------------+-------+------------------------------------
+       140634549634816 | 95438 | epoll_wait + 0x33                 +
+                       |       | LibcommEpollWait(int, int) + 0x38 +
+                       |       | RecvDataThreadMain(void*) + 0x8e  +
+                       |       | LibcommThreadRoutine(void*) + 0x41+
+                       |       | start_thread + 0xc5               +
+                       |       | clone + 0x6d                      +
+                       |       |
+      (1 row)

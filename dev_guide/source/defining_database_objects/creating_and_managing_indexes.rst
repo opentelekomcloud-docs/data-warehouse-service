@@ -42,7 +42,7 @@ Indexes are created based on columns in database tables. When creating indexes, 
 Creating an Index
 -----------------
 
-GaussDB(DWS) supports four methods for creating indexes. For details, see :ref:`Table 1 <en-us_topic_0000001233563161__tee4c2092e720429fb74de11b2aab4a23>`.
+GaussDB(DWS) supports four methods for creating indexes. For details, see :ref:`Table 1 <en-us_topic_0000001460722648__en-us_topic_0000001233563161_tee4c2092e720429fb74de11b2aab4a23>`.
 
 .. note::
 
@@ -50,7 +50,7 @@ GaussDB(DWS) supports four methods for creating indexes. For details, see :ref:`
 
    -  After an index is successfully created, it must be synchronized with the associated table to ensure new data can be accurately located. Therefore, data operations increase. Therefore, delete unnecessary indexes periodically.
 
-.. _en-us_topic_0000001233563161__tee4c2092e720429fb74de11b2aab4a23:
+.. _en-us_topic_0000001460722648__en-us_topic_0000001233563161_tee4c2092e720429fb74de11b2aab4a23:
 
 .. table:: **Table 1** **Indexing Method**
 
@@ -87,6 +87,14 @@ GaussDB(DWS) supports four methods for creating indexes. For details, see :ref:`
    ::
 
       CREATE INDEX index_wr_returned_date_sk ON tpcds.customer_address_bak (ca_address_sk);
+
+-  Create a unique index.
+
+   If a table declares a unique constraint or primary key, GaussDB(DWS) automatically creates a unique index (possibly a multi-column index) on the columns that form the primary key or unique constraint. If no unique constraint or primary key is specified during table creation, you can run the CREATE INDEX statement to create an index.
+
+   ::
+
+      CREATE UNIQUE INDEX unique_index ON tpcds.customer_address_bak(ca_address_sk);
 
 -  Create a multi-column index.
 

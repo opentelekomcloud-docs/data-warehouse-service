@@ -2,14 +2,16 @@
 
 .. _dws_04_0026:
 
+.. _en-us_topic_0000001460562840:
+
 Selecting a Table Storage Mode
 ==============================
 
 GaussDB(DWS) supports hybrid row and column storage. When creating a table, you can set the table storage mode to row storage or column storage.
 
-Row storage stores tables to disk partitions by row, and column storage stores tables to disk partitions by column. By default, a table is created in row storage mode. For details about differences between row storage and column storage, see :ref:`Figure 1 <en-us_topic_0000001233883387__fig1417354233018>`.
+Row storage stores tables to disk partitions by row, and column storage stores tables to disk partitions by column. By default, a table is created in row storage mode. For details about differences between row storage and column storage, see :ref:`Figure 1 <en-us_topic_0000001460562840__en-us_topic_0000001233883387_fig1417354233018>`.
 
-.. _en-us_topic_0000001233883387__fig1417354233018:
+.. _en-us_topic_0000001460562840__en-us_topic_0000001233883387_fig1417354233018:
 
 .. figure:: /_static/images/en-us_image_0000001188323816.png
    :alt: **Figure 1** Differences between row storage and column storage

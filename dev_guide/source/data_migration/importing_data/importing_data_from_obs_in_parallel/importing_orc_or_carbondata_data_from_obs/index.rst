@@ -2,6 +2,8 @@
 
 .. _dws_04_0155:
 
+.. _en-us_topic_0000001717256724:
+
 Importing ORC or CarbonData Data from OBS
 =========================================
 

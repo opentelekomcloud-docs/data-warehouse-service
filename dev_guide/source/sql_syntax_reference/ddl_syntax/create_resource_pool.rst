@@ -8,7 +8,7 @@ CREATE RESOURCE POOL
 Function
 --------
 
-**CREATE RESOURCE POOL** creates a resource pool and specifies the Cgroup for the resource pool.
+Creates a resource pool and specifies the Cgroup for the resource pool.
 
 Precautions
 -----------
@@ -21,7 +21,7 @@ Syntax
 ::
 
    CREATE RESOURCE POOL pool_name
-       [WITH ({MEM_PERCENT=pct | CONTROL_GROUP="group_name" | ACTIVE_STATEMENTS=stmt | MAX_DOP = dop | MEMORY_LIMIT='memory_size' | io_limits=io_limits | io_priority='io_priority' | nodegroup="nodegroupname" | is_foreign=boolean }[, ... ])];
+       [WITH ({MEM_PERCENT=pct | CONTROL_GROUP="group_name" | ACTIVE_STATEMENTS=stmt | MAX_DOP = dop | MEMORY_LIMIT='memory_size' | io_limits=io_limits | io_priority='priority' | nodegroup='nodegroup_name' | is_foreign = boolean | except_rule='except_rule' | weight=bandwidth_weight}[, ... ])];
 
 Parameter Description
 ---------------------
@@ -65,7 +65,7 @@ Parameter Description
 
    Specifies the maximum storage for a resource pool.
 
-   Value range: a string, from **1KB** to **2047GB**.
+   Value range: a string, from **1 KB** to **2047 GB**.
 
 -  **mem_percent**
 
@@ -101,6 +101,14 @@ Parameter Description
 
       -  **nodegroup** must specify an existing logical cluster, and cannot be **elastic_group** or the default Node Group (**group_version1**), which is generated during cluster installation.
       -  If **is_foreign** is set to **true**, the resource pool cannot be associated with users. That is, **CREATE USER...** **RESOURCE POOL** cannot be used to configure resource pools for users. The resource pool automatically checks whether the users are associated with its logical cluster. If they are not, they will be controlled by the resource pool when performing operations on DNs in the logical cluster.
+
+-  **except_rule**
+
+   Name of an exception rule set
+
+-  **weight**
+
+   Specifies the network bandwidth weight of the resource pool.
 
 Examples
 --------

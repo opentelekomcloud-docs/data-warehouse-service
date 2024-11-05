@@ -59,7 +59,7 @@ The syntax of optional **action** clause is as follows:
 Parameter Description
 ---------------------
 
-See :ref:`Parameters <en-us_topic_0000001233510143__sd3fd937137c548e2ae142614383082aa>` in **CREATE ROLE**.
+See :ref:`Parameters <en-us_topic_0000001510282049__sd3fd937137c548e2ae142614383082aa>` in **CREATE ROLE**.
 
 Helpful Links
 -------------

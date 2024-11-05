@@ -8,7 +8,7 @@ REVOKE
 Function
 --------
 
-**REVOKE** revokes rights from one or more roles.
+Revokes the rights of one or more roles.
 
 Precautions
 -----------
@@ -23,7 +23,7 @@ If a non-owner user of an object attempts to **REVOKE** rights on the object, th
 Syntax
 ------
 
--  Revoke the permission of specified table and view.
+-  Revoke rights on a specified table or view.
 
    ::
 
@@ -35,7 +35,7 @@ Syntax
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
           [ CASCADE | RESTRICT ];
 
--  Revoke the permission of specified fields on the table.
+-  Revoke rights on specified columns in a table.
 
    ::
 
@@ -46,7 +46,7 @@ Syntax
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
           [ CASCADE | RESTRICT ];
 
--  Revoke the permission of a specified database.
+-  Revoke rights on a specified database.
 
    ::
 
@@ -57,7 +57,7 @@ Syntax
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
           [ CASCADE | RESTRICT ];
 
--  Revoke the permission of a specified function.
+-  Revoke rights on a specified function.
 
    ::
 
@@ -68,7 +68,7 @@ Syntax
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
           [ CASCADE | RESTRICT ];
 
--  Revoke the permission of a specified large object.
+-  Revoke rights on a specified large object.
 
    ::
 
@@ -78,7 +78,7 @@ Syntax
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
           [ CASCADE | RESTRICT ];
 
--  Revoke the permission on a specified sequence.
+-  Revoke rights on a specified sequence.
 
    ::
 
@@ -88,7 +88,7 @@ Syntax
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
           [ CASCADE | RESTRICT ];
 
--  Revoke the permission of a specified schema.
+-  Revoke rights on a specified schema.
 
    ::
 
@@ -98,7 +98,7 @@ Syntax
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
           [ CASCADE | RESTRICT ];
 
--  Revoke the permission of a specified sub-cluster.
+-  Revoke rights on a specified sub-cluster.
 
    ::
 
@@ -108,7 +108,7 @@ Syntax
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
           [ CASCADE | RESTRICT ];
 
--  Revoke the permission of roles based on roles.
+-  Revoke rights by role.
 
    ::
 
@@ -116,7 +116,7 @@ Syntax
           role_name [, ...] FROM role_name [, ...]
           [ CASCADE | RESTRICT ];
 
--  Revoke the sysadmin permission of roles.
+-  Revoke the sysadmin permission of a role.
 
    ::
 
@@ -127,7 +127,7 @@ Parameter Description
 
 The keyword **PUBLIC** indicates an implicitly defined group that contains all roles.
 
-See :ref:`Parameter Description <en-us_topic_0000001188270556__s226158f44a8f4b908e69a283aeb813cd>` of the **GRANT** command for the meaning of the privileges and related parameters.
+See :ref:`Parameter Description <en-us_topic_0000001510401021__s226158f44a8f4b908e69a283aeb813cd>` of the **GRANT** command for the meaning of the privileges and related parameters.
 
 Permissions of a role include the permissions directly granted to the role, permissions inherited from the parent role, and permissions granted to **PUBLIC**. Therefore, revoking the **SELECT** permission for an object from **PUBLIC** does not necessarily mean that the **SELECT** permission for the object has been revoked from all roles, because the **SELECT** permission directly granted to roles and inherited from parent roles still remains. Similarly, if the **SELECT** permission is revoked from a user but is not revoked from **PUBLIC**, the user can still run the **SELECT** statement.
 
@@ -142,90 +142,61 @@ If the role executing **REVOKE** holds rights indirectly via more than one role 
 Examples
 --------
 
-Create user **jim**:
+Revoke all permissions of user **joe**:
 
 ::
 
-   CREATE USER jim PASSWORD '{Password}';
-
-Create a schema:
-
-.. code-block::
-
-   CREATE SCHEMA tpcds;
-
-Create a database:
-
-.. code-block::
-
-   CREATE DATABASE mydatabase OWNER jim;
-
-Create a table:
-
-::
-
-   CREATE TABLE IF NOT EXISTS tpcds.reason(r_reason_sk int,r_reason_id int,r_reason_desc int);
-
-Create a view:
-
-::
-
-   CREATE VIEW myview AS select * from tpcds.reason;
-
-Revoke all permissions of user **jim**:
-
-::
-
-   REVOKE ALL PRIVILEGES FROM jim;
+   REVOKE ALL PRIVILEGES FROM joe;
 
 Revoke the permissions granted in a specified schema:
 
 ::
 
-   REVOKE USAGE,CREATE ON SCHEMA tpcds FROM jim;
+   REVOKE USAGE,CREATE ON SCHEMA tpcds FROM tpcds_manager;
 
-Revoke the **CONNECT** privilege from user **jim**:
-
-::
-
-   REVOKE CONNECT ON DATABASE mydatabase FROM jim;
-
-Revoke the membership of role **dbadmin** from user **jim**:
+Revoke the **CONNECT** privilege from user **joe**.
 
 ::
 
-   REVOKE dbadmin FROM jim;
+   REVOKE CONNECT ON DATABASE mydatabase FROM joe;
 
-Revoke all the privileges of user **jim** for the **myView** view:
-
-::
-
-   REVOKE ALL PRIVILEGES ON myView FROM jim;
-
-Revoke the public insert permission on the **customer_t1** table.
+Revoke the membership of role **admins** from user **joe**.
 
 ::
 
-   REVOKE INSERT ON tpcds.reason FROM PUBLIC;
+   REVOKE admins FROM joe;
 
-Revoke the query permissions for **r_reason_sk** and **r_reason_id** in the **tpcds.reason** table from user **jim**.
-
-::
-
-   REVOKE select (r_reason_sk, r_reason_id) ON tpcds.reason FROM jim;
-
-Revoke a function permission from user **jim**.
+Revoke all the privileges of user **joe** for the **myView** view.
 
 ::
 
-   CREATE FUNCTION func_add_sql(integer, integer) RETURNS integer
-       AS 'select $1 + $2;'
-       LANGUAGE SQL
-       IMMUTABLE
-       RETURNS NULL ON NULL INPUT;
-   REVOKE execute ON FUNCTION func_add_sql(integer, integer) FROM jim CASCADE;
+   REVOKE ALL PRIVILEGES ON myView FROM joe;
 
-Links
------
+Revoke the insert permission for the **customer_t1** table from **public**.
+
+::
+
+   REVOKE INSERT ON customer_t1 FROM PUBLIC;
+
+Revoke user **joe**'s permission for the **tpcds** schema.
+
+::
+
+   REVOKE USAGE ON SCHEMA tpcds FROM joe;
+
+Revoke the query permissions for **r_reason_sk** and **r_reason_id** in the **tpcds.reason table** from user **joe**.
+
+::
+
+   REVOKE select (r_reason_sk, r_reason_id) ON tpcds.reason FROM joe;
+
+Revoke function permissions from user **joe**.
+
+::
+
+   REVOKE execute ON FUNCTION func_add_sql(integer, integer) FROM joe CASCADE;
+
+Helpful Links
+-------------
 
 :ref:`GRANT <dws_06_0250>`

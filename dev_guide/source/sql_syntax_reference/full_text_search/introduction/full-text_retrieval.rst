@@ -5,13 +5,7 @@
 Full-Text Retrieval
 ===================
 
-Full text searching (or just text search) provides the capability to identify natural-language documents that satisfy a query, and optionally to sort them by relevance to the query. The most common type of search is to find all documents containing given query terms and return them in order of their similarity to the query.
-
-Textual search operators have been used in databases for years. The GaussDB(DWS) has **~**, **~\***, **LIKE**, and **ILIKE** operators for textual data types, but they lack many essential properties required by modern information systems. This problem can be solved by using indexes and dictionaries.
-
-.. note::
-
-   The hybrid data warehouse (standalone) does not support full-text search.
+Textual search operators have been used in databases for years. GaussDB(DWS) has **~**, **~\***, **LIKE**, and **ILIKE** operators for textual data types, but they lack many essential properties required by modern information systems. This problem can be solved by using indexes and dictionaries.
 
 Text search lacks the following essential properties required by information systems:
 

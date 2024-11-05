@@ -8,7 +8,7 @@ CREATE REDACTION POLICY
 Function
 --------
 
-**CREATE REDACTION POLICY** creates a data redaction policy for a table.
+Creates a data redaction policy for a table.
 
 Precautions
 -----------
@@ -26,7 +26,8 @@ Syntax
 
 ::
 
-   CREATE REDACTION POLICY policy_name ON table_name
+   CREATE REDACTION POLICY policy_name ON table_name [ { AFTER | BEFORE } old_policy_name ]
+       [INHERIT]
        [ WHEN (when_expression) ]
        [ ADD COLUMN column_name WITH redaction_function_name ( [ argument [, ...] ] )] [, ... ];
 
@@ -41,6 +42,14 @@ Parameter Description
 
    Specifies the name of the table to which the redaction policy is applied.
 
+-  **AFTER \| BEFORE**
+
+   Specifies the relative location where the current policy is created. Generally, one masking policy is used for one table. By default, the current policy is created after the last candidate policy of the target table recorded in the current system catalog.
+
+-  **INHERIT**
+
+   Specifies whether the masking policy is inherited from other masking policies. This parameter is not recommended.
+
 -  **WHEN ( when_expression )**
 
    Specifies the expression used for the redaction policy to take effect. The redaction policy takes effect only when this expression is true.
@@ -54,7 +63,7 @@ Parameter Description
       #. The expression can be a combination of multiple subexpressions connected by AND and/or OR.
       #. Each subexpression supports only the =, <>, !=, >=, >, <=, and < operators. The left and right operand values can only be constant values or one of the following system constant values: **SESSION_USER**, **CURRENT_USER**, **USER**, **CURRENT_ROLE**, and **CURRENT_SCHEMA** system constants or the **SYS_CONTEXT** system function.
       #. Each subexpression can be an IN or NOT IN expression. The value for the left operand can be any of the system constant values listed in rule 2, and each element in the array of the right operand must be a constant value.
-      #. Each subexpression can be a **PG_HAS_ROLE** system function.
+      #. Each subexpression can be a :ref:`pg_has_role(user, role, privilege) <en-us_topic_0000001460721276__section13942057572>` system function.
       #. If you want a redaction policy to be valid in all conditions, that is, you want it to take effect on all users (including the table owner), you are advised to use the (1=1) expression to create this policy.
       #. If the WHEN clause is not specified, the redaction policy is disabled by default. You need to manually specify a WHEN expression for the policy to take effect.
 
@@ -70,13 +79,13 @@ Parameter Description
 
    Specifies the list of arguments of the redaction function.
 
-   -  MASK_NONE: indicates that no masking is performed.
-   -  MASK_FULL: indicates that all data is masked to a fixed value.
-   -  MASK_PARTIAL: indicates that partial masking is performed based on the specified character type, numeric type, or time type.
+   -  **MASK_NONE**: indicates that no masking is performed.
+   -  **MASK_FULL**: indicates that all data is masked to a fixed value.
+   -  **MASK_PARTIAL**: indicates that partial masking is performed based on the specified character type, numeric type, or time type.
 
-   .. note::
+      .. note::
 
-      You can use the built-in masking functions **MASK_NONE**, **MASK_FULL**, and **MASK_PARTIAL**, or create your own masking functions by using the C language or PL/pgSQL. For details, see :ref:`Data Masking Functions <dws_06_0064>`.
+         You can use the built-in masking functions **MASK_NONE**, **MASK_FULL**, and **MASK_PARTIAL**, or create your own masking functions by using the C language or PL/pgSQL. For details, see :ref:`Data Redaction Functions <dws_06_0064>`.
 
 Examples
 --------
@@ -87,8 +96,8 @@ Examples
 
    ::
 
-      CREATE ROLE alice PASSWORD '{Password}';
-      CREATE ROLE matu PASSWORD '{Password}';
+      CREATE ROLE alice PASSWORD '{password}';
+      CREATE ROLE matu PASSWORD '{password}';
 
 #. Create a table object **emp** as user **alice**, and insert data into the table.
 
@@ -113,7 +122,7 @@ Examples
 
    ::
 
-      SET ROLE matu PASSWORD '{Password}';
+      SET ROLE matu PASSWORD '{password}';
 
 #. Query the **emp** table. Data in the **salary** column has been redacted.
 
@@ -127,7 +136,7 @@ Examples
 
    ::
 
-      CREATE ROLE redact_role PASSWORD '{Password}';
+      CREATE ROLE redact_role PASSWORD '{password}';
 
 #. Add users **matu** and **alice** to the role **redact_role**.
 
@@ -164,9 +173,9 @@ Examples
 
    ::
 
-      SET ROLE matu PASSWORD '{Password}';
+      SET ROLE matu PASSWORD '{password}';
 
-#. Query the **emp1** table. Data in the **salary** column has been redacted.
+#. Query the **emp** table. Data in the **salary** column has been redacted.
 
    ::
 

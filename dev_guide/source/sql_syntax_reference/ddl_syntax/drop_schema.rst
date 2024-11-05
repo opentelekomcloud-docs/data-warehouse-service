@@ -13,9 +13,7 @@ Function
 Precautions
 -----------
 
--  Only the owner of a schema or a user granted with the DROP permission for the schema or a system administrator has the permission to execute the **Drop SCHEMA** statement.
--  Do not delete the schemas with the beginning of **pg_temp** or **pg_toast_temp**. They are internal system schemas, and deleting them may cause unexpected errors.
--  A user cannot delete the schema in use. To delete the schema in use, switch to another schema.
+Only the owner of a schema or a user granted with the DROP permission for the schema or a system administrator has the permission to execute the **Drop SCHEMA** statement.
 
 Syntax
 ------
@@ -42,12 +40,20 @@ Parameter Description
    -  **CASCADE**: automatically deletes all objects that are contained in the schema to be deleted.
    -  **RESTRICT**: refuses to delete the schema that contains any objects. This is the default.
 
+.. important::
+
+   Do not delete the schemas with the beginning of **pg_temp** or **pg_toast_temp**. They are internal system schemas, and deleting them may cause unexpected errors.
+
+.. note::
+
+   A user cannot delete the schema in use. To delete the schema in use, switch to another schema.
+
 Example
 -------
 
 Delete the **ds_new** schema:
 
-::
+.. code-block::
 
    DROP SCHEMA ds_new;
 

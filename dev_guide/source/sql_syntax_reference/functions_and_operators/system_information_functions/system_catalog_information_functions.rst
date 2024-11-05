@@ -72,6 +72,65 @@ Return type: text
 
 Note: **pg_get_expr** decompiles the internal form of an individual expression, such as the default value for a column. It can be useful when examining the contents of system catalogs. If the expression might contain Vars, specify the OID of the relationship they refer to as the second parameter; if no Vars are expected, zero is sufficient.
 
+pg_get_functiondef(func_oid)
+----------------------------
+
+Description: Gets definition of a function.
+
+Return type: text
+
+**func_oid** is the OID of the function, which can be queried in the **PG_PROC** system catalog.
+
+Example: Query the OID and definition of the **justify_days** function.
+
+::
+
+   SELECT oid FROM pg_proc WHERE proname ='justify_days';
+    oid
+   ------
+    1295
+   (1 row)
+
+   SELECT * FROM pg_get_functiondef(1295);
+    headerlines |                          definition
+   -------------+--------------------------------------------------------------
+              4 | CREATE OR REPLACE FUNCTION pg_catalog.justify_days(interval)+
+                |  RETURNS interval                                           +
+                |  LANGUAGE internal                                          +
+                |  IMMUTABLE STRICT NOT FENCED NOT SHIPPABLE                  +
+                | AS $function$interval_justify_days$function$                +
+                |
+   (1 row)
+
+Note: The query result returned by **pg_get_functiondef** is in the original text format of the stored procedure. The escape character (\\) is used to facilitate subsequent parsing.
+
+pg_get_function_arguments(func_oid)
+-----------------------------------
+
+Description: Gets argument list of function's definition (with default values).
+
+Return type: text
+
+Note: **pg_get_function_arguments** returns the argument list of a function, in the form it would need to appear in within **CREATE FUNCTION**.
+
+pg_get_function_identity_arguments(func_oid)
+--------------------------------------------
+
+Description: Gets argument list to identify a function (without default values).
+
+Return type: text
+
+Note: **pg_get_function_identity_arguments** returns the argument list necessary to identify a function, in the form it would need to appear in within **ALTER FUNCTION**. This form omits default values.
+
+pg_get_function_result(func_oid)
+--------------------------------
+
+Description: Gets **RETURNS** clause for function.
+
+Return type: text
+
+Note: **pg_get_function_result** returns the appropriate **RETURNS** clause for the function.
+
 pg_get_indexdef(index_oid)
 --------------------------
 
@@ -79,7 +138,7 @@ Description: Gets **CREATE INDEX** command for index.
 
 Return type: text
 
-**index_oid** indicates the index OID, which can be queried in the PG_STATIO_ALL_INDEXES system view.
+**index_oid** indicates the index OID, which can be queried in the **PG_STATIO_ALL_INDEXES** system view.
 
 Example: Query the OID and CREATE INDEX command of **index ds_ship_mode_t1_index1**.
 
@@ -185,13 +244,13 @@ Example: Obtain the OID of the table **customer_t2** from the system catalog **p
 
 ::
 
-   SELECT oid FROM pg_class WHERE relname ='customer_t2';
+   select oid from pg_class where relname ='customer_t2';
      oid
    -------
     17353
    (1 row)
 
-   SELECT * FROM pg_get_tabledef(17353);
+   select * from pg_get_tabledef(17353);
                  pg_get_tabledef
    --------------------------------------------
     SET search_path = dbadmin;                +
@@ -222,6 +281,30 @@ Description: Gets the set of storage option name/value pairs.
 Return type: SETOF record
 
 Note: **pg_options_to_table** returns the set of storage option name/value pairs (**option_name**/**option_value**) when passing **pg_class.reloptions** or **pg_attribute.attoptions**.
+
+Example:
+
+::
+
+   CREATE TABLE customer_test
+   (
+     state_ID   CHAR(2),
+     state_NAME VARCHAR2(40),
+     area_ID    NUMBER
+   )
+   WITH (ORIENTATION = COLUMN,COMPRESSION=middle);
+
+::
+
+   SELECT pg_options_to_table(reloptions) FROM pg_class WHERE relname='customer_test';
+   pg_options_to_table
+   ----------------------
+    (orientation,column)
+    (compression,middle)
+    (bucketnums,16384)
+    (colversion,2.0)
+    (enable_delta,false)
+   (5 rows)
 
 pg_typeof(any)
 --------------
@@ -286,330 +369,4 @@ Example:
     getdistributekey
    ------------------
     i_item_sk
-   (1 row)
-
-table_skewness(text)
---------------------
-
-Description: Queries the percentage of table data among all nodes.
-
-Parameter: Indicates that the type of the name of the to-be-queried table is text.
-
-Return type: record
-
-table_skewness(table_name text, column_name text[, row_num text])
------------------------------------------------------------------
-
-Description: Queries the proportion of column data distributed on each node based on the hash distribution rule. The results are sorted based on the data volumes of the nodes.
-
-Parameters: **table_name** indicates a table name, **column_name** indicates a column name, and **row_num** indicates that all data in the current column is returned. The default value is **0**. A value other than **0** indicates the number of data records whose statistics are sampled. (Records are randomly sampled.)
-
-Return type: record
-
-Example:
-
-Distribute data by hash based on the column **a** in the **tx** table. Seven records are distributed on DN 1, two records on DN 2, and one record on DN 0.
-
-::
-
-   SELECT * FROM table_skewness('tx','a');
-    seqnum | num |  ratio
-   --------+-----+----------
-    1      | 7   | 70.000%
-    2      | 2   | 20.000%
-    0      | 1   | 10.000%
-   (3 row)
-
-table_data_skewness(data_row record, locatorType "char")
---------------------------------------------------------
-
-Description: Calculates the bucket distribution index for the records concatenated using the columns in a specified table.
-
-Parameters: **data_row** indicates the record concatenated using columns in the specified table. **locatorType** indicates the distribution rule. You are advised to set **locatorType** to **H**, indicating hash distribution.
-
-Return type: smallint
-
-Example:
-
-Calculates the bucket distribution index based on the hash distribution rule for the records combined concatenated using the columns in the **tx** table.
-
-::
-
-   SELECT a, table_data_skewness(row(a), 'H') FROM tx;
-    a | table_data_skewness
-   ---+---------------------
-    3 |                   0
-    6 |                   2
-    7 |                   2
-    4 |                   1
-    5 |                   1
-   (5 rows)
-
-table_distribution(schemaname text, tablename text)
----------------------------------------------------
-
-Description: Queries the storage space occupied by a specified table on each node.
-
-Parameter: Indicates that the types of the schema name and table name for the table to be queried are both text.
-
-Return type: record
-
-.. note::
-
-   -  To query for the storage distribution of a specified table by using this function, you must have the **SELECT** permission for the table.
-   -  The performance of **table_distribution** is better than that of **table_skewness**. Especially in a large cluster with a large amount of data, **table_distribution** is recommended.
-   -  When you use **table_distribution** and want to view the space usage, you can use **dnsize** or **(sum(dnsize) over ())** to view the percentage.
-
-table_distribution(regclass)
-----------------------------
-
-Description: Queries the storage space occupied by a specified table on each node.
-
-Parameter: Indicates the name or OID of the table to be queried. The table name can be defined by the schema name. Parameter type: regclass
-
-Return type: record
-
-.. note::
-
-   -  To query for the storage distribution of a specified table by using this function, you must have the **SELECT** permission for the table.
-   -  The performance of **table_distribution** is better than that of **table_skewness**. Especially in a large cluster with a large amount of data, **table_distribution** is recommended.
-   -  When you use **table_distribution** and want to view the space usage, you can use **dnsize** or **(sum(dnsize) over ())** to view the percentage.
-
-table_distribution()
---------------------
-
-Description: Queries the storage distribution of all tables in the current database.
-
-Return type: record
-
-.. note::
-
-   -  This function involves the query for information about all tables in the database. To execute this function, you must have the administrator rights or rights of the preset role **gs_role_read_all_stats**.
-
-   Based on the table_distribution() function, GaussDB(DWS) provides the PGXC_GET_TABLE_SKEWNESS view as an alternative way to query for data skew. You are advised to use this view when the number of tables in the database is less than 10000.
-
-Example:
-
-::
-
-   SELECT * FROM table_distribution();
-        schemaname     |        tablename        |   nodename   | dnsize
-   --------------------+-------------------------+--------------+--------
-    scheduler          | pg_task                 | dn_6005_6006 |   8192
-    public             | ocr_group               | dn_6005_6006 |   8192
-    public             | ocr_item                | dn_6005_6006 |   8192
-    sea                | ocr_group               | dn_6005_6006 |  16384
-    sea                | ocr_item                | dn_6005_6006 |  16384
-    public             | customer_t1             | dn_6005_6006 |  16384
-    dbms_om            | gs_wlm_session_info     | dn_6005_6006 |   8192
-    dbms_om            | gs_wlm_operator_info    | dn_6005_6006 |   8192
-    dbms_om            | gs_wlm_ec_operator_info | dn_6005_6006 |   8192
-    public             | pgxc_copy_error_log     | dn_6005_6006 |   8192
-    information_schema | sql_features            | dn_6005_6006 |  98304
-    information_schema | sql_implementation_info | dn_6005_6006 |  49152
-    information_schema | sql_languages           | dn_6005_6006 |  49152
-    information_schema | sql_packages            | dn_6005_6006 |  49152
-    information_schema | sql_parts               | dn_6005_6006 |  49152
-    information_schema | sql_sizing              | dn_6005_6006 |  49152
-    information_schema | sql_sizing_profiles     | dn_6005_6006 |   8192
-    scheduler          | pg_task                 | dn_6003_6004 |   8192
-    public             | ocr_group               | dn_6003_6004 |   8192
-    public             | ocr_item                | dn_6003_6004 |  16384
-    sea                | ocr_group               | dn_6003_6004 |   8192
-    sea                | ocr_item                | dn_6003_6004 |  16384
-    public             | customer_t1             | dn_6003_6004 |  16384
-    dbms_om            | gs_wlm_session_info     | dn_6003_6004 |   8192
-    dbms_om            | gs_wlm_operator_info    | dn_6003_6004 |   8192
-    dbms_om            | gs_wlm_ec_operator_info | dn_6003_6004 |   8192
-    public             | pgxc_copy_error_log     | dn_6003_6004 |   8192
-    information_schema | sql_features            | dn_6003_6004 |  98304
-    information_schema | sql_implementation_info | dn_6003_6004 |  49152
-    information_schema | sql_languages           | dn_6003_6004 |  49152
-    information_schema | sql_packages            | dn_6003_6004 |  49152
-    information_schema | sql_parts               | dn_6003_6004 |  49152
-    information_schema | sql_sizing              | dn_6003_6004 |  49152
-    information_schema | sql_sizing_profiles     | dn_6003_6004 |   8192
-    scheduler          | pg_task                 | dn_6001_6002 |   8192
-    public             | ocr_group               | dn_6001_6002 |  16384
-    public             | ocr_item                | dn_6001_6002 |   8192
-    sea                | ocr_group               | dn_6001_6002 |   8192
-    sea                | ocr_item                | dn_6001_6002 |  16384
-    public             | customer_t1             | dn_6001_6002 |  16384
-    dbms_om            | gs_wlm_session_info     | dn_6001_6002 |   8192
-    dbms_om            | gs_wlm_operator_info    | dn_6001_6002 |   8192
-    dbms_om            | gs_wlm_ec_operator_info | dn_6001_6002 |   8192
-    public             | pgxc_copy_error_log     | dn_6001_6002 |   8192
-    information_schema | sql_features            | dn_6001_6002 |  98304
-    information_schema | sql_implementation_info | dn_6001_6002 |  49152
-    information_schema | sql_languages           | dn_6001_6002 |  49152
-    information_schema | sql_packages            | dn_6001_6002 |  49152
-    information_schema | sql_parts               | dn_6001_6002 |  49152
-    information_schema | sql_sizing              | dn_6001_6002 |  49152
-    information_schema | sql_sizing_profiles     | dn_6001_6002 |   8192
-   (51 rows)
-
-gs_table_distribution(schemaname text, tablename text)
-------------------------------------------------------
-
-Description: Queries the storage space occupied by a specified table on each node.
-
-Return type: record
-
-.. table:: **Table 1** gs_table_distribution(schemaname text, tablename text)
-
-   +-----------------------+-----------------------+---------------------------------------------------+
-   | Column                | Type                  | Description                                       |
-   +=======================+=======================+===================================================+
-   | schemaname            | name                  | Specifies the schema name.                        |
-   +-----------------------+-----------------------+---------------------------------------------------+
-   | tablename             | name                  | Table name                                        |
-   +-----------------------+-----------------------+---------------------------------------------------+
-   | relkind               | character             | Type.                                             |
-   |                       |                       |                                                   |
-   |                       |                       | -  **i**: index                                   |
-   |                       |                       | -  **r**: table                                   |
-   +-----------------------+-----------------------+---------------------------------------------------+
-   | nodename              | name                  | Node name                                         |
-   +-----------------------+-----------------------+---------------------------------------------------+
-   | dnsize                | bigint                | Storage space of the table on the node, in bytes. |
-   +-----------------------+-----------------------+---------------------------------------------------+
-
-.. note::
-
-   -  To query for the storage distribution of a specified table by using this function, you must have the **SELECT** permission for the table.
-   -  This function is based on the physical file storage space records in the **PG_RELFILENODE_SIZE** system catalog. Ensure that the GUC parameters **use_workload_manager** and **enable_perm_space** are enabled.
-   -  The performance of the **gs_table_distribution** function is lower than that of the **table_distribution** function when a single table is queried. But when the entire database is queried, the performance of the **gs_table_distribution** function is much better. In a large cluster with a large amount of data, you are advised to use the **gs_table_distribution** function to query all tables in the database.
-
-gs_table_distribution()
------------------------
-
-Description: Quickly queries the storage distribution of all tables in the current database.
-
-Return type: record
-
-.. table:: **Table 2** gs_table_distribution()
-
-   ========== ========= =================================================
-   Column     Type      Description
-   ========== ========= =================================================
-   schemaname name      Schema name
-   tablename  name      Table name
-   relkind    character Type of the table. **i**: index; **r**: table.
-   nodename   name      Node name
-   dnsize     bigint    Storage space of the table on the node, in bytes.
-   ========== ========= =================================================
-
-.. note::
-
-   -  To query for the storage distribution of a specified table by using this function, you must have the **SELECT** permission for the table.
-   -  This function is based on the physical file storage space records in the **PG_RELFILENODE_SIZE** system catalog. Ensure that the GUC parameters **use_workload_manager** and **enable_perm_space** are enabled.
-   -  The performance of the **gs_table_distribution** function is lower than that of the **table_distribution** function when a single table is queried. But when the entire database is queried, the performance of the **gs_table_distribution** function is much better. In a large cluster with a large amount of data, you are advised to use the **gs_table_distribution** function to query all tables in the database.
-
-pgxc_get_stat_dirty_tables(int dirty_percent, int n_tuples)
------------------------------------------------------------
-
-Description: Obtains information about insertion, update, and deletion operations on tables and the dirty page rate of tables. This function optimizes the performance of the **PGXC_GET_STAT_ALL_TABLES** view. It can quickly filter out tables whose dirty page rate is greater than **dirty_percent** and number of dead tuples is greater than **n_tuples** on each DN, and return the filtering results to the CN for summary and output.
-
-Return type: SETOF record
-
-The following table describes return columns.
-
-=============== ============ ==============================
-Column          Type         Description
-=============== ============ ==============================
-relid           oid          Table OID
-relname         name         Table name
-schemaname      name         Schema name of the table
-n_tup_ins       bigint       Number of inserted tuples
-n_tup_upd       bigint       Number of updated tuples
-n_tup_del       bigint       Number of deleted tuples
-n_live_tup      bigint       Number of live tuples
-n_dead_tup      bigint       Number of dead tuples
-dirty_page_rate numeric(5,2) Dirty page rate (%) of a table
-=============== ============ ==============================
-
-Example:
-
-Query the tables whose dirty page rate is greater than 10% and number of dirty data rows is greater than 1000 in the database:
-
-::
-
-   SELECT * FROM pgxc_get_stat_dirty_tables(0,0) where dirty_page_rate > 10 and n_dead_tup > 1000;
-    relid |         relname         | schemaname | n_tup_ins | n_tup_upd | n_tup_del | n_live_tup | n_dead_tup | dirty_page_rate
-   -------+-------------------------+------------+-----------+-----------+-----------+------------+------------+-----------------
-    16782 | bandwidth_history_table | scheduler  |    356355 |         0 |    202068 |     154287 |      29031 |           15.84
-    12050 | gs_wlm_instance_history | pg_catalog |    406464 |         0 |    234835 |     171647 |      27721 |           13.90
-   (2 rows)
-
-pgxc_get_stat_dirty_tables(int dirty_percent, int n_tuples, text schema)
-------------------------------------------------------------------------
-
-Description: Obtains information about insertion, update, and deletion operations on tables and the dirty page rate of tables. This function optimizes the performance of the **PGXC_GET_STAT_ALL_TABLES** view. It can quickly filter out tables whose dirty page rate is greater than **dirty_percent** and number of dead tuples is greater than **n_tuples** on each DN, and return the filtering results to the CN for summary and output. **text schema** indicates tables whose schema name is **schema**.
-
-Return type: SETOF record
-
-The return columns of the function are the same as those of the **pgxc_get_stat_dirty_tables(int dirty_percent, int n_tuples)** function.
-
-Example:
-
-Query the dirty page rate of the **pg_catalog.pg_class** system catalog.
-
-::
-
-   SELECT relname AS table_name,dirty_page_rate FROM pgxc_get_stat_dirty_tables(0,0,'pg_catalog') WHERE relname = 'pg_class';
-    table_name | dirty_page_rate
-   ------------+-----------------
-    pg_class   |           16.46
-   (1 row)
-
-gs_switch_relfilenode()
------------------------
-
-Description: Exchanges meta information of two tables or partitions. (This is only used for the redistribution tool. An error message is displayed when the function is directly used by users).
-
-Return type: integer
-
-copy_error_log_create()
------------------------
-
-Description: Creates the error table (**public.pgxc_copy_error_log**) required for creating the **COPY FROM** error tolerance mechanism.
-
-Return type: boolean
-
-.. note::
-
-   -  This function attempts to create the **public.pgxc_copy_error_log** table. For details about the table, see :ref:`Table 3 <en-us_topic_0000001495991693__table2822639715>`.
-   -  Create the B-tree index on the **relname** column and execute **REVOKE ALL on public.pgxc_copy_error_log FROM public** to manage permissions for the error table (the permissions are the same as those of the **COPY** statement).
-   -  **public.pgxc_copy_error_log** is a row-store table. Therefore, this function can be executed and **COPY FROM** error tolerance is available only when row-store tables can be created in the cluster. After the GUC parameter **enable_hadoop_env** is enabled, row-based tables cannot be created in the cluster. The default value is **off**.
-   -  Same as the error table and the **COPY** statement, the function requires **sysadmin** or higher permissions.
-   -  If the **public.pgxc_copy_error_log** table or the **copy_error_log_relname_idx** index already exists before the function creates it, the function will report an error and roll back.
-
-.. _en-us_topic_0000001495991693__table2822639715:
-
-.. table:: **Table 3** Error table public.pgxc_copy_error_log
-
-   +-----------+--------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | Column    | Type                     | Description                                                                                                                                          |
-   +===========+==========================+======================================================================================================================================================+
-   | relname   | varchar                  | Name of the table, which is in the form of *Schema name*\ **.**\ *Table name*                                                                        |
-   +-----------+--------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | begintime | timestamp with time zone | Time when a data format error was reported                                                                                                           |
-   +-----------+--------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | filename  | character varying        | Name of the source data file where a data format error occurs                                                                                        |
-   +-----------+--------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | rownum    | bigint                   | Number of the row where a data format error occurs in a source data file                                                                             |
-   +-----------+--------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | rawrecord | text                     | Raw record of a data format error in the source data file. To prevent a field from being too long, the length of the field cannot exceed 1024 bytes. |
-   +-----------+--------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | detail    | text                     | Error details                                                                                                                                        |
-   +-----------+--------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------+
-
-Example:
-
-::
-
-   SELECT copy_error_log_create();
-    copy_error_log_create
-   -----------------------
-    t
    (1 row)

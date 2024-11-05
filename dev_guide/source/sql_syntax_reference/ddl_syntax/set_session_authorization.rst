@@ -22,7 +22,7 @@ Syntax
 
    ::
 
-      SET [ SESSION | LOCAL ] SESSION AUTHORIZATION role_name PASSWORD 'password';
+      SET [ SESSION | LOCAL ] SESSION AUTHORIZATION role_name PASSWORD '{password}';
 
 -  Reset the identifiers of the session and current users to the initially authenticated user names.
 
@@ -65,7 +65,7 @@ Set the current user to **paul**:
 
 ::
 
-   SET SESSION AUTHORIZATION paul password '{Password}';
+   SET SESSION AUTHORIZATION paul password '{password}';
 
 View the current session user and the current user:
 

@@ -8,12 +8,12 @@ DROP USER
 Function
 --------
 
-Deleting a user will also delete the schema having the same name as the user.
+Deletes a user. Doing so will also delete the schema that has the same name as the user.
 
 Precautions
 -----------
 
--  **CASCADE** is used to delete objects (excluding databases) that depend on the user. **CASCADE** cannot delete locked objects unless the locked objects are unlocked or the processes that lock the objects are killed.
+-  **CASCADE** is used to delete objects (excluding databases) that depend on the user. **CASCADE** cannot delete locked objects unless the locked objects are unlocked or the processes that lock the objects are stopped.
 -  When deleting a user in the database, if the object that the user depends on is in another database or the object of the dependent user is another database, you need to manually delete the dependent objects in other databases or delete the dependent database. Then, delete the user. Cross-database cascading deletion cannot be performed.
 -  In a multi-tenant scenario, the service user will also be deleted when you delete a user group. If the specified **CASCADE** concatenation is deleted, **CASCADE** will be specified upon the deletion of the service user. If you fail to delete a user, an error is reported, and you cannot delete other users either.
 -  If the error table specified by the GDS foreign table created by user A is under the schema of user B, user B cannot be deleted by specifying the **CASCADE** keyword in **DROP USER**.
@@ -22,7 +22,7 @@ Precautions
 Syntax
 ------
 
-::
+.. code-block::
 
    DROP USER [ IF EXISTS ] user_name [, ...] [ CASCADE | RESTRICT ];
 
@@ -37,7 +37,7 @@ Parameter Description
 
    Specifies the name of a user to be deleted.
 
-   Value range: An existing user name.
+   Value range: an existing user name.
 
 -  **CASCADE \| RESTRICT**
 
@@ -51,8 +51,8 @@ Parameter Description
       -  If **enable_kill_query** is **on** and **CASCADE** is used to delete user objects, the processes will be automatically killed and the user will be deleted at the same time.
       -  If **enable_kill_query** is **off** and **CASCADE** is used to delete user objects, the user will be deleted after the processes are automatically killed.
 
-Example
--------
+Examples
+--------
 
 Delete user **jim**:
 
@@ -60,7 +60,7 @@ Delete user **jim**:
 
    DROP USER jim CASCADE;
 
-Links
------
+Helpful Links
+-------------
 
 :ref:`ALTER USER <dws_06_0149>`, :ref:`CREATE USER <dws_06_0186>`

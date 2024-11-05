@@ -8,7 +8,7 @@ DO
 Function
 --------
 
-**DO** executes an anonymous code block.
+Executes an anonymous code block.
 
 A code block is a function body without parameters. Its return type is **void**. It is analyzed and executed at the same time.
 

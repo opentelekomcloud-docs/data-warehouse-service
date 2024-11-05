@@ -6,15 +6,15 @@ Additional Features
 ===================
 
 -  :ref:`Manipulating tsvector <dws_06_0097>`
--  :ref:`Handling TSQuery <dws_06_0098>`
+-  :ref:`Manipulating Queries <dws_06_0098>`
 -  :ref:`Rewriting Queries <dws_06_0099>`
--  :ref:`Collecting Document Statistics <dws_06_0100>`
+-  :ref:`Gathering Document Statistics <dws_06_0100>`
 
 .. toctree::
    :maxdepth: 1
    :hidden: 
 
    manipulating_tsvector
-   handling_tsquery
+   manipulating_queries
    rewriting_queries
-   collecting_document_statistics
+   gathering_document_statistics

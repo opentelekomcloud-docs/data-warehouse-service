@@ -43,7 +43,7 @@ The **CREATE TABLE** syntax can specify the array size. For example:
 
    CREATE TABLE test ( a int[3]);
 
-In current database implementation, the array size limits of statements is ignored. Statements with array size limits behave the same as those without. At the same time, the number of declared dimensions is not required. Arrays of a particular element type are all treated as the same type. Their size or number of dimensions are ignored.
+In current database implementation, the array size limits of statements are ignored. Statements with array size limits behave the same as those without. At the same time, the number of declared dimensions is not required. Arrays of a particular element type are all treated as the same type. Their size or number of dimensions are ignored.
 
 You can also use the keyword **ARRAY** to define a one-dimensional array. The **price** column in the **books** table is defined using **ARRAY** and the array size is specified as follows:
 
@@ -212,7 +212,7 @@ Update a slice element in the array:
    UPDATE books SET price_by_quarter[1:2] = '{27,27}'
         WHERE title = 'Robinson Crusoe';
 
-A stored array value can be expanded by assigning a value to a new element. Positions between an existing element and the new element is filled with null values. For example, if the array **myarray** currently has four elements, it will have six elements after a value is assigned to **myarray[6]** using **UPDATE**. **myarray[5]** is filled with null. Currently, this method can be used only on one-dimensional arrays.
+A stored array value can be expanded by assigning a value to a new element. The position between an existing element and the new element is filled with null values. For example, if the array **myarray** currently has four elements, it will have six elements after a value is assigned to **myarray[6]** using **UPDATE**. **myarray[5]** is filled with null. Currently, this method can be used only on one-dimensional arrays.
 
 **Building a New Array**
 

@@ -27,7 +27,7 @@ Parameter Description
 
 -  **IF EXISTS**
 
-   Reports a notice instead of an error if the specified row-level access control policy does not exist.
+   Sends a notice instead of an error if the specified row-level access control policy does not exist.
 
 -  *policy_name*
 

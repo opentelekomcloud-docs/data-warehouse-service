@@ -12,16 +12,6 @@ Description: Checks whether the connection data buffered in the pool is consiste
 
 Return type: boolean
 
-Example:
-
-::
-
-   SELECT pgxc_pool_check();
-    pgxc_pool_check
-   -----------------
-    t
-   (1 row)
-
 pgxc_pool_reload()
 ------------------
 
@@ -29,15 +19,16 @@ Description: Updates the connection information buffered in the pool.
 
 Return type: boolean
 
-Example:
+pgxc_lock_for_backup()
+----------------------
 
-::
+Description: Locks the cluster before backup. Backup is performed to restore data on new nodes.
 
-   SELECT pgxc_pool_reload();
-    pgxc_pool_reload
-   ------------------
-    t
-   (1 row)
+Return type: boolean
+
+.. note::
+
+   **pgxc_lock_for_backup** locks a cluster before **gs_dump** or **gs_dumpall** is used to back up the cluster. After a cluster is locked, operations changing the system structure are not allowed. This function does not affect DML statements.
 
 pg_pool_validate(clear boolean, co_node_name cstring)
 -----------------------------------------------------
@@ -53,32 +44,162 @@ Description: queries the memory usage of all nodes.
 
 Return type: record
 
+table_skewness(text)
+--------------------
+
+Description: queries the percentage of table data among all nodes.
+
+Parameter: Indicates that the type of the name of the to-be-queried table is text.
+
+Return type: record
+
+table_skewness(table_name text, column_name text[, row_num text])
+-----------------------------------------------------------------
+
+Description: Queries the proportion of column data distributed on each node based on the hash distribution rule. The results are sorted based on the data volumes of the nodes.
+
+Parameters: **table_name** indicates a table name, **column_name** indicates a column name, and **row_num** indicates that all data in the current column is returned. The default value is **0**. A value other than **0** indicates the number of data records whose statistics are sampled. (Records are randomly sampled.)
+
+Return type: record
+
 Example:
+
+Distribute data by hash based on the **a** column in the **tx** table. Seven records are distributed on DN 1, two records on DN 2, and one record on DN 0.
 
 ::
 
-   SELECT * FROM pg_nodes_memory();
-         node_name       | used_memory |        shared_buffer_cache         |      top_context_memory
-   ----------------------+-------------+------------------------------------+------------------------------
-    dn_6003_6004         | 353 MB      | 108 MB(Utilization: 512 MB/21.00%) | PgStat BackendStatus(101 MB)
-                         |             |                                    | TopMemoryContext(59 MB)
-                         |             |                                    | gs_signal(56 MB)
-    dn_6005_6006         | 353 MB      | 202 MB(Utilization: 512 MB/39.00%) | PgStat BackendStatus(101 MB)
-                         |             |                                    | TopMemoryContext(59 MB)
-                         |             |                                    | gs_signal(56 MB)
-    dn_6001_6002         | 351 MB      | 201 MB(Utilization: 512 MB/39.00%) | PgStat BackendStatus(101 MB)
-                         |             |                                    | TopMemoryContext(58 MB)
-                         |             |                                    | gs_signal(56 MB)
-    cn_5001              | 79 MB       | 48 MB(Utilization: 256 MB/19.00%)  | CacheMemoryContext(22 MB)
-                         |             |                                    | PgStat BackendStatus(19 MB)
-                         |             |                                    | gs_signal(16 MB)
-    cn_5002              | 77 MB       | 95 MB(Utilization: 256 MB/37.00%)  | CacheMemoryContext(21 MB)
-                         |             |                                    | PgStat BackendStatus(19 MB)
-                         |             |                                    | gs_signal(16 MB)
-    cn_5003              | 67 MB       | 50 MB(Utilization: 256 MB/19.00%)  | CacheMemoryContext(26 MB)
-                         |             |                                    | gs_signal(16 MB)
-                         |             |                                    | TopMemoryContext(9732 KB)
-   (18 rows)
+   SELECT * FROM table_skewness('tx','a');
+    seqnum | num |  ratio
+   --------+-----+----------
+    1      | 7   | 70.000%
+    2      | 2   | 20.000%
+    0      | 1   | 10.000%
+   (3 row)
+
+table_data_skewness(data_row record, locatorType "char")
+--------------------------------------------------------
+
+Description: Calculates the bucket distribution index for the records concatenated using the columns in a specified table.
+
+Parameters: **data_row** indicates the record concatenated using columns in the specified table. **locatorType** indicates the distribution rule. You are advised to set **locatorType** to **H**, indicating hash distribution.
+
+Return type: smallint
+
+Example:
+
+Calculates the bucket distribution index based on the hash distribution rule for the records combined concatenated using column a in the **tx** table.
+
+::
+
+   select a, table_data_skewness(row(a), 'H') from tx;
+    a | table_data_skewness
+   ---+---------------------
+    3 |                   0
+    6 |                   2
+    7 |                   2
+    4 |                   1
+    5 |                   1
+   (5 rows)
+
+table_distribution(schemaname text, tablename text)
+---------------------------------------------------
+
+Description: queries the storage space occupied by a specified table on each node.
+
+Parameter: Indicates that the types of the schema name and table name for the table to be queried are both text.
+
+Return type: record
+
+.. note::
+
+   -  To query for the storage distribution of a specified table by using this function, you must have the **SELECT** permission for the table.
+   -  The performance of **table_distribution** is better than that of **table_skewness**. Especially in a large cluster with a large amount of data, **table_distribution** is recommended.
+   -  When you use **table_distribution** and want to view the space usage, you can use **dnsize** or **(sum(dnsize) over ())** to view the percentage.
+
+table_distribution(regclass)
+----------------------------
+
+Description: queries the storage space occupied by a specified table on each node.
+
+Parameter: indicates the name or OID of the table to be queried. The table name can be defined by the schema name. Parameter type: regclass
+
+Return type: record
+
+.. note::
+
+   -  To query for the storage distribution of a specified table by using this function, you must have the **SELECT** permission for the table.
+   -  The performance of **table_distribution** is better than that of **table_skewness**. Especially in a large cluster with a large amount of data, **table_distribution** is recommended.
+   -  When you use **table_distribution** and want to view the space usage, you can use **dnsize** or **(sum(dnsize) over ())** to view the percentage.
+
+table_distribution()
+--------------------
+
+Description: queries the storage distribution of all tables in the current database.
+
+Return type: record
+
+.. note::
+
+   -  This function involves the query for information about all tables in the database. To execute this function, you must have the administrator rights or rights of the preset role **gs_role_read_all_stats**.
+   -  Based on the table_distribution() function, GaussDB(DWS) provides the PGXC_GET_TABLE_SKEWNESS view as an alternative way to query for data skew. You are advised to use this view when the number of tables in the database is less than 10000.
+
+gs_table_distribution(schemaname text, tablename text)
+------------------------------------------------------
+
+Description: queries the storage space occupied by a specified table on each node.
+
+Return type: record
+
+.. table:: **Table 1** Fields returned by the gs_table_distribution(schemaname text, tablename text) function
+
+   +-----------------------+-----------------------+---------------------------------------------------+
+   | Name                  | Type                  | Description                                       |
+   +=======================+=======================+===================================================+
+   | schemaname            | name                  | Schema name                                       |
+   +-----------------------+-----------------------+---------------------------------------------------+
+   | tablename             | name                  | Table name                                        |
+   +-----------------------+-----------------------+---------------------------------------------------+
+   | relkind               | character             | Type.                                             |
+   |                       |                       |                                                   |
+   |                       |                       | -  **i**: index                                   |
+   |                       |                       | -  **r**: table                                   |
+   +-----------------------+-----------------------+---------------------------------------------------+
+   | nodename              | name                  | Node name                                         |
+   +-----------------------+-----------------------+---------------------------------------------------+
+   | dnsize                | bigint                | Storage space of the table on the node, in bytes. |
+   +-----------------------+-----------------------+---------------------------------------------------+
+
+.. note::
+
+   -  To query for the storage distribution of a specified table by using this function, you must have the **SELECT** permission for the table.
+   -  This function is based on the physical file storage space records in the **PG_RELFILENODE_SIZE** system catalog. Ensure that the GUC parameters **use_workload_manager** and **enable_perm_space** are enabled.
+   -  The performance of the **gs_table_distribution** function is lower than that of the **table_distribution** function when a single table is queried. But when the entire database is queried, the performance of the **gs_table_distribution** function is much better. In a large cluster with a large amount of data, you are advised to use the **gs_table_distribution** function to query all tables in the database.
+
+gs_table_distribution()
+-----------------------
+
+Description: quickly queries the storage distribution of all tables in the current database.
+
+Return type: record
+
+.. table:: **Table 2** Fields returned by the gs_table_distribution() function
+
+   ========== ========= =================================================
+   Name       Type      Description
+   ========== ========= =================================================
+   schemaname name      Schema name
+   tablename  name      Table name
+   relkind    character Type of the table. **i**: index; **r**: table.
+   nodename   name      Node name
+   dnsize     bigint    Storage space of the table on the node, in bytes.
+   ========== ========= =================================================
+
+.. note::
+
+   -  To query for the storage distribution of a specified table by using this function, you must have the **SELECT** permission for the table.
+   -  This function is based on the physical file storage space records in the **PG_RELFILENODE_SIZE** system catalog. Ensure that the GUC parameters **use_workload_manager** and **enable_perm_space** are enabled.
+   -  The performance of the **gs_table_distribution** function is lower than that of the **table_distribution** function when a single table is queried. But when the entire database is queried, the performance of the **gs_table_distribution** function is much better. In a large cluster with a large amount of data, you are advised to use the **gs_table_distribution** function to query all tables in the database.
+   -  Based on the **gs_table_distribution()** function, GaussDB(DWS) 8.2.1 and later versions provide the **PGXC_WLM_TABLE_DISTRIBUTION_SKEWNESS** view for data skew query. You are advised to use this view when the number of tables in the database is small (less than 10,000).
 
 plan_seed()
 -----------
@@ -87,16 +208,6 @@ Description: Obtains the seed value of the previous query statement (internal us
 
 Return type: integer
 
-Example:
-
-::
-
-   SELECT plan_seed();
-    plan_seed
-   -----------
-            0
-   (1 row)
-
 pg_stat_get_env()
 -----------------
 
@@ -104,59 +215,12 @@ Description: Obtains the environment variable information about the current node
 
 Return type: record
 
-Example:
-
-::
-
-   SELECT * FROM  pg_stat_get_env();
-    node_name |   host    | process | port |   installpath    |        datapath        |            log_directory
-   -----------+-----------+---------+------+------------------+------------------------+--------------------------------------
-    cn_5003   | localhost |   28811 | 8000 | /DWS/manager/app | /DWS/data1/coordinator | /DWS/manager/log/Ruby/pg_log/cn_5003
-   (1 row)
-
 pg_stat_get_thread()
 --------------------
 
 Description: Provides information about the status of all threads under the current node.
 
 Return type: record
-
-Example:
-
-::
-
-   SELECT * FROM pg_stat_get_thread();
-    node_name |       pid       |  lwpid  |    thread_name     |         creation_time
-   -----------+-----------------+---------+--------------------+-------------------------------
-    cn_5003   | 281471515199536 |   28930 | JobScheduler       | 2023-01-04 07:03:16.086885+00
-    cn_5003   | 281471498418224 |   28931 | StatCollector      | 2000-01-01 00:00:00+00
-    cn_5003   | 281471464855600 |   28933 | WDRSnapshot        | 2023-01-04 07:03:16.086775+00
-    cn_5003   | 281471380949040 |   28938 | WorkloadMonitor    | 2023-01-04 07:03:16.074454+00
-    cn_5003   | 281471414511664 |   28936 | workload           | 2023-01-04 07:03:16.075457+00
-    cn_5003   | 281471364167728 |   28939 | WLMArbiter         | 2023-01-04 07:03:16.076753+00
-    cn_5003   | 281471397730352 |   28937 | CalculateSpaceInfo | 2023-01-04 07:03:16.078981+00
-    cn_5003   | 281470777964592 | 1933534 | wlm                | 2023-01-13 08:01:32.350808+00
-    cn_5003   | 281470889130032 | 1786064 | cn_5002            | 2023-01-13 07:01:50.173568+00
-    cn_5003   | 281471299672112 |   29006 | cm_agent           | 2023-01-04 07:03:18.03415+00
-    cn_5003   | 281471222065200 |   29970 | cn_5002            | 2023-01-04 07:03:39.694702+00
-    cn_5003   | 281471238846512 | 1897367 | cn_5002            | 2023-01-04 20:01:40.611019+00
-    cn_5003   | 281470905911344 |   30053 | cn_5002            | 2023-01-04 07:03:44.065774+00
-    cn_5003   | 281470410537008 | 1933902 | cn_5002            | 2023-01-13 08:01:38.972574+00
-    cn_5003   | 281470872348720 | 1880248 | cn_5001            | 2023-01-13 07:39:24.231418+00
-    cn_5003   | 281471316453424 | 1883059 | cn_5001            | 2023-01-13 07:40:16.885667+00
-    cn_5003   | 281470845081648 | 1305053 | cn_5001            | 2023-01-13 03:40:17.366784+00
-    cn_5003   | 281470700357680 | 1500466 | wlm                | 2023-01-13 05:02:05.714544+00
-    cn_5003   | 281470473455664 | 1883060 | cn_5001            | 2023-01-13 07:40:16.885963+00
-    cn_5003   | 281470717138992 |   32065 | cm_agent           | 2023-01-04 07:04:23.906691+00
-    cn_5003   | 281470807328816 | 1977925 | gsql               | 2023-01-13 08:20:04.509437+00
-    cn_5003   | 281470683576368 | 1835242 | cn_5001            | 2023-01-13 07:20:16.549546+00
-    cn_5003   | 281471584946224 |   28927 | Background writer  | 2023-01-04 07:03:16.065631+00
-    cn_5003   | 281471633184816 |   28926 | CheckPointer       | 2023-01-04 07:03:16.065872+00
-    cn_5003   | 281471548762160 |   28928 | Wal Writer         | 2023-01-04 07:03:16.066366+00
-    cn_5003   | 281471448074288 |   28934 | TwoPhase Cleaner   | 2023-01-04 07:03:16.071172+00
-    cn_5003   | 281471431292976 |   28935 | LWLock Monitor     | 2023-01-04 07:03:16.072897+00
-    cn_5003   | 281470666795056 | 1210459 | CBM Writer         | 2023-01-04 15:16:05.543143+00
-   (28 rows)
 
 pgxc_get_os_threads()
 ---------------------
@@ -172,49 +236,6 @@ Description: Provides statistics on the number of **SELECT**/**UPDATE**/**INSERT
 
 Return type: record
 
-Example:
-
-::
-
-   SELECT * FROM pg_stat_get_sql_count();
-    node_name |       user_name        | select_count | update_count | insert_count | delete_count | mergeinto_count | ddl_count | dml_count | dcl_count | total_select_elapse | avg_select_elapse | max_select_el
-   apse | min_select_elapse | total_update_elapse | avg_update_elapse | max_update_elapse | min_update_elapse | total_insert_elapse | avg_insert_elapse | max_insert_elapse | min_insert_elapse | total_delete_ela
-   pse | avg_delete_elapse | max_delete_elapse | min_delete_elapse
-   -----------+------------------------+--------------+--------------+--------------+--------------+-----------------+-----------+-----------+-----------+---------------------+-------------------+--------------
-   -----+-------------------+---------------------+-------------------+-------------------+-------------------+---------------------+-------------------+-------------------+-------------------+-----------------
-   ----+-------------------+-------------------+-------------------
-    cn_5003   | gs_role_read_all_stats |            0 |            0 |            0 |            0 |               0 |         0 |         0 |         0 |                   0 |                 0 |
-      0 |                 0 |                   0 |                 0 |                 0 |                 0 |                   0 |                 0 |                 0 |                 0 |
-     0 |                 0 |                 0 |                 0
-    cn_5003   | gs_role_signal_backend |            0 |            0 |            0 |            0 |               0 |         0 |         0 |         0 |                   0 |                 0 |
-      0 |                 0 |                   0 |                 0 |                 0 |                 0 |                   0 |                 0 |                 0 |                 0 |
-     0 |                 0 |                 0 |                 0
-    cn_5003   | gs_role_analyze_any    |            0 |            0 |            0 |            0 |               0 |         0 |         0 |         0 |                   0 |                 0 |
-      0 |                 0 |                   0 |                 0 |                 0 |                 0 |                   0 |                 0 |                 0 |                 0 |
-     0 |                 0 |                 0 |                 0
-    cn_5003   | gs_role_vacuum_any     |            0 |            0 |            0 |            0 |               0 |         0 |         0 |         0 |                   0 |                 0 |
-      0 |                 0 |                   0 |                 0 |                 0 |                 0 |                   0 |                 0 |                 0 |                 0 |
-     0 |                 0 |                 0 |                 0
-    cn_5003   | dbadmin                |          641 |            0 |            3 |            0 |               0 |        18 |       651 |         5 |            19236129 |             30009 |           814
-   0206 |               357 |                   0 |                 0 |                 0 |                 0 |               70595 |             23531 |             62102 |              2750 |
-     0 |                 0 |                 0 |                 0
-    cn_5003   | Ruby                   |      2078187 |         3263 |        22841 |            0 |               0 |     10436 |   2242517 |     16979 |          3753441293 |              1806 |            52
-   6891 |               191 |            67483165 |             20681 |             38076 |             15444 |           291598980 |             12766 |             35376 |              3791 |
-     0 |                 0 |                 0 |                 0
-    cn_5003   | joe                    |            0 |            0 |            0 |            0 |               0 |         0 |         0 |         0 |                   0 |                 0 |
-      0 |                 0 |                   0 |                 0 |                 0 |                 0 |                   0 |                 0 |                 0 |                 0 |
-     0 |                 0 |                 0 |                 0
-    cn_5003   | sea                    |          192 |            0 |            5 |            3 |               0 |         3 |       205 |         0 |             2561878 |             13343 |            68
-   1866 |               388 |                   0 |                 0 |                 0 |                 0 |               11349 |              2269 |              3241 |              1521 |               19
-   255 |              6418 |             10656 |              2798
-    cn_5003   | jj                     |            0 |            0 |            0 |            0 |               0 |         0 |         0 |         0 |                   0 |                 0 |
-      0 |                 0 |                   0 |                 0 |                 0 |                 0 |                   0 |                 0 |                 0 |                 0 |
-     0 |                 0 |                 0 |                 0
-    cn_5003   | u1                     |            2 |            0 |            2 |            0 |               0 |         1 |         4 |         0 |                3712 |              1856 |
-   2407 |              1305 |                   0 |                 0 |                 0 |                 0 |                5366 |              2683 |              3359 |              2007 |
-     0 |                 0 |                 0 |                 0
-   (10 rows)
-
 pgxc_get_sql_count()
 --------------------
 
@@ -229,41 +250,12 @@ Description: Provides statistics on the number of **SELECT**/**UPDATE**/**INSERT
 
 Return type: record
 
-Example:
-
-::
-
-   SELECT * FROM pgxc_get_workload_sql_count();
-    node_name |   workload   | select_count | update_count | insert_count | delete_count | ddl_count | dml_count | dcl_count
-   -----------+--------------+--------------+--------------+--------------+--------------+-----------+-----------+-----------
-    cn_5003   | default_pool |      2079352 |         3264 |        22858 |            3 |     10460 |   2243738 |     16988
-    cn_5001   | default_pool |      2201345 |            9 |            0 |            0 |     10474 |   2359633 |     10465
-    cn_5002   | default_pool |      3784696 |            0 |       103106 |          136 |     10438 |   4039090 |     10498
-   (3 rows)
-
 pgxc_get_workload_sql_elapse_time()
 -----------------------------------
 
 Description: Provides statistics on response time of **SELECT**/**UPDATE**/**INSERT**/**DELETE** statements executed in all workload Cgroup on all CNs of the current cluster.
 
 Return type: record
-
-Example:
-
-::
-
-   SELECT * FROM pgxc_get_workload_sql_elapse_time();
-    node_name |   workload   | total_select_elapse | max_select_elapse | min_select_elapse | avg_select_elapse | total_update_elapse | max_update_elapse | min_update_elapse | avg_update_elapse | total_insert_el
-   apse | max_insert_elapse | min_insert_elapse | avg_insert_elapse | total_delete_elapse | max_delete_elapse | min_delete_elapse | avg_delete_elapse
-   -----------+--------------+---------------------+-------------------+-------------------+-------------------+---------------------+-------------------+-------------------+-------------------+----------------
-   -----+-------------------+-------------------+-------------------+---------------------+-------------------+-------------------+-------------------
-    cn_5003   | default_pool |          3776420502 |           8140206 |                 0 |              1816 |            67505332 |             38076 |                 0 |             20682 |           29178
-   9830 |             62102 |                 0 |             12765 |               19255 |             10656 |                 0 |              6418
-    cn_5001   | default_pool |          8599339496 |           3390159 |                 0 |              3906 |               52789 |             18207 |                 0 |              5865 |
-      0 |                 0 |                 0 |                 0 |                   0 |                 0 |                 0 |                 0
-    cn_5002   | default_pool |         40483096221 |           2178781 |                 0 |             10695 |                   0 |                 0 |                 0 |                 0 |        13310238
-   8148 |           2398854 |                 0 |           1290752 |             2072031 |             52877 |                 0 |             15236
-   (3 rows)
 
 get_instr_unique_sql()
 ----------------------
@@ -304,20 +296,53 @@ Description: Provides the environment variable information about all nodes in a 
 
 Return type: record
 
-Example:
+gs_switch_relfilenode()
+-----------------------
 
-::
+Description: Exchanges meta information of two tables or partitions. (This is only used for the redistribution tool. An error message is displayed when the function is directly used by users).
 
-   SELECT * FROM pgxc_get_node_env();
-     node_name   |     host      | process | port  |   installpath    |         datapath          |            log_directory
-   --------------+---------------+---------+-------+------------------+---------------------------+--------------------------------------
-    dn_6001_6002 | 172.16.102.5  |   24443 | 40000 | /DWS/manager/app | /DWS/data1/h0dn1/primary0 | /DWS/manager/log/Ruby/pg_log/dn_6001
-    dn_6003_6004 | 172.16.70.17  |   21823 | 40000 | /DWS/manager/app | /DWS/data1/h1dn1/primary0 | /DWS/manager/log/Ruby/pg_log/dn_6003
-    dn_6005_6006 | 172.16.120.50 |   22331 | 40000 | /DWS/manager/app | /DWS/data1/h2dn1/primary0 | /DWS/manager/log/Ruby/pg_log/dn_6005
-    cn_5003      | localhost     |   28811 |  8000 | /DWS/manager/app | /DWS/data1/coordinator    | /DWS/manager/log/Ruby/pg_log/cn_5003
-    cn_5001      | 172.16.102.5  |   30873 |  8000 | /DWS/manager/app | /DWS/data1/coordinator    | /DWS/manager/log/Ruby/pg_log/cn_5001
-    cn_5002      | 172.16.70.17  |   29229 |  8000 | /DWS/manager/app | /DWS/data1/coordinator    | /DWS/manager/log/Ruby/pg_log/cn_5002
-   (6 rows)
+Return type: integer
+
+copy_error_log_create()
+-----------------------
+
+Description: Creates the error table (**public.pgxc_copy_error_log**) required for creating the **COPY FROM** error tolerance mechanism.
+
+Return type: boolean
+
+.. note::
+
+   -  This function attempts to create the **public.pgxc_copy_error_log** table. For details about the table, see :ref:`Table 3 <en-us_topic_0000001460561332__table63361925092>`.
+   -  Create the B-tree index on the **relname** column and execute **REVOKE ALL on public.pgxc_copy_error_log FROM public** to manage permissions for the error table (the permissions are the same as those of the **COPY** statement).
+   -  **public.pgxc_copy_error_log** is a row-store table. Therefore, this function can be executed and **COPY FROM** error tolerance is available only when row-store tables can be created in the cluster. After the GUC parameter **enable_hadoop_env** is enabled, row-based tables cannot be created in the cluster. The default value is **off**.
+   -  Same as the error table and the **COPY** statement, the function requires **sysadmin** or higher permissions.
+   -  If the **public.pgxc_copy_error_log** table or the **copy_error_log_relname_idx** index already exists before the function creates it, the function will report an error and roll back.
+
+.. _en-us_topic_0000001460561332__table63361925092:
+
+.. table:: **Table 3** Error table public.pgxc_copy_error_log
+
+   +------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Column     | Type                     | Description                                                                                                                                                 |
+   +============+==========================+=============================================================================================================================================================+
+   | relname    | varchar                  | Table name in the form of *Schema name*\ **.**\ *Table name*                                                                                                |
+   +------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | begintime  | timestamp with time zone | Time when a data format error was reported                                                                                                                  |
+   +------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | filename   | varchar                  | Name of the source data file where a data format error occurs                                                                                               |
+   +------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | rownum     | bigint                   | Number of the row where a data format error occurs in a source data file                                                                                    |
+   +------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | rawrecord  | text                     | Raw record of a data format error in the source data file To prevent a field from being too long, the length of the field cannot exceed 1024 bytes.         |
+   +------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | detail     | text                     | Error details                                                                                                                                               |
+   +------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | columnname | varchar                  | Name of the column whose data format is incorrect in the data source file. Only 8.2.1.100 and later versions support this function.                         |
+   +------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | errcode    | varchar                  | Error code corresponding to the error information. The sqlstate error code is used. Only 8.2.1.100 and later versions support this function.                |
+   +------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | queryid    | bigint                   | ID of the SQL statement for executing the Copy statement. It uniquely identifies an SQL statement. Only 8.2.1.100 and later versions support this function. |
+   +------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 pv_compute_pool_workload()
 --------------------------
@@ -375,29 +400,6 @@ Description: queries statistics about backend write processes on each node in a 
 
 Return type: record
 
-Example:
-
-::
-
-   SELECT * FROM pgxc_stat_bgwriter();
-     node_name   | checkpoints_timed | checkpoints_req | checkpoint_write_time | checkpoint_sync_time | buffers_checkpoint | buffers_clean | maxwritten_clean | buffers_backend | buffers_backend_fsync | buffers_
-   alloc |      stats_reset
-   --------------+-------------------+-----------------+-----------------------+----------------------+--------------------+---------------+------------------+-----------------+-----------------------+---------
-   ------+------------------------
-    dn_6001_6002 |                 0 |               0 |                     0 |                    0 |                  0 |             0 |                0 |               0 |                     0 |
-       0 | 2000-01-01 00:00:00+00
-    dn_6003_6004 |                 0 |               0 |                     0 |                    0 |                  0 |             0 |                0 |               0 |                     0 |
-       0 | 2000-01-01 00:00:00+00
-    dn_6005_6006 |                 0 |               0 |                     0 |                    0 |                  0 |             0 |                0 |               0 |                     0 |
-       0 | 2000-01-01 00:00:00+00
-    cn_5003      |                 0 |               0 |                     0 |                    0 |                  0 |             0 |                0 |               0 |                     0 |
-       0 | 2000-01-01 00:00:00+00
-    cn_5001      |                 0 |               0 |                     0 |                    0 |                  0 |             0 |                0 |               0 |                     0 |
-       0 | 2000-01-01 00:00:00+00
-    cn_5002      |                 0 |               0 |                     0 |                    0 |                  0 |             0 |                0 |               0 |                     0 |
-       0 | 2000-01-01 00:00:00+00
-   (6 rows)
-
 pgxc_stat_replication()
 -----------------------
 
@@ -405,53 +407,12 @@ Description: queries information about the log synchronization status on each no
 
 Return type: record
 
-Example:
-
-::
-
-   SELECT * FROM pgxc_stat_replication();
-     node_name   |       pid       | usesysid | usename |    application_name    |  client_addr  | client_hostname | client_port |         backend_start         |   state   | sender_sent_location | receiver_wri
-   te_location | receiver_flush_location | receiver_replay_location | sync_priority | sync_state
-   --------------+-----------------+----------+---------+------------------------+---------------+-----------------+-------------+-------------------------------+-----------+----------------------+-------------
-   ------------+-------------------------+--------------------------+---------------+------------
-    dn_6001_6002 | 281469637695536 |       10 | Ruby    | WalSender to Standby   | 172.16.70.17  |                 |       26084 | 2023-01-04 07:01:27.348647+00 | Streaming | 0/4940D6B8           | 0/4940D6B8
-               | 0/4940D6B8              | 0/4940D6B8               |             1 | Sync
-    dn_6001_6002 | 281469304735792 |       10 | Ruby    | WalSender to Secondary | 172.16.120.50 |                 |       35214 | 2023-01-04 07:01:29.51929+00  | Streaming | 0/4000000            | 0/4000000
-               | 0/4000000               | 0/4000000                |             0 | Sync
-    dn_6003_6004 | 281469634050096 |       10 | Ruby    | WalSender to Standby   | 172.16.120.50 |                 |       13072 | 2023-01-04 07:01:26.28706+00  | Streaming | 0/493EF000           | 0/493EF000
-               | 0/493EF000              | 0/493EF000               |             1 | Sync
-    dn_6003_6004 | 281469563295792 |       10 | Ruby    | WalSender to Secondary | 172.16.102.5  |                 |       55068 | 2023-01-04 07:01:29.310595+00 | Streaming | 0/4000000            | 0/4000000
-               | 0/4000000               | 0/4000000                |             0 | Sync
-    dn_6005_6006 | 281470349690928 |       10 | Ruby    | WalSender to Standby   | 172.16.102.5  |                 |       40376 | 2023-01-04 07:01:26.768434+00 | Streaming | 0/49415A70           | 0/49415A70
-               | 0/49415A70              | 0/49415A70               |             1 | Sync
-    dn_6005_6006 | 281470010435632 |       10 | Ruby    | WalSender to Secondary | 172.16.70.17  |                 |       33750 | 2023-01-04 07:01:29.499269+00 | Streaming | 0/4000000            | 0/4000000
-               | 0/4000000               | 0/4000000                |             0 | Sync
-   (6 rows)
-
 pgxc_replication_slots()
 ------------------------
 
 Description: queries the replication status on each DN in a cluster. For details about the returned results, see "System Catalogs > System Views > PG_REPLICATION_SLOTS" in the *Developer Guide*.
 
 Return type: record
-
-Example:
-
-::
-
-   SELECT * FROM pgxc_replication_slots();
-     node_name   |    slot_name    | plugin | slot_type | datoid | database | active | x_min | catalog_xmin |    restart_lsn    | dummy_standby
-   --------------+-----------------+--------+-----------+--------+----------+--------+-------+--------------+-------------------+---------------
-    dn_6001_6002 | dn_6001_3002    |        | physical  |      0 |          | t      |       |              |                   | t
-    dn_6001_6002 | dn_6001_6002    |        | physical  |      0 |          | t      |       |              | 0/49448720        | f
-    dn_6001_6002 | gs_roach_common |        | physical  |      0 |          | f      |       |    635143447 | FFFFFFFF/FFFFFFFF | f
-    dn_6003_6004 | dn_6003_3003    |        | physical  |      0 |          | t      |       |              |                   | t
-    dn_6003_6004 | dn_6003_6004    |        | physical  |      0 |          | t      |       |              | 0/4942B760        | f
-    dn_6003_6004 | gs_roach_common |        | physical  |      0 |          | f      |       |    634883623 | FFFFFFFF/FFFFFFFF | f
-    dn_6005_6006 | dn_6005_3004    |        | physical  |      0 |          | t      |       |              |                   | t
-    dn_6005_6006 | dn_6005_6006    |        | physical  |      0 |          | t      |       |              | 0/4944CE80        | f
-    dn_6005_6006 | gs_roach_common |        | physical  |      0 |          | f      |       |    635285455 | FFFFFFFF/FFFFFFFF | f
-   (9 rows)
 
 pgxc_settings()
 ---------------
@@ -474,37 +435,12 @@ Description: queries Xlog redo statistics on the current node. For details about
 
 Return type: record
 
-Example:
-
-::
-
-   SELECT * FROM pg_stat_get_redo_stat();
-    phywrts | phyblkwrt | writetim | avgiotim | lstiotim | miniotim | maxiowtm
-   ---------+-----------+----------+----------+----------+----------+----------
-     400171 |    552783 | 11040710 |       27 |       20 |        8 |     7401
-   (1 row)
-
 pgxc_redo_stat()
 ----------------
 
 Description: queries the Xlog redo statistics of each node in a cluster. For details about the returned results, see "System Catalogs > System Views > PV_REDO_STAT" in the *Developer Guide*.
 
 Return type: record
-
-Example:
-
-.. code-block::
-
-   SELECT * FROM  pgxc_redo_stat();
-     node_name   | phywrts | phyblkwrt | writetim | avgiotim | lstiotim | miniotim | maxiowtm
-   --------------+---------+-----------+----------+----------+----------+----------+----------
-    dn_6001_6002 |  698244 |    836088 | 17608019 |       25 |       15 |        8 |    13115
-    dn_6003_6004 |  661128 |    799636 | 16714302 |       25 |       21 |        8 |     8195
-    dn_6005_6006 |  698146 |    836178 | 18117951 |       25 |       24 |        8 |     8326
-    cn_5003      |  400206 |    552823 | 11041701 |       27 |       18 |        8 |     7401
-    cn_5001      |  380931 |    514233 | 10174114 |       26 |       19 |        8 |     7726
-    cn_5002      |  551727 |    687991 | 11859292 |       21 |       31 |        8 |    10310
-   (6 rows)
 
 get_local_rel_iostat()
 ----------------------
@@ -527,7 +463,7 @@ Description: Obtains the time when statistics of the current instance were reset
 
 Return type: timestamptz
 
-.. _en-us_topic_0000001233510125__section1032165918182:
+.. _en-us_topic_0000001460561332__section158811598710:
 
 pgxc_node_stat_reset_time()
 ---------------------------
@@ -541,7 +477,7 @@ Return type: record
    When an instance is running, its statistics keep rising. In the following cases, the statistical values in the memory will be reset to **0**:
 
    -  The instance is restarted or a cluster switchover occurs.
-   -  The database is deleted.
+   -  The database is dropped.
    -  A reset operation is performed. For example, the statistics counter in the database is reset using the **pgstat_recv_resetcounter** function or the Unique SQL statements are cleared using the **reset_instr_unique_sql** function.
 
    If any of the preceding events occurs, GaussDB(DWS) will record the time when the statistics are reset. You can query the time using the **get_node_stat_reset_time** function.
@@ -587,10 +523,48 @@ Return type: record
 
             SELECT * FROM pgxc_parallel_query('cn', 'UPDATE pg_partition SET relpages = 0') AS (updated bigint);
 
+create_wdr_snapshot()
+---------------------
+
+Description: Creates a performance data snapshot.
+
+Return type: text
+
+.. note::
+
+   -  Only the database administrator **SYSADMIN** can execute this function.
+   -  This function can be executed only on CNs. If it is executed on DNs, the following message will be returned: "WDR snapshot can only be created on coordinator."
+   -  Before executing this function, ensure that the value of **enable_wdr_snapshot** is **on**. If its value is **off**, the following message will be returned for this function: "WDR snapshot request cannot be executed, because GUC parameter 'enable_wdr_snapshot' is off."
+   -  If the snapshot thread is not started for some reason, for example, the node is restarted, the following message will be returned for this function: "WDR snapshot request cannot be accepted, please retry later."
+   -  If this function fails to be executed, the following message will be returned: "Cannot respond to WDR snapshot request."
+   -  If this function is successfully executed, the following message will be returned: "WDR snapshot request has been submitted." This message indicates that the snapshot creation request has been sent to the background snapshot thread, but does not mean that the snapshot has been successfully created.
+
+kill_snapshot(scope cstring)
+----------------------------
+
+Description: kills the background snapshot thread. This function sends a command to the background snapshot thread and waits for the thread to stop.
+
+The input parameter **scope** indicates the operation scope. Its value can be **local** or **global**.
+
+-  Value **local** indicates killing the snapshot thread on the current CN.
+-  Value **global** indicates killing the snapshot thread on the current CN as well as those on all the other CNs in the cluster.
+-  If any other value is passed, error message "Scope is invalid, use "local" or "global"." is displayed.
+-  The input parameter can be left empty, in which case the default value **local** will be used.
+
+Return type: none
+
+.. note::
+
+   -  Only the database administrator **SYSADMIN** can execute this function.
+   -  This function can be executed only on CNs. If it is executed on DNs, the following message will be returned: "kill_snapshot can only be executed on coordinator."
+   -  Executing this function sends a kill signal to the background snapshot thread and waits for it to finish. If the snapshot thread is not killed within 100s, the error message "Kill snapshot thread failed" is displayed.
+
 generate_wdr_report(begin_snap_id bigint, end_snap_id bigint, report_type cstring, report_scope cstring, node_name cstring)
 ---------------------------------------------------------------------------------------------------------------------------
 
-Description: Creates a load analysis report. The input parameters are described as follows:
+Description: Creates a load analysis report.
+
+The input parameters are described as follows:
 
 -  **begin_snap_id** and **end_snap_id**: IDs of the start and end snapshots, respectively. The IDs are of the bigint type. The value of **begin_snap_id** must be less than that of **end_snap_id**, and the time for the start and end snapshots cannot overlap. You can check whether the snapshot time overlaps by querying **select s1.end_ts < s2.start_ts from (select \* from dbms_om.snapshot where snapshot_id=$begin_snap_id) as s1, (select \* from dbms_om.snapshot where snapshot_id=$end_snap_id) as s2** in the **dbms_om.snapshot** table. If **true** is returned, the snapshot time does not overlap. Otherwise, the snapshot time overlaps.
 -  **report_type**: report type. The value is a cstring and can be **summary**, **detail**, or **all**.
@@ -604,7 +578,7 @@ Return type: text
    -  Only the database administrator **SYSADMIN** can execute this function.
    -  This function can be executed only on CNs. If it is executed on DNs, the following message will be returned: "WDR report can only be created on coordinator."
    -  If the report is created successfully, message "Report %s has been generated" will be returned.
-   -  The statistics cannot be reset between the time the start snapshot is taken and the time the end snapshot is taken. Otherwise, error message "Instance reset time is different" will be displayed. For details about the events that cause a statistics reset, see the :ref:`pgxc_node_stat_reset_time <en-us_topic_0000001233510125__section1032165918182>` function.
+   -  The statistics cannot be reset between the time the start snapshot is taken and the time the end snapshot is taken. Otherwise, error message "Instance reset time is different" will be displayed. For details about the events that cause a statistics reset, see the :ref:`pgxc_node_stat_reset_time <en-us_topic_0000001460561332__section158811598710>` function.
 
 wdr_xdb_query(db_name text, snapshot_id bigint, view_name text)
 ---------------------------------------------------------------
@@ -629,7 +603,7 @@ Description: Queries a specified view in a specified database. The query results
 
       ::
 
-         SELECT snapshot_id, db_name, schemaname, relname, distribute_mode, seq_scan ,seq_tuple_read ,index_scan ,index_tuple_read ,tuple_inserted
+         select snapshot_id, db_name, schemaname, relname, distribute_mode, seq_scan ,seq_tuple_read ,index_scan ,index_tuple_read ,tuple_inserted
          ,tuple_updated ,tuple_deleted ,tuple_hot_updated ,live_tuples ,dead_tuples from wdr_xdb_query('postgres'::text, 1, 'global_table_stat'::text) as i(snapshot_id bigint, db_name text, schemaname name, relname name, distribute_mode char, seq_scan bigint, seq_tuple_read bigint, index_scan bigint, index_tuple_read bigint, tuple_inserted bigint, tuple_updated bigint, tuplee_deleted bigint, tuple_hot_updated bigint, live_tuples bigint, dead_tuples bigint);
 
       .. note::
@@ -658,3 +632,494 @@ vac_fileclear_all_relation()
 Description: Forcibly clears VACUUM rewritten files in all specified column-store tables to reclaim space.
 
 Return type: record
+
+get_col_file_info(table_name)
+-----------------------------
+
+Description: Queries the number of empty CU files and the total number of CU files in a specified column-store table. This function is supported only in cluster 8.2.0 and later versions.
+
+Parameter: Name of a column-store table.
+
+Return type: int
+
+Fields in the returned value:
+
+-  **total_file_num int**: total number of CU files. The value ranges from **-1** to **INT_MAX**. **-1** indicates a failure, which could be caused by unsupported table types. The values in the range **0** to **INT_MAX** indicates the total number of files.
+-  **empty_file_num int**: number of empty CU files. The value ranges from **-1** to **INT_MAX**. **-1** indicates a failure, which could be caused by unsupported table types. The values in the range **0** to **INT_MAX** indicates the total number of empty files.
+
+Example:
+
+::
+
+   call get_col_file_info('t4');
+    total_file_num | empty_file_num
+   ----------------+----------------
+                10 |              7
+   (1 row)
+
+get_all_col_file_info()
+-----------------------
+
+Description: Queries the number of empty CU files and the total number of CU files in all column-store tables. This function is supported only in cluster 8.2.0 and later versions.
+
+Return type: record
+
+Fields in the returned value:
+
+-  **space_name text**: schema to which the column-store tables belong
+-  **table_name text**: name of a column-store table
+-  **total_file_num int**: total number of CU files. The value ranges from **-1** to **INT_MAX**. **-1** indicates a failure, which could be caused by unsupported table types. The values in the range **0** to **INT_MAX** indicates the total number of files.
+-  **empty_file_num int**: number of empty CU files. The value ranges from **-1** to **INT_MAX**. **-1** indicates a failure, which could be caused by unsupported table types. The values in the range **0** to **INT_MAX** indicates the total number of empty files.
+
+Example:
+
+::
+
+   call get_all_col_file_info();
+    space_name | table_name | total_file_num | empty_file_num
+   ------------+------------+----------------+----------------
+    public     | t4         |             10 |              7
+    public     | t2         |              1 |              1
+    public     | t1         |              3 |              0
+   (3 rows)
+
+get_volatile_pg_class()
+-----------------------
+
+Description: Obtains the **pg_class** metadata related to all volatile temporary tables in the current session. This parameter is supported by version 8.2.0 or later clusters.
+
+Return type: record
+
+Fields in the returned value:
+
+-  **oid**: OID of the volatile temporary table.
+-  Other fields: same as the fields (excluding hidden fields) in the **pg_class system** catalog.
+
+get_volatile_pg_class(relname text)
+-----------------------------------
+
+Description: Obtains the **pg_class** metadata related to a specified volatile temporary table in the current session. This parameter is supported by version 8.2.0 or later clusters.
+
+Parameter: name of the volatile temporary table in the current session.
+
+Return type: record
+
+Fields in the returned value:
+
+-  **oid**: OID of the volatile temporary table.
+-  Other fields: same as the fields (excluding hidden fields) in the **pg_class system** catalog.
+
+Example:
+
+::
+
+   SELECT * FROM get_volatile_pg_class('tx1');
+     oid  | relname | relnamespace | reltype | reloftype | relowner | relam | relfilenode | reltablespace | relpages | reltuples | relallvisible | reltoastrelid | reltoastidxid | reldeltarelid |
+    reldeltaidx | relcudescrelid | relcudescidx | relhasindex | relisshared | relpersistence | relkind | relnatts | relchecks | relhasoids | relhaspkey | relhasrules | relhastriggers | relhassub
+   class | relcmprs | relhasclusterkey | relrowmovement | parttype | relfrozenxid | relacl |            reloptions            | relreplident | relfrozenxid64
+   -------+---------+--------------+---------+-----------+----------+-------+-------------+---------------+----------+-----------+---------------+---------------+---------------+---------------+
+   -------------+----------------+--------------+-------------+-------------+----------------+---------+----------+-----------+------------+------------+-------------+----------------+----------
+   ------+----------+------------------+----------------+----------+--------------+--------+----------------------------------+--------------+----------------
+    16772 | tx1     |        16770 |   16774 |         0 |       10 |     0 |       16772 |          1665 |        0 |         0 |             0 |         16775 |             0 |             0 |
+              0 |              0 |            0 | f           | f           | v              | r       |        2 |         0 | f          | f          | f           | f              | f
+         | 1        | f                | f              | n        | 11815        |        | {orientation=row,compression=no} | d            |          11815
+   (1 row)
+
+get_volatile_pg_attribute()
+---------------------------
+
+Description: Obtains the **pg_attribute** metadata related to all volatile temporary tables in the current session. This parameter is supported by version 8.2.0 or later clusters.
+
+Return type: record
+
+Fields in the returned value:
+
+-  **oid**: OID of the column.
+-  Other fields: same as the fields (excluding hidden fields) in the **pg_attribute** catalog.
+
+get_volatile_pg_attribute(relname text, attrname text)
+------------------------------------------------------
+
+Description: Obtains the **pg_attribute** metadata related to a specified volatile temporary table in the current session. This parameter is supported by version 8.2.0 or later clusters.
+
+Parameter:
+
+-  **relname**: table name (must be in the current session).
+-  **attrname**: column name.
+
+Return type: record
+
+Fields in the returned value:
+
+-  **oid**: OID of the column.
+-  Other fields: same as the fields (excluding hidden fields) in the **pg_attribute** catalog.
+
+Example:
+
+::
+
+   SELECT * FROM get_volatile_pg_attribute('tx1', 'b');
+    attrelid | attname | atttypid | attstattarget | attlen | attnum | attndims | attcacheoff | atttypmod | attbyval | attstorage | attalign | attnotnull | atthasdef | attisdropped | attislocal |
+    attcmprmode | attinhcount | attcollation | attacl | attoptions | attfdwoptions | attinitdefval | attkvtype
+   ----------+---------+----------+---------------+--------+--------+----------+-------------+-----------+----------+------------+----------+------------+-----------+--------------+------------+
+   -------------+-------------+--------------+--------+------------+---------------+---------------+-----------
+       16772 | b       |       25 |            -1 |     -1 |      2 |        0 |          -1 |        -1 | f        | x          | i        | f          | f         | f            | t          |
+    127         |           0 |          100 |        |            |               |               | 0
+   (1 row)
+
+pg_get_publication_tables(pubname text)
+---------------------------------------
+
+Description: Returns the relid list of tables to be published based on the publication name. This function is supported by clusters of version 8.2.0.100 or later.
+
+Parameter: **pubname**
+
+Return type: set of OID
+
+Example:
+
+::
+
+   SELECT * FROM pg_get_publication_tables('mypub');
+    relid
+   -------
+    16757
+    16776
+   (2 rows)
+
+pg_relation_is_publishable(relname regclass)
+--------------------------------------------
+
+Description: Checks whether a table can be published. This function is supported by clusters of version 8.2.0.100 or later.
+
+Parameter: **relname**
+
+Return type: Boolean
+
+Example:
+
+::
+
+   SELECT * FROM pg_relation_is_publishable('t1');
+    pg_relation_is_publishable
+   ----------------------------
+    t
+   (1 row)
+
+get_col_cu_info(schema_name text, table_name text, row_count int8, dirty_percent int8)
+--------------------------------------------------------------------------------------
+
+Description: Queries the CU information of a column-store table. The CU information of each partition is collected separately. This function is supported by clusters of version 8.2.0.100 or later.
+
+Parameters: schema name (mandatory), table name (mandatory), threshold for the number of rows in a small CU (optional, 200 by default, ranging from 1 to 60000, and percentage threshold for deleting dirty CUs (optional, 70 by default, ranging from 1 to 100)
+
+Return type: record
+
+Fields in the returned value:
+
+**node_name**: DN name.
+
+**part_name**: partition name. This column is empty for a common table.
+
+**zero_size_cu_count**: number of CUs whose **cuSize** is **0** and number of rows is less than or equal to **row_count**.
+
+**small_cu_count**: number of CUs whose **cuSize** is **ALIGNOF_CUSIZE(8192)** and number of rows is less than or equal to **row_count**.
+
+**dirty_cu_count**: number of CUs whose deadtupe percentage exceeds **dirty_percent** due to deletion.
+
+**total_cu_count**: total number of CUs.
+
+**small_cu_size**: total size of 8 KB CUs.
+
+**total_cu_size**: total CU size.
+
+Example:
+
+::
+
+    SELECT * FROM get_col_cu_info('public','hs_part');
+    node_name | part_name | zero_size_cu_count | small_cu_count | dirty_cu_count | total_cu_count | small_cu_size | total_cu_size
+   -----------+-----------+--------------------+----------------+----------------+----------------+---------------+---------------
+    dn_1      | p1        |                  3 |              0 |              0 |              3 | 0 bytes       | 0 bytes
+    dn_1      | p2        |                  3 |              0 |              0 |              3 | 0 bytes       | 0 bytes
+    dn_1      | p3        |                  3 |              0 |              0 |              3 | 0 bytes       | 0 bytes
+   (3 rows)
+
+    SELECT * FROM get_col_cu_info('public','hs_part', 200, 90);
+    node_name | part_name | zero_size_cu_count | small_cu_count | dirty_cu_count | total_cu_count | small_cu_size | total_cu_size
+   -----------+-----------+--------------------+----------------+----------------+----------------+---------------+---------------
+    dn_1      | p1        |                  3 |              0 |              0 |              3 | 0 bytes       | 0 bytes
+    dn_1      | p2        |                  3 |              0 |              0 |              3 | 0 bytes       | 0 bytes
+    dn_1      | p3        |                  3 |              0 |              0 |              3 | 0 bytes       | 0 bytes
+   (3 rows)
+
+get_col_file_vacuum_info(schema_name text, table_name text, force_get_rewritten_file_num bool)
+----------------------------------------------------------------------------------------------
+
+Description: Queries the vacuum information of a column-store table. The vacuum information of each partition is collected separately. This function is supported by clusters of version 8.2.0.100 or later.
+
+Parameters: schema name (mandatory), table name (mandatory), and whether to forcibly obtain the precise number of files that can be cleared (mandatory, **false** by default)
+
+Return type: record
+
+Fields in the returned value:
+
+**node_name**: DN name.
+
+**part_name**: partition name. This column is empty for a common table.
+
+**total_file_num**: total number of CU files.
+
+**rewritable_file_num**: number of files that can be rewritten but have not been rewritten.
+
+**rewritten_file_num**: number of files that have been rewritten but have not been cleared. The value is obtained from data in the memory. If the memory data is lost due to reasons such as restart, you can set **force_get_rewritten_file_num=true** to forcibly obtain the accurate number of files that can be cleared.
+
+**empty_file_num**: number of cleared files.
+
+Example:
+
+::
+
+   SELECT * FROM get_col_file_vacuum_info('public','pa',false);
+    node_name | part_name | total_file_num | rewritable_file_num | rewritten_file_num | empty_file_num
+   -----------+-----------+----------------+---------------------+--------------------+----------------
+    datanode1 | pa1       |              1 |                   0 |                  0 |              0
+    datanode1 | pa2       |              1 |                   0 |                  0 |              0
+    datanode2 | pa1       |              1 |                   0 |                  0 |              0
+    datanode2 | pa2       |              1 |                   0 |                  0 |              0
+    datanode3 | pa1       |              1 |                   0 |                  0 |              0
+    datanode3 | pa2       |              1 |                   0 |                  0 |              0
+   (6 rows)
+
+get_col_file_vacuum_info(schema_name text, table_name text, colvacuum_threshold_scale_factor int)
+-------------------------------------------------------------------------------------------------
+
+Description: Queries the vacuum information of a column-store table. The vacuum information of each partition is collected separately. This function is supported by clusters of version 8.2.0.100 or later.
+
+Parameters: schema name (mandatory), table name (mandatory), and **colvacuum_threshold_scale_factor** (mandatory. The value range is 0 to 100, indicating the ratio of dead tuples.)
+
+Return type: record
+
+Return value:
+
+**node_name**: DN name.
+
+**part_name**: partition name. This column is empty for a common table.
+
+**total_file_num**: total number of CU files.
+
+**rewritable_file_num**: number of files that can be rewritten but have not been rewritten.
+
+**rewritten_file_num**: number of files that have been rewritten but have not been cleared. The value is obtained from data in the memory. If the memory data is lost due to reasons such as restart, you can set **force_get_rewritten_file_num=true** to forcibly obtain the accurate number of files that can be cleared.
+
+**empty_file_num**: number of cleared files.
+
+Example:
+
+::
+
+   SELECT * FROM get_col_file_vacuum_info('public','pa',10);
+    node_name | part_name | total_file_num | rewritable_file_num | rewritten_file_num | empty_file_num
+   -----------+-----------+----------------+---------------------+--------------------+----------------
+    datanode1 | pa1       |              1 |                   0 |                  0 |              0
+    datanode1 | pa2       |              1 |                   0 |                  0 |              0
+    datanode2 | pa1       |              1 |                   0 |                  0 |              0
+    datanode2 | pa2       |              1 |                   0 |                  0 |              0
+    datanode3 | pa1       |              1 |                   0 |                  0 |              0
+    datanode3 | pa2       |              1 |                   0 |                  0 |              0
+   (6 rows)
+
+get_all_col_cu_info(row_count int8)
+-----------------------------------
+
+Description: Queries the CU information of all column-store tables in the database. This function is supported by clusters of version 8.2.0.100 or later.
+
+Parameter: threshold for the number of rows in a small CU (optional, **200** by default, and ranging from **1** to **60000**)
+
+Return type: record
+
+Fields in the returned value:
+
+**node_name**: DN name.
+
+**schema_name**: schema name.
+
+**table_name**: table name.
+
+**zero_size_cu_count**: number of CUs whose **cuSize** is **0** and number of rows is less than or equal to **row_count**.
+
+**small_cu_count**: number of CUs whose **cuSize** is **ALIGNOF_CUSIZE(8192)** and number of rows is less than or equal to **row_count**.
+
+**total_cu_count**: total number of CUs.
+
+**small_cu_size**: total size of 8 KB CUs.
+
+**total_cu_size**: total CU size.
+
+Example:
+
+::
+
+   SELECT * FROM get_all_col_cu_info(200);
+    node_name | schema_name |      table_name      | zero_size_cu_count | small_cu_count | total_cu_count | small_cu_size | total_cu_size
+   -----------+-------------+----------------------+--------------------+----------------+----------------+---------------+---------------
+    datanode1 | public      | udi_48076            |                  5 |              1 |              6 | 8192 bytes    | 8192 bytes
+    datanode1 | public      | udi_48077            |                  5 |              1 |              6 | 8192 bytes    | 8192 bytes
+    datanode2 | public      | udi_48076            |                  5 |              1 |              6 | 8192 bytes    | 8192 bytes
+    datanode2 | public      | udi_48077            |                  5 |              1 |              6 | 8192 bytes    | 8192 bytes
+    datanode3 | public      | udi_48076            |                  5 |              1 |              6 | 8192 bytes    | 8192 bytes
+    datanode3 | public      | udi_48077            |                  5 |              1 |              6 | 8192 bytes    | 8192 bytes
+   (6 rows)
+
+get_all_col_file_vacuum_info(force_get_rewritten_file_num bool)
+---------------------------------------------------------------
+
+Description: Queries the vacuum information of all column-store tables in the database. This function is supported by clusters of version 8.2.0.100 or later.
+
+Parameter: whether to forcibly obtain the accurate number of files that can be cleared (mandatory. It can be **true** or **false** .)
+
+Return type: record
+
+Fields in the returned value:
+
+**node_name**: DN name.
+
+**schema_name**: schema name.
+
+**table_name**: table name.
+
+**total_file_num**: total number of CU files.
+
+**rewritable_file_num**: number of files that can be rewritten but have not been rewritten.
+
+**rewritten_file_num**: number of files that have been rewritten but have not been cleared. The value is obtained from data in the memory. If the memory data is lost due to reasons such as restart, you can set **force_get_rewritten_file_num=true** to forcibly obtain the accurate number of files that can be cleared.
+
+**empty_file_num**: number of cleared files.
+
+Example:
+
+::
+
+   SELECT * FROM get_all_col_file_vacuum_info(false);
+    node_name | schema_name |      table_name      | total_file_num | rewritable_file_num | rewritten_file_num | empty_file_num
+   -----------+-------------+----------------------+----------------+---------------------+--------------------+----------------
+    datanode1 | public      | udi_57373            |              2 |                   0 |                  0 |              1
+    datanode1 | public      | udi_57374            |              2 |                   0 |                  0 |              1
+    datanode2 | public      | udi_57373            |              2 |                   0 |                  0 |              1
+    datanode2 | public      | udi_57374            |              2 |                   0 |                  0 |              1
+    datanode3 | public      | udi_57373            |              2 |                   0 |                  0 |              1
+    datanode3 | public      | udi_57374            |              2 |                   0 |                  0 |              1
+
+show_tsc_info()
+---------------
+
+Description: Queries the TimeStamp-Counter (TSC) information obtained from the current database node. This function is supported by version 8.2.1 or later clusters.
+
+Return type: record
+
+.. table:: **Table 4** Parameter
+
+   +-----------------------+---------+---------------------------------------------------------------------+
+   | Name                  | Type    | Description                                                         |
+   +=======================+=========+=====================================================================+
+   | node_name             | text    | Node name                                                           |
+   +-----------------------+---------+---------------------------------------------------------------------+
+   | tsc_mult              | bigint  | TSC conversion multiplier                                           |
+   +-----------------------+---------+---------------------------------------------------------------------+
+   | tsc_shift             | bigint  | TSC conversion shifts                                               |
+   +-----------------------+---------+---------------------------------------------------------------------+
+   | tsc_frequency         | float8  | TSC frequency.                                                      |
+   +-----------------------+---------+---------------------------------------------------------------------+
+   | tsc_use_freqency      | boolean | Indicates whether to use the TSC frequency for time conversion.     |
+   +-----------------------+---------+---------------------------------------------------------------------+
+   | tsc_ready             | boolean | Indicates whether the TSC frequency can be used for time conversion |
+   +-----------------------+---------+---------------------------------------------------------------------+
+   | tsc_scalar_error_info | text    | Error information about obtaining TSC conversion information        |
+   +-----------------------+---------+---------------------------------------------------------------------+
+   | tsc_freq_error_info   | text    | Error information about obtaining TSC frequency information         |
+   +-----------------------+---------+---------------------------------------------------------------------+
+
+Example:
+
+::
+
+   SELECT * FROM show_tsc_info();
+     node_name   | tsc_mult | tsc_shift | tsc_frequency | tsc_use_frequency | tsc_ready |     tsc_scalar_error_info     | tsc_freq_error_info
+   --------------+----------+-----------+---------------+-------------------+-----------+-------------------------------+---------------------
+    coordinator1 |          |           |          2400 | t                 | t         | TSC scalar is not initialized |
+
+get_tsc_info()
+--------------
+
+Description: Re-obtains the TimeStamp-Counter (TSC) information of the current database node. This function is supported by version 8.2.1 or later clusters.
+
+Return type: record
+
+.. table:: **Table 5** show_tsc_info() return columns
+
+   +-----------------------+---------+---------------------------------------------------------------------+
+   | Column                | Type    | Description                                                         |
+   +=======================+=========+=====================================================================+
+   | node_name             | text    | Node name                                                           |
+   +-----------------------+---------+---------------------------------------------------------------------+
+   | tsc_mult              | bigint  | TSC conversion multiplier                                           |
+   +-----------------------+---------+---------------------------------------------------------------------+
+   | tsc_shift             | bigint  | TSC conversion shifts                                               |
+   +-----------------------+---------+---------------------------------------------------------------------+
+   | tsc_frequency         | float8  | TSC frequency                                                       |
+   +-----------------------+---------+---------------------------------------------------------------------+
+   | tsc_use_freqency      | boolean | Indicates whether to use the TSC frequency for time conversion.     |
+   +-----------------------+---------+---------------------------------------------------------------------+
+   | tsc_ready             | boolean | Indicates whether the TSC frequency can be used for time conversion |
+   +-----------------------+---------+---------------------------------------------------------------------+
+   | tsc_scalar_error_info | text    | Error information about obtaining TSC conversion information        |
+   +-----------------------+---------+---------------------------------------------------------------------+
+   | tsc_freq_error_info   | text    | Error information about obtaining TSC frequency information         |
+   +-----------------------+---------+---------------------------------------------------------------------+
+
+Example:
+
+::
+
+   SELECT * FROM get_tsc_info();
+     node_name   | tsc_mult | tsc_shift | tsc_frequency | tsc_use_frequency | tsc_ready |     tsc_scalar_error_info     | tsc_freq_error_info
+   --------------+----------+-----------+---------------+-------------------+-----------+-------------------------------+---------------------
+    coordinator1 |          |           |          2400 | t                 | t         | TSC scalar is not initialized |
+
+test_tsc_info(time float8, loops int)
+-------------------------------------
+
+Description: Tests the accuracy of the time converted using the TimeStamp-Counter (TSC) on the current node. This function is supported by version 8.2.1 or later clusters.
+
+The input parameters are described as follows:
+
+-  **time**: indicates the test time difference (unit: s). The test duration must be less than or equal to 60s.
+-  **loops**: indicates the number of tests. The value ranges from 1 to 10.
+
+Return type: record
+
+Fields in the returned value:
+
+-  **id**: number of cycles.
+-  **real_time_diff**: time difference obtained using **gettimeofday** (unit: us).
+-  **est_time_scalar**: time difference (unit: μs) converted using TSC conversion information.
+-  **est_time_frequency**: time difference (unit: μs) converted using the TSC frequency.
+
+Example:
+
+::
+
+   SELECT * FROM test_tsc_info(0.01,10);
+    id | real_time_diff | est_time_scalar | est_time_frequency
+   ----+----------------+-----------------+--------------------
+     1 |          10057 |                 |            10056.9
+     2 |          10057 |                 |   10057.4816666667
+     3 |          10056 |                 |   10055.2841666667
+     4 |          10054 |                 |   10054.4908333333
+     5 |          10055 |                 |         10054.2875
+     6 |          10055 |                 |   10054.7483333333
+     7 |          10055 |                 |         10054.4725
+     8 |          10054 |                 |   10054.0766666667
+     9 |          10058 |                 |   10058.1016666667
+    10 |          10057 |                 |   10056.3733333333
+   (10 rows)

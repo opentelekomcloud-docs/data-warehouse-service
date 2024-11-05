@@ -36,6 +36,7 @@ Use the **character** storage type conversion as an example. For a target column
    ----------------------+--------------
     abcdef               |           20
    (1 row)
+   DROP TABLE x1;
 
 .. note::
 

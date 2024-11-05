@@ -48,9 +48,9 @@ Before optimization
      AND RAT.ACCESS_TYPE_ID IN (0,1,2)
     GROUP BY STTIME ) ) ;
 
-:ref:`Figure 1 <en-us_topic_0000001233883207__f557f925b95334298a446cb27ba7f464a>` shows the execution plan.
+:ref:`Figure 1 <en-us_topic_0000001578750682__en-us_topic_0000001233883207_f557f925b95334298a446cb27ba7f464a>` shows the execution plan.
 
-.. _en-us_topic_0000001233883207__f557f925b95334298a446cb27ba7f464a:
+.. _en-us_topic_0000001578750682__en-us_topic_0000001233883207_f557f925b95334298a446cb27ba7f464a:
 
 .. figure:: /_static/images/en-us_image_0000001233761911.jpg
    :alt: **Figure 1** Adding NOT NULL for JOIN columns (1)
@@ -60,7 +60,7 @@ Before optimization
 After optimization
 ------------------
 
-#. As shown in :ref:`Figure 1 <en-us_topic_0000001233883207__f557f925b95334298a446cb27ba7f464a>`, the sequential scan phase is time consuming.
+#. As shown in :ref:`Figure 1 <en-us_topic_0000001578750682__en-us_topic_0000001233883207_f557f925b95334298a446cb27ba7f464a>`, the sequential scan phase is time consuming.
 
 #. The JOIN performance is poor because a large number of null values exist in the JOIN column **BSCRNC_ID** of the PS.SDR_WEB_BSCRNC_1DAY table.
 
@@ -106,9 +106,9 @@ After optimization
        GROUP BY
         STTIME ) ) A;
 
-   :ref:`Figure 2 <en-us_topic_0000001233883207__fig376817271615>` shows the execution plan.
+   :ref:`Figure 2 <en-us_topic_0000001578750682__en-us_topic_0000001233883207_fig376817271615>` shows the execution plan.
 
-   .. _en-us_topic_0000001233883207__fig376817271615:
+   .. _en-us_topic_0000001578750682__en-us_topic_0000001233883207_fig376817271615:
 
    .. figure:: /_static/images/en-us_image_0000001493802070.jpg
       :alt: **Figure 2** Adding NOT NULL for JOIN columns (2)

@@ -8,7 +8,7 @@ CLUSTER
 Function
 --------
 
-Cluster a table according to an index.
+Clusters a table according to an index.
 
 **CLUSTER** instructs GaussDB(DWS) to cluster the table specified by **table_name** based on the index specified by **index_name**. The index specified by **index_name** must have been defined in the specified table.
 
@@ -27,7 +27,7 @@ Precautions
 -  In cases where you are accessing single rows randomly within a table, the actual order of the data in the table is unimportant. However, if you tend to access some data more than others, and there is an index that groups them together, you will benefit from using **CLUSTER**. If you are requesting a range of indexed values from a table, or a single indexed value that has multiple rows that match, **CLUSTER** will help because once the index identifies the table page for the first row that matches, all other rows that match are probably already on the same table page, and so you save disk accesses and speed up the query.
 
 -  During clustering, the system creates a temporary copy of the table created based on the index sequence and a temporary copy of each index in the table. Therefore, you need free space on disk at least equal to the sum of the table size and the index sizes.
--  Because **CLUSTER** remembers the clustering information, you can manually cluster the tables once, and then set a maintenance script that runs periodically to execute **CLUSTER** without any parameters. In this way, the tables are periodically reclustered.
+-  **CLUSTER** remembers which indexes are clustered, one can cluster the tables manually the first time, then set up a time like **VACUUM** without any parameters, so that the desired tables are periodically reclustered.
 
 -  Because the optimizer records statistics about the ordering of tables, it is advisable to run **ANALYZE** on the newly clustered table. Otherwise, the optimizer might make poor choices of query plans.
 -  **CLUSTER** cannot be executed in transactions.
@@ -86,7 +86,7 @@ Create a partitioned table.
 
 ::
 
-   CREATE TABLE inventory_p1
+   CREATE TABLE tpcds.inventory_p1
    (
        INV_DATE_SK               INTEGER               NOT NULL,
        INV_ITEM_SK               INTEGER               NOT NULL,
@@ -109,19 +109,19 @@ Create an index named **ds_inventory_p1_index1**.
 
 ::
 
-   CREATE INDEX ds_inventory_p1_index1 ON inventory_p1 (INV_ITEM_SK) LOCAL;
+   CREATE INDEX ds_inventory_p1_index1 ON tpcds.inventory_p1 (INV_ITEM_SK) LOCAL;
 
-Cluster the **inventory_p1** table.
+Cluster the **tpcds.inventory_p1** table.
 
 ::
 
-   CLUSTER inventory_p1 USING ds_inventory_p1_index1;
+   CLUSTER tpcds.inventory_p1 USING ds_inventory_p1_index1;
 
 Cluster the **p3** partition.
 
 ::
 
-   CLUSTER inventory_p1 PARTITION (p3) USING ds_inventory_p1_index1;
+   CLUSTER tpcds.inventory_p1 PARTITION (p3) USING ds_inventory_p1_index1;
 
 Cluster the tables that can be clustered in the database.
 

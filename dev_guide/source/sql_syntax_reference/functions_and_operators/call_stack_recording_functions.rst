@@ -5,7 +5,7 @@
 Call Stack Recording Functions
 ==============================
 
-The **pv_memory_profiling(type int)** and environment variable **MALLOC_CONF** are used by GaussDB(DWS) to control the enabling and disabling of the memory allocation call stack recording module and the output of the memory call stack. The following figure illustrates the process.
+The **pv_memory_profiling(type int)** and environment variable **MALLOC_CONF** are used by GaussDB(DWS) to control the enabling and disabling of the memory allocation call stack recording module and the output of the process-level memory call stack. The following figure illustrates the process.
 
 |image1|
 
@@ -35,7 +35,7 @@ Commands for enabling and disabling **MALLOC_CONF**:
 pv_memory_profiling (type int)
 ------------------------------
 
-Parameter description: Controls the backtrace recording and output of memory allocation functions such as **malloc** in the kernel.
+Parameter description: Controls the backtrace recording and output of memory allocation functions such as **malloc** in the gaussdb process.
 
 Value range: a positive integer from 0 to 3.
 
@@ -103,42 +103,58 @@ Procedure:
 Example
 -------
 
+Log in as the system administrator, set environment variables, and start the database.
+
 ::
 
-   -- Log in as the system administrator, set environment variables, and start the database.
    export MALLOC_CONF=prof:true
 
-   -- Disable the memory trace recording function when the database is running.
-   SELECT pv_memory_profiling(0);
+Disable the memory trace recording function when the database is running.
+
+::
+
+   postgres=#SELECT pv_memory_profiling(0);
    pv_memory_profiling
    ----------------------------
    t
    (1 row)
 
-   -- Enable the memory trace recording function when the database is running.
-   SELECT pv_memory_profiling(1);
+Enable the memory trace recording function when the database is running.
+
+::
+
+   postgres=#SELECT pv_memory_profiling(1);
    pv_memory_profiling
    ----------------------------
    t
    (1 row)
 
-   -- Output memory trace records.
-   SELECT pv_memory_profiling(2);
+Output memory trace records.
+
+::
+
+   postgres=#SELECT pv_memory_profiling(2);
    pv_memory_profiling
    ----------------------------
    t
-   (1 row)
 
-   -- Generate the trace file in text or PDF format in the directory where the GaussDB process is located.
+(1 row)
+
+Generate the trace file in text or PDF format in the directory where the GaussDB process is located.
+
+::
+
    jeprof --text --show_bytes $GAUSSHOME/bin/gaussdb trace file 1 >prof.txt
    jeprof --pdf --show_bytes $GAUSSHOME/bin/gaussdb trace file 1 > prof.pdf
 
-   -- Output memory statistics.
-   Execute the following statement to generate the memory statistics file in the directory where the GaussDB process is located. The file can be directly read.
-   SELECT pv_memory_profiling(3);
+Outputs memory statistics. Execute the following statement to generate the memory statistics file in the directory where the GaussDB process is located. The file can be directly read.
+
+::
+
+   postgres=#SELECT pv_memory_profiling(3);
    pv_memory_profiling
    ----------------------------
    t
    (1 row)
 
-.. |image1| image:: /_static/images/en-us_image_0000001188110590.png
+.. |image1| image:: /_static/images/en-us_image_0000001595316921.png

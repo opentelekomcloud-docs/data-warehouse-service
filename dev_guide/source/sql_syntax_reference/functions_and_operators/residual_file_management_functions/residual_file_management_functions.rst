@@ -37,7 +37,7 @@ The following example uses two user-created databases, **db1** and **db2**.
    -  Residual files are displayed in the **residualfile** column.
    -  The **filepath** column lists the files that record residual files. These files are stored in the **pg_residualfiles** directory under the instance data directory.
 
-#. Call the **pgxc_verify_residualfiles()** function to verify the db1 database.
+#. Call the **pgxc_verify_residualfiles()** function to verify the **db1** database.
 
    ::
 

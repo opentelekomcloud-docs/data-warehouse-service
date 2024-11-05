@@ -25,7 +25,7 @@ In the current GDS version, data can be exported from a database to a pipe file.
 
 -  To ensure the correctness of data import or export using GDS, you need to import or export data in the same compatibility mode.
 
-   For example, data imported or exported in MySQL compatibility mode can be exported or imported only in MySQL compatibility mode.
+   If data is imported or exported in MySQL compatibility mode, it can only be exported or imported in the same mode.
 
 Overview
 --------
@@ -78,21 +78,21 @@ Data Export Process
    +=========================+==================================================================================================================================================================================================+=======================+
    | Plan data export.       | Prepare data to be exported and plan the export path for the mode to be selected.                                                                                                                | ``-``                 |
    |                         |                                                                                                                                                                                                  |                       |
-   |                         | For details, see :ref:`Planning Data Export <dws_04_0263>`.                                                                                                                                      |                       |
+   |                         | For details, see :ref:`Planning Data Export <en-us_topic_0000001717256800>`.                                                                                                                     |                       |
    +-------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
    | Start GDS.              | If the **Remote** mode is selected, install, configure, and start GDS on data servers.                                                                                                           | ``-``                 |
    |                         |                                                                                                                                                                                                  |                       |
-   |                         | For details, see :ref:`Installing, Configuring, and Starting GDS <dws_04_0264>`.                                                                                                                 |                       |
+   |                         | For details, see :ref:`Installing, Configuring, and Starting GDS <en-us_topic_0000001717097376>`.                                                                                                |                       |
    +-------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
    | Create a foreign table, | Create a foreign table to help GDS specify information about a data file. The foreign table stores information, such as the location, format, encoding, and inter-data delimiter of a data file. | ``-``                 |
    |                         |                                                                                                                                                                                                  |                       |
-   |                         | For details, see :ref:`Creating a GDS Foreign Table <dws_04_0265>`.                                                                                                                              |                       |
+   |                         | For details, see :ref:`Creating a GDS Foreign Table <en-us_topic_0000001764817437>`.                                                                                                             |                       |
    +-------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
    | Export data.            | After the foreign table is created, run the **INSERT** statement to efficiently export data to data files.                                                                                       | ``-``                 |
    |                         |                                                                                                                                                                                                  |                       |
-   |                         | For details, see :ref:`Exporting Data <dws_04_0266>`.                                                                                                                                            |                       |
+   |                         | For details, see :ref:`Exporting Data <en-us_topic_0000001764896665>`.                                                                                                                           |                       |
    +-------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
    | Stop GDS.               | Stop GDS after data is exported.                                                                                                                                                                 | ``-``                 |
    |                         |                                                                                                                                                                                                  |                       |
-   |                         | For details, see :ref:`Stopping GDS <dws_04_0267>`.                                                                                                                                              |                       |
+   |                         | For details, see :ref:`Stopping GDS <en-us_topic_0000001717256804>`.                                                                                                                             |                       |
    +-------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+

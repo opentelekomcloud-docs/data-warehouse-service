@@ -8,12 +8,12 @@ COMMIT PREPARED
 Function
 --------
 
-**COMMIT PREPARED** commits a prepared two-phase transaction.
+Commits a prepared two-phase transaction.
 
 Precautions
 -----------
 
--  The function is only available in maintenance mode (when GUC parameter **xc_maintenance_mode** is **on**). Exercise caution when enabling the mode. It is used by maintenance engineers for troubleshooting. Common users should not use the mode.
+-  The function is available only in maintenance mode (when GUC parameter **xc_maintenance_mode** is **on**). It is usually used by maintenance engineers for troubleshooting. Common users should not use this mode.
 -  Only the transaction creators or system administrators can run the **COMMIT** command. The creation and commit operations must be in different sessions.
 -  The transaction function is maintained automatically by the database, and should be not visible to users.
 

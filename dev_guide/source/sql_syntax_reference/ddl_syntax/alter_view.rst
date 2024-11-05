@@ -8,7 +8,7 @@ ALTER VIEW
 Function
 --------
 
-**ALTER VIEW** modifies all auxiliary attributes of a view. (To modify the query definition of a view, use **CREATE OR REPLACE VIEW**.)
+Modifies all auxiliary attributes of a view. (To modify the query definition of a view, use **CREATE OR REPLACE VIEW**.)
 
 Precautions
 -----------
@@ -42,12 +42,14 @@ Syntax
       ALTER VIEW [ IF EXISTS ] view_name
           OWNER TO new_owner;
 
--  Rename a view.
+-  Renames a view. The new view name can be prefixed with the schema name of the original view. The schema name cannot be changed at the same time.
 
    ::
 
       ALTER VIEW [ IF EXISTS ] view_name
           RENAME TO new_name;
+      ALTER VIEW [ IF EXISTS ] view_name
+          RENAME TO schema.new_name;
 
 -  Set the schema of the view.
 
@@ -157,36 +159,35 @@ Parameter Description
 Examples
 --------
 
-Create an example view **myview**:
-
-::
-
-   CREATE OR REPLACE VIEW myview AS
-       SELECT * FROM pg_tablespace WHERE spcname = 'pg_default';
-
 Rename a view.
 
 ::
 
-   ALTER VIEW myview RENAME TO product_view;
+   ALTER VIEW tpcds.customer_details_view_v1 RENAME TO customer_details_view_v2;
+
+Change a view name and prefix the new view name with the schema name of the original view.
+
+::
+
+   ALTER VIEW tpcds.customer_details_view_v1 RENAME TO tpcds.customer_details_view_v2;
 
 Change the schema of a view.
 
 ::
 
-   ALTER VIEW product_view SET schema public;
+   ALTER VIEW tpcds.customer_details_view_v2 SET schema public;
 
 Rebuild a view.
 
 ::
 
-   ALTER VIEW public.product_view REBUILD;
+   ALTER VIEW public.customer_details_view_v2 REBUILD;
 
 Rebuild a dependent view.
 
 ::
 
-   ALTER VIEW ONLY public.product_view REBUILD;
+   ALTER VIEW ONLY public.customer_details_view_v2 REBUILD;
 
 Helpful Links
 -------------

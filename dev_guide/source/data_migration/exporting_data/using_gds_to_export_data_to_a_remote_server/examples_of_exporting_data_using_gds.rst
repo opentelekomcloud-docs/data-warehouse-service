@@ -94,7 +94,7 @@ To export data in parallel in **Remote** mode, perform the following operations:
       gds_user 129003 118723  0 15:04 pts/0    00:00:00 grep gds
       kill -9 128954
 
-.. _en-us_topic_0000001188482140__s855daf73006d4e05ba6d04f8db74e7f6:
+.. _en-us_topic_0000001717097380__en-us_topic_0000001188482140_s855daf73006d4e05ba6d04f8db74e7f6:
 
 Exporting Data Using Multiple Threads
 -------------------------------------
@@ -222,7 +222,7 @@ Exporting Data Through a Pipe
 
       ::
 
-         CREATE TABLE test_pipe( id integer not null, sex text not null, name text ) ;
+         CREATE TABLE test_pipe( id integer not null, gender text not null, name text ) ;
 
 
          INSERT INTO test_pipe values(1,2,'11111111111111');
@@ -333,7 +333,7 @@ The following takes exporting a local file as an example.
 
       ::
 
-         CREATE TABLE test_pipe (id integer not null, sex text not null, name  text);
+         CREATE TABLE test_pipe (id integer not null, gender text not null, name  text);
 
    b. Write data.
 
@@ -390,3 +390,54 @@ The following takes exporting a local file as an example.
       1,2,11111111111111
       2,2,11111111111111
       4,2,11111111111111
+
+Multi-table Joint Export
+------------------------
+
+GDS supports joint import and export of multiple tables, that is, a foreign table is joined with multiple internal tables.
+
+The following takes exporting a local file as an example.
+
+#. Start GDS.
+
+   ::
+
+      gds -d /***/gds_data/ -D -p 192.168.0.1:7789 -l /***/gds_log/aa.log -H 0/0 -t 10 -D
+
+#. Export data of joined tables.
+
+   a. Log in to the database and create multiple internal tables.
+
+      ::
+
+         CREATE TABLE pipe1(id integer not null, name character varying(30) not null);
+         CREATE TABLE pipe2(id integer not null, province character varying(20));
+
+   b. Write data.
+
+      ::
+
+         INSERT INTO pipe1 values(1,'Apple');
+         INSERT INTO pipe1 values(2,'Banana');
+         INSERT INTO pipe2 values(1,'Beijing');
+         INSERT INTO pipe2 values(2,'Shanghai');
+
+   c. Create a write-only foreign table.
+
+      ::
+
+         CREATE FOREIGN TABLE test_write ( id integer not null, name character varying(30) not null, province character varying(20) )   SERVER gsmpp_server OPTIONS(LOCATION 'gsfs://192.168.0.1:7789/',FORMAT 'csv',ENCODING 'utf8',DELIMITER ',',NULL '') WRITE ONLY;
+
+   d. Execute the export statement. In this case, the statements are blocked.
+
+      ::
+
+         INSERT INTO test_write select pipe1.id,pipe1.name,pipe2.province FROM pipe1 join pipe2 on pipe1.id = pipe2.id;
+
+#. Verify the exported data.
+
+   ::
+
+      cat /***/gds_data/test_write.dat.0
+      2,Banana,Shanghai
+      1,Apple,Beijing

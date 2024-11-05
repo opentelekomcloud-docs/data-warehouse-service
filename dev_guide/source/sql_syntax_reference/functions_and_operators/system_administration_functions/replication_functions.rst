@@ -115,7 +115,7 @@ Parameter:
 
 Return type: void
 
-.. _en-us_topic_0000001233430153__section11251132145720:
+.. _en-us_topic_0000001460561356__en-us_topic_0000001233430153_section11251132145720:
 
 pg_logical_slot_peek_changes('slot_name', 'LSN', upto_nchanges, 'options_name', 'options_value')
 ------------------------------------------------------------------------------------------------
@@ -184,7 +184,7 @@ pg_logical_slot_get_changes('slot_name', 'LSN', upto_nchanges, 'options_name', '
 
 Description: Performs decoding and goes to the next streaming replication slot.
 
-Parameter: This function has the same parameters as **pg_logical_slot_peek_changes**. For details, see :ref:`pg_logical_slot_peek_changes('slot_name', 'LSN', upto_nchanges, 'options_name', 'options_value') <en-us_topic_0000001233430153__section11251132145720>`.
+Parameter: This function has the same parameters as **pg_logical_slot_peek_changes**. For details, see :ref:`pg_logical_slot_peek_changes('slot_name', 'LSN', upto_nchanges, 'options_name', 'options_value') <en-us_topic_0000001460561356__en-us_topic_0000001233430153_section11251132145720>`.
 
 pg_replication_slot_advance ('slot_name', 'LSN')
 ------------------------------------------------

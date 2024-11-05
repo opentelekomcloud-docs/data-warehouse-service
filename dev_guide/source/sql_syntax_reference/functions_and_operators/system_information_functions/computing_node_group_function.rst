@@ -14,11 +14,11 @@ Return type: void
 
 Example:
 
-::
+.. code-block::
 
    SELECT * from pv_compute_pool_workload();
-    nodename  | rpinuse | maxrp | nodestate
+   nodename  | rpinuse | maxrp | nodestate
    -----------+---------+-------+-----------
-    datanode1 |       0 |  1000 | normal
-    datanode2 |       0 |  1000 | normal
+   datanode1 |       0 |  1000 | normal
+   datanode2 |       0 |  1000 | normal
    (2 rows)

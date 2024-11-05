@@ -9,18 +9,18 @@ Subquery expressions include the following types:
 
 -  EXISTS/NOT EXISTS
 
-   :ref:`Figure 1 <en-us_topic_0000001233628631__f575631d43042448bb4015781d352f07b>` shows the syntax of an **EXISTS/NOT EXISTS** expression.
+   :ref:`Figure 1 <en-us_topic_0000001510161397__f575631d43042448bb4015781d352f07b>` shows the syntax of an **EXISTS/NOT EXISTS** expression.
 
-   .. _en-us_topic_0000001233628631__f575631d43042448bb4015781d352f07b:
+   .. _en-us_topic_0000001510161397__f575631d43042448bb4015781d352f07b:
 
-   .. figure:: /_static/images/en-us_image_0000001188110596.png
+   .. figure:: /_static/images/en-us_image_0000001460561536.png
       :alt: **Figure 1** EXISTS/NOT EXISTS::=
 
       **Figure 1** EXISTS/NOT EXISTS::=
 
    The parameter of an **EXISTS** expression is an arbitrary **SELECT** statement, or subquery. The subquery is evaluated to determine whether it returns any rows. If it returns at least one row, the result of **EXISTS** is "true". If the subquery returns no rows, the result of **EXISTS** is "false".
 
-   The **EXISTS/NOT EXISTS** subquery will generally only be executed long enough to determine whether at least one row is returned, not all the way to completion.
+   The subquery will generally only be executed long enough to determine whether at least one row is returned, not all the way to completion.
 
    For example:
 
@@ -48,11 +48,11 @@ Subquery expressions include the following types:
 
 -  IN/NOT IN
 
-   :ref:`Figure 2 <en-us_topic_0000001233628631__f87790713e7a743a5b623e1f09c2da29b>` shows the syntax of an **IN/NOT IN** expression.
+   :ref:`Figure 2 <en-us_topic_0000001510161397__f87790713e7a743a5b623e1f09c2da29b>` shows the syntax of an **IN/NOT IN** expression.
 
-   .. _en-us_topic_0000001233628631__f87790713e7a743a5b623e1f09c2da29b:
+   .. _en-us_topic_0000001510161397__f87790713e7a743a5b623e1f09c2da29b:
 
-   .. figure:: /_static/images/en-us_image_0000001188429124.png
+   .. figure:: /_static/images/en-us_image_0000001510521089.png
       :alt: **Figure 2** IN/NOT IN::=
 
       **Figure 2** IN/NOT IN::=
@@ -91,11 +91,11 @@ Subquery expressions include the following types:
 
 -  ANY/SOME
 
-   :ref:`Figure 3 <en-us_topic_0000001233628631__fdceb3a5e35db44408dfa28a129fae88e>` shows the syntax of an **ANY/SOME** expression.
+   :ref:`Figure 3 <en-us_topic_0000001510161397__fdceb3a5e35db44408dfa28a129fae88e>` shows the syntax of an **ANY/SOME** expression.
 
-   .. _en-us_topic_0000001233628631__fdceb3a5e35db44408dfa28a129fae88e:
+   .. _en-us_topic_0000001510161397__fdceb3a5e35db44408dfa28a129fae88e:
 
-   .. figure:: /_static/images/en-us_image_0000001233510161.png
+   .. figure:: /_static/images/en-us_image_0000001510282161.png
       :alt: **Figure 3** any/some::=
 
       **Figure 3** any/some::=
@@ -132,11 +132,11 @@ Subquery expressions include the following types:
 
 -  ALL
 
-   :ref:`Figure 4 <en-us_topic_0000001233628631__f785d31056d7f4f3390b9f1bf6370fb59>` shows the syntax of an **ALL** expression.
+   :ref:`Figure 4 <en-us_topic_0000001510161397__f785d31056d7f4f3390b9f1bf6370fb59>` shows the syntax of an **ALL** expression.
 
-   .. _en-us_topic_0000001233628631__f785d31056d7f4f3390b9f1bf6370fb59:
+   .. _en-us_topic_0000001510161397__f785d31056d7f4f3390b9f1bf6370fb59:
 
-   .. figure:: /_static/images/en-us_image_0000001233708721.png
+   .. figure:: /_static/images/en-us_image_0000001460881040.png
       :alt: **Figure 4** all::=
 
       **Figure 4** all::=

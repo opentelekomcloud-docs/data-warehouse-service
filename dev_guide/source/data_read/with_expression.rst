@@ -139,7 +139,7 @@ In the preceding query, a typical **WITH RECURSIVE** expression contains the CTE
 
 The command output is as follows:
 
-.. code-block::
+::
 
     id | parentid | level
    ----+----------+-------
@@ -179,7 +179,7 @@ Use the **INSERT**, **UPDATE**, and **DELETE** commands in the WITH clause. This
 
 The preceding query example actually moves rows from **tree** to **tree_log**. The **DELETE** command in the **WITH** clause deletes the specified rows from **tree**, returns their contents through the **RETURNING** clause, and then the main query reads the output and inserts it into **tree_log**.
 
-The data modification statement in the **WITH** clause must contain the **RETURNING** clause, which is used to return the modified content rather than the target table. The RETURNING clause forms a temporary table that can be referenced by the rest of the query. If a data modification statement in the **WITH** statement lacks a **RETURNING** clause, it cannot form a temporary table and cannot be referenced in the remaining queries.
+To retrieve the modified content instead of the target table, the data modification statement in the **WITH** clause should include the **RETURNING** clause. This clause creates a temporary table that can be accessed by the rest of the query. If a data modification statement in the **WITH** statement lacks a **RETURNING** clause, it cannot form a temporary table and cannot be referenced in the remaining queries.
 
 If the **RECURSIVE** keyword is declare, recursive self-reference is not allowed in data modification statements. In some cases, you can bypass this restriction by referencing the output of recursive the **WITH** statement. For example:
 

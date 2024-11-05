@@ -8,9 +8,9 @@ CREATE TABLE AS
 Function
 --------
 
-**CREATE TABLE AS** creates a table based on the results of a query.
+Creates a table based on the results of a query.
 
-CREATE TABLE AS creates a table and fills it with the data returned by the SELECT statement. The columns in the new table match the names and data types of the output fields from the SELECT statement. Except that you can override the **SELECT** output column names by giving an explicit list of new column names.
+It creates a table and fills it with data obtained using **SELECT**. The table columns have the names and data types associated with the output columns of the **SELECT**. Except that you can override the **SELECT** output column names by giving an explicit list of new column names.
 
 **CREATE TABLE AS** queries once the source table and writes data in the new table. The query result view changes when the source table changes. In contrast, a view re-evaluates its defining **SELECT** statement whenever it is queried.
 
@@ -25,7 +25,7 @@ Syntax
 
 ::
 
-   CREATE [ UNLOGGED ] TABLE table_name
+   CREATE [ [ GLOBAL | LOCAL | VOLATILE ] { TEMPORARY | TEMP } | UNLOGGED ] TABLE table_name
        [ (column_name [, ...] ) ]
        [ WITH ( {storage_parameter = value} [, ... ] ) ]
        [ COMPRESS | NOCOMPRESS ]
@@ -38,6 +38,10 @@ Syntax
 
 Parameter Description
 ---------------------
+
+-  [ GLOBAL \| LOCAL \| VOLATILE ] { TEMPORARY \| TEMP }
+
+   Specifies the type of a temporary table, which can be **GLOBAL**, **LOCAL**, or **VOLATILE**. For details, see :ref:`GLOBAL | LOCAL | VOLATILE <en-us_topic_0000001460561348__l40601c13ccdb4b5d85be38edd4f99676>`.
 
 -  **UNLOGGED**
 
@@ -68,11 +72,9 @@ Parameter Description
 
    -  FILLFACTOR
 
-      The fillfactor of a table is a percentage between 10 and 100. When a smaller fillfactor is specified, **INSERT** operations pack table pages only to the indicated percentage. The remaining space on each page is reserved for updating rows on that page. This gives **UPDATE** a chance to place the updated copy of a row on the same page, which is more efficient than placing it on a different page. For a table whose records are never updated, setting the fillfactor to 100 (complete packing) is the appropriate choice, but in heavily updated tables smaller fillfactors are appropriate. The parameter is only valid for row-store tables.
+      The fillfactor of a table is a percentage between 10 and 100. 100 (complete packing) is the default value. When a smaller fillfactor is specified, **INSERT** operations pack table pages only to the indicated percentage. The remaining space on each page is reserved for updating rows on that page. This gives **UPDATE** a chance to place the updated copy of a row on the same page, which is more efficient than placing it on a different page. For a table whose records are never updated, setting the fillfactor to 100 (complete packing) is the appropriate choice, but in heavily updated tables smaller fillfactors are appropriate. The parameter is only valid for row-store tables.
 
       Value range: 10-100
-
-      Default value: 100, indicating the fill is complete.
 
    -  ORIENTATION
 
@@ -92,7 +94,7 @@ Parameter Description
 
       .. note::
 
-         Currently, row-store table compression is not supported.
+         Currently, compression is unavailable for row-store tables.
 
    -  MAX_BATCHROW
 
@@ -200,25 +202,11 @@ Parameter Description
 Examples
 --------
 
-Create the **CUSTOMER** table:
+Create the **store_returns_t1** table and insert numbers that are greater than 4795 in the **sr_item_sk** column of the **store_returns** table:
 
 ::
 
-   DROP TABLE IF EXISTS CUSTOMER;
-   CREATE TABLE CUSTOMER
-   (
-       C_CUSTKEY     BIGINT NOT NULL CONSTRAINT C_CUSTKEY_pk PRIMARY KEY  ,
-       C_NAME        VARCHAR(25)  ,
-       C_ADDRESS     VARCHAR(40)  ,
-       C_NATIONKEY   INT NOT NULL  CHECK (C_NATIONKEY > 0)
-   )
-   DISTRIBUTE BY HASH(C_CUSTKEY);
-
-Create the **store_returns_t1** table and insert numbers that are greater than 4795 in the **CUSTOMER** column of the **CUSTOMER** table:
-
-::
-
-   CREATE TABLE store_returns_t1 AS SELECT * FROM CUSTOMER WHERE C_CUSTKEY > 4795;
+   CREATE TABLE store_returns_t1 AS SELECT * FROM store_returns WHERE sr_item_sk > '4795';
 
 Copy **store_returns** to create the **store_returns_t2** table:
 

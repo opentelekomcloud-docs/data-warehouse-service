@@ -2,12 +2,14 @@
 
 .. _dws_04_0244:
 
+.. _en-us_topic_0000001764817361:
+
 Creating a Foreign Server
 =========================
 
-This section describes how to create a foreign server that is used to define the information about OBS servers and is invoked by foreign tables. For details about the syntax for creating foreign servers, see CREATE SERVER.
+This section describes how to create a foreign server that is used to define the information about OBS servers and is invoked by foreign tables.
 
-.. _en-us_topic_0000001188323676__en-us_topic_0000001099130938_en-us_topic_0102810708_section590417587243:
+.. _en-us_topic_0000001764817361__en-us_topic_0000001188323676_en-us_topic_0000001099130938_en-us_topic_0102810708_section590417587243:
 
 (Optional) Creating a User and a Database and Granting the User Foreign Table Permissions
 -----------------------------------------------------------------------------------------
@@ -130,7 +132,7 @@ Creating a Foreign Server
 
 #. Use the user who is about to create a foreign server to connect to the corresponding database.
 
-   In this example, use common user **dbuser** created in :ref:`(Optional) Creating a User and a Database and Granting the User Foreign Table Permissions <en-us_topic_0000001188323676__en-us_topic_0000001099130938_en-us_topic_0102810708_section590417587243>` to connect to **mydatabase** created by the user. You need to connect to the database through the database client tool provided by GaussDB(DWS).
+   In this example, use common user **dbuser** created in :ref:`(Optional) Creating a User and a Database and Granting the User Foreign Table Permissions <en-us_topic_0000001764817361__en-us_topic_0000001188323676_en-us_topic_0000001099130938_en-us_topic_0102810708_section590417587243>` to connect to **mydatabase** created by the user. You need to connect to the database through the database client tool provided by GaussDB(DWS).
 
    You can use the **gsql** client to log in to the database in either of the following ways:
 
@@ -152,8 +154,6 @@ Creating a Foreign Server
 
 #. Create a foreign server.
 
-   For details about the syntax for creating foreign servers, see CREATE SERVER.
-
    For example, run the following command to create a foreign server named **obs_server**.
 
    .. note::
@@ -164,7 +164,7 @@ Creating a Foreign Server
 
       CREATE SERVER obs_server FOREIGN DATA WRAPPER dfs_fdw
       OPTIONS (
-        address 'obs.xxx.com' ,
+        address 'obs.example.com' ,
         ACCESS_KEY 'access_key_value_to_be_replaced',
         SECRET_ACCESS_KEY 'secret_access_key_value_to_be_replaced',
         encrypt 'on',
@@ -191,8 +191,8 @@ Creating a Foreign Server
 
          Obtain the address as follows:
 
-         a. Obtain the OBS path by performing :ref:`2 <en-us_topic_0000001188482188__en-us_topic_0000001145410931_en-us_topic_0102810712_li12771154711>` in :ref:`Preparing Data on OBS <dws_04_0243>`.
-         b. The OBS path on OBS is **obs.**\ *xxx*.\ *xxx*.\ **com**, which is the endpoint of OBS.
+         a. Obtain the OBS path by performing :ref:`2 <en-us_topic_0000001717097300__en-us_topic_0000001188482188_en-us_topic_0000001145410931_en-us_topic_0102810712_li12771154711>` in :ref:`Preparing Data on OBS <en-us_topic_0000001717097300>`.
+         b. The OBS path displayed on OBS is the endpoint of the OBS service, that is, **obs.**\ *example*\ **.com**.
 
       -  (Optional) **Access keys (AK and SK)**
 
@@ -201,7 +201,7 @@ Creating a Foreign Server
          -  (Mandatory) **access_key**: specifies users' AK information.
          -  (Mandatory) **secret_access_key**: specifies users' SK information.
 
-         For details about how to obtain the access keys, see :ref:`Creating Access Keys (AK and SK) <dws_04_0183>`.
+         For details about how to obtain the access keys, see :ref:`Creating Access Keys (AK and SK) <en-us_topic_0000001764817353>`.
 
       -  **type**
 

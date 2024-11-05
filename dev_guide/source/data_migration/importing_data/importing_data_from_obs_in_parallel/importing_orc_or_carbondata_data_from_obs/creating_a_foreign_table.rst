@@ -2,16 +2,18 @@
 
 .. _dws_04_0245:
 
+.. _en-us_topic_0000001764896585:
+
 Creating a Foreign Table
 ========================
 
-After performing steps in :ref:`Creating a Foreign Server <dws_04_0244>`, create an OBS foreign table in the GaussDB(DWS) database to access the data stored in OBS. An OBS foreign table is read-only. It can only be queried using **SELECT**.
+After performing steps in :ref:`Creating a Foreign Server <en-us_topic_0000001764817361>`, create an OBS foreign table in the GaussDB(DWS) database to access the data stored in OBS. An OBS foreign table is read-only. It can only be queried using **SELECT**.
 
 
 Creating a Foreign Table
 ------------------------
 
-The syntax for creating a foreign table is as follows. For details, see the syntax **CREATE FOREIGN TABLE (SQL on Hadoop or OBS)**.
+The syntax for creating a foreign table is as follows:
 
 ::
 
@@ -26,7 +28,7 @@ The syntax for creating a foreign table is as follows. For details, see the synt
        DISTRIBUTE BY {ROUNDROBIN | REPLICATION}
        [ PARTITION BY ( column_name ) [ AUTOMAPPED ] ] ;
 
-For example, when creating a foreign table named *product_info_ext_obs*, set parameters in the syntax as follows:
+For example, when creating a foreign table **product_info_ext_obs**, configure the parameters in the syntax as follows.
 
 -  **table_name**
 
@@ -45,7 +47,7 @@ For example, when creating a foreign table named *product_info_ext_obs*, set par
 
    This parameter specifies the foreign server name of the foreign table. This server must exist. The foreign server connects to OBS to read data by setting its foreign server.
 
-   Enter the name of the foreign server created by following steps in :ref:`Creating a Foreign Server <dws_04_0244>`.
+   Enter the name of the foreign server created by following steps in :ref:`Creating a Foreign Server <en-us_topic_0000001764817361>`.
 
 -  **OPTIONS parameters**
 
@@ -55,7 +57,7 @@ For example, when creating a foreign table named *product_info_ext_obs*, set par
 
    -  **foldername**: This parameter is mandatory. It indicates the OBS path of the data source file. You only need to enter **/**\ *Bucket name*\ **/**\ *Folder directory level*\ **/**.
 
-      You can perform :ref:`2 <en-us_topic_0000001188482188__en-us_topic_0000001145410931_en-us_topic_0102810712_li12771154711>` in :ref:`Preparing Data on OBS <dws_04_0243>` to obtain the complete OBS path of the data source file. The path is the endpoint of the OBS service.
+      You can perform :ref:`2 <en-us_topic_0000001717097300__en-us_topic_0000001188482188_en-us_topic_0000001145410931_en-us_topic_0102810712_li12771154711>` in :ref:`Preparing Data on OBS <en-us_topic_0000001717097300>` to obtain the complete OBS path of the data source file. The path is the endpoint of the OBS service.
 
    -  **totalrows**: This parameter is optional. It does not indicate the total rows of the imported data. Because OBS may store many files, it is slow to analyze data. This parameter allows you to set an estimated value so that the optimizer can estimate the table size according to the value. Generally, query efficiency is relatively high when the estimated value is almost the same as the actual value.
 
@@ -73,7 +75,7 @@ For example, when creating a foreign table named *product_info_ext_obs*, set par
 
 Based on the preceding settings, the command for creating the foreign table is as follows:
 
-Create an OBS foreign table that does not contain partition columns. The foreign server associated with the table is **obs_server**, the file format on OBS corresponding to the table is ORC, and the data storage path on OBS is\ **/mybucket/data/**.
+Create an OBS foreign table that does not contain partition columns. The foreign server associated with the table is **obs_server**, the file format on OBS corresponding to the table is ORC, and the data storage path on OBS is **/mybucket/data/**.
 
 ::
 

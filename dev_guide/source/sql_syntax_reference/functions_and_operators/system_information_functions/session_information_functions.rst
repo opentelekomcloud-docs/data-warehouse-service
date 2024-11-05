@@ -8,7 +8,7 @@ Session Information Functions
 current_catalog
 ---------------
 
-Description: Name of the current database (called "catalog" in the SQL standard)
+Description: name of the current database (called **catalog** in the SQL standard), same as **current_database()**.
 
 Return type: name
 
@@ -59,7 +59,7 @@ Example:
 current_schema[()]
 ------------------
 
-Description: Name of current schema **current_schema** returns the first valid schema name in the search path. (If the search path is empty or contains no valid schema name, **NULL** is returned.) This is the schema that will be used for any tables or other named objects that are created without specifying a target schema.
+Description: **current_schema** returns the first valid schema name in the search path. (If the search path is empty or contains no valid schema name, **NULL** is returned.) This is the schema that will be used for any tables or other named objects that are created without specifying a target schema.
 
 Return type: name
 
@@ -76,7 +76,7 @@ Example:
 current_schemas(boolean)
 ------------------------
 
-Description: **current_schemas(boolean)** returns an array of the names of all schemas presently in the search path. The Boolean option determines whether implicitly included system schemas such as **pg_catalog** are included in the returned search path.
+Description: **current_schemas(boolean)** returns an array of the names of all schemas presently in the search path. The Boolean option determines whether implicitly included system schemas such as **pg_catalog** exist in the returned search path.
 
 Return type: name[]
 
@@ -101,7 +101,7 @@ Example:
 current_user
 ------------
 
-Description: User name of current execution context **current_user** is the user identifier that is applicable for permission checking. Normally it is equal to the session user, but it can be changed by using :ref:`SET ROLE <dws_06_0222>`. It also changes during the execution of functions with the attribute **SECURITY DEFINER**.
+Description: User name of current execution context **current_user** is the identifier of the user whose permission needs to be checked. It is usually used to represent a session user, but this setting can be changed according to :ref:`SET ROLE <dws_06_0222>`. It also changes during the execution of functions with the attribute **SECURITY DEFINER**.
 
 Return type: name
 
@@ -122,7 +122,7 @@ Description: Displays the IP address of the currently connected client.
 
 .. note::
 
-   -  This function is available only in remote connection mode.
+   -  It is available only in remote connection mode.
    -  If the database is connected to the local PC, the value is empty.
 
 Return type: inet
@@ -144,7 +144,7 @@ Description: Displays the port number of the currently connected client.
 
 .. note::
 
-   This function is available only in remote connection mode.
+   It is available only in remote connection mode.
 
 Return type: integer
 
@@ -165,7 +165,7 @@ Description: Displays the IP address of the current server.
 
 .. note::
 
-   -  This function is available only in remote connection mode.
+   -  It is available only in remote connection mode.
    -  If the database is connected to the local PC, the value is empty.
 
 Return type: inet
@@ -187,7 +187,7 @@ Description: Displays the port of the current server. All these functions return
 
 .. note::
 
-   This function is available only in remote connection mode.
+   It is available only in remote connection mode.
 
 Return type: integer
 
@@ -323,7 +323,7 @@ Example:
 session_user
 ------------
 
-Description: Queries the session username. **session_user** is usually the user who initiated the current database connection, but administrators can change this setting with :ref:`SET SESSION AUTHORIZATION <dws_06_0223>`.
+Description: Session user name **session_user** is usually the user who initiated the current database connection, but administrators can change this setting with :ref:`SET SESSION AUTHORIZATION <dws_06_0223>`.
 
 Return type: name
 
@@ -368,5 +368,5 @@ Example:
    SELECT version();
                                                                    version
    ---------------------------------------------------------------------------------------------------------------------------------------
-    PostgreSQL 9.2.4 gsql ((GaussDB 8.1.3 build 39137c2d) compiled at 2022-04-01 15:43:11 commit 3629 last mr 5138 release) on x86_64-unknown-linux-gnu, compiled by g++ (GCC) 5.4.0, 64-bit
+    PostgreSQL 9.2.4 gsql ((GaussDB 8.2.1 build 39137c2d) compiled at 2022-09-23 15:43:11 commit 3629 last mr 5138 release) on x86_64-unknown-linux-gnu, compiled by g++ (GCC) 5.4.0, 64-bit
    (1 row)

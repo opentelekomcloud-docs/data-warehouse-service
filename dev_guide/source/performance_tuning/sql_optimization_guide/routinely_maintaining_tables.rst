@@ -2,6 +2,8 @@
 
 .. _dws_04_0466:
 
+.. _en-us_topic_0000001629070637:
+
 Routinely Maintaining Tables
 ============================
 

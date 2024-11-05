@@ -8,7 +8,7 @@ CREATE FOREIGN TABLE (SQL on other GaussDB(DWS))
 Function
 --------
 
-In the current database, **CREATE FOREIGN TABLE** creates a foreign table for collaborative analysis. The foreign table is used to access tables stored in other databases for collaborative analysis.
+Creates a foreign table for collaborative analysis in the current database. The foreign table is used to access tables stored in other databases for collaborative analysis.
 
 The foreign table is read-only. It can only be queried using **SELECT**.
 
@@ -67,8 +67,28 @@ Parameter Description
    Specifies the following parameters for a foreign table:
 
    -  **table_name**: table name of the associated cluster. If it is omitted, the foreign table name will be used.
+
    -  **schema_name**: schema of the associated cluster. If it is omitted, the schema of the foreign table will be used.
+
    -  **encoding**: encoding set of the associated cluster. If it is omitted, the database encoding set of the associated cluster will be used.
+
+   -  **dataencoding**: used to synchronize GBK data and UTF8 data between two latin1 databases during GDS interconnection. This parameter is supported by version 8.2.0 or later clusters.
+
+      When this parameter is set, **encoding** indicates the actual encoding of data in the remote cluster, and **dataencoding** indicates the actual encoding of data in the local cluster.
+
+   .. note::
+
+      Assume that the database in the local cluster is **latin1_local_db** and that in the remote cluster is **latin1_remote_db**, and **latin1_remote_db** stores GBK data. When migrating GBK data from **latin1_remote_db** to **latin1_local_db** in UTF8 encoding, you need to set the foreign table parameters **dataencoding** to U\ **TF8** and **encoding** to **GBK** in the local cluster.
+
+-  gds_compress
+
+   To reduce the network transmission bandwidth, GDS interconnection provides this parameter for compression. Currently, this parameter can only be set to **snappy**. By default, data is not compressed. This parameter is supported by version 8.2.0 or later clusters.
+
+   Before using this function, ensure that the versions of the local cluster, remote cluster, and GDS are the same.
+
+   .. note::
+
+      **gds_compress** is used together with **file_type**. If the value of **file_type** is **interconn**, GDS must be upgraded to 8.2.0 or later. Otherwise, the error message "**ERROR: un-support format**" is displayed.
 
 -  **READ ONLY**
 
@@ -89,7 +109,7 @@ Examples
 
    ::
 
-      CREATE SERVER server_remote FOREIGN DATA WRAPPER GC_FDW OPTIONS (address '10.10.0.100:25000,10.10.0.101:25000',dbname 'test', username 'test', password '{Password}');
+      CREATE SERVER server_remote FOREIGN DATA WRAPPER GC_FDW OPTIONS (address '10.10.0.100:25000,10.10.0.101:25000',dbname 'test', username 'test', password '{password}');
 
    .. note::
 
@@ -99,7 +119,6 @@ Examples
 
    ::
 
-      DROP FOREIGN TABLE IF EXISTS region;
       CREATE FOREIGN TABLE region
       (
           R_REGIONKEY INT4,
@@ -121,11 +140,20 @@ Examples
 
       \d+ region
 
-   |image1|
+                                    Foreign table "public.region"
+         Column    |  Type   | Modifiers | FDW Options | Storage  | Stats target | Description
+      -------------+---------+-----------+-------------+----------+--------------+-------------
+       r_regionkey | integer |           |             | plain    |              |
+       r_name      | text    |           |             | extended |              |
+       r_comment   | text    |           |             | extended |              |
+      Server: server_remote
+      FDW Options: (schema_name 'test', table_name 'region', encoding 'gbk')
+      FDW permission: read only
+      Has OIDs: no
+      Distribute By: ROUND ROBIN
+      Location Nodes: ALL DATANODES
 
 Helpful Links
 -------------
 
 :ref:`DROP FOREIGN TABLE <dws_06_0192>`, :ref:`ALTER FOREIGN TABLE (SQL on other GaussDB(DWS)) <dws_06_0125>`
-
-.. |image1| image:: /_static/images/en-us_image_0000001860372785.png

@@ -17,7 +17,7 @@ Precautions
 
 -  **CURSOR** is used only in transaction blocks.
 -  Generally, **CURSOR** and **SELECT** both have text returns. Since data is stored in binary format in the system, the system needs to convert the data from the binary format to the text format. If data is returned in text format, the client-end application needs to convert the data back to a binary format for processing. **FETCH** implements conversion between binary data and text data.
--  Use a binary cursor as needed, since a text cursor occupies larger storage space than a binary cursor. A binary cursor returns internal binary data, which is easier to operate. To return data in text format, it is advisable to retrieve data in text format, therefore reducing workload at the client end. For example, the value 1 in an integer column of a query is returned as a character string 1 if a default cursor is used, but is returned as a 4-byte binary value (big-endian) if a binary cursor is used.
+-  Use a binary cursor unless necessary, since a text cursor occupies larger storage space than a binary cursor. A binary cursor returns internal binary data, which is easier to operate. To return data in text format, it is advisable to retrieve data in text format, therefore reducing workload at the client end. For example, the value 1 in an integer column of a query is returned as a character string 1 if a default cursor is used, but is returned as a 4-byte binary value (big-endian) if a binary cursor is used.
 
 Syntax
 ------
@@ -65,55 +65,64 @@ Parameter Description
 Examples
 --------
 
-Start a transaction:
-
-::
-
-   START TRANSACTION;
-
-Create a cursor named **cursor1**:
+Set up the cursor1 cursor:
 
 ::
 
    CURSOR cursor1 FOR SELECT * FROM tpcds.customer_address ORDER BY 1;
 
-create a cursor named **cursor2**:
+Set up the cursor cursor2:
 
 ::
 
    CURSOR cursor2 FOR VALUES(1,2),(0,3) ORDER BY 1;
 
-An example of using the **WITH HOLD** cursor is as follows:
+An example of using the WITH HOLD cursor is as follows:
 
-#. Set up a WITH HOLD cursor.
+Start a transaction.
 
-   ::
+::
 
-      DECLARE cursor3 CURSOR WITH HOLD FOR SELECT * FROM tpcds.customer_address ORDER BY 1;
+   START TRANSACTION;
 
-#. Fetch the first two rows from cursor3.
+Set up a WITH HOLD cursor.
 
-   ::
+::
 
-      FETCH FORWARD 2 FROM cursor3;
+   DECLARE cursor3 CURSOR WITH HOLD FOR SELECT * FROM tpcds.customer_address ORDER BY 1;
 
-#. End the transaction.
+Fetch the first two rows from cursor3.
 
-   ::
+::
 
-      END;
+   FETCH FORWARD 2 FROM cursor3;
+    ca_address_sk |  ca_address_id   | ca_street_number |   ca_street_name   | ca_street_type  | ca_suite_number |     ca_city     |    ca_county    | ca_state |   ca_zip   |  ca_country   | ca_gmt_offset |   ca_location_type
+   ---------------+------------------+------------------+--------------------+-----------------+-----------------+-----------------+-----------------+----------+------------+---------------+---------------+----------------------
+                1 | AAAAAAAABAAAAAAA | 18               | Jackson            | Parkway         | Suite 280       | Fairfield       | Maricopa County | AZ       | 86192      | United States |         -7.00 | condo
+                2 | AAAAAAAACAAAAAAA | 362              | Washington 6th     | RD              | Suite 80        | Fairview        | Taos County     | NM       | 85709      | United States |         -7.00 | condo
+   (2 rows)
 
-#. Fetch the next row from cursor3.
+End the transaction.
 
-   ::
+::
 
-      FETCH FORWARD 1 FROM cursor3;
+   END;
 
-#. Close a cursor.
+Fetch the next row from cursor3.
 
-   ::
+::
 
-      CLOSE cursor3;
+   FETCH FORWARD 1 FROM cursor3;
+    ca_address_sk |  ca_address_id   | ca_street_number |   ca_street_name   | ca_street_type  | ca_suite_number |     ca_city     |    ca_county    | ca_state |   ca_zip   |  ca_country   | ca_gmt_offset |   ca_location_type
+   ---------------+------------------+------------------+--------------------+-----------------+-----------------+-----------------+-----------------+----------+------------+---------------+---------------+----------------------
+                3 | AAAAAAAADAAAAAAA | 585              | Dogwood Washington | Circle          | Suite Q         | Pleasant Valley | York County     | PA       | 12477      | United States |         -5.00 | single family
+   (1 row)
+
+Close a cursor.
+
+::
+
+   CLOSE cursor3;
 
 Helpful Links
 -------------

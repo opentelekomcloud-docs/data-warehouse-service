@@ -2,6 +2,8 @@
 
 .. _dws_04_0037:
 
+.. _en-us_topic_0000001510402657:
+
 Defining Table Partitions
 =========================
 
@@ -79,6 +81,26 @@ Create partitions in batches, with fixed partition ranges. The following example
        PARTITION p2016 START(20161231) END(20191231) EVERY(10000),
        PARTITION p0 END(maxvalue)
    );
+
+Partition the table **web_returns_p2** by date and time, using time as the partition key.
+
+::
+
+   CREATE TABLE web_returns_p2
+   (
+      id integer,
+      idle numeric,
+      IO numeric,
+      scope text,
+      IP text,
+      time timestamp
+   )
+    WITH (TTL='7 days',PERIOD='1 day')
+   PARTITION BY RANGE(time)
+    (
+      PARTITION P1 VALUES LESS THAN('2022-01-05 16:32:45'),
+      PARTITION P2 VALUES LESS THAN('2022-01-06 16:56:12')
+    );
 
 Creating a List Partitioned Table
 ---------------------------------

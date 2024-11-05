@@ -8,7 +8,7 @@ ALTER TABLE PARTITION
 Function
 --------
 
-**ALTER TABLE PARTITION** modifies table partitioning, including adding, deleting, splitting, merging partitions, and modifying partition attributes.
+Modifies table partitioning, including adding, deleting, splitting, merging partitions, and modifying partition attributes.
 
 Precautions
 -----------
@@ -25,8 +25,8 @@ Precautions
 -  The **Value** partitioned table does not support the **Alter Partition** operation.
 -  For OBS multi-temperature tables:
 
-   -  The tablespace of a partitioned table cannot be set to an OBS tablespace during the **MOVE**, **EXCHANGE**, **MERGE**, and **SPLIT** operations.
-   -  When an **ALTER** statement is executed, the cold and hot data attributes in the partitions cannot be changed, that is, data in the cold partition should still be put in the cold partition after a data operation, and hot partition data should be put in the hot partition. Therefore, cold partition data cannot be migrated to the local tablespace.
+   -  The tablespace of a partitioned table cannot be an OBS tablespace during the **MOVE**, **EXCHANGE**, **MERGE**, and **SPLIT** operations.
+   -  When an **ALTER** statement is executed, the cold and hot data attributes in the partitions cannot be changed, that is, data in the cold partition should still be in the cold partition after a data operation, and hot partition data should be in the hot partition. Cold partition data cannot be migrated to the local tablespace.
    -  Only the default tablespace is supported for cold partitions.
    -  Cold and hot partitions cannot be merged.
    -  Cold partition switching is not supported for the **EXCHANGE** operation.
@@ -51,7 +51,8 @@ Syntax
           modify_clause  |
           split_clause  |
           add_clause  |
-          drop_clause
+          drop_clause  |
+          truncate_partitioned_clause
 
    -  The **exchange_clause** syntax is used to move the data from a general table to a specified partition.
 
@@ -90,7 +91,7 @@ Syntax
       .. important::
 
          -  The partition before the keyword **INTO** is called the source partition, and the partition after the **INTO** is called the target partition.
-         -  The number of source partitions ranges from 2 to 32.
+         -  The number of source partitions cannot be less than **2**.
          -  The source partition name must be unique.
          -  The source partition cannot have unusable indexes. Otherwise, an error will be reported.
          -  The target partition name must either be the same as the name of the last source partition or different from all partition names of the table.
@@ -132,7 +133,7 @@ Syntax
 
             -  The first new partition key specified by **partition_less_than_item** must be larger than that of the former partition (if any), and the last partition key specified by **partition_less_than_item** must be equal to that of the splitting partition.
             -  The start point (if any) of the first new partition specified by **partition_start_end_item** must be equal to the partition key (if any) of the previous partition. The end point (if any) of the last partition specified by **partition_start_end_item** must be equal to the partition key of the splitting partition.
-            -  **partition_less_than_item** supports a maximum of four partition keys and **partition_start_end_item** supports only one partition key. For details about the supported data types, see :ref:`Partition Key <en-us_topic_0000001233510133__lb144da954d4c4ac58c1e9ae1391e59ac>`.
+            -  **partition_less_than_item** supports a maximum of four partition keys and **partition_start_end_item** supports only one partition key. For details about the supported data types, see :ref:`Partition Key <en-us_topic_0000001460561364__lb144da954d4c4ac58c1e9ae1391e59ac>`.
             -  **partition_less_than_item** and **partition_start_end_item** cannot be used in the same statement.
 
       -  The syntax of **partition_less_than_item** is as follows:
@@ -142,7 +143,7 @@ Syntax
             PARTITION partition_name VALUES LESS THAN ( { partition_value | MAXVALUE }  [, ...] )
 
 
-      -  The syntax of **partition_start_end_item** is as follows. For details about the constraints, see :ref:`partition_start_end_item syntax <en-us_topic_0000001233510133__li2094151861116>`.
+      -  The syntax of **partition_start_end_item** is as follows. For details about the constraints, see :ref:`partition_start_end_item syntax <en-us_topic_0000001460561364__li2094151861116>`.
 
          ::
 
@@ -167,7 +168,7 @@ Syntax
 
          .. important::
 
-            -  If the source partition is not a :ref:`DEFAULT partition <en-us_topic_0000001233510133__li105701736194813>`, the boundary specified by the split point is a non-void proper subset of the source partition boundary. If the source partition is a DEFAULT partition, the boundary specified by the split point cannot overlap with the boundaries of other non-DEFAULT partitions.
+            -  If the source partition is not a :ref:`DEFAULT partition <en-us_topic_0000001460561364__li105701736194813>`, the boundary specified by the split point is a non-void proper subset of the source partition boundary. If the source partition is a DEFAULT partition, the boundary specified by the split point cannot overlap with the boundaries of other non-DEFAULT partitions.
             -  The boundary specified by the split point is the boundary of the first partition after the keyword **INTO**. The difference between the boundary of the source partition and the specified boundary of the split point is the boundary of the second partition.
             -  If the source partition is the DEFAULT partition, the boundary of the second partition is still DEFAULT.
 
@@ -179,7 +180,7 @@ Syntax
 
          .. important::
 
-            -  The syntax of :ref:`list_partition_item <en-us_topic_0000001233510133__li135021622911>` is the same as the syntax specifying a partition in creating a list partitioned table, except that the boundary value here cannot be DEFAULT.
+            -  The syntax of :ref:`list_partition_item <en-us_topic_0000001460561364__li135021622911>` is the same as the syntax specifying a partition in creating a list partitioned table, except that the boundary value here cannot be DEFAULT.
             -  Except for the last partition, the boundaries of other partitions must be explicitly defined. The defined boundary cannot be DEFAULT and must be a non-empty proper subset of the source partition boundary. The boundary of the last partition is the difference set between the source partition boundary and other partition boundaries, and the boundary of the last partition is not empty (that is, the difference set cannot be empty).
             -  If the source partition is a DEFAULT partition, the boundary of the last partition is DEFAULT.
 
@@ -193,8 +194,8 @@ Syntax
 
       .. important::
 
-         -  The :ref:`partition_less_than_item <en-us_topic_0000001233510133__li1147714355320>` syntax can only be used for range partitioned tables. Otherwise, an error will be reported.
-         -  The syntax of :ref:`partition_less_than_item <en-us_topic_0000001233510133__li1147714355320>` is the same as the syntax specifying partitions in creating a range partitioned table.
+         -  The :ref:`partition_less_than_item <en-us_topic_0000001460561364__li1147714355320>` syntax can only be used for range partitioned tables. Otherwise, an error will be reported.
+         -  The syntax of :ref:`partition_less_than_item <en-us_topic_0000001460561364__li1147714355320>` is the same as the syntax specifying partitions in creating a range partitioned table.
          -  If the boundary value of the last partition is a MAXVALUE, new partitions cannot be added. Otherwise, an error will be reported.
 
       **The add_clause syntax for list partitioning is as follows:**
@@ -205,8 +206,8 @@ Syntax
 
       .. important::
 
-         -  The :ref:`list_partition_item <en-us_topic_0000001233510133__li135021622911>` syntax can only be used for a list partitioned table. Otherwise, an error will be reported.
-         -  The :ref:`list_partition_item <en-us_topic_0000001233510133__li135021622911>` syntax is the same as the syntax specifying a partition in creating a list partitioned table.
+         -  The :ref:`list_partition_item <en-us_topic_0000001460561364__li135021622911>` syntax can only be used for a list partitioned table. Otherwise, an error will be reported.
+         -  The :ref:`list_partition_item <en-us_topic_0000001460561364__li135021622911>` syntax is the same as the syntax specifying a partition in creating a list partitioned table.
          -  If the current partition table contains DEFAULT partitions, no new partitions can be added. Otherwise, an error will be reported.
 
    -  The syntax of **drop_clause** is used to remove a specified partition from a partitioned table.
@@ -215,11 +216,21 @@ Syntax
 
          DROP PARTITION  { partition_name | FOR (  partition_value [, ...] )  }
 
-   -  The **drop_clause** syntax supports deleting multiple partitions. (supported by clusters of 8.1.3.100 and later versions)
+   -  The **drop_clause** syntax supports deleting multiple partitions. (This feature is supported by clusters of 8.1.3.100 and later versions.)
 
       ::
 
          DROP PARTITION  { partition_name [, ... ] }
+
+   -  The **truncate_partitioned_clause** clause is used to clear data in a table partition.
+
+      ::
+
+         TRUNCATE PARTITION { partition_name | FOR (  partition_value  [, ...] )  } ;
+
+      .. important::
+
+         When the **PARTITION FOR** clause is used, the entire partition where **partition_value** is located is cleared.
 
 -  The syntax of modifying a table partition name is as follows:
 
@@ -272,7 +283,7 @@ Parameter Description
 
    .. note::
 
-      -  If **ENABLE ROW MOVEMENT** is specified, cross-partition update is allowed. However, if **SELECT FOR UPDATE** is executed concurrently to query the partitioned table, the query results may be instantaneously inconsistent. Therefore, exercise caution when performing this operation.
+      -  To enable cross-partition update, specify **ENABLE ROW MOVEMENT**. However, if **SELECT FOR UPDATE** is executed concurrently to query the partitioned table, the query results may be inconsistent. Therefore, exercise caution when performing this operation.
       -  If the tuple value is updated on the partition key during the **UPDATE** action, the partition where the tuple is located is altered. Setting of this parameter enables error messages to be reported or movement of the tuple between partitions.
 
 -  **ordinary_table_name**
@@ -311,44 +322,31 @@ Parameter Description
 Examples
 --------
 
-Create a range partitioned table **customer_address**.
+-  The syntax of **add_clause** is used to add a partition to one or more specified partitioned tables.
 
-::
+   Add the **ca_address_sk** partition to the range partitioned table **customer_address**. The value of **ca_address_sk** ranges from 700 to 900.
 
-   DROP TABLE IF EXISTS customer_address;
-   CREATE TABLE customer_address
-   (
-       ca_address_sk       INTEGER                  NOT NULL   ,
-       ca_address_id       CHARACTER(16)            NOT NULL   ,
-       ca_street_number    CHARACTER(10)                       ,
-       ca_street_name      CHARACTER varying(60)               ,
-       ca_street_type      CHARACTER(15)                       ,
-       ca_suite_number     CHARACTER(10)
-   )
-   DISTRIBUTE BY HASH (ca_address_sk)
-   PARTITION BY RANGE(ca_address_sk)
-   (
-           PARTITION P1 VALUES LESS THAN(100),
-           PARTITION P2 VALUES LESS THAN(200),
-           PARTITION P3 VALUES LESS THAN(300)
-   );
+   ::
 
-Create a list partitioned table.
+      ALTER TABLE customer_address ADD PARTITION P5 VALUES LESS THAN (900);
 
-.. code-block::
+   Add partitions **[5000, 5300)**, **[5300, 5600)**, **[5600, 5900)**, and **[5900, 6000)** to the partitioned table **customer_address**:
 
-   DROP TABLE IF EXISTS data_list;
-   CREATE TABLE data_list(
-       id int,
-       time int,
-        sarlay decimal(12,2)
-   )PARTITION BY LIST (time)(
-           PARTITION P1 VALUES (202209),
-           PARTITION P2 VALUES (202210,202208),
-           PARTITION P3 VALUES (202211),
-           PARTITION P4 VALUES (202212),
-           PARTITION P5 VALUES (202301)
-   );
+   ::
+
+      ALTER TABLE customer_address_SE ADD PARTITION p6 START(5000) END(6000) EVERY(300);
+
+   Add the MAXVALUE partition **p6** to the range partitioned table **customer_address**:
+
+   ::
+
+      ALTER TABLE customer_address ADD PARTITION p6 END(MAXVALUE);
+
+   Add partition **P6** to a list partitioned table:
+
+   ::
+
+      ALTER TABLE data_list ADD PARTITION P6 VALUES (202302,202303);
 
 -  The **modify_clause** clause is used to set whether a partition index is usable.
 
@@ -360,7 +358,10 @@ Create a list partitioned table.
       (
               PARTITION P1_index,
               PARTITION P2_index,
-              PARTITION P3_inde
+              PARTITION P3_index,
+              PARTITION P4_index,
+              PARTITION P5_index,
+              PARTITION P6_index
       );
 
    Rebuild all indexes on partition **P1** in the partitioned table **customer_address**:
@@ -375,45 +376,19 @@ Create a list partitioned table.
 
       ALTER TABLE customer_address MODIFY PARTITION P3 UNUSABLE LOCAL INDEXES;
 
--  The syntax of **add_clause** is used to add a partition to one or more specified partitioned tables.
-
-   Add a partition to the range partitioned table **customer_address**.
-
-   ::
-
-      ALTER TABLE customer_address ADD PARTITION P5 VALUES LESS THAN (500);
-
-   Add the following partitions to the range partitioned table **customer_address**: [500, 600), [600, 700):
-
-   ::
-
-      ALTER TABLE customer_address ADD PARTITION p6 START(500) END(700) EVERY(100);
-
-   Add the MAXVALUE partition **p7** to the range partitioned table **customer_address**:
-
-   ::
-
-      ALTER TABLE customer_address ADD PARTITION p7 END(MAXVALUE);
-
-   Add partition **P6** to the list partitioned table:
-
-   ::
-
-      ALTER TABLE data_list ADD PARTITION P6 VALUES (202302,202303);
-
 -  The **split_clause** clause is used to split one partition into partitions.
 
-   Split partition **P7** in the range partitioned table **customer_address** at **800**:
+   Split partition **P6** in the range partitioned table **customer_address** at **1200**:
 
    ::
 
-      ALTER TABLE customer_address SPLIT PARTITION P7 AT(800) INTO (PARTITION P6a,PARTITION P6b);
+      ALTER TABLE customer_address SPLIT PARTITION P6 AT(1200) INTO (PARTITION P6a,PARTITION P6b);
 
-   Split the partition at **400** in the range partitioned table **customer_address** into multiple partitions:
+   Split the partition at 200 in the range partitioned table **customer_address** into multiple partitions:
 
    ::
 
-      ALTER TABLE customer_address SPLIT PARTITION FOR(400) INTO(PARTITION p_part START(300) END(500) EVERY(100));
+      ALTER TABLE customer_address SPLIT PARTITION FOR(200) INTO(PARTITION p_part START(100) END(300) EVERY(50));
 
    Split partition **P2** in the list partitioned table **data_list** into two partitions: **p2a** and **p2b**.
 
@@ -423,7 +398,7 @@ Create a list partitioned table.
 
 -  **exchange_clause**: migrates data from an ordinary table to a specified partition.
 
-   The following example demonstrates how to migrate data from table **math_grade** to partition **math** in partition table **student_grade**. Create a partitioned **table student_grade**.
+   The following example demonstrates how to migrate data from table **math_grade** to partition **math** in partitioned table **student_grade**. Create a partitioned **table student_grade**.
 
    ::
 
@@ -486,7 +461,7 @@ Create a list partitioned table.
               ('Anna', 20220108, 56, 'math'),
               ('Jann', 20220107, 82, 'math');
 
-   Migrate data from table **math_grade** to partition **math** in the partition table **student_grade**.
+   Migrate data from table **math_grade** to partition **math** in the partitioned table **student_grade**.
 
    ::
 
@@ -516,6 +491,14 @@ Create a list partitioned table.
        Sam      | 20220105 |    72 | math
       (2 rows)
 
+-  The **truncate_partitioned_clause** clause is used to clear data in a table partition.
+
+   Clear the **p1** partition of the **student_grade** table.
+
+   ::
+
+      ALTER TABLE student_grade TRUNCATE PARTITION p1;
+
 -  The **row_clause** clause is used to set the row movement switch of a partitioned table.
 
    Enable migration for the partitioned table **customer_address**:
@@ -534,17 +517,17 @@ Create a list partitioned table.
 
 -  The syntax of **drop_clause** is used to remove a specified partition from a partitioned table.
 
-   Delete partition **P2** from the partitioned table **customer_address**:
+   Delete partition **P6** from the partitioned table **customer_address**:
 
    ::
 
-      ALTER TABLE customer_address DROP PARTITION P2;
+      ALTER TABLE customer_address DROP PARTITION P6;
 
-   Delete partitions **P6a** and **P6b** from the partition table **customer_address**:
+   Delete partitions **P3**, **P4**, and **P5** from the partitioned table **customer_address**.
 
    ::
 
-      ALTER TABLE customer_address DROP PARTITION P6a, P6b;
+      ALTER TABLE customer_address DROP PARTITION P3, P4, P5;
 
 Helpful Links
 -------------
