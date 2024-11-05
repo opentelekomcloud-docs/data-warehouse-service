@@ -8,15 +8,15 @@ CREATE USER
 Function
 --------
 
-**CREATE USER** creates a user.
+Creates a user.
 
-Precautions
------------
+Important Notes
+---------------
 
 -  A user created using the **CREATE USER** statement has the **LOGIN** permission by default.
 -  A schema named after the user is automatically created in the database where the statement is executed, but not in other databases. You can run the **CREATE SCHEMA** statement to create such a schema for the user in other databases.
 -  The owner of an object created by a system administrator in a schema with the same name as a common user is the common user, not the system administrator.
--  Users other than system administrators cannot create objects in a schema named after a user, unless the users are granted with the role permissions of that schema. For details, see **After the all Permission Is Granted to the Schema of a User, the Error Message "ERROR: current user does not have privilege to role tom" Persists During Table Creation** in *Troubleshooting*.
+-  Users other than system administrators cannot create objects in a schema named after a user, unless the users are granted with the role permissions of that schema. For details, see **After the all Permission Is Granted to the Schema of a User, the Error Message "ERROR: current user does not have privilege to role tom" Persists During Table Creation** in the *Data Warehouse Service (DWS) Troubleshooting*.
 
 Syntax
 ------
@@ -106,7 +106,9 @@ Parameters
 
    Determines whether a new user can create a database.
 
-   A new user does not have the permission to create a database by default. Value range: If not specified, **NOCREATEDB** is the default.
+   A new user does not have the permission to create a database by default.
+
+   Value range: If not specified, **NOCREATEDB** is the default.
 
 -  **USEFT \| NOUSEFT**
 
@@ -124,13 +126,13 @@ Parameters
 
 -  **INHERIT \| NOINHERIT**
 
-   Determines whether a user "inherits" the permissions of users in its group. You are not advised to use them.
+   Determines whether a user "inherits" the permissions of users in its group. You are not advised to execute them.
 
 -  **LOGIN \| NOLOGIN**
 
    Only users with the **LOGIN** attribute can log in to the database.
 
-   Value range: If not specified, **LOGIN** is the default.
+   Value range: If not specified, **NOLOGIN** is the default.
 
 -  **REPLICATION \| NOREPLICATION**
 
@@ -158,13 +160,13 @@ Parameters
 
 -  **CONNECTION LIMIT**
 
-   Specifies the number of concurrent connections that can be used by a user.
+   Specifies the number of concurrent connections that can be used by a user on a single CN.
 
    Value range: Integer, **>=-1**. The default value is **-1**, which means unlimited.
 
    .. important::
 
-      To ensure the proper running of a cluster, the minimum value of **CONNECTION LIMIT** is the number of CNs in the cluster, because when a cluster runs ANALYZE on a CN, other CNs will connect with the running CN for metadata synchronization. For example, if there are three CNs in the cluster, set **CONNECTION LIMIT** to **3** or a greater value.
+      To ensure the proper running of a cluster, the minimum value of **CONNECTION LIMIT** is the number of CNs in the cluster, because when a cluster runs ANALYZE on a CN, other CNs will connect with the running CN for metadata synchronization. For example, if there are three CNs in the cluster, set **CONNECTION LIMIT** to **3** or a larger value.
 
 -  **VALID BEGIN**
 
@@ -244,7 +246,7 @@ Parameters
 
       This attribute only ensures compatibility with the connection process. Incompatibility caused by kernel differences between this product and Postgres cannot be solved using this attribute.
 
-      Users with the **PGUSER** attribute are authenticated in a way different from other users. Error information reported by the open-source client may cause the attribute to be enumerated. Therefore, you are advised to use a client of this product. Example:
+      Users having the **PGUSER** attribute are authenticated in a way different from other users. Error information reported by the open-source client may cause the attribute to be enumerated. Therefore, you are advised to use a client of this product. Example:
 
       ::
 
@@ -278,21 +280,21 @@ Create user **jim**:
 
 ::
 
-   CREATE USER jim PASSWORD '{Password}';
+   CREATE USER jim PASSWORD '{password}';
 
 The following statements are equivalent to the above:
 
 ::
 
-   CREATE USER kim IDENTIFIED BY '{Password}';
+   CREATE USER kim IDENTIFIED BY '{password}';
 
 For a user having the **Create Database** permission, add the **CREATEDB** keyword:
 
 ::
 
-   CREATE USER dim CREATEDB PASSWORD '{Password}';
+   CREATE USER dim CREATEDB PASSWORD '{password}';
 
 Links
 -----
 
-:ref:`ALTER USER <dws_06_0149>`, :ref:`DROP USER <dws_06_0214>`
+:ref:`ALTER USER <dws_06_0149>`, :ref:`CREATE ROLE <dws_06_0172>`, :ref:`DROP USER <dws_06_0214>`

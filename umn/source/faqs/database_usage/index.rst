@@ -50,7 +50,7 @@ Database Usage
    how_do_i_query_the_information_about_gaussdbdws_column-store_tables
    why_sometimes_the_gaussdbdws_query_indexes_become_invalid
    how_do_i_use_a_user-defined_function_to_rewrite_the_crc32_function
-   what_are_the_schemas_starting_with_pg_toast_temp*_or_pg_temp*
+   what_are_the_schemas_starting_with_pg_toast_temp_or_pg_temp
    solutions_to_inconsistent_gaussdbdws_query_results
    which_system_catalogs_that_the_vacuum_full_operation_cannot_be_performed_on
    in_which_scenarios_would_a_statement_be_idle_in_transaction

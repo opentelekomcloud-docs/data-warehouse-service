@@ -5,7 +5,7 @@
 Example of Importing Data Using GDS
 ===================================
 
-.. _en-us_topic_0000001233761893__section2041618243291:
+.. _en-us_topic_0000001764896601__en-us_topic_0000001233761893_section2041618243291:
 
 Parallel Import from Multiple Data Servers
 ------------------------------------------
@@ -102,7 +102,7 @@ The data servers and the cluster reside on the same intranet. The IP addresses a
 
       INSERT INTO tpcds.reasons SELECT * FROM tpcds.foreign_tpcds_reasons;
 
-#. Query data import errors in the **err_tpcds_reasons** table and rectify the errors (if any). For details, see :ref:`Handling Import Errors <dws_04_0196>`.
+#. Query data import errors in the **err_tpcds_reasons** table and rectify the errors (if any). For details, see :ref:`Handling Import Errors <en-us_topic_0000001717097312>`.
 
    ::
 
@@ -119,7 +119,7 @@ The data servers and the cluster reside on the same intranet. The IP addresses a
       gds_user 129003 118723  0 15:04 pts/0    00:00:00 grep gds
       kill -9 128954
 
-.. _en-us_topic_0000001233761893__section197704383292:
+.. _en-us_topic_0000001764896601__en-us_topic_0000001233761893_section197704383292:
 
 Data Import Using Multiple Threads
 ----------------------------------
@@ -234,7 +234,7 @@ The data servers and the cluster reside on the same intranet. The server IP addr
 
       INSERT INTO tpcds.reasons2 SELECT * FROM tpcds.foreign_tpcds_reasons2;
 
-#. Query data import errors in the **err_tpcds_reasons1** and **err_tpcds_reasons2** tables and rectify the errors (if any). For details, see :ref:`Handling Import Errors <dws_04_0196>`.
+#. Query data import errors in the **err_tpcds_reasons1** and **err_tpcds_reasons2** tables and rectify the errors (if any). For details, see :ref:`Handling Import Errors <en-us_topic_0000001717097312>`.
 
    ::
 
@@ -255,7 +255,7 @@ The data servers and the cluster reside on the same intranet. The server IP addr
 Importing Data Through a Pipe File
 ----------------------------------
 
-#. Start the GDS.
+#. Start GDS.
 
    .. code-block::
 
@@ -269,7 +269,7 @@ Importing Data Through a Pipe File
 
       ::
 
-         CREATE TABLE test_pipe_1( id integer not null, sex text not null, name  text );
+         CREATE TABLE test_pipe_1( id integer not null, gender text not null, name  text );
 
    b. Create a read-only foreign table.
 
@@ -277,7 +277,7 @@ Importing Data Through a Pipe File
 
          CREATE FOREIGN TABLE foreign_test_pipe_tr( like test_pipe ) SERVER gsmpp_server OPTIONS (LOCATION 'gsfs://192.168.0.1:7789/foreign_test_pipe.pipe', FORMAT 'text', DELIMITER ',',  NULL '', EOL '0x0a' ,file_type 'pipe',auto_create_pipe 'false');
 
-   c. Execute the import statement. The statement is blocked.
+   c. Execute the import statement and the statement will be blocked.
 
       ::
 
@@ -326,7 +326,7 @@ Importing Data Through a Pipe File
       INSERT INTO test_pipe_1 select * from foreign_test_pipe_tr;
       INSERT 0 4
       SELECT * FROM test_pipe_1;
-      id | sex |      name
+      id | gender |      name
       ----+-----+----------------
       3 | 2   | 11111111111111
       1 | 2   | 11111111111111
@@ -356,7 +356,7 @@ The following takes importing a local file as an example.
 
       ::
 
-         CREATE TABLE test_pipe( id integer not null, sex text not null, name  text );
+         CREATE TABLE test_pipe( id integer not null, gender text not null, name  text );
 
    b. Create a read-only foreign table.
 
@@ -364,7 +364,7 @@ The following takes importing a local file as an example.
 
          CREATE FOREIGN TABLE foreign_test_pipe_tr( like test_pipe ) SERVER gsmpp_server OPTIONS (LOCATION 'gsfs://192.168.0.1:7789/foreign_test_pipe.pipe|gsfs://192.168.0.1:7790/foreign_test_pipe.pipe', FORMAT 'text', DELIMITER ',', NULL '', EOL '0x0a' , file_type 'pipe', auto_create_pipe 'false');
 
-   c. Execute the import statement. The statement is blocked.
+   c. Execute the export statement and the statement will be blocked.
 
       ::
 
@@ -398,7 +398,7 @@ The following takes importing a local file as an example.
       INSERT INTO test_pipe_1 select * from foreign_test_pipe_tr;
       INSERT 0 4
       SELECT * FROM test_pipe_1;
-      id | sex |      name
+      id | gender |      name
       ----+-----+----------------
       3 | 2   | 11111111111111
       1 | 2   | 11111111111111
@@ -423,7 +423,7 @@ Direct Data Import Between Clusters
 
       .. code-block::
 
-         CREATE TABLE test_pipe( id integer not null, sex text not null, name  text );
+         CREATE TABLE test_pipe( id integer not null, gender text not null, name  text );
          INSERT INTO test_pipe values(1,2,'11111111111111');
          INSERT INTO test_pipe values(2,2,'11111111111111');
          INSERT INTO test_pipe values(3,2,'11111111111111');
@@ -448,7 +448,7 @@ Direct Data Import Between Clusters
 
       .. code-block::
 
-         CREATE TABLE test_pipe (id integer not null, sex text not null, name text);
+         CREATE TABLE test_pipe (id integer not null, gender text not null, name text);
 
    b. Create a read-only foreign table.
 
@@ -467,7 +467,7 @@ Direct Data Import Between Clusters
    .. code-block::
 
       SELECT * FROM test_pipe;
-       id | sex |      name
+       id | gender |      name
       ----+-----+----------------
         3 | 2   | 11111111111111
         6 | 2   | 11111111111111

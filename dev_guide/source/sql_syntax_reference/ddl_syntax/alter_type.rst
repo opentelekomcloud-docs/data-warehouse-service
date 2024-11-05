@@ -8,7 +8,7 @@ ALTER TYPE
 Function
 --------
 
-**ALTER TYPE** modifies the definition of a type.
+Modifies the definition of a type.
 
 Syntax
 ------
@@ -138,49 +138,41 @@ Parameter Description
 Examples
 --------
 
-Create an example composite type **test**, enumeration type **testdata**, and user **user_t**.
-
-::
-
-   CREATE TYPE test AS (col1 int, col text);
-   CREATE TYPE testdata AS ENUM ('create', 'modify', 'closed');
-   CREATE USER user_t PASSWORD '{Password}';
-
 Rename the data type.
 
 ::
 
-   ALTER TYPE test RENAME TO test1;
+   ALTER TYPE compfoo RENAME TO compfoo1;
 
-Change the owner of the user-defined type **test1** to **user_t**.
-
-::
-
-   ALTER TYPE test1 OWNER TO user_t;
-
-Change the schema of the user-defined type **test1** to **user_t**.
+Change the owner of user-defined type **compfoo1** to **usr1**.
 
 ::
 
-   ALTER TYPE test1 SET SCHEMA user_t;
+   ALTER TYPE compfoo1 OWNER TO usr1;
 
-Add the **f3** attribute to the **test1** data type.
-
-::
-
-   ALTER TYPE user_t.test1 ADD ATTRIBUTE col3 int;
-
-Add a tag value to the enumeration type **testdata**.
+Change the schema of user-defined type **compfoo1** to **usr1**.
 
 ::
 
-   ALTER TYPE testdata ADD VALUE IF NOT EXISTS 'regress' BEFORE 'closed';
+   ALTER TYPE compfoo1 SET SCHEMA usr1;
 
-Rename a tag value of the enumeration type **testdata**.
+Add the **f3** attribute to the **compfoo1** data type.
 
 ::
 
-   ALTER TYPE testdata RENAME VALUE 'create' TO 'new';
+   ALTER TYPE compfoo1 ADD ATTRIBUTE f3 int;
+
+Add a tag value to the enumeration type **bugstatus**.
+
+::
+
+   ALTER TYPE bugstatus ADD VALUE IF NOT EXISTS 'regress' BEFORE 'closed';
+
+Rename a tag value of the enumeration type **bugstatus**.
+
+::
+
+   ALTER TYPE bugstatus RENAME VALUE 'create' TO 'new';
 
 Helpful Links
 -------------

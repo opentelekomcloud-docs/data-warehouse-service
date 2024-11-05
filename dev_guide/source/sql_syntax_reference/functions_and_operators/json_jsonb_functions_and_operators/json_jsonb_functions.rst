@@ -218,7 +218,7 @@ Example:
 json_object_field(json, text)
 -----------------------------
 
-Description: Same as the operator **->**, which returns the value of a specified key in an object.
+Description: Returns the value of a specified key in an object. This function is the same as the **->** operator.
 
 Return type: json
 
@@ -235,7 +235,7 @@ Example:
 json_object_field_text(object-json, text)
 -----------------------------------------
 
-Description: Same as the operator **->>**, which returns the value of a specified key in an object.
+Description: Returns the value of a specified key in an object. This function is the same as the **->** operator.
 
 Return type: text
 
@@ -252,7 +252,7 @@ Example:
 json_array_element(array-json, integer)
 ---------------------------------------
 
-Description: Same as the operator **->**, which returns the element with the specified subscript in the array.
+Description: Returns the element with the specified subscript in an array. This function is the same as the **->** operator.
 
 Return type: json
 
@@ -269,7 +269,7 @@ Example:
 json_array_element_text(array-json, integer)
 --------------------------------------------
 
-Description: Same as the operator **->>**, which returns the element with the specified subscript in the array.
+Description: Returns the element with the specified subscript in an array. This function is the same as the **->** operator.
 
 Return type: text
 
@@ -691,7 +691,7 @@ Example:
 jsonb_object_field(jsonb, text)
 -------------------------------
 
-Description: Same as the operator **->**, which returns the value of a specified key in an object.
+Description: Returns the value of a specified key in an object. This function is the same as the **->** operator.
 
 Return type: jsonb
 
@@ -708,7 +708,7 @@ Example:
 jsonb_object_field_text(jsonb, text)
 ------------------------------------
 
-Description: Same as the operator **->>**, which returns the value of a specified key in an object.
+Description: Returns the value of a specified key in an object. This function is the same as the **->** operator.
 
 Return type: text
 
@@ -725,7 +725,7 @@ Example:
 jsonb_array_element(array-jsonb, integer)
 -----------------------------------------
 
-Description: Same as the operator **->**, which returns the element with the specified subscript in the array.
+Description: Returns the element with the specified subscript in an array. This function is the same as the **->** operator.
 
 Return type: jsonb
 
@@ -742,7 +742,7 @@ Example:
 jsonb_array_element_text(array-jsonb, integer)
 ----------------------------------------------
 
-Description: Same as the operator **->>**, which returns the element with the specified subscript in the array.
+Description: Returns the element with the specified subscript in an array. This function is the same as the **->** operator.
 
 Return type: text
 
@@ -1165,7 +1165,7 @@ Example:
 jsonb_contained(jsonb, jsonb)
 -----------------------------
 
-Description: Same as the operator **<@**, which determines whether all elements in the string array *$1* exist at the top layer of *$2*.
+Description: Checks whether all elements in *$1* exist at the top of *$2*, which is the same as the **<@** operator.
 
 Return type: Boolean
 
@@ -1182,7 +1182,7 @@ Example:
 jsonb_contains(jsonb, jsonb)
 ----------------------------
 
-Description: Same as the operator **@>**, which determines whether all elements in the string array *$2* exist at the top layer of *$1*.
+Description: Checks whether all top-level elements in *$1* contain all elements in *$2*, which is the same as the **@>** operator.
 
 Return type: Boolean
 

@@ -30,9 +30,9 @@ Example:
     06:10:15 PM-18:10:15
    (1 row)
 
-:ref:`Formats for the output string <en-us_topic_0000001446391160__table135107162552>` describes the patterns of date parameter values. They can be used for the **date_format**, **time_format**, **str_to_date**, **str_to_time**, and **from_unixtime** functions.
+:ref:`Table 1 <en-us_topic_0000001510161265__table17541102011>` describes the patterns of date parameter values. They can be used for the **date_format**, **time_format**, **str_to_date**, **str_to_time**, and **from_unixtime** functions.
 
-.. _en-us_topic_0000001446391160__table135107162552:
+.. _en-us_topic_0000001510161265__table17541102011:
 
 .. table:: **Table 1** Formats for the output string
 
@@ -81,9 +81,9 @@ Example:
    +--------+-----------------------------------------------------------------------------------------+-------------------------+
    | %T     | Time, in 24-hour format                                                                 | hh::mm::ss              |
    +--------+-----------------------------------------------------------------------------------------+-------------------------+
-   | %U     | Week (Sunday is the first day of a week)                                                | 00...53                 |
+   | %U     | Week (Sunday is the first day of a week.)                                               | 00...53                 |
    +--------+-----------------------------------------------------------------------------------------+-------------------------+
-   | %u     | Week (Monday is the first day of a week)                                                | 00...53                 |
+   | %u     | Week (Monday is the first day of a week.)                                               | 00...53                 |
    +--------+-----------------------------------------------------------------------------------------+-------------------------+
    | %V     | Week (Sunday is the first day of a week). It is used together with **%X**.              | 01...53                 |
    +--------+-----------------------------------------------------------------------------------------+-------------------------+

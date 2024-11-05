@@ -8,9 +8,9 @@ PREPARE TRANSACTION
 Function
 --------
 
-Prepares the current transaction for two-phase commit.
+**PREPARE TRANSACTION** prepares the current transaction for two-phase commit.
 
-After this command is executed, the transaction is no longer associated with the current session. Instead, its state is completely stored on disk, and it is highly likely to be committed successfully, even if the database crashes before.
+After this command, the transaction is no longer associated with the current session; instead, its state is fully stored on disk, and there is a high probability that it can be committed successfully, even if a database crash occurs before the commit is requested.
 
 Once prepared, a transaction can later be committed or rolled back with :ref:`COMMIT PREPARED <dws_06_0260>` or :ref:`ROLLBACK PREPARED <dws_06_0268>`, respectively. Those commands can be issued from any session, not only the one that executed the original transaction.
 

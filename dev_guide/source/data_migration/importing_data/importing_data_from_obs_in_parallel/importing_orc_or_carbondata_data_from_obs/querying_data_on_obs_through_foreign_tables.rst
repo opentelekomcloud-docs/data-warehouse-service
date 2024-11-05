@@ -16,7 +16,7 @@ If the data amount is small, you can directly run **SELECT** to query the foreig
 
       SELECT * FROM product_info_ext_obs;
 
-   If the query result is the same as the data in :ref:`Original Data <en-us_topic_0000001188482188__en-us_topic_0000001145410931_en-us_topic_0102810712_en-us_topic_0093837401_section1888720568453>`, the import is successful. The following information is displayed at the end of the query result:
+   If the query result is the same as the data in :ref:`Original Data <en-us_topic_0000001717097300__en-us_topic_0000001188482188_en-us_topic_0000001145410931_en-us_topic_0102810712_en-us_topic_0093837401_section1888720568453>`, the import is successful. The following information is displayed at the end of the query result:
 
    ::
 
@@ -24,14 +24,14 @@ If the data amount is small, you can directly run **SELECT** to query the foreig
 
    After data is queried, you can insert the data to common tables in the database.
 
-.. _en-us_topic_0000001188642102__en-us_topic_0000001099130958_en-us_topic_0102810710_section152121815193012:
+.. _en-us_topic_0000001717256728__en-us_topic_0000001188642102_en-us_topic_0000001099130958_en-us_topic_0102810710_section152121815193012:
 
 Querying Data After Importing It
 --------------------------------
 
 #. Create a table in GaussDB(DWS) to store imported data.
 
-   The target table structure must be the same as the structure of the foreign table created in :ref:`Creating a Foreign Table <dws_04_0245>`. That is, both tables must have the same number of columns and column types.
+   The target table structure must be the same as the structure of the foreign table created in :ref:`Creating a Foreign Table <en-us_topic_0000001764896585>`. That is, both tables must have the same number of columns and column types.
 
    For example, create a table named *product_info*. The table example is as follows:
 
@@ -79,7 +79,7 @@ Querying Data After Importing It
 
       SELECT * FROM product_info;
 
-   If the query result is the same as the data in :ref:`Original Data <en-us_topic_0000001188482188__en-us_topic_0000001145410931_en-us_topic_0102810712_en-us_topic_0093837401_section1888720568453>`, the import is successful. The following information is displayed at the end of the query result:
+   If the query result is the same as the data in :ref:`Original Data <en-us_topic_0000001717097300__en-us_topic_0000001188482188_en-us_topic_0000001145410931_en-us_topic_0102810712_en-us_topic_0093837401_section1888720568453>`, the import is successful. The following information is displayed at the end of the query result:
 
    ::
 

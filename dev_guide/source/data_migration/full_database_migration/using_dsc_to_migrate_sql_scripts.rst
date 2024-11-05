@@ -2,6 +2,8 @@
 
 .. _dws_01_0127:
 
+.. _en-us_topic_0000001764817397:
+
 Using DSC to Migrate SQL Scripts
 ================================
 
@@ -12,9 +14,9 @@ The DSC can migrate SQL scripts of Teradata, Oracle, Netezza, MySQL, and DB2 dat
 Downloading the DSC SQL Migration Tool
 --------------------------------------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
-#. In the navigation tree on the left, click **Connection Management**.
+#. In the navigation tree on the left, choose **Management** > **Client Connections**.
 
 #. In the **Download Client and Driver** area, click **here** to download the DSC migration tool.
 

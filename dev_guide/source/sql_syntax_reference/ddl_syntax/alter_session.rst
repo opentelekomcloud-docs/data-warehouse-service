@@ -8,7 +8,7 @@ ALTER SESSION
 Function
 --------
 
-**ALTER SESSION** defines or modifies the conditions or parameters that affect the current session. Modified session parameters are kept until the current session is disconnected.
+Defines or modifies the conditions or parameters that affect the current session. Modified session parameters are kept until the current session is disconnected.
 
 Precautions
 -----------
@@ -56,7 +56,7 @@ Parameter Description
 
    .. note::
 
-      Some parameters that viewed by **SHOW ALL** cannot be set by **SET**. For example, **max_datanodes**.
+      Some parameters that are viewed by **SHOW ALL** cannot be set by **SET**. For example, **max_datanodes**.
 
 -  **value**
 
@@ -147,8 +147,8 @@ Create the role **joe**, and set the session role to **joe**.
 
 ::
 
-   CREATE ROLE joe WITH PASSWORD '{Password}';
-   ALTER SESSION SET SESSION AUTHORIZATION joe PASSWORD '{Password}';
+   CREATE ROLE joe WITH PASSWORD '{password}';
+   ALTER SESSION SET SESSION AUTHORIZATION joe PASSWORD '{password}';
 
 Switch to the default user.
 

@@ -5,9 +5,9 @@
 Monetary Types
 ==============
 
-The **money** type stores a currency amount with fixed fractional precision. The range shown in :ref:`Table 1 <en-us_topic_0000001233708691__t46041f911048428d9ee80bf0b323b430>` assumes there are two fractional digits. Input is accepted in a variety of formats, including integer and floating-point literals, as well as typical currency formatting, such as $1,000.00. Output is generally in the latter form but depends on the locale.
+The **money** type stores a currency amount with fixed fractional precision. The range shown in :ref:`Table 1 <en-us_topic_0000001460880888__t46041f911048428d9ee80bf0b323b430>` assumes there are two fractional digits. Input is accepted in a variety of formats, including integer and floating-point literals, as well as typical currency formatting, such as $1,000.00. Output is generally in the latter form but depends on the locale.
 
-.. _en-us_topic_0000001233708691__t46041f911048428d9ee80bf0b323b430:
+.. _en-us_topic_0000001460880888__t46041f911048428d9ee80bf0b323b430:
 
 .. table:: **Table 1** Monetary types
 

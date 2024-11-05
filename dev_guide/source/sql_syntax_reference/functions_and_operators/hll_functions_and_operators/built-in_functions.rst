@@ -36,7 +36,7 @@ HyperLogLog (HLL) has a series of built-in functions for internal data processin
    +-------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+
    | hll_hashval_out   | Sends hll_hashval data.                                                                                                                       |
    +-------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+
-   | hll_add_trans0    | Works similar to hll_add, and is used on the first phase of DNs in distributed aggregation operations.                                        |
+   | hll_add_trans0    | Works similar to **hll_add**, and is used during the initial phase of DNs in distributed aggregation procedures.                              |
    +-------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+
    | hll_union_trans   | Works similar to hll_union, and is used on the first phase of DNs in distributed aggregation operations.                                      |
    +-------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+

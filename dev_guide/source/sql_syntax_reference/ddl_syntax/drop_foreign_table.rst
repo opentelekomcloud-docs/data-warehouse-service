@@ -8,12 +8,12 @@ DROP FOREIGN TABLE
 Function
 --------
 
-**DROP FOREIGN TABLE** deletes a specified foreign table.
+Deletes a specified foreign table.
 
 Precautions
 -----------
 
-**DROP FOREIGN TABLE** forcibly deletes a specified table. After a table is deleted, any indexes that exist for the table will be deleted. The functions and stored procedures used in this table cannot be run.
+**DROP FOREIGN TABLE** forcibly deletes a specified table. After a table is deleted, any indexes that exist for the table will be deleted. The functions and stored procedures used in this table cannot be executed.
 
 Syntax
 ------
@@ -34,7 +34,7 @@ Parameter Description
 
    Specifies the name of the foreign table to be deleted.
 
-   Value range: An existing table name.
+   Value range: an existing table name.
 
 -  **CASCADE \| RESTRICT**
 

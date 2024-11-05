@@ -8,12 +8,17 @@ TRUNCATE
 Function
 --------
 
-**TRUNCATE** quickly removes all rows from a database table.
+Quickly removes all rows from a database table.
 
-It has the same effect as an unqualified **DELETE** on each table, but it is faster since it does not actually scan the tables. This is most useful on large tables.
+**TRUNCATE** has the same effect as an unqualified **DELETE** on each table, but it is faster since it does not actually scan the tables. This is most useful on large tables.
 
 Precautions
 -----------
+
+Exercise caution when running the **TRUNCATE TABLE** statement. Before running this statement, ensure that the table data can be deleted. After you run the **TRUNCATE TABLE** statement to delete table data, the data cannot be restored.
+
+TRUNCATE TABLE
+--------------
 
 -  **TRUNCATE TABLE** has the same function as a **DELETE** statement with no **WHERE** clause, emptying a table.
 -  **TRUNCATE TABLE** uses less system and transaction log resources as compared with **DELETE**.
@@ -30,22 +35,12 @@ Precautions
 Syntax
 ------
 
--  **TRUNCATE** empties a table or set of tables.
+**TRUNCATE** empties a table or set of tables.
 
 ::
 
    TRUNCATE [ TABLE ] [ ONLY ] {[[database_name.]schema_name.]table_name [ * ]} [, ... ]
        [ CONTINUE IDENTITY ] [ CASCADE | RESTRICT ];
-
--  Truncate the data in a partition.
-
-::
-
-   ALTER TABLE [ IF EXISTS  ] { [ ONLY  ] [[database_name.]schema_name.]table_name
-                              | table_name *
-                              | ONLY ( table_name )  }
-       TRUNCATE PARTITION { partition_name
-                          | FOR (  partition_value  [, ...] )  } ;
 
 Parameter Description
 ---------------------
@@ -77,58 +72,11 @@ Parameter Description
    -  **CASCADE**: automatically truncates all tables that have foreign-key references to any of the named tables, or to any tables added to the group due to **CASCADE**.
    -  **RESTRICT** (default): refuses to truncate if any of the tables have foreign-key references from tables that are not listed in the command.
 
--  **partition_name**
-
-   Indicates the partition in the target partition table.
-
-   Value range: An existing partition name.
-
--  **partition_value**
-
-   Specifies the value of the specified partition key.
-
-   The value specified by **PARTITION FOR** can uniquely identify a partition.
-
-   Value range: The partition key of the partition to be deleted.
-
-   .. important::
-
-      When the **PARTITION FOR** clause is used, the entire partition where **partition_value** is located is cleared.
-
 Examples
 --------
-
-Create a partitioned table **customer_address**:
-
-::
-
-   DROP TABLE IF EXISTS customer_address;
-   CREATE TABLE customer_address
-   (
-       ca_address_sk       INTEGER                  NOT NULL   ,
-       ca_address_id       CHARACTER(16)            NOT NULL   ,
-       ca_street_number    CHARACTER(10)                       ,
-       ca_street_name      CHARACTER varying(60)               ,
-       ca_street_type      CHARACTER(15)                       ,
-       ca_suite_number     CHARACTER(10)
-   )
-   DISTRIBUTE BY HASH (ca_address_sk)
-   PARTITION BY RANGE(ca_address_sk)
-   (
-           PARTITION P1 VALUES LESS THAN(2450815),
-           PARTITION P2 VALUES LESS THAN(2451179),
-           PARTITION P3 VALUES LESS THAN(2451544),
-           PARTITION P4 VALUES LESS THAN(MAXVALUE)
-   );
-
-Clear the **p1** partition of the **customer_address** table:
-
-::
-
-   ALTER TABLE customer_address TRUNCATE PARTITION p1;
 
 Clear a partitioned table:
 
 ::
 
-   TRUNCATE TABLE customer_address;
+   TRUNCATE TABLE tpcds.customer_address;

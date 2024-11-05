@@ -49,7 +49,7 @@ The traditional method is to directly query the original table. The statement is
 
    SELECT distinct userid FROM userinfo WHERE salary > 10000 AND age > 30 AND gender ='m' AND hobby ='fishing';
 
-If the **userinfo** table contains a small amount of data, indexes are created in the salary, age, gender, and hobby columns to meet the query requirements. However, if the **userinfo** table contains a large amount of data and a large number of labels, the preceding statement cannot meet the requirements. The reasons are as follows:
+If the **userinfo** table contains a small amount of data, indexes are created in the **salary**, **age**, **gender**, and **hobby** columns to meet the query requirements. However, if the **userinfo** table contains a large amount of data and a large number of labels, the preceding statement cannot meet the requirements. The reasons are as follows:
 
 -  A large number of indexes need to be created.
 -  The count (distinct) performance is poor.

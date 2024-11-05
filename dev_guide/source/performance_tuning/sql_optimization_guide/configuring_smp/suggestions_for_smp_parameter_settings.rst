@@ -2,6 +2,8 @@
 
 .. _dws_04_0424:
 
+.. _en-us_topic_0000001628950665:
+
 Suggestions for SMP Parameter Settings
 ======================================
 

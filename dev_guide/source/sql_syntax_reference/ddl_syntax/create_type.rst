@@ -8,7 +8,7 @@ CREATE TYPE
 Function
 --------
 
-**CREATE TYPE** defines a new data type in the current database. The user who defines a new data type becomes its owner. Types are designed only for row-store tables.
+Defines a new data type in the current database. The user who defines a new data type becomes its owner. Types are designed only for row-store tables.
 
 Four types of data can be created by using **CREATE TYPE**: composite data, base data, a shell data, and enumerated data.
 
@@ -98,11 +98,11 @@ When creating a base type, you can place parameters in any order. The **input_fu
 
    Specifies the name of a function that converts data from the external text format of a type to its internal format.
 
-   An input function can be declared as taking one parameter of the cstring type or taking three parameters of the cstring, oid, and integer types.
+   An input function can be declared with either one parameter of the CString type or three parameters of the CString, OID, and integer types.
 
    -  The cstring-type parameter is the input text as a C string.
    -  The oid-type parameter is the OID of the type (except for array types, where the parameter is the element type OID of an array type).
-   -  The integer-type parameter is typmod of the destination column, if known (**-1** will be passed if not known).
+   -  The integer parameter represents the typmod of the destination column, with **-1** passed if unknown.
 
    An input function must return a value of the data type itself. Generally, an input function must be declared as **STRICT**. If it is not, it will be called with a **NULL** parameter coming first when the system reads a **NULL** input value. In this case, the function must still return **NULL** unless an error raises. (This mechanism is designed for supporting domain input functions, which may need to reject **NULL** input values.)
 
@@ -183,7 +183,7 @@ When creating a base type, you can place parameters in any order. The **input_fu
 
    -  **main** allows for compression, but discourages moving a value out of the main table. (Data items with this storage strategy might still be moved out of the main table if there is no other way to make a row fit. However, they will be kept in the main table preferentially over **extended** and **external** items.)
 
-      All **storage** values except **plain** imply that the functions of the data type can handle values that have been toasted. A given value merely determines the default **TOAST** storage strategy for columns of a toastable data type. Users can choose other strategies for individual columns by using **ALTER TABLE SET STORAGE**.
+      All **storage** values except **plain** imply that the functions of the data type can handle values that have been toasted. A specified value determines the default TOAST storage strategy for columns of data types that support TOAST. Users can select different strategies for individual columns using **ALTER TABLE SET STORAGE**.
 
 -  **like_type**
 
@@ -225,13 +225,13 @@ When creating a base type, you can place parameters in any order. The **input_fu
 
    If **collatable** is **TRUE**, column definitions and expressions of a type may carry collation information by using the **COLLATE** clause. It is the implementations of functions operating on the type that actually use the collation information. This use cannot be achieved merely by marking the type collatable.
 
--  **lable**
+-  **label**
 
    (Optional) Specifies a text label associated with an enumerated value. It is a non-empty string of up to 64 characters.
 
 .. note::
 
-   Whenever a user-defined type is created, GaussDB(DWS) automatically creates an associated array type whose name consists of the element type name prepended with an underscore (_).
+   Whenever a user-defined type is created, GaussDB(DWS) automatically creates an associated array type whose name consists of the element type name with an underscore (_) added to the beginning of it.
 
 Example
 -------
@@ -291,7 +291,7 @@ This statement creates a placeholder for the type to be created, which can then 
        AS 'filename'
        LANGUAGE C IMMUTABLE STRICT not fenced;
 
--- Finally, provide a complete definition of the data type:
+Finally, provide a complete definition of the data type.
 
 ::
 

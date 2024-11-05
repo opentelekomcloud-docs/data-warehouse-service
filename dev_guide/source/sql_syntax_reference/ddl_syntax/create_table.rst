@@ -18,10 +18,12 @@ Precautions
 -  For details about the data types supported by column-store tables, see :ref:`Data Types Supported by Column-Store Tables <dws_06_0024>`.
 -  It is recommended that the number of column-store and HDFS partitioned tables do not exceed 1000.
 -  The primary key constraint and unique constraint in the table must contain a distribution column.
+-  The data type of the distribution column in an existing table cannot be modified.
+-  A system column cannot be designated as a primary key in a row-store REPLICATION distributed table.
 -  If an error occurs during table creation, after it is fixed, the system may fail to delete the empty disk files created before the last automatic clearance. This problem seldom occurs.
 -  Column-store tables support the **PARTIAL CLUSTER KEY** and table-level primary key and unique constraints, but do not support table-level foreign key constraints.
 -  Only the NULL, NOT NULL, and DEFAULT constant values can be used as column-store table column constraints.
--  Whether column-store tables support a delta table is specified by the **enable_delta** parameter. The threshold for storing data into a delta table is specified by the **deltarow_threshold** parameter.
+-  Whether column-store tables support a delta table is specified by the **enable_delta** parameter. The threshold for storing data into a delta table is specified by the **deltarow_threshold** parameter. Using column-store tables with delta tables is not recommended. This may cause disk bloat and performance deterioration due to delayed merge.
 -  Multi-temperature tables support only partitioned column-store tables and depend on available OBS tablespaces.
 -  Multi-temperature tables support only the default tablespace **default_obs_tbs**. If you need to add an OBS tablespace, contact technical support.
 
@@ -30,14 +32,14 @@ Syntax
 
 ::
 
-   CREATE [ [ GLOBAL | LOCAL ] { TEMPORARY | TEMP } | UNLOGGED ] TABLE [ IF NOT EXISTS ] table_name
+   CREATE [ [ GLOBAL | LOCAL | VOLATILE ] { TEMPORARY | TEMP } | UNLOGGED ] TABLE [ IF NOT EXISTS ] table_name
        { ({ column_name data_type [ compress_mode ] [ COLLATE collation ] [ column_constraint [ ... ] ]
            | table_constraint
            | LIKE source_table [ like_option [...] ] }
            [, ... ])|
            LIKE source_table [ like_option [...] ] }
        [ WITH ( {storage_parameter = value} [, ... ] ) ]
-       [ ON COMMIT { PRESERVE ROWS | DELETE ROWS } ]
+       [ ON COMMIT { PRESERVE ROWS | DELETE ROWS ]
        [ COMPRESS | NOCOMPRESS ]
        [ DISTRIBUTE BY { REPLICATION | ROUNDROBIN | { HASH ( column_name [,...] ) } } ]
        [ TO { GROUP groupname | NODE ( nodename [, ... ] ) } ]
@@ -52,8 +54,9 @@ Syntax
         NULL |
         CHECK ( expression ) |
         DEFAULT default_expr |
+        ON UPDATE on_update_expr |
         COMMENT 'text' |
-        UNIQUE index_parameters |
+        UNIQUE [ NULLS [NOT] DISTINCT | NULLS IGNORE ] index_parameters |
         PRIMARY KEY index_parameters }
       [ DEFERRABLE | NOT DEFERRABLE | INITIALLY DEFERRED | INITIALLY IMMEDIATE ]
 
@@ -69,7 +72,7 @@ Syntax
 
       [ CONSTRAINT constraint_name ]
       { CHECK ( expression ) |
-        UNIQUE ( column_name [, ... ] ) index_parameters |
+        UNIQUE [ NULLS [NOT] DISTINCT | NULLS IGNORE ] ( column_name [, ... ] ) index_parameters |
         PRIMARY KEY ( column_name [, ... ] ) index_parameters |
         PARTIAL CLUSTER KEY ( column_name [, ... ] ) }
       [ DEFERRABLE | NOT DEFERRABLE | INITIALLY DEFERRED | INITIALLY IMMEDIATE ]
@@ -101,9 +104,14 @@ Parameters
 
       The UNLOGGED table uses no primary/standby mechanism. In the case of system faults or abnormal breakpoints, data loss may occur. Therefore, the UNLOGGED table cannot be used to store basic data.
 
--  **GLOBAL \| LOCAL**
+-  .. _en-us_topic_0000001460561348__l40601c13ccdb4b5d85be38edd4f99676:
 
-   When creating a temporary table, you can specify the **GLOBAL** or **LOCAL** keyword before **TEMP** or **TEMPORARY**. Currently, the two keywords are used to be compatible with the SQL standard. GaussDB(DWS) will create a local temporary table regardless of whether **GLOBAL** or **LOCAL** is specified.
+   **GLOBAL \| LOCAL** \| **VOLATILE**
+
+   Specify the keywords **GLOBAL**, **LOCAL**, and **VOLATILE** before **TEMP** or **TEMPORARY** to create temporary tables with different attributes.
+
+   -  Currently, the keywords **GLOBAL** and **LOCAL** are introduced for standard SQL compatibility. No matter whether **GLOBAL** or **LOCAL** is specified, the GaussDB(DWS) creates a LOCAL temporary table.
+   -  If **VOLATILE** is specified, a temporary volatile table is created.
 
 -  **TEMPORARY \| TEMP**
 
@@ -111,8 +119,18 @@ Parameters
 
    .. important::
 
-      -  Temporary tables are visible to the current session through schema of the **pg_temp** start. Users should not delete schema started with **pg_temp**, **pg_toast_temp**.
+      -  Local or volatile temporary tables are visible to the current session through schema of the **pg_temp** start. Users should not delete schema started with **pg_temp**, **pg_toast_temp**.
       -  If **TEMPORARY** or **TEMP** is not specified when you create a table and the schema of the specified table starts with **pg_temp\_**, the table is created as a temporary table.
+      -  Similar to common tables, all metadata of local temporary tables is stored in system catalogs. Volatile temporary tables store table structure metadata in memory, except the schema metadata. Compared with local temporary tables, volatile temporary tables have the following constraints:
+
+         -  After a CN or DN is restarted, data in its memory will be lost, and accordingly, volatile temporary tables on it will become invalid.
+         -  Currently, volatile temporary tables do not support table structure modification, such as **ALTER** and **GRANT**.
+         -  Volatile temporary tables and local temporary tables share temporary schemas. Therefore, in the same session, the VOLATILE temporary table and local temporary table cannot have the same name.
+         -  Volatile temporary table information is not stored in system catalogs. Therefore, Volatile metadata cannot be queried by running DML statements in system catalogs.
+         -  Volatile temporary tables support only common row-store and column-store tables. Delta tables, time series tables, and cold and hot tables are not supported.
+         -  Views cannot be created based on volatile temporary tables.
+         -  A tablespace cannot be specified when a temporary table is created. The default tablespace of a volatile temporary table is **pg_volatile**.
+         -  The following constraints cannot be specified when a volatile temporary table is created: CHECK, UNIQUE, PRIMARY KEY, TRIGGER, EXCLUDE, and PARTIAL CLUSTER.
 
 -  **IF NOT EXISTS**
 
@@ -138,18 +156,13 @@ Parameters
 
    .. note::
 
-      In a database compatible with Teradata or MySQL syntax, if the data type of a column is set to DATE, the DATE type is returned. Otherwise, the TIMESTAMP type is returned.
+      In a database that is compatible with Teradata or MySQL syntax, if the data type of a column is set to DATE, the DATE type is returned. Otherwise, the TIMESTAMP type is returned.
 
 -  **compress_mode**
 
    Specifies the compress option of the table, only available for row-store table. The option specifies the algorithm preferentially used by table columns.
 
-   This compression option is irrelevant to the adaptive compression algorithm of column-store tables. The adaptive compression algorithm is used for internal data storage of column-store tables and does not allow users to specify the compression mode. For details, see the description of the :ref:`COMPRESSION <en-us_topic_0000001188429064__l770ea1d44c9f44bf8d17c8cb0a26bac6>` parameter.
-
    Value range: DELTA, PREFIX, DICTIONARY, NUMSTR, NOCOMPRESS
-
-   -  DELTA compression supports only data types with a length of 1 to 8 bytes (0 < pg_type.typlen<=8).
-   -  PREFIX and NUMSTR compression support only variable-length data types (pg_type.typlen=-1) and NULL-terminated C strings (pg_type.typlen=-2).
 
 -  **COLLATE collation**
 
@@ -163,13 +176,18 @@ Parameters
 
    Columns and constraints copied by **LIKE** are not merged with the same name. If the same name is specified explicitly or in another **LIKE** clause, an error is reported.
 
-   -  The default expressions are copied from the source table to the new table only if **INCLUDING DEFAULTS** is specified. The default behavior is to exclude default expressions, resulting in the copied columns in the new table having default values **NULL**.
+   -  The default expressions or the **ON UPDATE** expressions are copied from the source table to the new table only if **INCLUDING DEFAULTS** is specified. The default behavior is to exclude default expressions, resulting in the copied columns in the new table having default values **NULL**.
    -  The **CHECK** constraints are copied from the source table to the new table only when **INCLUDING CONSTRAINTS** is specified. Other types of constraints are never copied to the new table. **NOT NULL** constraints are always copied to the new table. These rules also apply to column constraints and table constraints.
    -  Any indexes on the source table will not be created on the new table, unless the **INCLUDING INDEXES** clause is specified.
    -  STORAGE settings for the copied column definitions are copied only if **INCLUDING STORAGE** is specified. The default behavior is to exclude **STORAGE** settings.
    -  If **INCLUDING COMMENTS** is specified, comments for the copied columns, constraints, and indexes are copied. The default behavior is to exclude comments.
    -  If **INCLUDING PARTITION** is specified, the partition definitions of the source table are copied to the new table, and the new table no longer uses the **PARTITION BY** clause. The default behavior is to exclude partition definition of the source table.
    -  If **INCLUDING RELOPTIONS** is specified, the storage parameter (**WITH** clause of the source table) of the source table is copied to the new table. The default behavior is to exclude partition definition of the storage parameter of the source table.
+
+      .. note::
+
+         **PERIOD** and **TTL** in the **WITH** clause are partition-related parameters. **LIKE INCLUDING RELOPTIONS** will not be copied to the new table. To copy **LIKE INCLUDING RELOPTIONS**, use **INCLUDING PARTITION**.
+
    -  If **INCLUDING DISTRIBUTION** is specified, the distribution information of the source table is copied to the new table, including distribution type and column, and the new table no longer use the **DISTRIBUTE BY** clause. The default behavior is to exclude distribution information of the source table.
    -  If **INCLUDING DROPCOLUMNS** is specified, the deleted column information in the source table is copied to the new table. By default, the deleted column information of the source table is not copied.
    -  **INCLUDING ALL** contains the meaning of **INCLUDING DEFAULTS**, **INCLUDING CONSTRAINTS**, **INCLUDING INDEXES**, **INCLUDING STORAGE**, **INCLUDING COMMENTS**, **INCLUDING PARTITION**, **INCLUDING RELOPTIONS**, **INCLUDING DISTRIBUTION**, and **INCLUDING DROPCOLUMNS**.
@@ -211,25 +229,25 @@ Parameters
 
          **COLUMN** applies to the data warehouse service, which has a large amount of aggregation computing, and involves a few column operations.
 
-      Default value: ROW (row-store)
+      Default value: **ROW** (row-store)
 
       .. note::
 
          In cluster 8.1.3 and later versions, the GUC parameter **default_orientation** (default value: **row**) is added. If the storage mode is not specified when a table is created, by default, the table is created based on the value of the parameter (row, column, column enabledelta).
 
-   -  .. _en-us_topic_0000001188429064__l770ea1d44c9f44bf8d17c8cb0a26bac6:
-
-      COMPRESSION
+   -  COMPRESSION
 
       Specifies the compression level of the table data. It determines the compression ratio and time. Generally, the higher the level of compression, the higher the ratio, the longer the time, and the lower the level of compression, the lower the ratio, the shorter the time. The actual compression ratio depends on the distribution characteristics of loading table data.
 
       Valid value:
 
-      The valid values for column-store tables are **YES**/**NO** and **LOW**/**MIDDLE**/**HIGH**, and the default is **LOW**. When this parameter is set to **YES**, the compression level is **LOW** by default.
+      The valid values for column-store tables are **YES**/**NO** and **LOW**/**MIDDLE**/**HIGH**, and the default is **LOW**. If this parameter is set to **YES**, the compression level is **LOW** by default.
 
       .. note::
 
-         -  Currently, row-store table compression is not supported.
+         -  Currently, compression is unavailable for row-store tables.
+         -  To determine the size of a new GaussDB(DWS) cluster, consider the size of ORC data compressed and migrated to column-store tables in GaussDB(DWS). If the compression level is low, the size of a copy is about 1.5 to 2 times that of ORC. If the compression level is high, the size of a copy is basically the same as that of ORC.
+         -  The middle compression of column-stores uses dictionary compression. For data not suitable for dictionary compression, the file size after middle compression may be greater than that of after low compression.
 
       GaussDB(DWS) provides the following compression algorithms:
 
@@ -249,7 +267,23 @@ Parameters
 
       Specifies the compression level of the table data. It determines the compression ratio and time. This divides a compression level into sublevels, providing you with more choices for compression rate and duration. As the value becomes greater, the compression rate becomes higher and duration longer at the same compression level. The parameter is only valid for column-store tables.
 
-      Value range: 0 to 3. The default value is **0**.
+      Value range: 0-3.
+
+      Default value: **0**
+
+   -  TTL
+
+      Schedules the partition deletion tasks in a partitioned table. By default, no partition deletion task is created.
+
+      Value range: 1 hour-100 years
+
+   -  PERIOD
+
+      Schedules the partition creation tasks in a partitioned table. If **TTL** has been configured, **PERIOD** cannot be greater than **TTL**.
+
+      Value range: 1 hour-100 years
+
+      Default value: 1 day
 
    -  MAX_BATCHROW
 
@@ -257,7 +291,7 @@ Parameters
 
       Value range: 10000 to 60000
 
-      Default value: 60,000
+      Default value: **60000**
 
    -  PARTIAL_CLUSTER_ROWS
 
@@ -265,19 +299,46 @@ Parameters
 
       Value range: 600000 to 2147483647
 
-      Default value: 4,200,000
-
    -  enable_delta
 
       Specifies whether to enable delta tables in column-store tables. The parameter is only valid for column-store tables.
 
       Default value: **off**
 
+   -  enable_hstore
+
+      Specifies whether an H-Store table will be created (based on column-store tables). The parameter is only valid for column-store tables. This parameter is supported by version 8.2.0.100 or later clusters.
+
+      Default value: **off**
+
+      .. note::
+
+         If this parameter is enabled, the following GUC parameters must be set to ensure that H-Store tables are cleared.
+
+         autovacuum=on, autovacuum_max_workers=6, autovacuum_max_workers_hstore=3.
+
+   -  enable_disaster_cstore
+
+      Specifies whether fine-grained DR will be enabled for column-store tables. This parameter only takes effect on column-store tables whose COLVERSION is 2.0 and cannot be set to **true** if **enable_hstore** is **true**. This parameter is supported by version 8.2.0.100 or later clusters.
+
+   -  fine_disaster_table_role
+
+      This parameter has been discarded in version 8.2.1 and is reserved for compatibility with earlier versions. This parameter is invalid in the current version.
+
+      Specifies whether the fine-grained DR table will be set as a primary or secondary table. This parameter can be **true** only when the **enable_disaster_cstore** parameter has been set to **true**.
+
+      Valid value:
+
+      -  **primary**: Specifies the primary fine-grained DR table.
+      -  **standby**: Specifies the standby fine-grained DR table.
+
    -  DELTAROW_THRESHOLD
 
       Specifies the upper limit of to-be-imported rows for triggering the data import to a delta table when data is to be imported to a column-store table. This parameter takes effect only if the **enable_delta** table parameter is set to **on**. The parameter is only valid for column-store tables.
 
-      The value ranges from **0** to **60000**. The default value is **6000**.
+      Value range: 0 to 60000
+
+      **Default value**: **6000**
 
    -  COLVERSION
 
@@ -298,10 +359,23 @@ Parameters
          -  For clusters of version 8.1.0, the default value of this parameter is **1.0**. For clusters of version 8.1.1 or later, the default value of this parameter is **2.0**. If the cluster version is upgraded from 8.1.0 to 8.1.1 or later, the default value of this parameter changes from **1.0** to **2.0**.
          -  When creating a column-store table, set **COLVERSION** to **2.0**. Compared with the **1.0** storage format, the performance is significantly improved:
 
-            #. The time required for creating a column-store wide table is significantly reduced.
-            #. In the Roach data backup scenario, the backup time is significantly reduced.
-            #. The build and catch up time is greatly reduced.
-            #. The occupied disk space decreases significantly.
+            -  The time required for creating a column-store wide table is significantly reduced.
+            -  In the Roach data backup scenario, the backup time is significantly reduced.
+            -  The build and catch up time is greatly reduced.
+            -  The occupied disk space decreases significantly.
+
+   -  analyze_mode
+
+      Specifies the mode of table-level auto-analyze.
+
+      Valid value:
+
+      -  **frozen**: disables all **ANALYZE** operations (dynamic sampling can still be triggered when no statistics are collected).
+      -  **backend**: allows only **ANALYZE** triggered by **AUTOVACUUM** polling.
+      -  **runtime**: allows only runtime **ANALYZE** triggered by the optimizer.
+      -  **all**: Both backend and runtime **AUTO-ANALYZE** can be triggered.
+
+      Default value: **all**
 
    -  SKIP_FPI_HINT
 
@@ -312,6 +386,14 @@ Parameters
       .. note::
 
          If **SKIP_FPI_HINT** is set to **true** and the checkpoint operation is performed on a table, no Xlog will be generated when the table is sequentially scanned. This applies to intermediate tables that are queried less frequently, reducing the size of Xlogs and improving query performance.
+
+   -  enable_column_autovacuum_garbage
+
+      Determines whether to enable CU rewriting logic for column-store tables using AUTOVACUUM. This parameter is supported only by clusters of version 8.2.1.100 or later.
+
+      There is a low probability that an error is reported when lightweight UPDATE and AUTOVACUUM are executed concurrently. You can set the table-level parameter to **off** to avoid this problem.
+
+      Default value: **true**
 
 -  **ON COMMIT { PRESERVE ROWS \| DELETE ROWS }**
 
@@ -333,7 +415,7 @@ Parameters
    Valid value:
 
    -  **REPLICATION**: Each row in the table exists on all DNs, that is, each DN has complete table data.
-   -  **ROUNDROBIN**: Each row in the table is sent to each DN in sequence. This distribution policy prevents data skew. However, data distribution nodes are random. As a result, there is a higher probability that table redistribution is triggered during computing. This distribution policy is recommended for large tables with severe column skew. This value is supported only in 8.1.2 or later.
+   -  **ROUNDROBIN**: Each row in the table is sent to each DN in turn. Therefore, data is evenly distributed on each DN. This value is supported only in 8.1.2 or later.
    -  **HASH (column_name)**: Each row of the table will be placed into all the DNs based on the hash value of the specified column.
 
       .. note::
@@ -443,17 +525,49 @@ Parameters
 
    The default expression will be used in any insert operation that does not specify a value for the column. If there is no default value for a column, then the default value is **NULL**.
 
+-  **ON UPDATE on_update_expr**
+
+   The **ON UPDATE** clause specifies a timestamp function for a column. Ensure that the data type of the column for which the **ON UPDATE** clause specifies a timestamp function is timestamp or timestamptz.
+
+   When an SQL statement containing the **UPDATE** operation is executed, this column is automatically updated to the time specified by the timestamp function.
+
+   .. note::
+
+      The **on_update_expr** function supports only CURRENT_TIMESTAMP, CURRENT_TIME, CURRENT_DATE, LOCALTIME, LOCALTIMESTAMP.
+
 -  **COMMENT** **'text'**
 
    The **COMMENT** clause can specify a comment for a column.
 
--  **UNIQUE index_parameters**
+-  **UNIQUE [ NULLS [ NOT ] DISTINCT \| NULLS IGNORE ] index_parameters**
 
-   **UNIQUE ( column_name [, ... ] ) index_parameters**
+   **UNIQUE [ NULLS [ NOT ] DISTINCT \| NULLS IGNORE ] ( column_name [, ... ] ) index_parameters**
 
    Specifies that a group of one or more columns of a table can contain only unique values.
 
-   For the purpose of a unique constraint, NULL is not considered equal.
+   The **[ NULLS [ NOT ] DISTINCT \| NULLS IGNORE ]** field is used to specify how to process null values in the index column of the Unique index.
+
+   Default value: This parameter is left empty by default. NULL values can be inserted repeatedly.
+
+   When the inserted data is compared with the original data in the table, the NULL value can be processed in any of the following ways:
+
+   -  NULLS DISTINCT: NULL values are unequal and can be inserted repeatedly.
+   -  NULLS NOT DISTINCT: NULL values are equal. If all index columns are NULL, NULL values cannot be inserted repeatedly. If some index columns are NULL, data can be inserted only when non-null values are different.
+   -  NULLS IGNORE: NULL values are skipped during the equivalent comparison. If all index columns are NULL, NULL values can be inserted repeatedly. If some index columns are NULL, data can be inserted only when non-null values are different.
+
+   The following table lists the behaviors of the three processing modes.
+
+   .. table:: **Table 2** Processing of NULL values in index columns in unique indexes
+
+      +--------------------+--------------------------------+------------------------------------------------------------------------------------------------------------+
+      | Constraint         | All Index Columns Are NULL     | Some Index Columns Are NULL.                                                                               |
+      +====================+================================+============================================================================================================+
+      | NULLS DISTINCT     | Can be inserted repeatedly.    | Can be inserted repeatedly.                                                                                |
+      +--------------------+--------------------------------+------------------------------------------------------------------------------------------------------------+
+      | NULLS NOT DISTINCT | Cannot be inserted repeatedly. | Cannot be inserted if the non-null values are equal. Can be inserted if the non-null values are not equal. |
+      +--------------------+--------------------------------+------------------------------------------------------------------------------------------------------------+
+      | NULLS IGNORE       | Can be inserted repeatedly.    | Cannot be inserted if the non-null values are equal. Can be inserted if the non-null values are not equal. |
+      +--------------------+--------------------------------+------------------------------------------------------------------------------------------------------------+
 
    .. note::
 
@@ -488,14 +602,13 @@ Parameters
 
    The constraint check time can be altered using the **SET CONSTRAINTS** command.
 
-Example
--------
+Examples
+--------
 
-Define a unique column constraint for the table.
+Define a unique column constraint for the table:
 
 ::
 
-   DROP TABLE IF EXISTS CUSTOMER;
    CREATE TABLE CUSTOMER
    (
        C_CUSTKEY     BIGINT NOT NULL CONSTRAINT C_CUSTKEY_pk PRIMARY KEY  ,
@@ -507,11 +620,10 @@ Define a unique column constraint for the table.
    )
    DISTRIBUTE BY HASH(C_CUSTKEY);
 
-Define a primary key table constraint for a table. You can define a primary key table constraint on one or more columns of a table.
+Define a primary key table constraint for the table. You can define a primary key table constraint on one or more columns of a table:
 
 ::
 
-   DROP TABLE IF EXISTS CUSTOMER;
    CREATE TABLE CUSTOMER
    (
        C_CUSTKEY     BIGINT       ,
@@ -524,11 +636,10 @@ Define a primary key table constraint for a table. You can define a primary key 
    )
    DISTRIBUTE BY HASH(C_CUSTKEY,C_NAME);
 
-Define the **CHECK** column constraint:
+Define the **CHECK** column constraint.
 
 ::
 
-   DROP TABLE IF EXISTS CUSTOMER;
    CREATE TABLE CUSTOMER
    (
        C_CUSTKEY     BIGINT NOT NULL CONSTRAINT C_CUSTKEY_pk PRIMARY KEY  ,
@@ -540,9 +651,8 @@ Define the **CHECK** column constraint:
 
 Define the **CHECK** table constraint:
 
-::
+.. code-block::
 
-   DROP TABLE IF EXISTS CUSTOMER;
    CREATE TABLE CUSTOMER
    (
        C_CUSTKEY     BIGINT NOT NULL CONSTRAINT C_CUSTKEY_pk PRIMARY KEY  ,
@@ -557,7 +667,6 @@ Create a column-store table and specify the storage format and compression mode:
 
 ::
 
-   DROP TABLE IF EXISTS customer_address;
    CREATE TABLE customer_address
    (
        ca_address_sk       INTEGER                  NOT NULL   ,
@@ -574,7 +683,6 @@ Use **DEFAULT** to declare a default value for column **W_STATE**:
 
 ::
 
-   DROP TABLE IF EXISTS warehouse_t;
    CREATE TABLE warehouse_t
    (
        W_WAREHOUSE_SK            INTEGER                NOT NULL,
@@ -590,10 +698,9 @@ Create the **CUSTOMER_bk** table in LIKE mode:
 
 ::
 
-   DROP TABLE IF EXISTS CUSTOMER_bk;
    CREATE TABLE CUSTOMER_bk (LIKE CUSTOMER INCLUDING ALL);
 
 Helpful Links
 -------------
 
-:ref:`ALTER TABLE <dws_06_0142>`, :ref:`RENAME TABLE <dws_06_0276>`, :ref:`DROP TABLE <dws_06_0208>`
+:ref:`ALTER TABLE <dws_06_0142>`, :ref:`12.101-RENAME TABLE <dws_06_0276>`, and :ref:`DROP TABLE <dws_06_0208>`

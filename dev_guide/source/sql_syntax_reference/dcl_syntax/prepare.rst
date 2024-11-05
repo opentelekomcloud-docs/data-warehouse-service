@@ -8,7 +8,7 @@ PREPARE
 Function
 --------
 
-**PREPARE** creates a prepared statement.
+Creates a prepared statement.
 
 A prepared statement is a performance optimizing object on the server. When the **PREPARE** statement is executed, the specified query is parsed, analyzed, and rewritten. When the **EXECUTE** is executed, the prepared statement is planned and executed. This avoids repetitive parsing and analysis. After the PREPARE statement is created, it exists throughout the database session. Once it is created (even if in a transaction block), it will not be deleted when a transaction is rolled back. It can only be deleted by explicitly invoking :ref:`DEALLOCATE <dws_06_0246>` or automatically deleted when the session ends.
 
@@ -46,8 +46,7 @@ Create and run a prepared statement for the **INSERT** statement:
 
 ::
 
-   CREATE TABLE IF NOT EXISTS reason_t1 (a int,b varchar(20),c varchar(20));
-   PREPARE insert_reason(integer,character(16),character(100)) AS INSERT INTO reason_t1 VALUES($1,$2,$3);
+   PREPARE insert_reason(integer,character(16),character(100)) AS INSERT INTO tpcds.reason_t1 VALUES($1,$2,$3);
    EXECUTE insert_reason(52, 'AAAAAAAADDAAAAAA', 'reason 52');
 
 Helpful Links

@@ -8,7 +8,7 @@ ALTER FOREIGN TABLE (SQL on other GaussDB(DWS))
 Function
 --------
 
-**ALTER FOREIGN TABLE** modifies a foreign table in associated analysis.
+Modifies a foreign table in associated analysis.
 
 Precautions
 -----------
@@ -18,28 +18,28 @@ None
 Syntax
 ------
 
--  Set a foreign table's attributes:
+-  Set a foreign table's attributes.
 
    ::
 
       ALTER FOREIGN TABLE [ IF EXISTS ] tablename
           OPTIONS ( {[ SET ] option ['value']} [, ... ]);
 
--  Set the owner of the foreign table:
+-  Set the owner of a foreign table.
 
    ::
 
       ALTER FOREIGN TABLE [ IF EXISTS ] tablename
           OWNER TO new_owner;
 
--  Update the type of a foreign table column:
+-  Update the type of a foreign table column.
 
    ::
 
       ALTER FOREIGN TABLE [ IF EXISTS ] table_name
           MODIFY ( { column_name data_type [, ...] } );
 
--  Modify the column of the foreign table:
+-  Modify a column of a foreign table.
 
    ::
 
@@ -78,7 +78,7 @@ Parameter Description
 
    Specifies the new type for an existing column.
 
-   Value range: a string compliant with the identifier naming rules
+   Value range: a string. It must comply with the naming convention.
 
 -  **column_name**
 
@@ -86,48 +86,22 @@ Parameter Description
 
    Value range: a string. It must comply with the naming convention.
 
-For details on how to modify other parameters in the foreign table, see :ref:`Parameter Description <en-us_topic_0000001188588994__s3e87132692794964b56e3ba420e7b544>` in **ALTER TABLE**.
+For details on how to modify other parameters in the foreign table, see :ref:`Parameter Description <en-us_topic_0000001510281989__s3e87132692794964b56e3ba420e7b544>` in **ALTER TABLE**.
 
 Example:
 --------
 
-#. Create a foreign server named **server_remote**. The corresponding foreign data wrapper is **GC_FDW**.
+Modify the **region** option of the foreign table.
 
-   ::
+::
 
-      CREATE SERVER server_remote FOREIGN DATA WRAPPER GC_FDW OPTIONS (address '10.10.0.100:25000,10.10.0.101:25000',dbname 'test', username 'test', password '{Password}');
+   ALTER FOREIGN TABLE region OPTIONS (SET schema_name 'test');
 
-#. Create a foreign table named **region**.
+Change the type of the **r_name** column to **text** in the **region** foreign table.
 
-   ::
+::
 
-      DROP FOREIGN TABLE IF EXISTS region;
-      CREATE FOREIGN TABLE region
-      (
-          R_REGIONKEY INT4,
-          R_NAME TEXT,
-          R_COMMENT TEXT
-      )
-      SERVER
-          server_remote
-      OPTIONS
-      (
-          schema_name 'test',
-          table_name 'region',
-          encoding 'gbk'
-      );
-
-#. Modify the **region** option of the foreign table.
-
-   ::
-
-      ALTER FOREIGN TABLE region OPTIONS (SET schema_name 'test');
-
-#. Change the type of the **r_name** column to **text** in the **region** foreign table.
-
-   ::
-
-      ALTER FOREIGN TABLE region ALTER r_name TYPE TEXT;
+   ALTER FOREIGN TABLE region ALTER r_name TYPE TEXT;
 
 Helpful Links
 -------------

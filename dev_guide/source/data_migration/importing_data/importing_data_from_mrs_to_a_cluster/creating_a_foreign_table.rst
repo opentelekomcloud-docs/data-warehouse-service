@@ -2,6 +2,8 @@
 
 .. _dws_04_0214:
 
+.. _en-us_topic_0000001764896609:
+
 Creating a Foreign Table
 ========================
 
@@ -12,13 +14,13 @@ Prerequisites
 
 -  You have created an MRS cluster and imported data to the ORC table in the Hive/Spark database.
 
-   For details, see :ref:`Preparing Data in an MRS Cluster <dws_04_0212>`.
+   For details, see :ref:`Preparing Data in an MRS Cluster <en-us_topic_0000001717097320>`.
 
 -  You have created an MRS data source connection for the GaussDB(DWS) cluster.
 
    For details, see section "MRS Data Sources > Creating an MRS Data Source Connection" in the *Data Warehouse Service User Guide*.
 
-.. _en-us_topic_0000001233563249__en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_section129581728111417:
+.. _en-us_topic_0000001764896609__en-us_topic_0000001233563249_en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_section129581728111417:
 
 Obtaining the HDFS Path of the MRS Data Source
 ----------------------------------------------
@@ -27,7 +29,7 @@ There are two methods for you to obtain the HDFS path.
 
 -  **Method 1**
 
-   For Hive data, log in to the Hive client of MRS (see :ref:`2 <en-us_topic_0000001188642198__en-us_topic_0000001082830951_en-us_topic_0109259515_en-us_topic_0101477888_li14725131112614>`), run the following command to view the detailed information about the table, and record the data storage path in the **location** parameter:
+   For Hive data, log in to the Hive client of MRS (see :ref:`2 <en-us_topic_0000001717097320__en-us_topic_0000001188642198_en-us_topic_0000001082830951_en-us_topic_0109259515_en-us_topic_0101477888_li14725131112614>`), run the following command to view the detailed information about the table, and record the data storage path in the **location** parameter:
 
    .. code-block::
 
@@ -54,7 +56,7 @@ There are two methods for you to obtain the HDFS path.
 
          **Figure 1** Checking the data storage path on MRS
 
-.. _en-us_topic_0000001233563249__en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_section1760214326239:
+.. _en-us_topic_0000001764896609__en-us_topic_0000001233563249_en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_section1760214326239:
 
 Obtaining Information About the Foreign Server Connected to the MRS Data Source
 -------------------------------------------------------------------------------
@@ -65,7 +67,7 @@ Obtaining Information About the Foreign Server Connected to the MRS Data Source
 
    -  **Yes**
 
-      a. Ensure that you have created the common user **dbuser** and its database **mydatabase**, and manually created a foreign server in **mydatabase** by following steps in :ref:`Manually Creating a Foreign Server <dws_04_0213>`.
+      a. Ensure that you have created the common user **dbuser** and its database **mydatabase**, and manually created a foreign server in **mydatabase** by following steps in :ref:`Manually Creating a Foreign Server <en-us_topic_0000001764817381>`.
 
       b. Connect to the database **mydatabase** as user **dbuser** through the database client tool provided by GaussDB(DWS).
 
@@ -117,7 +119,7 @@ Obtaining Information About the Foreign Server Connected to the MRS Data Source
 Creating a Foreign Table
 ------------------------
 
-After :ref:`Obtaining Information About the Foreign Server Connected to the MRS Data Source <en-us_topic_0000001233563249__en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_section1760214326239>` and :ref:`Obtaining the HDFS Path of the MRS Data Source <en-us_topic_0000001233563249__en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_section129581728111417>` are completed, you can create a foreign table to read data from the MRS data source.
+After :ref:`Obtaining Information About the Foreign Server Connected to the MRS Data Source <en-us_topic_0000001764896609__en-us_topic_0000001233563249_en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_section1760214326239>` and :ref:`Obtaining the HDFS Path of the MRS Data Source <en-us_topic_0000001764896609__en-us_topic_0000001233563249_en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_section129581728111417>` are completed, you can create a foreign table to read data from the MRS data source.
 
 The syntax for creating a foreign table is as follows. For details, see the syntax **CREATE FOREIGN TABLE (SQL on Hadoop or OBS)**.
 
@@ -147,13 +149,13 @@ For example, when creating a foreign table named *foreign\_product_info*, set pa
 
    Multiple columns are separate by commas (,).
 
-   The number of columns and column types in the foreign table must be the same as those in the data stored on MRS. Learn :ref:`Data Type Conversion <en-us_topic_0000001233563249__en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_section185347544812>` before defining column data types.
+   The number of columns and column types in the foreign table must be the same as those in the data stored on MRS. Learn :ref:`Data Type Conversion <en-us_topic_0000001764896609__en-us_topic_0000001233563249_en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_section185347544812>` before defining column data types.
 
 -  **SERVER dfs_server**
 
    This parameter specifies the foreign server name of the foreign table. This server must exist. The foreign table can read data from an MRS cluster by configuring the foreign server and connecting to the MRS data source.
 
-   Enter the value of the **srvname** field queried in :ref:`Obtaining Information About the Foreign Server Connected to the MRS Data Source <en-us_topic_0000001233563249__en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_section1760214326239>`.
+   Enter the value of the **srvname** field queried in :ref:`Obtaining Information About the Foreign Server Connected to the MRS Data Source <en-us_topic_0000001764896609__en-us_topic_0000001233563249_en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_section1760214326239>`.
 
 -  **OPTIONS** parameters
 
@@ -165,7 +167,7 @@ For example, when creating a foreign table named *foreign\_product_info*, set pa
 
       If the MRS analysis cluster has enabled Kerberos authentication, ensure that the MRS user having the MRS data source connection has the read and write permissions for the directory.
 
-      Follow the steps in :ref:`Obtaining the HDFS Path of the MRS Data Source <en-us_topic_0000001233563249__en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_section129581728111417>` to obtain the HDFS path, which is the value of parameter **foldername**.
+      Follow the steps in :ref:`Obtaining the HDFS Path of the MRS Data Source <en-us_topic_0000001764896609__en-us_topic_0000001233563249_en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_section129581728111417>` to obtain the HDFS path, which is the value of parameter **foldername**.
 
    -  **encoding**: This parameter is optional. It specifies the encoding format of a source data file in the foreign table. Its default value is **utf8**.
 
@@ -207,16 +209,16 @@ Based on the above settings, the foreign table is created using the following st
    )
    DISTRIBUTE BY ROUNDROBIN;
 
-.. _en-us_topic_0000001233563249__en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_section185347544812:
+.. _en-us_topic_0000001764896609__en-us_topic_0000001233563249_en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_section185347544812:
 
 Data Type Conversion
 --------------------
 
 Data is imported to Hive/Spark and then stored on HDFS in ORC format. Actually, GaussDB(DWS) reads ORC files on HDFS, and queries and analyzes data in these files.
 
-Data types supported by Hive/Spark are different from those supported by GaussDB(DWS). Therefore, you need to learn the mapping between them. :ref:`Table 1 <en-us_topic_0000001233563249__en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_table1410311611489>` describes the mapping in detail.
+Data types supported by Hive/Spark are different from those supported by GaussDB(DWS). Therefore, you need to learn the mapping between them. :ref:`Table 1 <en-us_topic_0000001764896609__en-us_topic_0000001233563249_en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_table1410311611489>` describes the mapping in detail.
 
-.. _en-us_topic_0000001233563249__en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_table1410311611489:
+.. _en-us_topic_0000001764896609__en-us_topic_0000001233563249_en-us_topic_0000001082927067_en-us_topic_0109259517_en-us_topic_0101477886_table1410311611489:
 
 .. table:: **Table 1** Data type mapping
 

@@ -7,6 +7,145 @@ Resource Management Functions
 
 This section describes the functions of the resource management module.
 
+gs_increase_except_num(unique_sql_id int8)
+------------------------------------------
+
+Description: Records job exception information. The input parameter must be greater than 0. If this function is invoked, the number of job exceptions will be increased by 1 and the latest job exception time will be updated to the current time.
+
+Return type: bool
+
+Example:
+
+::
+
+   select gs_increase_except_num(111);
+   gs_increase_except_num
+   ------------------------
+   t
+   (1 row)
+
+gs_increase_except_num(unique_sql_id int8, except_num int4)
+-----------------------------------------------------------
+
+Description: Records job exception information. The input parameter must be greater than 0. If this function is invoked, the number of job exceptions will be increased by **except_num** and the latest job exception time will be updated to the current time.
+
+Return type: bool
+
+Example:
+
+::
+
+   select gs_increase_except_num(111, 4);
+   gs_increase_except_num
+   -----------------------
+   t
+   (1 row)
+
+gs_increase_except_num(unique_sql_id int8, except_num int4, except_time int8)
+-----------------------------------------------------------------------------
+
+Description: Records job exception information. The input parameter must be greater than 0. If this function is invoked, the number of job exceptions will be increased by **except_num** and the latest job exception time will be updated to **except_time**, a timestamp. This function is mainly invoked internally.
+
+Return type: bool
+
+Example:
+
+::
+
+   select gs_increase_except_num(111, 4, 714623414421256);
+   gs_increase_except_num
+   -----------------------
+   t
+   (1 row)
+
+gs_update_blocklist_hash_info(unique_sql_id int8, is_remove boolean)
+--------------------------------------------------------------------
+
+Description: Updates the blocklist corresponding to **unique_sql_id** in the memory.
+
+-  If **is_remove** is set to **true**, the blocklist corresponding to **unique_sql_id** is removed from the **GS_BLOCKLIST_QUERY** system catalog.
+-  If **is_remove** is set to **false**, the blocklist corresponding to **unique_sql_id** is added to the **GS_BLOCKLIST_QUERY** system catalog.
+
+Return type: bool
+
+Example:
+
+::
+
+   select gs_update_blocklist_hash_info(111, false);
+   gs_update_blocklist_hash_info
+   ------------------------------
+   t
+   (1 row)
+
+gs_update_blocklist_hash_info()
+-------------------------------
+
+Description: Rebuilds blocklist information. This function reads the latest blocklist information from the **GS_BLOCKLIST_QUERY** system catalog and updates the blocklist information in the table.
+
+Return type: bool
+
+Example:
+
+::
+
+   select gs_update_blocklist_hash_info();
+   gs_update_blocklist_hash_info
+   ------------------------------
+   t
+   (1 row)
+
+gs_append_blocklist(unique_sql_id int8)
+---------------------------------------
+
+Description: Adds a job to the blocklist and update the blocklist information in **GS_BLOCKLIST_QUERY**.
+
+Return type: bool
+
+Example:
+
+::
+
+   select gs_append_blocklist(111);
+   gs_append_blocklist
+   --------------------
+   t
+   (1 row)
+
+gs_remove_blocklist(unique_sql_id int8)
+---------------------------------------
+
+Description: Removes a job from the blocklist. and update the blocklist information in **GS_BLOCKLIST_QUERY**.
+
+Return type: bool
+
+Example:
+
+::
+
+   select gs_remove_blocklist(111);
+   gs_append_blocklist
+   --------------------
+   t
+   (1 row)
+
+gs_wlm_rebuild_except_rule_hash()
+---------------------------------
+
+Description: Rebuilds the memory hash table of exception rules on the current node. The monitoring thread obtains the exception rule thresholds from the memory hash table in real time. When the hash table is abnormal, this function can be used to rebuild the table.
+
+Return type: bool
+
+Example:
+
+::
+
+   select gs_wlm_rebuild_except_rule_hash();
+   gs_wlm_rebuild_except_rule_hash
+   --------------------
+   t
+   (1 row)
+
 gs_wlm_readjust_user_space(oid)
 -------------------------------
 
@@ -18,7 +157,7 @@ Example:
 
 ::
 
-   SELECT gs_wlm_readjust_user_space(0);
+   select gs_wlm_readjust_user_space(0);
    gs_wlm_readjust_user_space
    ----------------------------
    Exec Success
@@ -35,7 +174,7 @@ Example:
 
 ::
 
-   SELECT pgxc_wlm_readjust_schema_space();
+   select pgxc_wlm_readjust_schema_space();
    pgxc_wlm_readjust_schema_space
    --------------------------------
    Exec Success
@@ -56,7 +195,7 @@ Example:
 
 ::
 
-   SELECT pgxc_wlm_readjust_schema_space();
+   select pgxc_wlm_readjust_schema_space();
    pgxc_wlm_readjust_relfilenode_size_table
    -----------------------------------------
    Exec Success
@@ -85,7 +224,7 @@ Example:
 
 ::
 
-   SELECT * FROM  pgxc_wlm_readjust_relfilenode_size_table(1);
+   SELECT * FROM pgxc_wlm_readjust_relfilenode_size_table(1);
        result
    --------------
     Exec success
@@ -117,7 +256,7 @@ Examples:
 
 ::
 
-   SELECT * FROM pgxc_wlm_get_schema_space('group1');
+   select * from pgxc_wlm_get_schema_space('group1');
         schemaname     | schemaid | databasename | databaseid |   nodename   |  nodegroup   | usedspace | permspace
    --------------------+----------+--------------+------------+--------------+--------------+-----------+-----------
     pg_catalog         |       11 | test1        |      16384 | datanode1    | installation |   9469952 |        -1
@@ -194,7 +333,7 @@ Examples:
 
 ::
 
-   SELECT * FROM pgxc_wlm_analyze_schema_space('group1');
+   select * from pgxc_wlm_analyze_schema_space('group1');
         schemaname     | databasename |  nodegroup   | total_value | avg_value | skew_percent |                  extend_info
    --------------------+--------------+--------------+-------------+-----------+--------------+-----------------------------------------------
     pg_catalog         | test1        | installation |    56819712 |   9469952 |            0 | min:9469952 datanode1,max:9469952 datanode1
@@ -253,12 +392,12 @@ Examples:
 
 ::
 
-   SELECT * FROM gs_wlm_set_queryband_action('a=1','respool=p1');
+   select * from gs_wlm_set_queryband_action('a=1','respool=p1');
     gs_wlm_set_queryband_action
    -----------------------------
     t
    (1 row)
-   SELECT * FROM gs_wlm_set_queryband_action('a=3','respool=p1;priority=rush',1);
+   select * from gs_wlm_set_queryband_action('a=3','respool=p1;priority=rush',1);
     gs_wlm_set_queryband_action
    -----------------------------
     t
@@ -284,7 +423,7 @@ Examples:
 
 ::
 
-   SELECT * FROM gs_wlm_set_queryband_order('a=1',2);
+   select * from gs_wlm_set_queryband_order('a=1',2);
     gs_wlm_set_queryband_action
    -----------------------------
     t
@@ -317,7 +456,7 @@ Examples:
 
 ::
 
-   SELECT * FROM gs_wlm_get_queryband_action('a=1');
+   select * from gs_wlm_get_queryband_action('a=1');
    qband | respool_id | respool | priority | qborder
    -------+------------+---------+----------+---------
     a=1   |      16388 | p1      | Medium   |      -1
@@ -344,7 +483,7 @@ Examples:
 
 ::
 
-   SELECT * FROM gs_cgroup_reload_conf();
+   select * from gs_cgroup_reload_conf();
     node_name |   node_host    | result
    -----------+----------------+---------
     cn_5001   | 192.168.178.35 | success
@@ -370,7 +509,7 @@ Examples:
 
 ::
 
-   SELECT * FROM pgxc_cgroup_reload_conf();
+   select * from pgxc_cgroup_reload_conf();
      node_name   |    node_host    | result
    --------------+-----------------+---------
     dn_6025_6026 | 192.168.178.177 | success
@@ -438,7 +577,7 @@ Examples:
 
 ::
 
-   SELECT * FROM pgxc_cgroup_reload_conf('192.168.178.35');
+   select * from pgxc_cgroup_reload_conf('192.168.178.35');
      node_name   |   node_host    | result
    --------------+----------------+---------
     cn_5001      | 192.168.178.35 | success
@@ -451,7 +590,7 @@ Examples:
 gs_wlm_node_recover(boolean isForce)
 ------------------------------------
 
-Description: Updates and restores job information and counts on the CCN in dynamic resource management mode. This function can be executed only by administrators, and is usually used to restore a faulty CN after it was restarted. This function is called by the Cluster Manager (CM). Its usage are as follows:
+Description: Updates and restores job information and counts on the CCN in dynamic resource management mode. This function can be executed only by administrators, and is usually used to restore a faulty CN after it was restarted. This function is called by the Cluster Manager (CM). Its usage is as follows:
 
 -  If this function is executed by CN, it instructs the CCN to clear job information and counts on the CN.
 -  If this function is executed by CCN, it resets job counts and obtains the latest slow lane job information from the CN.
@@ -489,6 +628,6 @@ phy_usemem_rate integer Maximum physical memory usage
 pg_stat_get_workload_struct_info()
 ----------------------------------
 
-Description: Load management function for locating CCN queuing problems. This function is an internal function. To use this function, contact technical support engineers.
+Description: Load management function for locating CCN queuing problems. This function is an internal function. To use this function, contact technical support.
 
 Return type: record

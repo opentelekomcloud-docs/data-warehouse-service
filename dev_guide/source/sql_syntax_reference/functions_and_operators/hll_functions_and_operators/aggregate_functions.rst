@@ -66,7 +66,7 @@ Example:
 hll_add_agg(hll_hashval, int32 log2m, int32 regwidth)
 -----------------------------------------------------
 
-Description: Groups hashed data into HLL. and sets the **log2m** and **regwidth** parameters in sequence. The value of **regwidth** ranges from 1 to 5.
+Description: Groups hashed data into HLL and sets the **log2m** and **regwidth** parameters in sequence. The value of **regwidth** ranges from 1 to 5.
 
 Return type: hll
 
@@ -83,7 +83,7 @@ Example:
 hll_add_agg(hll_hashval, int32 log2m, int32 regwidth, int64 expthresh)
 ----------------------------------------------------------------------
 
-Description: Groups hashed data into HLL and sets the parameters **log2m**, **regwidth**, and **expthresh** in sequence. The value of **expthresh** is an integer ranging from -1 to 7. **expthresh** is used to specify the threshold for switching from the **explicit** mode to the **sparse** mode. **-1** indicates the auto mode; **0** indicates that the **explicit** mode is skipped; a value from 1 to 7 indicates that the mode is switched when the number of distinct values reaches 2\ :sup:`expthresh`.
+Description: Groups hashed data into **hll** and sets parameters **log2m**, **regwidth**, and **expthresh** in sequence. The value of **expthresh** is an integer ranging from -1 to 7. **expthresh** is used to specify the threshold for switching from the **explicit** mode to the **sparse** mode. **-1** indicates the auto mode; **0** indicates that the **explicit** mode is skipped; a value from 1 to 7 indicates that the mode is switched when the number of distinct values reaches 2\ :sup:`expthresh`.
 
 Return type: hll
 
@@ -100,7 +100,7 @@ Example:
 hll_add_agg(hll_hashval, int32 log2m, int32 regwidth, int64 expthresh, int32 sparseon)
 --------------------------------------------------------------------------------------
 
-Description: Groups hashed data into HLL and sets the parameters **log2m**, **regwidth**, **expthresh**, and **sparseon** in sequence. The value of **sparseon** is 0 or 1.
+Description: Groups hashed data into **hll** and sets parameters **log2m**, **regwidth**, **expthresh**, and **sparseon** in sequence. The value of **sparseon** is 0 or 1.
 
 Return type: hll
 

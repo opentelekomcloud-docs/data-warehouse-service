@@ -24,8 +24,8 @@ The following example shows how to use CopyManager to migrate data from MySQL to
 
        public static void main(String[] args) {
            String url = new String("jdbc:postgresql://10.180.155.74:8000/gaussdb"); //URL of the database
-           String user = new String("jack");            //DWS username
-   String pass = new String("********");     //DWS Password
+           String user = new String("jack");            //GaussDB(DWS) username
+           String pass = new String("********");             //GaussDB(DWS) password
            String tablename = new String("migration_table"); //Define table information.
            String delimiter = new String("|");              //Define a delimiter.
            String encoding = new String("UTF8");            //Define a character set.

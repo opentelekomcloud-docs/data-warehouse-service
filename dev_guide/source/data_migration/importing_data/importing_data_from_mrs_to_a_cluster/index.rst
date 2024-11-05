@@ -2,6 +2,8 @@
 
 .. _dws_04_0210:
 
+.. _en-us_topic_0000001764896605:
+
 Importing Data from MRS to a Cluster
 ====================================
 

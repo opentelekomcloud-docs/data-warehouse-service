@@ -24,8 +24,8 @@ You can use Hive/Spark (analysis cluster of MRS) to store massive volumes of ser
 Importing Data from MRS to a GaussDB(DWS) Cluster
 -------------------------------------------------
 
-#. :ref:`Preparing Data in an MRS Cluster <dws_04_0212>`
-#. (Optional) :ref:`Manually Creating a Foreign Server <dws_04_0213>`
-#. :ref:`Creating a Foreign Table <dws_04_0214>`
-#. :ref:`Importing Data <dws_04_0215>`
-#. :ref:`Deleting Resources <dws_04_0216>`
+#. :ref:`Preparing Data in an MRS Cluster <en-us_topic_0000001717097320>`
+#. (Optional) :ref:`Manually Creating a Foreign Server <en-us_topic_0000001764817381>`
+#. :ref:`Creating a Foreign Table <en-us_topic_0000001764896609>`
+#. :ref:`Importing Data <en-us_topic_0000001717256748>`
+#. :ref:`Deleting Resources <en-us_topic_0000001717097324>`

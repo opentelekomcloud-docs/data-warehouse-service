@@ -5,9 +5,9 @@
 Creating a Foreign Table
 ========================
 
-After operations in :ref:`Creating a Foreign Server <dws_04_0259>` are complete, create an OBS/HDFS write-only foreign table in the GaussDB(DWS) database to access data stored in OBS/HDFS. The foreign table is write-only and can be used only for data export.
+After operations in :ref:`Creating a Foreign Server <en-us_topic_0000001717097364>` are complete, create an OBS/HDFS write-only foreign table in the GaussDB(DWS) database to access data stored in OBS/HDFS. The foreign table is write-only and can be used only for data export.
 
-The syntax for creating a foreign table is as follows. For details, see the syntax **CREATE FOREIGN TABLE (SQL on Hadoop or OBS)**.
+The syntax for creating a foreign table is as follows:
 
 ::
 
@@ -23,7 +23,7 @@ The syntax for creating a foreign table is as follows. For details, see the synt
        DISTRIBUTE BY {ROUNDROBIN | REPLICATION}
        [ PARTITION BY ( column_name ) [ AUTOMAPPED ] ] ;
 
-For example, when creating a foreign table named *product_info_ext_obs*, set parameters in the syntax as follows:
+For example, when creating a foreign table **product_info_ext_obs**, configure the parameters in the syntax as follows.
 
 -  **table_name**
 
@@ -40,7 +40,7 @@ For example, when creating a foreign table named *product_info_ext_obs*, set par
 
    Specifies the foreign server name of the foreign table. This server must exist. The foreign table connects to OBS/HDFS to read data through the foreign server.
 
-   Enter the name of the foreign server created by following steps in :ref:`Creating a Foreign Server <dws_04_0244>`.
+   Enter the name of the foreign server created by following steps in :ref:`Creating a Foreign Server <en-us_topic_0000001764817361>`.
 
 -  **OPTIONS parameters**
 

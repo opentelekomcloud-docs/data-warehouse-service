@@ -74,7 +74,7 @@ Periodic Task Management
 
 #. View the created task information about the current user in the **USER_JOBS** view.
 
-   Only the system administrator can access this system view. For details about the fields, see :ref:`Table 1 <en-us_topic_0000001188323570__tfc79ceaea73a45b685f452da34d39554>`.
+   Only the system administrator can access this system view. For details about the fields, see :ref:`Table 1 <en-us_topic_0000001510402393__tfc79ceaea73a45b685f452da34d39554>`.
 
    ::
 

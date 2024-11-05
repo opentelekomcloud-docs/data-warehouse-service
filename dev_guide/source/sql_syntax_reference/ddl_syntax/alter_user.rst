@@ -8,12 +8,12 @@ ALTER USER
 Function
 --------
 
-**ALTER USER** modifies the attributes of a database user.
+Modifies the attributes of a database user.
 
-Precautions
------------
+Important Notes
+---------------
 
-Session parameters modified by **ALTER USER** apply to the specified user and take effect in the next session.
+Session parameters modified by **ALTER USER** apply to a specified user and take effect in the next session.
 
 Syntax
 ------
@@ -65,14 +65,14 @@ Syntax
 
    ::
 
-      ALTER USER user_name [ IN DATABASE database_name ]
+      ALTER USER user_name
           SET configuration_parameter { { TO | = } { value | DEFAULT } | FROM CURRENT };
 
 -  Reset the value of a specified parameter associated with the user.
 
    ::
 
-      ALTER USER user_name [ IN DATABASE database_name ]
+      ALTER USER user_name
           RESET { configuration_parameter | ALL };
 
 Parameters
@@ -94,7 +94,9 @@ Parameters
 
    Determines whether a new user can create a database.
 
-   A new user does not have the permission to create a database by default. Value range: If not specified, **NOCREATEDB** is the default.
+   A new user does not have the permission to create a database by default.
+
+   Value range: If not specified, **NOCREATEDB** is the default.
 
 -  **CREATEROLE \| NOCREATEROLE**
 
@@ -104,17 +106,17 @@ Parameters
 
 -  **INHERIT \| NOINHERIT**
 
-   Determines whether a user inherits the permissions of its group. You are not advised to use them.
+   Determines whether a user inherits the permissions of its group. You are not advised to execute them.
 
 -  **AUDITADMIN \| NOAUDITADMIN**
 
-   Defines whether a user has the audit and management attributes.
+   Defines whether a user has the audit administrator attribute.
 
    If not specified, **NOAUDITADMIN** is the default.
 
 -  **SYSADMIN \| NOSYSADMIN**
 
-   Determines whether a new user is a system administrator. Users with the **SYSADMIN** attribute have the highest permission.
+   Determines whether a new user is a system administrator. A user with the **SYSADMIN** attribute has the highest permission in the system.
 
    Value range: If not specified, **NOSYSADMIN** is the default.
 
@@ -158,13 +160,13 @@ Parameters
 
 -  **CONNECTION LIMIT**
 
-   Specifies the number of concurrent connections that can be used by a user.
+   Specifies the number of concurrent connections that can be used by a user on a single CN.
 
    Value range: Integer, **>=-1**. The default value is **-1**, which means unlimited.
 
    .. important::
 
-      To ensure the proper running of a cluster, the minimum value of **CONNECTION LIMIT** is the number of CNs in the cluster, because when a cluster runs ANALYZE on a CN, other CNs will connect with the running CN for metadata synchronization. For example, if there are three CNs in the cluster, set **CONNECTION LIMIT** to **3** or a greater value.
+      To ensure the proper running of a cluster, the minimum value of **CONNECTION LIMIT** is the number of CNs in the cluster, because when a cluster runs ANALYZE on a CN, other CNs will connect with the running CN for metadata synchronization. For example, if there are three CNs in the cluster, set **CONNECTION LIMIT** to **3** or a larger value.
 
 -  **ENCRYPTED \| UNENCRYPTED**
 
@@ -212,7 +214,7 @@ Parameters
 
 -  **SPILL SPACE**
 
-   Sets the limit for operator spilling of a user.
+   Sets the operator disk flushing space of the user.
 
    **spillspacelimit**: specifies the operator spilling space limit. Value range: A string consists of an integer and unit. The unit can be K/M/G/T/P currently. **0** indicates no limits.
 
@@ -260,47 +262,40 @@ Parameters
 
    Number of days before the login password of the role expires. The user needs to change the password in time before the login password expires. If the login password expires, the user cannot log in to the system. In this case, the user needs to ask the administrator to set a new login password.
 
-   Value range: an integer ranging from -1 to 999. The default value is **-1**, indicating that there is no expiration limit. The value **0** indicates that the login password expires immediately.
+   Value range: an integer ranging from -1 to 999. The default value is **-1**, indicating that there is no restriction. The value **0** indicates that the login password expires immediately.
 
 Example
 -------
 
-Create an example user **u1**:
+Change the login password of user **jim**.
 
 ::
 
-   DROP USER IF EXISTS u1;
-   CREATE USER u1 PASSWORD '{Password}';
+   ALTER USER jim IDENTIFIED BY '{password}' REPLACE '{old_password}';
 
-Change the login password of user **u1**:
-
-::
-
-   ALTER USER u1 IDENTIFIED BY '{new_Password}' REPLACE '{Password}';
-
-Add the **CREATEROLE** permission to user **u1**:
+Add the **CREATEROLE** permission to user **jim**.
 
 ::
 
-   ALTER USER u1 CREATEROLE;
+   ALTER USER jim CREATEROLE;
 
-Set the **enable_seqscan** parameter associated with user **jim** to **u1**. The setting takes effect in the next session.
-
-::
-
-   ALTER USER u1 SET enable_seqscan TO on;
-
-Reset the **enable_seqscan** parameter for user **u1**.
+Set the **enable_seqscan** parameter associated with user **jim** to **on**. The setting takes effect in the next session.
 
 ::
 
-   ALTER USER u1 RESET enable_seqscan;
+   ALTER USER jim SET enable_seqscan TO on;
 
-Lock account **u1**:
+Reset the **enable_seqscan** parameter for user **jim**.
 
 ::
 
-   ALTER USER u1 ACCOUNT LOCK;
+   ALTER USER jim RESET enable_seqscan;
+
+Lock the **jim** account.
+
+::
+
+   ALTER USER jim ACCOUNT LOCK;
 
 Links
 -----

@@ -8,13 +8,13 @@ SET ROLE
 Function
 --------
 
-**SET ROLE** sets the current user identifier of the current session.
+Sets the current user identifier of the current session.
 
 Precautions
 -----------
 
 -  Users of the current session must be members of specified **rolename**, but the system administrator can choose any roles.
--  Executing this command may add rights of a user or restrict rights of a user. If the role of a session user has the **INHERITS** attribute, it automatically has all rights of roles that **SET ROLE** enables the role to be. In this case, **SET ROLE** physically deletes all rights directly granted to session users and rights of its belonging roles and only leaves rights of the specified roles. If the role of the session user has the **NOINHERITS** attribute, **SET ROLE** deletes rights directly granted to the session user and obtains rights of the specified role.
+-  Executing this command may add rights for a user or take away some of the rights they have. If the role of a session user has the **INHERITS** attribute, it is automatically assigned all the rights of the roles assigned by the **SET ROLE** command. In this case, **SET ROLE** physically deletes all rights directly granted to session users and rights of its belonging roles and only the rights of the specified roles remain. If the role of the session user has the **NOINHERITS** attribute, **SET ROLE** deletes rights directly granted to the session user and obtains rights of the specified role.
 
 Syntax
 ------
@@ -23,7 +23,7 @@ Syntax
 
    ::
 
-      SET [ SESSION | LOCAL ] ROLE role_name PASSWORD 'password';
+      SET [ SESSION | LOCAL ] ROLE role_name PASSWORD '{password}';
 
 -  Reset the current user identifier to that of the current session.
 
@@ -38,7 +38,7 @@ Parameter Description
 
    Specifies that the command takes effect only for the current session. This parameter is used by default.
 
-   Value range: A string. It must comply with the naming convention rule.
+   Value range: a string. It must comply with the naming convention rule.
 
 -  **LOCALE**
 
@@ -48,7 +48,7 @@ Parameter Description
 
    Specifies the role name.
 
-   Value range: A string. It must comply with the naming convention rule.
+   Value range: a string. It must comply with the naming convention rule.
 
 -  **password**
 
@@ -61,17 +61,11 @@ Parameter Description
 Examples
 --------
 
-Create a role named **manager**:
-
-::
-
-   CREATE ROLE paul IDENTIFIED BY '{Password}';
-
 Set the current user to **paul**:
 
 ::
 
-   SET ROLE paul PASSWORD '{Password}';
+   SET ROLE paul PASSWORD '{password}';
 
 View the current session user and the current user:
 

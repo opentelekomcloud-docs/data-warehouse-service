@@ -7,6 +7,8 @@ UUID Functions
 
 UUID functions are used to generate UUID data (see :ref:`UUID Type <dws_06_0019>`).
 
+.. _en-us_topic_0000001460561400__section1896117291214:
+
 uuid_generate_v1()
 ------------------
 
@@ -27,6 +29,27 @@ Example:
 .. note::
 
    The **uuid_generate_v1** function generates a UUID based on the time information, cluster node ID, and ID of the thread that generates the sequence. The UUID is globally unique in a single cluster, however, there is a possibility that the time information, cluster node IDs, thread IDs, and clock sequences of multiple clusters are the same at the same time. Therefore, there is a low probability that UUIDs generated among multiple clusters are duplicate.
+
+uuid()
+------
+
+Description: Generates a UUID sequence number. This function is a MySQL compatibility function supported only by version 8.2.0 and later clusters.
+
+Return type: UUID
+
+Example:
+
+::
+
+   SELECT uuid();
+                uuid
+   ----------------------------------
+    6327dc96-f0e7-0100-f2f2-6c9ff700fffe
+   (1 row)
+
+.. note::
+
+   UUID is generated in the way the :ref:`uuid_generate_v1() <en-us_topic_0000001460561400__section1896117291214>` function works. The function generates a UUID based on the time information, cluster node ID, and ID of the thread that generates the sequence. The UUID is globally unique in a single cluster, however, there is a possibility that the time information, cluster node IDs, thread IDs, and clock sequences of multiple clusters are the same at the same time. Therefore, there is a low probability that UUIDs generated among multiple clusters are duplicate.
 
 sys_guid()
 ----------

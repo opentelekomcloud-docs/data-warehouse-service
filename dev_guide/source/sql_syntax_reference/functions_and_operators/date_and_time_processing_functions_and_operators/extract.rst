@@ -20,7 +20,7 @@ Example:
 
 ::
 
-   SELECT EXTRACT(century FROM TIMESTAMP '2000-12-16 12:21:13');
+   SELECT EXTRACT(CENTURY FROM TIMESTAMP '2000-12-16 12:21:13');
     date_part
    -----------
            20
@@ -33,7 +33,7 @@ day
 
    ::
 
-      SELECT EXTRACT(day FROM TIMESTAMP '2001-02-16 20:38:40');
+      SELECT EXTRACT(DAY FROM TIMESTAMP '2001-02-16 20:38:40');
        date_part
       -----------
               16
@@ -43,7 +43,7 @@ day
 
    ::
 
-      SELECT EXTRACT(day FROM INTERVAL '40 days 1 minute');
+      SELECT EXTRACT(DAY FROM INTERVAL '40 days 1 minute');
        date_part
       -----------
               40
@@ -56,7 +56,7 @@ Year column divided by 10
 
 ::
 
-   SELECT EXTRACT(decade FROM TIMESTAMP '2001-02-16 20:38:40');
+   SELECT EXTRACT(DECADE FROM TIMESTAMP '2001-02-16 20:38:40');
     date_part
    -----------
           200
@@ -69,7 +69,7 @@ Day of the week as Sunday(**0**) to Saturday (**6**)
 
 ::
 
-   SELECT EXTRACT(dow FROM TIMESTAMP '2001-02-16 20:38:40');
+   SELECT EXTRACT(DOW FROM TIMESTAMP '2001-02-16 20:38:40');
     date_part
    -----------
             5
@@ -82,7 +82,7 @@ Day of the year (1-365 or 366)
 
 ::
 
-   SELECT EXTRACT(doy FROM TIMESTAMP '2001-02-16 20:38:40');
+   SELECT EXTRACT(DOY FROM TIMESTAMP '2001-02-16 20:38:40');
     date_part
    -----------
            47
@@ -99,7 +99,7 @@ epoch
 
    ::
 
-      SELECT EXTRACT(epoch FROM TIMESTAMP WITH TIME ZONE '2001-02-16 20:38:40.12-08');
+      SELECT EXTRACT(EPOCH FROM TIMESTAMP WITH TIME ZONE '2001-02-16 20:38:40.12-08');
         date_part
       --------------
        982384720.12
@@ -107,7 +107,7 @@ epoch
 
    ::
 
-      SELECT EXTRACT(epoch FROM interval '5 days 3 hours');
+      SELECT EXTRACT(EPOCH FROM INTERVAL '5 days 3 hours');
        date_part
       -----------
           442800
@@ -117,7 +117,7 @@ epoch
 
    ::
 
-      SELECT TIMESTAMP WITH TIME ZONE 'epoch' + 982384720.12 * interval '1 second' AS RESULT;
+      SELECT TIMESTAMP WITH TIME ZONE 'epoch' + 982384720.12 * INTERVAL '1 second' AS RESULT;
                 result
       ---------------------------
        2001-02-17 12:38:40.12+08
@@ -130,7 +130,7 @@ Hour column (0-23)
 
 ::
 
-   SELECT EXTRACT(hour FROM TIMESTAMP '2001-02-16 20:38:40');
+   SELECT EXTRACT(HOUR FROM TIMESTAMP '2001-02-16 20:38:40');
     date_part
    -----------
            20
@@ -149,7 +149,7 @@ Monday is 1 and Sunday is 7.
 
 ::
 
-   SELECT EXTRACT(isodow FROM TIMESTAMP '2001-02-18 20:38:40');
+   SELECT EXTRACT(ISODOW FROM TIMESTAMP '2001-02-18 20:38:40');
     date_part
    -----------
             7
@@ -164,7 +164,7 @@ Each ISO year begins with the Monday of the week containing the 4th of January, 
 
 ::
 
-   SELECT EXTRACT(isoyear FROM DATE '2006-01-01');
+   SELECT EXTRACT(ISOYEAR FROM DATE '2006-01-01');
     date_part
    -----------
          2005
@@ -172,7 +172,7 @@ Each ISO year begins with the Monday of the week containing the 4th of January, 
 
 ::
 
-   SELECT EXTRACT(isoyear FROM DATE '2006-01-02');
+   SELECT EXTRACT(ISOYEAR FROM DATE '2006-01-02');
     date_part
    -----------
          2006
@@ -185,7 +185,7 @@ The seconds column, including fractional parts, multiplied by 1,000,000
 
 ::
 
-   SELECT EXTRACT(microseconds FROM TIME '17:12:28.5');
+   SELECT EXTRACT(MICROSECONDS FROM TIME '17:12:28.5');
     date_part
    -----------
      28500000
@@ -200,7 +200,7 @@ Years in the 1900s are in the second millennium. The third millennium started fr
 
 ::
 
-   SELECT EXTRACT(millennium FROM TIMESTAMP '2001-02-16 20:38:40');
+   SELECT EXTRACT(MILLENNIUM FROM TIMESTAMP '2001-02-16 20:38:40');
     date_part
    -----------
             3
@@ -213,7 +213,7 @@ The seconds column, including fractional parts, multiplied by 1000. Note that th
 
 ::
 
-   SELECT EXTRACT(milliseconds FROM TIME '17:12:28.5');
+   SELECT EXTRACT(MILLISECONDS FROM TIME '17:12:28.5');
     date_part
    -----------
         28500
@@ -226,7 +226,7 @@ Minutes column (0-59)
 
 ::
 
-   SELECT EXTRACT(minute FROM TIMESTAMP '2001-02-16 20:38:40');
+   SELECT EXTRACT(MINUTE FROM TIMESTAMP '2001-02-16 20:38:40');
     date_part
    -----------
            38
@@ -239,7 +239,7 @@ For **timestamp** values, the number of the month within the year (1-12);
 
 ::
 
-   SELECT EXTRACT(month FROM TIMESTAMP '2001-02-16 20:38:40');
+   SELECT EXTRACT(MONTH FROM TIMESTAMP '2001-02-16 20:38:40');
     date_part
    -----------
             2
@@ -249,7 +249,7 @@ For **interval** values, the number of months, modulo 12 (0-11)
 
 ::
 
-   SELECT EXTRACT(month FROM interval '2 years 13 months');
+   SELECT EXTRACT(MONTH FROM INTERVAL '2 years 13 months');
     date_part
    -----------
             1
@@ -262,7 +262,7 @@ Quarter of the year (1-4) that the date is in
 
 ::
 
-   SELECT EXTRACT(quarter FROM TIMESTAMP '2001-02-16 20:38:40');
+   SELECT EXTRACT(QUARTER FROM TIMESTAMP '2001-02-16 20:38:40');
     date_part
    -----------
             1
@@ -275,7 +275,7 @@ Seconds column, including fractional parts (0-59)
 
 ::
 
-   SELECT EXTRACT(second FROM TIME '17:12:28.5');
+   SELECT EXTRACT(SECOND FROM TIME '17:12:28.5');
     date_part
    -----------
          28.5
@@ -291,7 +291,7 @@ The time zone offset from UTC, measured in seconds. Positive values correspond t
    SELECT EXTRACT(timezone FROM TIMETZ '17:12:28');
     date_part
    -----------
-       0
+      0
    (1 row)
 
 timezone_hour
@@ -329,7 +329,7 @@ Because of this, it is possible for early January dates to be part of the 52nd o
 
 ::
 
-   SELECT EXTRACT(week FROM TIMESTAMP '2001-02-16 20:38:40');
+   SELECT EXTRACT(WEEK FROM TIMESTAMP '2001-02-16 20:38:40');
     date_part
    -----------
             7
@@ -342,7 +342,7 @@ Year column
 
 ::
 
-   SELECT EXTRACT(year FROM TIMESTAMP '2001-02-16 20:38:40');
+   SELECT EXTRACT(YEAR FROM TIMESTAMP '2001-02-16 20:38:40');
     date_part
    -----------
          2001

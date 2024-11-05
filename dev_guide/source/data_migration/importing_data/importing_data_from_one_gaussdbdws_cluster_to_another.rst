@@ -2,6 +2,8 @@
 
 .. _dws_04_0949:
 
+.. _en-us_topic_0000001764896613:
+
 Importing Data from One GaussDB(DWS) Cluster to Another
 =======================================================
 

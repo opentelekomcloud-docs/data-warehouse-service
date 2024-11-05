@@ -120,7 +120,7 @@ Configure the search path of the **tpcds** schema:
 
    SET search_path TO tpcds, public;
 
-Set the date style to the traditional POSTGRES style (date placed before month):
+Set the time/date type to the traditional postgres format (date before month).
 
 ::
 

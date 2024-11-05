@@ -2,6 +2,8 @@
 
 .. _dws_04_0269:
 
+.. _en-us_topic_0000001717256764:
+
 Using gs_dump and gs_dumpall to Export Metadata
 ===============================================
 

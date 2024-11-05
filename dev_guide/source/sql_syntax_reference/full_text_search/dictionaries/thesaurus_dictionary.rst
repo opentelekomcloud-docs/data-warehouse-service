@@ -27,10 +27,6 @@ Procedure
 
    Run the following statement to create the TZ:
 
-   .. important::
-
-      // Hard-coded or plaintext AK and SK are risky. For security purposes, encrypt your AK and SK and store them in the configuration file or environment variables.
-
    ::
 
       CREATE TEXT SEARCH DICTIONARY thesaurus_astro (
@@ -76,7 +72,7 @@ Procedure
           'sn'
          (1 row)
 
-      **supernova star** matches **supernovae stars** in **thesaurus_astro** because the **english_stem** stemmer is specified in the **thesaurus_astro** definition. The stemmer removed **e** and **s**.
+      **supernova star** matches **supernovae stars** in **thesaurus_astro** because the **english_stem** stemmer of the Snowball type is specified in the **thesaurus_astro** definition. The stemmer removed **e** and **s**.
 
    -  To index the original phrase, include it in the right-hand part of the definition.
 

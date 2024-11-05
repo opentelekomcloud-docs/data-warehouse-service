@@ -50,12 +50,11 @@ Parameter Description
 Examples
 --------
 
-Create schemas **ot** and **tpcds**:
+Create schema **ot**:
 
 ::
 
    CREATE SCHEMA ot;
-   CREATE SCHEMA tpcds;
 
 Create table **ot.t1** and its synonym **t1**:
 
@@ -133,4 +132,4 @@ Use synonym **register** to invoke the stored procedure:
 Helpful Links
 -------------
 
-:ref:`ALTER SYNONYM <dws_06_0140>`, :ref:`DROP SYNONYM <dws_06_0207>`
+:ref:`ALTER SYNONYM <dws_06_0140>` :ref:`DROP SYNONYM <dws_06_0207>`

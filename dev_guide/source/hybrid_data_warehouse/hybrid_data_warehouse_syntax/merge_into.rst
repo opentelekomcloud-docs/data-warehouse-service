@@ -42,7 +42,7 @@ Parameters
 
    Specifies the target table that is being updated or has data being inserted.
 
-   -  **talbe_name**
+   -  **table_name**
 
       Specifies the name of the target table.
 

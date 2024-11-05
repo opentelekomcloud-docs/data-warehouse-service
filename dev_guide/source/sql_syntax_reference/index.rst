@@ -5,7 +5,7 @@
 SQL Syntax Reference
 ====================
 
--  :ref:`GaussDB (DWS) SQL Overview <dws_06_0001>`
+-  :ref:`GaussDB(DWS) SQL Overview <dws_06_0001>`
 -  :ref:`Differences Between GaussDB(DWS) and PostgreSQL <dws_06_0002>`
 -  :ref:`Keyword <dws_06_0007>`
 -  :ref:`Data Types <dws_06_0008>`
@@ -26,7 +26,7 @@ SQL Syntax Reference
    :maxdepth: 1
    :hidden: 
 
-   gaussdb_dws_sql_overview
+   gaussdbdws_sql_overview
    differences_between_gaussdbdws_and_postgresql
    keyword
    data_types/index

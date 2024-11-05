@@ -13,15 +13,15 @@ These hints specify the number of rows in an intermediate result set. Both absol
 Syntax
 ------
 
-::
+.. code-block:: console
 
-   rows(table_list #|+|-|* const)
+   rows([@block_name] table_list #|+|-|* const)
 
 Parameter Description
 ---------------------
 
--  **#**,\ **+**,\ **-**, and **\*** are operators used for hinting the estimation. **#** indicates that the original estimation is used without any calculation. **+**,\ **-**, and **\*** indicate that the original estimation is calculated using these operators. The minimum calculation result is 1. *table_list* specifies the tables to be joined. The values are the same as those of :ref:`table_list <en-us_topic_0000001233563309__li1090312446510>` in :ref:`Join Operation Hints <dws_04_0457>`.
-
+-  *block_name* indicates the block name of the statement block. For details, see :ref:`block_name <en-us_topic_0000001460722632__li99021444551>`.
+-  **#**,\ **+**,\ **-**, and **\*** are operators used for hinting the estimation. **#** indicates that the original estimation is used without any calculation. **+**,\ **-**, and **\*** indicate that the original estimation is calculated using these operators. The minimum calculation result is 1. *table_list* indicates the tables to be joined. The values are the same as those of table_list in :ref:`Join Operation Hints <dws_04_0457>`.
 -  *const* can be any non-negative number and supports scientific notation.
 
 For example:
@@ -39,7 +39,7 @@ Suggestion
 Examples
 --------
 
-Hint the query plan in :ref:`Examples <en-us_topic_0000001188642062__section671421102912>` as follows:
+Hint the query plan in :ref:`Examples <en-us_topic_0000001460562888__section671421102912>` as follows:
 
 ::
 
@@ -52,4 +52,4 @@ Multiply the result set of joined **store_sales** and **store_returns** by 50. T
 
 The estimation value after the hint in row 11 is **360**, and the original value is rounded off to 7.
 
-.. |image1| image:: /_static/images/en-us_image_0000001188482348.png
+.. |image1| image:: /_static/images/en-us_image_0000001510283913.png

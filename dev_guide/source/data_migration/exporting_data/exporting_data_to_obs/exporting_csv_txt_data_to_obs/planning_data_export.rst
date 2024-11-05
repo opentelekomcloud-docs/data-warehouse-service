@@ -2,6 +2,8 @@
 
 .. _dws_04_0252:
 
+.. _en-us_topic_0000001764896641:
+
 Planning Data Export
 ====================
 
@@ -28,14 +30,14 @@ The user used to export data must:
 
    You can configure ACL permissions for the OBS bucket to grant the write permission to a specific user.
 
-   For details, see :ref:`Granting Write Permission to OBS Storage Location and OBS Bucket as Planned <en-us_topic_0000001188642118__en-us_topic_0000001098811002_en-us_topic_0117407697_s7fcbf9744bc440899b56c22be4fae4f3>`.
+   For details, see :ref:`Granting Write Permission to OBS Storage Location and OBS Bucket as Planned <en-us_topic_0000001764896641__en-us_topic_0000001188642118_en-us_topic_0000001098811002_en-us_topic_0117407697_s7fcbf9744bc440899b56c22be4fae4f3>`.
 
 Planning Data to Be Exported and Foreign Tables
 -----------------------------------------------
 
 You must prepare data to be exported in the database table, and the data volume per row must be less than 1 GB. Based on the data to be exported, plan foreign tables whose attributes such as columns, column types, and length match those of user data.
 
-.. _en-us_topic_0000001188642118__en-us_topic_0000001098811002_en-us_topic_0117407697_s7fcbf9744bc440899b56c22be4fae4f3:
+.. _en-us_topic_0000001764896641__en-us_topic_0000001188642118_en-us_topic_0000001098811002_en-us_topic_0117407697_s7fcbf9744bc440899b56c22be4fae4f3:
 
 Granting Write Permission to OBS Storage Location and OBS Bucket as Planned
 ---------------------------------------------------------------------------

@@ -12,10 +12,6 @@ Concepts
 
 -  A transaction refers to an operation that consists of multiple steps, either all successful or all failed.
 
-   For example, if account A transfers money to account B, two operations are involved: deducting fees from account A and adding the same amount to account B.
-
-   The two operations are independent from each other, and there is a probability that only one of them succeeds. To avoid the situation that the fees are deducted from account A but not added to account B, a transaction will roll back all its operations if one of them fails.
-
 -  A database transaction is a logical unit in the execution process of DBMS. It consists of a limited number of database operations in a certain sequence (generally all the operations between **BEGIN TRANSACTION** and **END TRANSACTION**). These operations are either fully completed or not performed at all.
 
 Purposes
@@ -129,11 +125,8 @@ A customer buys a $100 item in a store using an e-payment account. At least two 
    ::
 
       SELECT * FROM customer_info;
-       name  | money
-      -------+-------
-       buyer |   500
-       shop  |   500
-      (2 rows)
+
+   |image1|
 
 #. Simulate a successful transaction.
 
@@ -145,11 +138,8 @@ A customer buys a $100 item in a store using an e-payment account. At least two 
       UPDATE customer_info SET money = money+100 WHERE name IN (SELECT name FROM customer_info WHERE name = 'shop');
 
       SELECT * FROM customer_info;
-       name  | money
-      -------+-------
-       buyer |   400
-       shop  |   600
-      (2 rows)
+
+   |image2|
 
 #. Restore initial values.
 
@@ -157,11 +147,8 @@ A customer buys a $100 item in a store using an e-payment account. At least two 
 
       UPDATE customer_info SET money=500;
       select * from customer_info;
-       name  | money
-      -------+-------
-       shop  |   500
-       buyer |   500
-      (2 rows)
+
+   |image3|
 
 #. Simulate a transaction failure.
 
@@ -184,11 +171,8 @@ A customer buys a $100 item in a store using an e-payment account. At least two 
       ::
 
          SELECT * FROM customer_info;
-          name  | money
-         -------+-------
-          buyer |   400
-          shop  |   500
-         (2 rows)
+
+      |image4|
 
 Without ACID properties, the account balances will be incorrect once an error occurs during SQL statement execution..
 
@@ -215,10 +199,10 @@ Without ACID properties, the account balances will be incorrect once an error oc
 
 #. Roll back the transaction. All the completed database operations related to the transaction are canceled.
 
+   |image5|
+
    ::
 
-      ERROR:  syntax error at or near "shop"
-      LINE 1: ...e IN (SELECT name FROM customer_info WHERE name = ''shop'');
       END TRANSACTION;
       ROLLBACK
 
@@ -227,11 +211,8 @@ Without ACID properties, the account balances will be incorrect once an error oc
    ::
 
       SELECT * FROM customer_info;
-       name  | money
-      -------+-------
-       buyer |   500
-       shop  |   500
-      (2 rows)
+
+   |image6|
 
 Two-Phase Transaction
 ---------------------
@@ -246,14 +227,16 @@ Two-phase commit is not supported in the following scenarios:
 
       BEGIN;
       PREPARE TRANSACTION 'p1';
-      ERROR: Explicit prepare transaction is not supported.
+
+   |image7|
 
 -  The file mappings of system catalogs cannot be modified in a two-phase transaction.
 
    ::
 
       REINDEX TABLE pg_class;
-      ERROR: cannot PREPARE a transaction that modified relation mapping.
+
+   |image8|
 
 -  Transaction snapshots cannot be committed and exported in cross-node transactions.
 
@@ -263,4 +246,15 @@ Two-phase commit is not supported in the following scenarios:
       CREATE TABLE t1(a int);
       SELECT pg_export_snapshot();
       END;
-      ERROR: cannot PREPARE a transaction that has exported snapshots.
+
+   |image9|
+
+.. |image1| image:: /_static/images/en-us_image_0000001903326154.png
+.. |image2| image:: /_static/images/en-us_image_0000001903326250.png
+.. |image3| image:: /_static/images/en-us_image_0000001903486262.png
+.. |image4| image:: /_static/images/en-us_image_0000001940645809.png
+.. |image5| image:: /_static/images/en-us_image_0000001903486502.png
+.. |image6| image:: /_static/images/en-us_image_0000001903326710.png
+.. |image7| image:: /_static/images/en-us_image_0000001903486686.png
+.. |image8| image:: /_static/images/en-us_image_0000001903486794.png
+.. |image9| image:: /_static/images/en-us_image_0000001903486834.png

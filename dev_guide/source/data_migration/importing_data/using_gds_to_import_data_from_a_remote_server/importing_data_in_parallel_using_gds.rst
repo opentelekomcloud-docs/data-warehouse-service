@@ -20,21 +20,21 @@ In the current GDS version, you can import data to databases from pipe files.
 
       -  To ensure the correctness of data import or export using GDS, you need to import or export data in the same compatibility mode.
 
-         For example, data imported or exported in MySQL compatibility mode can be exported or imported only in MySQL compatibility mode.
+         If data is imported or exported in MySQL compatibility mode, it can only be exported or imported in the same mode.
 
 Overview
 --------
 
 You can import data in parallel from the common file system (excluding HDFS) of a server to GaussDB(DWS).
 
-Data files to be imported are specified based on the import policy and data formats set in a foreign table. Data is imported in parallel through multiple DNs from source data files to the database, which improves the overall data import performance. :ref:`Figure 1 <en-us_topic_0000001233883381__fc07608abaf6e4b509fbbfe774a8a548e>` shows an example.
+Data files to be imported are specified based on the import policy and data formats set in a foreign table. Data is imported in parallel through multiple DNs from source data files to the database, which improves the overall data import performance. :ref:`Figure 1 <en-us_topic_0000001717256732__en-us_topic_0000001233883381_fc07608abaf6e4b509fbbfe774a8a548e>` shows an example.
 
 -  The CN only plans data import tasks and delivers the tasks to DNs. In this case, the CN is released to process other tasks.
 -  In this way, the computing capacities and bandwidths of all the DNs are fully leveraged to import data, improving the import performance.
 
 You can pre-process data (such as invalid character replacement and fault tolerance processing) by setting parameters in a foreign table.
 
-.. _en-us_topic_0000001233883381__fc07608abaf6e4b509fbbfe774a8a548e:
+.. _en-us_topic_0000001717256732__en-us_topic_0000001233883381_fc07608abaf6e4b509fbbfe774a8a548e:
 
 .. figure:: /_static/images/en-us_image_0000001799299941.png
    :alt: **Figure 1** Importing data in parallel
@@ -53,9 +53,9 @@ The concepts mentioned in the preceding figure are described as follows:
 Parallel Import Using GDS
 -------------------------
 
--  If a large volume of data is stored on multiple servers, deploy, configure, and start GDS on each server. Then, data on all the servers can be imported in parallel, as shown in :ref:`Figure 2 <en-us_topic_0000001233883381__fig208886410250>`.
+-  If a large volume of data is stored on multiple servers, deploy, configure, and start GDS on each server. Then, data on all the servers can be imported in parallel, as shown in :ref:`Figure 2 <en-us_topic_0000001717256732__en-us_topic_0000001233883381_fig208886410250>`.
 
-   .. _en-us_topic_0000001233883381__fig208886410250:
+   .. _en-us_topic_0000001717256732__en-us_topic_0000001233883381_fig208886410250:
 
    .. figure:: /_static/images/en-us_image_0000001188163822.png
       :alt: **Figure 2** Parallel import from multiple data servers
@@ -94,25 +94,25 @@ Import Process
    +===================================+===================================================================================================================================================================================================================================================================================+
    | Prepare source data.              | Prepare the source data files to be imported to the database and upload the files to the data server.                                                                                                                                                                             |
    |                                   |                                                                                                                                                                                                                                                                                   |
-   |                                   | For details, see :ref:`Preparing Source Data <dws_04_0192>`.                                                                                                                                                                                                                      |
+   |                                   | For details, see :ref:`Preparing Source Data <en-us_topic_0000001717097308>`.                                                                                                                                                                                                     |
    +-----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | Start GDS.                        | Install, configure, and enable GDS on the data server.                                                                                                                                                                                                                            |
    |                                   |                                                                                                                                                                                                                                                                                   |
-   |                                   | For details, see :ref:`Installing, Configuring, and Starting GDS <dws_04_0193>`.                                                                                                                                                                                                  |
+   |                                   | For details, see :ref:`Installing, Configuring, and Starting GDS <en-us_topic_0000001764817369>`.                                                                                                                                                                                 |
    +-----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | Create a foreign table.           | A foreign table is used to identify source files. The foreign table stores information, such as the source location, format, destination location, encoding format, and inter-data delimiter of a source data file.                                                               |
    |                                   |                                                                                                                                                                                                                                                                                   |
    |                                   | For details, see :ref:`Creating a GDS Foreign Table <dws_04_0194>`.                                                                                                                                                                                                               |
    +-----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | Import data.                      | After creating the foreign table, run the **INSERT** statement to quickly import data to the target table. For details, see :ref:`Importing Data <dws_04_0195>`.                                                                                                                  |
+   | Import data.                      | After creating the foreign table, run the **INSERT** statement to quickly import data to the target table. For details, see :ref:`Importing Data <en-us_topic_0000001717256736>`.                                                                                                 |
    +-----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | Handle the error table.           | If errors occur during parallel data import, handle errors based on the error information to ensure data integrity.                                                                                                                                                               |
    |                                   |                                                                                                                                                                                                                                                                                   |
-   |                                   | For details, see :ref:`Handling Import Errors <dws_04_0196>`.                                                                                                                                                                                                                     |
+   |                                   | For details, see :ref:`Handling Import Errors <en-us_topic_0000001717097312>`.                                                                                                                                                                                                    |
    +-----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | Improve query efficiency.         | After data is imported, run the **ANALYZE** statement to generate table statistics. The **ANALYZE** statement stores the statistics in the **PG_STATISTIC** system catalog. The execution plan generator uses the statistics to generate the most efficient query execution plan. |
    +-----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | Stop GDS.                         | After data import is complete, log in to each data server and stop GDS.                                                                                                                                                                                                           |
    |                                   |                                                                                                                                                                                                                                                                                   |
-   |                                   | For details, see :ref:`Stopping GDS <dws_04_0197>`.                                                                                                                                                                                                                               |
+   |                                   | For details, see :ref:`Stopping GDS <en-us_topic_0000001764817373>`.                                                                                                                                                                                                              |
    +-----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+

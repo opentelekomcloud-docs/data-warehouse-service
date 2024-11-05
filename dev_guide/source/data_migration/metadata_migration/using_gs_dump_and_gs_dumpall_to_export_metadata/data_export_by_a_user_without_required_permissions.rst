@@ -2,7 +2,7 @@
 
 .. _dws_04_0278:
 
-.. _en-us_topic_0000001233681793:
+.. _en-us_topic_0000001717097348:
 
 Data Export By a User Without Required Permissions
 ==================================================

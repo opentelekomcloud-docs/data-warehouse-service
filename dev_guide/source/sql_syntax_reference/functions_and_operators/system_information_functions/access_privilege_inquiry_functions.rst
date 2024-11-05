@@ -10,16 +10,12 @@ has_any_column_privilege(user, table, privilege)
 
 Description: Queries whether a specified user has permission for any column of table.
 
-Parameters: **user** can be declared by name (text type) or OID. **table** can be declared by name (text type) or OID. **privilege** is declared using a text string (text type). The text string can be **SELECT**, **INSERT**, **UPDATE**, **REFERENCES**, or multiple permission types separated by commas (,).
-
 Return type: boolean
 
 has_any_column_privilege(table, privilege)
 ------------------------------------------
 
 Description: Queries whether the current user has permission for any column of table.
-
-Parameters: **table** can be declared by name (text type) or OID. **privilege** is declared using a text string (text type). The text string can be **SELECT**, **INSERT**, **UPDATE**, **REFERENCES**, or multiple permission types separated by commas (,).
 
 Return type: boolean
 
@@ -34,16 +30,12 @@ has_column_privilege(user, table, column, privilege)
 
 Description: Queries whether a specified user has permission for column.
 
-Parameters: **user** can be declared by name (text type) or OID. **table** can be declared by name (text type) or OID. **column** can be declared by a column name (text type) or an attribute number (smallint type). **privilege** is declared using a text string. The text string can be **SELECT**, **INSERT**, **UPDATE**, **REFERENCES**, or multiple permission types separated by commas (,).
-
 Return type: boolean
 
 has_column_privilege(table, column, privilege)
 ----------------------------------------------
 
 Description: Queries whether the current user has permission for column.
-
-Parameters: **table** can be declared by name (text type) or OID. **column** can be declared by a column name (text type) or an attribute number (smallint type). **privilege** is declared using a text string. The text string can be **SELECT**, **INSERT**, **UPDATE**, **REFERENCES**, or multiple permission types separated by commas (,).
 
 Return type: boolean
 
@@ -58,16 +50,12 @@ has_database_privilege(user, database, privilege)
 
 Description: Queries whether a specified user has permission for database.
 
-Parameters: **user** can be declared by name (text type) or OID. **database** can be declared by name (text type) or OID. **privilege** is declared using a text string. The text string can be **SELECT**, **INSERT**, **UPDATE**, **REFERENCES**, or multiple permission types separated by commas (,).
-
 Return type: boolean
 
 has_database_privilege(database, privilege)
 -------------------------------------------
 
 Description: Queries whether the current user has permission for database.
-
-Parameters: **database** can be declared by name (text type) or OID. **privilege** is declared using a text string. The text string can be **CREATE**, **CONNECT**, **TEMPORARY**, or **TEMP**, or multiple permission types separated by commas (,).
 
 Return type: boolean
 
@@ -78,8 +66,6 @@ has_foreign_data_wrapper_privilege(user, fdw, privilege)
 
 Description: Queries whether a specified user has permission for foreign-data wrapper.
 
-Parameters: **user** can be declared by name (text type) or OID. **fdw** indicates a foreign-data wrapper, which can be declared by name (text type) or OID. **privilege** is declared using a text string, which must be USAGE.
-
 The **fdw** parameter indicates the name or ID of the foreign data wrapper.
 
 Return type: boolean
@@ -88,8 +74,6 @@ has_foreign_data_wrapper_privilege(fdw, privilege)
 --------------------------------------------------
 
 Description: Queries whether the current user has permission for foreign-data wrapper.
-
-Parameters: **fdw** indicates a foreign-data wrapper, which can be declared by name (text type) or OID. **privilege** is declared using a text string, which must be **USAGE**.
 
 Return type: boolean
 
@@ -100,16 +84,12 @@ has_function_privilege(user, function, privilege)
 
 Description: Queries whether a specified user has permission for function.
 
-Parameters: **user** can be declared by name (text type) or OID. **function** can be declared by name (text type) or OID. **privilege** is declared using a text string, which must be **EXECUTE**.
-
 Return type: boolean
 
 has_function_privilege(function, privilege)
 -------------------------------------------
 
 Description: Queries whether the current user has permission for function.
-
-Parameters: **function** can be declared by name (text type) or OID. **privilege** is declared using a text string, which must be **EXECUTE**.
 
 Return type: boolean
 
@@ -120,16 +100,12 @@ has_language_privilege(user, language, privilege)
 
 Description: Queries whether a specified user has permission for language.
 
-Parameters: **user** can be declared by name (text type) or OID. **language** can be declared by name (text type) or OID. **privilege** is declared using a text string, which must be **USAGE**.
-
 Return type: boolean
 
 has_language_privilege(language, privilege)
 -------------------------------------------
 
 Description: Queries whether the current user has permission for language.
-
-Parameters: **language** can be declared by name (text type) or OID. **privilege** is declared using a text string, which must be **USAGE**.
 
 Return type: boolean
 
@@ -140,16 +116,12 @@ has_schema_privilege(user, schema, privilege)
 
 Description: Queries whether a specified user has permission for schema.
 
-Parameters: **user** can be declared by name (text type) or OID. **schema** can be declared by name (text type) or OID. **privilege** is declared using a text string, which can be **CREATE**, **USAGE**, or multiple permission types separated by commas (,).
-
 Return type: boolean
 
 has_schema_privilege(schema, privilege)
 ---------------------------------------
 
 Description: Queries whether the current user has permission for schema.
-
-Parameters: **schema** can be declared by name (text type) or OID. **privilege** is declared using a text string, which can be **CREATE**, **USAGE**, or multiple permission types separated by commas (,).
 
 Return type: boolean
 
@@ -160,16 +132,12 @@ has_server_privilege(user, server, privilege)
 
 Description: Queries whether a specified user has permission for foreign server.
 
-Parameters: **user** can be declared by name (text type) or OID. **server** can be declared by name (text type) or OID. **privilege** is declared using a text string, which must be **USAGE**.
-
 Return type: boolean
 
 has_server_privilege(server, privilege)
 ---------------------------------------
 
 Description: Queries whether the current user has permission for foreign server.
-
-Parameters: **server** can be declared by name (text type) or OID. **privilege** is declared using a text string, which must be **USAGE**.
 
 Return type: boolean
 
@@ -180,8 +148,6 @@ has_table_privilege(user, table, privilege)
 
 Description: Queries whether a specified user has permission for table.
 
-Parameters: **user** can be declared by name (text type) or OID. **table** can be declared by name (text type) or OID. **privilege** is declared using a text string, which can be **SELECT**, **INSERT**, **UPDATE**, **DELETE**, **TRUNCATE**, **REFERENCES**, or **TRIGGER**, or multiple permission types separated by commas (,).
-
 Return type: boolean
 
 has_table_privilege(table, privilege)
@@ -189,11 +155,9 @@ has_table_privilege(table, privilege)
 
 Description: Queries whether the current user has permission for table.
 
-Parameters: **table** can be declared by name (text type) or OID. **privilege** is declared using a text string, which can be **SELECT**, **INSERT**, **UPDATE**, **DELETE**, **TRUNCATE**, **REFERENCES**, or **TRIGGER**, or multiple permission types separated by commas (,).
-
 Return type: boolean
 
-**has_table_privilege** checks whether a user can access a table in a particular way. The user can be specified by name, by OID (**pg_authid.oid**), **public** to indicate the PUBLIC pseudo-role, or if the argument is omitted **current_user** is assumed. The table can be specified by name or by OID. When specifying by name, the name can be schema-qualified if necessary. If a text string is used to declare **privilege**, you can add **WITH GRANT OPTION** to the permission type to test whether the permission has the grant option. When there are multiple permission types, owning one of them will lead to a **true** result.
+**has_table_privilege** checks whether a user can access a table in a particular way. The user can be specified by name, by OID (**pg_authid.oid**), **public** to indicate the PUBLIC pseudo-role, or if the argument is omitted **current_user** is assumed. The table can be specified by name or by OID. When specifying by name, the name can be schema-qualified if necessary. The desired access permission type is specified by a text string, which must be one of the values **SELECT**, **INSERT**, **UPDATE**, **DELETE**, **TRUNCATE**, **REFERENCES**, or **TRIGGER**. Optionally, **WITH GRANT OPTION** can be added to a permission type to test whether the permission is held with grant option. Also, multiple permission types can be listed separated by commas, in which case the result will be **true** if any of the listed permissions is held.
 
 Example:
 
@@ -211,12 +175,12 @@ Example:
     t
    (1 row)
 
+.. _en-us_topic_0000001460721276__section13942057572:
+
 pg_has_role(user, role, privilege)
 ----------------------------------
 
 Description: Queries whether a specified user has permission for role.
-
-Parameters: **user** can be declared by name (text type) or OID. **role** can be declared by name (text type) or OID. **privilege** is declared using a text string, which can be **MEMBER**, **USAGE**, or multiple permission types separated by commas (,).
 
 Return type: boolean
 
@@ -224,8 +188,6 @@ pg_has_role(role, privilege)
 ----------------------------
 
 Description: Specifies whether the current user has permission for role.
-
-Parameters: **role** can be declared by name (text type) or OID. **privilege** is declared using a text string, which can be **MEMBER**, **USAGE**, or multiple permission types separated by commas (,).
 
 Return type: boolean
 

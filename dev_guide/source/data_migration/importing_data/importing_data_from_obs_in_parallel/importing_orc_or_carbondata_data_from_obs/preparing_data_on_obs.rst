@@ -2,6 +2,8 @@
 
 .. _dws_04_0243:
 
+.. _en-us_topic_0000001717097300:
+
 Preparing Data on OBS
 =====================
 
@@ -14,17 +16,17 @@ Before you use the SQL on OBS feature to query OBS data:
 
    For example, the ORC table has been created when you use the Hive or Spark component, and the ORC data has been stored on OBS.
 
-   Assume that there are two ORC data files, named **product_info.0** and **product_info.1**, whose original data is stored in the **demo.db/product_info_orc/** directory of the **mybucket** OBS bucket. You can view their original data in :ref:`Original Data <en-us_topic_0000001188482188__en-us_topic_0000001145410931_en-us_topic_0102810712_en-us_topic_0093837401_section1888720568453>`.
+   Assume that there are two ORC data files, named **product_info.0** and **product_info.1**, whose original data is stored in the **demo.db/product_info_orc/** directory of the **mybucket** OBS bucket. You can view their original data in :ref:`Original Data <en-us_topic_0000001717097300__en-us_topic_0000001188482188_en-us_topic_0000001145410931_en-us_topic_0102810712_en-us_topic_0093837401_section1888720568453>`.
 
-#. .. _en-us_topic_0000001188482188__en-us_topic_0000001145410931_en-us_topic_0102810712_li12771154711:
+#. .. _en-us_topic_0000001717097300__en-us_topic_0000001188482188_en-us_topic_0000001145410931_en-us_topic_0102810712_li12771154711:
 
-   If your data files are already on OBS, perform steps in :ref:`Obtaining the OBS Path of Original Data and Setting Read Permission <en-us_topic_0000001188482188__en-us_topic_0000001145410931_en-us_topic_0102810712_section112221416173415>`.
+   If your data files are already on OBS, perform steps in :ref:`Obtaining the OBS Path of Original Data and Setting Read Permission <en-us_topic_0000001717097300__en-us_topic_0000001188482188_en-us_topic_0000001145410931_en-us_topic_0102810712_section112221416173415>`.
 
    .. note::
 
       This section uses the ORC format as an example to describe how to import data. The method for importing CarbonData data is similar.
 
-.. _en-us_topic_0000001188482188__en-us_topic_0000001145410931_en-us_topic_0102810712_en-us_topic_0093837401_section1888720568453:
+.. _en-us_topic_0000001717097300__en-us_topic_0000001188482188_en-us_topic_0000001145410931_en-us_topic_0102810712_en-us_topic_0093837401_section1888720568453:
 
 Original Data
 -------------
@@ -55,7 +57,7 @@ Assume that you have stored the two ORC data files on OBS and their original dat
       450,MMCE-H-4728-#nP9,2017-09-11,A,2017 autumn new jacket women,white,M,114,2017-09-14,22,Open the package and the clothes have no odor.
       260,OCDA-G-2817-#bD3,2017-09-12,B,2017 autumn new woolen coat women,red,L,2004,2017-09-15,826,Very favorite clothes.
 
-.. _en-us_topic_0000001188482188__en-us_topic_0000001145410931_en-us_topic_0102810712_section112221416173415:
+.. _en-us_topic_0000001717097300__en-us_topic_0000001188482188_en-us_topic_0000001145410931_en-us_topic_0102810712_section112221416173415:
 
 Obtaining the OBS Path of Original Data and Setting Read Permission
 -------------------------------------------------------------------
@@ -64,7 +66,7 @@ Obtaining the OBS Path of Original Data and Setting Read Permission
 
    Click **Service List** and choose **Object Storage Service** to open the OBS management console.
 
-#. .. _en-us_topic_0000001188482188__en-us_topic_0000001145410931_en-us_topic_0102810712_li123314509351:
+#. .. _en-us_topic_0000001717097300__en-us_topic_0000001188482188_en-us_topic_0000001145410931_en-us_topic_0102810712_li123314509351:
 
    Obtain the OBS path for storing source data files.
 
@@ -76,8 +78,8 @@ Obtaining the OBS Path of Original Data and Setting Read Permission
 
    ::
 
-      https://obs.xxx.com/mybucket/demo.db/product_info_orc/product_info.0
-      https://obs.xxx.com/mybucket/demo.db/product_info_orc/product_info.1
+      https://obs.example.com/mybucket/demo.db/product_info_orc/product_info.0
+      https://obs.example.com/mybucket/demo.db/product_info_orc/product_info.1
 
 #. Grant the OBS bucket read permission for the user.
 

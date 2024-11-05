@@ -5,9 +5,9 @@
 Geometric Types
 ===============
 
-:ref:`Table 1 <en-us_topic_0000001188429056__t6242ed1ede044daab7e8e566a9568667>` lists the geometric types that can be used in GaussDB(DWS). The most fundamental type, the point, forms the basis for all of the other types.
+:ref:`Table 1 <en-us_topic_0000001460721188__t6242ed1ede044daab7e8e566a9568667>` lists the geometric types that can be used in GaussDB(DWS). The most fundamental type, the point, forms the basis for all of the other types.
 
-.. _en-us_topic_0000001188429056__t6242ed1ede044daab7e8e566a9568667:
+.. _en-us_topic_0000001460721188__t6242ed1ede044daab7e8e566a9568667:
 
 .. table:: **Table 1** Geometric Type
 

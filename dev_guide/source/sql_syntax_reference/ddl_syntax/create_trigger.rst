@@ -8,7 +8,7 @@ CREATE TRIGGER
 Function
 --------
 
-**CREATE TRIGGER** creates a trigger. The trigger will be associated with a specified table or view, and will execute a specified function when certain events occur.
+Creates a trigger. The trigger will be associated with a specified table or view, and will execute a specified function when certain events occur.
 
 Precautions
 -----------
@@ -196,9 +196,6 @@ Create a source table and a trigger table:
 
 ::
 
-   DROP TABLE IF EXISTS test_trigger_src_tbl;
-   DROP TABLE IF EXISTS test_trigger_des_tbl;
-
    CREATE TABLE test_trigger_src_tbl(id1 INT, id2 INT, id3 INT);
    CREATE TABLE test_trigger_des_tbl(id1 INT, id2 INT, id3 INT);
 
@@ -206,7 +203,6 @@ Create the trigger function **tri_insert_func()**:
 
 ::
 
-   DROP FUNCTION IF EXISTS tri_insert_func;
    CREATE OR REPLACE FUNCTION tri_insert_func() RETURNS TRIGGER AS
               $$
               DECLARE
@@ -220,7 +216,6 @@ Create the trigger function **tri_update_func()**:
 
 ::
 
-   DROP FUNCTION IF EXISTS tri_update_func;
    CREATE OR REPLACE FUNCTION tri_update_func() RETURNS TRIGGER AS
               $$
               DECLARE
@@ -234,7 +229,6 @@ Create the trigger function **tri_delete_func()**:
 
 ::
 
-   DROP FUNCTION IF EXISTS tri_delete_func;
    CREATE OR REPLACE FUNCTION tri_delete_func() RETURNS TRIGGER AS
               $$
               DECLARE
@@ -248,7 +242,6 @@ Create an **INSERT** trigger:
 
 ::
 
-   DROP FUNCTION IF EXISTS insert_trigger;
    CREATE TRIGGER insert_trigger
               BEFORE INSERT ON test_trigger_src_tbl
               FOR EACH ROW
@@ -258,7 +251,6 @@ Create an **UPDATE** trigger:
 
 ::
 
-   DROP FUNCTION IF EXISTS update_trigger;
    CREATE TRIGGER update_trigger
               AFTER UPDATE ON test_trigger_src_tbl
               FOR EACH ROW
@@ -268,7 +260,6 @@ Create a **DELETE** trigger:
 
 ::
 
-   DROP FUNCTION IF EXISTS update_trigger;
    CREATE TRIGGER delete_trigger
               BEFORE DELETE ON test_trigger_src_tbl
               FOR EACH ROW

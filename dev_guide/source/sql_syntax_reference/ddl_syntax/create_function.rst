@@ -8,7 +8,7 @@ CREATE FUNCTION
 Function
 --------
 
-**CREATE FUNCTION** creates a function.
+Defines a new function.
 
 Precautions
 -----------
@@ -24,6 +24,7 @@ Precautions
 -  In logical cluster mode, if return values and parameters of the function are user tables, all the tables must be in the same logical cluster. If the function body involves operations on multiple logical cluster tables, the function cannot be set to **IMMUTABLE** or **SHIPPABLE**, preventing the function from being pushed down to a DN.
 -  In logical cluster mode, the parameters and return values of the function cannot use the **%type** to reference a table column type. Otherwise, the function will fail to be created.
 -  By default, the permissions to execute new functions are granted to **PUBLIC**. For details, see :ref:`GRANT <dws_06_0250>`. You can revoke the default execution permissions from **PUBLIC** and grant them to other users as needed. To avoid the time window during which new functions can be accessed by all users, create functions in transactions and set function execution permissions.
+-  In a cluster with multiple CNs, the input or output parameters of a function cannot be set to the temporary table type. This is because the correct temporary schema cannot be obtained based on the table name when the function is created on a non-current CN. As a result, the accurate table type cannot be obtained.
 
 Syntax
 ------
@@ -86,10 +87,6 @@ Syntax
 Parameter Description
 ---------------------
 
--  **OR REPLACE**
-
-   Redefines an existing function.
-
 -  **function_name**
 
    Indicates the name of the function to create (optionally schema-qualified).
@@ -134,7 +131,7 @@ Parameter Description
 
 -  **DETERMINISTIC**
 
-   Adapted to Oracle SQL syntax. You are not advised to use it.
+   Adapted to Oracle SQL syntax. This parameter is not recommended.
 
 -  **column_name**
 
@@ -170,11 +167,11 @@ Parameter Description
 
    Examples:
 
-   #. .. _en-us_topic_0000001188110530__li144181920184412:
+   #. .. _en-us_topic_0000001460561404__li144181920184412:
 
       If a user-defined function references objects such as tables and views, the function cannot be defined as **IMMUTABLE**, because the function may return different results when the data in a referenced table changes.
 
-   #. .. _en-us_topic_0000001188110530__li1341819203448:
+   #. .. _en-us_topic_0000001460561404__li1341819203448:
 
       If a user-defined function references a **STABLE** or **VOLATILE** function, the function cannot be defined as IMMUTABLE.
 
@@ -182,7 +179,7 @@ Parameter Description
 
    #. If a user-defined function contains an aggregation operation that will generate **STREAM** plans to complete the operation (meaning that DNs and CNs are involved for results calculation, such as the **LISTAGG** function), the function cannot be defined as **IMMUTABLE**.
 
-   To prevent possible problems, you can set **behavior_compat_options** to **check_function_conflicts** in the database to check definition conflicts. This method can identify the :ref:`1 <en-us_topic_0000001188110530__li144181920184412>` and :ref:`2 <en-us_topic_0000001188110530__li1341819203448>` scenarios described above.
+   To prevent possible problems, you can set **behavior_compat_options** to **check_function_conflicts** in the database to check definition conflicts. This method can identify the :ref:`1 <en-us_topic_0000001460561404__li144181920184412>` and :ref:`2 <en-us_topic_0000001460561404__li1341819203448>` scenarios described above.
 
 -  **STABLE**
 
@@ -306,38 +303,35 @@ Parameter Description
 
    .. important::
 
-      When the function is creating users, the log will record unencrypted passwords. You are not advised to do it.
+      When the function is creating users, the unencrypted passwords will be recorded in the log. You are not advised to do it.
 
 Examples
 --------
 
-Create the function **func_add_sql** as an SQL query.
+Define the function as SQL query.
 
 ::
 
-   DROP FUNCTION IF EXISTS func_add_sql;
    CREATE FUNCTION func_add_sql(integer, integer) RETURNS integer
        AS 'select $1 + $2;'
        LANGUAGE SQL
        IMMUTABLE
        RETURNS NULL ON NULL INPUT;
 
-Create the function **func_increment_plsql** that accepts a parameter name and returns an integer value that is one greater than the input.
+Add an integer by parameter name using PL/pgSQL.
 
 ::
 
-   DROP FUNCTION IF EXISTS func_increment_plsql;
    CREATE OR REPLACE FUNCTION func_increment_plsql(i integer) RETURNS integer AS $$
            BEGIN
                    RETURN i + 1;
            END;
    $$ LANGUAGE plpgsql;
 
-Create a function that returns the RECORD type.
+Return the RECORD type.
 
 ::
 
-   DROP FUNCTION IF EXISTS compute;
    CREATE OR REPLACE FUNCTION compute(i int, out result_1 bigint, out result_2 bigint)
    returns SETOF RECORD
    as $$
@@ -348,21 +342,19 @@ Create a function that returns the RECORD type.
    end;
    $$language plpgsql;
 
-Create a function that that returns multiple output parameters.
+Get a record containing multiple output parameters.
 
 ::
 
-   DROP FUNCTION IF EXISTS func_dup_sql;
    CREATE FUNCTION func_dup_sql(in int, out f1 int, out f2 text)
        AS $$ SELECT $1, CAST($1 AS text) || ' is text' $$
        LANGUAGE SQL;
    SELECT * FROM func_dup_sql(42);
 
-Create a function that calculates the sum of two integers and gets the result. If the input is null, null will be returned.
+Calculate the sum of two integers and get the result. If the input is null, null will be returned.
 
 ::
 
-   DROP FUNCTION IF EXISTS func_add_sql2;
    CREATE FUNCTION func_add_sql2(num1 integer, num2 integer) RETURN integer
    AS
    BEGIN

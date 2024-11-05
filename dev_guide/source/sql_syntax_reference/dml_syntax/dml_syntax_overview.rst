@@ -27,8 +27,8 @@ Deleting Data
 
 For details about how to delete data that meets specified conditions from a table, see :ref:`DELETE <dws_06_0231>`.
 
-Copy Data
----------
+Copying Data
+------------
 
 GaussDB(DWS) provides a statement for copying data between tables and files. For details, see :ref:`COPY <dws_06_0230>`.
 

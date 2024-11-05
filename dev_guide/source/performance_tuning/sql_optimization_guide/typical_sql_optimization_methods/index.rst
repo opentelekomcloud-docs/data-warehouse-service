@@ -2,6 +2,8 @@
 
 .. _dws_04_0445:
 
+.. _en-us_topic_0000001629230073:
+
 Typical SQL Optimization Methods
 ================================
 

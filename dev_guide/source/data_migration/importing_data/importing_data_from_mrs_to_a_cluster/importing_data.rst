@@ -2,6 +2,8 @@
 
 .. _dws_04_0215:
 
+.. _en-us_topic_0000001717256748:
+
 Importing Data
 ==============
 
@@ -16,7 +18,7 @@ If the data amount is small, you can directly run SELECT to query the foreign ta
 
       SELECT * FROM foreign_product_info;
 
-   If the query result is the same as the data in :ref:`Data File <en-us_topic_0000001188642198__en-us_topic_0000001082830951_en-us_topic_0109259515_en-us_topic_0101477888_section55166005141018>`, the import is successful. The following information is displayed at the end of the query result:
+   If the query result is the same as the data in :ref:`Data File <en-us_topic_0000001717097320__en-us_topic_0000001188642198_en-us_topic_0000001082830951_en-us_topic_0109259515_en-us_topic_0101477888_section55166005141018>`, the import is successful. The following information is displayed at the end of the query result:
 
    .. code-block::
 
@@ -24,7 +26,7 @@ If the data amount is small, you can directly run SELECT to query the foreign ta
 
    After data is queried, you can insert the data to common tables in the database.
 
-.. _en-us_topic_0000001233883187__en-us_topic_0000001083024575_en-us_topic_0109259518_en-us_topic_0101477887_section1375535445410:
+.. _en-us_topic_0000001717256748__en-us_topic_0000001233883187_en-us_topic_0000001083024575_en-us_topic_0109259518_en-us_topic_0101477887_section1375535445410:
 
 Querying Data After Importing It
 --------------------------------
@@ -33,7 +35,7 @@ You can query the MRS data after importing it to GaussDB(DWS).
 
 #. Create a table in GaussDB(DWS) to store imported data.
 
-   The target table structure must be the same as the structure of the foreign table created in :ref:`Creating a Foreign Table <dws_04_0214>`. That is, both tables must have the same number of columns and column types.
+   The target table structure must be the same as the structure of the foreign table created in :ref:`Creating a Foreign Table <en-us_topic_0000001764896609>`. That is, both tables must have the same number of columns and column types.
 
    For example, create a table named **product_info**. The table example is as follows:
 
@@ -80,7 +82,7 @@ You can query the MRS data after importing it to GaussDB(DWS).
 
       SELECT * FROM product_info;
 
-   If the query result is the same as the data in :ref:`Data File <en-us_topic_0000001188642198__en-us_topic_0000001082830951_en-us_topic_0109259515_en-us_topic_0101477888_section55166005141018>`, the import is successful. The following information is displayed at the end of the query result:
+   If the query result is the same as the data in :ref:`Data File <en-us_topic_0000001717097320__en-us_topic_0000001188642198_en-us_topic_0000001082830951_en-us_topic_0109259515_en-us_topic_0101477888_section55166005141018>`, the import is successful. The following information is displayed at the end of the query result:
 
    .. code-block::
 

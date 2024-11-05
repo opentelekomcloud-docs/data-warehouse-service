@@ -19,6 +19,7 @@ Precautions
 -  If a stored procedure has output parameters, the **SELECT** statement uses the default values of the output parameters when calling the procedure. When the **CALL** statement calls the stored procedure, it requires that the output parameter values are adapted to Oracle. When the **CALL** statement calls a non-overloaded function, output parameters must be specified. When the **CALL** statement calls an overloaded PACKAGE function, it can use the default values of the output parameters. For details, see examples in :ref:`CALL <dws_06_0229>`.
 -  A stored procedure with the PACKAGE attribute can use overloaded functions.
 -  When you create a procedure, you cannot insert aggregate functions or other functions out of the average function.
+-  In a cluster with multiple CNs, the input or output parameters of a stored procedure cannot be set to the temporary table type. This is because when a stored procedure is created on a CN that is not currently connected, the correct temporary schema cannot be obtained based on the table name, resulting in an incorrect table type.
 
 Syntax
 ------
@@ -122,7 +123,7 @@ Create a stored procedure whose parameter type is VARIADIC:
 
 ::
 
-   CREATE OR REPLACE PROCEDURE pro_variadic (param1 VARIADIC int4[], param2  OUT  TEXT)
+   CREATE OR REPLACE PROCEDURE pro_variadic (param1 VARIADIC int4[],param2  OUT  TEXT)
    AS
    BEGIN
        param2:= param1::text;
@@ -139,7 +140,7 @@ Create a stored procedure with the **package** attribute:
 
 ::
 
-   CREATE OR REPLACE PROCEDURE package_func_overload(col int, col2 out varchar)
+   create or replace procedure package_func_overload(col int, col2 out varchar)
    package
    as
    declare

@@ -23,9 +23,9 @@ The HStore tables uniquely support single and small-batch real-time IUD operatio
 Differences from Standard Data Warehouses
 -----------------------------------------
 
-The hybrid data warehouse and standard data warehouse are two different types of GaussDB(DWS) products and have different usages. For details, see :ref:`Table 1 <en-us_topic_0000001856158617__en-us_topic_0000001490734117_en-us_topic_0000001254011985_table36452001993>`.
+The hybrid data warehouse and standard data warehouse are two different types of GaussDB(DWS) products and have different usages. For details, see :ref:`Table 1 <en-us_topic_0000001510283561__en-us_topic_0000001254011985_table36452001993>`.
 
-.. _en-us_topic_0000001856158617__en-us_topic_0000001490734117_en-us_topic_0000001254011985_table36452001993:
+.. _en-us_topic_0000001510283561__en-us_topic_0000001254011985_table36452001993:
 
 .. table:: **Table 1** Comparison between hybrid and standard data warehouses
 

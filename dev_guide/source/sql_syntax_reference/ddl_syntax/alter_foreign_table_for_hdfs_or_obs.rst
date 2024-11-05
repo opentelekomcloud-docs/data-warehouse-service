@@ -18,28 +18,28 @@ None
 Syntax
 ------
 
--  Set a foreign table's attributes:
+-  Set a foreign table's attributes.
 
    ::
 
       ALTER FOREIGN TABLE [ IF EXISTS ]  table_name
           OPTIONS ( {[ ADD | SET | DROP ] option ['value']} [, ... ]);
 
--  Set the owner of the foreign table:
+-  Set the owner of a foreign table.
 
    ::
 
       ALTER FOREIGN TABLE [ IF EXISTS ] tablename
           OWNER TO new_owner;
 
--  Update a foreign table column:
+-  Update a foreign table column.
 
    ::
 
       ALTER FOREIGN TABLE [ IF EXISTS ] table_name
           MODIFY ( { column_name data_type | column_name [ CONSTRAINT constraint_name ] NOT NULL [ ENABLE ] | column_name [ CONSTRAINT constraint_name ] NULL } [, ...] );
 
--  Modify the column of the foreign table:
+-  Modify a column of a foreign table.
 
    ::
 
@@ -60,7 +60,7 @@ Syntax
 
    For details, see :ref:`ALTER TABLE <dws_06_0142>`.
 
--  Add a foreign table informational constraint:
+-  Add a foreign table informational constraint.
 
    ::
 
@@ -69,7 +69,7 @@ Syntax
           { PRIMARY KEY | UNIQUE } ( column_name )
           [ NOT ENFORCED [ ENABLE QUERY OPTIMIZATION | DISABLE QUERY OPTIMIZATION ] | ENFORCED ];
 
-   For parameters about adding an informational constraint to a foreign table, see :ref:`Parameter Description <en-us_topic_0000001233628569__s755e54aa01f04a4bb44806bedcebdab4>` in CREATE FOREIGN TABLE (For HDFS).
+   For parameters about adding an informational constraint to a foreign table, see :ref:`Parameter Description <en-us_topic_0000001510401001__s755e54aa01f04a4bb44806bedcebdab4>`.
 
 -  Remove a foreign table informational constraint.
 
@@ -101,7 +101,7 @@ Parameter Description
 
    Specifies the new type for an existing column.
 
-   Value range: A string compliant with the identifier naming rules.
+   Value range: a string. It must comply with the naming convention.
 
 -  **constraint_name**
 
@@ -113,52 +113,24 @@ Parameter Description
 
    Value range: a string. It must comply with the naming convention.
 
-For details on how to modify other parameters in the foreign table, such as **IF EXISTS**, see :ref:`Parameter Description <en-us_topic_0000001188588994__s3e87132692794964b56e3ba420e7b544>` in **ALTER TABLE**.
+For details on how to modify other parameters in the foreign table, such as **IF EXISTS**, see :ref:`Parameter Description <en-us_topic_0000001510281989__s3e87132692794964b56e3ba420e7b544>` in **ALTER TABLE**.
 
-.. _en-us_topic_0000001188589002__s8302a739997543e0a22f9ee43ce9bfbf:
+.. _en-us_topic_0000001460561392__s8302a739997543e0a22f9ee43ce9bfbf:
 
 Examples
 --------
 
-#. Establish HDFS_Server, with HDFS_FDW or DFS_FDW as the foreign data wrapper.
+Change the type of the **r_name** column to **text** in the **ft_region** foreign table.
 
-   ::
+::
 
-      CREATE SERVER hdfs_server FOREIGN DATA WRAPPER HDFS_FDW OPTIONS (address '10.10.0.100:25000,10.10.0.101:25000',hdfscfgpath '/opt/hadoop_client/HDFS/hadoop/etc/hadoop',type'HDFS');
+   ALTER FOREIGN TABLE ft_region ALTER r_name TYPE TEXT;
 
-#. Create an HDFS foreign table without partition keys.
+Run the following command to mark the **r_name** column of the **ft_region** foreign table as **not null**:
 
-   ::
+::
 
-      DROP FOREIGN TABLE IF EXISTS ft_region;
-      CREATE FOREIGN TABLE ft_region
-      (
-          R_REGIONKEY INT4,
-          R_NAME TEXT,
-          R_COMMENT TEXT
-      )
-      SERVER
-          hdfs_server
-      OPTIONS
-      (
-          FORMAT 'orc',
-          encoding 'utf8',
-          FOLDERNAME '/user/hive/warehouse/gauss.db/region_orc11_64stripe/'
-      )
-      DISTRIBUTE BY
-           roundrobin;
-
-#. Change the type of the **r_name** column to **text** in the **ft_region** foreign table.
-
-   ::
-
-      ALTER FOREIGN TABLE ft_region ALTER r_name TYPE TEXT;
-
-#. Run the following command to mark the **r_name** column of the **ft_region** foreign table as **not null**:
-
-   ::
-
-      ALTER FOREIGN TABLE ft_region ALTER r_name SET NOT NULL;
+   ALTER FOREIGN TABLE ft_region ALTER r_name SET NOT NULL;
 
 Helpful Links
 -------------

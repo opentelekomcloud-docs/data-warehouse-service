@@ -124,7 +124,7 @@ Example:
 
       -  The expression in the **WHERE** condition of the subquery must be table columns.
 
-      -  After the **SELECT** keyword of the subquery, there must be only one output column. The output column must be an aggregation function (for example, **MAX**), and the parameter (for example, **t2.c2**) of the aggregate function cannot be columns of a table (for example, **t1**) in outer quires. The aggregate function cannot be **COUNT**.
+      -  After the **SELECT** keyword of the subquery, there must be only one output column. The output column must be an aggregate function (for example, **MAX**), and the parameter (for example, **t2.c2**) of the aggregate function cannot be columns of a table (for example, **t1**) in outer queries. The aggregate function cannot be **COUNT**.
 
          For example, the following subquery can be pulled up:
 
@@ -199,7 +199,7 @@ Example:
          where t1.a = (select avg(a) from t3 where t1.b = t3.b) or
          exists (select * from t4 where t1.c = t4.c);
 
-      the process of pulling up such a sublink is as follows:
+      The procedure for promoting the OR clause of an EXIST-related subquery in an OR-ed join is as follows:
 
       #. Extract **opExpr** from the **OR** clause in the **WHERE** condition. The value is **t1.a = (select avg(a) from t3 where t1.b = t3.b)**.
 
@@ -281,7 +281,7 @@ Example:
                                       ->  Seq Scan on t2
          (11 rows)
 
-      The correlated subquery is displayed in the target list (query return list). Values need to be returned even if the condition **t1.c1=t2.c1** is not met. Therefore, use left outer join to join **T1** and **T2** so that SSQ can return padding values when the condition **t1.c1=t2.c1** is not met.
+      The correlated subquery is displayed in the target list (query return list). Values need to be returned even if the condition **t1.c1=t2.c1** is not met. Therefore, use a left outer join to join **t1** and **t2** so that the SSQ can return padding values when the condition **t1.c1=t2.c1** is not met.
 
       .. note::
 
@@ -296,10 +296,10 @@ Example:
 
          with ssq as
          (
-             select t2.c2 from t2
+             select t2.c1, t2.c2 from t2
          )
          select ssq.c2, t1.c2
-         from t1 left join ssq on t1.c1 = ssq.c2
+         from t1 left join ssq on t1.c1 = ssq.c1
          where t1.c2 > 10;
 
       The execution plan after the change is as follows:
@@ -311,14 +311,12 @@ Example:
           Streaming (type: GATHER)
             Node/s: All datanodes
             ->  Hash Right Join
-                  Hash Cond: (t2.c2 = t1.c1)
-                  ->  Streaming(type: REDISTRIBUTE)
-                        Spawn on: All datanodes
+                  Hash Cond: (t2.c1 = t1.c1)
                         ->  Seq Scan on t2
                   ->  Hash
                         ->  Seq Scan on t1
                               Filter: (c2 > 10)
-         (10 rows)
+         (8 rows)
 
       In the preceding example, the SSQ is pulled up to right join, preventing poor performance caused by the combination of a subplan and broadcast when the table (**T2**) in the subquery is too large.
 
@@ -357,7 +355,7 @@ Example:
                                                   ->  Seq Scan on t2
          (17 rows)
 
-      The correlated subquery is displayed in the target list (query return list). Values need to be returned even if the condition **t1.c1=t2.c1** is not met. Therefore, use left outer join to join **T1** and **T2** so that SSQ can return padding values when the condition **t1.c1=t2.c1** is not met. However, **COUNT** is used to ensure that **0** is returned when the condition is note met. Therefore, **case-when NULL then 0 else count(*)** can be used.
+      The correlated subquery is displayed in the target list (query return list). Values need to be returned even if the condition **t1.c1=t2.c1** is not met. Therefore, use a left outer join to join **t1** and **t2** so that the SSQ can return padding values when the condition **t1.c1=t2.c1** is not met. However, **COUNT** is used, which requires that **0** is returned when the condition is not met. **case-when NULL then 0 else count(*)** can be used.
 
       The preceding SQL statement can be changed into:
 

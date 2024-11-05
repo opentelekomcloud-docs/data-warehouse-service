@@ -8,14 +8,14 @@ COMMENT
 Function
 --------
 
-**COMMENT** defines or changes the comment of an object.
+Defines or changes the comment of an object.
 
 Precautions
 -----------
 
 -  Only one comment string is stored for each object. To modify a comment, issue a new **COMMENT** command for the same object. To remove a comment, write **NULL** in place of the text string. Comments are automatically deleted when their objects are deleted.
 -  Currently, there is no security protection for viewing comments. Any user connected to a database can view all the comments for objects in the database. For shared objects such as databases, roles, and tablespaces, comments are stored globally so any user connected to any database in the cluster can see all the comments for shared objects. Therefore, do not put security-critical information in comments.
--  For most kinds of objects, only the owner of objects can set the comment. Roles do not have owners, so the rule for **COMMENT ON ROLE** is that you must be administrator to comment on an administrator role, or have the **CREATE ROLE** permission to comment on non-administrator roles. An administrator can comment on anything.
+-  For most kinds of objects, only the owner of objects can set the comment. Roles do not have owners, so the rule for **COMMENT ON ROLE** is that you must be administrator to comment on an administrator role, or have the **CREATEROLE** permission to comment on non-administrator roles. An administrator can comment on anything.
 
 Syntax
 ------
@@ -121,38 +121,17 @@ Parameter Description
 Examples
 --------
 
-Create a table:
-
-::
-
-   CREATE TABLE IF NOT EXISTS CUSTOMER
-   (
-       C_CUSTKEY     BIGINT NOT NULL CONSTRAINT C_CUSTKEY_pk PRIMARY KEY  ,
-       C_NAME        VARCHAR(25)  ,
-       C_ADDRESS     VARCHAR(40)  ,
-       C_NATIONKEY   INT          ,
-       C_PHONE       CHAR(15)     ,
-       C_ACCTBAL     DECIMAL(15,2)
-   )
-   DISTRIBUTE BY HASH(C_CUSTKEY);
-
 Add a comment to the **customer.c_customer_sk** column.
 
 ::
 
-   COMMENT ON COLUMN customer.C_CUSTKEY IS 'Primary key of customer demographics table.';
+   COMMENT ON COLUMN customer.c_customer_sk IS 'Primary key of customer demographics table.';
 
-Create a view
-
-::
-
-   CREATE OR REPLACE VIEW customer_details_view AS SELECT * FROM CUSTOMER;
-
-Add a comment to the **customer_details_view** view:
+Add a comment to the **tpcds.customer_details_view_v2** view.
 
 ::
 
-   COMMENT ON VIEW customer_details_view IS 'View of customer detail';
+   COMMENT ON VIEW tpcds.customer_details_view_v2 IS 'View of customer detail';
 
 Add a comment to the **customer** table.
 
