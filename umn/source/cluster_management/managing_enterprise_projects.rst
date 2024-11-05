@@ -5,7 +5,7 @@
 Managing Enterprise Projects
 ============================
 
-An enterprise project is a cloud resource management mode. Enterprise Management provides users with comprehensive management in cloud-based resources, personnel, and permissions. Unlike common management consoles that feature independent control and configuration of cloud products, the Enterprise Management console is oriented to resource management. It helps enterprises with cloud-based management in resources, personnel, and permissions in the hierarchy of companies, departments, and projects.
+An enterprise project is a cloud resource management mode. Enterprise Management provides users with comprehensive management in cloud-based resources, personnel, and permissions. The Enterprise Management console differs from typical management consoles as it focuses on resource management rather than independent control and configuration of cloud products. It assists enterprises in managing resources, personnel, and permissions within the hierarchy of companies, departments, and projects.
 
 Binding an Enterprise Project
 -----------------------------

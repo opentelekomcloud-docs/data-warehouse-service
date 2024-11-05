@@ -43,8 +43,10 @@ Clusters are listed in chronological order by default, with the most recent clus
    |                                   |    -  **Restart**: Click **Restart** to restart a cluster. For details, see :ref:`Cluster Restart <dws_01_0024>`.                                      |
    |                                   |    -  **Scale Out**: For details, see :ref:`Scaling Out a Cluster <dws_01_0023>`.                                                                      |
    |                                   |    -  **Change all specifications**: For details, see :ref:`Changing All Specifications <dws_01_0825>`.                                                |
+   |                                   |    -  **Scale In**: For details, see :ref:`Scaling In a Cluster <dws_01_0821>`.                                                                        |
    |                                   |    -  **Redistribute**: For details, see :ref:`Redistributing Data <dws_01_8201>`.                                                                     |
    |                                   |    -  **View Scaling Details**: For details, see :ref:`Viewing Redistribution Details <dws_01_8202>`.                                                  |
+   |                                   |    -  **Expand Disk Capacity**: For details, see :ref:`Disk Capacity Expansion of an EVS Cluster <dws_01_0828>`.                                       |
    |                                   |    -  **Reset Password**: For details, see :ref:`Resetting a Password <dws_01_0026>`.                                                                  |
    |                                   |    -  **Create Snapshot**: For details, see :ref:`Manual Snapshots <dws_01_0092>`.                                                                     |
    |                                   |    -  **Cancel Readonly**: For details, see :ref:`Removing the Read-only Status <dws_01_0035>`.                                                        |

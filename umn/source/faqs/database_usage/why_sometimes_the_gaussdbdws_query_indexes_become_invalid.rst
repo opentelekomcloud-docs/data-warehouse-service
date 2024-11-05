@@ -344,7 +344,7 @@ In Index-Only Scan scenarios, Index Scan specified by a hint will be invalid.
 
 ::
 
-   explain verbose select/*+ indexscan(test)*/ b from test where b = '1';
+   explain verbose select*+ indexscan(test)*/ b from test where b = '1';
    WARNING:  unused hint: IndexScan(test)
                                                       QUERY PLAN
    -----------------------------------------------------------------------------------------------------------------
@@ -376,7 +376,7 @@ In Index-Only Scan scenarios, Index Scan specified by a hint will be invalid.
 
 ::
 
-   explain verbose select/*+ indexonlyscan(test)*/ b from test where b = '1';
+   explain verbose select*+ indexonlyscan(test)*/ b from test where b = '1';
                                                       QUERY PLAN
    -----------------------------------------------------------------------------------------------------------------
      id |                      operation                      | E-rows | E-distinct | E-memory | E-width | E-costs

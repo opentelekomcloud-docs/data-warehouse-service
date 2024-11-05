@@ -29,7 +29,7 @@ Creating a Role
 
 #. Configure the permissions of the role.
 
-   Click **Add** to add a permission configuration. Select the database object type and the corresponding objects. Then, select permissions. For details about permission definitions, see "DCL Syntax > GRANT" in *SQL Syntax Reference*.
+   Click **Add** to add a permission configuration. Select the database object type and the corresponding objects. Then, select permissions. For details about permission definitions, see "DCL Syntax" > "GRANT" in *SQL Syntax Reference*.
 
    |image2|
 

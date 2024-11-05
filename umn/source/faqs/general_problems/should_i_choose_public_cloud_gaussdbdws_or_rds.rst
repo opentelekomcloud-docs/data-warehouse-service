@@ -11,22 +11,22 @@ You can scale out a GaussDB(DWS) cluster to address complex data and queries, or
 
 The following table shows the comparison between OLTP and OLAP.
 
-.. table:: **Table 1** Feature comparison between OLTP and OLAP
+.. table:: **Table 1** Comparison between OLTP and OLAP
 
    +---------------+---------------------------------------------+---------------------------------------------------+
-   | Feature       | RDS for OLTP                                | GaussDB(DWS) for OLAP                             |
+   | Feature       | OLTP                                        | OLAP                                              |
    +===============+=============================================+===================================================+
-   | User          | Operations and low-level management         | Decision-makers and senior management             |
+   | Users         | Operation personnel and junior managers     | Decision-making personnel and senior managers     |
    +---------------+---------------------------------------------+---------------------------------------------------+
-   | Function      | Daily operation processing                  | Analysis and decision-making                      |
+   | Functionality | Daily operations                            | Analysis and decision-making                      |
    +---------------+---------------------------------------------+---------------------------------------------------+
-   | Design        | By application                              | By theme                                          |
+   | Design        | Application-oriented                        | Subject-oriented                                  |
    +---------------+---------------------------------------------+---------------------------------------------------+
    | Data          | Latest, detailed, two-dimensional, discrete | Historical, integrated, multidimensional, unified |
    +---------------+---------------------------------------------+---------------------------------------------------+
-   | Access        | Dozens of read and write records            | Millions of read records                          |
+   | Access        | Reads/Writes dozens of records.             | Reads millions of records.                        |
    +---------------+---------------------------------------------+---------------------------------------------------+
-   | Coverage      | Simple read/write operations                | Complex queries                                   |
+   | Scope of Work | Simple read/write operations                | Complex queries                                   |
    +---------------+---------------------------------------------+---------------------------------------------------+
-   | Database size | Hundreds of GB                              | TB or PB                                          |
+   | Database size | Hundreds of GB                              | TB to PB                                          |
    +---------------+---------------------------------------------+---------------------------------------------------+
