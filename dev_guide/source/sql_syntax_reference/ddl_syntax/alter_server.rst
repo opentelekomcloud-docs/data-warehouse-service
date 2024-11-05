@@ -45,7 +45,7 @@ Currently, only **SET** is supported on an HDFS server. **ADD** and **DROP** are
    ALTER SERVER server_name
        RENAME TO new_name;
 
--  Refresh the HDFS configuration file.
+-  Refresh the HDFS configuration file. Only 8.0.0.10 and later versions (except 8.1.0) support this function.
 
 ::
 
@@ -62,7 +62,7 @@ Parameter Description
 
    Indicates the new version of the server.
 
--  **OPTIONS:**
+-  The server parameters in **OPTIONS** are as follows:
 
    -  address
 
@@ -146,7 +146,7 @@ Parameter Description
 
 -  **new_owner**
 
-   Indicates the new owner of the server. To change the owner, you must be the owner of the external server and a direct or indirect member of the new owner role, and must have the USAGE permission on the encapsulator of the external server.
+   Indicates the new owner of the server. To change the owner, you must be the owner of the external server and a direct or indirect member of the new owning role, and must have the **USAGE** permission on the encapsulator of the external server.
 
 -  **new_name**
 
@@ -158,16 +158,6 @@ Parameter Description
 
 Examples
 --------
-
-Create the **hdfs_server** server, in which **hdfs_fdw** is the foreign-data wrapper:
-
-::
-
-   CREATE SERVER hdfs_server FOREIGN DATA WRAPPER HDFS_FDW OPTIONS
-      (address '10.10.0.100:25000,10.10.0.101:25000',
-       hdfscfgpath '/opt/hadoop_client/HDFS/hadoop/etc/hadoop',
-       type 'HDFS'
-   ) ;
 
 Change the IP address of the **hdfs_server** server.
 

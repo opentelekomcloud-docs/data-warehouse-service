@@ -8,10 +8,10 @@ ALTER TEXT SEARCH CONFIGURATION
 Function
 --------
 
-**ALTER TEXT SEARCH CONFIGURATION** modifies the definition of a text search configuration. You can modify its mappings from token types to dictionaries, change the configuration's name or owner, or modify the parameters.
+Modifies the definition of a text search configuration. You can modify its mappings from token types to dictionaries, change the configuration's name or owner, or modify the parameters.
 
-Precautions
------------
+Important Notes
+---------------
 
 -  If a search configuration is referenced (to create an index), users are not allowed to modify it.
 -  To use **ALTER TEXT SEARCH CONFIGURATION**, you must be the owner of the configuration.
@@ -100,7 +100,7 @@ Parameter description
 
 -  **token_type**
 
-   Specifies the name of a token type that is emitted by the configuration's parser. For details, see :ref:`Text Search Parser <dws_06_0101>`.
+   Specifies the name of a token type that is emitted by the configuration's parser. For details, see :ref:`Parsers <dws_06_0101>`.
 
 -  **dictionary_name**
 
@@ -137,13 +137,6 @@ Parameter description
 Examples
 --------
 
-Create a text search configuration:
-
-::
-
-   DROP TEXT SEARCH CONFIGURATION IF EXISTS ngram1;
-   CREATE TEXT SEARCH CONFIGURATION ngram1 (parser=ngram) WITH (gram_size = 2, grapsymbol_ignore = false);
-
 Add a type mapping for the text search type **ngram1**.
 
 ::
@@ -154,7 +147,6 @@ Change the owner of text search configuration.
 
 ::
 
-   CREATE ROLE joe password '{Password}';
    ALTER TEXT SEARCH CONFIGURATION ngram1 OWNER TO joe;
 
 Change the schema of text search configuration.
@@ -174,13 +166,6 @@ Delete type mapping.
 ::
 
    ALTER TEXT SEARCH CONFIGURATION joe.ngram_1 DROP MAPPING IF EXISTS FOR multisymbol;
-
-Create a text search configuration:
-
-::
-
-   DROP TEXT SEARCH CONFIGURATION IF EXISTS english_1;
-   CREATE TEXT SEARCH CONFIGURATION english_1 (parser=default);
 
 Add text search configuration string mapping.
 

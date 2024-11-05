@@ -2,6 +2,8 @@
 
 .. _dws_04_0213:
 
+.. _en-us_topic_0000001764817381:
+
 Manually Creating a Foreign Server
 ==================================
 
@@ -15,22 +17,22 @@ To allow a common user to create a foreign table in a user-defined database to r
 
    For details, see section "MRS Data Sources > Creating an MRS Data Source Connection" in the *Data Warehouse Service User Guide*.
 
-#. :ref:`Creating a User and a Database and Granting the User Foreign Table Permissions <en-us_topic_0000001188642138__en-us_topic_0000001082926737_en-us_topic_0109259516_en-us_topic_0101997156_section765119474519>`
+#. :ref:`Creating a User and a Database and Granting the User Foreign Table Permissions <en-us_topic_0000001764817381__en-us_topic_0000001188642138_en-us_topic_0000001082926737_en-us_topic_0109259516_en-us_topic_0101997156_section765119474519>`
 
-#. :ref:`Manually Creating a Foreign Server <en-us_topic_0000001188642138__en-us_topic_0000001082926737_en-us_topic_0109259516_en-us_topic_0101997156_section070174417129>`
+#. :ref:`Manually Creating a Foreign Server <en-us_topic_0000001764817381__en-us_topic_0000001188642138_en-us_topic_0000001082926737_en-us_topic_0109259516_en-us_topic_0101997156_section070174417129>`
 
 .. note::
 
-   If you no longer need to read data from the MRS data source and have deleted the MRS data source on the GaussDB(DWS) management console, only the foreign server automatically created in the default database **postgres** will be deleted, and the manually created foreign server needs to be deleted manually. For details about the deletion, see :ref:`Deleting the Manually Created Foreign Server <en-us_topic_0000001233681609__en-us_topic_0000001082926731_en-us_topic_0109259519_en-us_topic_0102427953_section79551640133718>`.
+   If you no longer need to read data from the MRS data source and have deleted the MRS data source on the GaussDB(DWS) management console, only the foreign server automatically created in the default database **postgres** will be deleted, and the manually created foreign server needs to be deleted manually. For details about the deletion, see :ref:`Deleting the Manually Created Foreign Server <en-us_topic_0000001717097324__en-us_topic_0000001233681609_en-us_topic_0000001082926731_en-us_topic_0109259519_en-us_topic_0102427953_section79551640133718>`.
 
-.. _en-us_topic_0000001188642138__en-us_topic_0000001082926737_en-us_topic_0109259516_en-us_topic_0101997156_section765119474519:
+.. _en-us_topic_0000001764817381__en-us_topic_0000001188642138_en-us_topic_0000001082926737_en-us_topic_0109259516_en-us_topic_0101997156_section765119474519:
 
 Creating a User and a Database and Granting the User Foreign Table Permissions
 ------------------------------------------------------------------------------
 
 In the following example, a common user **dbuser** and a database **mydatabase** are created. Then, an administrator is used to grant foreign table permissions to user **dbuser**.
 
-#. Connect to the default database **postgres** as a database administrator through the database client tool provided by GaussDB(DWS).
+#. Connect to the default database **gaussdb** as a database administrator through the database client tool provided by GaussDB(DWS).
 
    For example, use the **gsql** client to connect to the database by running the following command:
 
@@ -137,7 +139,7 @@ In the following example, a common user **dbuser** and a database **mydatabase**
        lily      | f        | t          | f             | f           | t           |           -1 |               |               | {}       | f              | f             | f              | f
        Ruby       | t        | t          | t             | t           | t           |           -1 |               |               | {}       | t              | t             | t              | t
 
-.. _en-us_topic_0000001188642138__en-us_topic_0000001082926737_en-us_topic_0109259516_en-us_topic_0101997156_section070174417129:
+.. _en-us_topic_0000001764817381__en-us_topic_0000001188642138_en-us_topic_0000001082926737_en-us_topic_0109259516_en-us_topic_0101997156_section070174417129:
 
 
 Manually Creating a Foreign Server
@@ -163,7 +165,7 @@ Manually Creating a Foreign Server
 
          gsql -d postgres -h 192.168.2.30 -U dbadmin -p 8000 -W password -r
 
-#. .. _en-us_topic_0000001188642138__en-us_topic_0000001082926737_en-us_topic_0109259516_en-us_topic_0101997156_li142862473118:
+#. .. _en-us_topic_0000001764817381__en-us_topic_0000001188642138_en-us_topic_0000001082926737_en-us_topic_0109259516_en-us_topic_0101997156_li142862473118:
 
    Run the following command to query the information about the foreign server that is automatically created:
 
@@ -191,7 +193,7 @@ Manually Creating a Foreign Server
 
 #. Switch to the user who is about to create a foreign server to connect to the corresponding database.
 
-   In this example, run the following command to use common user **dbuser** created in :ref:`Creating a User and a Database and Granting the User Foreign Table Permissions <en-us_topic_0000001188642138__en-us_topic_0000001082926737_en-us_topic_0109259516_en-us_topic_0101997156_section765119474519>` to connect to **mydatabase** created by the user:
+   In this example, run the following command to use common user **dbuser** created in :ref:`Creating a User and a Database and Granting the User Foreign Table Permissions <en-us_topic_0000001764817381__en-us_topic_0000001188642138_en-us_topic_0000001082926737_en-us_topic_0109259516_en-us_topic_0101997156_section765119474519>` to connect to **mydatabase** created by the user:
 
    ::
 
@@ -217,7 +219,7 @@ Manually Creating a Foreign Server
 
       You can customize a name.
 
-      In this example, specify the name to the value of the **srvname** field recorded in :ref:`2 <en-us_topic_0000001188642138__en-us_topic_0000001082926737_en-us_topic_0109259516_en-us_topic_0101997156_li142862473118>`, such as *hdfs_server_8f79ada0_d998_4026_9020_80d6de2692ca*.
+      In this example, specify the name to the value of the **srvname** field recorded in :ref:`2 <en-us_topic_0000001764817381__en-us_topic_0000001188642138_en-us_topic_0000001082926737_en-us_topic_0109259516_en-us_topic_0101997156_li142862473118>`, such as *hdfs_server_8f79ada0_d998_4026_9020_80d6de2692ca*.
 
       Resources in different databases are isolated. Therefore, the names of foreign servers in different databases can be the same.
 
@@ -227,7 +229,7 @@ Manually Creating a Foreign Server
 
    -  **OPTIONS** parameters
 
-      Set the following parameters to the values under **srvoptions** recorded in :ref:`2 <en-us_topic_0000001188642138__en-us_topic_0000001082926737_en-us_topic_0109259516_en-us_topic_0101997156_li142862473118>`.
+      Set the following parameters to the values under **srvoptions** recorded in :ref:`2 <en-us_topic_0000001764817381__en-us_topic_0000001188642138_en-us_topic_0000001082926737_en-us_topic_0109259516_en-us_topic_0101997156_li142862473118>`.
 
       -  address
 

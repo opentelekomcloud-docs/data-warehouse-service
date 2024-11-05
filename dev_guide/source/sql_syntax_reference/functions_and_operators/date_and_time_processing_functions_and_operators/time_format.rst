@@ -58,7 +58,7 @@ Example:
     2021-05-01 09:30:17
    (1 row)
 
-For details about the input format types applicable to **str_to_date**, see :ref:`Table 1 <en-us_topic_0000001446391160__table135107162552>`. Only input values of the date or date/time type can be converted. Use **str_to_time** when only values of the time type are input.
+For details about the input format types applicable to **str_to_date**, see :ref:`Table 1 <en-us_topic_0000001510161265__table17541102011>`. Only input values of the date or date/time type can be converted. Use **str_to_time** when only values of the time type are input.
 
 str_to_time(str, format)
 ------------------------
@@ -77,7 +77,7 @@ Example:
     09:30:17
    (1 row)
 
-For details about the input format types applicable to **str_to_time**, see :ref:`Table 1 <en-us_topic_0000001446391160__table135107162552>`. Only input values of the time type can be converted. Use **str_to_date** when values of the date or date/time type are input.
+For details about the input format types applicable to **str_to_time**, see :ref:`Table 1 <en-us_topic_0000001510161265__table17541102011>`. Only input values of the time type can be converted. Use **str_to_date** when values of the date or date/time type are input.
 
 week(date[, mode])
 ------------------
@@ -112,25 +112,25 @@ Example:
 
 ::
 
-   SELECT week('2018-01-01');
+   select week('2018-01-01');
     week
    ------
        0
    (1 row)
 
-   SELECT week('2018-01-01', 0);
+   select week('2018-01-01', 0);
     week
    ------
        0
    (1 row)
 
-   SELECT week('2020-12-31', 1);
+   select week('2020-12-31', 1);
     week
    ------
       53
    (1 row)
 
-   SELECT week('2020-12-31', 5);
+   select week('2020-12-31', 5);
     week
    ------
       52
@@ -149,7 +149,7 @@ Example:
 
 ::
 
-   SELECT weekday('2020-11-06');
+   select weekday('2020-11-06');
     weekday
    ---------
           4
@@ -166,7 +166,7 @@ Example:
 
 ::
 
-   SELECT weekofyear('2020-12-30');
+   select weekofyear('2020-12-30');
     weekofyear
    ------------
             53
@@ -183,7 +183,7 @@ Example:
 
 ::
 
-   SELECT year('2020-11-13');
+   select year('2020-11-13');
     year
    ------
     2020
@@ -200,13 +200,13 @@ Example:
 
 ::
 
-   SELECT yearweek('2019-12-31');
+   select yearweek('2019-12-31');
     yearweek
    ----------
       201952
    (1 row)
 
-   SELECT yearweek('2019-1-1');
+   select yearweek('2019-1-1');
     yearweek
    ----------
       201852

@@ -8,17 +8,19 @@ ALTER TABLE
 Function
 --------
 
-**ALTER TABLE** is used to modify tables, including modifying table definitions, renaming tables, renaming specified columns in tables, renaming table constraints, setting table schemas, enabling or disabling row-level access control, and adding or updating multiple columns.
+Modifies tables, including modifying table definitions, renaming tables, renaming specified columns in tables, renaming table constraints, setting table schemas, enabling or disabling row-level access control, and adding or updating multiple columns.
 
 Precautions
 -----------
 
--  Only the owner of a table, a user granted with the ALTER permission for the table, or a system administrator has the permission to run the **ALTER TABLE** statement. To change the owner or schema of a table, you must be the owner of the table or a system administrator.
+-  Only the owner of a table, a user granted with the ALTER permission for the table, or a system administrator has the permission to run the **ALTER TABLE** statement. To change the owner or schema of a table, you need to have ownership or system administrator privileges for the table and be a direct or indirect member of the new role.
 -  The storage parameter **ORIENTATION** cannot be modified.
 -  Currently, **SET SCHEMA** can only set schemas to user schemas. It cannot set a schema to a system internal schema.
 -  Column-store tables support **PARTIAL CLUSTER KEY** but do not support table-level foreign key constraints. In 8.1.1 or later, column-store tables support the **PRIMARY KEY** constraint and table-level **UNIQUE** constraint.
--  In a column-store table, you can perform **ADD COLUMN**, **ALTER TYPE**, **SET STATISTICS**, **DROP COLUMN** operations. The types of new and modified columns should be the :ref:`Data Types <dws_06_0008>` supported by column storage. The **USING** option of **ALTER TYPE** only supports constant expression and expression involved in the column.
--  Only the **NULL**, **NOT NULL**, and **DEFAULT** constant values can be used as HDFS table column constraints.Only the **DEFAULT** value can be modified (**SET DEFAULT** and **DROP DEFAULT**), and only the **NOT NULL** constraint can be deleted. Currently, **NULL** and **NOT NULL** constraints cannot be modified.
+-  A system column cannot be designated as a primary key in a row-store REPLICATION distributed table.
+-  To modify a column-store table, there are various commands available. For instance, you can use **ADD COLUMN** to add a new field, **ALTER TYPE** to change the data type of a field, **SET STATISTICS** to set the statistical gathering target for a field, and **DROP COLUMN** to delete an existing field. You can also rename the table. Note that any added or modified fields must be compatible with a column-store table (for details, see :ref:`Data Types <dws_06_0008>`). Moreover, the **USING** option of **ALTER TYPE** only supports constant expressions or those that involve the current field. Expressions that reference other fields are not supported.
+-  The column constraints supported by column-store tables include **NULL**, **NOT NULL**, and **DEFAULT** constant values. Only the **DEFAULT** value can be modified (**SET DEFAULT** and **DROP DEFAULT**), and only the **NOT NULL** constraint can be deleted.
+-  The **NOT NULL** constraint and **PRIMARY KEY** constraint can be added to column-store tables. This constraint is supported by version 8.2.0 or later clusters.
 -  When you modify the COLVERSION or **enable_delta** parameter of a column-store table, other ALTER operations cannot be performed.
 
 -  Auto-increment columns cannot be added, or a column in which the **DEFAULT** value contains the nextval() expression cannot be added either.
@@ -175,7 +177,7 @@ Syntax
 
          Changes the local hot partitions that meet the criteria specified in the **storage_policy** parameter of an OBS multi-temperature table to the cold partitions stored in the OBS.
 
-         For example, if **storage_policy** is set to **'LMT:10'** for an OBS multi-temperature table when it is created, the partitions that are not updated within the last 10 days are switched to cold partitions in the OBS.
+         For example, if **storage_policy** is set to **'LMT:10'** for an OBS hot or cold table when it is created, the partitions that are not updated within the last 10 days are switched to cold partitions in the OBS.
 
    -  There are several clauses of **column_clause**:
 
@@ -186,6 +188,7 @@ Syntax
              | MODIFY [ COLUMN ] column_name [ CONSTRAINT constraint_name ] NOT NULL [ ENABLE ]
              | MODIFY [ COLUMN ] column_name [ CONSTRAINT constraint_name ] NULL
              | MODIFY [ COLUMN ] column_name DEFAULT default_expr
+             | MODIFY [ COLUMN ] column_name ON UPDATE on_update_expr
              | MODIFY [ COLUMN ] column_name COMMENT comment_text
              | DROP [ COLUMN ] [ IF EXISTS ] column_name [ RESTRICT | CASCADE ]
              | ALTER [ COLUMN ] column_name [ SET DATA ] TYPE data_type [ COLLATE collation ] [ USING expression ]
@@ -193,8 +196,8 @@ Syntax
              | ALTER [ COLUMN ] column_name { SET | DROP } NOT NULL
              | ALTER [ COLUMN ] column_name SET STATISTICS [PERCENT] integer
              | ADD STATISTICS (( column_1_name, column_2_name [, ...] ))
-             | ADD { INDEX | UNIQUE [ INDEX ] } [ index_name ] ( { { column_name | ( expression ) } [ COLLATE collation ] [ opclass ] [ ASC | DESC ] [ NULLS LAST ] } [, ...] ) [ USING method ] [ COMMENT 'text' ] LOCAL [ ( { PARTITION index_partition_name } [, ...] ) ] [ WITH ( { storage_parameter = value } [, ...] ) ]
-             | ADD { INDEX | UNIQUE [ INDEX ] } [ index_name ] ({ { column_name | ( expression ) } [ COLLATE collation ] [ opclass ] [ ASC | DESC ] [ NULLS { FIRST | LAST } ] }[, ...] ) [ USING method ] [ COMMENT 'text' ] [ WITH ( {storage_parameter = value} [, ... ] ) ] [ WHERE predicate ]
+             | ADD { INDEX | UNIQUE [ INDEX ] } [ index_name ] ( { { column_name | ( expression ) } [ COLLATE collation ] [ opclass ] [ ASC | DESC ] [ NULLS LAST ] } [, ...] ) [ USING method ] [ NULLS [ NOT ] DISTINCT | NULLS IGNORE ] [ COMMENT 'text' ] LOCAL [ ( { PARTITION index_partition_name } [, ...] ) ] [ WITH ( { storage_parameter = value } [, ...] ) ]
+             | ADD { INDEX | UNIQUE [ INDEX ] } [ index_name ] ({ { column_name | ( expression ) } [ COLLATE collation ] [ opclass ] [ ASC | DESC ] [ NULLS { FIRST | LAST } ] }[, ...] ) [ USING method ] [ NULLS [ NOT ] DISTINCT | NULLS IGNORE ] [ COMMENT 'text' ] [ WITH ( {storage_parameter = value} [, ... ] ) ] [ WHERE predicate ]
              | DROP { INDEX | KEY } index_name
              | CHANGE [ COLUMN ] old_column_name new_column_name data_type [ [ CONSTRAINT constraint_name ] NOT NULL [ ENABLE ] |
                  [ CONSTRAINT constraint_name ] NULL | DEFAULT default_expr | COMMENT 'text' ]
@@ -215,7 +218,7 @@ Syntax
 
          -  **MODIFY [ COLUMN ] column_name data_type**
 
-            Modifies the data type of an existing field in a table.
+            Modifies the data type of an existing field in a table. Note that the data type of the distribution column cannot be modified.
 
          -  **MODIFY [ COLUMN ] column_name [ CONSTRAINT constraint_name ] NOT NULL [ ENABLE ]**
 
@@ -228,6 +231,10 @@ Syntax
          -  **MODIFY [ COLUMN ] column_name DEFAULT default_expr**
 
             Changes the default value of the table.
+
+         -  **MODIFY [ COLUMN ] column_name ON UPDATE on_update_expr**
+
+            Modifies the ON UPDATE expression of a specified column in a table. The column must be of the timestamp or timestamptz type. If **on_update_expr** is NULL, the **ON UPDATE** clause is deleted.
 
          -  **MODIFY [ COLUMN ] column_name COMMENT comment_text**
 
@@ -263,15 +270,11 @@ Syntax
 
             Specifies the per-column statistics-gathering target for subsequent **ANALYZE** operations. The value ranges from **0** to **10000**. Set it to **-1** to revert to using the default system statistics target.
 
-         -  **{ADD \| DELETE} STATISTICS ((column_1_name, column_2_name [, ...]))**
-
-            Adds or deletes the declaration of collecting multi-column statistics to collect multi-column statistics as needed when **ANALYZE** is performed for a table or a database. The statistics about a maximum of 32 columns can be collected at a time. You are not allowed to add or delete the declaration for system tables or foreign tables
-
-         -  **ADD { INDEX \| UNIQUE [ INDEX ] } [ index_name ] ( { { column_name \| ( expression ) } [ COLLATE collation ] [ opclass ] [ ASC \| DESC ] [ NULLS LAST ] } [, ...] ) [ USING method ] [ COMMENT 'text' ] LOCAL [ ( { PARTITION index_partition_name } [, ...] ) ] [ WITH ( { storage_parameter = value } [, ...] ) ]**
+         -  **ADD { INDEX \| UNIQUE [ INDEX ] } [ index_name ] ( { { column_name \| ( expression ) } [ COLLATE collation ] [ opclass ] [ ASC \| DESC ] [ NULLS LAST ] } [, ...] ) [ USING method ] [ NULLS [ NOT ] DISTINCT \| NULLS IGNORE ] [ COMMENT 'text' ] LOCAL [ ( { PARTITION index_partition_name } [, ...] ) ] [ WITH ( { storage_parameter = value } [, ...] ) ]**
 
             Create an index for the partitioned table. For details about the parameters, see :ref:`CREATE INDEX <dws_06_0165>`.
 
-         -  **ADD { INDEX \| UNIQUE [ INDEX ] } [ index_name ] ({ { column_name \| ( expression ) } [ COLLATE collation ] [ opclass ] [ ASC \| DESC ] [ NULLS { FIRST \| LAST } ] }[, ...] ) [ USING method ] [ COMMENT 'text' ] [ WITH ( {storage_parameter = value} [, ... ] ) ] [ WHERE predicate ]**
+         -  **ADD { INDEX \| UNIQUE [ INDEX ] } [ index_name ] ({ { column_name \| ( expression ) } [ COLLATE collation ] [ opclass ] [ ASC \| DESC ] [ NULLS { FIRST \| LAST } ] }[, ...] ) [ USING method ] [ NULLS [ NOT ] DISTINCT \| NULLS IGNORE ] [ COMMENT 'text' ] [ WITH ( {storage_parameter = value} [, ... ] ) ] [ WHERE predicate ]**
 
             Create an index on the table. For details about the parameters, see :ref:`CREATE INDEX <dws_06_0165>`.
 
@@ -285,6 +288,10 @@ Syntax
 
             Modifies the column information in the table, such as column names and column field information.
 
+         -  **{ADD \| DELETE} STATISTICS ((column_1_name, column_2_name [, ...]))**
+
+            Adds or deletes the declaration of collecting multi-column statistics to collect multi-column statistics as needed when **ANALYZE** is performed for a table or a database. The statistics about a maximum of 32 columns can be collected at a time. You are not allowed to add or delete the declaration for system tables or foreign tables
+
          -  **ALTER [ COLUMN ] column_name SET ( {attribute_option = value} [, ... ] )**
 
             **ALTER [ COLUMN ] column_name RESET ( attribute_option [, ... ] )**
@@ -293,31 +300,29 @@ Syntax
 
             The attribute option parameters are **n_distinct**, **n_distinct_inherited**, and **cstore_cu_sample_ratio**. **n_distinct** specifies and fixes the statistics of a table's distinct values. **n_distinct_inherited** specifies and inherits the distinct value statistics. **cstore_cu_sample_ratio** specifies the CU ratio for **ANALYZE** on a column-store table. Currently, the **n_distinct_inherited** parameter cannot be **SET** or **RESET**.
 
-            .. note::
+            -  n_distinct
 
-               -  n_distinct
+               Sets the distinct value statistics of the column.
 
-                  Sets the distinct value statistics of the column.
+               Value range: -1.0 to INT_MAX
 
-                  Value range: -1.0 to INT_MAX
+               Default value: **0**, indicating that this parameter is not set.
 
-                  Default value: **0**, indicating that this parameter is not set.
+            -  n_distinct_inherited
 
-               -  n_distinct_inherited
+               Sets the distinct value statistics of the column in an inherited table.
 
-                  Sets the distinct value statistics of the column in an inherited table.
+               Value range: -1.0 to INT_MAX
 
-                  Value range: -1.0 to INT_MAX
+               Default value: **0**, indicating that this parameter is not set.
 
-                  Default value: **0**, indicating that this parameter is not set.
+            -  cstore_cu_sample_ratio
 
-               -  cstore_cu_sample_ratio
+               Specifies the expansion multiple in the calculation of CUs to be sampled during ANALYZE on a column-store table.
 
-                  Specifies the expansion multiple in the calculation of CUs to be sampled during ANALYZE on a column-store table.
+               Value range: 1.0-10000.0
 
-                  Value range: 1.0-10000.0
-
-                  Default value: **1.0**
+               Default value: **1.0**
 
          -  **ALTER [ COLUMN ] column_name SET STORAGE { PLAIN \| EXTERNAL \| EXTENDED \| MAIN }**
 
@@ -332,7 +337,7 @@ Syntax
                   NULL |
                   CHECK ( expression ) |
                   DEFAULT default_expr  |
-                  UNIQUE index_parameters |
+                  UNIQUE [ NULLS [ NOT ] DISTINCT | NULLS IGNORE ] index_parameters |
                   PRIMARY KEY index_parameters }
                 [ DEFERRABLE | NOT DEFERRABLE | INITIALLY DEFERRED | INITIALLY IMMEDIATE ]
 
@@ -356,7 +361,7 @@ Syntax
 
          [ CONSTRAINT constraint_name ]
              { CHECK ( expression ) |
-               UNIQUE ( column_name [, ... ] ) index_parameters |
+               UNIQUE [ NULLS [ NOT ] DISTINCT | NULLS IGNORE ] ( column_name [, ... ] ) index_parameters |
                PRIMARY KEY ( column_name [, ... ] ) index_parameters }
 
              [ DEFERRABLE | NOT DEFERRABLE | INITIALLY DEFERRED | INITIALLY IMMEDIATE ]
@@ -370,18 +375,20 @@ Syntax
 
 -  Changes the data type of an existing column in the table. Only the type conversion of the same category (between values, strings, and time) is allowed.
 
-   ::
+   .. code-block::
 
       ALTER TABLE [ IF EXISTS ] table_name
           MODIFY ( { column_name data_type | [ CONSTRAINT constraint_name ] NOT NULL [ ENABLE ] |
               [ CONSTRAINT constraint_name ] NULL | DEFAULT default_expr | COMMENT 'text' } [, ...] );
 
--  Rename the table. The renaming does not affect stored data. The new table name cannot be prefixed with the schema name of the original table.
+-  Rename the table. Changing the table name does not affect the stored data. The new table name can be prefixed with the schema name of the original table. The schema name cannot be changed at the same time.
 
    ::
 
       ALTER TABLE [ IF EXISTS ] table_name
           RENAME TO new_table_name;
+      ALTER TABLE [ IF EXISTS ] table_name
+          RENAME TO schema.new_table_name;
 
 -  Rename the specified column in the table.
 
@@ -426,7 +433,7 @@ Syntax
       ALTER TABLE [ IF EXISTS ] table_name
           MODIFY ( { column_name data_type | column_name [ CONSTRAINT constraint_name ] NOT NULL [ ENABLE ] | column_name [ CONSTRAINT constraint_name ] NULL } [, ...] );
 
-.. _en-us_topic_0000001188588994__s3e87132692794964b56e3ba420e7b544:
+.. _en-us_topic_0000001510281989__s3e87132692794964b56e3ba420e7b544:
 
 Parameter Description
 ---------------------
@@ -443,7 +450,7 @@ Parameter Description
 
 -  **constraint_name**
 
-   Name of a constraint. The constraint name can contain a maximum of 63 characters.
+   Specifies the name of a constraint. The constraint name can contain a maximum of 63 characters.
 
 -  **index_name**
 
@@ -459,7 +466,7 @@ Parameter Description
 
       Sets the period for automatically creating partitions in partition management.
 
-      For details about the value range of **PERIOD** and the restrictions on enabling this function, see :ref:`▪PERIOD <en-us_topic_0000001233510133__li672910401685>`.
+      For details about the value range of **PERIOD** and the restrictions on enabling this function, see :ref:`▪PERIOD <en-us_topic_0000001460561364__li672910401685>`.
 
       .. note::
 
@@ -470,7 +477,7 @@ Parameter Description
 
       Set the partition expiration time for automatically deleting partitions in partition management.
 
-      For details about the TTL range and restrictions on enabling this function, see :ref:`▪TTL <en-us_topic_0000001233510133__li49277207810>`.
+      For details about the TTL range and restrictions on enabling this function, see :ref:`▪TTL <en-us_topic_0000001460561364__li49277207810>`.
 
       .. note::
 
@@ -546,13 +553,37 @@ Parameter Description
 
    The default expression will be used in any insert operation that does not specify a value for the column. If there is no default value for a column, then the default value is **NULL**.
 
-   If a suffix operator, such as (!), is used in **default_expr**, enclose the operator in parentheses.
+   If a suffix operator, such as (!). is used in **default_expr**, enclose the operator in parentheses.
 
--  **UNIQUE index_parameters**
+-  **UNIQUE [ NULLS [ NOT ] DISTINCT \| NULLS IGNORE ] index_parameters**
 
-   **UNIQUE ( column_name [, ... ] ) index_parameters**
+   **UNIQUE ( column_name [, ... ] ) [ NULLS [ NOT ] DISTINCT \| NULLS IGNORE ] index_parameters**
 
    The **UNIQUE** constraint specifies that a group of one or more columns of a table can contain only unique values.
+
+   The **[ NULLS [ NOT ] DISTINCT \| NULLS IGNORE ]** field is used to specify how to process null values in the index column of the Unique index.
+
+   Default value: This parameter is left empty by default. NULL values can be inserted repeatedly.
+
+   When the inserted data is compared with the original data in the table, the NULL value can be processed in any of the following ways:
+
+   -  NULLS DISTINCT: NULL values are unequal and can be inserted repeatedly.
+   -  NULLS NOT DISTINCT: NULL values are equal. If all index columns are NULL, NULL values cannot be inserted repeatedly. If some index columns are NULL, data can be inserted only when non-null values are different.
+   -  NULLS IGNORE: NULL values are skipped during the equivalent comparison. If all index columns are NULL, NULL values can be inserted repeatedly. If some index columns are NULL, data can be inserted only when non-null values are different.
+
+   The following table lists the behaviors of the three processing modes.
+
+   .. table:: **Table 1** Processing of NULL values in index columns in unique indexes
+
+      +--------------------+--------------------------------+------------------------------------------------------------------------------------------------------------+
+      | Constraint         | All Index Columns Are NULL     | Some Index Columns Are NULL.                                                                               |
+      +====================+================================+============================================================================================================+
+      | NULLS DISTINCT     | Can be inserted repeatedly.    | Can be inserted repeatedly.                                                                                |
+      +--------------------+--------------------------------+------------------------------------------------------------------------------------------------------------+
+      | NULLS NOT DISTINCT | Cannot be inserted repeatedly. | Cannot be inserted if the non-null values are equal. Can be inserted if the non-null values are not equal. |
+      +--------------------+--------------------------------+------------------------------------------------------------------------------------------------------------+
+      | NULLS IGNORE       | Can be inserted repeatedly.    | Cannot be inserted if the non-null values are equal. Can be inserted if the non-null values are not equal. |
+      +--------------------+--------------------------------+------------------------------------------------------------------------------------------------------------+
 
 -  **PRIMARY KEY index_parameters**
 
@@ -609,19 +640,17 @@ Parameter Description
 Table Operation Examples
 ------------------------
 
+Rename a table:
+
 ::
 
-   DROP TABLE IF EXISTS CUSTOMER;
-   CREATE TABLE CUSTOMER
-   (
-       C_CUSTKEY     BIGINT       ,
-       C_NAME        VARCHAR(25)  ,
-       C_ADDRESS     VARCHAR(40)  ,
-       C_NATIONKEY   INT          ,
-       C_PHONE       CHAR(15)     ,
-       C_ACCTBAL     DECIMAL(15,2)
-   )
-   DISTRIBUTE BY HASH(C_CUSTKEY);
+   ALTER TABLE CUSTOMER RENAME TO CUSTOMER_t;
+
+Add a new table constraint:
+
+::
+
+   ALTER TABLE customer_address ADD PRIMARY KEY(ca_address_sk);
 
 Adds primary key constraint or unique constraint based on the unique index.
 
@@ -657,48 +686,13 @@ Delete a table index:
    ALTER TABLE CUSTOMER DROP INDEX CUSTOMER_index;
    ALTER TABLE CUSTOMER DROP KEY CUSTOMER_index;
 
-Add an index to a column in the table:
-
-::
-
-   ALTER TABLE CUSTOMER ADD c_address_id varchar(20) CONSTRAINT ca_address_index CHECK (c_address_id > 0);
-
-Add a primary key constraint to the table:
-
-::
-
-   ALTER TABLE CUSTOMER ADD PRIMARY KEY(C_CUSTKEY);
-
-Rename a table:
-
-::
-
-   ALTER TABLE CUSTOMER RENAME TO CUSTOMER_t;
-
-Create a column-store table:
-
-::
-
-   DROP TABLE IF EXISTS customer_address;
-   CREATE TABLE customer_address
-   (
-       ca_address_sk       INTEGER                  NOT NULL   ,
-       ca_address_id       CHARACTER(16)            NOT NULL   ,
-       ca_street_number    CHARACTER(10)                       ,
-       ca_street_name      CHARACTER varying(60)               ,
-       ca_street_type      CHARACTER(15)                       ,
-       ca_suite_number     CHARACTER(10)
-   )
-   WITH (ORIENTATION = COLUMN, COMPRESSION=HIGH,COLVERSION=2.0)
-   DISTRIBUTE BY HASH (ca_address_sk);
-
 Add a partial cluster key to a column-store table:
 
 ::
 
    ALTER TABLE customer_address ADD CONSTRAINT customer_address_cluster PARTIAL CLUSTER KEY(ca_address_sk);
 
-Delete a partial cluster key from the column-store table.
+Delete a partial cluster column from the column-store table.
 
 ::
 
@@ -720,29 +714,11 @@ Change the schema of a table:
 
 ::
 
-   CREATE SCHEMA tpcds;
    ALTER TABLE customer_address SET SCHEMA tpcds;
 
 Change the data temperature for a single table:
 
 ::
-
-   DROP TABLE IF EXISTS cold_hot_table;
-   CREATE TABLE cold_hot_table(
-       W_WAREHOUSE_ID            CHAR(16)              NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)                   ,
-       W_STREET_NUMBER           CHAR(10)                      ,
-       W_STREET_NAME             VARCHAR(60)                   ,
-       W_STREET_ID               CHAR(15)                      ,
-       W_SUITE_NUMBER            CHAR(10)                      )
-   WITH (ORIENTATION = COLUMN, storage_policy = 'LMT:30')
-   DISTRIBUTE BY HASH (W_WAREHOUSE_ID)
-   PARTITION BY RANGE(W_STREET_ID)(
-       PARTITION P1 VALUES LESS THAN(100000),
-       PARTITION P2 VALUES LESS THAN(200000),
-       PARTITION P3 VALUES LESS THAN(300000),
-       PARTITION P4 VALUES LESS THAN(MAXVALUE)
-   )ENABLE ROW MOVEMENT;
 
    ALTER TABLE cold_hot_table REFRESH STORAGE;
 
@@ -754,26 +730,12 @@ Change a column-store partitioned table to a hot and cold table.
    WITH(ORIENTATION=COLUMN)
    DISTRIBUTE BY HASH (id)
    PARTITION BY RANGE (d_time)
-   (PARTITION p1 START('2022-01-01') END('2022-01-31') EVERY(interval '1 day'));
+   (PARTITION p1 START('2022-01-01') END('2022-01-31') EVERY(interval '1 day'))
 
    ALTER TABLE test_1 SET (storage_policy = 'LMT:100');
 
 Column Operation Examples
 -------------------------
-
-::
-
-   DROP TABLE IF EXISTS warehouse_t;
-   CREATE TABLE warehouse_t
-   (
-       W_WAREHOUSE_SK            INTEGER                NOT NULL,
-       W_WAREHOUSE_ID            CHAR(16)               NOT NULL,
-       W_WAREHOUSE_NAME          VARCHAR(20)   UNIQUE DEFERRABLE,
-       W_WAREHOUSE_SQ_FT         INTEGER                        ,
-       W_COUNTY                  VARCHAR(30)                    ,
-       W_STATE                   CHAR(2)            DEFAULT 'GA',
-       W_ZIP                     CHAR(10)
-   );
 
 Add a column to a table:
 
@@ -797,31 +759,49 @@ Rename a column:
 
 ::
 
-   ALTER TABLE warehouse_t RENAME W_ZIP TO new_W_ZIP;
+   ALTER TABLE CUSTOMER RENAME C_PHONE TO new_C_PHONE;
 
 Add columns to a table:
 
 ::
 
-   ALTER TABLE warehouse_t ADD (W_COMMENT VARCHAR(117) NOT NULL, W_COUNT int);
+   ALTER TABLE CUSTOMER ADD (C_COMMENT VARCHAR(117) NOT NULL, C_COUNT int);
 
 Change the data type of a column in the table and set the column constraint to **NOT NULL**:
 
 ::
 
-   ALTER TABLE warehouse_t MODIFY W_WAREHOUSE_SQ_FT varchar(20) NOT NULL;
+   ALTER TABLE CUSTOMER MODIFY C_MKTSEGMENT varchar(20) NOT NULL;
 
 Add the NOT NULL constraint to a certain column in the table:
 
 ::
 
-   ALTER TABLE warehouse_t ALTER COLUMN W_COUNTY SET NOT NULL;
+   ALTER TABLE CUSTOMER ALTER COLUMN C_PHONE SET NOT NULL;
 
 Delete a column from a table:
 
 ::
 
-   ALTER TABLE warehouse_t DROP COLUMN W_STATE;
+   ALTER TABLE CUSTOMER DROP COLUMN C_COUNT;
+
+Add an index to a column in the table:
+
+::
+
+   ALTER TABLE customer_address MODIFY ca_address_id varchar(20) CONSTRAINT ca_address_index CHECK (ca_address_id > 0);
+
+Add a timestamp column with the **ON UPDATE** expression to the **customer_address** table:
+
+::
+
+   ALTER TABLE customer_address ADD COLUMN C_TIME timestamp on update current_timestamp;
+
+Delete the timestamp column with the **ON UPDATE** expression from the **customer_address**:
+
+::
+
+   ALTER TABLE customer_address MODIFY COLUMN C_TIME timestamp on update NULL;
 
 Helpful Links
 -------------

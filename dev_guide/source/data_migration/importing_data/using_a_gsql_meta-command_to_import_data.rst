@@ -2,6 +2,8 @@
 
 .. _dws_04_0208:
 
+.. _en-us_topic_0000001717097328:
+
 Using a gsql Meta-Command to Import Data
 ========================================
 
@@ -10,9 +12,9 @@ The **gsql** tool of GaussDB(DWS) provides the **\\copy** meta-command to import
 \\copy Command
 --------------
 
-For details about the **\\copy** command, see :ref:`Table 1 <en-us_topic_0000001233563247__t3ed8c97d36d74d0da906d0f028ff707c>`.
+For details about the **\\copy** command, see :ref:`Table 1 <en-us_topic_0000001717097328__en-us_topic_0000001233563247_t3ed8c97d36d74d0da906d0f028ff707c>`.
 
-.. _en-us_topic_0000001233563247__t3ed8c97d36d74d0da906d0f028ff707c:
+.. _en-us_topic_0000001717097328__en-us_topic_0000001233563247_t3ed8c97d36d74d0da906d0f028ff707c:
 
 .. table:: **Table 1** \\copy meta-command
 
@@ -171,8 +173,8 @@ Parameter Description
 
    Value range: an existing column.
 
-Examples
---------
+Example
+-------
 
 Create the target table **copy_example**.
 
@@ -187,13 +189,13 @@ Create the target table **copy_example**.
        col_5 time
    );
 
--  Example 1: Copy data from stdin to the target table **copy_example**.
+-  Example 1: Copy data from **stdin** to the target table **copy_example**.
 
    ::
 
       \copy copy_example from stdin csv;
 
-   When the **>>** characters are displayed, enter data. Enter a backslash and a period (\\.) to end your input.
+   When you see the **>>** characters, you can start entering data. To finish your input, type a backslash and a period (\\.).
 
    ::
 
@@ -222,13 +224,13 @@ Create the target table **copy_example**.
 
    2,"iamtext","iamvarchar",2022-07-07,19:00:02,12:00:00
 
-   Import data from the local file **example.csv** to the target table **copy_example**. The default delimiter is (,). Therefore, you do not need to specify the delimiter. Because the fault tolerance parameters **IGNORE_EXTRA_DATA** and **FILL_MISSING_FIELD** are specified, the missing fields will be replaced with **NULL**, the extra fields are ignored.
+   To import data from the local file **example.csv** to the target table **copy_example**, you don't need to specify the delimiter since the default delimiter is (,). Additionally, the fault tolerance parameters **IGNORE_EXTRA_DATA** and **FILL_MISSING_FIELDS** are set, which means that missing fields will be replaced with **NULL** and extra fields will be ignored.
 
    ::
 
-      \copy copy_example from '/local/data/example.csv' with( format 'csv', date_format 'yyyy-mm-dd', time_format 'hh24:mi:ss', IGNORE_EXTRA_DATA 'true', FILL_MISSING_FIELD 'true');
+      \copy copy_example from  '/local/data/example.csv' with( format 'csv', date_format 'yyyy-mm-dd',  time_format 'hh24:mi:ss', IGNORE_EXTRA_DATA 'true', FILL_MISSING_FIELDS 'true');
 
--  Example 4: Export the content of the **copy_example** table to stdout in CSV format, use double quotation marks as for **quote**, and use quotes to enclose the fourth and fifth columns.
+-  Example 4: Export the content of the **copy_example** table to **stdout** in CSV format, use double quotation marks as for **quote**, and use quotes to enclose the fourth and fifth columns.
 
    ::
 

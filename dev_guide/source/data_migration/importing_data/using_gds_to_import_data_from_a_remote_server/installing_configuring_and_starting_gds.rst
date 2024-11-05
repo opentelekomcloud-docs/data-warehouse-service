@@ -2,6 +2,8 @@
 
 .. _dws_04_0193:
 
+.. _en-us_topic_0000001764817369:
+
 Installing, Configuring, and Starting GDS
 =========================================
 
@@ -17,7 +19,7 @@ Context
 
 The GDS version must match the cluster version. For example, GDS V100R008C00 matches DWS 1.3.\ *X*. Otherwise, the import or export may fail, or the import or export process may fail to respond. Therefore, use the latest version of GDS.
 
-After the database is upgraded, download the latest version of GaussDB(DWS) GDS as instructed in :ref:`Procedure <en-us_topic_0000001188163708__se2a774b311864348a516131937610513>`. When the import or export starts, GaussDB(DWS) checks the GDS versions. If the versions do not match, an error message is displayed and the import or export is terminated.
+After the database is upgraded, download the latest version of GaussDB(DWS) GDS as instructed in :ref:`Procedure <en-us_topic_0000001764817369__en-us_topic_0000001188163708_se2a774b311864348a516131937610513>`. When the import or export starts, GaussDB(DWS) checks the GDS versions. If the versions do not match, an error message is displayed and the import or export is terminated.
 
 To obtain the version number of GDS, run the following command in the GDS decompression directory:
 
@@ -31,14 +33,12 @@ To view the database version, run the following SQL statement after connecting t
 
    SELECT version();
 
-.. _en-us_topic_0000001188163708__se2a774b311864348a516131937610513:
+.. _en-us_topic_0000001764817369__en-us_topic_0000001188163708_se2a774b311864348a516131937610513:
 
 Procedure
 ---------
 
-#. Before using GDS to import or export data, see **Preparing an ECS as the GDS Server** and **Downloading the GDS Package** in "Tutorial: Using GDS to Import Data from a Remote Server" in *Data Warehouse Service (DWS) User Guide*.
-
-#. .. _en-us_topic_0000001188163708__l242cf61617ff44ffbcfa868e55b91d88:
+#. .. _en-us_topic_0000001764817369__en-us_topic_0000001188163708_l242cf61617ff44ffbcfa868e55b91d88:
 
    Log in as user **root** to the data server where GDS is to be installed and run the following command to create the directory for storing the GDS package:
 
@@ -50,9 +50,9 @@ Procedure
 
    Use the SUSE Linux package as an example. Upload the GDS package **dws_client_8.**\ *x.x*\ **\_suse_x64.zip** to the directory created in the previous step.
 
-#. .. _en-us_topic_0000001188163708__li16883354813:
+#. .. _en-us_topic_0000001764817369__en-us_topic_0000001188163708_li16883354813:
 
-   (Optional) If SSL is used, upload the SSL certificates to the directory created in :ref:`2 <en-us_topic_0000001188163708__l242cf61617ff44ffbcfa868e55b91d88>`.
+   (Optional) If SSL is used, upload the SSL certificates to the directory created in :ref:`1 <en-us_topic_0000001764817369__en-us_topic_0000001188163708_l242cf61617ff44ffbcfa868e55b91d88>`.
 
 #. Go to the directory and decompress the package.
 
@@ -81,24 +81,24 @@ Procedure
 
       su - gds_user
 
-   If the current cluster version is 8.0.\ *x* or earlier, skip :ref:`9 <en-us_topic_0000001188163708__li14421575388>` and go to :ref:`10 <en-us_topic_0000001188163708__li22515537437>`.
+   If the current cluster version is 8.0.\ *x* or earlier, skip :ref:`8 <en-us_topic_0000001764817369__en-us_topic_0000001188163708_li14421575388>` and go to :ref:`9 <en-us_topic_0000001764817369__en-us_topic_0000001188163708_li22515537437>`.
 
    If the current cluster version is 8.1.\ *x*, go to the next step.
 
-#. .. _en-us_topic_0000001188163708__li14421575388:
+#. .. _en-us_topic_0000001764817369__en-us_topic_0000001188163708_li14421575388:
 
-   Execute the script on which the environment depends (applicable only to 8.1.\ *x*).
+   Execute the script on which the environment depends (applicable only to version 8.1.\ *x*).
 
    .. code-block::
 
       cd /opt/bin/dws/gds/bin
       source gds_env
 
-#. .. _en-us_topic_0000001188163708__li22515537437:
+#. .. _en-us_topic_0000001764817369__en-us_topic_0000001188163708_li22515537437:
 
    Start GDS.
 
-   GDS is green software and can be started after being decompressed. There are two ways to start GDS. One is to run the **gds** command to configure startup parameters. The other is to write the startup parameters into the **gds.conf** configuration file and run the **gds_ctl.py** command to start GDS.
+   GDS is eco-friendly software that can be launched once it is decompressed. You can start GDS in two ways: by using the **gds** command to configure startup parameters or by writing the parameters into the **gds.conf** configuration file and running the **gds_ctl.py** command to initiate GDS.
 
    The first method is recommended when you do not need to import data again. The second method is recommended when you need to import data regularly.
 
@@ -125,7 +125,7 @@ Procedure
 
          Example:
 
-         Run the following command to upload the SSL certificate mentioned in :ref:`4 <en-us_topic_0000001188163708__li16883354813>` to **/opt/bin**:
+         Run the following command to upload the SSL certificate mentioned in :ref:`3 <en-us_topic_0000001764817369__en-us_topic_0000001188163708_li16883354813>` to **/opt/bin**:
 
          .. code-block::
 
@@ -149,13 +149,13 @@ Procedure
 
       -  **--enable-ssl**: enables SSL for data transmission.
 
-      -  **--ssl-dir** *Cert_file*: SSL certificate directory. Set this parameter to the certificate directory in :ref:`4 <en-us_topic_0000001188163708__li16883354813>`.
+      -  **--ssl-dir** *Cert_file*: SSL certificate directory. Set this parameter to the certificate directory in :ref:`3 <en-us_topic_0000001764817369__en-us_topic_0000001188163708_li16883354813>`.
 
       -  For details about GDS parameters, see "GDS - Parallel Data Loader > gds" in the *Data Warehouse Service (DWS) Tool Guide*.
 
    -  Method 2: Write the startup parameters into the **gds.conf** configuration file and run the **gds_ctl.py** command to start GDS.
 
-      a. Run the following command to go to the **config** directory of the GDS package and modify the **gds.conf** configuration file. For details about the parameters in the **gds.conf** configuration file, see :ref:`Table 1 <en-us_topic_0000001188163708__t051f8c4ef816412c85e082e7fb7297dd>`.
+      a. Run the following command to go to the **config** directory of the GDS package and modify the **gds.conf** configuration file. For details about the parameters in the **gds.conf** configuration file, see :ref:`Table 1 <en-us_topic_0000001764817369__en-us_topic_0000001188163708_t051f8c4ef816412c85e082e7fb7297dd>`.
 
          .. code-block::
 
@@ -217,7 +217,7 @@ Procedure
 gds.conf Parameter Description
 ------------------------------
 
-.. _en-us_topic_0000001188163708__t051f8c4ef816412c85e082e7fb7297dd:
+.. _en-us_topic_0000001764817369__en-us_topic_0000001188163708_t051f8c4ef816412c85e082e7fb7297dd:
 
 .. table:: **Table 1** gds.conf configuration description
 

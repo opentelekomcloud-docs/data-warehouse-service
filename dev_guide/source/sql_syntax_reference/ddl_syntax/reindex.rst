@@ -8,7 +8,7 @@ REINDEX
 Function
 --------
 
-**REINDEX** rebuilds an index using the data stored in the index's table, replacing the old copy of the index.
+Rebuilds an index using the data stored in the index's table, replacing the old copy of the index.
 
 There are several scenarios in which **REINDEX** can be used:
 
@@ -38,7 +38,7 @@ Syntax
 
    ::
 
-      REINDEX  { TABLE } name
+      REINDEX  { |   TABLE} name
           PARTITION partition_name [ FORCE  ];
 
 Parameter Description
@@ -87,6 +87,18 @@ Parameter Description
 
 Examples
 --------
+
+Rebuild a single index:
+
+::
+
+   REINDEX INDEX tpcds.tpcds_customer_index1;
+
+Rebuild all indexes on the **tpcds.customer_t1** table:
+
+::
+
+   REINDEX TABLE tpcds.customer_t1;
 
 Rebuild the partition index of partition **P1** in the partitioned table **customer_address**:
 

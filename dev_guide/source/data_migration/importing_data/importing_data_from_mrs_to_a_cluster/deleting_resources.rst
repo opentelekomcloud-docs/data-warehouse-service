@@ -2,6 +2,8 @@
 
 .. _dws_04_0216:
 
+.. _en-us_topic_0000001717097324:
+
 Deleting Resources
 ==================
 
@@ -10,7 +12,7 @@ After completing operations in this tutorial, if you no longer need to use the r
 Deleting the Foreign Table and Target Table
 -------------------------------------------
 
-#. (Optional) If operations in :ref:`Querying Data After Importing It <en-us_topic_0000001233883187__en-us_topic_0000001083024575_en-us_topic_0109259518_en-us_topic_0101477887_section1375535445410>` have been performed, run the following command to delete the target table:
+#. (Optional) If operations in :ref:`Querying Data After Importing It <en-us_topic_0000001717256748__en-us_topic_0000001233883187_en-us_topic_0000001083024575_en-us_topic_0109259518_en-us_topic_0101477887_section1375535445410>` have been performed, run the following command to delete the target table:
 
    ::
 
@@ -22,12 +24,12 @@ Deleting the Foreign Table and Target Table
 
       DROP FOREIGN TABLE foreign_product_info;
 
-.. _en-us_topic_0000001233681609__en-us_topic_0000001082926731_en-us_topic_0109259519_en-us_topic_0102427953_section79551640133718:
+.. _en-us_topic_0000001717097324__en-us_topic_0000001233681609_en-us_topic_0000001082926731_en-us_topic_0109259519_en-us_topic_0102427953_section79551640133718:
 
 Deleting the Manually Created Foreign Server
 --------------------------------------------
 
-If operations in :ref:`Manually Creating a Foreign Server <dws_04_0213>` have been performed, perform the following steps to delete the foreign server, database, and user:
+If operations in :ref:`Manually Creating a Foreign Server <en-us_topic_0000001764817381>` have been performed, perform the following steps to delete the foreign server, database, and user:
 
 #. Use the client provided by GaussDB(DWS) to connect to the database where the foreign server resides as the user who created the foreign server.
 

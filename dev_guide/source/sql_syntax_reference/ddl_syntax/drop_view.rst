@@ -13,8 +13,7 @@ Function
 Precautions
 -----------
 
--  Only a view owner or a system administrator can run **DROP VIEW** command.
--  The database stores only the definition of a view, but does not store the data corresponding to the view. If the base table remains unchanged, you can run the :ref:`CREATE VIEW <dws_06_0187>` command to recreate a view that is deleted by mistake.
+Only a view owner or a system administrator can run **DROP VIEW** command.
 
 Syntax
 ------

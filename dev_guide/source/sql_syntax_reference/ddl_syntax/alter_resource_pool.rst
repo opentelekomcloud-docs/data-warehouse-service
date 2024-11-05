@@ -8,7 +8,7 @@ ALTER RESOURCE POOL
 Function
 --------
 
-**ALTER RESOURCE POOL** changes the Cgroup of a resource pool.
+Changes the Cgroup of a resource pool.
 
 Precautions
 -----------
@@ -21,7 +21,7 @@ Syntax
 ::
 
    ALTER RESOURCE POOL pool_name
-       WITH ({MEM_PERCENT= pct | CONTROL_GROUP="group_name" | ACTIVE_STATEMENTS=stmt | MAX_DOP = dop | MEMORY_LIMIT='memory_size' | io_limits=io_limits | io_priority='io_priority'}[, ... ]);
+       WITH ({MEM_PERCENT=pct | CONTROL_GROUP="group_name" | ACTIVE_STATEMENTS=stmt | MAX_DOP = dop | MEMORY_LIMIT='memory_size' | io_limits=io_limits | io_priority='priority' | nodegroup='nodegroup_name' | except_rule='except_rule' | weight=bandwidth_weight}[, ... ]);
 
 Parameter Description
 ---------------------
@@ -60,7 +60,7 @@ Parameter Description
 
 -  **dop**
 
-   This is a reserved parameter.
+   Specifies the maximum number of simple SQL statements that can be concurrently executed in a resource pool.
 
    Value range: Numeric data ranging from **-1** to **INT_MAX**.
 
@@ -84,20 +84,22 @@ Parameter Description
 
    This parameter has been discarded in 8.1.2 and is reserved for compatibility with earlier versions.
 
+-  **except_rule**
+
+   Name of an exception rule set
+
+-  **weight**
+
+   Specifies the network bandwidth weight of the resource pool.
+
 Examples
 --------
 
-Create an example resource pool **pool_test**, whose Cgroup is **Medium Timeshare Workload** under **DefaultClass**.
+Specify "High" Timeshare Workload under "DefaultClass" as the Cgroup for a resource pool.
 
 ::
 
-   CREATE RESOURCE POOL pool_test;
-
-Specify **High Timeshare Workload** under **DefaultClass** as the Cgroup for the resource pool **pool_test**.
-
-::
-
-   ALTER RESOURCE POOL pool_test WITH (CONTROL_GROUP="High");
+   ALTER RESOURCE POOL pool1 WITH (CONTROL_GROUP="High");
 
 Helpful Links
 -------------

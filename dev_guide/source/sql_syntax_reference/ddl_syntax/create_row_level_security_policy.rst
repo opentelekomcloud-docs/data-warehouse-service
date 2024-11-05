@@ -8,7 +8,7 @@ CREATE ROW LEVEL SECURITY POLICY
 Function
 --------
 
-**CREATE ROW LEVEL SECURITY POLICY** creates a row-level access control policy for a table.
+Creates a row-level access control policy for a table.
 
 The policy takes effect only after row-level access control is enabled (by running **ALTER TABLE**... **ENABLE ROW LEVEL SECURITY**).
 
@@ -31,7 +31,7 @@ Precautions
 
 -  A maximum of 100 row-level access control policies cannot be defined for a table.
 
--  Users with administrator permissions and initial O&M users (Ruby) are not subject to row-level access control and can view full data of the table.
+-  System administrators and table owners are not affected by row-level access control and can view full data of tables.
 
 -  Tables queried by using SQL statements, views, functions, and stored procedures are affected by row-level access control policies.
 
@@ -121,116 +121,177 @@ Parameter Description
 
    The expression cannot contain aggregate functions and window functions. In the statement rewriting phase of a query, if row-level access control for a data table is enabled, the expressions that meet the specified conditions will be added to the plan tree. The expression is calculated for each tuple in the data table. For **SELECT**, **UPDATE**, and **DELETE**, row data is visible to the current user only when the return value of the expression is **TRUE**. If the expression returns **FALSE**, the tuple is invisible to the current user. In this case, the user cannot view the tuple through the **SELECT** statement, update the tuple through the **UPDATE** statement, or delete the tuple through the **DELETE** statement.
 
-Examples
---------
+Example 1: Create a Row-level Access Control Policy That the Current User Can Only View Its Own Data.
+-----------------------------------------------------------------------------------------------------
 
-Create user **alice**.
+#. Create users **alice** and **bob**.
 
-::
+   ::
 
-   CREATE ROLE alice PASSWORD '{Password}';
+      CREATE ROLE alice PASSWORD '{password}';
+      CREATE ROLE bob PASSWORD '{password}';
 
-Create user **bob**.
+#. Create data table **public.all_data**:
 
-::
+   ::
 
-   CREATE ROLE bob PASSWORD '{Password}';
+      CREATE TABLE public.all_data(id int, role varchar(100), data varchar(100));
 
-Create the data table **public.all_data**:
+#. Insert data into the data table:
 
-::
+   ::
 
-   CREATE TABLE public.all_data(id int, role varchar(100), data varchar(100));
+      INSERT INTO all_data VALUES(1, 'alice', 'alice data');
+      INSERT INTO all_data VALUES(2, 'bob', 'bob data');
+      INSERT INTO all_data VALUES(3, 'peter', 'peter data');
 
-Insert data into the data table:
+#. Grant the read permission for the **all_data** table to users **alice** and **bob**:
 
-::
+   ::
 
-   INSERT INTO all_data VALUES(1, 'alice', 'alice data');
-   INSERT INTO all_data VALUES(2, 'bob', 'bob data');
-   INSERT INTO all_data VALUES(3, 'peter', 'peter data');
+      GRANT SELECT ON all_data TO alice, bob;
 
-Grant the read permission for the **all_data** table to users **alice** and **bob**:
+#. Enable row-level access control.
 
-::
+   ::
 
-   GRANT SELECT ON all_data TO alice, bob;
+      ALTER TABLE all_data ENABLE ROW LEVEL SECURITY;
 
-Enable row-level access control.
+#. Create a row-level access control policy to specify that the current user can view only their own data:
 
-::
+   ::
 
-   ALTER TABLE all_data ENABLE ROW LEVEL SECURITY;
+      CREATE ROW LEVEL SECURITY POLICY all_data_rls ON all_data USING(role = CURRENT_USER);
 
-Create a row-level access control policy to specify that the current user can view only their own data:
+#. View information about the **all_data** table.
 
-::
+   ::
 
-   CREATE ROW LEVEL SECURITY POLICY all_data_rls ON all_data USING(role = CURRENT_USER);
+      \d+ all_data
+                                     Table "public.all_data"
+       Column |          Type          | Modifiers | Storage  | Stats target | Description
+      --------+------------------------+-----------+----------+--------------+-------------
+       id     | integer                |           | plain    |              |
+       role   | character varying(100) |           | extended |              |
+       data   | character varying(100) |           | extended |              |
+      Row Level Security Policies:
+          POLICY "all_data_rls"
+            USING (((role)::name = "current_user"()))
+      Has OIDs: no
+      Distribute By: HASH(id)
+      Location Nodes: ALL DATANODES
+      Options: orientation=row, compression=no, enable_rowsecurity=true
 
-View information about the **all_data** table:
+#. Run **SELECT**.
 
-::
+   ::
 
-   \d+ all_data
-                                  Table "public.all_data"
-    Column |          Type          | Modifiers | Storage  | Stats target | Description
-   --------+------------------------+-----------+----------+--------------+-------------
-    id     | integer                |           | plain    |              |
-    role   | character varying(100) |           | extended |              |
-    data   | character varying(100) |           | extended |              |
-   Row Level Security Policies:
-       POLICY "all_data_rls"
-         USING (((role)::name = "current_user"()))
-   Has OIDs: no
-   Distribute By: HASH(id)
-   Location Nodes: ALL DATANODES
-   Options: orientation=row, compression=no, enable_rowsecurity=true
+      SELECT * FROM all_data;
+       id | role  |    data
+      ----+-------+------------
+        1 | alice | alice data
+        2 | bob   | bob data
+        3 | peter | peter data
+      (3 rows)
+      EXPLAIN(COSTS OFF) SELECT * FROM all_data;
+               QUERY PLAN
+      ----------------------------
+       Streaming (type: GATHER)
+         Node/s: All datanodes
+         ->  Seq Scan on all_data
+      (3 rows)
 
-Run **SELECT**.
+#. Switch to the **alice** user.
 
-::
+   ::
 
-   SELECT * FROM all_data;
-    id | role  |    data
-   ----+-------+------------
-     1 | alice | alice data
-     2 | bob   | bob data
-     3 | peter | peter data
-   (3 rows)
-   EXPLAIN(COSTS OFF) SELECT * FROM all_data;
-            QUERY PLAN
-   ----------------------------
-    Streaming (type: GATHER)
-      Node/s: All datanodes
-      ->  Seq Scan on all_data
-   (3 rows)
+      set role alice password '{password}';
 
-Switch to the **alice** user.
+#. Perform the SELECT operation.
 
-::
+   ::
 
-   set role alice password '{Password}';
+      SELECT * FROM all_data;
+       id | role  |    data
+      ----+-------+------------
+        1 | alice | alice data
+      (1 row)
 
-Perform the SELECT operation.
+      EXPLAIN(COSTS OFF) SELECT * FROM all_data;
+                                 QUERY PLAN
+      ----------------------------------------------------------------
+       Streaming (type: GATHER)
+         Node/s: All datanodes
+         ->  Seq Scan on all_data
+               Filter: ((role)::name = 'alice'::name)
+       Notice: This query is influenced by row level security feature
+      (5 rows)
 
-::
+Example 2: Partition Permission Management Through Row-Level Control
+--------------------------------------------------------------------
 
-   SELECT * FROM all_data;
-    id | role  |    data
-   ----+-------+------------
-     1 | alice | alice data
-   (1 row)
+#. Create user **alice**.
 
-   EXPLAIN(COSTS OFF) SELECT * FROM all_data;
-                              QUERY PLAN
-   ----------------------------------------------------------------
-    Streaming (type: GATHER)
-      Node/s: All datanodes
-      ->  Seq Scan on all_data
-            Filter: ((role)::name = 'alice'::name)
-    Notice: This query is influenced by row level security feature
-   (5 rows)
+   ::
+
+      CREATE ROLE alice PASSWORD '{password1}';
+
+#. Create range partitioned table **web_returns_p1**, and insert data into the table.
+
+   ::
+
+      CREATE TABLE web_returns_p1
+      (
+          wr_returned_date_sk       integer,
+          wr_returned_time_sk       integer,
+          wr_item_sk                integer NOT NULL,
+          wr_refunded_customer_sk   integer
+      )
+      WITH (orientation = column)
+      DISTRIBUTE BY HASH (wr_item_sk)
+      PARTITION BY RANGE(wr_returned_date_sk)
+      (
+          PARTITION p2016 START(800) END(830) EVERY(1)
+      );
+
+      INSERT INTO web_returns_p1 values (801,17,11,102);
+      INSERT INTO web_returns_p1 values (802,18,12,103);
+
+#. Grant the read permission on the **web_returns_p1** table to user **alice**.
+
+   ::
+
+      GRANT SELECT ON web_returns_p1 TO alice;
+
+#. Enable row-level access control.
+
+   ::
+
+      ALTER TABLE web_returns_p1 ENABLE ROW LEVEL SECURITY;
+
+#. Create row-level access control policy **web_returns_rsl**. In the command, **wr_returned_date_sk** is a partition name of the **web_returns_p1 partition** table, and **801** is the partition value.
+
+   ::
+
+      CREATE ROW LEVEL SECURITY POLICY web_returns_rsl ON web_returns_p1 USING('wr_returned_date_sk' = '801');
+
+#. Impose the row-level access control policy **web_returns_rsl** on user **alice**.
+
+   ::
+
+      ALTER ROW LEVEL SECURITY POLICY web_returns_rsl ON web_returns_p1 TO alice;
+
+#. Switch to the **alice** user.
+
+   ::
+
+      set role alice password '{password1}';
+
+#. Query the **web_returns_p1** table.
+
+   ::
+
+      select * from web_returns_p1;
 
 Helpful Links
 -------------

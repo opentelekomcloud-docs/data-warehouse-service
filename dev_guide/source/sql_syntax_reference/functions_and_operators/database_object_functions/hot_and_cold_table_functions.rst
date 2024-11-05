@@ -8,11 +8,11 @@ Hot and Cold Table Functions
 pg_obs_cold_refresh_time(table_name, time)
 ------------------------------------------
 
-Description: Modifies the time when cold data in a multi-temperature table is migrated to OBS. The default value is 00:00 every day.
+Description: Modifies the time when cold data in a hot and cold table is migrated to OBS. The default value is 00:00 every day.
 
-**table_name** indicates the name of the multi-temperature table, and the type is Name. **time** indicates the time when the data switchover task is scheduled, and the type is Time.
+**table_name** indicates the name of the hot and cold table, and the type is Name. **time** indicates the time when the data switchover task is scheduled, and the type is Time.
 
-Return value: SUCCESS. The time is successfully modified.
+Return value: **SUCCESS**, which indicates that the time is successfully modified.
 
 Example:
 
@@ -31,10 +31,10 @@ Description: Switches hot data to cold data on all hot and cold tables (in OBS).
 
 Return type: int
 
-Fields in the returned value
+Columns in the returned value:
 
--  success_count int: indicates the number of tables that are successfully switched.
--  failed_count int: indicates the number of tables that fail to be switched.
+-  **success_count int**: indicates the number of tables that are successfully switched.
+-  **failed_count int**: indicates the number of tables that fail to be switched.
 
 Example:
 
@@ -49,7 +49,7 @@ Example:
 pg_lifecycle_table_data_distribute(table_name)
 ----------------------------------------------
 
-Description: Views the data distribution of a cold or hot table.
+Description: Views the data distribution of a cold and hot table.
 
 **table_name** indicates the table name and cannot be left blank.
 
@@ -82,3 +82,42 @@ Example: There are two cold and hot tables in the database. The data distributio
     public     | w1        | dn_1     | p2           | p1            |                     |       81920 |            0 |                  0
     public     | w2        | dn_1     | p2           | p1            |                     |       81920 |            0 |                  0
    (2 rows)
+
+refresh_hot_storage(relname text)
+---------------------------------
+
+Description: Flushes all partition data of a specified cold and hot table to OBS. The returned value is the number of switched partitions. This function is supported only in 8.2.1.100 or later.
+
+Parameter:
+
+**relname**: table name (name of a cold and hot table. If the name of a non-cold and hot table is used, no error is reported and **0** is returned.)
+
+Return type: integer
+
+::
+
+   SELECT refresh_hot_storage('multi_temper_table');
+    refresh_hot_storage
+   ---------------------
+               4
+   (1 row)
+
+refresh_hot_storage(relname text, partname text)
+------------------------------------------------
+
+Description: Synchronizes partition data of a specified hot and cold table to OBS. The returned value is the number of switched partitions. This function is supported only in 8.2.1.100 or later.
+
+Parameters:
+
+-  **relname**: table name (name of a cold and hot table. If the name of a non-cold and hot table is used, no error is reported and **0** is returned.)
+-  **partname**: partition name (specifies a partition name of a cold and hot table)
+
+Return type: integer
+
+::
+
+   SELECT refresh_hot_storage('multi_temper_table','p1');
+    refresh_hot_storage
+   ---------------------
+               1
+   (1 row)

@@ -1,0 +1,110 @@
+:original_name: dws_04_1020.html
+
+.. _dws_04_1020:
+
+PGXC_TOTAL_USER_RESOURCE_INFO
+=============================
+
+The **PGXC_TOTAL_USER_RESOURCE_INFO** view displays real-time resource consumption information of users on all instances. This view is supported only by clusters of version 8.2.0 or later.
+
+.. table:: **Table 1** PGXC_TOTAL_USER_RESOURCE_INFO columns
+
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Name                  | Type                  | Description                                                                                                                                                         |
+   +=======================+=======================+=====================================================================================================================================================================+
+   | nodename              | name                  | Instance name, including CNs and DNs.                                                                                                                               |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | username              | name                  | Username                                                                                                                                                            |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | used_memory           | integer               | Used memory (unit: MB)                                                                                                                                              |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a DN, it indicates a user's memory usage on the current DN.                                                                                                      |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a CN, it indicates a user's total memory usage on all DNs.                                                                                                       |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | total_memory          | integer               | Available memory (unit: MB). **0** indicates that the available memory is not limited and depends on the maximum memory available in the database.                  |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a DN, it indicates the memory available to a user on the current DN.                                                                                             |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a CN, it indicates the total memory available to a user on all DNs.                                                                                              |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | used_cpu              | double precision      | Number of CPU cores in use. Only the CPU usage of complex jobs in the non-default resource pool is collected, and the value is the CPU usage of the related cgroup. |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a DN, it indicates a user's CPU core usage on the current DN.                                                                                                    |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a CN, it indicates a user's total CPU core usage on all DNs.                                                                                                     |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | total_cpu             | integer               | Total number of CPU cores of the Cgroups associated with a user.                                                                                                    |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a DN, it indicates the CPU cores available to a user on the current DN.                                                                                          |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a CN, it indicates the total CPU cores available to a user on all DNs.                                                                                           |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | used_space            | bigint                | Used permanent table storage space (unit: KB)                                                                                                                       |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a DN, it indicates the size of the permanent table storage space used by a user on the current DN.                                                               |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a CN, it indicates the total size of the permanent table storage space used by a user on all DNs.                                                                |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | total_space           | bigint                | Available storage space (unit: KB). **-1** indicates that the storage space is not limited.                                                                         |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a DN, it indicates the size of the permanent table storage space available to a user on the current DN.                                                          |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a CN, it indicates the total size of the permanent table storage space available to a user on all DNs.                                                           |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | used_temp_space       | bigint                | Used temporary table storage space (unit: KB)                                                                                                                       |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a DN, it indicates the size of the temporary table storage space used by a user on the current DN.                                                               |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a CN, it indicates the total size of the temporary table storage space used by a user on all DNs.                                                                |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | total_temp_space      | bigint                | Available temporary table storage space (unit: KB). **-1** indicates that the storage space is not limited.                                                         |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a DN, it indicates the size of the temporary table storage space available to a user on the current DN.                                                          |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a CN, it indicates the total size of the temporary table storage space available to a user on all DNs.                                                           |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | used_spill_space      | bigint                | Size of space used for operator spill to disk, in KB.                                                                                                               |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a DN, it indicates the space used by a user to spill operators to disk on the current DN.                                                                        |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a CN, it indicates the total space used by a user's operators spilled to disk on all DNs.                                                                        |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | total_spill_space     | bigint                | Size of space available for operator spill to disk, in KB. The value **-1** indicates that the space is not limited.                                                |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a DN, it indicates the space available for a user to spill operators to disk on the current DN.                                                                  |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a CN, it indicates the total space available for a user to spill operators to disk on all DNs.                                                                   |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | read_kbytes           | bigint                | On a CN, it indicates the total number of bytes logically read by a user on all DNs in the last 5 seconds, in KB.                                                   |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a DN, it indicates the total number of bytes logically read by a user from the instance startup time to the current time, in KB.                                 |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | write_kbytes          | bigint                | On a CN, it indicates the total number of bytes logically written by a user on all DNs in the last 5 seconds, in KB.                                                |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a DN, it indicates the total number of bytes logically written by a user from the instance startup time to the current time, in KB.                              |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | read_counts           | bigint                | On a CN, it indicates the total number of logical reads performed by a user on all DNs in the last 5 seconds.                                                       |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a DN, it indicates the total number of logical reads performed by a user from the instance startup time to the current time.                                     |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | write_counts          | bigint                | On a CN, it indicates the total number of logical writes performed by a user on all DNs in the last 5 seconds.                                                      |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a DN, it indicates the total number of logical writes performed by a user from the instance startup time to the current time.                                    |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | read_speed            | double precision      | On a CN, it indicates the average logical read rate of a user on a single DN in the last 5 seconds, in KB/s.                                                        |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a DN, it indicates the average logical read rate of a user on the DN in the last 5 seconds, in KB/s.                                                             |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | write_speed           | double precision      | On a CN, it indicates the average logical write rate of a user on a single DN in the last 5 seconds, in KB/s.                                                       |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a DN, it indicates the average logical write rate of a user on the DN in the last 5 seconds, in KB/s.                                                            |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | send_speed            | double precision      | On a CN, it indicates the sum of the average network sending rates of a user on all DNs in the last 5 seconds, in KB/s.                                             |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a DN, it indicates the average network sending rate of a user on the DN in the last 5 seconds, in KB/s.                                                          |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | recv_speed            | double precision      | On a CN, it indicates the sum of the average network receiving rates of a user on all DNs in the last 5 seconds, in KB/s.                                           |
+   |                       |                       |                                                                                                                                                                     |
+   |                       |                       | On a DN, it indicates the average network receiving rate of a user on the DN in the last 5 seconds, in KB/s.                                                        |
+   +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+

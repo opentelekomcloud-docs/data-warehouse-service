@@ -154,7 +154,7 @@ Example:
 \|\|
 ----
 
-Description: Specifies that arrays and elements are concatenated in a mixed manner, that is, arrays are concatenated with arrays, elements are concatenated with arrays, or arrays are concatenated with elements.
+Description: Array-to-array concatenation
 
 Example:
 
@@ -174,6 +174,14 @@ Example:
     {{1,2,3},{4,5,6},{7,8,9}}
    (1 row)
 
+
+\|\|
+----
+
+Description: Element-to-array concatenation
+
+Example:
+
 ::
 
    SELECT 3 || ARRAY[4,5,6] AS RESULT;
@@ -181,6 +189,14 @@ Example:
    -----------
     {3,4,5,6}
    (1 row)
+
+
+\|\|
+----
+
+Description: Array-to-element concatenation
+
+Example:
 
 ::
 

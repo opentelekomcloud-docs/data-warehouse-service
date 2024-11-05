@@ -53,7 +53,7 @@ Create user **u1**:
 
 ::
 
-   CREATE USER u1 PASSWORD '{Password}';
+   CREATE USER u1 PASSWORD '{password}';
 
 Change the owner of the synonym **t1** to **u1**:
 

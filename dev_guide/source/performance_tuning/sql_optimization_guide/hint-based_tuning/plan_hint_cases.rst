@@ -48,83 +48,109 @@ This section takes the statements in TPC-DS (Q24) as an example to describe how 
 
 #. The original plan of this statement is as follows and the statement execution takes 110s:
 
-|image1|
 
-In this plan, the performance of the layer-10 **broadcast** is poor because the estimation result generated at layer 11 is 2140 rows, which is much less than the actual number of rows. The inaccurate estimation is mainly caused by the underestimated number of rows in layer-13 hash join. In this layer, **store_sales** and **store_returns** are joined (based on the **ss_ticket_number** and **ss_item_sk** columns in **store_sales** and the **sr_ticket_number** and **sr_item_sk** columns in **store_returns**) but the multi-column correlation is not considered.
+   .. figure:: /_static/images/en-us_image_0000001510163273.png
+      :alt: **Figure 1** Statement Initial Plan
 
-2. After the **rows** hint is used for optimization, the plan is as follows and the statement execution takes 318s:
+      **Figure 1** Statement Initial Plan
 
-::
+   In this plan, the performance of the layer-10 **broadcast** is poor because the estimation result generated at layer 11 is 2140 rows, which is much less than the actual number of rows. The inaccurate estimation is mainly caused by the underestimated number of rows in layer-13 hash join. In this layer, **store_sales** and **store_returns** are joined (based on the **ss_ticket_number** and **ss_item_sk** columns in **store_sales** and the **sr_ticket_number** and **sr_item_sk** columns in **store_returns**) but the multi-column correlation is not considered.
 
-   select avg(netpaid) from
-   (select /*+rows(store_sales store_returns * 11270)*/ c_last_name ...
+#. After the **rows** hint is used for optimization, the plan is as follows and the statement execution takes 318s:
 
-|image2|
+   ::
 
-The execution takes a longer time because layer-9 **redistribute** is slow. Considering that data skew does not occur at layer-9 **redistribute**, the slow redistribution is caused by the slow layer-8 **hashjoin** due to data skew at layer-18 **redistribute**.
+      select avg(netpaid) from
+      (select /*+rows(store_sales store_returns * 11270)*/ c_last_name ...
 
-3. Data skew occurs at layer-18 **redistribute** because **customer_address** has a few different values in its two join keys. Therefore, plan **customer_address** as the last one to be joined. After the hint is used for optimization, the plan is as follows and the statement execution takes 116s:
 
-::
+   .. figure:: /_static/images/en-us_image_0000001510402941.png
+      :alt: **Figure 2** Using rows hints for optimization
 
-   select avg(netpaid) from
-   (select /*+rows(store_sales store_returns *11270)
-   leading((store_sales store_returns store item customer) customer_address)*/
-   c_last_name ...
+      **Figure 2** Using rows hints for optimization
 
-|image3|
+   The execution takes a longer time because layer-9 **redistribute** is slow. Considering that data skew does not occur at layer-9 **redistribute**, the slow redistribution is caused by the slow layer-8 **hashjoin** due to data skew at layer-18 **redistribute**.
 
-Most of the time is spent on layer-6 **redistribute**. The plan needs to be further optimized.
+#. Data skew occurs because **customer_address** has a few different values in its two join keys. Therefore, plan **customer_address** as the last one to be joined. After the hint is used for optimization, the plan is as follows and the statement execution takes 116s:
 
-4. Most of the time is spent on layer-6 **redistribute** because of data skew. To avoid the data skew, plan the **item** table as the last one to be joined because the number of rows is not reduced after **item** is joined. After the hint is used for optimization, the plan is as follows and the statement execution takes 120s:
+   ::
 
-::
+      select avg(netpaid) from
+      (select /*+rows(store_sales store_returns *11270)
+      leading((store_sales store_returns store item customer) customer_address)*/
+      c_last_name ...
 
-   select avg(netpaid) from
-   (select /*+rows(store_sales store_returns *11270)
-   leading((customer_address (store_sales store_returns store customer) item))
-   c_last_name ...
 
-|image4|
+   .. figure:: /_static/images/en-us_image_0000001460723196.png
+      :alt: **Figure 3** Hint optimization
 
-Data skew occurs after the join of **item** and **customer_address** because **item** is broadcasted at layer-22. As a result, layer-6 **redistribute** is still slow.
+      **Figure 3** Hint optimization
 
-5. Add a hint to disable **broadcast** for **item** or add a **redistribute** hint for the join result of **item** and **customer_address**. After the hint is used for optimization, the plan is as follows and the statement execution takes 105s:
+   Most of the time is spent on layer-6 **redistribute**. The plan needs to be further optimized.
 
-::
+#. The last layer redistribute contains skew. Therefore, it takes a long time. To avoid the data skew, plan the **item** table as the last one to be joined because the number of rows is not reduced after **item** is joined. After the hint is used for optimization, the plan is as follows and the statement execution takes 120s:
 
-   select avg(netpaid) from
-   (select /*+rows(store_sales store_returns *11270)
-   leading((customer_address (store_sales store_returns store customer) item))
-   no broadcast(item)*/
-   c_last_name ...
+   ::
 
-|image5|
+      select avg(netpaid) from
+      (select /*+rows(store_sales store_returns *11270)
+      leading((customer_address (store_sales store_returns store customer) item))
+      c_last_name ...
 
-6. The last layer uses single-layer **Agg** and the number of rows is greatly reduced. Set **best_agg_plan** to **3** and change the single-layer **Agg** to a double-layer **Agg**. The plan is as follows and the statement execution takes 94s. The optimization ends.
 
-|image6|
+   .. figure:: /_static/images/en-us_image_0000001510522945.png
+      :alt: **Figure 4** Modifying hints and executing statements
+
+      **Figure 4** Modifying hints and executing statements
+
+   Data skew occurs after the join of **item** and **customer_address** because **item** is broadcasted at layer-22. As a result, layer-6 **redistribute** is still slow.
+
+#. Add a hint to disable **broadcast** for **item** or add a **redistribute** hint for the join result of **item** and **customer_address**. After the hint is used for optimization, the plan is as follows and the statement execution takes 105s:
+
+   ::
+
+      select avg(netpaid) from
+      (select /*+rows(store_sales store_returns *11270)
+      leading((customer_address (store_sales store_returns store customer) item))
+      no broadcast(item)*/
+      c_last_name ...
+
+
+   .. figure:: /_static/images/en-us_image_0000001460882908.png
+      :alt: **Figure 5** Execution plan
+
+      **Figure 5** Execution plan
+
+#. The last layer uses single-layer **Agg** and the number of rows is greatly reduced. Set **best_agg_plan** to **3** and change the single-layer **Agg** to a double-layer **Agg**. The plan is as follows and the statement execution takes 94s. The optimization ends.
+
+
+   .. figure:: /_static/images/en-us_image_0000001510284017.png
+      :alt: **Figure 6** Final optimization plan
+
+      **Figure 6** Final optimization plan
 
 If the query performance deteriorates due to statistics changes, you can use hints to optimize the query plan. Take TPCH-Q17 as an example. The query performance deteriorates after the value of **default_statistics_target** is changed from the default one to **-2** for statistics collection.
 
-1. If **default_statistics_target** is set to the default value **100**, the plan is as follows:
+#. If **default_statistics_target** is set to the default value **100**, the plan is as follows.
 
-|image7|
 
-2. If **default_statistics_target** is set to **-2**, the plan is as follows:
+   .. figure:: /_static/images/en-us_image_0000001510402933.png
+      :alt: **Figure 7** Default statistics
 
-|image8|
+      **Figure 7** Default statistics
 
-3. After the analysis, the cause is that the stream type is changed from **BroadCast** to **Redistribute** during the join of the **lineitem** and **part** tables. You can use a hint to change the stream type back to **BroadCast**. For example:
+#. If **default_statistics_target** is set to **-2**, the plan is as follows.
 
-|image9|
 
-.. |image1| image:: /_static/images/en-us_image_0000001188642278.png
-.. |image2| image:: /_static/images/en-us_image_0000001188163836.png
-.. |image3| image:: /_static/images/en-us_image_0000001188323808.png
-.. |image4| image:: /_static/images/en-us_image_0000001233883441.png
-.. |image5| image:: /_static/images/en-us_image_0000001188482366.png
-.. |image6| image:: /_static/images/en-us_image_0000001233761953.png
-.. |image7| image:: /_static/images/en-us_image_0000001233761951.png
-.. |image8| image:: /_static/images/en-us_image_0000001188482364.png
-.. |image9| image:: /_static/images/en-us_image_0000001188323810.png
+   .. figure:: /_static/images/en-us_image_0000001460563392.png
+      :alt: **Figure 8** Changes in statistics
+
+      **Figure 8** Changes in statistics
+
+#. After the analysis, the cause is that the stream type is changed from **BroadCast** to **Redistribute** during the join of the **lineitem** and **part** tables. You can use a hint to change the stream type back to **BroadCast**. For example:
+
+
+   .. figure:: /_static/images/en-us_image_0000001510163277.png
+      :alt: **Figure 9** Statements
+
+      **Figure 9** Statements

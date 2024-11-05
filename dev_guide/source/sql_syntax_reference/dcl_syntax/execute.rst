@@ -8,7 +8,7 @@ EXECUTE
 Function
 --------
 
-Executes a prepared statement. Because a prepared statement exists only in the lifetime of a session, the prepared statement must be created by an earlier PREPARE statement in the current session.
+**EXECUTE** executes a prepared statement. A prepared statement only exists in the lifecycle of a session. Therefore, only prepared statements created using **PREPARE** earlier in the session can be executed.
 
 Precautions
 -----------
@@ -40,6 +40,5 @@ Create and run a prepared statement for the **INSERT** statement:
 
 ::
 
-   CREATE TABLE IF NOT EXISTS reason_t1 (a int,b varchar(20),c varchar(20));
-   PREPARE insert_reason(integer,character(16),character(100)) AS INSERT INTO reason_t1 VALUES($1,$2,$3);
+   PREPARE insert_reason(integer,character(16),character(100)) AS INSERT INTO tpcds.reason_t1 VALUES($1,$2,$3);
    EXECUTE insert_reason(52, 'AAAAAAAADDAAAAAA', 'reason 52');

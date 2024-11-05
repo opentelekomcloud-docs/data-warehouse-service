@@ -8,12 +8,12 @@ DROP FUNCTION
 Function
 --------
 
-**DROP FUNCTION** deletes an existing function.
+Deletes an existing function.
 
 Precautions
 -----------
 
--  To delete an overloaded function, you must specify the function's parameter type. For non-overloaded functions, you can delete them by just specifying the function name.
+-  To delete an overloaded function, you must specify the function's parameter (argument) type. For non-overloaded functions, you can delete them by just specifying the function name.
 -  If a function involves operations on temporary tables, the function cannot be deleted by running **DROP FUNCTION**.
 
 Syntax
@@ -35,7 +35,7 @@ Parameter Description
 
    Specifies the name of the function to be deleted.
 
-   Value range: An existing function name.
+   Value range: an existing function name.
 
 -  **argmode**
 
@@ -47,7 +47,7 @@ Parameter Description
 
 -  **argtype**
 
-   Specifies the data types of a function parameter.
+   Specifies the data type of a function parameter.
 
 -  **CASCADE \| RESTRICT**
 

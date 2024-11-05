@@ -2,6 +2,8 @@
 
 .. _dws_04_0967:
 
+.. _en-us_topic_0000001717256752:
+
 GDS-based Cross-Cluster Interconnection
 =======================================
 
@@ -44,7 +46,7 @@ Preparations
 ------------
 
 -  Configure the interconnection between both clusters.
--  Plan and deploy GDS servers. Ensure that all GDS servers can communicate with all nodes in the two clusters. That is, the security group of the GDS servers must allow the corresponding GDS port (for example, 5000) and DWS port (8000 by default) in the inbound direction. For details about how to deploy GDS, see :ref:`Installing, Configuring, and Starting GDS <dws_04_0193>`.
+-  Plan and deploy GDS servers. Ensure that all GDS servers can communicate with all nodes in the two clusters. That is, the security group of the GDS servers must allow the corresponding GDS port (for example, 5000) and DWS port (8000 by default) in the inbound direction. For details about how to deploy GDS, see :ref:`Installing, Configuring, and Starting GDS <en-us_topic_0000001764817369>`.
 
    .. note::
 
@@ -59,7 +61,7 @@ Procedure
 
 Assume that the table **tbl_remote** in the remote cluster is to be synchronized with the table **tbl_local** in the local cluster and the user performing the synchronization is **user_remote**. Note that the user must have the permission to access the **tbl_remote** table.
 
-#. .. _en-us_topic_0000001188323692__en-us_topic_0000001233761713_li9997151784817:
+#. .. _en-us_topic_0000001717256752__en-us_topic_0000001188323692_en-us_topic_0000001233761713_li9997151784817:
 
    Create a server.
 
@@ -110,7 +112,7 @@ Assume that the table **tbl_remote** in the remote cluster is to be synchronized
       -  The values of **schema_name** and **table_name** are case sensitive and must be the same as those of the remote schema and table.
       -  The foreign table for interconnection cannot contain any constraints in its columns.
       -  The column names and column types of the foreign table must be the same as those of the **tbl_remote** table.
-      -  **SERVER** must be set to the server created in :ref:`Step 1 <en-us_topic_0000001188323692__en-us_topic_0000001233761713_li9997151784817>` and must contain the **syncsrv** attribute.
+      -  **SERVER** must be set to the server created in :ref:`Step 1 <en-us_topic_0000001717256752__en-us_topic_0000001188323692_en-us_topic_0000001233761713_li9997151784817>` and must contain the **syncsrv** attribute.
 
 #. Use the foreign table for interconnection to synchronize data.
 

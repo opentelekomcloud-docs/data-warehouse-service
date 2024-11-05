@@ -8,7 +8,7 @@ RENAME TABLE
 Function
 --------
 
-**RENAME TABLE** renames a specified table.
+Renames a specified table.
 
 Precautions
 -----------
@@ -27,8 +27,8 @@ Syntax
    RENAME TABLE
    {[schema.]table_name TO new_table_name} [, ...];
 
-Parameters
-----------
+Parameter Description
+---------------------
 
 -  **schema**
 
@@ -44,23 +44,6 @@ Parameters
 
 Examples
 --------
-
-Create a column-store table and specify the storage format and compression mode:
-
-::
-
-   DROP TABLE IF EXISTS customer_address;
-   CREATE TABLE customer_address
-   (
-       ca_address_sk       INTEGER                  NOT NULL   ,
-       ca_address_id       CHARACTER(16)            NOT NULL   ,
-       ca_street_number    CHARACTER(10)                       ,
-       ca_street_name      CHARACTER varying(60)               ,
-       ca_street_type      CHARACTER(15)                       ,
-       ca_suite_number     CHARACTER(10)
-   )
-   WITH (ORIENTATION = COLUMN, COMPRESSION=HIGH,COLVERSION=2.0)
-   DISTRIBUTE BY HASH (ca_address_sk);
 
 Rename a table:
 

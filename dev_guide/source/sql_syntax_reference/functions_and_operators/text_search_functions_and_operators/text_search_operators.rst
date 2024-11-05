@@ -102,7 +102,7 @@ Example:
    SELECT 'cat'::tsquery @> 'cat & rat'::tsquery AS RESULT;
     result
    --------
-    t
+    f
    (1 row)
 
 

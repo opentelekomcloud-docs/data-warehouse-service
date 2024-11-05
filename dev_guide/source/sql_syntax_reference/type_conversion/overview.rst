@@ -10,7 +10,7 @@ Context
 
 SQL is a typed language. That is, every data item has an associated data type which determines its behavior and allowed usage. GaussDB(DWS) has an extensible type system that is more general and flexible than other SQL implementations. Hence, most type conversion behavior in GaussDB(DWS) is governed by general rules. This allows the use of mixed-type expressions.
 
-The GaussDB(DWS) scanner/parser divides lexical elements into five fundamental categories: integers, floating-point numbers, strings, identifiers, and keywords. Constants of most non-numeric types are first classified as strings. The SQL language definition allows specifying type names with constant strings. Example:
+The GaussDB(DWS) scanner/parser divides lexical elements into five fundamental categories: integers, floating-point numbers, strings, identifiers, and keywords. Constants of most non-numeric types are first classified as strings. The SQL language definition allows specifying type names with constant strings. For example, the query:
 
 ::
 
@@ -40,11 +40,11 @@ There are four fundamental SQL constructs requiring distinct type conversion rul
 
    Since all query results from a unionized **SELECT** statement must appear in a single set of columns, the types of the results of each **SELECT** clause must be matched up and converted to a uniform set. Similarly, the result expressions of a **CASE** construct must be converted to a common type so that the **CASE** expression as a whole has a known output type. The same holds for **ARRAY** constructs, and for the **GREATEST** and **LEAST** functions.
 
-The system catalog **pg_cast** stores information about which conversions, or casts, exist between which data types, and how to perform those conversions.
+The system catalog pg_cast stores information about which conversions, or casts, exist between which data types, and how to perform those conversions.
 
 The return type and conversion behavior of an expression are determined during semantic analysis. Data types are divided into several basic type categories, including **boolean**, **numeric**, **string**, **bitstring**, **datetime**, **timespan**, **geometric**, and **network**. Within each category there can be one or more preferred types, which are preferred when there is a choice of possible types. With careful selection of preferred types and available implicit casts, it is possible to ensure that ambiguous expressions (those with multiple candidate parsing solutions) can be resolved in a useful way.
 
-All type conversion rules must comply with the following basic principles:
+All type conversion rules are designed based on the following principles:
 
 -  Implicit conversions should never have surprising or unpredictable outcomes.
 -  There should be no extra overhead in the parser or executor if a query does not need implicit type conversion. That is, if a query is well-formed and the types already match, then the query should execute without spending extra time in the parser and without introducing unnecessary implicit conversion calls in the query.
@@ -57,19 +57,18 @@ Converting Empty Strings to Numeric Values in TD-Compatible Mode
 
    ::
 
-      CREATE TABLE t1(no int,col varchar);
-      INSERT INTO t1 values(1,'');
-      INSERT INTO t1 values(2,null);
-      SELECT * FROM t1 WHERE col is null;
+      create table t1(no int,col varchar);
+      insert into t1 values(1,'');
+      insert into t1 values(2,null);
+      select * from t1 where col is null;
        no | col
       ----+-----
         2 |
       (1 row)
-
-      SELECT * FROM t1 WHERE col='';
+      select * from t1 where col='';
        no | col
       ----+-----
-       1  |
+       1 |
       (1 row)
 
 -  The method of converting an empty string into a numeric value in MySQL-compatible mode is the same as that in TD-compatible mode.

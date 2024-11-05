@@ -8,7 +8,7 @@ CREATE SEQUENCE
 Function
 --------
 
-**CREATE SEQUENCE** adds a sequence to the current database. The owner of a sequence is the user who creates the sequence.
+Adds a sequence to the current database. The owner of a sequence is the user who creates the sequence.
 
 Precautions
 -----------
@@ -149,7 +149,7 @@ Create a sequence associated with the table:
     CACHE 20
    OWNED BY customer_address.ca_address_sk;
 
-Use SERIAL to create a serial table **serial_table** for primary key auto-increment.
+Use **SERIAL** to create a serial table **serial_table** for primary key auto-increment.
 
 ::
 

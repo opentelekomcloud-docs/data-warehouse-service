@@ -8,7 +8,7 @@ CLOSE
 Function
 --------
 
-**CLOSE** frees the resources associated with an open cursor.
+Frees the resources associated with an open cursor.
 
 Precautions
 -----------
@@ -45,7 +45,7 @@ Close a cursor.
 
 ::
 
-   CLOSE ALL;
+   CLOSE cursor1;
 
 Links
 -----

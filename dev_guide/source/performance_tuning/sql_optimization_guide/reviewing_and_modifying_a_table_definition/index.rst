@@ -2,6 +2,8 @@
 
 .. _dws_04_0437:
 
+.. _en-us_topic_0000001629230069:
+
 Reviewing and Modifying a Table Definition
 ==========================================
 

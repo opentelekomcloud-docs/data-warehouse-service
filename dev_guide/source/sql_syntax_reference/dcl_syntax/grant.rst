@@ -8,7 +8,7 @@ GRANT
 Function
 --------
 
-**GRANT** grants permissions to roles and users.
+Grants permissions to roles and users.
 
 **GRANT** is used in the following scenarios:
 
@@ -204,7 +204,7 @@ Syntax
       GRANT ALL { PRIVILEGES | PRIVILEGE }
          TO role_name;
 
-.. _en-us_topic_0000001188270556__s226158f44a8f4b908e69a283aeb813cd:
+.. _en-us_topic_0000001510401021__s226158f44a8f4b908e69a283aeb813cd:
 
 Parameter Description
 ---------------------
@@ -265,7 +265,7 @@ Parameter Description
 
    -  For procedural languages, allows the use of the specified language for the creation of functions in that language.
    -  For schemas, allows access to objects contained in the specified schema. Without this permission, it is still possible to see the object names.
-   -  For sequences, allows the use of the **NEXTVAL** function.
+   -  For sequences, allows the use of the nextval function.
    -  For sub-clusters, allows users who can access objects contained in the specified schema to access tables in a specified sub-cluster.
 
 -  **COMPUTE**
@@ -278,12 +278,12 @@ Parameter Description
 
 -  **WITH GRANT OPTION**
 
-   Specifies whether permission transfer is allowed. If **WITH GRANT OPTION** is specified, the recipient of a permission can in turn grant it to others. This option cannot be granted to **PUBLIC**.
+   If **WITH GRANT OPTION** is specified, the recipient of a permission can in turn grant it to others. This option cannot be granted to **PUBLIC**.
 
    .. note::
 
       -  **WITH GRANT OPTION** cannot be used with **NODE GROUP**.
-      -  When using **WITH GRANT OPTION**, ensure that **enable_grant_option** is set to **on**.
+      -  When using **WITH GRANT OPTION**, ensure that **grant_with_grant_option** is enabled in **security_enable_options**.
 
 -  **WITH ADMIN OPTION**
 
@@ -366,25 +366,6 @@ Parameter Description
 Examples
 --------
 
-Create two users:
-
-::
-
-   CREATE USER joe PASSWORD '{Password}';
-   CREATE USER kim PASSWORD '{Password}';
-
-Create a schema:
-
-::
-
-   CREATE SCHEMA tpcds;
-
-Create a table:
-
-::
-
-   CREATE TABLE IF NOT EXISTS tpcds.reason(r_reason_sk int,r_reason_id int,r_reason_desc int);
-
 -  **Grant system permissions to a user or role.**
 
    -  Grant all available permissions of user **sysadmin** to user **joe**:
@@ -435,7 +416,7 @@ Create a table:
 
       ::
 
-         CREATE FUNCTION func_add_sql(integer, integer) RETURNS integer
+         CREATE FUNCTION func_add_sql(f1 integer,f2 integer) RETURNS integer
              AS 'select $1 + $2;'
              LANGUAGE SQL
              IMMUTABLE
@@ -446,7 +427,6 @@ Create a table:
 
       ::
 
-         CREATE SEQUENCE serial START 101 CACHE 20;
          GRANT UPDATE ON SEQUENCE serial TO joe;
 
    -  Grant the **gaussdb** database connection permission and schema creation permission to user **joe**:
@@ -455,25 +435,25 @@ Create a table:
 
          GRANT create,connect on database gaussdb TO joe ;
 
-   -  Grant the **tpcds** schema access permission and object creation permission to **joe**, but do not enable it to grant these permissions to others:
+   -  Grant the **tpcds** schema access permission and object creation permission to this role, but do not enable it to grant these permissions to others:
 
       ::
 
-         GRANT USAGE,CREATE ON SCHEMA tpcds TO joe;
+         GRANT USAGE,CREATE ON SCHEMA tpcds TO tpcds_manager;
 
 -  **Grant the permissions of a user or role to other users or roles.**
 
-   -  Grant the permissions of user **joe** to user **kim**, and allow **kim** to grant these permissions to others:
+   -  Grant the permissions of user **joe** to user **manager**, and allow **manager** to grant these permissions to others:
 
       ::
 
-         GRANT joe TO kim WITH ADMIN OPTION;
+         GRANT joe TO manager WITH ADMIN OPTION;
 
-   -  Grant the permissions of user **joe** to user **kim**:
+   -  Grant the permissions of user **manager** to user **senior_manager**:
 
       ::
 
-         GRANT joe TO kim;
+         GRANT manager TO senior_manager;
 
 Helpful Links
 -------------

@@ -56,7 +56,7 @@ Example:
     f
    (1 row)
 
-.. _en-us_topic_0000001495702129__section19905992346:
+.. _en-us_topic_0000001510281961__en-us_topic_0000001495702129_section19905992346:
 
 lower_inc(anyrange)
 -------------------
@@ -92,7 +92,7 @@ Example:
     f
    (1 row)
 
-.. _en-us_topic_0000001495702129__section3663181517345:
+.. _en-us_topic_0000001510281961__en-us_topic_0000001495702129_section3663181517345:
 
 lower_inf(anyrange)
 -------------------
@@ -111,7 +111,7 @@ Example:
     t
    (1 row)
 
-.. _en-us_topic_0000001495702129__section1578181883411:
+.. _en-us_topic_0000001510281961__en-us_topic_0000001495702129_section1578181883411:
 
 upper_inf(anyrange)
 -------------------

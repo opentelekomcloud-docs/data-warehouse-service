@@ -8,14 +8,14 @@ COPY
 Function
 --------
 
-**COPY** copies data between tables and files.
+Copies data between tables and files.
 
 **COPY FROM** copies data from a file to a table. **COPY TO** copies data from a table to a file.
 
 Precautions
 -----------
 
--  If CNs and DNs are enabled in security mode , the **COPY FROM FILENAME** or **COPY TO FILENAME** cannot be used. Use **\\copy** to avoid this problem, for details, see "FAQs > Data Import and Export > How Do I Use \\copy to Import and Export Data?" in the *Data Warehouse Service User Guide*.
+-  If CNs and DNs are enabled in security mode, the **COPY FROM FILENAME** or **COPY TO FILENAME** cannot be used. Use **\\copy** to avoid this problem, for details, see "FAQs > Data Import and Export > How Do I Use \\copy to Import and Export Data?" in the *Data Warehouse Service User Guide*.
 -  **COPY** applies to only tables and does not apply to views.
 -  To insert data to a table, you must have the permission to insert data.
 -  If a list of columns is specified, **COPY** will only copy the data in the specified columns to or from the file. If there are any columns in the table that are not in the column list, **COPY FROM** will insert the default values for those columns.
@@ -32,7 +32,7 @@ Precautions
 Syntax
 ------
 
--  Copy the data from a file to a table:
+-  Copy data from a file to a table.
 
    ::
 
@@ -51,7 +51,7 @@ Syntax
 
       In the SQL syntax, **FIXED**, **FORMATTER ( { column_name( offset, length ) } [, ...] )**, and **[ ( option [, ...] ) \| copy_option [ ...] ]** can be in any sequence.
 
--  Copy the data from a table to a file:
+-  Copy data from a table to a file.
 
    ::
 
@@ -103,6 +103,7 @@ Syntax
       | IGNORE_EXTRA_DATA [ boolean ]
       | FILL_MISSING_FIELDS [ boolean ]
       | COMPATIBLE_ILLEGAL_CHARS [ boolean ]
+      | PRESERVE_BLANKS [ boolean ]
       | DATE_FORMAT 'date_format_string'
       | TIME_FORMAT 'time_format_string'
       | TIMESTAMP_FORMAT 'timestamp_format_string'
@@ -132,6 +133,7 @@ Syntax
       | IGNORE_EXTRA_DATA
       | FILL_MISSING_FIELDS
       | COMPATIBLE_ILLEGAL_CHARS
+      | PRESERVE_BLANKS
       | DATE_FORMAT 'date_format_string'
       | TIME_FORMAT 'time_format_string'
       | TIMESTAMP_FORMAT 'timestamp_format_string'
@@ -203,21 +205,17 @@ Parameter Description
       The restrictions of this error tolerance parameter are as follows:
 
       -  This error tolerance mechanism captures only the data type errors (DATA_EXCEPTION) that occur during data parsing of **COPY FROM** on a CN. Other errors, such as network errors between CNs and DNs or expression conversion errors on DNs, are not captured.
-      -  Before enabling error tolerance for **COPY FROM** for the first time in a database, check whether the **public.pgxc_copy_error_log** table exists. If it does not, call the copy_error_log_create() function to create it. If it does, copy its data elsewhere and call the copy_error_log_create() function to create the table. For details about columns in the **public.pgxc_copy_error_log** table, see :ref:`Table 3 <en-us_topic_0000001495991693__table2822639715>`.
+      -  Before enabling error tolerance for **COPY FROM** for the first time in a database, check whether the **public.pgxc_copy_error_log** table exists. If it does not, call the copy_error_log_create() function to create it. If it does, copy its data elsewhere and call the copy_error_log_create() function to create the table. For details about columns in the **public.pgxc_copy_error_log** table, see :ref:`Table 3 <en-us_topic_0000001460561332__table63361925092>`.
       -  While a **COPY FROM** statement with specified **LOG ERRORS** is being executed, if **public.pgxc_copy_error_log** does not exist or does not have the table definitions compliant with the predefined in copy_error_log_create(), an error will be reported. Ensure that the error table is created using the copy_error_log_create() function. Otherwise, **COPY FROM** statements with error tolerance may fail to be run.
       -  If existing error tolerance parameters (for example, **IGNORE_EXTRA_DATA**) of the **COPY** statement are enabled, the error of the corresponding type will be processed as specified by the parameters and no error will be reported. Therefore, the error table does not contain such error data.
-      -  The coverage scope of this error tolerance mechanism is the same as that of a GDS foreign table. You are advised to filter query results based on table names or the timestamp of marking the start of **COPY FROM** statement execution. For details about how to process error data, see the section about handling error tables.
+      -  The coverage scope of this error tolerance mechanism is the same as that of a GDS foreign table. You are advised to filter query results based on table names or the timestamp of marking the start of **COPY FROM** statement execution.
 
 -  **LOG ERRORS DATA**
 
    The differences between **LOG ERRORS DATA** and **LOG ERRORS** are as follows:
 
    #. **LOG ERRORS DATA** fills the **rawrecord** field in the error tolerance table.
-   #. Only users with the super permission can use the **LOG ERRORS DATA** parameter.
-
-      .. caution::
-
-         If error content is too complex, it may fail to be written to the error tolerance table by using **LOG ERRORS DATA**, causing the task failure.
+   #. If error content is too complex, it may fail to be written to the error tolerance table by using **LOG ERRORS DATA**, causing the task failure.
 
 -  **REJECT LIMIT '\ limit'**
 
@@ -352,7 +350,7 @@ Parameter Description
 
    -  FORCE_QUOTE { ( column_name [, ...] ) \| \* }
 
-      Forces quoting to be used for all non-null values in each specified column. This option is allowed only in **COPY TO**. **NULL** values are not quoted.
+      Forces quoting to be used for all non-null values in each specified column. This option is allowed only in **COPY TO**, and only when the CSV format is used. **NULL** values are not quoted.
 
       Value range: an existing column
 
@@ -365,6 +363,10 @@ Parameter Description
    -  ENCODING
 
       Specifies that the file is encoded in the **encoding_name**. If this option is omitted, the current encoding format is used by default.
+
+      .. note::
+
+         Common encoding formats include UTF8, GBK, and GB18030. GB18030 has two versions: GB18030 and GB18030_2022. GB18030_2022 is the latest national standard in China prepared to support Chinese characters.
 
    -  IGNORE_EXTRA_DATA
 
@@ -380,7 +382,7 @@ Parameter Description
 
             extra data after last expected column
 
-      Default value: **false**
+      Default value: **false** or **off**
 
       .. important::
 
@@ -401,11 +403,9 @@ Parameter Description
 
          The rule of error tolerance when you import invalid characters is as follows:
 
-         (1) **\\0** is converted to a space.
-
-         (2) Other invalid characters are converted to question marks.
-
-         (3) If **compatible_illegal_chars** is set to **true** or **on**, invalid characters are tolerated. If **NULL**, **DELIMITER**, **QUOTE**, and **ESCAPE** are set to a spaces or question marks. Errors like "illegal chars conversion may confuse COPY escape 0x20" will be displayed to prompt user to modify parameter values that cause confusion, preventing import errors.
+         #. **\\0** is converted to a space.
+         #. Other invalid characters are converted to question marks.
+         #. Setting **compatible_illegal_chars** to **true/on** enables toleration of invalid characters. If **NULL**, **DELIMITER**, **QUOTE**, and **ESCAPE** are set to spaces or question marks, errors like "illegal chars conversion may confuse COPY escape 0x20" will be displayed to prompt the user to modify parameters that may cause confusion, preventing importing errors.
 
    -  FILL_MISSING_FIELDS
 
@@ -492,6 +492,15 @@ Parameter Description
       .. note::
 
          This parameter is valid only when **COPY TO** is executed and a valid SERVER is specified. This parameter must be specified together with **MAXROW**.
+
+   -  PRESERVE_BLANKS
+
+      Specifies whether to retain the blank characters (including spaces, \\t, \\v, and \\f) at the end of each column during fixed-length import. This parameter is supported by version 8.2.0.100 or later clusters.
+
+      Value range: **true**, **on**, **false**, and **off** The default value is **false** or **off**.
+
+      -  If this parameter is set to **true** or **on**, the trailing **\\t** is retained and pruning is not performed for column data of the BYTEAOID, CHAROID, NAMEOID, TEXTOID, BPCHAROID, VARCHAROID, NVARCHAR2OID or CSTRINGOID type.
+      -  If this parameter is set to **false** or **off**, blank characters (including spaces, \\t, \\v, and \\f) at the end of all data types are pruned.
 
 -  **COPY_OPTION { option_name ' value ' }**
 
@@ -634,23 +643,17 @@ Parameter Description
 
          The rule of error tolerance when you import invalid characters is as follows:
 
-         #. **\\0** is converted to a space.
-         #. Other illegal characters are converted to question marks.
-         #. Setting **compatible_illegal_chars** to **true/on** enables toleration of invalid characters. If **NULL**, **DELIMITER**, **QUOTE**, and **ESCAPE** are set to spaces or question marks, errors like "illegal chars conversion may confuse COPY escape 0x20" will be displayed to prompt the user to modify parameters that may cause confusion, preventing importing errors.
+         (1) **\\0** is converted to a space.
+
+         (2) Other invalid characters are converted to question marks.
+
+         (3) Setting **compatible_illegal_chars** to **true/on** enables toleration of invalid characters. If **NULL**, **DELIMITER**, **QUOTE**, and **ESCAPE** are set to spaces or question marks, errors like "illegal chars conversion may confuse COPY escape 0x20" will be displayed to prompt the user to modify parameters that may cause confusion, preventing importing errors.
 
    -  FILL_MISSING_FIELDS
 
       Specifies whether to generate an error message when the last column in a row in the source file is lost during data loading.
 
       Value range: **true**, **on**, **false**, and **off**
-
-      -  If this parameter is set to **true** or **on** and the last column of a data row in a source data file is lost, the column will be replaced with **NULL** and no error message will be generated.
-
-      -  If this parameter is set to **false** or **off** and the last column of a data row in a source data file is lost, the following error information will be displayed:
-
-         .. code-block::
-
-            missing data for column "tt"
 
       Default value: **false** or **off**
 
@@ -666,7 +669,7 @@ Parameter Description
 
       .. note::
 
-         If ORACLE is specified as the compatible database, the DATE format is TIMESTAMP. For details, see **timestamp_format** below.
+         If ORACLE is specified as the compatible database, the DATE format is TIMESTAMP. For details, see the **timestamp_format** parameter.
 
    -  TIME_FORMAT 'time_format_string'
 
@@ -686,6 +689,15 @@ Parameter Description
 
       Value range: any valid SMALLDATETIME value. For details, see :ref:`Date and Time Processing Functions and Operators <dws_06_0035>`.
 
+   -  PRESERVE_BLANKS
+
+      Specifies whether to retain the blank characters (including spaces, \\t, \\v, and \\f) at the end of each column during fixed-length import. This parameter is supported by clusters of version 8.2.0.100 or later.
+
+      Value range: **true**, **on**, **false**, and **off** The default value is **false** or **off**.
+
+      -  If this parameter is set to **true** or **on**, the trailing **\\t** is retained and pruning is not performed for column data of the BYTEAOID, CHAROID, NAMEOID, TEXTOID, BPCHAROID, VARCHAROID, NVARCHAR2OID or CSTRINGOID type.
+      -  If this parameter is set to **false** or **off**, blank characters (including spaces, \\t, \\v, and \\f) at the end of all data types are pruned.
+
    The following special backslash sequences are recognized by **COPY FROM**:
 
    -  **\\b**: Backspace (ASCII 8)
@@ -700,23 +712,23 @@ Parameter Description
 Examples
 --------
 
-Copy data from the **ship_mode** file to the **/home/omm/ds_ship_mode.dat** file.
+Copy data from the **tpcds.ship_mode** file to the **/home/omm/ds_ship_mode.dat** file:
 
 ::
 
-   COPY ship_mode TO '/home/omm/ds_ship_mode.dat';
+   COPY tpcds.ship_mode TO '/home/omm/ds_ship_mode.dat';
 
-Write **ship_mode** as output to **stdout**.
-
-::
-
-   COPY ship_mode TO stdout;
-
-Create the **ship_mode_t1** table.
+Write **tpcds.ship_mode** as output to **stdout**.
 
 ::
 
-   CREATE TABLE ship_mode_t1
+   COPY tpcds.ship_mode TO stdout;
+
+Create the **tpcds.ship_mode_t1** table:
+
+::
+
+   CREATE TABLE tpcds.ship_mode_t1
    (
        SM_SHIP_MODE_SK           INTEGER               NOT NULL,
        SM_SHIP_MODE_ID           CHAR(16)              NOT NULL,
@@ -728,44 +740,50 @@ Create the **ship_mode_t1** table.
    WITH (ORIENTATION = COLUMN,COMPRESSION=MIDDLE)
    DISTRIBUTE BY HASH(SM_SHIP_MODE_SK );
 
-Copy data from **stdin** to the **ship_mode_t1** table.
+Copy data from **stdin** to the **tpcds.ship_mode_t1** table.
 
 ::
 
-   COPY ship_mode_t1 FROM stdin;
+   COPY tpcds.ship_mode_t1 FROM stdin;
 
-Copy data from the **/home/omm/ds_ship_mode.dat** file to the **ship_mode_t1** table.
-
-::
-
-   COPY ship_mode_t1 FROM '/home/omm/ds_ship_mode.dat';
-
-Copy data from the **/home/omm/ds_ship_mode.dat** file to the **ship_mode_t1** table, with the import format set to TEXT (**format 'text'**), the delimiter set to \\t' (delimiter **E'\\t'**), excessive columns ignored (**ignore_extra_data 'true'**), and characters not escaped (**noescaping 'true'**).
+Copy data from the **/home/omm/ds_ship_mode.dat** file to the **tpcds.ship_mode_t1** table.
 
 ::
 
-   COPY ship_mode_t1 FROM '/home/omm/ds_ship_mode.dat' WITH(format 'text', delimiter E'\t', ignore_extra_data 'true', noescaping 'true');
+   COPY tpcds.ship_mode_t1 FROM '/home/omm/ds_ship_mode.dat';
 
-Copy data from the **/home/omm/ds_ship_mode.dat** file to the **ship_mode_t1** table, with the import format set to FIXED, fixed-length format specified (**FORMATTER(SM_SHIP_MODE_SK(0, 2), SM_SHIP_MODE_ID(2,16), SM_TYPE(18,30), SM_CODE(50,10), SM_CARRIER(61,20), SM_CONTRACT(82,20))**), excessive columns ignored (**ignore_extra_data**), and headers included (**header**).
-
-::
-
-   COPY ship_mode_t1 FROM '/home/omm/ds_ship_mode.dat' FIXED FORMATTER(SM_SHIP_MODE_SK(0, 2), SM_SHIP_MODE_ID(2,16), SM_TYPE(18,30), SM_CODE(50,10), SM_CARRIER(61,20), SM_CONTRACT(82,20)) header ignore_extra_data;
-
-Export **ship_mode_t1** as a text file **ds_ship_mode.dat** in the OBS directory **/bucket/path/**. You need to specify the server options that contain OBS access information.
+Copy data from the **/home/omm/ds_ship_mode.dat** file to the **tpcds.ship_mode_t1** table, with the import format set to TEXT (**format 'text'**), the delimiter set to \\t' (delimiter **E'\\t'**), excessive columns ignored (**ignore_extra_data 'true'**), and characters not escaped (**noescaping 'true'**).
 
 ::
 
-   COPY ship_mode_t1 TO '/bucket/path/ds_ship_mode.dat' WITH (format 'text', encoding 'utf8', server 'obs_server');
+   COPY tpcds.ship_mode_t1 FROM '/home/omm/ds_ship_mode.dat' WITH(format 'text', delimiter E'\t', ignore_extra_data 'true', noescaping 'true');
 
-Export **ship_mode_t1** as a CSV file in the OBS directory **/bucket/path/**. You need to specify the server options that contain OBS access information. The file contains the title line and BOM header. A single file can contain a maximum of 1000 lines. If the number of lines exceeds 1000, a new file is generated. The user-defined file name prefix is **justprefix**.
-
-::
-
-   COPY (select * from ship_mode_t1 where SM_SHIP_MODE_SK=1060) TO '/bucket/path/' WITH (format 'csv', header 'on', encoding 'utf8', server 'obs_server', bom 'on', maxrow '1000', fileprefix 'justprefix');
-
-Delete the **ship_mode_t1** table:
+Copy data from the **/home/omm/ds_ship_mode.dat** file to the **tpcds.ship_mode_t1** table, with the import format set to FIXED, fixed-length format specified (**FORMATTER(SM_SHIP_MODE_SK(0, 2), SM_SHIP_MODE_ID(2,16), SM_TYPE(18,30), SM_CODE(50,10), SM_CARRIER(61,20), SM_CONTRACT(82,20))**), excessive columns ignored (**ignore_extra_data**), and headers included (**header**).
 
 ::
 
-   DROP TABLE ship_mode_t1;
+   COPY tpcds.ship_mode_t1 FROM '/home/omm/ds_ship_mode.dat' FIXED FORMATTER(SM_SHIP_MODE_SK(0, 2), SM_SHIP_MODE_ID(2,16), SM_TYPE(18,30), SM_CODE(50,10), SM_CARRIER(61,20), SM_CONTRACT(82,20)) header ignore_extra_data;
+
+Copy data from the **/home/omm/ds_ship_mode.dat** file to the **tpcds.ship_mode_t1** table, with the import format set to FIXED, fixed-length format specified (**FORMATTER(SM_SHIP_MODE_SK(0, 2), SM_SHIP_MODE_ID(2,16), SM_TYPE(18,30), SM_CODE(50,10), SM_CARRIER(61,20), SM_CONTRACT(82,20))**), excessive columns ignored (**ignore_extra_data**), headers included (**header**), and trailing **\\t** retained.
+
+.. code-block::
+
+   COPY tpcds.ship_mode_t1 FROM '/home/omm/ds_ship_mode.dat' (FORMAT 'fixed', FORMATTER (SM_SHIP_MODE_SK(0,2), SM_SHIP_MODE_ID(2,16), SM_TYPE(18,30), SM_CODE(50,10), SM_CARRIER(61,20), SM_CONTRACT(82,20)), PRESERVE_BLANKS'true', HEADER 'true', IGNORE_EXTRA_DATA 'true');
+
+Export **tpcds.ship_mode_t1** as a text file **ds_ship_mode.dat** in the OBS directory **/bucket/path/**. You need to specify the server options that contain OBS access information:
+
+::
+
+   COPY tpcds.ship_mode_t1 TO '/bucket/path/ds_ship_mode.dat' WITH (format 'text', encoding 'utf8', server 'obs_server');
+
+Export **tpcds.ship_mode_t1** as a CSV file in the OBS directory **/bucket/path/**. You need to specify the server options that contain OBS access information. The file contains the title line and BOM header. A single file can contain a maximum of 1000 lines. If the number of lines exceeds 1000, a new file is generated. The user-defined file name prefix is **justprefix**:
+
+::
+
+   COPY (select * from tpcds.ship_mode_t1 where SM_SHIP_MODE_SK=1060) TO '/bucket/path/' WITH (format 'csv', header 'on', encoding 'utf8', server 'obs_server', bom 'on', maxrow '1000', fileprefix 'justprefix');
+
+Delete the **tpcds.ship_mode_t1** table.
+
+::
+
+   DROP TABLE tpcds.ship_mode_t1;

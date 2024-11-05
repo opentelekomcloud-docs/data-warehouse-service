@@ -70,7 +70,6 @@ Create the **reason_t1** table.
 
 ::
 
-   DROP TABLE IF EXISTS reason_t1;
    CREATE TABLE reason_t1
    (
        TABLE_SK          INTEGER               ,
@@ -96,12 +95,18 @@ Insert records whose **TABLE_SK** is less than **1** into the table.
 
    INSERT INTO reason_t1 SELECT * FROM reason_t1 WHERE TABLE_SK < 1;
 
-Insert records into the table.
+Insert multiple records into a table.
 
 ::
 
    INSERT INTO reason_t1 VALUES (1, 'S01', 'StudentA'),(2, 'T01', 'TeacherA'),(3, 'T02', 'TeacherB');
    SELECT * FROM reason_t1 ORDER BY 1;
+    TABLE_SK | TABLE_ID | TABLE_NAME
+   ----------+----------+------------
+           1 |      S01 |   StudentA
+           2 |      T01 |   TeacherA
+           3 |      T02 |   TeacherB
+   (3 rows)
 
 Use **INSERT OVERWRITE** to update data in a table, that is, insert data to overwrite the old data.
 
@@ -109,6 +114,10 @@ Use **INSERT OVERWRITE** to update data in a table, that is, insert data to over
 
    INSERT OVERWRITE INTO reason_t1 values (4, 'S02', 'StudentB');
    SELECT * FROM reason_t1 ORDER BY 1;
+    TABLE_SK | TABLE_ID | TABLE_NAME
+   ----------+----------+------------
+           4 |      S02 |   StudentB
+   (1 rows)
 
 Insert data back into the **reason_t1** table.
 

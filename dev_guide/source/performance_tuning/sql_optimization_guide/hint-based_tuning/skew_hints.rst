@@ -10,41 +10,53 @@ Function
 
 Theses hints specify redistribution keys containing skew data and skew values, and are used to optimize redistribution involving Join or HashAgg.
 
+Precautions
+-----------
+
+-  Skew hints are used only if redistribution is required and the specified skew information matches the redistribution information.
+-  Skew hints are controlled by the GUC parameter :ref:`skew_option <en-us_topic_0000001510522673__section1211182712176>`. If the parameter is disabled, skew hints cannot be used for solving skew.
+-  Currently, skew hints support only the table relationships of the ordinary table and subquery types. Hints can be specified for base tables, subqueries, and **WITH ... AS** clauses. Unlike other hints, a subquery can be used in skew hints regardless of whether it is pulled up.
+-  Use an alias (if any) to specify a table where data skew occurs.
+-  You can use a name or an alias to specify a skew column as long as it is not ambiguous. The columns in skew hints cannot be expressions. If data skew occurs in the redistribution that uses an expression as a redistribution key, set the redistribution key as a new column and specify the column in skew hints.
+-  The number of skew values must be an integer multiple of the number of columns. Skew values must be grouped based on the column sequence, with each group containing a maximum of 10 values. You can specify duplicate values to group skew columns having different number of skew values. For example, the **c1** and **c2** columns of the **t1** table contains skew data. The skew value of the **c1** column is **a1**, and the skew values of the **c2** column are **b1** and **b2**. In this case, the skew hint is **skew(t1 (c1 c2) ((a1 b1)(a1 b2)))**. **(a1 b1)** is a value group, where **NULL** is allowed as a skew value. Each hint can contain a maximum of 10 groups and the number of groups should be an integer multiple of the number of columns.
+-  In the redistribution optimization of Join, a skew value must be specified for skew hints. The skew value can be left empty for HashAgg.
+-  If multiple tables, columns, or values are specified, separate items of the same type with spaces.
+-  The type of skew values cannot be forcibly converted in hints. To specify a string, enclose it with single quotation marks (' ').
+
 Syntax
 ------
 
 -  Specify single-table skew.
 
-   ::
+   .. code-block:: console
 
-      skew(table (column) [(value)])
+      skew([@block_name] table (column) [(value)])
 
 -  Specify intermediate result skew.
 
-   ::
+   .. code-block:: console
 
-      skew((join_rel) (column) [(value)])
+      skew([@block_name] (join_rel) (column) [(value)])
 
 Parameter Description
 ---------------------
 
+-  *block_name* indicates the block name of the statement block. For details, see :ref:`block_name <en-us_topic_0000001460722632__li99021444551>`.
 -  **table** specifies the table where skew occurs.
+
+   .. note::
+
+      -  The syntax format of the table is as follows:
+
+         [schema.]table[@block_name]
+
+         The table name can contain the schema name or block name before the subquery statement block is promoted. If the subquery statement block is optimized and rewritten by the optimizer, the value of **block_name** is different from that of **block_name** in leading.
+
+      -  If a table has an alias, the alias is preferentially used to represent the table.
+
 -  **join_rel** specifies two or more joined tables. For example, **(t1 t2)** indicates that the result of joining **t1** and **t2** tables contains skew data.
 -  **column** specifies one or more columns where skew occurs.
 -  **value** specifies one or more skew values.
-
-.. note::
-
-   -  Skew hints are used only if redistribution is required and the specified skew information matches the redistribution information.
-   -  Skew hints are controlled by the GUC parameter :ref:`skew_option <en-us_topic_0000001188482092__section1211182712176>`. If the parameter is disabled, skew hints cannot be used for solving skew.
-   -  Currently, skew hints support only the table relationships of the ordinary table and subquery types. Hints can be specified for base tables, subqueries, and **WITH ... AS** clauses. Unlike other hints, a subquery can be used in skew hints regardless of whether it is pulled up.
-   -  Use an alias (if any) to specify a table where data skew occurs.
-
-   -  You can use a name or an alias to specify a skew column as long as it is not ambiguous. The columns in skew hints cannot be expressions. If data skew occurs in the redistribution that uses an expression as a redistribution key, set the redistribution key as a new column and specify the column in skew hints.
-   -  The number of skew values must be an integer multiple of the number of columns. Skew values must be grouped based on the column sequence, with each group containing a maximum of 10 values. You can specify duplicate values to group skew columns having different number of skew values. For example, the **c1** and **c2** columns of the **t1** table contains skew data. The skew value of the **c1** column is **a1**, and the skew values of the **c2** column are **b1** and **b2**. In this case, the skew hint is **skew(t1 (c1 c2) ((a1 b1)(a1 b2)))**. **(a1 b1)** is a value group, where **NULL** is allowed as a skew value. Each hint can contain a maximum of 10 groups and the number of groups should be an integer multiple of the number of columns.
-   -  In the redistribution optimization of Join, a skew value must be specified for skew hints. The skew value can be left empty for HashAgg.
-   -  If multiple tables, columns, or values are specified, separate items of the same type with spaces.
-   -  The type of skew values cannot be forcibly converted in hints. To specify a string, enclose it with single quotation marks (' ').
 
 Example:
 
@@ -210,8 +222,8 @@ Specify single-table skew.
       from store_sales_1)tmp(a,ss_hdemo_sk)
       group by a;
 
-.. |image1| image:: /_static/images/en-us_image_0000001233681873.png
-.. |image2| image:: /_static/images/en-us_image_0000001233761947.png
-.. |image3| image:: /_static/images/en-us_image_0000001188163830.png
-.. |image4| image:: /_static/images/en-us_image_0000001188163828.png
-.. |image5| image:: /_static/images/en-us_image_0000001188323802.png
+.. |image1| image:: /_static/images/en-us_image_0000001460723200.png
+.. |image2| image:: /_static/images/en-us_image_0000001510284029.png
+.. |image3| image:: /_static/images/en-us_image_0000001510522957.png
+.. |image4| image:: /_static/images/en-us_image_0000001510163285.png
+.. |image5| image:: /_static/images/en-us_image_0000001460563396.png

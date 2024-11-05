@@ -11,10 +11,10 @@ Creating a Table
 You can run the **CREATE TABLE** command to create a table. When creating a table, you can define the following information:
 
 -  Columns and data type of the table.
--  Table or column constraints that restrict a column or the data contained in a table. For details, see :ref:`Definition of Table Constraints <en-us_topic_0000001233681653__section88441546443>`.
--  Distribution policy of a table, which determines how the GaussDB (DWS) database divides data between segments. For details, see :ref:`Definition of Table Distribution <en-us_topic_0000001233681653__section14268111013444>`.
--  Table storage format. For details, see :ref:`Selecting a Table Storage Mode <dws_04_0026>`.
--  Partition table information. For details, see :ref:`Defining Table Partitions <dws_04_0037>`.
+-  Table or column constraints that restrict a column or the data contained in a table. For details, see :ref:`Definition of Table Constraints <en-us_topic_0000001510522721__en-us_topic_0000001233681653_section88441546443>`.
+-  Distribution policy of a table, which determines how the GaussDB (DWS) database divides data between segments. For details, see :ref:`Definition of Table Distribution <en-us_topic_0000001510522721__en-us_topic_0000001233681653_section14268111013444>`.
+-  Table storage format. For details, see :ref:`Selecting a Table Storage Mode <en-us_topic_0000001460562840>`.
+-  Partition table information. For details, see :ref:`Defining Table Partitions <en-us_topic_0000001510402657>`.
 
 Example: Use **CREATE TABLE** to create a table **web_returns_p1**, use **wr_item_sk** as the distribution key, and sets the range distribution function through **wr_returned_date_sk**.
 
@@ -35,7 +35,7 @@ Example: Use **CREATE TABLE** to create a table **web_returns_p1**, use **wr_ite
        PARTITION p0 END(maxvalue)
    );
 
-.. _en-us_topic_0000001233681653__section88441546443:
+.. _en-us_topic_0000001510522721__en-us_topic_0000001233681653_section88441546443:
 
 Definition of Table Constraints
 -------------------------------
@@ -108,7 +108,7 @@ You can define constraints on columns and tables to restrict data in a table. Ho
    |                        |                                                                                                                                                                                                                                                                                                                                                                                 |    ) WITH (ORIENTATION = COLUMN);                                                        |
    +------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------+
 
-.. _en-us_topic_0000001233681653__section14268111013444:
+.. _en-us_topic_0000001510522721__en-us_topic_0000001233681653_section14268111013444:
 
 Definition of Table Distribution
 --------------------------------
@@ -213,32 +213,32 @@ View the data in the table.
 Deleting Data in a Table
 ------------------------
 
-You can delete outdated data from a table by row.
+.. caution::
 
-SQL statements can only access and delete an independent row by declaring conditions that match the row. If a table has a primary key column, you can use it to specify a row. You can delete several rows that match the specified condition or delete all the rows from a table.
+   Exercise caution when running the **DROP TABLE** and **TRUNCATE TABLE** statements. After a table is deleted, data cannot be restored.
 
--  For example, to delete all the rows whose **c_customer_sk** column is **3869** from table **customer_t1**, run the following statement:
+-  Delete the **customer_t1** table from the database.
 
-   .. code-block:: text
+   ::
 
-      DELETE FROM customer_t1 WHERE c_customer_sk = 3869;
+      DROP TABLE customer_t1;
 
--  To delete all rows from the table, run either of the following statements:
+-  You can use **DELETE** or **TRUNCATE** to clear rows in a table without removing the definition of the table.
 
-   .. code-block:: text
-
-      DELETE FROM customer_t1;
+   Delete all rows from the **customer_t1** table.
 
    ::
 
       TRUNCATE TABLE customer_t1;
 
-.. note::
+   Delete all rows from the **customer_t1** table.
 
-   If you need to delete an entire table, you are advised to use the **TRUNCATE** statement rather than **DELETE**. Using **TRUNCATE** to delete a large volume of data is much faster than using **DELETE**.
+   .. code-block:: text
 
--  Delete the created table.
+      DELETE FROM customer_t1;
 
-   ::
+   Delete all records whose **c_customer_sk** is **3869** from the **customer_t1** table.
 
-      DROP TABLE customer_t1;
+   .. code-block:: text
+
+      DELETE FROM customer_t1 WHERE c_customer_sk = 3869;

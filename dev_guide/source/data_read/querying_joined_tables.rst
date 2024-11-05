@@ -53,7 +53,7 @@ Inner Join
 
       left_table [INNER] JOIN right_table [ ON join_condition | USING ( join_column )]
 
-   Description: Rows that meet **join_condition** in the left table and the right table are joined and output. Tuples that do not meet **join_condition** are not output.
+   Description: Rows that meet **join_condition** in both the left and right tables are joined and output. Tuples that do not meet **join_condition** are not output.
 
    Example 1: Query students' math scores.
 

@@ -8,7 +8,7 @@ ALTER REDACTION POLICY
 Function
 --------
 
-**ALTER REDACTION POLICY** modifies a data redaction policy applied to a specified table.
+Modifies a data redaction policy applied to a specified table.
 
 Precautions
 -----------
@@ -22,7 +22,7 @@ Syntax
 
    ::
 
-      ALTER REDACTION POLICY policy_name ON table_name WHEN (new_when_expression);
+      ALTER REDACTION POLICY policy_name ON table_name [INHERIT] WHEN (new_when_expression);
 
 -  Enable or disable a redaction policy.
 
@@ -47,8 +47,8 @@ Syntax
 
    ::
 
-      ADD COLUMN column_name WITH function_name ( arguments )
-        | MODIFY COLUMN column_name WITH function_name ( arguments )
+      [INHERIT] ADD COLUMN column_name WITH function_name ( arguments )
+        | [INHERIT] MODIFY COLUMN column_name WITH function_name ( arguments )
         | DROP COLUMN column_name
 
 Parameter Description
@@ -61,6 +61,10 @@ Parameter Description
 -  **table_name**
 
    Specifies the name of the table to which the redaction policy is applied.
+
+-  **INHERIT**
+
+   Specifies whether the masking policy or operation is inherited from other masking policies or operations. This parameter is not recommended.
 
 -  **new_when_expression**
 
@@ -100,30 +104,12 @@ Parameter Description
 
    Specifies the list of arguments of the redaction function.
 
-   -  MASK_NONE: indicates that no masking is performed.
-   -  MASK_FULL: indicates that all data is masked to a fixed value.
-   -  MASK_PARTIAL: indicates that partial masking is performed based on the specified character type, numeric type, or time type.
+   -  **MASK_NONE**: indicates that no masking is performed.
+   -  **MASK_FULL**: indicates that all data is masked to a fixed value.
+   -  **MASK_PARTIAL**: indicates that partial masking is performed based on the specified character type, numeric type, or time type.
 
 Examples
 --------
-
-Create a user named **test_role** and an example table named **emp**, and insert data into the table.
-
-::
-
-   CREATE ROLE test_role PASSWORD '{Password}';
-
-::
-
-   DROP TABLE IF EXISTS emp;
-   CREATE TABLE emp(id int, name varchar(20), salary NUMERIC(10,2));
-   INSERT INTO emp VALUES(1, 'July', 1230.10), (2, 'David', 999.99);
-
-Define a masking policy **mask_emp** on the **emp** table that hides the **salary** column from the **user test**\ \_role.
-
-::
-
-   CREATE REDACTION POLICY mask_emp ON emp WHEN(current_user = 'test_role') ADD COLUMN salary WITH mask_full(salary);
 
 Modify the expression for a redaction policy to make it take effect for the specified role (If no user is specified, the redaction policy takes effect for the current user by default.):
 

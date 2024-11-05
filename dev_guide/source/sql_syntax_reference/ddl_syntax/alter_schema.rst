@@ -8,7 +8,7 @@ ALTER SCHEMA
 Function
 --------
 
-**ALTER SCHEMA** changes the attributes of a schema.
+Changes the attributes of a schema.
 
 Precautions
 -----------
@@ -77,24 +77,17 @@ Parameter Description
 Examples
 --------
 
-Create an example schema **schema_test** and user **user_a**.
+Rename the **ds** schema to **ds_new**.
 
 ::
 
-   CREATE SCHEMA schema_test;
-   CREATE USER user_a PASSWORD '{Password}';
+   ALTER SCHEMA ds RENAME TO ds_new;
 
-Rename the **schema_test** schema as **schema_test1**.
-
-::
-
-   ALTER SCHEMA schema_test RENAME TO schema_test1;
-
-Change the owner of **schema_test1** to **user_a**.
+Change the owner of **ds_new** to **jack**.
 
 ::
 
-   ALTER SCHEMA schema_test1 OWNER TO user_a;
+   ALTER SCHEMA ds_new OWNER TO jack;
 
 Helpful Links
 -------------

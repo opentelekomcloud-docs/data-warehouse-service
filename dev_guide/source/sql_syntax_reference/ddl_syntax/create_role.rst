@@ -8,12 +8,12 @@ CREATE ROLE
 Function
 --------
 
-Create a role.
+Creates a role.
 
 A role is an entity that has own database objects and permissions. In different environments, a role can be considered a user, a group, or both.
 
-Precautions
------------
+Important Notes
+---------------
 
 -  **CREATE ROLE** adds a role to a database. The role does not have the login permission.
 -  Only the user who has the **CREATE ROLE** permission or a system administrator is allowed to create roles.
@@ -61,7 +61,7 @@ The syntax of role information configuration clause **option** is as follows:
        | AUTHINFO 'authinfo'
        | PASSWORD EXPIRATION period
 
-.. _en-us_topic_0000001233510143__sd3fd937137c548e2ae142614383082aa:
+.. _en-us_topic_0000001510282049__sd3fd937137c548e2ae142614383082aa:
 
 Parameters
 ----------
@@ -70,7 +70,7 @@ Parameters
 
    Role name
 
-   Value range: a string. It must comply with the naming convention and can contain a maximum of 63 characters.
+   Value range: a string. It must comply with the naming convention. and can contain a maximum of 63 characters.
 
 -  **password**
 
@@ -120,6 +120,10 @@ Parameters
 
    The default value is **NOUSEFT**.
 
+   .. note::
+
+      In cluster 8.2.0 or later, if **foreign_table_options** of the GUC parameter **security_enable_options** is enabled in security mode, foreign table operations are permitted and the **useft** permission does not need to be granted to users.
+
 -  **CREATEROLE \| NOCREATEROLE**
 
    Determines whether a role will be permitted to create new roles (that is, execute **CREATE ROLE** and **CREATE USER**). A role with the **CREATEROLE** permission can also modify and delete other roles.
@@ -162,13 +166,13 @@ Parameters
 
 -  **CONNECTION LIMIT**
 
-   Indicates how many concurrent connections the role can make.
+   Indicates how many concurrent connections the role can use on a single CN.
 
    Value range: Integer, **>=-1**. The default value is **-1**, which means unlimited.
 
    .. important::
 
-      To ensure the proper running of a cluster, the minimum value of **CONNECTION LIMIT** is the number of CNs in the cluster, because when a cluster runs ANALYZE on a CN, other CNs will connect with the running CN for metadata synchronization. For example, if there are three CNs in the cluster, set **CONNECTION LIMIT** to **3** or a greater value.
+      To ensure the proper running of a cluster, the minimum value of **CONNECTION LIMIT** is the number of CNs in the cluster, because when a cluster runs ANALYZE on a CN, other CNs will connect with the running CN for metadata synchronization. For example, if there are three CNs in the cluster, set **CONNECTION LIMIT** to **3** or a larger value.
 
 -  **VALID BEGIN**
 
@@ -282,13 +286,13 @@ Create a role named **manager**:
 
 ::
 
-   CREATE ROLE manager IDENTIFIED BY '{Password}';
+   CREATE ROLE manager IDENTIFIED BY '{password}';
 
 Create a role with a validity period from January 1, 2015 to January 1, 2026:
 
 ::
 
-   CREATE ROLE miriam WITH LOGIN PASSWORD '{Password}' VALID BEGIN '2015-01-01' VALID UNTIL '2026-01-01';
+   CREATE ROLE miriam WITH LOGIN PASSWORD '{password}' VALID BEGIN '2015-01-01' VALID UNTIL '2026-01-01';
 
 -- Create a role. The authentication type is LDAP. Other LDAP authentication information is provided by **pg_hba.conf**:
 
@@ -306,7 +310,7 @@ Create a role with a validity period from January 1, 2015 to January 1, 2026:
 
 ::
 
-   CREATE ROLE role3 WITH LOGIN PASSWORD '{Password}' PASSWORD EXPIRATION 30;
+   CREATE ROLE role3 WITH LOGIN PASSWORD '{password}' PASSWORD EXPIRATION 30;
 
 Links
 -----

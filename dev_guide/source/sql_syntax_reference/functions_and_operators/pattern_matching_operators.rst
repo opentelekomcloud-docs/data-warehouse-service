@@ -103,7 +103,7 @@ The **SIMILAR TO** operator determines whether to match a given string based on 
 
 -  Regular expression functions
 
-   The :ref:`substring(string from pattern for escape) <en-us_topic_0000001233708689__section4372163419322>` function can be used to intercept a substring that matches an SQL regular expression.
+   The :ref:`substring(string from pattern for escape) <en-us_topic_0000001510520925__section12598113333>` function can be used to intercept a substring that matches an SQL regular expression.
 
 -  Examples
 
@@ -142,9 +142,9 @@ The **SIMILAR TO** operator determines whether to match a given string based on 
 POSIX regular expressions
 -------------------------
 
-A regular expression is a character sequence that is an abbreviated definition of a set of strings (a regular set). If a string is a member of a regular expression described by a regular expression, the string matches the regular expression. POSIX regular expressions provide a more powerful means for pattern matching than the LIKE and SIMILAR TO operators. :ref:`Table 2 <en-us_topic_0000001188429068__table8711913916>` lists all available operators for POSIX regular expression pattern matching.
+A regular expression is a character sequence that is an abbreviated definition of a set of strings (a regular set). If a string is a member of a regular expression described by a regular expression, the string matches the regular expression. POSIX regular expressions provide a more powerful means for pattern matching than the LIKE and SIMILAR TO operators. :ref:`Table 2 <en-us_topic_0000001510400905__en-us_topic_0000001188429068_table8711913916>` lists all available operators for POSIX regular expression pattern matching.
 
-.. _en-us_topic_0000001188429068__table8711913916:
+.. _en-us_topic_0000001510400905__en-us_topic_0000001188429068_table8711913916:
 
 .. table:: **Table 2** Regular expression match operators
 
@@ -179,11 +179,11 @@ A regular expression is a character sequence that is an abbreviated definition o
 
    POSIX regular expressions support the following functions:
 
-   -  The :ref:`substring(string from pattern) <en-us_topic_0000001233708689__section18591914314>` function provides a method for extracting a substring that matches the POSIX regular expression pattern.
-   -  The :ref:`regexp_replace(string, pattern, replacement [,flags ]) <en-us_topic_0000001233708689__section113627486392>` function provides the function of replacing the substring matching the POSIX regular expression pattern with the new text.
-   -  The :ref:`regexp_matches(string text, pattern text [, flags text]) <en-us_topic_0000001233708689__section8996142616133>` function returns a text array consisting of all captured substrings that match a POSIX regular expression pattern.
-   -  The :ref:`regexp_split_to_table(string text, pattern text [, flags text]) <en-us_topic_0000001233708689__section7389155181417>` function splits a string using a POSIX regular expression pattern as a delimiter.
-   -  The :ref:`regexp_split_to_array(string text, pattern text [, flags text ]) <en-us_topic_0000001233708689__section473245818137>` function behaves the same as **regexp_split_to_table**, except that **regexp_split_to_array** returns its result as an array of text.
+   -  The :ref:`substring(string from pattern) <en-us_topic_0000001510520925__section13931191583319>` function provides a method for extracting a substring that matches the POSIX regular expression pattern.
+   -  The :ref:`regexp_replace(string, pattern, replacement [,flags ]) <en-us_topic_0000001510520925__section1287153982819>` function provides the function of replacing the substring matching the POSIX regular expression pattern with the new text.
+   -  The :ref:`regexp_matches(string text, pattern text [, flags text]) <en-us_topic_0000001510520925__section1740918406323>` function returns a text array consisting of all captured substrings that match a POSIX regular expression pattern.
+   -  The :ref:`regexp_split_to_table(string text, pattern text [, flags text]) <en-us_topic_0000001510520925__section9656102314320>` function splits a string using a POSIX regular expression pattern as a delimiter.
+   -  The :ref:`regexp_split_to_array(string text, pattern text [, flags text ]) <en-us_topic_0000001510520925__section17325142812322>` function behaves the same as **regexp_split_to_table**, except that **regexp_split_to_array** returns its result as an array of text.
 
       .. note::
 

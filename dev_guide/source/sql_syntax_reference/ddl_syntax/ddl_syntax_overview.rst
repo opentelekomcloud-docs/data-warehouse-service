@@ -70,7 +70,7 @@ A partitioned table is a special data structure in a database and is used to sto
    +====================================+=============================================+
    | Create a partitioned table         | :ref:`CREATE TABLE PARTITION <dws_06_0179>` |
    +------------------------------------+---------------------------------------------+
-   | Editing a Partition                | :ref:`ALTER TABLE PARTITION <dws_06_0143>`  |
+   | Editing a partition                | :ref:`ALTER TABLE PARTITION <dws_06_0143>`  |
    +------------------------------------+---------------------------------------------+
    | Alter partitioned table attributes | :ref:`ALTER TABLE PARTITION <dws_06_0143>`  |
    +------------------------------------+---------------------------------------------+
@@ -79,39 +79,12 @@ A partitioned table is a special data structure in a database and is used to sto
    | Delete a partitioned table         | :ref:`DROP TABLE <dws_06_0208>`             |
    +------------------------------------+---------------------------------------------+
 
-Defining a Foreign Table
-------------------------
-
-A foreign table is a logical table object. Its data is stored in an external storage service instead of in the database.
-
-.. table:: **Table 5** SQL statements for defining a foreign table
-
-   +-----------------------------------------------------------------+-----------------------------------------------------------------------+
-   | Function                                                        | SQL Statement                                                         |
-   +=================================================================+=======================================================================+
-   | Creating a GDS foreign table                                    | :ref:`CREATE FOREIGN TABLE (for GDS Import and Export) <dws_06_0159>` |
-   +-----------------------------------------------------------------+-----------------------------------------------------------------------+
-   | Creating an HDFS or OBS foreign table (manually create server). | :ref:`CREATE FOREIGN TABLE (SQL on OBS or Hadoop) <dws_06_0161>`      |
-   +-----------------------------------------------------------------+-----------------------------------------------------------------------+
-   | Creating an OBS foreign table (default server)                  | :ref:`CREATE FOREIGN TABLE (for OBS Import and Export) <dws_06_0160>` |
-   +-----------------------------------------------------------------+-----------------------------------------------------------------------+
-   | Creating a foreign table for collaborative analysis             | :ref:`CREATE FOREIGN TABLE (SQL on other GaussDB(DWS)) <dws_06_0162>` |
-   +-----------------------------------------------------------------+-----------------------------------------------------------------------+
-   | Modifying a GDS foreign table                                   | :ref:`ALTER FOREIGN TABLE (GDS Import and Export) <dws_06_0123>`      |
-   +-----------------------------------------------------------------+-----------------------------------------------------------------------+
-   | HDFS foreign table and OBS foreign table                        | :ref:`ALTER FOREIGN TABLE (for HDFS or OBS) <dws_06_0124>`            |
-   +-----------------------------------------------------------------+-----------------------------------------------------------------------+
-   | Modifying a foreign table for collaborative analysis            | :ref:`ALTER FOREIGN TABLE (SQL on other GaussDB(DWS)) <dws_06_0125>`  |
-   +-----------------------------------------------------------------+-----------------------------------------------------------------------+
-   | Deleting a foreign table.                                       | :ref:`DROP FOREIGN TABLE <dws_06_0192>`                               |
-   +-----------------------------------------------------------------+-----------------------------------------------------------------------+
-
 Defining an Index
 -----------------
 
 An index indicates the sequence of values in one or more columns in the database table. The database index is a data structure that improves the speed of data access to specific information in a database table. The following table lists the related SQL statements.
 
-.. table:: **Table 6** SQL statements for defining an index
+.. table:: **Table 5** SQL statements for defining an index
 
    ====================== =================================
    Function               SQL Statement
@@ -127,7 +100,7 @@ Defining a Role
 
 A role is used to manage rights. For database security, all management and operation rights can be assigned to different roles. The following table lists the related SQL statements.
 
-.. table:: **Table 7** SQL statements for defining a role
+.. table:: **Table 6** SQL statements for defining a role
 
    ===================== ================================
    Function              SQL Statement
@@ -142,7 +115,7 @@ Defining a User
 
 A user is used to log in to a database. Different rights can be assigned to users for managing data accesses and operations of users. The following table lists the related SQL statements.
 
-.. table:: **Table 8** SQL statements for defining a user
+.. table:: **Table 7** SQL statements for defining a user
 
    ===================== ================================
    Function              SQL Statement
@@ -157,7 +130,7 @@ Defining a Redaction Policy
 
 Data redaction is to protect sensitive data by masking or changing data. You can create a data redaction policy for a specific table object and specify the effective scope of the policy. You can also add, modify, and delete redaction columns. The following table lists the related SQL statements.
 
-.. table:: **Table 9** SQL statements for managing redaction policies
+.. table:: **Table 8** SQL statements for managing redaction policies
 
    +-------------------------------------------------------------+----------------------------------------------+
    | Function                                                    | SQL Statement                                |
@@ -174,7 +147,7 @@ Defining Row-Level Access Control
 
 Row-level access control policies control the visibility of rows in database tables. In this way, the same SQL query may return different results for different users. The following table lists the related SQL statements.
 
-.. table:: **Table 10** SQL statements for row-level access control
+.. table:: **Table 9** SQL statements for row-level access control
 
    +-------------------------------------------------------+-------------------------------------------------------+
    | Function                                              | SQL Statement                                         |
@@ -191,7 +164,7 @@ Defining a Stored Procedure
 
 A stored procedure is a set of SQL statements for achieving specific functions and is stored in the database after compiling. Users can specify a name and provide parameters (if necessary) to execute the stored procedure. The following table lists the related SQL statements.
 
-.. table:: **Table 11** SQL statements for defining a stored procedure
+.. table:: **Table 10** SQL statements for defining a stored procedure
 
    ========================= =====================================
    Function                  SQL Statement
@@ -205,7 +178,7 @@ Defining a Function
 
 In GaussDB(DWS), a function is similar to a stored procedure, which is a set of SQL statements. The function and stored procedure are used the same. The following table lists the related SQL statements.
 
-.. table:: **Table 12** SQL statements for defining a function
+.. table:: **Table 11** SQL statements for defining a function
 
    ========================= ====================================
    Function                  SQL Statement
@@ -220,7 +193,7 @@ Defining a View
 
 A view is a virtual table exported from one or several basic tables. The view is used to control data accesses for users. The following table lists the related SQL statements.
 
-.. table:: **Table 13** SQL statements for defining a view
+.. table:: **Table 12** SQL statements for defining a view
 
    ============= ================================
    Function      SQL Statement
@@ -229,42 +202,12 @@ A view is a virtual table exported from one or several basic tables. The view is
    Delete a view :ref:`DROP VIEW <dws_06_0215>`
    ============= ================================
 
-Defining a Sequence
--------------------
-
-Sequences are database objects. You can generate unique integers from sequences.
-
-.. table:: **Table 14** SQL statements for defining a sequence
-
-   ==================== ====================================
-   Function             SQL Statement
-   ==================== ====================================
-   Creating a sequence  :ref:`CREATE SEQUENCE <dws_06_0174>`
-   Modifying a sequence :ref:`ALTER SEQUENCE <dws_06_0137>`
-   Dropping a sequence  :ref:`DROP SEQUENCE <dws_06_0205>`
-   ==================== ====================================
-
-Defining a Trigger
-------------------
-
-A trigger is a stored procedure that runs automatically when a table event happens. It responds to operations like insert, delete, and update on a table.
-
-.. table:: **Table 15** SQL statements for defining a trigger
-
-   =================== ===================================
-   Function            SQL Statement
-   =================== ===================================
-   Creating a trigger  :ref:`CREATE TRIGGER <dws_06_0184>`
-   Modifying a trigger :ref:`ALTER TRIGGER <dws_06_0147>`
-   Delete the trigger. :ref:`DROP TRIGGER <dws_06_0212>`
-   =================== ===================================
-
 Defining a Cursor
 -----------------
 
 To process SQL statements, the stored procedure process assigns a memory segment to store context association. Cursors are handles or pointers to context regions. With a cursor, the stored procedure can control alterations in context areas.
 
-.. table:: **Table 16** SQL statements for defining a cursor
+.. table:: **Table 13** SQL statements for defining a cursor
 
    ========================== ===========================
    Function                   SQL Statement
@@ -280,7 +223,7 @@ Altering or Ending a Session
 
 A session is a connection established between the user and the database. The following table lists the related SQL statements.
 
-.. table:: **Table 17** SQL statements related to sessions
+.. table:: **Table 14** SQL statements related to sessions
 
    =============== ==============================================
    Function        SQL Statement
@@ -294,7 +237,7 @@ Defining a Resource Pool
 
 A resource pool is a system catalog used by the resource load management module to specify attributes related to resource management, such as Cgroups. The following table lists the related SQL statements.
 
-.. table:: **Table 18** SQL statements for defining a resource pool
+.. table:: **Table 15** SQL statements for defining a resource pool
 
    ========================== =========================================
    Function                   SQL Statement
@@ -309,7 +252,7 @@ Defining Synonyms
 
 A synonym is a special database object compatible with Oracle. It is used to store the mapping between a database object and another. Currently, only synonyms can be used to associate the following database objects: tables, views, functions, and stored procedures. The following table lists the related SQL statements.
 
-.. table:: **Table 19** SQL statements for managing synonyms
+.. table:: **Table 16** SQL statements for managing synonyms
 
    =================== ===================================
    Function            SQL Statement
@@ -324,7 +267,7 @@ Defining Text Search Configuration
 
 A text search configuration specifies a text search parser that can divide a string into tokens, plus dictionaries that can be used to determine which tokens are of interest for searching. The following table lists the related SQL statements.
 
-.. table:: **Table 20** SQL statements for configuring text search
+.. table:: **Table 17** SQL statements for configuring text search
 
    +------------------------------------+-------------------------------------------------------+
    | Function                           | SQL Statement                                         |
@@ -341,7 +284,7 @@ Defining a Full-text Retrieval Dictionary
 
 A dictionary is used to identify and process specific words during full-text retrieval. Dictionaries are created by using predefined templates (defined in the **PG_TS_TEMPLATE** system catalog). Five types of dictionaries can be created, **Simple**, **Ispell**, **Synonym**, **Thesaurus**, and **Snowball**. Each type of dictionaries is used to handle different tasks. The following table lists the related SQL statements.
 
-.. table:: **Table 21** SQL statements for a full-text search dictionary
+.. table:: **Table 18** SQL statements for a full-text search dictionary
 
    +-----------------------------------------+----------------------------------------------------+
    | Function                                | SQL Statement                                      |
