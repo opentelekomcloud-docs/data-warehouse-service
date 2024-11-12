@@ -5,7 +5,7 @@
 Resetting a Password
 ====================
 
-GaussDB(DWS) allows you to reset the password of the database administrator. If a database administrator forgets their password or the account is locked because the number of consecutive incorrect password attempts reaches the upper limit, the database administrator can reset the password on the **Clusters** > **Dedicated Clusters** page. After the password is reset, the account can be automatically unlocked. You can set the maximum number of incorrect password attempts (10 by default) by configuring the :ref:`failed_login_attempts <en-us_topic_0000001707254661__en-us_topic_0000001422799401_section926416313488>` parameter on the **Parameter** page of the cluster. For details, see :ref:`Modifying Database Parameters <dws_01_0152>`.
+GaussDB(DWS) allows you to reset the password of the database administrator. If a database administrator forgets their password or the account is locked because the number of consecutive incorrect password attempts reaches the upper limit, the database administrator can reset the password on the **Clusters** > **Dedicated Clusters** page. After the password is reset, the account can be automatically unlocked. You can set the maximum number of incorrect password attempts (10 by default) by configuring the :ref:`failed_login_attempts <en-us_topic_0000001952008165__section926416313488>` parameter on the **Parameter** page of the cluster. For details, see :ref:`Modifying Database Parameters <dws_01_0152>`.
 
 
 Resetting a Password
@@ -13,7 +13,7 @@ Resetting a Password
 
 #. Log in to the GaussDB(DWS) management console.
 
-#. Choose **Clusters** > **Dedicated Cluster**.
+#. Choose **Cluster** > **Dedicated Cluster**.
 
 #. In the **Operation** column of the target cluster, choose **More** > **Reset Password**.
 
@@ -23,11 +23,11 @@ Resetting a Password
 
    -  Contains 12 to 32 characters.
    -  Cannot be the username or the username spelled backwards.
-   -  Must contain at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters ``~!?,.:;_(){}[]/<>@#%^&*+|\=-``
+   -  Contains at least three of the following character types: uppercase letters, lowercase letters, digits, and special characters (``~!?,.:;_(){}[]/<>@#%^&*+|\=-``)
    -  Passes the weak password check.
 
-   -  The new password must be different from the old password, or old password spelled backwards.
-   -  Previous passwords cannot be used repeatedly.
+   -  Cannot be the same as the old password and cannot be the reverse of the old password.
+   -  Cannot use a historical password.
 
    .. note::
 

@@ -10,7 +10,7 @@ This section describes how to copy snapshots that are automatically created for 
 Copying an Automated Snapshot
 -----------------------------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane, choose **Snapshots**.
 
@@ -26,16 +26,10 @@ Copying an Automated Snapshot
 
       This parameter is optional. Snapshot information contains 0 to 256 characters and does not support the following special characters: !<>'=&"
 
-
-   .. figure:: /_static/images/en-us_image_0000001711439592.png
-      :alt: **Figure 1** Copying a snapshot
-
-      **Figure 1** Copying a snapshot
-
 #. Click **OK**. The system starts to copy the snapshot for the cluster.
 
    The system displays a message indicating that the snapshot is successfully copied and delivered. After the snapshot is copied, the status of the copied snapshot is **Available**.
 
    .. note::
 
-      If the snapshot size is much greater than that of the data stored in the cluster, the data is possibly labeled with a deletion tag, but is not cleared and reclaimed. In this case, clear the data and recreate a snapshot. For details, see :ref:`How Can I Clear and Reclaim the Storage Space? <dws_03_0033>`
+      If the snapshot size is much greater than that of the data stored in the cluster, the data is possibly labeled with a deletion tag, but is not cleared and reclaimed. In this case, clear the data and recreate a snapshot. For details, see :ref:`How Can I Clear and Reclaim the Storage Space in GaussDB(DWS)? <dws_03_0033>`

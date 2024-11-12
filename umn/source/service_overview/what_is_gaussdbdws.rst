@@ -17,7 +17,7 @@ Architecture
 GaussDB(DWS) employs the shared-nothing architecture and the massively parallel processing (MPP) engine, and consists of numerous independent logical nodes that do not share the system resources such as CPUs, memory, and storage. In such a system architecture, service data is separately stored on numerous nodes. Data analysis tasks are executed in parallel on the nodes where data is stored. The massively parallel data processing significantly improves response speed.
 
 
-.. figure:: /_static/images/en-us_image_0000001231270999.png
+.. figure:: /_static/images/en-us_image_0000001924569532.png
    :alt: **Figure 1** Architecture
 
    **Figure 1** Architecture
@@ -28,7 +28,7 @@ GaussDB(DWS) employs the shared-nothing architecture and the massively parallel 
 
 -  **API**
 
-   Applications can connect to GaussDB(DWS) through the standard Java Database Connectivity (JDBC) 4.0 and Open Database Connectivity (ODBC) 3.5.
+   Applications can connect to GaussDB(DWS) through standard JDBC and ODBC.
 
 -  **GaussDB(DWS)**
 
@@ -47,16 +47,16 @@ GaussDB(DWS) employs the shared-nothing architecture and the massively parallel 
 Logical Cluster Architecture
 ----------------------------
 
-:ref:`Figure 2 <en-us_topic_0000001659054422__en-us_topic_0000001372839458_fig1981483841611>` shows the logical architecture of a GaussDB(DWS) cluster. For details about instances, see :ref:`Table 1 <en-us_topic_0000001659054422__en-us_topic_0000001372839458_en-us_topic_0059778972_tf208b79c11514cb9ae9d57ba2bef8ec9>`.
+:ref:`Figure 2 <en-us_topic_0000001951848293__fig1981483841611>` shows the logical architecture of a GaussDB(DWS) cluster. For details about instances, see :ref:`Table 1 <en-us_topic_0000001951848293__en-us_topic_0059778972_tf208b79c11514cb9ae9d57ba2bef8ec9>`.
 
-.. _en-us_topic_0000001659054422__en-us_topic_0000001372839458_fig1981483841611:
+.. _en-us_topic_0000001951848293__fig1981483841611:
 
-.. figure:: /_static/images/en-us_image_0000001454942073.png
+.. figure:: /_static/images/en-us_image_0000001924728908.png
    :alt: **Figure 2** Logical cluster architecture
 
    **Figure 2** Logical cluster architecture
 
-.. _en-us_topic_0000001659054422__en-us_topic_0000001372839458_en-us_topic_0059778972_tf208b79c11514cb9ae9d57ba2bef8ec9:
+.. _en-us_topic_0000001951848293__en-us_topic_0059778972_tf208b79c11514cb9ae9d57ba2bef8ec9:
 
 .. table:: **Table 1** Cluster architecture description
 
@@ -97,7 +97,7 @@ Logical Cluster Architecture
    | Storage                          | Functions as the server's local storage resources to store data permanently.                                                                                                      | ``-``                                                                                                                                                                                                                                                                                                                                                                  |
    +----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-DNs in a cluster store data on disks. :ref:`Figure 3 <en-us_topic_0000001659054422__en-us_topic_0000001372839458_fig138416215395>` describes the objects on each DN and the relationships among them logically.
+DNs in a cluster store data on disks. :ref:`Figure 3 <en-us_topic_0000001951848293__fig138416215395>` describes the objects on each DN and the relationships among them logically.
 
 -  A database manages various data objects and is isolated from other databases.
 -  A datafile segment stores data in only one table. A table containing more than 1 GB of data is stored in multiple data file segments.
@@ -106,9 +106,9 @@ DNs in a cluster store data on disks. :ref:`Figure 3 <en-us_topic_00000016590544
 
 Data can be distributed in replication, round-robin, or hash mode. You can specify the distribution mode during table creation.
 
-.. _en-us_topic_0000001659054422__en-us_topic_0000001372839458_fig138416215395:
+.. _en-us_topic_0000001951848293__fig138416215395:
 
-.. figure:: /_static/images/en-us_image_0000001455101897.png
+.. figure:: /_static/images/en-us_image_0000001952008369.png
    :alt: **Figure 3** Logical database architecture
 
    **Figure 3** Logical database architecture

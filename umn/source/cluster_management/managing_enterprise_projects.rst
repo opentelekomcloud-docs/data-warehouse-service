@@ -24,26 +24,19 @@ Viewing Enterprise Projects
 After a cluster is created, you can view the associated enterprise project in the cluster list and **Cluster Information** page. You can query only the cluster resources of the project on which you have the access permission.
 
 -  In the cluster list on the **Clusters** page, view the enterprise project to which the cluster belongs.
-
 -  In the cluster list, find the target cluster and click the cluster name. The **Cluster Information** page is displayed, on which you can view the enterprise project associated with the cluster. Click the enterprise project name to view and edit it on the Enterprise Management console.
-
-
-   .. figure:: /_static/images/en-us_image_0000001759359325.png
-      :alt: **Figure 1** Viewing the enterprise project
-
-      **Figure 1** Viewing the enterprise project
 
 -  When querying the resource list of a specified project on the Enterprise Management console, you can also query the GaussDB(DWS) resources.
 
 Searching for Clusters by Enterprise Project
 --------------------------------------------
 
-Log in to the GaussDB(DWS) management console, choose **Clusters** > **Dedicated Clusters**, click **All projects** above the cluster list, and select the required project name from the drop-down list to view all clusters associated with the project.
+Log in to the GaussDB(DWS) console and click **Clusters** > **Dedicated Clusters**. Click the search box above the cluster list and select **Enterprise Project**. Enter the project name and click the search button to view all clusters associated with the project.
 
 Migrating a Cluster to or Out of an Enterprise Project
 ------------------------------------------------------
 
-A GaussDB(DWS) cluster can be associated with only one enterprise project. After a cluster is created, you can migrate it from its current enterprise project to another one on the Enterprise Management console, or migrate the cluster from another enterprise project to a specified enterprise project. After the migration, the cluster is associated with the new enterprise project. The association between the cluster and the original enterprise project is automatically released. For details, see "Resource Management > Managing Enterprise Project Resources" in the *Enterprise Management User Guide*.
+A GaussDB(DWS) cluster can be associated with only one enterprise project. After a cluster is created, you can migrate it from its current enterprise project to another one on the Enterprise Management console, or migrate the cluster from another enterprise project to a specified enterprise project. After the migration, the cluster is associated with the new enterprise project. The association between the cluster and the original enterprise project is automatically released. For details, see "Resource Management" > "Managing Enterprise Project Resources" in the *Enterprise Management User Guide*.
 
 Enterprise Project-Level Authorization
 --------------------------------------
@@ -67,7 +60,7 @@ If permissions preset in the system cannot meet requirements, you can customize 
       -  **DWS Administrator**: all execution permissions for GaussDB(DWS)
       -  **DWS Database Access**: Users granted this permission can generate temporary database user credentials based on IAM users to connect to databases in the data warehouse clusters.
 
-   -  You can add permissions corresponding to GaussDB(DWS) operations or RESTful APIs listed in :ref:`List of Supported Actions <en-us_topic_0000001659054650__en-us_topic_0000001422799425_section89181381475>` to the action list in the policy authorization statement, so that the policy can obtain the permissions.
+   -  You can add permissions corresponding to GaussDB(DWS) operations or RESTful APIs listed in :ref:`List of Supported Actions <en-us_topic_0000001952008313__section89181381475>` to the action list in the policy authorization statement, so that the policy can obtain the permissions.
 
       For example, if **dws:cluster:create** is added to the action list of a policy statement, the policy has the permission to create or restore clusters.
 
@@ -127,6 +120,6 @@ If permissions preset in the system cannot meet requirements, you can customize 
 
 #. Click the username in the upper right corner of the management console and select **Enterprise Management** from the drop-down list to enter the Enterprise Management console.
 
-#. Choose **Personnel Management > User Group Management** in the left navigation tree. Then, create a user group and add users to it, add the user group to a project, and grant the newly created custom policy to the group so that users in the group can obtain the permissions defined by the policy.
+#. Choose **Personnel Management** > **User Group Management** in the left navigation tree. Then, create a user group and add users to it, add the user group to a project, and grant the newly created custom policy to the group so that users in the group can obtain the permissions defined by the policy.
 
-   For details, see "Project Management > Personnel Management > Managing User Groups in an Enterprise Project" in the *Enterprise Management User Guide*.
+   For details, see "Project Management" > "Personnel Management" > "Managing User Groups in an Enterprise Project" in the *Enterprise Management User Guide*.

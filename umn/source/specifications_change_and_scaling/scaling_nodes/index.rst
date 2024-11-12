@@ -7,7 +7,6 @@ Scaling Nodes
 
 -  :ref:`Scaling Out a Cluster <dws_01_0023>`
 -  :ref:`Cluster Redistribution <dws_01_0820>`
--  :ref:`Scaling In a Cluster <dws_01_0821>`
 
 .. toctree::
    :maxdepth: 1
@@ -15,4 +14,3 @@ Scaling Nodes
 
    scaling_out_a_cluster
    cluster_redistribution/index
-   scaling_in_a_cluster

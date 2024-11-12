@@ -7,7 +7,7 @@ Using JDBC to Connect to a Cluster
 
 In GaussDB(DWS), you can use a JDBC driver to connect to a database on Linux or Windows. The driver can connect to the database through an ECS on the cloud platform or over the Internet.
 
-When using the JDBC driver to connect to the data warehouse cluster, determine whether to enable SSL authentication. SSL authentication is used to encrypt communication data between the client and the server. It safeguards sensitive data transmitted over the Internet. You can download a self-signed certificate file on the GaussDB(DWS) management console. To make the certificate take effect, you must configure the client program using the OpenSSL tool and the Java keytool.
+When using the JDBC driver to connect to the data warehouse cluster, determine whether to enable SSL authentication. SSL authentication is used to encrypt communication data between the client and the server. It safeguards sensitive data transmitted over the Internet. You can download a self-signed certificate file on the GaussDB(DWS) console. To make the certificate take effect, you must configure the client program using the OpenSSL tool and the Java keytool.
 
 .. note::
 
@@ -24,7 +24,7 @@ Prerequisites
 
    GaussDB(DWS) also supports open-source JDBC driver: PostgreSQL JDBC 9.3-1103 or later.
 
--  You have downloaded the SSL certificate file. For details, see :ref:`Downloading an SSL Certificate <en-us_topic_0000001659054490__en-us_topic_0000001372520154_li13478842115911>`.
+-  You have downloaded the SSL certificate file. For details, see :ref:`Downloading an SSL Certificate <en-us_topic_0000001952008193__li13478842115911>`.
 
 Using a JDBC Driver to Connect to a Database
 --------------------------------------------
@@ -33,16 +33,16 @@ The procedure for connecting to the database using a JDBC driver in a Linux envi
 
 #. Determine whether you want to use the SSL mode to connect to the GaussDB(DWS) cluster.
 
-   -  If yes, enable SSL connection by referring to :ref:`Configuring SSL Connection <en-us_topic_0000001659054490__en-us_topic_0000001372520154_section131774823014>`. SSL connection is enabled by default. Then go to :ref:`2 <en-us_topic_0000001658895174__en-us_topic_0000001372679694_li55435426144245>`.
-   -  If no, disable SSL connection by referring to :ref:`Configuring SSL Connection <en-us_topic_0000001659054490__en-us_topic_0000001372520154_section131774823014>` and go to :ref:`4 <en-us_topic_0000001658895174__en-us_topic_0000001372679694_li19193115114292>`.
+   -  If yes, enable SSL connection by referring to :ref:`Configuring SSL Connection <en-us_topic_0000001952008193__section131774823014>`. SSL connection is enabled by default. Then go to :ref:`2 <en-us_topic_0000001952008049__li55435426144245>`.
+   -  If no, disable SSL connection by referring to :ref:`Configuring SSL Connection <en-us_topic_0000001952008193__section131774823014>` and go to :ref:`4 <en-us_topic_0000001952008049__li19193115114292>`.
 
-#. .. _en-us_topic_0000001658895174__en-us_topic_0000001372679694_li55435426144245:
+#. .. _en-us_topic_0000001952008049__li55435426144245:
 
    (Optional) On Linux, use WinSCP to upload the downloaded SSL certificate file to the Linux environment.
 
 #. Configure the certificate to enable SSL connection.
 
-   a. Download the OpenSSL tool for Windows. Download address: https://slproweb.com/products/Win32OpenSSL.html. Currently, OpenSSL 3.0.0 is not supported. Download **Win64 OpenSSL v1.1.1w Light**.
+   a. Download the OpenSSL toolkit for Windows at https://slproweb.com/products/Win32OpenSSL.html. OpenSSL 3.0.0 is currently not supported. Download Win64 OpenSSL v1.1.1w Light instead.
 
    b. Double-click the installation package **Win64OpenSSL_Light-1_1_1w.exe** and install it to the default path on drive C. Copy the DLLs to the OpenSSL directory, as shown in the following figure. Retain the default settings in the remaining steps until the installation is successful.
 
@@ -97,7 +97,7 @@ The procedure for connecting to the database using a JDBC driver in a Linux envi
 
             |image5|
 
-#. .. _en-us_topic_0000001658895174__en-us_topic_0000001372679694_li19193115114292:
+#. .. _en-us_topic_0000001952008049__li19193115114292:
 
    Download the driver package **dws_8.1.x_jdbc_driver.zip** and decompress it. There will be two JDBC drive JAR packages, **gsjdbc4.jar** and **gsjdbc200.jar**. Use either of them as required.
 
@@ -106,7 +106,7 @@ The procedure for connecting to the database using a JDBC driver in a Linux envi
    Take the Eclipse project as an example. Store the JAR file to the project directory, for example, the **lib** directory in the project directory. In the Eclipse project, right-click the JAR file in the **lib** directory and choose **Build Path** to reference the JAR file.
 
 
-   .. figure:: /_static/images/en-us_image_0000001759511761.png
+   .. figure:: /_static/images/en-us_image_0000001951848617.png
       :alt: **Figure 1** Referencing a JAR file
 
       **Figure 1** Referencing a JAR file
@@ -183,6 +183,17 @@ The procedure for connecting to the database using a JDBC driver in a Linux envi
       |                                   |    .. note::                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
       |                                   |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
       |                                   |       The value can be **true** or **false**. The default value is **true**. If **connectionExtraInfo** is set to **true**, the JDBC driver reports the driver deployment path and process owner to the database and displays the information in the **connection_info** parameter. In this case, you can query the information from **PG_STAT_ACTIVITY** or **PGXC_STAT_ACTIVITY**.                                                                                                                                   |
+      |                                   |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+      |                                   | -  **TCP_KEEPIDLE=30**: The detection starts after the connection is idle for 30s. This parameter is valid only when **tcpKeepAlive** is set to **true**.                                                                                                                                                                                                                                                                                                                                                              |
+      |                                   | -  **TCP_KEEPCOUNT=9**: A total of nine detections are performed. This parameter is valid only when **tcpKeepAlive** is set to **true**.                                                                                                                                                                                                                                                                                                                                                                               |
+      |                                   |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+      |                                   | -  **TCP_KEEPINTERVAL=30**: The detection interval is 30s. This parameter is valid only when **tcpKeepAlive** is set to **true**.                                                                                                                                                                                                                                                                                                                                                                                      |
+      |                                   | -  **cnListRefreshSwitch (string)**: determines if JDBC automatically detects the CN list. Set to **on** for automatic detection, and **off** to disable it. The default value is **off**.                                                                                                                                                                                                                                                                                                                             |
+      |                                   | -  **cnListRefreshDelay (integer)**: specifies the start time for scanning the CN liveness list. The default value is **1800000** (in milliseconds). This parameter is valid only when **cnListRefreshSwitch** is set to **on**.                                                                                                                                                                                                                                                                                       |
+      |                                   | -  **cnListRefreshPeriod (integer)**: specifies the interval for scanning the CN list. The default value is **1800000** (in milliseconds). This parameter is valid only when **cnListRefreshSwitch** is set to **on**.                                                                                                                                                                                                                                                                                                 |
+      |                                   | -  **autoReconnect (boolean)**: enables or disables automatic reconnection for database connections. The value **true** enables it. The default value is **false**.                                                                                                                                                                                                                                                                                                                                                    |
+      |                                   | -  **reConnectCount (integer)**: specifies the number of automatic reconnection attempts. The default value is **10**. This parameter is valid only when **autoReconnect** is set to **true**. If reconnections exceed this number, the reconnection fails.                                                                                                                                                                                                                                                            |
+      |                                   | -  **sslCrl**: a string type that sets the path for the revoked certificate used by JDBC. The default value is **null**.                                                                                                                                                                                                                                                                                                                                                                                               |
       +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
       | user                              | Specifies the database user.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
       +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -208,7 +219,7 @@ The procedure for connecting to the database using a JDBC driver in a Linux envi
           props.setProperty("password", passwd);
           props.setProperty("ssl", "true");
 
-          String url = "jdbc:postgresql://" + "10.10.0.13" + ':' + "8000" + '/' + "postgresgaussdb";
+          String url = "jdbc:postgresql://" + "10.10.0.13" + ':' + "8000" + '/' + "gaussdb";
           Connection conn = null;
 
           try {
@@ -284,7 +295,6 @@ This code sample illustrates how to develop applications based on the JDBC API p
    import java.sql.DriverManager;
    import java.sql.PreparedStatement;
    import java.sql.SQLException;
-
    import java.sql.Statement;
    import java.sql.CallableStatement;
    import java.sql.Types;
@@ -446,8 +456,8 @@ This code sample illustrates how to develop applications based on the JDBC API p
 
    }
 
-.. |image1| image:: /_static/images/en-us_image_0000001735984732.png
-.. |image2| image:: /_static/images/en-us_image_0000001759351881.png
-.. |image3| image:: /_static/images/en-us_image_0000001962140553.png
-.. |image4| image:: /_static/images/en-us_image_0000001711432840.png
-.. |image5| image:: /_static/images/en-us_image_0000001711592340.png
+.. |image1| image:: /_static/images/en-us_image_0000001924569544.png
+.. |image2| image:: /_static/images/en-us_image_0000001924728916.png
+.. |image3| image:: /_static/images/en-us_image_0000001934982894.png
+.. |image4| image:: /_static/images/en-us_image_0000001952008373.png
+.. |image5| image:: /_static/images/en-us_image_0000001924728904.png

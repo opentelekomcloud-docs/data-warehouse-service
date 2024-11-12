@@ -41,15 +41,15 @@ Preparations Before Connecting to a Cluster
 Constraints
 -----------
 
-psycopg2 is a PostgreSQL-based client interface, and its functions are not fully supported by GaussDB(DWS). For details, see :ref:`Table 1 <en-us_topic_0000001658895178__en-us_topic_0000001422799441_table147698595445>`.
+psycopg2 is a PostgreSQL-based client interface, and its functions are not fully supported by GaussDB(DWS). For details, see :ref:`Table 1 <en-us_topic_0000001924728824__table147698595445>`.
 
 .. note::
 
    The following APIs are supported based on Python 3.8.5 and psycopg 2.9.1.
 
-.. _en-us_topic_0000001658895178__en-us_topic_0000001422799441_table147698595445:
+.. _en-us_topic_0000001924728824__table147698595445:
 
-.. table:: **Table 1** psycopg2 APIs supported by DWS
+.. table:: **Table 1** psycopg2 APIs supported by GaussDB(DWS)
 
    +-------------+----------------------------------------------+--------------------------------------------------------------------------------------------+-----+----------------------------------------------------------------------------------------------+
    | Class Name  | Usage                                        | Function/Member Variable                                                                   | Yes | Remarks                                                                                      |
@@ -467,7 +467,7 @@ Using the Third-Party Function Library psycopg2 to Connect to a Cluster (Windows
 
               conn = psycopg2.connect(host='10.154.70.231',
                                       port='8000',
-                                      database='gaussdb',  # Database to be connected
+                                      database='gaussdb'',  # Database to be connected
                                       user='dbadmin',
                                       password='password')  # Database user password
 

@@ -20,11 +20,13 @@ You can use a snapshot to restore data to the original cluster. This function is
 Procedure
 ---------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
-#. In the navigation pane, choose **Snapshots**. All snapshots are displayed by default.
+#. In the navigation pane, choose **Clusters** > **Dedicated Clusters**.
 
-#. In the snapshot list, locate the row that contains the target snapshot and click **Restore** in the **Operation** column. The **Restore Snapshot to New Cluster** page is displayed.
+#. Click the name of a cluster and choose **Snapshots**.
+
+#. Click **Restore**.
 
 #. Restore the snapshot to the current cluster.
 
@@ -34,4 +36,4 @@ Procedure
 
       If you use a snapshot to restore data to the original cluster, the cluster will be unavailable during the restoration.
 
-.. |image1| image:: /_static/images/en-us_image_0000001759518493.png
+.. |image1| image:: /_static/images/en-us_image_0000001952008749.png

@@ -5,7 +5,7 @@
 Using ODBC to Connect to a Cluster
 ==================================
 
-In GaussDB(DWS), you can use an ODBC driver to connect to the database. The driver can connect to the database through an ECS on the cloud platform or over the Internet.
+GaussDB(DWS) allows you to use an ODBC driver to connect to the database through an ECS on the cloud platform or over the Internet.
 
 For details about how to use the ODBC API, see the official document.
 
@@ -18,7 +18,7 @@ Prerequisites
 
 -  You have downloaded the open-source unixODBC code file 2.3.0 from https://sourceforge.net/projects/unixodbc/files/unixODBC/2.3.0/unixODBC-2.3.0.tar.gz/download.
 
--  You have downloaded the SSL certificate file. For details, see :ref:`Downloading an SSL Certificate <en-us_topic_0000001659054490__en-us_topic_0000001372520154_li13478842115911>`.
+-  You have downloaded the SSL certificate file. For details, see :ref:`Downloading an SSL Certificate <en-us_topic_0000001952008193__li13478842115911>`.
 
 Using an ODBC Driver to Connect to a Database (Linux)
 -----------------------------------------------------
@@ -140,7 +140,7 @@ Using an ODBC Driver to Connect to a Database (Linux)
 
    .. note::
 
-      You can view the values of **Servername** and **Port** on the GaussDB(DWS) management console. Log in to the GaussDB(DWS) management console and click **Client Connections**. In the **Data Warehouse Connection String** area, select the target cluster and obtain **Private Network Address** or **Public Network Address**. For details, see :ref:`Obtaining the Cluster Connection Address <dws_01_0033>`.
+      -  You can view the values of **Servername** and **Port** on the GaussDB(DWS) management console. Log in to the GaussDB(DWS) management console and click **Client Connections**. In the **Data Warehouse Connection String** area, select the target cluster and obtain **Private Network Address** or **Public Network Address**. For details, see :ref:`Obtaining the Cluster Connection Address <dws_01_0033>`.
 
 #. Configure environment variables.
 
@@ -189,21 +189,21 @@ Using an ODBC Driver to Connect to a Database (Windows)
 
 #. Decompress the SSL certificate package to obtain the certificate file.
 
-   You can choose to automatically or manually deploy the certificate based on your needs.
+   You have the option to deploy the certificate either automatically or manually, depending on your requirements.
 
-   Automatic deployment:
+   -  Automatic deployment:
 
-   Double-click the **sslcert_env.bat** file. The certificate is automatically deployed to a default location.
+      Double-click the **sslcert_env.bat** file to trigger automatic deployment of the certificate to a default location.
 
-   .. note::
+      .. note::
 
-      The **sslcert_env.bat** file ensures the purity of the certificate environment. When the **%APPDATA%\\postgresql** directory exists, a message will be prompted asking you whether you want to remove related directories. If you want to remove related directories, back up files in the directory.
+         -  The **sslcert_env.bat** file ensures the purity of the certificate environment. When the **%APPDATA%\\postgresql** directory exists, a message will be prompted asking you whether you want to remove related directories. If you want to remove related directories, back up files in the directory.
 
-   Manual deployment:
+   -  Manual deployment:
 
-   a. Create a new folder named **postgresql** in the **%APPDATA%\\** directory.
-   b. Copy files **client.crt**, **client.key**, **client.key.cipher**, and **client.key.rand** to the **%APPDATA%\\postgresql** directory and change **client** in the file name to **postgres**. For example, change the name of **client.key** to **postgres.key**.
-   c. Copy **cacert.pem** to **%APPDATA%\\postgresql** and change the name of **cacert.pem** to **root.crt**.
+      -  Create a new folder named **postgresql** in the **%APPDATA%\\** directory.
+      -  Copy files **client.crt**, **client.key**, **client.key.cipher**, and **client.key.rand** to the **%APPDATA%\\postgresql** directory and change **client** in the file name to **postgres**. For example, change the name of **client.key** to **postgres.key**.
+      -  Copy **cacert.pem** to **%APPDATA%\\postgresql** and change the name of **cacert.pem** to **root.crt**.
 
 #. Open Driver Manager.
 
@@ -234,7 +234,7 @@ Using an ODBC Driver to Connect to a Database (Windows)
    a. On the **User DSN** tab, click **Add** and choose **PostgreSQL Unicode** for setup.
 
 
-      .. figure:: /_static/images/en-us_image_0000001711592348.png
+      .. figure:: /_static/images/en-us_image_0000001951849017.png
          :alt: **Figure 1** Configuring a data source to be connected to
 
          **Figure 1** Configuring a data source to be connected to

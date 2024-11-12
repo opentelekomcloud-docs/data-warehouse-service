@@ -18,7 +18,7 @@ A tracker will be automatically created after CTS is enabled. All traces recorde
 
    If you are a first-time CTS user and do not have any trackers in the tracker list, enable CTS first. For details, see "Getting Started > Enabling CTS" in the *Cloud Trace Service User Guide*.
 
-   If you have enabled CTS, the system has automatically created a management tracker. Only one management tracker can be created and it cannot be deleted. You can also manually create a data tracker. For details, see **Managing Trackers** > **Creating a Tracker** in the *Cloud Trace Service User Guide*.
+   If you have enabled CTS, the system has automatically created a management tracker. Only one management tracker can be created and it cannot be deleted. You can also manually create a data tracker. For details, see "Tracker Management" > "Creating a Tracker" in *Cloud Trace Service User Guide*.
 
 Disabling the Audit Log Function
 --------------------------------
@@ -64,50 +64,23 @@ Viewing Traces
 
 #. In the navigation pane on the left, choose **Trace List**.
 
-#. In the upper right corner of the trace list, click **Filter** to set the search criteria.
+#. Click the search box above the trace list and set the search criteria.
 
    The following filters are available:
 
-   -  **Trace Source**, **Resource Type**, and **Search By**
-
-      -  **Trace Source**: Select **GaussDB(DWS)**.
-      -  **Resource Type**: Select **All resource types** or specify a resource type.
-      -  **Search By**: Select **All filters** or any of the following options:
-
-         -  **Trace name**: If you select this option, you also need to select a specific trace name.
-         -  **Resource ID**: If you select this option, you also need to select or enter a specific resource ID.
-         -  **Resource name**: If you select this option, you also need to select or enter a specific resource name.
-
+   -  **Trace Name**: If you select this option, you also need to select a specific trace name.
+   -  **Cloud Service**: Select **GaussDB(DWS)**.
+   -  **Resource Type**: Select **All resource types** or specify a resource type.
+   -  **Resource Name**: If you select this option, you also need to select or enter a specific resource name.
+   -  **Resource ID**: If you select this option, you also need to select or enter a specific resource ID.
    -  **Operator**: Select a specific operator (at user level rather than tenant level).
-
+   -  **Event ID**: If you select this option, you also need to select or enter an event ID.
    -  **Trace Status**: Available options include **All trace statuses**, **normal**, **warning**, and **incident**. You can only select one of them.
-
-   -  **Start Date** and **End Date**: You can specify the time period to query traces.
-
-
-      .. figure:: /_static/images/en-us_image_0000001759579461.png
-         :alt: **Figure 1** Querying traces
-
-         **Figure 1** Querying traces
+   -  **Enterprise Project ID**: If you select this option, you also need to select or enter a specific enterprise project ID.
+   -  **Access Key ID**: If you select this option, you also need to select or enter a specific access key ID.
 
 #. Click **Query**.
 
-#. Click |image1| on the left of the trace to be queried to extend its details.
+#. Click the name of the trace to be viewed. A window is displayed, showing the trace details.
 
-
-   .. figure:: /_static/images/en-us_image_0000001759579465.png
-      :alt: **Figure 2** Traces
-
-      **Figure 2** Traces
-
-#. Locate the row containing the target trace and click **View Trace** in the **Operation** column.
-
-
-   .. figure:: /_static/images/en-us_image_0000001759579469.png
-      :alt: **Figure 3** Viewing a trace
-
-      **Figure 3** Viewing a trace
-
-   For details about the key fields in the CTS trace structure, see "Trace References > Trace Structure" and "Trace References > Example Traces" in the *Cloud Trace Service User Guide*.
-
-.. |image1| image:: /_static/images/en-us_image_0000001759419629.png
+   For details about key fields of a CTS trace, see "Trace References" > "Trace Structure" and "Trace References" > "Example Traces" in *Cloud Trace Service User Guide*.

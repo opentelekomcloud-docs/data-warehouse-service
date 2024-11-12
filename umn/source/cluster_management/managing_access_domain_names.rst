@@ -22,12 +22,12 @@ Public network domain name: Name of the domain for accessing the database in the
 
 After a cluster is created, you can set private and public domain names for accessing the cluster as required. The operations are as follows:
 
--  :ref:`Modifying a Private Network Domain Name <en-us_topic_0000001707254665__en-us_topic_0000001422959333_section1443581220337>`
--  :ref:`Creating a Public Network Domain Name <en-us_topic_0000001707254665__en-us_topic_0000001422959333_section14447182917335>`
--  :ref:`Modifying a Public Network Domain Name <en-us_topic_0000001707254665__en-us_topic_0000001422959333_section220113419330>`
--  :ref:`Releasing a Public Network Domain Name <en-us_topic_0000001707254665__en-us_topic_0000001422959333_section1267743817334>`
+-  :ref:`Modifying a Private Network Domain Name <en-us_topic_0000001952008089__section1443581220337>`
+-  :ref:`Creating a Public Network Domain Name <en-us_topic_0000001952008089__section14447182917335>`
+-  :ref:`Modifying a Public Network Domain Name <en-us_topic_0000001952008089__section220113419330>`
+-  :ref:`Releasing a Public Network Domain Name <en-us_topic_0000001952008089__section1267743817334>`
 
-.. _en-us_topic_0000001707254665__en-us_topic_0000001422959333_section1443581220337:
+.. _en-us_topic_0000001952008089__section1443581220337:
 
 Modifying a Private Network Domain Name
 ---------------------------------------
@@ -36,7 +36,7 @@ The private network domain name is automatically generated during cluster creati
 
 To modify the private network domain name, perform the following steps:
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane on the left, choose **Clusters** > **Dedicated Clusters**.
 
@@ -48,9 +48,9 @@ To modify the private network domain name, perform the following steps:
 
    The private network domain name contains 4 to 63 characters, which consists of letters, digits, and hyphens (-) and must start with a letter.
 
-   After the domain name is modified, click copy button |image1| next to the private network domain name to copy it.
+   After the domain name is modified, click copy button next to the private network domain name to copy it.
 
-.. _en-us_topic_0000001707254665__en-us_topic_0000001422959333_section14447182917335:
+.. _en-us_topic_0000001952008089__section14447182917335:
 
 Creating a Public Network Domain Name
 -------------------------------------
@@ -63,7 +63,7 @@ A cluster is not bound to an EIP by default during cluster creation. That is, cl
 
 To create a public network domain name, perform the following steps:
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane on the left, choose **Clusters** > **Dedicated Clusters**.
 
@@ -77,17 +77,15 @@ To create a public network domain name, perform the following steps:
 
    After the EIP is bound successfully, the specific public network IP address is displayed in the **Connection** area.
 
-   |image2|
-
 #. In the **Connection** area, click **Create** next to **Public Network Domain Name** to create a public network domain name for the cluster.
 
 #. In the **Apply for Public Network Domain Name** dialog box, enter the target domain name and click **OK**.
 
    The public network domain name contains 4 to 63 characters, which consists of letters, digits, and hyphens (-) and must start with a letter.
 
-   The specific public network domain name is displayed in the **Connection** area after being created. Click copy button |image3| to copy the public network domain name.
+   The specific public network domain name is displayed in the **Connection** area after being created. Click copy button |image1| to copy the public network domain name.
 
-.. _en-us_topic_0000001707254665__en-us_topic_0000001422959333_section220113419330:
+.. _en-us_topic_0000001952008089__section220113419330:
 
 Modifying a Public Network Domain Name
 --------------------------------------
@@ -96,13 +94,13 @@ If you bind an EIP during cluster creation, the public network domain name is au
 
 To modify the public network domain name, perform the following steps:
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 #. In the navigation pane on the left, choose **Clusters** > **Dedicated Clusters**.
 #. In the cluster list, find the target cluster and click the cluster name. The **Cluster Information** page is displayed.
 #. Click **Modify** next to the **Public Network Domain Name** in the **Connection** area.
 #. In the **Modify Public Network Domain Name** dialog box, enter the target domain name and click **OK**.
 
-.. _en-us_topic_0000001707254665__en-us_topic_0000001422959333_section1267743817334:
+.. _en-us_topic_0000001952008089__section1267743817334:
 
 Releasing a Public Network Domain Name
 --------------------------------------
@@ -111,12 +109,10 @@ After a cluster is created, you can release unnecessary public network domain na
 
 To do so, perform the following steps:
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 #. In the navigation pane on the left, choose **Clusters** > **Dedicated Clusters**.
 #. In the cluster list, find the target cluster and click the cluster name. The **Cluster Information** page is displayed.
 #. Click **Release** next to the **Public Network Domain Name** in the **Connection** area.
 #. In the **Release Domain Name** dialog box, click **Yes**.
 
-.. |image1| image:: /_static/images/en-us_image_0000001711440216.png
-.. |image2| image:: /_static/images/en-us_image_0000001711599708.png
-.. |image3| image:: /_static/images/en-us_image_0000001711440216.png
+.. |image1| image:: /_static/images/en-us_image_0000001952008501.png

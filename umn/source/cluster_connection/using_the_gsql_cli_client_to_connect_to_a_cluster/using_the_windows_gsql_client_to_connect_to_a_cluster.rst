@@ -12,7 +12,7 @@ Procedure
 
 #. Install and run the gsql client on the local Windows server (in Windows CLI). Windows Server 2008/Windows 7 and later are supported.
 
-#. Download the Windows gsql client by referring to :ref:`Downloading the Data Studio client <dws_01_0031>` and decompress the package to a local folder.
+#. Download the Windows gsql client by referring to :ref:`Downloading the Client <dws_01_0031>` and decompress the package to a local folder.
 
 #. On the local server, click **Start**, search for **cmd**, and run the program as the administrator. Alternatively, press **Win**\ +\ **R** to open the Windows CLI.
 
@@ -27,7 +27,7 @@ Procedure
    Method 2: In the **Control Panel** window, search for **System** and click **View advanced system settings**. Click the **Advanced** tab, and click **Environment Variables**. Select the **Path** parameter and click **Edit**. Add the gsql path in the parameter value. For example:
 
 
-   .. figure:: /_static/images/en-us_image_0000001711432800.png
+   .. figure:: /_static/images/en-us_image_0000001924569936.png
       :alt: **Figure 1** Configuring Windows environment variables
 
       **Figure 1** Configuring Windows environment variables

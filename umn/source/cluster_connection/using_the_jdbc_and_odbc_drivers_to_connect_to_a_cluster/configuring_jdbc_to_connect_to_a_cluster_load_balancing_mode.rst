@@ -20,8 +20,6 @@ Method 1: Using ELB to Connect to a Cluster
 
 #. Obtain the Elastic Load Balance address. On the console, go to the details page of a cluster and obtain the ELB IP address.
 
-   |image1|
-
 #. Configure the driver. For details, see :ref:`Downloading the JDBC or ODBC Driver <dws_01_0032>`.
 
 #. Obtain the database connection.
@@ -55,8 +53,6 @@ Method 2: Connecting to the Cluster in Multi-host Mode
 
 #. Obtain the EIP. Go to the details page of a cluster on the console and obtain the EIP.
 
-   |image2|
-
 #. Configure the driver. For details, see :ref:`Downloading the JDBC or ODBC Driver <dws_01_0032>`.
 
 #. Obtain the database connection.
@@ -84,6 +80,3 @@ Method 2: Connecting to the Cluster in Multi-host Mode
           }
           return connection;
       }
-
-.. |image1| image:: /_static/images/en-us_image_0000001711432848.png
-.. |image2| image:: /_static/images/en-us_image_0000001759351901.png

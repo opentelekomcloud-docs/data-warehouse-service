@@ -10,12 +10,16 @@ Overview
 
 The resource management plan is an advanced resource management feature provided by GaussDB(DWS). You can create a resource management plan, add multiple stages to the plan, and configure different queue resource ratios for the stages. After a plan is started, it automatically changes the resource configurations in different stages as scheduled. If you need to run services in different stages with different proportions of resources, you can create a resource management plan to automatically change resource configurations in different stages.
 
+.. note::
+
+   Resource management plans are supported only in version 8.1.0.100 or later.
+
 Creating a Resource Management Plan
 -----------------------------------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 #. Choose **Clusters**. Click the name of a cluster.
-#. Choose **Resource Management Configurations**.
+#. Go to the **Basic Information** page and click the **Resource Management** tab in the navigation pane on the left.
 #. Click to the **Resource Management Plans** tab and click **Add**.
 #. Enter a plan name and click **OK**.
 
@@ -27,68 +31,32 @@ Creating a Resource Management Plan
 Starting a Resource Management Plan
 -----------------------------------
 
-#. Log in to the GaussDB(DWS) management console.
-
+#. Log in to the GaussDB(DWS) console.
 #. Choose **Clusters**. Click the name of a cluster.
-
-#. Choose **Resource Management Configurations**.
-
-#. Enter the plan details page and click **Start** to start a resource management plan.
+#. Go to the **Basic Information** page and click the **Resource Management** tab in the navigation pane on the left.
+#. Switch to the **Resource Management Plans** tab page and click **Start**/**Stop** to start or stop the plan.
 
    .. important::
 
       -  Only one plan can be started for each cluster.
       -  A plan must have at least two stages before it can be started.
 
-   |image1|
-
 Viewing the Execution Logs of a Resource Management Plan
 --------------------------------------------------------
 
-#. Log in to the GaussDB(DWS) management console.
-
+#. Log in to the GaussDB(DWS) console.
 #. Choose **Clusters**. Click the name of a cluster.
-
-#. Choose **Resource Management Configurations**.
-
-#. Go to the plan details page and view the switchover logs in the **Plan Execution Log** area.
-
-   |image2|
-
-   |image3|
-
-Stopping a Resource Management Plan
------------------------------------
-
-#. Log in to the GaussDB(DWS) management console.
-
-#. Choose **Clusters**. Click the name of a cluster.
-
-#. Choose **Resource Management Configurations**.
-
-#. Enter the plan details page and click **Stop** to stop a resource management plan.
-
-   |image4|
+#. Go to the **Basic Information** page and click the **Resource Management** tab in the navigation pane on the left.
+#. Switch to the **Resource Management Plans** tab page. In the plan execution logs area, click **View** to view the plan execution logs.
 
 Deleting a Resource Management Plan
 -----------------------------------
 
-#. Log in to the GaussDB(DWS) management console.
-
+#. Log in to the GaussDB(DWS) console.
 #. Choose **Clusters**. Click the name of a cluster.
-
-#. Choose **Resource Management Configurations**.
-
-#. Enter the plan details page and click **Delete** to delete a resource management plan.
+#. Go to the **Basic Information** page and click the **Resource Management** tab in the navigation pane on the left.
+#. Switch to the **Resource Management Plans** tab page and click **Delete** to delete the current resource management plan.
 
    .. important::
 
       You cannot delete a running resource management plan.
-
-   |image5|
-
-.. |image1| image:: /_static/images/en-us_image_0000001759420469.png
-.. |image2| image:: /_static/images/en-us_image_0000001759580341.png
-.. |image3| image:: /_static/images/en-us_image_0000001711661404.png
-.. |image4| image:: /_static/images/en-us_image_0000001711820916.png
-.. |image5| image:: /_static/images/en-us_image_0000001759420489.png

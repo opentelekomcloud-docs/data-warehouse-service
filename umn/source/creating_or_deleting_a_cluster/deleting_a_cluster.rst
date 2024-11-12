@@ -16,21 +16,19 @@ Deleted clusters cannot be recovered. Additionally, you cannot access user data 
 Deleting a Cluster
 ------------------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. Click |image1| in the upper left corner of the management console to select a region.
 
-#. On the **Clusters > Dedicated Clusters** page, locate the cluster to be deleted.
+#. On the **Clusters** > **Dedicated Clusters** page, locate the cluster to be deleted.
 
 #. In the row of a cluster, choose **More** > **Delete**.
-
-   |image2|
 
 #. In the displayed dialog box, confirm the deletion. You can determine whether to perform the following operations:
 
    -  Create a snapshot for the cluster.
 
-      If the cluster status is normal, you can click **Create Snapshot**. In the dialog box that is displayed, enter the snapshot name and click **OK** to create a snapshot for the cluster to be deleted. After the snapshot is created, go back to the **Clusters** > **Dedicated Clusters** page to delete the cluster.
+      If the cluster status is normal, you can click **Create Snapshot**. In the dialog box that is displayed, enter the snapshot name and click **OK** to create a snapshot for the cluster to be deleted. In the row of a cluster, choose **More** > **Delete**.
 
    -  Resource
 
@@ -38,18 +36,14 @@ Deleting a Cluster
 
          If an EIP is bound to the cluster, you are advised to select **EIP** to release the EIP.
 
-      -  Automated snapshots
+      -  Automated Snapshots
 
-      -  Manual snapshots
+      -  Manual Snapshots
 
-         If a manual snapshot has been created, you can select **Manual Snapshot** to delete it.
+         If you have created a manual snapshot, you can select **Manual Snapshot** to delete it.
 
-#. After confirming that the information is correct, enter **DELETE** and click **OK** to delete the cluster. The cluster status in the cluster list will change to **Deleting**, and the cluster deletion progress will be displayed.
+#. After confirming that the information is correct, enter **DELETE** or click **Auto Enter** and click **OK** to delete the cluster. The cluster status in the cluster list will change to **Deleting**, and the cluster deletion progress will be displayed.
 
-   If a cluster to be deleted uses an automatically created security group that is not used by other clusters, the security group will be automatically deleted with the cluster.
+   If the cluster to be deleted uses an automatically created security group that is not used by other clusters, the security group is automatically deleted when the cluster is deleted.
 
-   |image3|
-
-.. |image1| image:: /_static/images/en-us_image_0000001711591224.png
-.. |image2| image:: /_static/images/en-us_image_0000001711431740.png
-.. |image3| image:: /_static/images/en-us_image_0000001759510641.png
+.. |image1| image:: /_static/images/en-us_image_0000001924569944.png

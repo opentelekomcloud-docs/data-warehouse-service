@@ -10,15 +10,13 @@ The JDBC or ODBC driver is used to connect to data warehouse clusters. You can d
 Open-Source JDBC or ODBC Driver
 -------------------------------
 
-GaussDB(DWS) also supports open-source JDBC driver: PostgreSQL JDBC 9.3-1103 or later.
-
-GaussDB(DWS) also supports open-source ODBC driver: PostgreSQL ODBC 09.01.0200 or later.
+GaussDB(DWS) also supports open-source JDBC and ODBC drivers: PostgreSQL JDBC 9.3-1103 or later; PostgreSQL ODBC 09.01.0200 or later
 
 
 Downloading the JDBC or ODBC Driver
 -----------------------------------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 #. In the navigation tree on the left, choose **Client Connections**.
 #. In the **Driver** area, choose a driver that you want to download.
 
@@ -40,4 +38,4 @@ Downloading the JDBC or ODBC Driver
 
       .. note::
 
-         -  The ODBC driver is incompatible with Windows Server 2016.
+         The ODBC driver is incompatible with Windows Server 2016.

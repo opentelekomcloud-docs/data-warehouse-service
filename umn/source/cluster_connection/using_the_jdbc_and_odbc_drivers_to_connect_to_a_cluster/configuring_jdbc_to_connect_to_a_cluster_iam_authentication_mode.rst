@@ -24,11 +24,11 @@ On IAM, only users in the **admin** group have the permissions to manage users. 
 
 The process of accessing a database is as follows:
 
-#. :ref:`Granting an IAM Account the GaussDB(DWS) Database Access Permission <en-us_topic_0000001707293773__en-us_topic_0000001372839382_section1560842714>`
-#. :ref:`Creating an IAM User Credential <en-us_topic_0000001707293773__en-us_topic_0000001372839382_section5410134511612>`
-#. :ref:`Configuring the JDBC Connection to Connect to a Cluster Using IAM Authentication <en-us_topic_0000001707293773__en-us_topic_0000001372839382_section289114226329>`
+#. :ref:`Granting an IAM Account the GaussDB(DWS) Database Access Permission <en-us_topic_0000001951848541__section1560842714>`
+#. :ref:`Creating an IAM User Credential <en-us_topic_0000001951848541__section5410134511612>`
+#. :ref:`Configuring the JDBC Connection to Connect to a Cluster Using IAM Authentication <en-us_topic_0000001951848541__section289114226329>`
 
-.. _en-us_topic_0000001707293773__en-us_topic_0000001372839382_section1560842714:
+.. _en-us_topic_0000001951848541__section1560842714:
 
 Granting an IAM Account the GaussDB(DWS) Database Access Permission
 -------------------------------------------------------------------
@@ -43,7 +43,7 @@ Granting an IAM Account the GaussDB(DWS) Database Access Permission
 
    You can also create an IAM user group, and set a policy for, grant the **DWS Administrator** and **DWS Database Access** permissions to, and add your IAM user to it. For details, see "User and User Group Management > Creating a User Group" in the *Identity and Access Management User Guide*.
 
-.. _en-us_topic_0000001707293773__en-us_topic_0000001372839382_section5410134511612:
+.. _en-us_topic_0000001951848541__section5410134511612:
 
 Creating an IAM User Credential
 -------------------------------
@@ -62,7 +62,7 @@ You can log in to the management console to create an AK/SK pair or use an exist
 
       Each user can create a maximum of two AK/SK pairs, which are valid permanently. To ensure account security, change your AK/SK pairs periodically and keep them safe.
 
-.. _en-us_topic_0000001707293773__en-us_topic_0000001372839382_section289114226329:
+.. _en-us_topic_0000001951848541__section289114226329:
 
 Configuring the JDBC Connection to Connect to a Cluster Using IAM Authentication
 --------------------------------------------------------------------------------

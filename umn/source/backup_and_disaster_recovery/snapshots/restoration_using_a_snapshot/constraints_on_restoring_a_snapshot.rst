@@ -10,7 +10,7 @@ Cluster-Level Snapshot Restoration
 
 Cluster-level restoration consists of two steps:
 
-#. Data restoration: The backup tool simultaneously restores data from the backup set to the data directory of each instance, including the primary CN and primary DN.
+#. Data restoration: Restores data in the backup set to the data directory of each primary DN/CN instance in parallel.
 #. Rebuilding the standby DN: After the primary DN is restored, standby DNs are rebuilt with full data in parallel.
 
 .. note::

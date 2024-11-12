@@ -15,7 +15,7 @@ Policy Structure
 A fine-grained policy consists of a Version and a Statement. Each policy can have multiple statements.
 
 
-.. figure:: /_static/images/en-us_image_0000001759579497.jpg
+.. figure:: /_static/images/en-us_image_0000001951849021.jpg
    :alt: **Figure 1** Policy structure
 
    **Figure 1** Policy structure
@@ -26,7 +26,7 @@ Policy Syntax
 In the navigation pane on the IAM console, click **Policies** and then click the name of a policy to view its details. The **DWS ReadOnlyAccess** policy is used as an example to describe the syntax of fine-grained policies.
 
 
-.. figure:: /_static/images/en-us_image_0000001759419669.png
+.. figure:: /_static/images/en-us_image_0000001924729320.png
    :alt: **Figure 2** Setting the policy
 
    **Figure 2** Setting the policy
@@ -72,7 +72,7 @@ In the navigation pane on the IAM console, click **Policies** and then click the
 
       Example: **dws:cluster:create**, permissions for create data warehouse clusters.
 
-.. _en-us_topic_0000001659054650__en-us_topic_0000001422799425_section89181381475:
+.. _en-us_topic_0000001952008313__section89181381475:
 
 List of Supported Actions
 -------------------------
@@ -81,17 +81,17 @@ When creating a custom policy on IAM, you can add the operations on GaussDB(DWS)
 
 -  **REST API**
 
-   For details about RESTful API actions supported by GaussDB(DWS), see "Permissions Policies and Supported Actions in " in *Data Warehouse Service API Reference*.
+   For details about RESTful API actions supported by GaussDB(DWS), see .
 
 -  **Management console operations**
 
-   :ref:`Table 1 <en-us_topic_0000001659054650__en-us_topic_0000001422799425_table42061239124614>` describes the GaussDB(DWS) operations on resources and corresponding permissions.
+   :ref:`Table 1 <en-us_topic_0000001952008313__table42061239124614>` describes the GaussDB(DWS) operations on resources and corresponding permissions.
 
    .. note::
 
       Some GaussDB(DWS) permissions depend on the actions of ECS, VPC, EVS, ELB, MRS, and OBS. Grant GaussDB(DWS) the required service admin permissions.
 
-.. _en-us_topic_0000001659054650__en-us_topic_0000001422799425_table42061239124614:
+.. _en-us_topic_0000001952008313__table42061239124614:
 
 .. table:: **Table 1** GaussDB(DWS) permissions
 
@@ -1054,7 +1054,7 @@ Authorization Using the Fine-Grained Permission Policy
 
    Refer to the following to create the policy:
 
-   -  Use the IAM administrator account, that is, the user in the **admin** user group, because only the IAM administrator has the permissions to create users and user groups and modify user group permissions.
+   -  Use the IAM administrator account, that is, the user in the admin user group, because only the IAM administrator has the permissions to create users and user groups and modify user group permissions.
 
    -  GaussDB(DWS) is a project-level service, so its **Scope** must be set to **Project-level services**. If this policy is required to take effect for multiple projects, authorization is required to each project.
 
@@ -1063,7 +1063,7 @@ Authorization Using the Fine-Grained Permission Policy
       -  **DWS Admin**: has all execution permissions on GaussDB(DWS).
       -  **DWS Viewer**: has the read-only permission on GaussDB(DWS).
 
-   -  You can add permissions corresponding to GaussDB(DWS) operations or RESTful APIs listed in :ref:`List of Supported Actions <en-us_topic_0000001659054650__en-us_topic_0000001422799425_section89181381475>` to the action list in the policy authorization statement, so that the policy can obtain the permissions.
+   -  You can add permissions corresponding to GaussDB(DWS) operations or RESTful APIs listed in :ref:`List of Supported Actions <en-us_topic_0000001952008313__section89181381475>` to the action list in the policy authorization statement, so that the policy can obtain the permissions.
 
       For example, if **dws:cluster:create** is added to the action list of a policy statement, the policy has the permission to create or restore clusters.
 
@@ -1085,7 +1085,7 @@ Authentication Logic
 If a user is granted permissions of multiple policies or of only one policy containing both Allow and Deny statements, then authentication starts from the Deny statements. The following figure shows the authentication logic for resource access.
 
 
-.. figure:: /_static/images/en-us_image_0000001711660576.jpg
+.. figure:: /_static/images/en-us_image_0000001924729324.jpg
    :alt: **Figure 3** Authentication logic
 
    **Figure 3** Authentication logic

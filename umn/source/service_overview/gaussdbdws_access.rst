@@ -8,7 +8,7 @@ GaussDB(DWS) Access
 The following figure shows how to use GaussDB(DWS).
 
 
-.. figure:: /_static/images/en-us_image_0000001231629451.png
+.. figure:: /_static/images/en-us_image_0000001924729364.png
    :alt: **Figure 1** Process for using GaussDB(DWS)
 
    **Figure 1** Process for using GaussDB(DWS)
@@ -29,7 +29,7 @@ GaussDB(DWS) supports database access using the following methods:
 
 -  GaussDB(DWS) clients
 
-   Access the cluster database using GaussDB(DWS) clients. For details, see "Connecting to a Cluster" in the *Data Warehouse Service (DWS) User Guide*.
+   Use the GaussDB(DWS) client to access the database in the cluster. For details, see "Cluster Connection" in the *Data Warehouse Service (DWS) User Guide*.
 
 -  JDBC and ODBC API calling
 
@@ -45,7 +45,7 @@ GaussDB(DWS) has been seamlessly integrated with other services on cloud, helpin
 The following figure shows the end-to-end data analysis process. Services in use during each process are also displayed.
 
 
-.. figure:: /_static/images/en-us_image_0000001185831266.png
+.. figure:: /_static/images/en-us_image_0000001924729368.png
    :alt: **Figure 2** End-to-end data analysis process
 
    **Figure 2** End-to-end data analysis process

@@ -13,9 +13,9 @@ Database audit logs are configured on the **Security Settings** page. You can ch
 Procedure
 ---------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
-#. Choose **Clusters** > **Dedicated Cluster**.
+#. Choose **Clusters** > **Dedicated Clusters**.
 
 #. In the cluster list, click the name of a cluster. Choose **Security**.
 
@@ -27,31 +27,47 @@ Procedure
 
       The default audit log retention policy is space-first, which means audit logs will be automatically deleted when the size of audit logs on a single node exceeds 1 GB. This function prevents node faults or low performance caused by high disk space occupied by audit logs.
 
-   :ref:`Table 1 <en-us_topic_0000001659054638__en-us_topic_0000001372999374_en-us_topic_0000001098656870_table48954270153356>` describes the detailed information about the audit items.
+   :ref:`Table 1 <en-us_topic_0000001924569232__en-us_topic_0000001098656870_table48954270153356>` describes the detailed information about the audit items.
 
-   .. _en-us_topic_0000001659054638__en-us_topic_0000001372999374_en-us_topic_0000001098656870_table48954270153356:
+   .. _en-us_topic_0000001924569232__en-us_topic_0000001098656870_table48954270153356:
 
    .. table:: **Table 1** Audit items
 
-      +-----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | Audit Item                  | Description                                                                                                                                                                   |
-      +=============================+===============================================================================================================================================================================+
-      | Unauthorized access         | Specifies whether to record unauthorized operations. This parameter is disabled by default.                                                                                   |
-      +-----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | DML operations              | Specifies whether to record **INSERT**, **UPDATE**, and **DELETE** operations on tables. This parameter is disabled by default.                                               |
-      +-----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | SELECT operations           | Specifies whether to record the **SELECT** operation. This parameter is disabled by default.                                                                                  |
-      +-----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | Stored procedure executions | Specifies whether to record operations when executing the stored procedure or user-defined functions. This parameter is disabled by default.                                  |
-      +-----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | COPY operations             | Specifies whether to record the **COPY** operation. This parameter is disabled by default.                                                                                    |
-      +-----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | DDL operations              | Specifies whether to record the **CREATE**, **DROP**, and **ALTER** operations of specified database objects. **DATABASE**, **SCHEMA**, and **USER** are selected by default. |
-      +-----------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+      +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+      | Audit Item                        | Description                                                                                                                                                                                             |
+      +===================================+=========================================================================================================================================================================================================+
+      | Unauthorized access               | Specifies whether to record unauthorized operations. This parameter is disabled by default.                                                                                                             |
+      +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+      | DQL operations                    | **SELECT** operations can be selected.                                                                                                                                                                  |
+      |                                   |                                                                                                                                                                                                         |
+      |                                   | .. note::                                                                                                                                                                                               |
+      |                                   |                                                                                                                                                                                                         |
+      |                                   |    8.1.1.100 and later versions support the **DQL operations** audit item.                                                                                                                              |
+      +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+      | DML operations                    | Specifies whether to record **INSERT**, **UPDATE**, and **DELETE** operations on tables. This parameter is disabled by default.                                                                         |
+      |                                   |                                                                                                                                                                                                         |
+      |                                   | .. note::                                                                                                                                                                                               |
+      |                                   |                                                                                                                                                                                                         |
+      |                                   |    8.1.1.100 and later versions support fine-grained splitting of audit items, and the **COPY** and **MERGE** options are added.                                                                        |
+      +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+      | DDL operations                    | Specifies whether to record the **CREATE**, **DROP**, and **ALTER** operations of specified database objects. **DATABASE**, **SCHEMA**, and **USER** are selected by default.                           |
+      |                                   |                                                                                                                                                                                                         |
+      |                                   | .. note::                                                                                                                                                                                               |
+      |                                   |                                                                                                                                                                                                         |
+      |                                   |    8.1.1.100 and later versions support **TABLE**, **DATA SOURCE**, and **NODE GROUP** operations. These operations are enabled by default.                                                             |
+      +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+      | Other operations                  | Specifies whether to record other operations. Only the **TRANSACTION** and **CURSOR** operations are selected by default.                                                                               |
+      |                                   |                                                                                                                                                                                                         |
+      |                                   | .. note::                                                                                                                                                                                               |
+      |                                   |                                                                                                                                                                                                         |
+      |                                   |    -  8.1.1.100 and later versions support the **Other operations** audit item.                                                                                                                         |
+      |                                   |    -  You are advised to select **TRANSACTION**. Otherwise, statements in a transaction will not be audited.                                                                                            |
+      |                                   |    -  You are advised to select **CURSOR**. Otherwise, **SELECT** statements in a cursor will not be audited. The Data Studio client automatically encapsulates **SELECT** statements using **CURSOR**. |
+      +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-   Except the audit items listed in :ref:`Table 1 <en-us_topic_0000001659054638__en-us_topic_0000001372999374_en-us_topic_0000001098656870_table48954270153356>`, key audit items in :ref:`Table 2 <en-us_topic_0000001659054638__en-us_topic_0000001372999374_en-us_topic_0000001098656870_table24262392153654>` are enabled by default on GaussDB(DWS).
+   Except the audit items listed in :ref:`Table 1 <en-us_topic_0000001924569232__en-us_topic_0000001098656870_table48954270153356>`, key audit items in :ref:`Table 2 <en-us_topic_0000001924569232__en-us_topic_0000001098656870_table24262392153654>` are enabled by default on GaussDB(DWS).
 
-   .. _en-us_topic_0000001659054638__en-us_topic_0000001372999374_en-us_topic_0000001098656870_table24262392153654:
+   .. _en-us_topic_0000001924569232__en-us_topic_0000001098656870_table24262392153654:
 
    .. table:: **Table 2** Key audit items
 
@@ -71,7 +87,7 @@ Procedure
 
 #. Enable or disable audit log dumps.
 
-   For more information, see :ref:`Enabling Audit Log Dumps <en-us_topic_0000001658895326__en-us_topic_0000001372520098_en-us_topic_0000001145696613_section8182105814130>`.
+   For more information, see :ref:`Enabling Audit Log Dumps <en-us_topic_0000001952008045__en-us_topic_0000001145696613_section8182105814130>`.
 
 #. Click **Apply**.
 
@@ -79,4 +95,4 @@ Procedure
 
    When the status changes to **Synchronized**, the configurations are saved and take effect.
 
-.. |image1| image:: /_static/images/en-us_image_0000001759579473.png
+.. |image1| image:: /_static/images/en-us_image_0000001951848657.png

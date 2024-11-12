@@ -11,8 +11,8 @@ GaussDB(DWS) records information (audit logs) about connections and user activit
 
    -  This function cannot be used if OBS is not available.
    -  Data may during cluster specifications change, CN addition, or CN deletion. You are advised to disable audit log dump during these operations.
-   -  After audit log dumping is enabled, audit logs will be dumped if the size of saved audit logs exceeds 1 GB. This may cause abnormal query results. Exercise caution when performing this operation.
    -  If a CN node is faulty, data on the CN node may be lost.
+   -  After audit log dumping is enabled, audit logs will be dumped if the size of saved audit logs exceeds 1 GB. This may cause abnormal query results. Exercise caution when performing this operation.
    -  Version support for the audit log dump directory partition is as follows:
 
       -  For 8.1.3.x clusters, only 8.1.3.322 and later versions support this feature. For 8.2.0.x clusters, only 8.2.0.106 and later versions support this feature. By default, the audit log dump directory partition is enabled and cannot be disabled.
@@ -23,12 +23,12 @@ Prerequisites
 
 After a GaussDB(DWS) cluster is created, you can enable log dump for it to dump audit logs to OBS. **Before enabling audit log dump, ensure the following conditions are met:**
 
-.. _en-us_topic_0000001658895326__en-us_topic_0000001372520098_en-us_topic_0000001145696613_section8182105814130:
+.. _en-us_topic_0000001952008045__en-us_topic_0000001145696613_section8182105814130:
 
 Enabling Audit Log Dumps
 ------------------------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane on the left, choose **Clusters** > **Dedicated Clusters**.
 
@@ -36,14 +36,12 @@ Enabling Audit Log Dumps
 
 #. In the **Audit Settings** area, enable **Audit Log Dump**.
 
-   |image1| indicates that the function is enabled. |image2| indicates that the function is disabled.
-
    When you enable audit log dump for a project in a region for the first time, the system prompts you to create an agency named **DWSAccessOBS**. After the agency is created, GaussDB(DWS) can dump audit logs to OBS.
 
-   By default, only cloud accounts or users with Security Administrator permissions can query and create agencies. IAM users under an account do not have the permission to query or create agencies by default. Contact a user with that permission and complete the authorization on the current page.
+   By default, only Cloud accounts or users with Security Administrator permissions can query and create agencies. IAM users under an account do not have the permission to query or create agencies by default. Contact a user with that permission and complete the authorization on the current page.
 
    -  **OBS Foreign Table**: Audit logs can be read using OBS foreign tables during dumping. Audit logs are stored in CSV format and compressed in GZ format.
-   -  **OBS Bucket**: Name of the OBS bucket used to store the audit data. If no OBS bucket is available, click **View OBS Bucket** to access the OBS console and create one. For details, see **Console Operation Guide > Managing Buckets > Creating a Bucket** in the *Object Storage Service User Guide*.
+   -  **OBS Bucket**: Name of the OBS bucket used to store the audit data. If no OBS bucket is available, click **View OBS Bucket** to access the OBS console and create one. For details, see "Console Operation Guide" > "Managing Buckets" > "Creating a Bucket" in *Object Storage Service User Guide*.
    -  **OBS Path**: User-defined directory on OBS for storing audit files. Different directory levels are separated by forward slashes (/). The value is a string containing 1 to 50 characters, which cannot start with a forward slash (/). If the entered OBS path does not exist, the system creates one and dumps data to it.
    -  **Dump Interval (Minute)**: Interval based on which GaussDB(DWS) periodically dumps data to OBS. The value range is 5 to 43200. The unit is minute.
 
@@ -51,7 +49,7 @@ Enabling Audit Log Dumps
 
    If **Configuration Status** is **Applying**, the system is saving the settings.
 
-   When the status changes to **Synchronized**, the configurations are saved and take effect.
+   Wait for a moment and then refresh **Configuration Status**. When **Configuration Status** is **Synchronized**, the configuration is saved and takes effect.
 
 Modifying Audit Log Dump Configurations
 ---------------------------------------
@@ -60,7 +58,7 @@ After audit log dump is enabled, you can modify the dump configuration. For exam
 
 The procedure is as follows:
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane on the left, choose **Clusters** > **Dedicated Clusters**.
 
@@ -72,9 +70,9 @@ The procedure is as follows:
 
    If **Configuration Status** is **Applying**, the system is saving the settings.
 
-   When the status changes to **Synchronized**, the configurations are saved and take effect.
+   Wait for a moment and then refresh **Configuration Status**. When **Configuration Status** is **Synchronized**, the configuration is saved and takes effect.
 
-.. _en-us_topic_0000001658895326__en-us_topic_0000001372520098_en-us_topic_0000001145696613_section1227433741613:
+.. _en-us_topic_0000001952008045__en-us_topic_0000001145696613_section1227433741613:
 
 Viewing Audit Log Dumps
 -----------------------
@@ -83,7 +81,7 @@ After audit log dump is enabled, you can view the dumped audit logs on OBS.
 
 The procedure is as follows:
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane on the left, choose **Clusters** > **Dedicated Clusters**.
 
@@ -99,45 +97,45 @@ The procedure is as follows:
 
    .. table:: **Table 1** Log file fields
 
-      +-----------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------+
-      | Field           | Type                     | Description                                                                                                                     |
-      +=================+==========================+=================================================================================================================================+
-      | begintime       | timestamp with time zone | Operation start time                                                                                                            |
-      +-----------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------+
-      | endtime         | timestamp with time zone | Operation end time                                                                                                              |
-      +-----------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------+
-      | operation_type  | text                     | Operation type. For details, see :ref:`Table 2 <en-us_topic_0000001658895326__en-us_topic_0000001372520098_table821083765411>`. |
-      +-----------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------+
-      | audit_type      | text                     | Audit type. For details, see :ref:`Table 3 <en-us_topic_0000001658895326__en-us_topic_0000001372520098_table1393124165612>`.    |
-      +-----------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------+
-      | result          | text                     | Operation result                                                                                                                |
-      +-----------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------+
-      | username        | text                     | Name of the user who performs the operation                                                                                     |
-      +-----------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------+
-      | database        | text                     | Database name                                                                                                                   |
-      +-----------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------+
-      | client_conninfo | text                     | Client connection information, that is, gsql, JDBC, or ODBC.                                                                    |
-      +-----------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------+
-      | object_name     | text                     | Object name                                                                                                                     |
-      +-----------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------+
-      | command_text    | text                     | Command used to perform the operation                                                                                           |
-      +-----------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------+
-      | detail_info     | text                     | Operation details                                                                                                               |
-      +-----------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------+
-      | transaction_xid | text                     | Transaction ID                                                                                                                  |
-      +-----------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------+
-      | query_id        | text                     | Query ID                                                                                                                        |
-      +-----------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------+
-      | node_name       | text                     | Node name                                                                                                                       |
-      +-----------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------+
-      | thread_id       | text                     | Thread ID                                                                                                                       |
-      +-----------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------+
-      | local_port      | text                     | Local port                                                                                                                      |
-      +-----------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------+
-      | remote_port     | text                     | Remote port                                                                                                                     |
-      +-----------------+--------------------------+---------------------------------------------------------------------------------------------------------------------------------+
+      +-----------------+--------------------------+----------------------------------------------------------------------------------------------------+
+      | Field           | Type                     | Description                                                                                        |
+      +=================+==========================+====================================================================================================+
+      | begintime       | timestamp with time zone | Operation start time                                                                               |
+      +-----------------+--------------------------+----------------------------------------------------------------------------------------------------+
+      | endtime         | timestamp with time zone | Operation end time                                                                                 |
+      +-----------------+--------------------------+----------------------------------------------------------------------------------------------------+
+      | operation_type  | text                     | Operation type. For details, see :ref:`Table 2 <en-us_topic_0000001952008045__table821083765411>`. |
+      +-----------------+--------------------------+----------------------------------------------------------------------------------------------------+
+      | audit_type      | text                     | Audit type. For details, see :ref:`Table 3 <en-us_topic_0000001952008045__table1393124165612>`.    |
+      +-----------------+--------------------------+----------------------------------------------------------------------------------------------------+
+      | result          | text                     | Operation result                                                                                   |
+      +-----------------+--------------------------+----------------------------------------------------------------------------------------------------+
+      | username        | text                     | Name of the user who performs the operation                                                        |
+      +-----------------+--------------------------+----------------------------------------------------------------------------------------------------+
+      | database        | text                     | Database name                                                                                      |
+      +-----------------+--------------------------+----------------------------------------------------------------------------------------------------+
+      | client_conninfo | text                     | Client connection information, that is, gsql, JDBC, or ODBC.                                       |
+      +-----------------+--------------------------+----------------------------------------------------------------------------------------------------+
+      | object_name     | text                     | Object name                                                                                        |
+      +-----------------+--------------------------+----------------------------------------------------------------------------------------------------+
+      | command_text    | text                     | Command used to perform the operation                                                              |
+      +-----------------+--------------------------+----------------------------------------------------------------------------------------------------+
+      | detail_info     | text                     | Operation details                                                                                  |
+      +-----------------+--------------------------+----------------------------------------------------------------------------------------------------+
+      | transaction_xid | text                     | Transaction ID                                                                                     |
+      +-----------------+--------------------------+----------------------------------------------------------------------------------------------------+
+      | query_id        | text                     | Query ID                                                                                           |
+      +-----------------+--------------------------+----------------------------------------------------------------------------------------------------+
+      | node_name       | text                     | Node name                                                                                          |
+      +-----------------+--------------------------+----------------------------------------------------------------------------------------------------+
+      | thread_id       | text                     | Thread ID                                                                                          |
+      +-----------------+--------------------------+----------------------------------------------------------------------------------------------------+
+      | local_port      | text                     | Local port                                                                                         |
+      +-----------------+--------------------------+----------------------------------------------------------------------------------------------------+
+      | remote_port     | text                     | Remote port                                                                                        |
+      +-----------------+--------------------------+----------------------------------------------------------------------------------------------------+
 
-   .. _en-us_topic_0000001658895326__en-us_topic_0000001372520098_table821083765411:
+   .. _en-us_topic_0000001952008045__table821083765411:
 
    .. table:: **Table 2** Operation types
 
@@ -211,7 +209,7 @@ The procedure is as follows:
       | load            | Indicates that the loading operations are audited.                                                                                                                                                                                                                                                                                                         |
       +-----------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-   .. _en-us_topic_0000001658895326__en-us_topic_0000001372520098_table1393124165612:
+   .. _en-us_topic_0000001952008045__table1393124165612:
 
    .. table:: **Table 3** audit_type parameters
 
@@ -292,7 +290,7 @@ You can disable the audit log dump function if you do not want to dump audit log
 
 The procedure is as follows:
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane on the left, choose **Clusters** > **Dedicated Clusters**.
 
@@ -300,14 +298,8 @@ The procedure is as follows:
 
 #. In the **Audit Settings** area, disable audit log dump.
 
-   |image3| indicates that the function is disabled.
-
 #. Click **Apply**.
 
    If **Configuration Status** is **Applying**, the system is saving the settings.
 
-   When the status changes to **Synchronized**, the configurations are saved and take effect.
-
-.. |image1| image:: /_static/images/en-us_image_0000001711660536.png
-.. |image2| image:: /_static/images/en-us_image_0000001759419645.jpg
-.. |image3| image:: /_static/images/en-us_image_0000001759419649.jpg
+   Wait for a moment and then refresh **Configuration Status**. When **Configuration Status** is **Synchronized**, the configuration is saved and takes effect.

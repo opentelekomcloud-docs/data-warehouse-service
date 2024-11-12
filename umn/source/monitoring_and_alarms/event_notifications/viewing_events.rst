@@ -17,5 +17,5 @@ This section describes how to search for events that occur in a cluster or snaps
 
    You can filter the events by clicking |image2| next to a field (except **Time**) and selecting the criteria.
 
-.. |image1| image:: /_static/images/en-us_image_0000001711438452.png
-.. |image2| image:: /_static/images/en-us_image_0000001711597948.png
+.. |image1| image:: /_static/images/en-us_image_0000001924728960.png
+.. |image2| image:: /_static/images/en-us_image_0000001952008421.png

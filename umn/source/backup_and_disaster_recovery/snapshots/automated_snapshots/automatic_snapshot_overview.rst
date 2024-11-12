@@ -12,7 +12,7 @@ During snapshot restoration, GaussDB(DWS) uses all backups between the latest fu
 If the retention period of an incremental snapshot exceeds the maximum retention period, GaussDB(DWS) does not delete the snapshot immediately. Instead, GaussDB(DWS) retains it until the next full backup is completed, when the deletion of the snapshot will not hinder incremental data backup and restoration.
 
 
-.. figure:: /_static/images/en-us_image_0000001759518413.png
+.. figure:: /_static/images/en-us_image_0000001952008809.png
    :alt: **Figure 1** Snapshot backup process
 
    **Figure 1** Snapshot backup process

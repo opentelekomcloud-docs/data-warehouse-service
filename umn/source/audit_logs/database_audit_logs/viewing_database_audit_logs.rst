@@ -18,13 +18,13 @@ Prerequisites
 Viewing Database Audit Logs
 ---------------------------
 
-Method 1: Audit logs will occupy disk space. To prevent excessive disk usage, GaussDB(DWS) supports audit log dumping. You can enable the **Log Dump** function to dump audit logs to OBS (you need to create an OBS bucket for storing audit logs first). For details about how to view the dumped logs, see :ref:`Viewing Audit Log Dumps <en-us_topic_0000001658895326__en-us_topic_0000001372520098_en-us_topic_0000001145696613_section1227433741613>`.
+Method 1: Audit logs will occupy disk space. To prevent excessive disk usage, GaussDB(DWS) supports audit log dumping. You can enable the **Log Dump** function to dump audit logs to OBS (you need to create an OBS bucket for storing audit logs first). For details about how to view the dumped logs, see :ref:`Viewing Audit Log Dumps <en-us_topic_0000001952008045__en-us_topic_0000001145696613_section1227433741613>`.
 
-Method 2: Use the **Log** function of LTS to view or download the collected database audit logs. For details, see :ref:`Checking Cluster Logs <en-us_topic_0000001707293933__en-us_topic_0000001372999362_section1600157575>`.
+Method 2: Use the **Log** function of LTS to view or download the collected database audit logs. For details, see :ref:`Checking Cluster Logs <en-us_topic_0000001952008005__section1600157575>`.
 
-Method 3: Database audit logs are stored in the database by default. After connecting to the cluster, you can use the **pg_query_audit** function to view the logs. For details, see :ref:`Using Functions to View Database Audit Logs <en-us_topic_0000001707254701__en-us_topic_0000001422959325_en-us_topic_0000001405788485_en-us_topic_0000001233761719_s0aec83296dc54e8f92966415aaaa3a6f>`.
+Method 3: Database audit logs are stored in the database by default. After connecting to the cluster, you can use the **pg_query_audit** function to view the logs. For details, see :ref:`Using Functions to View Database Audit Logs <en-us_topic_0000001951848337__en-us_topic_0000001405788485_en-us_topic_0000001233761719_s0aec83296dc54e8f92966415aaaa3a6f>`.
 
-.. _en-us_topic_0000001707254701__en-us_topic_0000001422959325_en-us_topic_0000001405788485_en-us_topic_0000001233761719_s0aec83296dc54e8f92966415aaaa3a6f:
+.. _en-us_topic_0000001951848337__en-us_topic_0000001405788485_en-us_topic_0000001233761719_s0aec83296dc54e8f92966415aaaa3a6f:
 
 Using Functions to View Database Audit Logs
 -------------------------------------------
@@ -35,9 +35,9 @@ Using Functions to View Database Audit Logs
 
    ::
 
-      pg_query_audit(timestamptz startime,timestamptz endtime,audit_log)
+      pg_query_audit(timestamptz starttime,timestamptz endtime,audit_log)
 
-   **startime** and **endtime** indicate the start time and end time of the audit record, respectively. **audit_log** indicates the physical file path of the queried audit logs. If **audit_log** is not specified, the audit log information of the current instance is queried.
+   **starttime** and **endtime** indicate the start time and end time of the audit record, respectively. **audit_log** indicates the physical file path of the queried audit logs. If **audit_log** is not specified, the audit log information of the current instance is queried.
 
    For example, view the audit records of the current CN node in a specified period.
 
@@ -59,7 +59,7 @@ Using Functions to View Database Audit Logs
 
    ::
 
-      pgxc_query_audit(timestamptz startime,timestamptz endtime)
+      pgxc_query_audit(timestamptz starttime,timestamptz endtime)
 
    For example, view the audit records of all CN nodes in a specified period.
 

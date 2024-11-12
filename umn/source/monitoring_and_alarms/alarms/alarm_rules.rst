@@ -22,7 +22,7 @@ Overview
 -  Alarm rule operations
 
    -  Modify: modifies an alarm rule. All alarm rules apply (all items of user-defined alarm rules but only some items of the default alarm rules).
-   -  Enable/Disable: enables or disables an alarm rule. All alarm rules can be enabled or disabled. After an alarm rule is enabled, it is added to the check list by the alarm engine and can be triggered normally. Disabled alarm rules will be removed from the check list by the alarm engine and will not be triggered.
+   -  Enable/Disable: enables or disables an alarm rule. All alarm rules apply. When an alarm rule is enabled, it is added to the check list of the alarm engine and can be triggered normally. Disabled rules are not in the check list.
    -  Delete: deletes an alarm rule. You can delete only user-defined rules. Default alarm rules cannot be deleted.
 
 Precautions
@@ -52,26 +52,36 @@ Modifying an Alarm Rule
 
 #. On the **Alarm Rules** page that is displayed, click **Modify** in the **Operation** column of the target alarm rule.
 
-   -  **Alarm rule name**: The rule name contains 6 to 64 characters (letters, digits, Chinese characters, slashes) and must start with a non-digit character.
-   -  **Description**
-   -  **Associated Cluster**: From the drop-down list, select the current tenant's clusters to which the alarm rule applies.
-   -  **Triggered Policies**
-
-      -  **Independent**: Alarm policies are triggered independently of each other.
-      -  **Priority**: Alarm policies are triggered by priority. Policies of a lower priority will be automatically triggered after those of a higher priority.
-
-   -  **Alarm Policy**
-
-      -  **Metric**: GaussDB(DWS) monitoring metric, which is the data source used by the alarm engine for threshold determination.
-      -  **Trigger**: calculation rule for threshold determination of a monitoring metric. Select the average value within a period of time of a metric to reduce the probability of alarm oscillation.
-      -  **Constraint**: suppresses the repeated triggering and clearance of alarms of the same type within the specified period.
-      -  **Alarm Severity**: includes **Urgent**, **Important**, **Minor**, and **Prompt**.
-
-   |image2|
-
    .. note::
 
       You can modify only some items of the default rules (associated cluster, alarm policy threshold, time period, and alarm constraint). User-defined rules support modification of all items.
+
+   .. _en-us_topic_0000001924728596__table5459418131114:
+
+   .. table:: **Table 1** Alarm rule parameters
+
+      +-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+      | Parameter             | Description                                                                                                                                                                                       | Example Value         |
+      +=======================+===================================================================================================================================================================================================+=======================+
+      | Alarm Rule            | The rule name contains 6 to 64 characters and must start with a non-digit character.                                                                                                              | ``-``                 |
+      +-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+      | Description           | User-defined description, which contains a maximum of 490 characters.                                                                                                                             | ``-``                 |
+      +-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+      | Associated Cluster    | You can select a cluster of the current tenant from the drop-down list box as the monitoring cluster of the alarm module.                                                                         | All                   |
+      +-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+      | Triggered Policies    | Policy triggering relationships are as follows:                                                                                                                                                   | Independent           |
+      |                       |                                                                                                                                                                                                   |                       |
+      |                       | -  **Independent**: Alarm policies are triggered independently of each other.                                                                                                                     |                       |
+      |                       | -  **Priority**: Alarm policies are triggered by priority. Policies of a lower priority will be automatically triggered after those of a higher priority.                                         |                       |
+      +-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+      | Alarm Policy          | The alarm policies are as follows:                                                                                                                                                                | ``-``                 |
+      |                       |                                                                                                                                                                                                   |                       |
+      |                       | -  **Metric**: GaussDB(DWS) monitoring metric, which is the data source used by the alarm engine for threshold determination.                                                                     |                       |
+      |                       | -  **Alarm Object**: databases in the selected cluster and schemas in the selected databases.                                                                                                     |                       |
+      |                       | -  **Trigger**: calculation rule for threshold determination of a monitoring metric. Select the average value within a period of time of a metric to reduce the probability of alarm oscillation. |                       |
+      |                       | -  **Constraint**: suppresses the repeated triggering and clearance of alarms of the same type within the specified period.                                                                       |                       |
+      |                       | -  **Alarm Severity**: includes **Urgent**, **Important**, **Minor**, and **Prompt**.                                                                                                             |                       |
+      +-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
 
 #. Confirm the information and click **OK**.
 
@@ -81,37 +91,10 @@ Creating an Alarm Rule
 #. Log in to the GaussDB(DWS) management console.
 #. In the navigation pane on the left, click **Alarms**.
 #. Click **View Alarm Rule** in the upper left corner.
-#. Click **Create Alarm Rule** in the upper right corner. You can configure items, such as the alarm rule name, rule description, clusters associated with the rule, and alarm policy.
+#. Click **Create Alarm Rule** in the upper right corner. You can configure items, such as the alarm rule name, rule description, associated cluster, and alarm policy. For details, see :ref:`Table 1 <en-us_topic_0000001924728596__table5459418131114>`.
 
-   -  **Alarm rule name**: The rule name contains 6 to 64 characters (letters, digits, Chinese characters, slashes) and must start with a non-digit character.
-   -  **Description**
-   -  **Associated Cluster**: From the drop-down list, select the current tenant's clusters to which the alarm rule applies.
-   -  **Triggered Policies**
+   .. note::
 
-      -  **Independent**: Alarm policies are triggered independently of each other.
-      -  **Priority**: Alarm policies are triggered by priority. Policies of a lower priority will be automatically triggered after those of a higher priority.
+      Currently, only alarm rules of schema usage metrics can be created on GaussDB(DWS).
 
-   -  **Alarm Policy**
-
-      -  **Metric**: GaussDB(DWS) monitoring metric, which is the data source used by the alarm engine for threshold determination.
-
-      -  **Alarm Object**: databases in the selected cluster and schemas in the selected databases.
-
-      -  **Trigger**: calculation rule for threshold determination of a monitoring metric. Select the average value within a period of time of a metric to reduce the probability of alarm oscillation.
-
-      -  **Constraint**: suppresses the repeated triggering and clearance of alarms of the same type within the specified period.
-
-      -  **Alarm Severity**: includes **Urgent**, **Important**, **Minor**, and **Prompt**.
-
-
-         .. figure:: /_static/images/en-us_image_0000001711597828.png
-            :alt: **Figure 1** Creating an alarm rule
-
-            **Figure 1** Creating an alarm rule
-
-         .. note::
-
-            Currently, only alarm rules of schema usage metrics can be created on GaussDB(DWS).
-
-.. |image1| image:: /_static/images/en-us_image_0000001759357369.png
-.. |image2| image:: /_static/images/en-us_image_0000001711438332.png
+.. |image1| image:: /_static/images/en-us_image_0000001924569548.png

@@ -14,7 +14,7 @@ A manual snapshot can be created at any time. It will be retained until it is de
 
 .. note::
 
-   -  Manual cluster snapshots can be backed up to OBS.
+   -  Manual cluster snapshots can be backed up to OBS or NFS.
    -  To create a manual snapshot of a cluster, the cluster state must be **Available**, **To be restarted**, or **Unbalanced**. In cluster versions earlier than 8.1.3.101, you can also create a snapshot of a cluster in the **Read-only** state.
 
 Impact on the System
@@ -29,15 +29,11 @@ If a snapshot is being created for a cluster, the cluster cannot be restarted, s
 Procedure
 ---------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane, choose **Snapshots**.
 
-#. In the navigation pane, choose **Snapshots**. Click **Create Snapshot** in the upper right corner. Alternatively, choose **More** > **Create Snapshot** in the **Operation** column on the **Dedicated Clusters** page.
-
-   |image1|
-
-   |image2|
+#. In the navigation pane, choose **Snapshots**. Click **Create Snapshot** in the upper right corner. Alternatively, choose **More** > **Create Snapshot** in the **Operation** column.
 
 #. Configure the following snapshot information:
 
@@ -46,16 +42,10 @@ Procedure
    -  **Snapshot Level**: Select **cluster**.
    -  **Snapshot Description**: Enter the snapshot information. This parameter is optional. Snapshot information contains 0 to 256 characters and does not support the following special characters: !<>'=&"
 
-   |image3|
-
 #. Click **Create**.
 
    Task status of the cluster for which you are creating a snapshot is **Creating snapshot**. The status of the snapshot that is being created is **Creating**. After the snapshot is created, its status changes to **Available**.
 
    .. note::
 
-      If the snapshot size is much greater than that of the data stored in the cluster, the data is possibly labeled with a deletion tag, but is not cleared and reclaimed. In this case, clear the data and recreate a snapshot. For details, see :ref:`How Can I Clear and Reclaim the Storage Space? <dws_03_0033>`
-
-.. |image1| image:: /_static/images/en-us_image_0000001759358513.png
-.. |image2| image:: /_static/images/en-us_image_0000001711598968.png
-.. |image3| image:: /_static/images/en-us_image_0000001711439500.png
+      If the snapshot size is much greater than that of the data stored in the cluster, the data is possibly labeled with a deletion tag, but is not cleared and reclaimed. In this case, clear the data and recreate a snapshot. For details, see :ref:`How Can I Clear and Reclaim the Storage Space in GaussDB(DWS)? <dws_03_0033>`

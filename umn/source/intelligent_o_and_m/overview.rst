@@ -19,12 +19,8 @@ The intelligent O&M page consists of the following parts:
 
 -  O&M details: **O&M Plan** and **O&M Status**. **O&M Plan** displays the basic information about all O&M tasks, and **O&M Status** displays the running status.
 
-|image1|
-
 .. note::
 
    -  This feature is supported only in 8.1.3 or later.
-   -  The intelligent O&M function is not supported in hybrid data warehouses (standalone mode).
+   -  After completing the **VACUUM FULL** O&M task, the system automatically performs the **ANALYZE** operation.
    -  Only cluster 8.1.3 and later versions support the common configuration module for O&M tasks. For earlier versions, contact technical support to upgrade them.
-
-.. |image1| image:: /_static/images/en-us_image_0000001711439924.png

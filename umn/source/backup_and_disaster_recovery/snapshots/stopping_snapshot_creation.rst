@@ -20,20 +20,14 @@ Only the snapshots in the **Creating** state can be stopped. A snapshot creation
 Procedure
 ---------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane on the left, choose **Snapshots**.
 
    In the **Operation** column of a snapshot that is being created, and click **Cancel Creation**.
 
-   |image1|
-
 #. In the dialog box that is displayed, click **Yes** to stop the snapshot. The snapshot state will change to **Unavailable**.
 
-   |image2|
+   |image1|
 
-   |image3|
-
-.. |image1| image:: /_static/images/en-us_image_0000001759358649.png
-.. |image2| image:: /_static/images/en-us_image_0000001711599112.png
-.. |image3| image:: /_static/images/en-us_image_0000001711439620.png
+.. |image1| image:: /_static/images/en-us_image_0000001952008733.png

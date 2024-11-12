@@ -7,9 +7,9 @@ Using the Linux gsql Client to Connect to a Cluster
 
 This section describes how to connect to a database through an SQL client after you create a data warehouse cluster and before you use the cluster's database. GaussDB(DWS) provides the Linux gsql client that matches the cluster version for you to access the cluster through the cluster's public or private network address.
 
-The gsql command line client provided by GaussDB(DWS) runs on Linux. Before using it to remotely connect to a GaussDB(DWS) cluster, you need to prepare a Linux server for installing and running the gsql client. If you use a public network address to access the cluster, you can install the Linux gsql client on your own Linux server. Ensure that the Linux server has a public network address. If no EIPs are configured for your GaussDB(DWS) cluster, you are advised to create a Linux ECS for convenience purposes. For more information, see :ref:`(Optional) Preparing an ECS as the gsql Client Server <en-us_topic_0000001707254537__en-us_topic_0000001422799513_section634463134117>`.
+The gsql command line client provided by GaussDB(DWS) runs on Linux. Before using it to remotely connect to a GaussDB(DWS) cluster, you need to prepare a Linux server for installing and running the gsql client. If you use a public network address to access the cluster, you can install the Linux gsql client on your own Linux server. Ensure that the Linux server has a public network address. If no EIPs are configured for your GaussDB(DWS) cluster, you are advised to create a Linux ECS for convenience purposes. For more information, see :ref:`(Optional) Preparing an ECS as the gsql Client Server <en-us_topic_0000001952008269__section634463134117>`.
 
-.. _en-us_topic_0000001707254537__en-us_topic_0000001422799513_section634463134117:
+.. _en-us_topic_0000001952008269__section634463134117:
 
 (Optional) Preparing an ECS as the gsql Client Server
 -----------------------------------------------------
@@ -18,7 +18,7 @@ For details about how to create an ECS, see "Getting Started > Creating an ECS" 
 
 The created ECS must meet the following requirements:
 
--  The ECS and data warehouse cluster must belong to the same region and AZ.
+-  ECS and GaussDB(DWS) clusters must belong to the same region and AZ.
 
 -  If you use the gsql client provided by GaussDB(DWS) to connect to the GaussDB(DWS) cluster, the ECS image must meet the following requirements:
 
@@ -59,14 +59,14 @@ The created ECS must meet the following requirements:
    Ensure that the cluster's security group contains rules meeting the following requirements. If the rules do not exist, add them to the security group:
 
    -  **Transfer Direction**: **Inbound**
-   -  Protocol: The protocol must contain TCP. For example, **TCP** or **All**.
-   -  **Port**: Set this parameter to the database port that provides services in the data warehouse cluster, for example, **8000**.
-   -  **Source**: The IP address set here must contain the IP address of the GaussDB(DWS) client server, for example, **192.168.0.10/32**.
+   -  **Protocol**: The protocol must contain TCP. For example, **TCP** or **All**.
+   -  **Port**: Set this parameter to the servicing database port of the GaussDB(DWS) cluster. Example: 8000.
+   -  Source IP Address: The IP address set here must contain the IP address of the GaussDB(DWS) client host. Example: 192.168.0.10/32.
 
 Downloading the Linux gsql Client and Connecting to a Cluster
 -------------------------------------------------------------
 
-#. Download the Linux gsql client by referring to :ref:`Downloading the Data Studio client <dws_01_0031>`, and use an SSH file transfer tool (such as WinSCP) to upload the client to a target Linux server.
+#. Download the Linux gsql client by referring to :ref:`Downloading the Client <dws_01_0031>`, and use an SSH file transfer tool (such as WinSCP) to upload the client to a target Linux server.
 
    You are advised to download the gsql tool that matches the cluster version. That is, use gsql 8.1.x for clusters of 8.1.0 or later, and use gsql 8.2.x for clusters of 8.2.0 or later. To download gsql 8.2.x, replace **dws_client_8.1.x_redhat_x64.zip** with **dws_client_8.2.x_redhat_x64.zip**. The **dws_client_8.1.x_redhat_x64.zip** is used as an example.
 
@@ -170,7 +170,7 @@ TPC-DS is the benchmark for testing the performance of decision support. With TP
 
    .. note::
 
-      *<Access_Key_Id>* and *<Secret_Access_Key>*: indicate the AK and SK, respectively. For details about how to obtain the AK and SK, see "Data Import > Concurrently Importing Data from OBS > Creating Access Keys (AK and SK)" in the *Data Warehouse Service (DWS) Developer Guide*. Then, replace the parameters in the statements with the obtained values.
+      *<Access_Key_Id>* and *<Secret_Access_Key>*: indicate the AK and SK, respectively. For how to obtain the AK and SK, see "Data Import" > "Concurrently Importing Data from OBS" > "Creating Access Keys (AK and SK)" in *Data Warehouse Service (DWS) Developer Guide*. Then, replace the parameters in the statements with the obtained values.
 
 #. Go back to previous directory and run the gsql environment variables.
 
