@@ -15,24 +15,17 @@ You can configure the parameters for creating and restoring a snapshot.
 Procedure
 ---------
 
-#. Log in to the GaussDB(DWS) management console.
-
-#. In the navigation pane on the left, choose **Clusters** > **Dedicated Clusters**.
-
+#. Log in to the GaussDB(DWS) console.
+#. In the navigation pane, choose **Clusters** > **Dedicated Clusters**.
 #. In the cluster list, click the name of the target cluster. The **Cluster Information** page is displayed.
-
 #. Click the **Snapshots** tab page and click **Configure Parameters**. All the configurable parameters of the current cluster will be displayed.
-
-#. Configure parameters as required. For details, see :ref:`Table 1 <en-us_topic_0000001658895274__en-us_topic_0000001478356381_table16486142263310>`.
-
-   |image1|
-
+#. Configure parameters as required. For details, see :ref:`Table 1 <en-us_topic_0000001924728768__table16486142263310>`.
 #. Click **Save**.
 
 Snapshot parameters
 -------------------
 
-.. _en-us_topic_0000001658895274__en-us_topic_0000001478356381_table16486142263310:
+.. _en-us_topic_0000001924728768__table16486142263310:
 
 .. table:: **Table 1** Snapshot information
 
@@ -96,5 +89,3 @@ Snapshot parameters
    |                     |                       | -  **DEBUG**: Debugging details.                                                                                                                                                    |                                                          |
    |                     |                       | -  **DEBUG2**: Detailed debugging information, which is generally not displayed. This is the least severe level.                                                                    |                                                          |
    +---------------------+-----------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------+
-
-.. |image1| image:: /_static/images/en-us_image_0000001759518501.png

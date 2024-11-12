@@ -10,45 +10,39 @@ Overview
 
 On the **Nodes** tab page, you can view the node list of the current cluster, add new nodes to or remove nodes from it, and view the node usage, status, flavor, and AZ. To modify an alias, click |image1| next to it.
 
-|image2|
+
+.. figure:: /_static/images/en-us_image_0000001951848629.png
+   :alt: **Figure 1** Managing Nodes
+
+   **Figure 1** Managing Nodes
 
 .. note::
 
    -  This feature is supported only in 8.1.1.200 or later cluster versions.
 
+.. _en-us_topic_0000001952008065__section1755822564916:
+
 Adding Nodes
 ------------
 
-This function is more suited for large-scale scale-out. Nodes can be added in batches in advance without interrupting services. For example, if 180 more BMS nodes are needed, add them in three batches (60 for each batch). If some nodes fail to be added, add them again. After all the 180 nodes are successfully added, use the nodes for cluster scale-out.
+This function is more suited for large-scale scale-out. Nodes can be added in batches in advance without interrupting services. To add 180 nodes, add them in three batches of 60 nodes each. If any nodes fail to be added, retry adding them. Once all 180 nodes are added, use them for scaling out.
 
 **Precautions**
 
 -  Nodes can be added only when no other task is running on the management side.
 -  The storage size of a new node must be the same as that of each of the existing nodes in the cluster.
--  A node that is successfully added, usually for scale-out purposes, is called an idle node. You are advised to add nodes only when necessary and use them for scale-out in a timely manner once they are added.
+-  An added node, typically for scaling out, is referred to as an idle node. You are advised to only add nodes when needed and promptly use them for scaling out.
 -  The anti-affinity rule dictates that the number of nodes to be added at a time must be an integer multiple of the cluster ring size. For example, if the cluster ring size is 3, the number of nodes to be added must be an integer multiple of 3.
 -  In the anti-affinity deployment mode, when a node is idle and fails due to power-off or other causes, it makes other nodes in its server group unavailable. In this case, you should remove and re-add the failed node.
 -  The anti-affinity rule dictates that, if a node fails to be added and is rolled back, other nodes that are being added in the same server group will also be rolled back.
 
 **Procedure**
 
-#. Log in to the GaussDB(DWS) management console.
-
+#. Log in to the GaussDB(DWS) console.
 #. Choose **Clusters** > **Dedicated Clusters**. All clusters are displayed by default.
-
 #. Click the name of the target cluster. On the **Cluster Information** page that is displayed, choose **Nodes**.
-
-#. Click **Add**, enter the number of nodes to be added, read the note, and select **Confirmed**. Click **Next: Confirm**.
-
-#. Click **Submit**. The nodes will start to be added, as shown in the following figure.
-
-   |image3|
-
-.. note::
-
-   The nodes that fail to be added will be automatically rolled back and recorded in the displayed list, as shown in the following figure.
-
-   |image4|
+#. Click **Add**, enter the number of nodes to be added, and click **Next: Confirm**. If there are not enough IP addresses in the original subnet, you can add idle nodes from other subnets.
+#. After confirming that the information is correct, click **Submit**. The **Nodes** page is displayed. On this page, you can start adding nodes. Nodes that fail to be added are automatically rolled back and recorded in the failure list.
 
 Removing Nodes
 --------------
@@ -61,20 +55,10 @@ Removing Nodes
 
 **Procedure**
 
-#. Log in to the GaussDB(DWS) management console.
-
+#. Log in to the GaussDB(DWS) console.
 #. Choose **Clusters** > **Dedicated Clusters**. All clusters are displayed by default.
-
 #. Click the name of the target cluster. On the **Cluster Information** page that is displayed, choose **Nodes**.
+#. On the **Nodes** page, select the node to be deleted and click **Delete**.
+#. Confirm the information and click **OK**. After the deletion is successful, the node is no longer displayed on the **Nodes** page.
 
-#. On the **Nodes** page, select the nodes to be removed, click **Remove**, and click **Yes** to submit the task.
-
-   |image5|
-
-#. The nodes that are successfully removed will not be displayed on the **Nodes** page.
-
-.. |image1| image:: /_static/images/en-us_image_0000001759358097.png
-.. |image2| image:: /_static/images/en-us_image_0000001711598564.png
-.. |image3| image:: /_static/images/en-us_image_0000001711598572.png
-.. |image4| image:: /_static/images/en-us_image_0000001759517969.png
-.. |image5| image:: /_static/images/en-us_image_0000001711439084.png
+.. |image1| image:: /_static/images/en-us_image_0000001924569556.png

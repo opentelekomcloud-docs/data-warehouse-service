@@ -14,18 +14,12 @@ On the **Snapshot Management** page of the GaussDB(DWS) management console, you 
 Procedure
 ---------
 
-#. Log in to the GaussDB(DWS) management console.
-
+#. Log in to the GaussDB(DWS) console.
 #. In the navigation pane, choose **Snapshots**. All snapshots are displayed by default.
-
 #. In the **Operation** column of the snapshot that you want to delete, choose **More** > **Delete**.
-
-   |image1|
 
    .. note::
 
       You can only delete snapshots that were manually created.
 
 #. If the information is correct, enter **DELETE** and click **OK** to delete the snapshot.
-
-.. |image1| image:: /_static/images/en-us_image_0000001711599004.png

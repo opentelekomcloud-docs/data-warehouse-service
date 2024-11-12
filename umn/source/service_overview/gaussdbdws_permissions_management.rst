@@ -11,7 +11,7 @@ With IAM, you can use your cloud account to create IAM users for your employees,
 
 If your cloud account does not need individual IAM users for permissions management, you may skip this section.
 
-IAM can be used free of charge. You pay only for the resources in your account. For more information about IAM, see "Service Overview" in the *Identity and Access Management User Guide*.
+IAM can be used free of charge. You pay only for the resources in your account. For more information about IAM, see "Service Overview" in *Identity and Access Management User Guide*.
 
 Supported System Policies
 -------------------------
@@ -23,9 +23,9 @@ GaussDB(DWS) is a project-level service deployed and accessed in specific physic
 -  **Role**: IAM initially provides a coarse-grained authorization mechanism to define permissions based on users' job responsibilities. This mechanism provides only a limited number of service-level roles for authorization. When using roles to grant permissions, you must also assign other roles on which the permissions depend to take effect. However, roles are not an ideal choice for fine-grained authorization and secure access control.
 -  **Policies**: A type of fine-grained authorization mechanism that defines permissions required to perform operations on specific cloud resources under certain conditions. This mechanism allows for more flexible policy-based authorization, meeting requirements for secure access control. For example, you can grant GaussDB(DWS) users only the permissions for managing a certain type of GaussDB(DWS) resources.
 
-:ref:`Table 1 <en-us_topic_0000001707293725__en-us_topic_0000001372839338_table1945683962711>` lists all the system-defined roles and policies supported by GaussDB(DWS).
+:ref:`Table 1 <en-us_topic_0000001951848289__table1945683962711>` lists all the system-defined roles and policies supported by GaussDB(DWS).
 
-.. _en-us_topic_0000001707293725__en-us_topic_0000001372839338_table1945683962711:
+.. _en-us_topic_0000001951848289__table1945683962711:
 
 .. table:: **Table 1** GaussDB(DWS) system permissions
 
@@ -44,7 +44,7 @@ GaussDB(DWS) is a project-level service deployed and accessed in specific physic
    | DWS Database Access | GaussDB(DWS) database access permission. Users with this permission can generate the temporary database user credentials based on IAM users to connect to the database in the data warehouse cluster. | System-defined role   | Dependent on the **DWS Administrator** policy, which must be assigned in the same project as the **DWS Database Access** policy.                         |
    +---------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-:ref:`Table 2 <en-us_topic_0000001707293725__en-us_topic_0000001372839338_table175152005317>` lists the common operations supported by each system-defined policy or role of GaussDB(DWS). Choose appropriate policies or roles as required.
+:ref:`Table 2 <en-us_topic_0000001951848289__table175152005317>` lists the common operations supported by each system-defined policy or role of GaussDB(DWS). Choose appropriate policies or roles as required.
 
 .. note::
 
@@ -52,7 +52,7 @@ GaussDB(DWS) is a project-level service deployed and accessed in specific physic
    -  In addition to policy permissions, you may need to grant different operation permissions on resources to users of different roles. For details about operations, such as creating snapshots and restarting clusters, see "Syntax of Fine-Grained Permissions Policies" in *Data Warehouse Service (DWS) User Guide*.
    -  By default, only cloud accounts or users with Security Administrator permissions can query and create agencies. By default, the IAM users in those accounts cannot query or create agencies. When the users use the EIP, the system makes the binding function unavailable. Contact a user with the **DWS Administrator** permissions to authorize the agency on the current page.
 
-.. _en-us_topic_0000001707293725__en-us_topic_0000001372839338_table175152005317:
+.. _en-us_topic_0000001951848289__table175152005317:
 
 .. table:: **Table 2** Common operations supported by each system-defined policy or role of GaussDB(DWS)
 

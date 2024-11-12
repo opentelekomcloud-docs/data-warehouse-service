@@ -18,4 +18,10 @@ The compatible client and driver versions are:
 -  PostgreSQL JDBC Driver 9.3-1103 or later
 -  PSQL ODBC 09.01.0200 or later
 
-For details about how to use JDBC/ODBC to connect to GaussDB(DWS), see *Tutorial: Development Using JDBC or ODBC*.
+For how to use JDBC/ODBC to connect to GaussDB(DWS), see "Guide: JDBC- or ODBC-Based Development".
+
+.. important::
+
+   -  You are advised to use the officially recommended method for connecting to the database. For details, see "Methods of Connecting to a Cluster" in the *Data Warehouse Service (DWS) User Guide*.
+   -  Compatibility with other clients cannot be guaranteed, so it may be necessary to verify it.
+   -  If an error occurs due to incompatibility with another client and the client cannot be replaced, try replacing the libpq driver on the client. Download and decompress the gsql client package, obtain the **libpg.so** file in the **gsql** directory, and replace the **libpg.so** file in the specified directory on the client. For details, see .

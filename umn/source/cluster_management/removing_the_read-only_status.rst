@@ -5,7 +5,7 @@
 Removing the Read-only Status
 =============================
 
-A cluster in read-only status does not allow write operations. You can remove this status on the management console. A cluster becomes read-only probably because of high disk usage. For details about how to solve this problem, see "High Disk Usage and Read Only Status" in *Data Warehouse Service (DWS) Troubleshooting Guide*.
+A cluster in read-only status does not allow write operations. You can remove this status on the management console. A cluster becomes read-only probably because of high disk usage. For how to solve this problem, see "High Disk Usage and Read Only Status" in *Data Warehouse Service (DWS) Troubleshooting Guide*.
 
 .. note::
 
@@ -22,14 +22,12 @@ Impact on the System
 Removing Read-only Status
 -------------------------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
-#. Choose **Clusters** > **Dedicated Cluster**. All clusters are displayed by default.
+#. Choose **Clusters** > **Dedicated Clusters**.
 
-#. In the **Operation** column of the target cluster, choose **More** > **Cancel Read-only**.
+   All clusters are displayed by default.
 
-   |image1|
+#. In the row containing the cluster whose cluster status is **Read-only**, click **Cancel Read-only**.
 
 #. In the dialog box that is displayed, click **OK** to confirm and remove the read-only status for the cluster.
-
-.. |image1| image:: /_static/images/en-us_image_0000001759519193.png

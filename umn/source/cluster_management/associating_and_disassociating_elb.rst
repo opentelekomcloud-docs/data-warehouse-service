@@ -8,7 +8,7 @@ Associating and Disassociating ELB
 Overview
 --------
 
-If the private IP address or EIP of a CN is used to connect to a cluster, the failure of this CN will lead to cluster connection failure. If a private or public domain name is used for connection, the DNS service randomly selects a private IP address or EIP for each client. This cannot balance loads or avoid single-CN failures. ELB is used to solve these problems.
+If the private IP address or EIP of a CN is used to connect to a cluster, the failure of this CN will lead to cluster connection failure. If a private domain name is used for connection, the DNS service randomly selects a private IP address or EIP for each client. This cannot balance loads or avoid single-CN failures. ELB is used to solve these problems.
 
 An ELB distributes access traffic to multiple ECSs for traffic control based on forwarding policies. It improves the fault tolerance capability of application programs. For details, see *Elastic Load Balance User Guide*.
 
@@ -41,9 +41,9 @@ Constraints and Limitations
 Associating ELB
 ---------------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
-#. Choose **Clusters** > **Dedicated Cluster**. All clusters are displayed by default.
+#. Choose **Clusters** > **Dedicated Clusters**. All clusters are displayed by default.
 
 #. In the cluster list, click the name of the target cluster. The **Cluster Information** page is displayed.
 
@@ -51,34 +51,20 @@ Associating ELB
 
 #. After the request is delivered, go back to the **Clusters** page. Task information **Associating ELB** of the cluster is displayed. The process takes some time.
 
-   |image1|
-
 #. Log in to the ELB management console, choose **Elastic Load Balance** > **Load Balancers**, click the name of the bound load balancer, switch to the **Backend Server Groups** tab, and check whether the cluster CNs are associated with the load balancer.
 
-   |image2|
+   |image1|
 
 7. In the **Basic Information** area of the **Cluster Information** page, check the **ELB Address**, which is used for connecting to the cluster.
 
 Disassociating ELB
 ------------------
 
-#. Log in to the GaussDB(DWS) management console.
-
-#. Choose **Clusters** > **Dedicated Cluster**. All clusters are displayed by default.
-
+#. Log in to the GaussDB(DWS) console.
+#. Choose **Clusters** > **Dedicated Clusters**. All clusters are displayed by default.
 #. In the cluster list, click the name of the target cluster. The **Cluster Information** page is displayed.
-
 #. On the **Basic Information** page that is displayed, click **Disassociate ELB**.
-
 #. After the request is delivered, go back to the **Clusters** page. Task information **Dissociating ELB** of the cluster is displayed. The process takes some time.
-
-   |image3|
-
 #. Log in to the ELB management console, click the name of the dissociated ELB, switch to the **Backend Server Groups** tab, and check whether the cluster CNs are deleted.
 
-   |image4|
-
-.. |image1| image:: /_static/images/en-us_image_0000001758836157.png
-.. |image2| image:: /_static/images/en-us_image_0000001774921465.png
-.. |image3| image:: /_static/images/en-us_image_0000001711037100.png
-.. |image4| image:: /_static/images/en-us_image_0000001711196592.png
+.. |image1| image:: /_static/images/en-us_image_0000001924728940.png

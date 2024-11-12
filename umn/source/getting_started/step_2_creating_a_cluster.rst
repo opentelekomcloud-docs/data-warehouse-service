@@ -39,7 +39,7 @@ Creating a Cluster
    -  **Database Port**: Use the default port number. This port is used by the client or application to connect to the cluster's database.
 
 
-   .. figure:: /_static/images/en-us_image_0000001231389497.png
+   .. figure:: /_static/images/en-us_image_0000001951848741.png
       :alt: **Figure 1** Configuring the cluster
 
       **Figure 1** Configuring the cluster
@@ -54,9 +54,9 @@ Creating a Cluster
 
       The automatically created security group is named **GaussDB(DWS)**-<*Cluster name*>-<*GaussDB(DWS) cluster database port*>. The outbound allows all access requests, while the inbound enables only **Database Port** for access requests from clients or applications.
 
-      If you select a custom security group, add an inbound rule to it to enable **Database Port** for client hosts to access GaussDB(DWS). :ref:`Table 1 <en-us_topic_0000001658895142__en-us_topic_0000001372679790_table19508017113430>` shows an example. For details about how to add an inbound rule, see "Security > Security Group > Adding a Security Group Rule" in the *Virtual Private Cloud User Guide*.
+      If you select a custom security group, add an inbound rule to it to enable **Database Port** for client hosts to access GaussDB(DWS). :ref:`Table 1 <en-us_topic_0000001924569384__table19508017113430>` shows an example. For details about how to add an inbound rule, see "Security > Security Group > Adding a Security Group Rule" in the *Virtual Private Cloud User Guide*.
 
-      .. _en-us_topic_0000001658895142__en-us_topic_0000001372679790_table19508017113430:
+      .. _en-us_topic_0000001924569384__table19508017113430:
 
       .. table:: **Table 1** Inbound rule example
 
@@ -77,7 +77,7 @@ Creating a Cluster
    -  **EIP**: Select **Automatically assign** to apply for a cluster EIP as the public network IP address of the cluster. In addition, set the EIP bandwidth.
 
 
-   .. figure:: /_static/images/en-us_image_0000001185831380.png
+   .. figure:: /_static/images/en-us_image_0000001951848737.png
       :alt: **Figure 2** Configuring the network
 
       **Figure 2** Configuring the network
@@ -94,9 +94,8 @@ Creating a Cluster
 
       -  **CNs**: Three CNs are deployed by default.
       -  **Tag**: By default, no tag is added to the cluster.
-      -  **Encrypt DataStore**: This parameter is disabled by default, indicating that the database is not encrypted.
 
-   -  **Custom**: Select this option to configure the following advanced parameters: **Automated Snapshot**, **CNs**, **Tag**
+   -  **Custom**: Select this option to configure advanced parameters **Automated Snapshot**, **Tag**, and **CNs**.
 
 #. Click **Create Now**. The **Confirm** page is displayed.
 
@@ -104,4 +103,4 @@ Creating a Cluster
 
    After the submission is successful, the creation starts. Click **Back to Cluster List**. The **Dedicated Clusters** page is displayed. The initial status of the cluster is **Creating**. Cluster creation takes some time. Wait for a while. Clusters in the **Available** state are ready for use.
 
-.. |image1| image:: /_static/images/en-us_image_0000001231389491.png
+.. |image1| image:: /_static/images/en-us_image_0000001924569656.png

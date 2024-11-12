@@ -101,8 +101,8 @@ Creating Logical Clusters, Associating Them with Users, and Querying Data Across
 
    |image5|
 
-.. |image1| image:: /_static/images/en-us_image_0000001711821160.png
-.. |image2| image:: /_static/images/en-us_image_0000001759420745.png
-.. |image3| image:: /_static/images/en-us_image_0000001759580597.png
-.. |image4| image:: /_static/images/en-us_image_0000001711821172.png
-.. |image5| image:: /_static/images/en-us_image_0000001759420753.png
+.. |image1| image:: /_static/images/en-us_image_0000001924729000.png
+.. |image2| image:: /_static/images/en-us_image_0000001952008477.png
+.. |image3| image:: /_static/images/en-us_image_0000001924569628.png
+.. |image4| image:: /_static/images/en-us_image_0000001951848701.png
+.. |image5| image:: /_static/images/en-us_image_0000001952008469.png

@@ -9,7 +9,7 @@ This document describes the constraints and precautions of using the key functio
 
 After creating a GaussDB(DWS) cluster, you do not need to perform basic database O&M operations, such as HA and security patch installation. However, you need to pay attention to the following:
 
-.. table:: **Table 1** GaussDB (DWS) constraints
+.. table:: **Table 1** GaussDB(DWS) constraints
 
    +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | Item                              | Constraint                                                                                                                                                                                                                                                                                                                         |

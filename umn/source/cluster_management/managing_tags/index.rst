@@ -6,11 +6,11 @@ Managing Tags
 =============
 
 -  :ref:`Overview <dws_01_0104>`
--  :ref:`Tag Management <dws_01_0105>`
+-  :ref:`Managing Tags <dws_01_0105>`
 
 .. toctree::
    :maxdepth: 1
    :hidden: 
 
    overview
-   tag_management
+   managing_tags

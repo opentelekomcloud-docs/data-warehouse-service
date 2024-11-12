@@ -33,11 +33,11 @@ Your cluster may run out of space if disk usage is not controlled, resulting in 
 Procedure
 ---------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. Choose **Clusters**. Click the name of a cluster.
 
-#. Choose **Resource Management Configurations**.
+#. Go to the **Basic Information** page and click the **Resource Management** tab in the navigation pane on the left.
 
 #. On the **Schema Space Manage** page, select a database.
 
@@ -52,4 +52,4 @@ Procedure
       -  The space quota limits only common users but not database administrators. Therefore, when the used space is equal to the space limit, the actual used space may exceed the specified value.
       -  Quota for a single DN = Total quota/Number of DNs. Therefore, the configured value may be slightly different from the displayed value.
 
-.. |image1| image:: /_static/images/en-us_image_0000001759580353.png
+.. |image1| image:: /_static/images/en-us_image_0000001951849065.png

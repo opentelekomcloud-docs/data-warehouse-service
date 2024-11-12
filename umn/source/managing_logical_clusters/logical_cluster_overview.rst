@@ -10,19 +10,20 @@ Concepts
 
 A physical cluster can be divided into Node Groups, which are logical clusters. All physical nodes in a physical cluster are divided into multiple logical clusters. A logical cluster is essentially a node group that contains one or more physical nodes. Each physical node belongs to only one logical cluster, and user data tables can only be distributed within the same logical cluster. The data of each logical cluster is isolated from the others. The physical resources allocated to a logical cluster are mainly used for operations on its own data tables, but also for interactive queries with other logical clusters. An enterprise can deploy services on different logical clusters to implement unified service management, and meanwhile isolate the data and resources of services.
 
-Logical clusters are created by dividing nodes of a physical cluster. Tables in a database can be allocated to different physical nodes by logical cluster. A logical cluster can contain tables from multiple databases. :ref:`Figure 1 <en-us_topic_0000001707293977__en-us_topic_0000001422959201_fig41828596595>` shows the relationships between logical clusters, databases, and tables.
+Logical clusters are created by dividing nodes of a physical cluster. Tables in a database can be allocated to different physical nodes by logical cluster. A logical cluster can contain tables from multiple databases. :ref:`Figure 1 <en-us_topic_0000001924728820__fig41828596595>` shows the relationships between logical clusters, databases, and tables.
 
 An elastic cluster is a cluster that always exists in logical cluster mode and consists of nodes that are not part of any logical cluster. It is a special node group that can have multiple or zero DNs. An elastic cluster cannot be manually created. When the first logical cluster is created in a physical cluster, an elastic cluster is also automatically created and all physical nodes not belonging to the logical cluster are automatically added to the elastic cluster. DNs in the elastic cluster will be used for logical clusters created later. To create a logical cluster, ensure that your logical cluster has DNs. (DNs are not required only when you create the first logical cluster in physical cluster mode.) You can add new physical nodes to the elastic cluster through scale-out.
 
-.. _en-us_topic_0000001707293977__en-us_topic_0000001422959201_fig41828596595:
+.. _en-us_topic_0000001924728820__fig41828596595:
 
-.. figure:: /_static/images/en-us_image_0000001759580565.png
+.. figure:: /_static/images/en-us_image_0000001951848841.png
    :alt: **Figure 1** Relationships between logical clusters, databases, and tables
 
    **Figure 1** Relationships between logical clusters, databases, and tables
 
 .. note::
 
+   -  Logical clusters are supported only by clusters of 8.1.0.100 or later.
    -  You are advised to allocate tables in a database to the same logical cluster.
    -  A logical cluster is not an independent sub-cluster. It can isolate data, resource, and permissions, but cannot be independently operated or maintained.
    -  The **Change all specifications** option does not support logical clusters.
@@ -30,29 +31,35 @@ An elastic cluster is a cluster that always exists in logical cluster mode and c
 Logical Cluster Architecture
 ----------------------------
 
-:ref:`Figure 2 <en-us_topic_0000001707293977__en-us_topic_0000001422959201_fig141362033122319>` shows the architecture of a physical cluster divided into multiple logical clusters. Nodes in the physical cluster are divided into Node Groups. The jobs of users 1 and 2 are executed in different Node Groups. The two users can define resource pools within their own logical cluster to control resources (CPU, memory, and I/O) used for different jobs. If some jobs of user 1 need to access the data of user 2, they can access data across Node Groups after being authorized. For a logical cluster, you can configure resources accessible across logical clusters to ensure its resources are sufficient.
+:ref:`Figure 2 <en-us_topic_0000001924728820__fig141362033122319>` shows the architecture of a physical cluster divided into multiple logical clusters. Nodes in the physical cluster are divided into Node Groups. The jobs of users 1 and 2 are executed in different Node Groups. The two users can define resource pools within their own logical cluster to control resources (CPU, memory, and I/O) used for different jobs. If some jobs of user 1 need to access the data of user 2, they can access data across Node Groups after being authorized. For a logical cluster, you can configure resources accessible across logical clusters to ensure its resources are sufficient.
 
-.. _en-us_topic_0000001707293977__en-us_topic_0000001422959201_fig141362033122319:
+.. _en-us_topic_0000001924728820__fig141362033122319:
 
-.. figure:: /_static/images/en-us_image_0000001711821132.png
+.. figure:: /_static/images/en-us_image_0000001924569776.png
    :alt: **Figure 2** Logical Cluster Architecture
 
    **Figure 2** Logical Cluster Architecture
 
 A physical cluster is divided into multiple logical ones. You can define a resource pool for each of them based on service requirements. User tables are not distributed across logical clusters. If services do not access data across logical clusters, they will not compete for resources. Resources can be allocated to jobs in the same logical cluster by using resource pools. If necessary, you can let services access data across logical clusters, and control the resources used for such access to reduce resource competition between jobs within and outside a logical cluster.
 
-After creating a physical cluster, you need to decide whether to divide it into logical clusters. You cannot divide it into logical clusters if you have already created user tables before, because these user tables are distributed on all physical nodes. For more information about the limitations, see :ref:`Constraints and Limitations <en-us_topic_0000001707293977__en-us_topic_0000001422959201_section1313312397191>`. If you want to manage an existing cluster (for example, a database cluster built in a version earlier than 8.1.0.100) as a logical cluster, you can upgrade the cluster to 8.1.0.100 or later and then convert all the nodes in the cluster into a single logical cluster. Then, add nodes to the physical cluster and create another logical cluster on the new nodes.
+After creating a physical cluster, you need to decide whether to divide it into logical clusters. You cannot divide it into logical clusters if you have already created user tables before, because these user tables are distributed on all physical nodes. For more information about the limitations, see :ref:`Constraints and Limitations <en-us_topic_0000001924728820__section1313312397191>`. If you want to manage an existing cluster (for example, a database cluster built in a version earlier than 8.1.0.100) as a logical cluster, you can upgrade the cluster to 8.1.0.100 or later and then convert all the nodes in the cluster into a single logical cluster. Then, add nodes to the physical cluster and create another logical cluster on the new nodes.
 
 Operations on logical clusters include:
 
--  :ref:`Creating a logical cluster: <dws_01_7242>` After converting a physical cluster into a logical cluster, you can group some physical nodes into a logical cluster by specifying the name and the nodes of the logical cluster.
--  :ref:`Modifying a logical cluster: <dws_01_7243>` You can add or remove nodes from a logical cluster as needed.
--  :ref:`Resource management (logical cluster mode): <dws_01_7249>` You can manage resources in a specified logical cluster (supported only by and later versions).
--  :ref:`Scaling out a logical cluster: <dws_01_7246>` This operation increases the number of physical nodes in the logical cluster and redistributes tables in the logical cluster to the new physical nodes.
--  :ref:`Restarting a logical cluster: <dws_01_7245>` This operation restarts all DNs in the logical cluster. Considering the impact on the entire physical cluster, the DNs in a logical cluster cannot be stopped or started individually.
--  :ref:`Deleting a logical cluster: <dws_01_7244>` You can delete a logical cluster with a specified name. After the logical cluster is deleted, the released physical nodes will be put in the elastic cluster.
+-  :ref:`Adding/Deleting a Logical Cluster <dws_01_7242>`:
 
-.. _en-us_topic_0000001707293977__en-us_topic_0000001422959201_section1313312397191:
+   -  Creating a logical cluster: After converting a physical cluster into a logical cluster, you can group some physical nodes into a logical cluster by specifying the name and the nodes of the logical cluster.
+   -  Deleting a logical cluster: You can delete a logical cluster with a specified name. After the logical cluster is deleted, the released physical nodes are removed from the physical cluster.
+
+-  :ref:`Managing Logical Clusters <dws_01_7243>`:
+
+   -  Modifying a logical cluster: You can add or remove nodes from a logical cluster as needed.
+   -  Resource management (logical cluster mode): You can manage resources in a specified logical cluster (supported only by and later versions).
+   -  Scaling out a logical cluster: This operation increases the number of physical nodes in the logical cluster and redistributes tables in the logical cluster to the new physical nodes.
+   -  Restarting a logical cluster: This operation restarts all DNs in the logical cluster. Considering the impact on the entire physical cluster, the DNs in a logical cluster cannot be stopped or started individually.
+   -  Scaling in a logical cluster: Select and scale in a host ring from an elastic cluster.
+
+.. _en-us_topic_0000001924728820__section1313312397191:
 
 Constraints and Limitations
 ---------------------------
@@ -69,8 +76,8 @@ Constraints and Limitations
 -  In logical cluster mode, the **WITH RECURSIVE** statement cannot be pushed down.
 -  In logical cluster mode, partitions can be swapped only in the same logical cluster. Partitioned tables and common tables in different logical clusters cannot be swapped.
 -  In logical cluster mode, if the function parameters or return values contain table types, these table types must belong to the same logical cluster.
--  In logical cluster mode, run the **CREATE TABLE...** command. When creating a foreign table using **LIKE**, ensure that the source table and the foreign table to be created are in the same logical cluster.
--  In logical cluster mode, the **CREATE TABLE** statement cannot be used during creation of a schema (**CREATE SCHEMA...**). You need to create a schema first and then create a table in the schema.
+-  In logical cluster mode, when you create a foreign table using **CREATE TABLE... LIKE**, the source table and the foreign table to be created must be in the same logical cluster.
+-  In logical cluster mode, tables cannot be created schemas (by using **CREATE SCHEMA... CREATE TABLE** statements). Create a schema, and then create tables in the schema.
 -  A logical cluster does not support the architecture of one primary node and multiple standby nodes. A logical cluster takes effect only in the architecture of one primary node, one standby node, and one secondary node.
 -  A logical cluster user cannot access the global temporary tables created by another logical cluster user.
 
@@ -86,7 +93,7 @@ The following describes user permissions for database objects in logical cluster
    -  If a user is not associated with any logical cluster, when the user creates a table, the table will be created in the logical cluster specified by **default_storage_nodegroup**. If **default_storage_nodegroup** is set to **installation**, the table will be created in the first logical cluster. In logical cluster mode, the logical cluster with the smallest OID is set as the first logical cluster. If **default_storage_nodegroup** is not set, its value is **installation** by default.
    -  The system administrator can run the **ALTER ROLE** command to set **default_storage_nodegroup** for each user. For details about the syntax, see "ALTER ROLE".
 
--  .. _en-us_topic_0000001707293977__en-us_topic_0000001422959201_li591882483418:
+-  .. _en-us_topic_0000001924728820__li591882483418:
 
    Table creation rules
 
@@ -98,9 +105,9 @@ The following describes user permissions for database objects in logical cluster
 -  A system administrator can be associated with a logical cluster and can create tables in multiple logical clusters.
 
    -  If the system administrator is associated with a logical cluster and **to group** is not specified when you create a table, the table will be created in the associated logical cluster by default. If **to group** is specified, the table is created in the specified logical cluster.
-   -  If the system administrator is not associated with a logical cluster and **to group** is not specified, tables are created in the logical cluster of **default_storage_nodegroup**. For details, see the :ref:`table creation rules <en-us_topic_0000001707293977__en-us_topic_0000001422959201_li591882483418>`.
+   -  If the system administrator is not associated with a logical cluster and **to group** is not specified, tables are created in the logical cluster of **default_storage_nodegroup**. For details, see the :ref:`table creation rules <en-us_topic_0000001924728820__li591882483418>`.
 
--  System administrator permissions can be granted to a user associated with a logical cluster, but the :ref:`table creation rules <en-us_topic_0000001707293977__en-us_topic_0000001422959201_li591882483418>` also apply.
+-  System administrator permissions can be granted to a user associated with a logical cluster, but the :ref:`table creation rules <en-us_topic_0000001924728820__li591882483418>` also apply.
 -  The logical cluster permission for accessing non-table objects (such as schemas/sequences/functions/triggers) will not be checked.
 -  A resource pool must be associated with a logical cluster.
 
@@ -132,7 +139,7 @@ Application Scenarios
 **Scenario 1: Isolating data with different resource requirements**
 
 
-.. figure:: /_static/images/en-us_image_0000001759420717.png
+.. figure:: /_static/images/en-us_image_0000001951848845.png
    :alt: **Figure 3** Logical cluster division based on resource requirements
 
    **Figure 3** Logical cluster division based on resource requirements
@@ -140,13 +147,13 @@ Application Scenarios
 As shown in the preceding figure, data with different resource requirements is stored in different logical clusters, and different logical clusters also support mutual access. This ensures that functions are not affected while resources are isolated.
 
 -  Tables T1 and T2 are used to calculate a large amount of data and generate report data (for example, bank batch processing). This process involves large batch import and big data query, which consume a lot of memory and I/O resources of nodes and take a long time. However, such a query does not require high real-time performance. Therefore, the data of these two tables can be separated into a different logical cluster.
--  Tables T3 and T4 contain some computing data and real-time data, which are mainly used for point query and real-time query. These queries need high real-time performance. To prevent the interference of other high-load operations, the data of these two tables can be separated into a different logical cluster.
+-  Tables T3 and T4 contain some computing data and real-time data, which are mainly used for service point query and real-time query. These queries need high real-time performance. To prevent the interference of other high-load operations, the data of these two tables can be separated into a different logical cluster.
 -  Tables T5 and T6 are mainly used for OLTP operations with high concurrency. Data in these tables is frequently updated and sensitive to I/O. To prevent the impact of big data query on I/O, the data of these two tables can be separated into a different logical cluster.
 
 **Scenario 2: Isolating data for different services and enhancing the multi-tenancy of a data cluster**
 
 
-.. figure:: /_static/images/en-us_image_0000001711661632.png
+.. figure:: /_static/images/en-us_image_0000001924729160.png
    :alt: **Figure 4** Logical cluster-based multi-service data and multi-tenant management
 
    **Figure 4** Logical cluster-based multi-service data and multi-tenant management

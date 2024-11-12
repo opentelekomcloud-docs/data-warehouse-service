@@ -5,19 +5,19 @@
 Modifying Database Parameters
 =============================
 
-After a cluster is created, you can modify the cluster's database parameters as required. On the GaussDB(DWS) management console, you can configure common database parameters. For details, see :ref:`Modifying Parameters <en-us_topic_0000001707254661__en-us_topic_0000001422799401_section10522114017574>`. You can also view the parameter modification history. For details, see :ref:`Viewing Parameter Change History <en-us_topic_0000001707254661__en-us_topic_0000001422799401_section1987072615553>`. You can run SQL commands to view or set other database parameters. For details, see **Setting Configuration Parameters** in the *Data Warehouse Service Database Development Guide*.
+After a cluster is created, you can modify the cluster's database parameters as required. On the GaussDB(DWS) console, you can configure common database parameters. For details, see :ref:`Modifying Parameters <en-us_topic_0000001952008165__section10522114017574>`. You can also view the parameter modification history. For details, see :ref:`Viewing Parameter Change History <en-us_topic_0000001952008165__section1987072615553>`. You can run SQL commands to view or set other database parameters. For details, see **Setting Configuration Parameters** in the *Data Warehouse Service Database Development Guide*.
 
 Prerequisites
 -------------
 
 You can modify parameters only when no task is running in the cluster.
 
-.. _en-us_topic_0000001707254661__en-us_topic_0000001422799401_section10522114017574:
+.. _en-us_topic_0000001952008165__section10522114017574:
 
 Modifying Parameters
 --------------------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane on the left, choose **Clusters** > **Dedicated Clusters**.
 
@@ -36,9 +36,9 @@ Modifying Parameters
    .. note::
 
       -  If cluster restart is not required for a parameter, the parameter modification takes effect immediately.
-      -  If cluster restart is required for parameter modifications to take effect, the new parameter values will be displayed on the page after the modification, but will not take effect until the cluster is restarted.Before a restart, the cluster status is **To be restarted**, and some O&M operations are disabled.
+      -  If cluster restart is required for parameter modifications to take effect, the new parameter values will be displayed on the page after the modification, but will not take effect until the cluster is restarted. Before a restart, the cluster status is **To be restarted**, and some O&M operations are disabled.
 
-.. _en-us_topic_0000001707254661__en-us_topic_0000001422799401_section1987072615553:
+.. _en-us_topic_0000001952008165__section1987072615553:
 
 Viewing Parameter Change History
 --------------------------------
@@ -47,7 +47,7 @@ Perform the following steps to view the parameter modification history and check
 
 **Procedure**
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane on the left, choose **Clusters** > **Dedicated Clusters**.
 
@@ -64,20 +64,13 @@ Perform the following steps to view the parameter modification history and check
 
 #. By default, only the change history within a specified period is displayed. To check the entire change history of a parameter, search for it in the search box in the upper right corner.
 
-   |image4|
-
-.. _en-us_topic_0000001707254661__en-us_topic_0000001422799401_section926416313488:
+.. _en-us_topic_0000001952008165__section926416313488:
 
 Parameter Description
 ---------------------
 
-The following table describes part of the database parameters. You can search for and check more parameters by following the instructions in :ref:`Modifying Parameters <en-us_topic_0000001707254661__en-us_topic_0000001422799401_section10522114017574>`.
+There are a large number of database parameters. You can search for and view the parameters on the **Parameter Modification** page. For details, see :ref:`Modifying Parameters <en-us_topic_0000001952008165__section10522114017574>`. The default values of the parameters are for reference only. For more information, see "Setting GUC Parameters".
 
-.. note::
-
-   The default values of the following parameters are for reference only. For more information, see "Setting GUC Parameters".
-
-.. |image1| image:: /_static/images/en-us_image_0000001711440204.png
-.. |image2| image:: /_static/images/en-us_image_0000001759519101.png
-.. |image3| image:: /_static/images/en-us_image_0000001759359237.png
-.. |image4| image:: /_static/images/en-us_image_0000001711440208.png
+.. |image1| image:: /_static/images/en-us_image_0000001924569748.png
+.. |image2| image:: /_static/images/en-us_image_0000001924569744.png
+.. |image3| image:: /_static/images/en-us_image_0000001924569752.png

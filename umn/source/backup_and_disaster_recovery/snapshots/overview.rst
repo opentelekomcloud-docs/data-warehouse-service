@@ -18,12 +18,14 @@ The snapshot backup and restoration rates are listed below. (The rates are obtai
 
 .. note::
 
-   -  Snapshot storage space
+   -  OBS snapshot storage space
 
       -  The cluster storage is provided by GaussDB(DWS) free of charge. Cluster storage = Storage space per node x Number of nodes
 
    -  The dependency of the snapshot service is as follows:
 
+      -  The snapshot management function depends on OBS or NFS.
+      -  The backup device employs disk mounting mode for NFS backup media, reliant on the cloud-based SFS-Tubor service. For details, see :ref:`11.1.3.2 Automatic Snapshot Policy <dws_01_0089>`.
       -  Only the snapshots stored in OBS can be used to restore data to a new cluster.
 
    -  The new GaussDB(DWS) cluster created based on the snapshot must have the same configurations as the original cluster. That is, the number and specifications of nodes, memory, and disks in the new cluster must be the same as those in the original cluster.

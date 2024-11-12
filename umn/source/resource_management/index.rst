@@ -6,9 +6,10 @@ Resource Management
 ===================
 
 -  :ref:`Overview <dws_01_1510>`
--  :ref:`Resource Pool <dws_01_0729>`
--  :ref:`Resource Management Plan <dws_01_1511>`
+-  :ref:`Resource Pool <dws_01_07231>`
+-  :ref:`Resource Management Plan <dws_01_72365>`
 -  :ref:`Workspace Management <dws_01_72366>`
+-  :ref:`Exception Rules <dws_01_72367>`
 
 .. toctree::
    :maxdepth: 1
@@ -18,3 +19,4 @@ Resource Management
    resource_pool/index
    resource_management_plan/index
    workspace_management
+   exception_rules

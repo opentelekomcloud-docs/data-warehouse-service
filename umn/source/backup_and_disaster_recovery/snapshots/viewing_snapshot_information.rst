@@ -11,21 +11,19 @@ This section describes how to view snapshot information on the **Snapshots** pag
 Viewing Snapshot Information
 ----------------------------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane on the left, choose **Snapshots**.
 
-   In the snapshot list, all snapshots are displayed by default. Click |image1| next to the snapshot name to check the snapshot details.
-
-   |image2|
+   In the snapshot list, all snapshots are displayed by default.
 
 #. You can view the **Snapshot Name**, **Snapshot Status**, **Cluster Name**, **Backup Mode**, **Snapshot Type**, **Storage Medium**, and creation time of snapshots.
 
-   You can also enter a snapshot name or cluster name in the upper right corner of the snapshot list and click |image3| to search for the specified snapshot. GaussDB(DWS) supports fuzzy search.
+   You can also enter a snapshot name or cluster name in the upper right corner of the snapshot list and click |image1| to search for the specified snapshot. GaussDB(DWS) supports fuzzy search.
 
-   :ref:`Table 1 <en-us_topic_0000001658895266__en-us_topic_0000001422959269_en-us_topic_0000001307409978_en-us_topic_0000001180320191_table3259774163926>` describes snapshot status.
+   :ref:`Table 1 <en-us_topic_0000001952008213__en-us_topic_0000001307409978_en-us_topic_0000001180320191_table3259774163926>` describes snapshot status.
 
-   .. _en-us_topic_0000001658895266__en-us_topic_0000001422959269_en-us_topic_0000001307409978_en-us_topic_0000001180320191_table3259774163926:
+   .. _en-us_topic_0000001952008213__en-us_topic_0000001307409978_en-us_topic_0000001180320191_table3259774163926:
 
    .. table:: **Table 1** Snapshot status
 
@@ -39,7 +37,9 @@ Viewing Snapshot Information
       | **Unavailable** | Indicates that the existing snapshot cannot provide services. |
       +-----------------+---------------------------------------------------------------+
 
-   The following table describes the backup modes.
+   :ref:`Table 2 <en-us_topic_0000001952008213__en-us_topic_0000001307409978_en-us_topic_0000001180320191_table875924217540>` lists the backup modes.
+
+   .. _en-us_topic_0000001952008213__en-us_topic_0000001307409978_en-us_topic_0000001180320191_table875924217540:
 
    .. table:: **Table 2** Backup modes
 
@@ -72,6 +72,4 @@ Viewing Snapshot Information
       | OBS            | The created snapshot is an OBS snapshot and the backup data is stored on the OBS server. |
       +----------------+------------------------------------------------------------------------------------------+
 
-.. |image1| image:: /_static/images/en-us_image_0000001759518485.jpg
-.. |image2| image:: /_static/images/en-us_image_0000001759358633.png
-.. |image3| image:: /_static/images/en-us_image_0000001711599096.jpg
+.. |image1| image:: /_static/images/en-us_image_0000001951848789.jpg

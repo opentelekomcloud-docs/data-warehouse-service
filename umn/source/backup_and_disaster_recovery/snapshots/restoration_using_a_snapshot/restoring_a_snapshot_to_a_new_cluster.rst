@@ -32,21 +32,19 @@ Prerequisites
 Procedure
 ---------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane, choose **Snapshots**. All snapshots are displayed by default.
 
 #. In the **Operation** column of a snapshot, click **Restore**.
 
-   |image1|
-
 #. On the **Restore Snapshot** page, configure the parameters of the new cluster, as shown in the following figure.
 
-   a. Restore to a single-AZ cluster.
+   -  Restore to a single-AZ cluster.
 
-   You can modify cluster parameters. For details, see :ref:`Table 1 <en-us_topic_0000001659054582__en-us_topic_0000001423159701_en-us_topic_0000001360289709_en-us_topic_0000001180320217_table2991343171911>`. By default, other parameters are the same as those in the snapshot. For details, see :ref:`Table 2 <en-us_topic_0000001658895258__en-us_topic_0000001423119261_en-us_topic_0000001360169333_en-us_topic_0000001231278872_table1355651818416>`.
+   You can modify cluster parameters. For details, see :ref:`Table 1 <en-us_topic_0000001924728744__en-us_topic_0000001360289709_en-us_topic_0000001180320217_table2991343171911>`. By default, other parameters are the same as those in the snapshot. For details, see :ref:`Table 2 <en-us_topic_0000001924728816__en-us_topic_0000001360169333_en-us_topic_0000001231278872_table1355651818416>`.
 
-   .. _en-us_topic_0000001659054582__en-us_topic_0000001423159701_en-us_topic_0000001360289709_en-us_topic_0000001180320217_table2991343171911:
+   .. _en-us_topic_0000001924728744__en-us_topic_0000001360289709_en-us_topic_0000001180320217_table2991343171911:
 
    .. table:: **Table 1** Parameters for the new cluster
 
@@ -70,6 +68,17 @@ Procedure
 
    .. note::
 
-      If the number of requested nodes, vCPU (cores), or memory (GB) exceed the user's remaining quota, a warning dialog box is displayed, indicating that the quota is insufficient and displaying the detailed remaining quota and the current quota application. You can click **Increase quota** in the warning dialog box to submit a service ticket and apply for higher node quota.
+      If the number of requested nodes, vCPU (cores), or memory (GB) exceed the user's remaining quota, a warning dialog box is displayed, indicating that the quota is insufficient and displaying the detailed remaining quota and the current quota application. You can click **Increase quota** in the warning dialog box to submit a service ticket and apply for higher node quota. Once approved, we will update your resource quota accordingly and send you a notification.
 
-.. |image1| image:: /_static/images/en-us_image_0000001759518489.png
+Viewing Restoration Details
+---------------------------
+
+#. Log in to the GaussDB(DWS) console.
+#. Choose **Clusters** > **Dedicated Clusters**.
+#. In the cluster list, if the cluster status is **Restoring**, click **View Details**.
+#. You can view the snapshot restoration progress of the cluster on the task details page.
+
+   .. note::
+
+      -  The estimated duration in the task details is for reference only. The actual duration depends on the current data volume.
+      -  In the restore phase, click **View** to view the kernel restoration process. Note that there may be a time gap between the task time displayed in the task details area and the actual kernel execution time due to task scheduling and restart.

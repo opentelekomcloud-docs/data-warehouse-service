@@ -17,23 +17,17 @@ You can check redistribution details only if the cluster is being redistributed,
 
 **Procedure**
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. Choose **Clusters** > **Dedicated Clusters**. All clusters are displayed by default.
 
 #. In the **Task Information** column of a cluster, click **View Details**.
 
-   |image1|
-
 #. Check the redistribution status, configuration, progress, and redistribution details of all the tables in a specified database. Specify a database that and can be searched by table redistribution status and table name. If all the tables in a database have completed redistribution, no data will be displayed for the database.
-
-   |image2|
 
 #. When redistribution is paused, you can set the redistribution priority (in schema or table dimension), and redistribution will be performed based on the configured redistribution sequence. You can also set the redistribution priority before the redistribution starts.
 
-   |image3|
-
-   |image4|
+   |image1|
 
 #. The number of concurrent redistribution tasks can be adjusted during redistribution.
 
@@ -41,15 +35,12 @@ You can check redistribution details only if the cluster is being redistributed,
 
       Cluster 8.1.0 and earlier versions do not support dynamic adjustment. To change redistribution concurrency, suspend redistribution first.
 
-   |image5|
+   |image2|
 
 #. Check the redistribution progress. After the redistribution is complete, the amount of completed data, amount of remaining data, number of completed tables, number of remaining tables, and average rate during redistribution are displayed.
 
-   |image6|
+   |image3|
 
-.. |image1| image:: /_static/images/en-us_image_0000001711439096.png
-.. |image2| image:: /_static/images/en-us_image_0000001759358121.png
-.. |image3| image:: /_static/images/en-us_image_0000001711598588.png
-.. |image4| image:: /_static/images/en-us_image_0000001759517985.png
-.. |image5| image:: /_static/images/en-us_image_0000001711439100.png
-.. |image6| image:: /_static/images/en-us_image_0000001759358125.png
+.. |image1| image:: /_static/images/en-us_image_0000001952008677.png
+.. |image2| image:: /_static/images/en-us_image_0000001924569832.png
+.. |image3| image:: /_static/images/en-us_image_0000001924729212.png

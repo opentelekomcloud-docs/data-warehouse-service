@@ -19,7 +19,7 @@ Perform the following operations to import data from MRS to a data warehouse clu
 
 #. Prerequisites
 
-   a. Create an MRS cluster in a GaussDB(DWS) cluster. For details, see "Buying a Custom Cluster" in *MapReduce User Guide*.
+   a. Create an MRS cluster. For details, see "Buying a Custom Cluster" in *MapReduce User Guide*.
 
    b. Create an HDFS foreign table for querying data from the MRS cluster over APIs of a foreign server.
 

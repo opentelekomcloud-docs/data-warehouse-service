@@ -6,7 +6,7 @@ Creating or Deleting a Cluster
 ==============================
 
 -  :ref:`Accessing the GaussDB(DWS) Management Console <dws_01_0157>`
--  :ref:`Creating a Cluster <dws_01_0019>`
+-  :ref:`Creating a Dedicated Cluster <dws_01_0221>`
 -  :ref:`Deleting a Cluster <dws_01_0025>`
 
 .. toctree::
@@ -14,5 +14,5 @@ Creating or Deleting a Cluster
    :hidden: 
 
    accessing_the_gaussdbdws_management_console
-   creating_a_cluster
+   creating_a_dedicated_cluster/index
    deleting_a_cluster

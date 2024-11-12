@@ -16,15 +16,16 @@ The following conditions must be met when you add or modify a resource managemen
    .. note::
 
       -  The CPU usage limit can be configured only in 8.1.3 and later versions.
+      -  The default start time is the UTC time. The next execution time is your local time.
 
 Adding a Resource Management Plan Stage
 ---------------------------------------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. Choose **Clusters**. Click the name of a cluster.
 
-#. Choose **Resource Management Configurations**.
+#. Go to the **Basic Information** page and click the **Resource Management** tab in the navigation pane on the left.
 
 #. Go to the plan details page and click **Add** in the **Plan stage** area. On the **Add Stage** page, enter the stage name and configure the resource information. Confirm the configuration and click **OK**.
 
@@ -37,60 +38,65 @@ Adding a Resource Management Plan Stage
 
    |image1|
 
-   |image2|
-
 Modifying a Resource Management Plan Stage
 ------------------------------------------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. Choose **Clusters**. Click the name of a cluster.
 
-#. Choose **Resource Management Configurations**.
+#. Go to the **Basic Information** page and click the **Resource Management** tab in the navigation pane on the left.
 
-#. Go to the plan details page and click **Modify** in the **Operation** column of the target plan stage.
-
-   |image3|
+#. Switch to the **Resource Management Plans** tab page and click **Modify** in the **Operation** column of the plan stage.
 
 #. Modify parameters, such as the stage changing time and resource configurations.
 
-   |image4|
+   |image2|
+
+   .. note::
+
+      Only clusters of the version 8.2.1 and later support the network bandwidth weight.
 
 Manually Changing the Resource Management Plan Stage
 ----------------------------------------------------
 
 If a running plan needs to be switched to a stage in advance, you can manually do it.
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. Choose **Clusters**. Click the name of a cluster.
 
-#. Choose **Resource Management Configurations**.
+#. Go to the **Basic Information** page and click the **Resource Management** tab in the navigation pane on the left.
 
-#. Go to the plan details page, click the **Switch over** button in the plan overview area, and select a stage.
+#. Switch to the **Resource Management Plans** tab page, click the switch button in the plan overview area, and select the target stage.
 
-   |image5|
+   |image3|
+
+Importing/Exporting Resource Management Plan Stages
+---------------------------------------------------
+
+#. Log in to the GaussDB(DWS) console.
+#. Choose **Clusters**. Click the name of a cluster.
+#. Go to the **Basic Information** page and click the **Resource Management** tab in the navigation pane on the left.
+#. Switch to the **Resource Management Plans** tab page. In the plan stages area, click **Import**/**Export** to import or export a resource management plan stage.
+
+   .. important::
+
+      -  Configurations cannot be imported to a running resource management plan.
+      -  Ensure there is a resource pool before import.
 
 Deleting a Resource Management Plan Stage
 -----------------------------------------
 
-#. Log in to the GaussDB(DWS) management console.
-
+#. Log in to the GaussDB(DWS) console.
 #. Choose **Clusters**. Click the name of a cluster.
-
-#. Choose **Resource Management Configurations**.
-
-#. Go to the plan details page and click **Delete** in the **Operation** column of the target plan stage.
-
-   |image6|
+#. Go to the **Basic Information** page and click the **Resource Management** tab in the navigation pane on the left.
+#. Switch to the **Resource Management Plans** tab page and click **Delete**\ in the **Operation** column of the plan stage.
 
 .. important::
 
    Stages in a running resource management plan cannot be deleted.
 
-.. |image1| image:: /_static/images/en-us_image_0000001759580345.png
-.. |image2| image:: /_static/images/en-us_image_0000001711661408.png
-.. |image3| image:: /_static/images/en-us_image_0000001711820920.png
-.. |image4| image:: /_static/images/en-us_image_0000001759420493.png
-.. |image5| image:: /_static/images/en-us_image_0000001759580349.png
-.. |image6| image:: /_static/images/en-us_image_0000001711661412.png
+.. |image1| image:: /_static/images/en-us_image_0000001924729084.png
+.. |image2| image:: /_static/images/en-us_image_0000001924569708.png
+.. |image3| image:: /_static/images/en-us_image_0000001951848773.png

@@ -30,35 +30,35 @@ The number of connections supported by a cluster depends on its node flavor.
 Viewing the Maximum Number of Connections
 -----------------------------------------
 
-#. Use the SQL client tool to connect to the database in a cluster.
+Method 1: Post cluster creation, select the cluster name on the GaussDB(DWS) console to access the **Parameter Modification** page and view the value of **max_connections**.
 
-#. Run the following command:
+Method 2: Use an SQL client tool to establish a database connection within the cluster and execute an SQL query to obtain the value of **max_connections**.
 
-   ::
+::
 
-      SHOW max_connections;
+   SHOW max_connections;
 
-   Information similar to the following is displayed, showing that the maximum number of database connections is **200** by default.
+Information similar to the following is displayed, showing that the maximum number of database connections is **200** by default.
 
-   .. code-block::
+.. code-block::
 
-      max_connections
-      -----------------
-      200
-      (1 row)
+   max_connections
+   -----------------
+   200
+   (1 row)
 
 Viewing the Number of Used Connections
 --------------------------------------
 
 #. Use the SQL client tool to connect to the database in a cluster.
 
-#. View the number of connections in scenarios described in :ref:`Table 2 <en-us_topic_0000001707293777__en-us_topic_0000001372520070_table573712172169>`.
+#. View the number of connections in scenarios described in :ref:`Table 2 <en-us_topic_0000001924728760__table573712172169>`.
 
    .. important::
 
       Except for database and user names that are enclosed with double quotation marks (") during creation, uppercase letters are not allowed in the database and user names in the commands in the following table.
 
-   .. _en-us_topic_0000001707293777__en-us_topic_0000001372520070_table573712172169:
+   .. _en-us_topic_0000001924728760__table573712172169:
 
    .. table:: **Table 2** Viewing the number of connections
 
@@ -95,7 +95,7 @@ Viewing the Number of Used Connections
       |                                                                           |         1                                                                                                                                              |
       |                                                                           |    (1 row)                                                                                                                                             |
       +---------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | View the maximum number of sessions connected to a specific database.     | Run the following command to view the upper limit of connections used by the **postgres** database:                                                    |
+      | View the maximum number of sessions connected to a specific database.     | View the upper limit of connections used by the **postgres** database.                                                                                 |
       |                                                                           |                                                                                                                                                        |
       |                                                                           | ::                                                                                                                                                     |
       |                                                                           |                                                                                                                                                        |
@@ -110,7 +110,7 @@ Viewing the Number of Used Connections
       |                                                                           |     postgres |           -1                                                                                                                            |
       |                                                                           |    (1 row)                                                                                                                                             |
       +---------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | View the number of session connections that have been used by a database. | Run the following command to view the number of session connections that have been used by the **postgres** database:                                  |
+      | View the number of session connections that have been used by a database. | View the number of session connections that have been used by the **postgres** database.                                                               |
       |                                                                           |                                                                                                                                                        |
       |                                                                           | ::                                                                                                                                                     |
       |                                                                           |                                                                                                                                                        |
@@ -128,7 +128,6 @@ Viewing the Number of Used Connections
       | View the number of session connections that have been used by all users.  | Run the following command to view the number of session connections that have been used by all users:                                                  |
       |                                                                           |                                                                                                                                                        |
       |                                                                           | ::                                                                                                                                                     |
-      |                                                                           |                                                                                                                                                        |
       |                                                                           |                                                                                                                                                        |
       |                                                                           |    SELECT COUNT(*) FROM PG_STAT_ACTIVITY;                                                                                                              |
       |                                                                           |     count                                                                                                                                              |

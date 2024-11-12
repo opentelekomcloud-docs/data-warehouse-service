@@ -12,17 +12,17 @@ Alarm management includes viewing and configuring alarm rules and subscribing to
 
 .. note::
 
-   -  This feature supports only the database kernel of 8.1.1.200 and later.
+   -  This feature is supported only in cluster version 8.1.1.200 and later.
    -  Currently, alarms cannot be categorized and managed by enterprise project.
 
 Visiting the Alarms Page
 ------------------------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
 #. In the navigation pane on the left, click **Alarms**.
 
-#. Go to the data warehouse alarm page. This page is divided into three areas:
+#. On the page that is displayed:
 
    -  **Existing Alarm Statistics**
 
@@ -45,6 +45,10 @@ Visiting the Alarms Page
 Alarm Types and Alarms
 ----------------------
 
+.. note::
+
+   The alarm policy is triggered based on the current configuration.
+
 .. table:: **Table 1** Threshold alarms of DMS alarm sources
 
    +-----------------+----------------------------------------------------------------------------------------+---------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -58,15 +62,11 @@ Alarm Types and Alarms
    +-----------------+----------------------------------------------------------------------------------------+---------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | Default         | Node Data Disk Latency Exceeds the Threshold                                           | Important                       | This alarm is generated if the threshold of data disk (**/var/chroot/DWS/data**\ *[n]*) I/O latency (**await**) of any node in the cluster is exceeded within the specified period and the constraint is not met. The alarm will be cleared when the data disk (**/var/chroot/DWS/data**\ *[n]*) I/O latency (**await**) is lower than the threshold and the constraint is not met. |
    +-----------------+----------------------------------------------------------------------------------------+---------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | Default         | Node Data Disk Inode Usage Exceeds the Threshold                                       | Urgent: > 95%; important: > 90% | This alarm is generated if the threshold of data disk (**/var/chroot/DWS/data**\ *[n]*) inode usage of any node in the cluster is exceeded within the specified period and the constraint is not met. The alarm will be cleared when the data disk (**/var/chroot/DWS/data**\ *[n]*) inode usage is lower than the threshold and the constraint is not met.                         |
-   +-----------------+----------------------------------------------------------------------------------------+---------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | Default         | Data Flushed to Disks of the Query Statement Exceeds the Threshold                     | Urgent                          | This alarm is generated if the threshold of data flushed to disks of the SQL statement in the cluster is exceeded within the specified period and the constraint is not met. The alarm can be cleared only after you handle the SQL statement.                                                                                                                                      |
    +-----------------+----------------------------------------------------------------------------------------+---------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | Default         | Number of Queuing Query Statements Exceeds the Threshold                               | Urgent                          | This alarm is generated if the threshold of the number of queuing SQL statements is exceeded within the specified period. The alarm will be cleared when the number of queuing SQL statements is less than the threshold.                                                                                                                                                           |
    +-----------------+----------------------------------------------------------------------------------------+---------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | Default         | Queue congestion in the cluster default resource pool                                  | Urgent                          | This alarm is generated if the queue in the default resource pool of a cluster is congested and no alarm suppression conditions are met. This alarm will be cleared if the queue is not congested.                                                                                                                                                                                  |
-   +-----------------+----------------------------------------------------------------------------------------+---------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | Default         | The packet loss retransmission rate on the cluster network exceeds the threshold.      | Urgent                          | This alarm is generated if the DMS alarm module detects a high retransmission rate on a server and no alarm suppression conditions are met. If the retransmission rate decreases, the alarm will be automatically cleared.                                                                                                                                                          |
    +-----------------+----------------------------------------------------------------------------------------+---------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | Default         | Long SQL Probe Execution Duration in a Cluster                                         | Urgent                          | This alarm is generated if the DMS alarm module detects a SQL probe execution duration on a server and no alarm suppression conditions are met. If no execution duration exceeds the threshold, the alarm will be automatically cleared.                                                                                                                                            |
    |                 |                                                                                        |                                 |                                                                                                                                                                                                                                                                                                                                                                                     |
@@ -83,4 +83,4 @@ Alarm Types and Alarms
    | Custom          | *Name of the user-defined threshold alarm*                                             | *User-defined alarm severity*   | *Alarm description*                                                                                                                                                                                                                                                                                                                                                                 |
    +-----------------+----------------------------------------------------------------------------------------+---------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-.. |image1| image:: /_static/images/en-us_image_0000001759517237.png
+.. |image1| image:: /_static/images/en-us_image_0000001924569516.png

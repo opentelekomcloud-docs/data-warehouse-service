@@ -10,9 +10,9 @@ You can select a snapshot type and set one or more automated snapshot policies f
 Procedure
 ---------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
-#. In the navigation pane on the left, choose **Clusters** > **Dedicated Clusters**.
+#. In the navigation pane, choose **Clusters** > **Dedicated Clusters**.
 
 #. In the cluster list, click the name of the target cluster. The **Cluster Information** page is displayed.
 
@@ -21,15 +21,9 @@ Procedure
    -  |image1| indicates that the policy is enabled (default). The default retention period is three days.
    -  |image2| indicates that the automatic snapshot function is disabled.
 
+#. After this function is enabled, you can set the retention mode for automated snapshots. For more information, see :ref:`Table 1 <en-us_topic_0000001924728816__en-us_topic_0000001360169333_en-us_topic_0000001231278872_table11860173413712>`.
 
-   .. figure:: /_static/images/en-us_image_0000001711439524.png
-      :alt: **Figure 1** Policy list
-
-      **Figure 1** Policy list
-
-#. After this function is enabled, you can set the retention mode for automated snapshots. For more information, see :ref:`Table 1 <en-us_topic_0000001658895258__en-us_topic_0000001423119261_en-us_topic_0000001360169333_en-us_topic_0000001231278872_table11860173413712>`.
-
-   .. _en-us_topic_0000001658895258__en-us_topic_0000001423119261_en-us_topic_0000001360169333_en-us_topic_0000001231278872_table11860173413712:
+   .. _en-us_topic_0000001924728816__en-us_topic_0000001360169333_en-us_topic_0000001231278872_table11860173413712:
 
    .. table:: **Table 1** Automated snapshot parameters
 
@@ -42,8 +36,10 @@ Procedure
       |                                   |                                                                                                                                                                               |
       |                                   |    Snapshots that are automatically created cannot be deleted manually. The system automatically deletes these snapshots when their retention duration exceeds the threshold. |
       +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+      | Backup Device                     | Select OBS .                                                                                                                                                                  |
+      +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-#. After automated snapshot is enabled, you can configure its parameters. For more information, see :ref:`Table 2 <en-us_topic_0000001658895258__en-us_topic_0000001423119261_en-us_topic_0000001360169333_en-us_topic_0000001231278872_table1355651818416>`.
+#. After automated snapshot is enabled, you can configure its parameters. For more information, see :ref:`Table 2 <en-us_topic_0000001924728816__en-us_topic_0000001360169333_en-us_topic_0000001231278872_table1355651818416>`.
 
    .. note::
 
@@ -57,11 +53,11 @@ Procedure
 
          .. warning::
 
-            Choosing the days in red (29th/30th/31st) may skip some monthly backups.
+            Choosing the days in red (29th/30th/31st) may skip some monthly backups. Policy and execution depend on the specific month and date you choose.
 
       -  **One-time**: Specify a day and the exact time on the day.
 
-      |image4|
+         |image4|
 
    -  Incremental snapshots can be set only to **Periodic**, as shown in the first figure below.
 
@@ -69,7 +65,7 @@ Procedure
 
       |image5|
 
-   .. _en-us_topic_0000001658895258__en-us_topic_0000001423119261_en-us_topic_0000001360169333_en-us_topic_0000001231278872_table1355651818416:
+   .. _en-us_topic_0000001924728816__en-us_topic_0000001360169333_en-us_topic_0000001231278872_table1355651818416:
 
    .. table:: **Table 2** Snapshot policy parameters
 
@@ -96,13 +92,13 @@ Procedure
       +-----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
       | Periodic Policy Configurations    | You can create automated snapshots on a daily, weekly, or monthly basis:                                                                                                                                                                                                                                                                                                                         |
       |                                   |                                                                                                                                                                                                                                                                                                                                                                                                  |
-      |                                   | -  **Days**: Specify days for every week or every month. **Weekly** and **Monthly** cannot be selected at the same time. For **Monthly**, the specified days are applicable only to months that contain the dates. For example, if you select **29**, no automated snapshot will be created on February, 2022.                                                                                   |
+      |                                   | -  **Days**: Specify days for every week or every month. **Weekly** and **Monthly** cannot be selected at the same time. If the current month does not contain the selected date, the operation will be postponed to the next month.                                                                                                                                                             |
       |                                   | -  **Time**: Specify the exact time on the selected days. For incremental snapshots, you can specify the start time and interval. The interval can be 4 to 24 hours, indicating that a snapshot is created at an interval of 4 to 24 hours.                                                                                                                                                      |
       |                                   |                                                                                                                                                                                                                                                                                                                                                                                                  |
       |                                   | .. important::                                                                                                                                                                                                                                                                                                                                                                                   |
       |                                   |                                                                                                                                                                                                                                                                                                                                                                                                  |
       |                                   |    NOTICE:                                                                                                                                                                                                                                                                                                                                                                                       |
-      |                                   |    If the incremental data is large and the execution period is long, the backup will be slow. In this case, increase the backup frequency.                                                                                                                                                                                                                                                      |
+      |                                   |    Incremental snapshots can be set only to **Periodic**, as shown in the first figure below.                                                                                                                                                                                                                                                                                                    |
       +-----------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 #. Click **OK**.
@@ -113,11 +109,7 @@ Procedure
 
 #. (Optional) To modify an automated snapshot policy, click **Modify** in the **Operation** column.
 
-   |image6|
-
-#. (Optional) To preview a policy, click **Preview Policy**. The next seven snapshots of the cluster will be displayed. If no full snapshot policy is configured for the cluster, the default policy is used, that is, a full snapshot is taken after every 14 incremental snapshots.
-
-   |image7|
+#. (Optional) To preview a policy, click **Preview Policy**. The next seven snapshots of the cluster will be displayed. If no full snapshot policy is configured for the cluster, the default policy is used, that is, a full snapshot is taken after every 15 incremental snapshots.
 
    .. important::
 
@@ -129,10 +121,8 @@ Procedure
       -  If the time for triggering snapshots of multiple policies conflicts, the priorities of the policies are as follows: one-time > periodic > full > incremental.
       -  You can use any backup, full or incremental, to restore the full data of a resource.
 
-.. |image1| image:: /_static/images/en-us_image_0000001759358549.png
-.. |image2| image:: /_static/images/en-us_image_0000001711599016.png
-.. |image3| image:: /_static/images/en-us_image_0000001711599064.png
-.. |image4| image:: /_static/images/en-us_image_0000001711439584.png
-.. |image5| image:: /_static/images/en-us_image_0000001759518473.png
-.. |image6| image:: /_static/images/en-us_image_0000001759358617.png
-.. |image7| image:: /_static/images/en-us_image_0000001711599084.png
+.. |image1| image:: /_static/images/en-us_image_0000001951848905.png
+.. |image2| image:: /_static/images/en-us_image_0000001952008689.png
+.. |image3| image:: /_static/images/en-us_image_0000001952008681.png
+.. |image4| image:: /_static/images/en-us_image_0000001924569840.png
+.. |image5| image:: /_static/images/en-us_image_0000001951848901.png

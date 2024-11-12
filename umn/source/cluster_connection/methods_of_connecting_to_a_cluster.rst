@@ -13,6 +13,12 @@ The procedure for connecting to a cluster is as follows:
 #. If SSL encryption is used, perform the operations in :ref:`Establishing Secure TCP/IP Connections in SSL Mode <dws_01_0038>`.
 #. Connect to the cluster and access the database in the cluster. You can choose any of the following methods to connect to a cluster:
 
+   .. important::
+
+      -  You are advised to use the officially recommended method for connecting to the database.
+      -  Compatibility with other clients cannot be guaranteed, so it may be necessary to verify it.
+      -  If an error occurs due to incompatibility with another client and the client cannot be replaced, try replacing the libpq driver on the client. To replace the **libpg.so** file on the client, download and extract the gsql client package, locate the **gsql** directory, and obtain the file. Then, replace the existing **libpg.so** file in the designated directory on the client.
+
    -  Use the SQL client tool to connect to the cluster.
 
       -  :ref:`Using the Linux gsql Client to Connect to a Cluster <dws_01_0037>`

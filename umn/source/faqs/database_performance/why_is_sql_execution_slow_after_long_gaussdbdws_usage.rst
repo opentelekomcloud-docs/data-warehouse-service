@@ -13,7 +13,7 @@ You are advised to periodically run **VACUUM FULL** and **ANALYZE** on tables th
 
    |image1|
 
-#. Run **ANALYZE** again. For details, see "ANALYZE \| ANALYSE" in the *Developer Guide*.
+#. Run **ANALYZE** again. For details, see "ANALYZE \| ANALYSE" in the *Data Warehouse Service (DWS) Developer Guide*.
 
    |image2|
 

@@ -8,7 +8,7 @@ Application Scenarios
 -  Enhanced ETL + Real-time BI analysis
 
 
-   .. figure:: /_static/images/en-us_image_0000001185989936.png
+   .. figure:: /_static/images/en-us_image_0000001951848917.png
       :alt: **Figure 1** ETL+BI analysis
 
       **Figure 1** ETL+BI analysis
@@ -24,7 +24,7 @@ Application Scenarios
 -  **E-commerce**
 
 
-   .. figure:: /_static/images/en-us_image_0000001185989938.png
+   .. figure:: /_static/images/en-us_image_0000001951848913.png
       :alt: **Figure 2** E-commerce
 
       **Figure 2** E-commerce
@@ -40,7 +40,7 @@ Application Scenarios
 -  **IoT**
 
 
-   .. figure:: /_static/images/en-us_image_0000001231471001.png
+   .. figure:: /_static/images/en-us_image_0000001924729216.png
       :alt: **Figure 3** IoT
 
       **Figure 3** IoT

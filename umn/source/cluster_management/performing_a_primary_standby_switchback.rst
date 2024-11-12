@@ -18,9 +18,9 @@ In the **Unbalanced** state, the number of primary instances on some nodes incre
 Procedure
 ---------
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 
-#. On the **Clusters > Dedicated Clusters** page, locate the cluster in unbalanced state.
+#. On the **Clusters** > **Dedicated Clusters** page, locate the cluster in unbalanced state.
 
 #. In the **Cluster Status** column of the cluster, click **Fix** under **Unbalanced**.
 
@@ -30,7 +30,4 @@ Procedure
 
 #. Check the cluster status. During the switchback, the cluster status is **Switching back**. After the switchback, the cluster status will change to **Available**.
 
-   |image2|
-
-.. |image1| image:: /_static/images/en-us_image_0000001711440300.png
-.. |image2| image:: /_static/images/en-us_image_0000001759519201.png
+.. |image1| image:: /_static/images/en-us_image_0000001924729148.png

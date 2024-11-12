@@ -6,11 +6,9 @@ Backup and Disaster Recovery
 ============================
 
 -  :ref:`Snapshots <dws_01_0800>`
--  :ref:`Cluster DR <dws_01_0080>`
 
 .. toctree::
    :maxdepth: 1
    :hidden: 
 
    snapshots/index
-   cluster_dr/index

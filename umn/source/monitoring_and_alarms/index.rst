@@ -5,8 +5,7 @@
 Monitoring and Alarms
 =====================
 
--  :ref:`Dashboard <dws_01_1211>`
--  :ref:`Database Monitoring (DMS) <dws_01_00014>`
+-  :ref:`Databases Monitoring (DMS) <dws_01_00014>`
 -  :ref:`Monitoring Clusters Using Cloud Eye <dws_01_0022>`
 -  :ref:`Alarms <dws_01_1240>`
 -  :ref:`Event Notifications <dws_01_0100>`
@@ -15,8 +14,7 @@ Monitoring and Alarms
    :maxdepth: 1
    :hidden: 
 
-   dashboard
-   database_monitoring_dms/index
+   databases_monitoring_dms/index
    monitoring_clusters_using_cloud_eye
    alarms/index
    event_notifications/index

@@ -14,8 +14,6 @@ Procedure
 ---------
 
 #. Log in to the management console.
-#. Click |image1| in the upper left corner of the management console and select **Region**.
-#. From the menu on top of the management console, choose **Service List**.
-#. Choose **EI Enterprise Intelligence** > **GaussDB(DWS)** to enter the GaussDB(DWS) management console.
+#. Click |image1| in the upper left corner of the console homepage to expand the **Service List**, and choose **EI Enterprise Intelligence** > **GaussDB(DWS)**.
 
-.. |image1| image:: /_static/images/en-us_image_0000001759303589.png
+.. |image1| image:: /_static/images/en-us_image_0000001952008649.png
