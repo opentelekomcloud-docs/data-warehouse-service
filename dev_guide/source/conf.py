@@ -109,8 +109,7 @@ html_copy_source = False
 # -- Options for PDF output --------------------------------------------------
 latex_documents = [
     ('index',
-     'dws-dev-guide.tex',
-     u'Data Warehouse Service - Developer Guide',
+     'dws-dev-guide.tex',u'Data Warehouse Service - Developer Guide',
      u'OpenTelekomCloud', 'manual'),
 ]
 
