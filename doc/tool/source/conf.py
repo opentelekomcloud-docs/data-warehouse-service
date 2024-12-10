@@ -110,7 +110,7 @@ html_copy_source = False
 latex_documents = [
     ('index',
      'dws-tool-guide.tex',
-     u'Data Warehouse Service - Tool Guide',
+    u'Data Warehouse Service - Tool Guide',
      u'OpenTelekomCloud', 'manual'),
 ]
 

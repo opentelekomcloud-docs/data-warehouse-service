@@ -4,6 +4,12 @@
     default-branch: main
     templates:
       - helpcenter-base-jobs
+    vars:
+      sphinx_pdf_files:
+        - dws-umn.pdf
+        - dws-api-ref.pdf
+        - dws-dev-guide.pdf
+        - dws-tool-guide.pdf
     check:
       jobs:
         - noop

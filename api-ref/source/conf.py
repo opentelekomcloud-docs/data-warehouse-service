@@ -110,7 +110,7 @@ html_copy_source = False
 latex_documents = [
     ('index',
      'dws-api-ref.tex',
-     u'Data Warehouse Service - API Reference',
+    u'Data Warehouse Service - API Reference',
      u'OpenTelekomCloud', 'manual'),
 ]
 
