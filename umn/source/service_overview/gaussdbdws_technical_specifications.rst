@@ -79,4 +79,4 @@ This section describes the technical specifications of GaussDB(DWS) in different
 
 .. note::
 
-   The maximum number of concurrent connections is based on the data warehouse with the cloud disk flavor of 48 vCPUs or 64 vCPUs. For example, **dwsk.12xlarge (48 vCPU \| 384GB \| 24000GB SSD)** or **dwsx2.16xlarge.m7 (64 vCPU \| 512GB \| 32000GB SSD)** of a standard data warehouse.
+   The maximum number of concurrent connections is based on the data warehouse with the cloud disk flavor of 32 vCPUs or 64 vCPUs. For example, **dws2.m6.8xlarge.8 (32 vCPU \| 256GB \| 4000GB SSD)** or **dws2.m6.16xlarge.8 (64 vCPU \| 512GB \| 8000GB SSD)** of a standard data warehouse.
