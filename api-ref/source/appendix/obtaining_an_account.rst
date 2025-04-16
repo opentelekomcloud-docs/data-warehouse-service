@@ -2,10 +2,10 @@
 
 .. _dws_02_0067:
 
-Obtaining an Account ID
-=======================
+Obtaining an Account
+====================
 
-An account ID is required for some URLs when an API is called. To obtain the account ID, perform the following steps:
+An account ID (**domain-id**) is required for some URLs when an API is called. To obtain the account ID, do as follows:
 
 #. Log in to the management console.
 
