@@ -7,11 +7,6 @@ Document Conventions
 
 This section describes the content, symbol, and command conventions of this document.
 
-Disclaimer
-----------
-
-The purchased products, services, and features are subject to the signed contract. All or part of the products, services, and features described in this document may not be available for purchasing or using. Unless otherwise specified in the contract, all statements, information, and recommendations in this document are provided in the form of "as-is" and do not constitute a warranty, guarantee, or representation of any kind, express or implied.
-
 Symbol Convention
 -----------------
 

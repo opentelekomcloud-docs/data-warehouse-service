@@ -2,7 +2,7 @@
 
 .. _dws_16_0020:
 
-.. _en-us_topic_0000001819416093:
+.. _en-us_topic_0000001813598740:
 
 Executing DSC
 =============
@@ -10,25 +10,26 @@ Executing DSC
 Important Notes
 ---------------
 
--  Before starting DSC, specify the output folder path. Separate the input folder path, output folder path, and log path with spaces. The input folder path cannot contain spaces which will cause an error when DSC is used for migrating data. For details, see :ref:`Troubleshooting <en-us_topic_0000001819336325>`.
+-  Before starting DSC, specify the output folder path. Separate the input folder path, output folder path, and log path with spaces. The input folder path cannot contain spaces which will cause an error when DSC is used for migrating data. For details, see :ref:`Troubleshooting <en-us_topic_0000001813598928>`.
 
 -  If the output folder contains subfolders or files, DSC deletes the subfolders and files or overwrites them based on parameter settings in the **application.properties** configuration file in the **config** folder before the migration. Deleted or overwritten subfolders and files cannot be restored by DSC.
 -  If migration tasks are performed concurrently on the same server (by the same or different DSCs), different migration tasks must use different output folder paths and log paths.
--  You can specify a log path by configuring optional parameters. If the path is not specified, DSC automatically creates a log folder under **TOOL_HOME**. For details, see :ref:`Log Reference <en-us_topic_0000001772696088>`.
+-  You can specify a log path by configuring optional parameters. If the path is not specified, DSC automatically creates a log folder under **TOOL_HOME**. For details, see :ref:`Log Reference <en-us_topic_0000001813598960>`.
+-  The maximum size of a single SQL statement is 20 KB. If the size exceeds 20 KB, the execution may be slow and the conversion may fail.
 
 Migration Methods
 -----------------
 
-You can run the **runDSC.sh** or **runDSC.bat** command to perform a migration task on Windows and Linux. For details, see :ref:`Table 1 <en-us_topic_0000001819416093__en-us_topic_0000001706224057_en-us_topic_0000001432327697_table296962642912>`.
+You can run the **runDSC.sh** or **runDSC.bat** command to perform a migration task on Windows and Linux. For details, see :ref:`Table 1 <en-us_topic_0000001813598740__en-us_topic_0000001432327697_table296962642912>`.
 
-.. _en-us_topic_0000001819416093__en-us_topic_0000001706224057_en-us_topic_0000001432327697_table296962642912:
+.. _en-us_topic_0000001813598740__en-us_topic_0000001432327697_table296962642912:
 
 .. table:: **Table 1** Migration on Windows and Linux
 
    +---------------------------------------------------------------+-------------------------------------------------------+
    | Migration                                                     | CLI Parameter                                         |
    +===============================================================+=======================================================+
-   | :ref:`Teradata SQL Migration <en-us_topic_0000001772696076>`  | .. code-block::                                       |
+   | :ref:`Teradata SQL Migration <en-us_topic_0000001860198977>`  | ::                                                    |
    |                                                               |                                                       |
    |                                                               |    > ./runDSC.sh                                      |
    |                                                               |     --source-db Teradata                              |
@@ -38,7 +39,7 @@ You can run the **runDSC.sh** or **runDSC.bat** command to perform a migration t
    |                                                               |    [--log-folder <log-path>]                          |
    |                                                               |    [--target-db/-T][Optional]                         |
    |                                                               |                                                       |
-   |                                                               | .. code-block::                                       |
+   |                                                               | ::                                                    |
    |                                                               |                                                       |
    |                                                               |    > runDSC.bat                                       |
    |                                                               |    --source-db Teradata                               |
@@ -48,7 +49,7 @@ You can run the **runDSC.sh** or **runDSC.bat** command to perform a migration t
    |                                                               |    [--log-folder <log-path>]                          |
    |                                                               |    [--target-db/-T][Optional]                         |
    +---------------------------------------------------------------+-------------------------------------------------------+
-   | :ref:`Teradata Perl Migration <en-us_topic_0000001772536404>` | .. code-block::                                       |
+   | :ref:`Teradata Perl Migration <en-us_topic_0000001860318449>` | ::                                                    |
    |                                                               |                                                       |
    |                                                               |    > ./runDSC.sh                                      |
    |                                                               |    --source-db Teradata                               |
@@ -58,7 +59,7 @@ You can run the **runDSC.sh** or **runDSC.bat** command to perform a migration t
    |                                                               |    [--log-folder <log-path>]                          |
    |                                                               |    [--target-db/-T][Optional]                         |
    |                                                               |                                                       |
-   |                                                               | .. code-block::                                       |
+   |                                                               | ::                                                    |
    |                                                               |                                                       |
    |                                                               |    > runDSC.bat                                       |
    |                                                               |      --source-db Teradata                             |
@@ -68,7 +69,7 @@ You can run the **runDSC.sh** or **runDSC.bat** command to perform a migration t
    |                                                               |    [--log-folder <log-path>]                          |
    |                                                               |    [--target-db/-T][Optional]                         |
    +---------------------------------------------------------------+-------------------------------------------------------+
-   | :ref:`MySQL SQL Migration <en-us_topic_0000001819416105>`     | .. code-block::                                       |
+   | :ref:`MySQL SQL Migration <en-us_topic_0000001860198801>`     | ::                                                    |
    |                                                               |                                                       |
    |                                                               |    > ./runDSC.sh                                      |
    |                                                               |    --source-db MySql                                  |
@@ -79,7 +80,7 @@ You can run the **runDSC.sh** or **runDSC.bat** command to perform a migration t
    |                                                               |    [--conversion-type <conversion-Type-BulkOrBlogic>] |
    |                                                               |    [--target-db/-T]                                   |
    |                                                               |                                                       |
-   |                                                               | .. code-block::                                       |
+   |                                                               | ::                                                    |
    |                                                               |                                                       |
    |                                                               |    > runDSC.bat                                       |
    |                                                               |    --source-db MySql                                  |
@@ -103,7 +104,7 @@ You can run the **runDSC.sh** or **runDSC.bat** command to perform a migration t
 
          **BLogic**: migrates service logic, such as stored procedures and functions.
 
-      -  **target-db** specifies the target database. The parameter value is **GaussDB A**.
+      -  **target-db** specifies the target database. The parameter value is **GaussDB(DWS)**.
 
    -  Command output description:
 
@@ -112,17 +113,17 @@ You can run the **runDSC.sh** or **runDSC.bat** command to perform a migration t
 Examples
 --------
 
--  Example 1: Run the following command to migrate the SQL file of the Oracle database to the SQL script of GaussDB on Linux:
+-  Example 1: Run the following command to migrate the SQL file of the Teradata database to the SQL script of GaussDB(DWS) on Linux:
 
-   .. code-block::
+   ::
 
-      ./runDSC.sh --source-db Teradata --input-folder D:\test\conversion\input --output-folder D:\test\conversion\output --log-folder D:\test\conversion\log --conversion-type ddl --targetdb gaussdbA
+      ./runDSC.sh --source-db Teradata --input-folder D:\test\conversion\input --output-folder D:\test\conversion\output --log-folder D:\test\conversion\log --conversion-type ddl --targetdb gaussdb
 
--  Example 2: Run the following command to migrate the SQL file of the Oracle database to the SQL script of GaussDB on Windows:
+-  Example 2: Run the following command to migrate the SQL file of the Oracle database to the SQL script of GaussDB(DWS) on Windows:
 
-   .. code-block::
+   ::
 
-      runDSC.bat --source-db Teradata --input-folder D:\test\conversion\input --output-folder D:\test\conversion\output --log-folder D:\test\conversion\log --conversion-type ddl --targetdb gaussdbA
+      runDSC.bat --source-db Teradata --input-folder D:\test\conversion\input --output-folder D:\test\conversion\output --log-folder D:\test\conversion\log --conversion-type ddl --targetdb gaussdb
 
 Migration details are displayed on the console (including the progress and completion status):
 

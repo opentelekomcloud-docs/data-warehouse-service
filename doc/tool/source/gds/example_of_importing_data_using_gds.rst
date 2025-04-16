@@ -92,7 +92,7 @@ The data servers reside on the same intranet as the cluster. Their IP addresses 
       )
       SERVER gsmpp_server OPTIONS (location 'gsfs://192.168.0.90:5000/* | gsfs://192.168.0.91:5000/*', format 'CSV',mode 'Normal', encoding 'utf8', delimiter E'\x08', quote E'\x1b', null '', fill_missing_fields 'false') LOG INTO err_tpcds_reasons PER NODE REJECT LIMIT 'unlimited';
 
-#. Import data through the foreign table **tpcds.fforeign_tpcds_reasons** to the target table **tpcds.reasons**.
+#. Import data through the foreign table **tpcds.foreign_tpcds_reasons** to the target table **tpcds.reasons**.
 
    ::
 

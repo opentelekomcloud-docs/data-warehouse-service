@@ -26,11 +26,11 @@ Parameter Description
 
 -  -d dir
 
-   Set the directory of the data file to be imported. If the GDS process permission is sufficient, the directory specified by **-**\ d is automatically created.
+   Sets the directory of the data file to be imported. If the GDS process permission is sufficient, the directory specified by **-**\ d is automatically created.
 
 -  -p ip:port
 
-   Set the IP address and port to be listened to of the GDS.
+   Sets the IP address and port for listening to GDS.
 
    Value range of the IP address: The IP address must be valid.
 
@@ -42,7 +42,7 @@ Parameter Description
 
 -  -l log_file
 
-   Set the log file. This feature adds the function of automatical log splitting. After the **-R** parameter is set, GDS generates a new file based on the set value to prevent a single log file from being too large.
+   Sets the log file. This feature adds the function of automatical log splitting. After the **-R** parameter is set, GDS generates a new file based on the set value to prevent a single log file from being too large.
 
    Generation rule: By default, GDS identifies only files with the **.log** extension name and generates new log files.
 
@@ -52,39 +52,43 @@ Parameter Description
 
    When GDS is started, it checks whether the log file specified by **-l** exists. If the log file exists, a new log file is generated based on the current date and time, and the original log file is not overwritten.
 
+   .. note::
+
+      If the number of GDS process logs in the current directory exceeds the value of --**log-filecount**, old logs will be reclaimed. To save a large number of logs, you are advised to set an independent directory for each GDS process and increase the value of --**log-filecount**.
+
 -  -H address_string
 
-   Set the hosts that can be connected to the GDS. This parameter must be the CIDR format and it supports the Linux system only. If multiple network segments need to be configured, use commas (,) to separate them. For example, **-H 10.10.0.0/24, 10.10.5.0/24**.
+   Sets the hosts that can be connected to the GDS. This parameter must be the CIDR format. Only the Linux OS is supported. If multiple network segments need to be configured, use commas (,) to separate them. For example, **-H 10.10.0.0/24, 10.10.5.0/24**.
 
 -  -e dir
 
-   Set the saving path of error logs generated when data is imported.
+   Sets the saving path of error logs generated when data is imported.
 
    Default value: **data file directory**
 
 -  -E size
 
-   Set the upper thread of error logs generated when data is imported.
+   Sets the upper threshold of error logs generated when data is imported.
 
    Value range: 0 < size < 1 TB. The value must be a positive integer plus the unit. The unit can be KB, MB, or GB.
 
 -  -S size
 
-   Set the upper limit of the exported file size.
+   Sets the upper limit of the exported file size.
 
-   Value range: 1 MB < size < 100 TB. The value must be a positive integer plus the unit. The unit can be KB, MB, or GB. If KB is used, the value must be greater than 1024 KB.
+   Value range: 1 MB < size < 100 TB. The value must be a positive integer plus the unit. The unit can be KB, MB, or GB. If KB is used, the value must be greater than 1,024 KB.
 
 -  -R size
 
-   Set the maximum size of a single GDS log file specified by **-l**.
+   Sets the maximum size of a single GDS log file specified by **-l**.
 
-   Value range: 1 MB < size < 100 TB. The value must be a positive integer plus the unit. The unit can be KB, MB, or GB. If KB is used, the value must be greater than 1024 KB.
+   Value range: 1 MB < size < 100 TB. The value must be a positive integer plus the unit. The unit can be KB, MB, or GB. If KB is used, the value must be greater than 1,024 KB.
 
    Default value: 16 MB
 
 -  -t worker_num
 
-   Set the number of concurrent imported and exported working threads.
+   Sets the number of concurrent imported and exported working threads.
 
    Value range: The value is a positive integer ranging between 0 and 200 (included).
 
@@ -98,31 +102,31 @@ Parameter Description
 
 -  -s status_file
 
-   Set the status file. This parameter supports the Linux system only.
+   Sets the status file. This parameter supports the Linux system only.
 
 -  -D
 
-   The GDS is running on the backend and this parameter supports the Linux system only.
+   Sets the background GDS. Only the Linux OS is supported.
 
 -  -r
 
-   Traverse files in the recursion directory and this parameter supports the Linux system only.
+   Recursively traverses files in a directory (subdirectories in the foreign table directory) and recursively reads all files with the same name in the directory specified by location. Only the Linux system is supported.
 
 -  -h
 
-   Show help information.
+   Shows help information.
 
 -  --enable-ssl
 
-   Use the SSL authentication mode to communicate with clusters.
+   Uses the SSL authentication mode to communicate with clusters.
 
 -  --ssl-dir Cert_file
 
-   Before using the SSL authentication mode, specify the path for storing the authentication certificates.
+   Sets the path for storing the authentication certificates when the SSL authentication mode is used.
 
 -  --debug-level
 
-   Set the debug log level of the GDS to control the output of GDS debug logs.
+   Sets the debug log level of the GDS to control the output of GDS debug logs.
 
    **Value range:** **0**, **1**, and **2**
 
@@ -132,9 +136,17 @@ Parameter Description
 
    **Default value**: **0**
 
+-  --log-filecount
+
+   Specifies the maximum number of log files that can be retained. When the number of log files exceeds the value of this parameter, the latest created log files are retained.
+
+   Value range: 5<=\ **log-filecount**\ <=1024 (positive integer)
+
+   Default value: **50**
+
 -  --pipe-timeout
 
-   Specify the timeout period for GDS to wait for operating a pipe.
+   Sets the timeout period for GDS to wait for operating a pipe.
 
    .. note::
 
@@ -193,6 +205,6 @@ Data files are stored in the **/data/** directory, the IP address of the directo
 .. note::
 
    -  One GDS provides the import and export services for one cluster only at a time.
-   -  For security purpose, specify the IP address and the listening port through **-p**.
+   -  For security purpose, specify the IP address and the listening port using **-p**.
    -  The certificate file includes the root certificate **cacert.pem**, level-2 certificate file **client.crt**, and private key file **client.key**.
    -  The password protection files **client.key.rand** and **client.key.cipher** are used when the system loading certificates.

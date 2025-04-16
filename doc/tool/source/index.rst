@@ -11,5 +11,6 @@ Data Warehouse Service - Tool Guide
    data_studio/index
    gds/index
    dsc/index
-   server_tool/index
+   datacheck/index
+   server_tools/index
    change_history

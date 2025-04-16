@@ -48,9 +48,9 @@ Procedure
 Task Example
 ------------
 
-#. View the **gsql** help information. For details about the commands, see :ref:`Table 1 <en-us_topic_0000001234200681__en-us_topic_0000001233922251_en-us_topic_0000001145490533_te978a326b9df437dbb26940e8354859b>`.
+#. View the **gsql** help information. For details about the commands, see :ref:`Table 1 <en-us_topic_0000001813439056__en-us_topic_0000001813438856_en-us_topic_0000001145490533_te978a326b9df437dbb26940e8354859b>`.
 
-   .. _en-us_topic_0000001234200681__en-us_topic_0000001233922251_en-us_topic_0000001145490533_te978a326b9df437dbb26940e8354859b:
+   .. _en-us_topic_0000001813439056__en-us_topic_0000001813438856_en-us_topic_0000001145490533_te978a326b9df437dbb26940e8354859b:
 
    .. table:: **Table 1** gsql online help
 
@@ -68,7 +68,7 @@ Task Example
       |                                                                           |    \h                                                                                 |
       |                                                                           |    Available help:                                                                    |
       |                                                                           |      ABORT                                                                            |
-      |                                                                           |      ALTER DATABAE                                                                    |
+      |                                                                           |      ALTER DATABASE                                                                   |
       |                                                                           |      ALTER DATA SOURCE                                                                |
       |                                                                           |    ... ...                                                                            |
       |                                                                           |                                                                                       |

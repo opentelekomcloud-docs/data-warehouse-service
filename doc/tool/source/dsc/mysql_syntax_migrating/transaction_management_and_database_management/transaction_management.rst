@@ -1,0 +1,103 @@
+:original_name: dws_16_0205.html
+
+.. _dws_16_0205:
+
+.. _en-us_topic_0000001813438924:
+
+Transaction Management
+======================
+
+.. _en-us_topic_0000001813438924__en-us_topic_0000001382367718_section2096165616221:
+
+TRANSACTION
+-----------
+
+DSC will perform adaptation based on GaussDB(DWS) features during MySQL transaction statement migration.
+
+**Input**
+
+::
+
+   ## Each statement applies only to the next single transaction performed within the session.
+   SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+   SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+   SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+   SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+   SET TRANSACTION READ ONLY;
+   SET TRANSACTION READ WRITE;
+   SET TRANSACTION ISOLATION LEVEL READ COMMITTED,READ ONLY;
+   SET TRANSACTION ISOLATION LEVEL SERIALIZABLE,READ WRITE;
+   ## Each statement (with the SESSION keyword) applies to all subsequent transactions performed within the current session.
+   START TRANSACTION;
+   SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
+   SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
+   SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+   SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+   commit ;
+
+**Output**
+
+::
+
+   -- Each statement applies only to the next single transaction performed within the session.
+   SET LOCAL TRANSACTION ISOLATION LEVEL READ COMMITTED;
+   SET LOCAL TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+   SET LOCAL TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+   SET LOCAL TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+   SET LOCAL TRANSACTION READ ONLY;
+   SET LOCAL TRANSACTION READ WRITE;
+   SET LOCAL TRANSACTION ISOLATION LEVEL READ COMMITTED READ ONLY;
+   SET LOCAL TRANSACTION ISOLATION LEVEL SERIALIZABLE READ WRITE;
+   -- Each statement (with the SESSIONkeyword) applies to all subsequent transactions performed within the current session.
+   START TRANSACTION;
+   SET SESSION CHARACTERISTICS AS TRANSACTION ISOLATION LEVEL READ COMMITTED;
+   SET SESSION CHARACTERISTICS AS TRANSACTION ISOLATION LEVEL READ COMMITTED;
+   SET SESSION CHARACTERISTICS AS TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+   SET SESSION CHARACTERISTICS AS TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+   COMMIT WORK;
+
+.. _en-us_topic_0000001813438924__en-us_topic_0000001382367718_section15434175819236:
+
+LOCK
+----
+
+DSC will perform adaptation based on GaussDB(DWS) features during the migration of MySQL table locking statements which are used in transaction processing.
+
+**Input**
+
+::
+
+   ## A.
+   START TRANSACTION;
+   LOCK TABLES `mt`.`runoob_tbl` WRITE,`mt`.`runoob_tb2` READ;
+   commit;
+
+   ## B.
+   START TRANSACTION;
+   LOCK TABLES `mt`.`runoob_tbl` WRITE;
+   commit;
+
+   ## C.
+   START TRANSACTION;
+   LOCK TABLES `mt`.`runoob_tbl` READ,`mt`.`runoob_tbl` AS t1 READ;
+   commit;
+
+**Output**
+
+::
+
+   -- A.
+   START TRANSACTION;
+   LOCK TABLE "mt"."runoob_tbl" IN ACCESS EXCLUSIVE MODE;
+   LOCK TABLE "mt"."runoob_tb2" IN ACCESS SHARE MODE;
+   COMMIT WORK;
+
+   -- B.
+   START TRANSACTION;
+   LOCK TABLE "mt"."runoob_tbl" IN ACCESS EXCLUSIVE MODE;
+   COMMIT WORK;
+
+   -- C.
+   START TRANSACTION;
+   LOCK TABLE "mt"."runoob_tbl" IN ACCESS SHARE MODE;
+   COMMIT WORK;

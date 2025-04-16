@@ -2,7 +2,7 @@
 
 .. _dws_gsql_008:
 
-.. _en-us_topic_0000001188681032:
+.. _en-us_topic_0000001860198837:
 
 Troubleshooting
 ===============
@@ -115,7 +115,7 @@ Problems in Setting Up Connections
 
    This problem occurs because the number of system connections exceeds the allowed maximum. Contact the database administrator to release unnecessary sessions.
 
-   You can check the number of connections as described in :ref:`Table 1 <en-us_topic_0000001188681032__en-us_topic_0000001188202592_en-us_topic_0000001145650331_tee9a019644dc4b32aad8d0aa00a7e061>`.
+   You can check the number of connections as described in :ref:`Table 1 <en-us_topic_0000001860198837__en-us_topic_0000001813439088_en-us_topic_0000001145650331_tee9a019644dc4b32aad8d0aa00a7e061>`.
 
    You can view the session status in the **PG_STAT_ACTIVITY** view. To release unnecessary sessions, use the pg_terminate_backend function.
 
@@ -146,7 +146,7 @@ Problems in Setting Up Connections
        t
       (1 row)
 
-   .. _en-us_topic_0000001188681032__en-us_topic_0000001188202592_en-us_topic_0000001145650331_tee9a019644dc4b32aad8d0aa00a7e061:
+   .. _en-us_topic_0000001860198837__en-us_topic_0000001813439088_en-us_topic_0000001145650331_tee9a019644dc4b32aad8d0aa00a7e061:
 
    .. table:: **Table 1** Viewing the numbers of connections
 
@@ -197,9 +197,10 @@ Problems in Setting Up Connections
       +--------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
       | View the total number of connections that have been used by users. | Run the following command to view the number of connections that have been used by users:                                                                                                             |
       |                                                                    |                                                                                                                                                                                                       |
-      |                                                                    | ::                                                                                                                                                                                                    |
+      |                                                                    | .. code-block::                                                                                                                                                                                       |
       |                                                                    |                                                                                                                                                                                                       |
-      |                                                                    |    SELECT COUNT(*) FROM PG_STAT_ACTIVITY;                                                                                                                                                             |
+      |                                                                    |    SELECT COUNT(*) FROM V$SESSION;                                                                                                                                                                    |
+      |                                                                    |                                                                                                                                                                                                       |
       |                                                                    |     count                                                                                                                                                                                             |
       |                                                                    |    -------                                                                                                                                                                                            |
       |                                                                    |         10                                                                                                                                                                                            |
@@ -218,7 +219,7 @@ Problems in Setting Up Connections
 
 -  gsql: FATAL: GSS authentication method is not allowed because XXXX user password is not disabled.
 
-   In **pg_hba.conf** of the target CN, the authentication mode is set to **gss** for authenticating the IP address of the current client. However, this authentication algorithm cannot authenticate clients. Change the authentication algorithm to **sha256** and try again. For details, see "Configuration File Reference" in the *Developer Guide*.
+   In **pg_hba.conf** of the target CN, the authentication mode is set to **gss** for authenticating the IP address of the current client. However, this authentication algorithm cannot authenticate clients. Change the authentication algorithm to **sha256** and try again.
 
    .. note::
 

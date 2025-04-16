@@ -9,7 +9,7 @@ The DSC writes all log information to a single file, **perlDSC.log**.
 
 .. note::
 
-   Since the DSC will execute the SQL to migrate the SQL scripts inside Perl files, the following :ref:`SQL migration logs <en-us_topic_0000001819416117>` are also supported:
+   Since the DSC will execute the SQL to migrate the SQL scripts inside Perl files, the following :ref:`SQL migration logs <en-us_topic_0000001813598760>` are also supported:
 
    -  Activity Logging
    -  Error Logging

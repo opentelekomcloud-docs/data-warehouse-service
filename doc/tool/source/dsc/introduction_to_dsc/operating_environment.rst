@@ -2,7 +2,7 @@
 
 .. _dws_16_0008:
 
-.. _en-us_topic_0000001772696052:
+.. _en-us_topic_0000001860198637:
 
 Operating Environment
 =====================
@@ -34,9 +34,9 @@ The following table lists the destination databases supported by DSC.
 Hardware Requirements
 ---------------------
 
-:ref:`Table 3 <en-us_topic_0000001772696052__en-us_topic_0000001706105073_en-us_topic_0000001392380920_table48268587161954>` lists the hardware requirements of DSC.
+:ref:`Table 3 <en-us_topic_0000001860198637__en-us_topic_0000001392380920_table48268587161954>` lists the hardware requirements of DSC.
 
-.. _en-us_topic_0000001772696052__en-us_topic_0000001706105073_en-us_topic_0000001392380920_table48268587161954:
+.. _en-us_topic_0000001860198637__en-us_topic_0000001392380920_table48268587161954:
 
 .. table:: **Table 3** Hardware requirements of DSC
 
@@ -53,9 +53,9 @@ Software Requirements
 
 **OS**
 
-:ref:`Table 4 <en-us_topic_0000001772696052__en-us_topic_0000001706105073_en-us_topic_0000001392380920_table1750314290446>` lists the operating systems compatible with DSC.
+:ref:`Table 4 <en-us_topic_0000001860198637__en-us_topic_0000001392380920_table1750314290446>` lists the operating systems compatible with DSC.
 
-.. _en-us_topic_0000001772696052__en-us_topic_0000001706105073_en-us_topic_0000001392380920_table1750314290446:
+.. _en-us_topic_0000001860198637__en-us_topic_0000001392380920_table1750314290446:
 
 .. table:: **Table 4** OSs compatible with DSC
 
@@ -97,9 +97,9 @@ Software Requirements
 
 **Other software requirements**
 
-:ref:`Table 5 <en-us_topic_0000001772696052__en-us_topic_0000001706105073_en-us_topic_0000001392380920_table27159916>` lists the requirements of DSC on other software versions.
+:ref:`Table 5 <en-us_topic_0000001860198637__en-us_topic_0000001392380920_table27159916>` lists the requirements of DSC on other software versions.
 
-.. _en-us_topic_0000001772696052__en-us_topic_0000001706105073_en-us_topic_0000001392380920_table27159916:
+.. _en-us_topic_0000001860198637__en-us_topic_0000001392380920_table27159916:
 
 .. table:: **Table 5** Requirements of DSC on other software versions
 

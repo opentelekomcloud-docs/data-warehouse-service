@@ -1,6 +1,6 @@
-:original_name: DWS_DS_155.html
+:original_name: DWS_DS_040.html
 
-.. _DWS_DS_155:
+.. _DWS_DS_040:
 
 FAQs
 ====
@@ -44,7 +44,7 @@ FAQs
 
 #. **What is an index?**
 
-   **Answer**: An index is a copy of the selected column of a table that can be searched very efficiently. It also includes a low level disk block address or a direct link to the complete row of data it was copied from.
+   **Answer**: An index is a copy of selected columns of data, from a table, that is designed to enable very efficient search. It also includes a low level disk block address or a direct link to the complete row of data it was copied from.
 
 #. **What is the default encoding for Data Studio's files?**
 
@@ -56,7 +56,7 @@ FAQs
 
 #. **What do I do if a DDL statement running indefinitely and cannot be canceled?**
 
-   **Answer**: This problem may occur if other DML/DDL operations are being performed on the same object. In this case, stop all the DML/DDL operations on the object and try again. If the problem persists, there may be another user performing DML/DDL operations on the object. Try again later. You can customize table data and check the operations in a transaction by following the instructions provided in :ref:`Data Studio GUI <dws_ds_20>`.
+   **Answer**: This problem may occur if other DML/DDL operations are being performed on the same object. In this case, stop all the DML/DDL operations on the object and try again. If the problem persists, there may be another user performing DML/DDL operations on the object. Try again later. You can customize table data and check the operations in a transaction by following the instructions provided in :ref:`Data Studio GUI <en-us_topic_0000001860318645__section18536183110235>`.
 
 #. **Why is the exported query result different from the data available on the Results tab?**
 
@@ -74,9 +74,9 @@ FAQs
 
    **Answer**: Yes.
 
-#. **Why can't Data Studio be started after the -Xmx parameter is modified?**
+#. **Why cannot Data Studio be started after the -Xmx parameter is modified?**
 
-   **Answer**: The value of **-Xmx** may be invalid. For details, see :ref:`Installing and Configuring Data Studio <dws_ds_16>`.
+   **Answer**: The value of **-Xmx** may be invalid. For details, see :ref:`Configuring Data Studio <dws_ds_007>`.
 
 #. **How do I quickly switch to the desired tab if there are multiple tabs open?**
 
@@ -88,7 +88,7 @@ FAQs
 
 #. **Why does the language not change after I change the language setting and restart Data Studio?**
 
-   **Answer**: Sometimes the language may not reflect the selected change post restart. Manually restart DS to open the tool in selected language.
+   **Answer**: If the language you selected does not change after restarting, you can restart Data Studio manually to make the change take effect.
 
 #. **Why does the last login details information not display?**
 
@@ -96,11 +96,11 @@ FAQs
 
 #. **When viewing/exporting DDL, why does the Chinese text not show properly?**
 
-   **Answer**: This happens if the SQL, DDL, object names or data contains Chinese text and the Data Studio file encoding is not set to GBK. To solve this, go to Settings > Preferences > Environment > :ref:`File Encoding <en-us_topic_0000001234200631__en-us_topic_0185264709_li1839502511211>` and set the encoding to GBK. The supported combinations of Database and Data Studio encoding for export operation are shown in :ref:`Table1 Supported combinations of file encoding <en-us_topic_0000001188681066__en-us_topic_0185264547_table061484013587>`.
+   **Answer**: This happens if the SQL, DDL, object names or data contains Chinese text and the Data Studio file encoding is not set to **GBK**. To solve this, go to **Settings** > **Preferences** > **Environment** > **File Encoding** and set the encoding to **GBK**. The supported combinations of Database and Data Studio encoding for export operation are shown in :ref:`Table1 Supported combinations of file encoding <en-us_topic_0000001813598528__en-us_topic_0185264547_table061484013587>`.
 
    **To open/view the exported files in Windows Explorer**: Files exported with UTF-8 encoding can be opened/viewed by double-clicking it or by right-clicking on the file and selecting **Open**. Files exported with GBK encoding must be opened in Excel using the import external data feature (**Data** > **Get External Data** > From **Text**).
 
-   .. _en-us_topic_0000001188681066__en-us_topic_0185264547_table061484013587:
+   .. _en-us_topic_0000001813598528__en-us_topic_0185264547_table061484013587:
 
    .. table:: **Table 1** Supported combinations of file encoding
 
@@ -124,9 +124,9 @@ FAQs
 
 #. **Why do I get the error message "Conversion between GBK and LATIN1 is not supported"?**
 
-   **Answer**: This message occurs if the Data Studio and Database encoding selected are incompatible. To solve this, select the compatible encoding. Compatible encoding is shown in :ref:`Table 2 <en-us_topic_0000001188681066__en-us_topic_0185264547_table987163010538>`.
+   **Answer**: This message occurs if the Data Studio and Database encoding selected are incompatible. To solve this, select the compatible encoding. Compatible encoding is shown in :ref:`Table 2 <en-us_topic_0000001813598528__en-us_topic_0185264547_table987163010538>`.
 
-   .. _en-us_topic_0000001188681066__en-us_topic_0185264547_table987163010538:
+   .. _en-us_topic_0000001813598528__en-us_topic_0185264547_table987163010538:
 
    .. table:: **Table 2** Compatible encoding formats
 
@@ -164,7 +164,7 @@ FAQs
 
    **Answer**: The additional context menu options like Right to left Reading order, Show Unicode control characters and so on are provided by Windows 7 in case the keyboard you are using supports right to left and left to right input.
 
-#. .. _en-us_topic_0000001188681066__en-us_topic_0185264547_li1037472864716:
+#. .. _en-us_topic_0000001813598528__en-us_topic_0185264547_li1037472864716:
 
    **What are the objects that are not supported for batch export DDL & DDL and Data operations?**
 
@@ -178,7 +178,7 @@ FAQs
 
    Connection, database, namespace, foreign table, sequence, column, index, constraint, partition, function/procedure, view, regular tables group, schemas group, and system catalog group.
 
-#. .. _en-us_topic_0000001188681066__en-us_topic_0185264547_li18661844113712:
+#. .. _en-us_topic_0000001813598528__en-us_topic_0185264547_li18661844113712:
 
    **Will the queries in SQL Terminal be committed if the resultset is modified and saved with Reuse Connection on and Auto Commit off?**
 
@@ -214,10 +214,82 @@ FAQs
    Renaming a partition         ``-``
    ============================ =====================
 
-#. .. _en-us_topic_0000001188681066__en-us_topic_0185264547_li25618341380:
-
-   **Do we have a limit on the column and row size while exporting table data to excel?**
+#. **Do we have a limit on the column and row size while exporting table data to excel?**
 
    **Answer**: Yes, xlsx format supports maximum of 1 million rows and 16384 columns and xls format supports maximum of 64,000 rows and 256 columns.
 
-.. |image1| image:: /_static/images/en-us_image_0000001188362698.png
+#. **How Do I Delete Objects in Batches?**
+
+   The batch drop operation allows you to drop multiple objects. This operation also applies to searched objects.
+
+   .. note::
+
+      -  Batch drop is allowed only for databases.
+      -  An error is reported on batch dropping system objects, which cannot be dropped.
+
+   Perform the following steps to batch drop objects:
+
+   Press **Ctrl** and select objects one by one or press **Shift** and select objects in a bunch to select the objects to be dropped.
+
+   Right-click and select **Drop Objects**.
+
+   The **Drop Objects** tab displays the list of objects to be dropped.
+
+   +-----------------------------------+------------------------------------------------------------+
+   | Column Name                       | Description                                                |
+   +===================================+============================================================+
+   | Type                              | Displays information about the object type.                |
+   +-----------------------------------+------------------------------------------------------------+
+   | Name                              | Displays the name of the object.                           |
+   +-----------------------------------+------------------------------------------------------------+
+   | Query                             | Displays the query that will be executed to drop objects.  |
+   +-----------------------------------+------------------------------------------------------------+
+   | Type                              | Displays the status of the drop operation.                 |
+   |                                   |                                                            |
+   |                                   | -  To start: The drop operation has not been started.      |
+   |                                   | -  In progress: The object is being dropped.               |
+   |                                   | -  Completed: The drop operation has been completed.       |
+   |                                   | -  Error: The object has not been dropped due to an error. |
+   +-----------------------------------+------------------------------------------------------------+
+   | Error Message                     | Displays the failure cause of a drop operation.            |
+   +-----------------------------------+------------------------------------------------------------+
+
+   Select the required parameters.
+
+   +--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Option       | Description                                                                                                                                                                                            |
+   +==============+========================================================================================================================================================================================================+
+   | Cascade      | The cascade drop operation is performed to drop dependent objects and attributes. The dropped dependent objects will be removed from **Object Browser** only after the refresh operation is performed. |
+   +--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Atomic       | The atomic drop operation is performed to drop all objects. If the operation fails, no objects will be dropped.                                                                                        |
+   +--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | No selection | If neither **Cascade** nor **Atomic** is selected, no dependent objects are dropped.                                                                                                                   |
+   +--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+   Click **Start**.
+
+   **Runs**: displays the number of objects that are dropped from the object list
+
+   **Errors**: displays the number of objects that are not dropped due to errors
+
+   Click **Stop** or close the **Drop Objects** dialog box to stop the drop operation.
+
+   For details about copy, advanced copy, show/hide search bar, sort, and column reorder options, see :ref:`Execute SQL Queries <en-us_topic_0000001860318949__en-us_topic_0185264856_section16147111413113>`.
+
+   .. note::
+
+      -  Select part of a cell and press **Ctrl+C** or click **Copy** to copy the selected text in the cell.
+      -  When you select multiple objects in **Object Browser** to drop, a batch drop window is displayed and the object icons are enabled in the menu bar. If you disconnect the database, the icons will remain disabled even after reconnection. In this case, you need to reselect the objects to drop and the selected objects will be displayed in the new batch drop window.
+
+#. **How Do I Grant or Revoke Permissions in Batches for a Specified Object?**
+
+   You can select multiple objects at a time or search for the target objects.
+
+   Press **Ctrl** and select objects one by one, or press **Shift** and select objects in batches, and choose **Grant/Revoke** from the shortcut menu.
+
+   .. note::
+
+      -  Only objects with the same schema and type can be granted or revoked in batches.
+      -  This feature is only supported in OLAP, not in OLTP.
+
+.. |image1| image:: /_static/images/en-us_image_0000001813439260.png

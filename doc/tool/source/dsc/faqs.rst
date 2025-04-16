@@ -11,9 +11,9 @@ This section covers the frequently asked questions.
 
 **Answer:** A root privileged user must not be used for installation and execution of the DSC for Linux. It is recommended that a user without root privileges be used to install and operate the DSC.
 
-**Q2: How do I configure the DSC to support** **GaussDB T, GaussDB A and GaussDB(DWS)** **version V100R002C60 for Teradata?**
+**Question 2: How do I configure DSC to enable Teradata to support version GaussDB 200 V100R002C60?**
 
-**Answer:** Perform the following steps to configure the DSC to support GaussDB T, GaussDB A and GaussDB(DWS) version V100R002C60 for Teradata:
+**Answer:** Perform the following steps to set table variables to support the GaussDB 200 V100R002C60 version:
 
 #. Open the *features-teradata.properties* file in the *config* subfolder of TOOL_HOME.
 #. Change the following variable values based on the requirement.

@@ -23,9 +23,9 @@ Errors that occur when data is imported are divided into data format errors and 
 
       SELECT * FROM error_table_name;
 
-   :ref:`Table 1 <en-us_topic_0000001188681008__en-us_topic_0000001180837459_t22a10c890aac412caaf092734cab45fa>` lists the columns of the *error_table_name* table.
+   :ref:`Table 1 <en-us_topic_0000001813439232__en-us_topic_0000001180837459_t22a10c890aac412caaf092734cab45fa>` lists the columns of the *error_table_name* table.
 
-   .. _en-us_topic_0000001188681008__en-us_topic_0000001180837459_t22a10c890aac412caaf092734cab45fa:
+   .. _en-us_topic_0000001813439232__en-us_topic_0000001180837459_t22a10c890aac412caaf092734cab45fa:
 
    .. table:: **Table 1** Columns in the *error_table_name* table
 
