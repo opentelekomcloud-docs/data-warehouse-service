@@ -9,20 +9,20 @@ PGXC_NODE_ENV
 
 .. table:: **Table 1** PGXC_NODE_ENV columns
 
-   +---------------+---------+--------------------------------------------------------+
-   | Name          | Type    | Description                                            |
-   +===============+=========+========================================================+
-   | node_name     | text    | Names of all nodes in the cluster                      |
-   +---------------+---------+--------------------------------------------------------+
-   | host          | text    | Host names of all the nodes in the cluster             |
-   +---------------+---------+--------------------------------------------------------+
-   | process       | integer | Process IDs of all the nodes in the cluster            |
-   +---------------+---------+--------------------------------------------------------+
-   | port          | integer | Port numbers of all the nodes in the cluster           |
-   +---------------+---------+--------------------------------------------------------+
-   | installpath   | text    | Installation directory of all the nodes in the cluster |
-   +---------------+---------+--------------------------------------------------------+
-   | datapath      | text    | Data directory of all the nodes in the cluster         |
-   +---------------+---------+--------------------------------------------------------+
-   | log_directory | text    | Log directory of all the nodes in the cluster          |
-   +---------------+---------+--------------------------------------------------------+
+   +---------------+---------+-----------------------------------------------------+
+   | Column        | Type    | Description                                         |
+   +===============+=========+=====================================================+
+   | node_name     | Text    | Names of all nodes in the cluster.                  |
+   +---------------+---------+-----------------------------------------------------+
+   | host          | Text    | Host names of all nodes in the cluster.             |
+   +---------------+---------+-----------------------------------------------------+
+   | process       | Integer | Process IDs of all nodes in the cluster.            |
+   +---------------+---------+-----------------------------------------------------+
+   | port          | Integer | Port numbers of all nodes in the cluster.           |
+   +---------------+---------+-----------------------------------------------------+
+   | installpath   | Text    | Installation directory of all nodes in the cluster. |
+   +---------------+---------+-----------------------------------------------------+
+   | datapath      | Text    | Data directories of all nodes in the cluster.       |
+   +---------------+---------+-----------------------------------------------------+
+   | log_directory | Text    | Log directories of all nodes in the cluster.        |
+   +---------------+---------+-----------------------------------------------------+

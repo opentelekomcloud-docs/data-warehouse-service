@@ -7,7 +7,7 @@ Database Object Functions
 
 -  :ref:`Database Object Size Functions <dws_06_0302>`
 -  :ref:`Database Object Position Functions <dws_06_0303>`
--  :ref:`Partition Management Functions <dws_06_0304>`
+-  :ref:`Partition Management Function <dws_06_0304>`
 -  :ref:`Collation Version Function <dws_06_0305>`
 -  :ref:`Hot and Cold Table Functions <dws_06_0362>`
 
@@ -17,6 +17,6 @@ Database Object Functions
 
    database_object_size_functions
    database_object_position_functions
-   partition_management_functions
+   partition_management_function
    collation_version_function
    hot_and_cold_table_functions

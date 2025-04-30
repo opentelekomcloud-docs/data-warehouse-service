@@ -10,10 +10,10 @@ GS_REL_IOSTAT
 .. table:: **Table 1** GS_REL_IOSTAT columns
 
    ========= ====== =======================
-   Name      Type   Description
+   Column    Type   Description
    ========= ====== =======================
-   phyrds    bigint Number of disk reads
-   phywrts   bigint Number of disk writes
-   phyblkrd  bigint Number of read pages
-   phyblkwrt bigint Number of written pages
+   phyrds    Bigint Number of disk reads
+   phywrts   Bigint Number of disk writes
+   phyblkrd  Bigint Number of read pages
+   phyblkwrt Bigint Number of written pages
    ========= ====== =======================

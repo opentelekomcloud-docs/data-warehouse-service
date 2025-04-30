@@ -8,14 +8,14 @@ CREATE SERVER
 Function
 --------
 
-Creates an external server.
+**CREATE SERVER** creates an external server.
 
 An external server stores information of HDFS clusters, OBS servers, DLI connections, or other homogeneous clusters.
 
 Precautions
 -----------
 
-By default, only the system administrator can create a foreign server. Otherwise, creating a server requires the **USAGE** permission on the foreign-data wrapper being used. The syntax is as follows:
+By default, only the system administrator can create a foreign server. Otherwise, creating a server requires USAGE permission on the foreign-data wrapper being used. The syntax is as follows:
 
 ::
 

@@ -8,7 +8,7 @@ VACUUM
 Function
 --------
 
-Reclaims storage space occupied by tables or B-tree indexes. In normal database operation, rows that have been deleted are not physically removed from their table; they remain present until a **VACUUM** is done. Therefore, it is necessary to execute **VACUUM** periodically, especially on frequently-updated tables.
+**VACUUM** reclaims storage space occupied by tables or B-tree indexes. In normal database operation, rows that have been deleted are not physically removed from their table; they remain present until a **VACUUM** is done. Therefore, it is necessary to execute **VACUUM** periodically, especially on frequently-updated tables.
 
 Precautions
 -----------
@@ -24,12 +24,24 @@ Precautions
 -  **VACUUM** and **VACUUM FULL** clear deleted tuples after the delay specified by **vacuum_defer_cleanup_age**.
 -  **VACUUM ANALYZE** executes a VACUUM operation and then an ANALYZE operation for each selected table. This is a handy combination form for routine maintenance scripts.
 -  Plain **VACUUM** (without **FULL**) recycles space and makes it available for reuse. This form of the command can operate in parallel with normal reading and writing of the table, as an exclusive lock is not obtained. **VACUUM FULL** executes wider processing, including moving rows across blocks to compress tables so they occupy minimum number of disk blocks. This form is much slower and requires an exclusive lock on each table while it is being processed.
--  When you do **VACUUM** to a column-store table, the following operations are internally performed: data in the delta table is migrated to the primary table, and the delta and desc tables of the primary table are vacuumed. **VACUUM** does not reclaim the storage space of the delta table. To reclaim it, do **VACUUM DELTAMERGE** to the column-store table.
+-  During VACUUM on column-store tables, four internal operations occur: VACUUM on the primary table, VACUUM on the Desc table of the primary table, VACUUM on the delta table of the primary table, and migration of data from the delta table to the primary table. **VACUUM** does not reclaim the storage space of the delta table. To reclaim it, do **VACUUM DELTAMERGE** to the column-store table. By default, the VACUUM primary table operation is enabled. You can disable this function by setting the **colvacuum_threshold_scale_factor** parameter.
+-  The **VACUUM** operation on column-store primary tables does not support temporary tables, multi-temperature tables, and time series tables.
+-  The **VACUUM** operation on column-store primary tables reclaims space with a delay. To reclaim space immediately, run the **vac_fileclear_relation** function after VACUUM is executed. Then, an exclusive lock is added to a specified table to reclaim its space.
 -  Running **VACUUM FULL** on system catalogs can only be done when the database is offline. Otherwise, table locks, exceptions, and errors may occur.
 -  If you perform VACUUM FULL when a long-running query accesses a system table, the long-running query may prevent VACUUM FULL from accessing the system table. As a result, the connection times out and an error is reported.
 -  Running **VACUUM FULL** on a column-store partitioned table locks the table and its partitions.
--  Running **VACUUM FULL** on different system tables simultaneously may cause local deadlocks.
--  When a **VACUUM FULL** operation is performed on a table, it triggers table rebuilding. During this rebuilding process, data is dumped into a new data file. Once the rebuilding is complete, the original file is deleted. However, it is important to note that if the table is large, the rebuilding process can consume a large disk space. When the disk space is insufficient, performing the **VACUUM FULL** operation on large tables may cause the cluster to become read-only.
+-  A distributed deadlock may occur when VACUUM FULL and DML statements run concurrently in the following scenarios:
+
+   -  **VACUUM FULL** on subpartitions and **INSERT**/**UPDATE**/**DELETE** on the primary table
+   -  **VACUUM FULL** on a full table and **SELECT** on a full table or **SELECT** on subpartitions
+
+-  In the storage-compute decoupling architecture, a message is displayed indicating that the full database VACCUM, full database VACUUM FULL, and full database VACUUM DELTAMERGE are not supported.
+
+.. warning::
+
+   -  When a **VACUUM FULL** operation is performed on a table, it triggers table rebuilding. During this rebuilding process, data is dumped into a new data file. Once the rebuilding is complete, the original file is deleted. However, it is important to note that if the table is large, the rebuilding process can consume a significant amount of disk space. When the disk space is insufficient, exercise caution when performing the **VACUUM FULL** operation on large tables to prevent the cluster from being read-only.
+   -  Execute **VACUUM FULL** on tables with a high dirty page rate and small CU ratio exceeding 25% at regular intervals. Perform **VACUUM FULL** on common tables during low-traffic hours and on system tables when they are offline.
+   -  For more information about development and design specifications, see "GaussDB(DWS) Development and Design Proposal" in the *Data Warehouse Service (DWS) Developer Guide*.
 
 Syntax
 ------
@@ -54,7 +66,7 @@ Syntax
       VACUUM [ FULL ] [ FREEZE ] [ VERBOSE ] { ANALYZE | ANALYSE } [ VERBOSE ]
           [ table_name [ (column_name [, ...] ) ] ] [ PARTITION ( partition_name ) ];
 
--  For HDFS tables, migrate data from the delta table to the primary table. The **partition_name** parameter is supported only by clusters of version 8.2.1.300 or later.
+-  For HDFS and column-store tables, migrate data from the delta table to the primary table. The **partition_name** parameter is supported only by 8.2.1.200 and later cluster versions.
 
    ::
 
@@ -107,11 +119,11 @@ Parameter Description
 
 -  **PARTITION**
 
-   HDFS tables do not support **PARTITION**. **COMPACT** and **PARTITION** cannot be used at the same time.
+   HDFS table does not support **PARTITION**. **COMPACT** and **PARTITION** cannot be used at the same time.
 
    .. note::
 
-      The following error message will be displayed if **PARTITION** and **COMPACT** are both used: **COMPACT can not be used with PARTITION**.
+      If the **PARTITION** and **COMPACT** parameters are used at the same time, the following error message is displayed: **COMPACT can not be used with PARTITION**.
 
 -  **partition_name**
 
@@ -119,7 +131,14 @@ Parameter Description
 
 -  **DELTAMERGE**
 
-   (For HDFS tables) Migrates data from the delta table to primary tables. If the data volume of the delta table is less than 60,000 rows, the data will not be migrated. Otherwise, the data will be migrated to HDFS, and the delta table will be cleared by **TRUNCATE**.
+   For HDFS tables and column-store tables, migrate data in the delta table of HDFS tables or column-store tables to the primary table. If the data volume of the delta table is less than 60,000 rows, the data will not be migrated. Otherwise, the data will be migrated to HDFS, and the delta table will be cleared by **TRUNCATE**. For a column-store table, this operation always transfers all data in the delta table to the CU.
+
+   .. note::
+
+      The following DFX functions are provided to return the data storage in the delta table of a column-store table (for an HDFS table, it can be returned by **EXPLAIN ANALYZE**):
+
+      -  pgxc_get_delta_info(TEXT): The input parameter is a column-store table name. The delta table information on each node is collected and displayed, including the number of active tuples, table size, and maximum block ID.
+      -  get_delta_info(TEXT): The input parameter is a column-store table name. The system summarizes the results returned from pgxc_get_delta_info and returns the total number of active tuples, total table size, and maximum block ID in the delta table. When querying delta information about a temporary table, you need to specify the schema of the temporary table. Otherwise, an error is reported, indicating that the table cannot be found.
 
 -  **HDFSDIRECTORY**
 
@@ -157,3 +176,15 @@ Delete only the **reason** table.
 ::
 
    VACUUM (VERBOSE, ANALYZE) tpcds.reason;
+
+Perform the **DELTAMERGE** operation on the column-store table **table_delta**.
+
+::
+
+   VACUUM DELTAMERGE tpcds.table_delta;
+
+Perform the **DELTAMERGE** operation only on partition **p1** of the column-store table **table_delta**.
+
+::
+
+   VACUUM DELTAMERGE tpcds.table_delta partition(p1);

@@ -8,7 +8,7 @@ DBA_TRIGGERS
 **DBA_TRIGGERS** displays information about triggers in the database. This view is accessible only to users with system administrator rights.
 
 +--------------+-----------------------+---------------------------------------------+
-| Name         | Type                  | Description                                 |
+| Column       | Type                  | Description                                 |
 +==============+=======================+=============================================+
 | trigger_name | character varying(64) | Trigger name                                |
 +--------------+-----------------------+---------------------------------------------+

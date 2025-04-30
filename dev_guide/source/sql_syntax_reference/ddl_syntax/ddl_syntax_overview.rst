@@ -295,3 +295,18 @@ A dictionary is used to identify and process specific words during full-text ret
    +-----------------------------------------+----------------------------------------------------+
    | Delete a full-text retrieval dictionary | :ref:`DROP TEXT SEARCH DICTIONARY <dws_06_0211>`   |
    +-----------------------------------------+----------------------------------------------------+
+
+Defining Query Filtering Rules
+------------------------------
+
+You can create query filter rules to block slow SQL statements identified in advance. The following table lists the related SQL statements.
+
+.. table:: **Table 19** SQL statements for querying filtering rules
+
+   ================================ ======================================
+   Function                         SQL Statement
+   ================================ ======================================
+   Creating a Query Filtering Rule  :ref:`CREATE BLOCK RULE <dws_06_0292>`
+   Modifying a Query Filtering Rule :ref:`ALTER BLOCK RULE <dws_06_0291>`
+   Deleting a Query Filtering Rule  :ref:`DROP BLOCK RULE <dws_06_0293>`
+   ================================ ======================================

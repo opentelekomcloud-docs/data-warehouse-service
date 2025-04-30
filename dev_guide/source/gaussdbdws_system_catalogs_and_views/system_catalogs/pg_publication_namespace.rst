@@ -12,11 +12,11 @@ PG_PUBLICATION_NAMESPACE
    +---------+------+-----------------------------------------+----------------------------------------------------------------------------+
    | Name    | Type | Reference                               | Description                                                                |
    +=========+======+=========================================+============================================================================+
-   | oid     | oid  | ``-``                                   | Row identifier (hidden attribute; displayed only when explicitly selected) |
+   | OID     | OID  | ``-``                                   | Row identifier (hidden attribute; displayed only when explicitly selected) |
    +---------+------+-----------------------------------------+----------------------------------------------------------------------------+
-   | prpubid | oid  | :ref:`PG_PUBLICATION <dws_04_1040>`.oid | Publication OID in the mapping                                             |
+   | prpubid | OID  | :ref:`PG_PUBLICATION <dws_04_1040>`.oid | Publication OID in the mapping                                             |
    +---------+------+-----------------------------------------+----------------------------------------------------------------------------+
-   | pnnspid | oid  | :ref:`PG_NAMESPACE <dws_04_0600>`.oid   | Schema OID in the mapping                                                  |
+   | pnnspid | OID  | :ref:`PG_NAMESPACE <dws_04_0600>`.oid   | Schema OID in the mapping                                                  |
    +---------+------+-----------------------------------------+----------------------------------------------------------------------------+
 
 Examples

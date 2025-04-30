@@ -10,9 +10,9 @@ DBA_DATA_FILES
 .. table:: **Table 1** DBA_DATA_FILES columns
 
    +-----------------+------------------+--------------------------------------------------+
-   | Name            | Type             | Description                                      |
+   | Column          | Type             | Description                                      |
    +=================+==================+==================================================+
-   | tablespace_name | name             | Name of the tablespace to which the file belongs |
+   | tablespace_name | Name             | Name of the tablespace to which the file belongs |
    +-----------------+------------------+--------------------------------------------------+
-   | bytes           | double precision | Length of the file in bytes                      |
+   | bytes           | Double precision | Length of the file in bytes                      |
    +-----------------+------------------+--------------------------------------------------+

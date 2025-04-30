@@ -10,17 +10,17 @@ PG_INDEXES
 .. table:: **Table 1** PG_INDEXES columns
 
    +------------+------+--------------------------------------------+-------------------------------------------------------------+
-   | Name       | Type | Reference                                  | Description                                                 |
+   | Column     | Type | Reference                                  | Description                                                 |
    +============+======+============================================+=============================================================+
-   | schemaname | name | :ref:`PG_NAMESPACE <dws_04_0600>`.nspname  | Name of the schema that contains tables and indexes         |
+   | schemaname | Name | :ref:`PG_NAMESPACE <dws_04_0600>`.nspname  | Name of the schema that contains tables and indexes         |
    +------------+------+--------------------------------------------+-------------------------------------------------------------+
-   | tablename  | name | :ref:`PG_CLASS <dws_04_0578>`.relname      | Name of the table for which the index serves                |
+   | tablename  | Name | :ref:`PG_CLASS <dws_04_0578>`.relname      | Name of the table for which the index serves                |
    +------------+------+--------------------------------------------+-------------------------------------------------------------+
-   | indexname  | name | :ref:`PG_CLASS <dws_04_0578>`.relname      | Index name                                                  |
+   | indexname  | Name | :ref:`PG_CLASS <dws_04_0578>`.relname      | Index name                                                  |
    +------------+------+--------------------------------------------+-------------------------------------------------------------+
-   | tablespace | name | :ref:`PG_TABLESPACE <dws_04_0622>`.spcname | Name of the tablespace that contains the index              |
+   | tablespace | Name | :ref:`PG_TABLESPACE <dws_04_0622>`.spcname | Name of the tablespace that contains the index              |
    +------------+------+--------------------------------------------+-------------------------------------------------------------+
-   | indexdef   | text | ``-``                                      | Index definition (a reconstructed **CREATE INDEX** command) |
+   | indexdef   | Text | N/A                                        | Index definition (a reconstructed **CREATE INDEX** command) |
    +------------+------+--------------------------------------------+-------------------------------------------------------------+
 
 Example

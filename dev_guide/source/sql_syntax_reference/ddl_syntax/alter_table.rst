@@ -8,7 +8,7 @@ ALTER TABLE
 Function
 --------
 
-Modifies tables, including modifying table definitions, renaming tables, renaming specified columns in tables, renaming table constraints, setting table schemas, enabling or disabling row-level access control, and adding or updating multiple columns.
+**ALTER TABLE** is used to modify tables, including modifying table definitions, renaming tables, renaming specified columns in tables, renaming table constraints, setting table schemas, enabling or disabling row-level access control, and adding or updating multiple columns.
 
 Precautions
 -----------
@@ -16,11 +16,11 @@ Precautions
 -  Only the owner of a table, a user granted with the ALTER permission for the table, or a system administrator has the permission to run the **ALTER TABLE** statement. To change the owner or schema of a table, you need to have ownership or system administrator privileges for the table and be a direct or indirect member of the new role.
 -  The storage parameter **ORIENTATION** cannot be modified.
 -  Currently, **SET SCHEMA** can only set schemas to user schemas. It cannot set a schema to a system internal schema.
--  Column-store tables support **PARTIAL CLUSTER KEY** but do not support table-level foreign key constraints. In 8.1.1 or later, column-store tables support the **PRIMARY KEY** constraint and table-level **UNIQUE** constraint.
+-  Column-store tables support **PARTIAL CLUSTER KEY** but do not support table-level foreign key constraints. In 8.1.1 or later, column-store tables support the **PRIMARY KEY** constraint and table-level **UNIQUE** constraint in table creation.
 -  A system column cannot be designated as a primary key in a row-store REPLICATION distributed table.
--  To modify a column-store table, there are various commands available. For instance, you can use **ADD COLUMN** to add a new field, **ALTER TYPE** to change the data type of a field, **SET STATISTICS** to set the statistical gathering target for a field, and **DROP COLUMN** to delete an existing field. You can also rename the table. Note that any added or modified fields must be compatible with a column-store table (for details, see :ref:`Data Types <dws_06_0008>`). Moreover, the **USING** option of **ALTER TYPE** only supports constant expressions or those that involve the current field. Expressions that reference other fields are not supported.
+-  In a column-store table, you can perform **ADD COLUMN**, **ALTER TYPE**, **SET STATISTICS**, **DROP COLUMN** operations. The types of new and modified columns should be the :ref:`Data Types <dws_06_0008>` supported by column storage. The **USING** option of **ALTER TYPE** only supports constant expression and expression involved in the column.
 -  The column constraints supported by column-store tables include **NULL**, **NOT NULL**, and **DEFAULT** constant values. Only the **DEFAULT** value can be modified (**SET DEFAULT** and **DROP DEFAULT**), and only the **NOT NULL** constraint can be deleted.
--  The **NOT NULL** constraint and **PRIMARY KEY** constraint can be added to column-store tables. This constraint is supported by version 8.2.0 or later clusters.
+-  The **NOT NULL** constraint and **PRIMARY KEY** constraint can be added to existing column-store tables using **ALTER**. This constraint is supported by version 8.2.0 or later clusters.
 -  When you modify the COLVERSION or **enable_delta** parameter of a column-store table, other ALTER operations cannot be performed.
 
 -  Auto-increment columns cannot be added, or a column in which the **DEFAULT** value contains the nextval() expression cannot be added either.
@@ -29,12 +29,21 @@ Precautions
 -  The **cold_tablespace** and **storage_policy** parameters of **ALTER RESET** cannot be used in OBS multi-temperature tables, and **COLVERSION** cannot be changed to **1.0** for such tables.
 -  You can change a column-store table whose **COLVERSION** parameter is **2.0** to an OBS multi-temperature table. The **COLD_TABLESPACE** and **STORAGE_POLICY** parameters must be added.
 -  You can use **ALTER TABLE** to change the values of **STORAGE_POLICY** for **RELOPTIONS**. After the cold/hot switchover policy is changed, the cold/hot attribute of the existing cold data will not change. The new policy takes effect for the next cold/hot switchover.
--  When an **ALTER TABLE** operation is performed on a table, it triggers table rebuilding. During this rebuilding process, data is dumped into a new data file. Once the rebuilding is complete, the original file is deleted. However, it is important to note that if the table is large, the rebuilding process can consume a significant amount of disk space. When the disk space is insufficient, exercise caution when performing the **ALTER TABLE** operation on large tables to prevent the cluster from being read-only.
+-  Distribution columns cannot be modified for global temporary tables.
+-  Performing an **ALTER TABLE** operation on a table rebuilds it by dumping data into a new file and deleting the original file once the process is complete. It is important to remember that this can consume a significant amount of disk space for larger tables. When the disk space is insufficient, exercise caution when performing the **ALTER TABLE** operation on large tables to prevent the cluster from being read-only.
 
    -  Change the data type of a column.
    -  Add columns (including the oid column) to a row-store table.
    -  Modify **COLVERSION** for a column-store table.
-   -  Specify the DEFAULT constant values for a column added to a column-store table, while the DEFAULT values contain volatile functions or the DEFAULT values are not NULL and do not belong to a specific data type.
+   -  Specify the **DEFAULT** constant values for a column added to a column-store table. If the **DEFAULT** values contain volatile functions or are not **NULL** and do not belong to a specific data type, ensure they are correctly defined.
+
+-  Do not specify a tablespace when running **ALTER TABLE** for an unlogged table. When **ALTER TABLE** is run for a non-unlogged table, the tablespace cannot be specified as **pg_unlogged**.
+-  You cannot modify the **COLVERSION** of a V3 table (which is 3.0), and it is not possible to switch a non-V3 table to a V3 table (meaning that **COLVERSION** 2.0 cannot be changed to 3.0).
+
+.. warning::
+
+   -  Avoid performing **ALTER TABLE**, **ALTER TABLE PARTITION**, **DROP PARTITION**, and **TRUNCATE** operations during peak hours to prevent long SQL statements from blocking these operations or SQL services.
+   -  For more information about development and design specifications, see "GaussDB(DWS) Development and Design Proposal" in the *GaussDB(DWS) Developer Guide*.
 
 Syntax
 ------
@@ -80,7 +89,7 @@ Syntax
 
       -  **ADD table_constraint [ NOT VALID ]**
 
-         Adds a new table constraint.
+         Adds a new table constraint. When used with the **NOT VALID** option, this constraint is valid only for foreign keys and **CHECK** constraints. If the **NOT VALID** option is added to the constraint, the check on whether the existing records in the table meet the initial constraint is skipped.
 
       -  **ADD table_constraint_using_index**
 
@@ -129,7 +138,7 @@ Syntax
 
       -  **TO { GROUP groupname \| NODE ( nodename [, ... ] ) }**
 
-         The syntax is only available in extended mode (when GUC parameter **support_extended_features** is **on**). Exercise caution when enabling the mode. It is used for tools like internal dilatation tools. Common users should not use the mode.
+         The syntax is only available in extended mode (when GUC parameter **enable_cluster_resize** is **on**). Exercise caution when enabling the mode. It is used for tools like internal dilatation tools. Common users should not use the mode.
 
       -  **ADD NODE ( nodename [, ... ] )**
 
@@ -355,6 +364,13 @@ Syntax
              { UNIQUE | PRIMARY KEY } USING INDEX index_name
              [ DEFERRABLE | NOT DEFERRABLE | INITIALLY DEFERRED | INITIALLY IMMEDIATE ]
 
+   -  Add foreign key constraint **REFERENCES**.
+
+      ::
+
+         [ CONSTRAINT constraint_name ]
+          FOREIGN KEY ( column_name [, ... ] ) REFERENCES reftable [ ( refcolumn [, ... ] ) ] }
+
    -  **table_constraint** is as follows:
 
       ::
@@ -433,7 +449,7 @@ Syntax
       ALTER TABLE [ IF EXISTS ] table_name
           MODIFY ( { column_name data_type | column_name [ CONSTRAINT constraint_name ] NOT NULL [ ENABLE ] | column_name [ CONSTRAINT constraint_name ] NULL } [, ...] );
 
-.. _en-us_topic_0000001510281989__s3e87132692794964b56e3ba420e7b544:
+.. _en-us_topic_0000001811634545__s3e87132692794964b56e3ba420e7b544:
 
 Parameter Description
 ---------------------
@@ -466,7 +482,7 @@ Parameter Description
 
       Sets the period for automatically creating partitions in partition management.
 
-      For details about the value range of **PERIOD** and the restrictions on enabling this function, see :ref:`▪PERIOD <en-us_topic_0000001460561364__li672910401685>`.
+      For details about the value range of **PERIOD** and the restrictions on enabling this function, see :ref:`▪PERIOD <en-us_topic_0000001764675414__li672910401685>`.
 
       .. note::
 
@@ -477,12 +493,23 @@ Parameter Description
 
       Set the partition expiration time for automatically deleting partitions in partition management.
 
-      For details about the TTL range and restrictions on enabling this function, see :ref:`▪TTL <en-us_topic_0000001460561364__li49277207810>`.
+      For details about the TTL range and restrictions on enabling this function, see :ref:`▪TTL <en-us_topic_0000001764675414__li49277207810>`.
 
       .. note::
 
          -  If this parameter is not configured when you create a table, you can run the **set** statements to configure this parameter and enable automatic partition deletion. If this parameter has been configured before, you can run the **set** statements to modify this parameter.
          -  You can run the **reset** command to disable the automatic partition deletion.
+
+   The following options are added to column-store tables in Turbo storage format:
+
+   -  enable_turbo_store
+
+      Specifies whether the column-store table is in the turbo storage format. This is supported only by 9.1.0.100 and later cluster versions.
+
+      .. note::
+
+         -  Common column-store tables in version 3.0 do not support the turbo storage format, while **hstore_opt** tables in version 3.0 only support the turbo storage format.
+         -  In version 2.0, there is no restriction on column-store tables.
 
 -  **new_owner**
 
@@ -637,6 +664,10 @@ Parameter Description
 
    Specifies the schema name of a table.
 
+-  **cache_policy**
+
+   Table cache policy. This parameter is supported only in the storage-compute decoupling 3.0 version. For details about the value, see :ref:`cache_policy <en-us_topic_0000001764675138__en-us_topic_0000001342465185_li14679114513562>`.
+
 Table Operation Examples
 ------------------------
 
@@ -722,7 +753,7 @@ Change the data temperature for a single table:
 
    ALTER TABLE cold_hot_table REFRESH STORAGE;
 
-Change a column-store partitioned table to a hot and cold table.
+Change a column-store partitioned table to a table that supports hot and cold data separation.
 
 ::
 
@@ -734,70 +765,76 @@ Change a column-store partitioned table to a hot and cold table.
 
    ALTER TABLE test_1 SET (storage_policy = 'LMT:100');
 
+Modify the table cache policy (supported only in clusters of the storage-compute decoupling 3.0 version).
+
+.. code-block::
+
+   ALTER TABLE orders SET (cache_policy = 'NONE');
+
 Column Operation Examples
 -------------------------
 
-Add a column to a table:
+Add a column to a table.
 
 ::
 
    ALTER TABLE warehouse_t ADD W_GOODS_CATEGORY int;
 
-Modify the column name and column field information in the table:
+Modify the column name and column field information in the table.
 
 ::
 
    ALTER TABLE warehouse_t CHANGE W_GOODS_CATEGORY W_GOODS_CATEGORY2 DECIMAL NOT NULL COMMENT 'W_GOODS_CATEGORY';
 
-Add a primary key to a table:
+Add a primary key to a table.
 
 ::
 
    ALTER TABLE warehouse_t ADD PRIMARY KEY(w_warehouse_name);
 
-Rename a column:
+Rename a column.
 
 ::
 
    ALTER TABLE CUSTOMER RENAME C_PHONE TO new_C_PHONE;
 
-Add columns to a table:
+Add columns to a table.
 
 ::
 
    ALTER TABLE CUSTOMER ADD (C_COMMENT VARCHAR(117) NOT NULL, C_COUNT int);
 
-Change the data type of a column in the table and set the column constraint to **NOT NULL**:
+Change the data type of a column in the table and set the column constraint to **NOT NULL**.
 
 ::
 
    ALTER TABLE CUSTOMER MODIFY C_MKTSEGMENT varchar(20) NOT NULL;
 
-Add the NOT NULL constraint to a certain column in the table:
+Add the **NOT NULL** constraint to a column in the table.
 
 ::
 
    ALTER TABLE CUSTOMER ALTER COLUMN C_PHONE SET NOT NULL;
 
-Delete a column from a table:
+Delete a column from a table.
 
 ::
 
    ALTER TABLE CUSTOMER DROP COLUMN C_COUNT;
 
-Add an index to a column in the table:
+Add an index to a column in the table.
 
 ::
 
    ALTER TABLE customer_address MODIFY ca_address_id varchar(20) CONSTRAINT ca_address_index CHECK (ca_address_id > 0);
 
-Add a timestamp column with the **ON UPDATE** expression to the **customer_address** table:
+Add a timestamp column with the **ON UPDATE** expression to the **customer_address** table.
 
 ::
 
    ALTER TABLE customer_address ADD COLUMN C_TIME timestamp on update current_timestamp;
 
-Delete the timestamp column with the **ON UPDATE** expression from the **customer_address**:
+Delete the timestamp column with the **ON UPDATE** expression from the **customer_address**.
 
 ::
 

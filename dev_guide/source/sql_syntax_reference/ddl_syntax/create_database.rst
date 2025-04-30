@@ -29,6 +29,7 @@ Syntax
                   [ LC_COLLATE [=] lc_collate ] |
                   [ LC_CTYPE [=] lc_ctype ] |
                   [ DBCOMPATIBILITY [=] compatibility_type ] |
+                  [ DBCOMPATIBILITY_BEHAVIOR [=] opt_compat_behavior] |
 
                   [ CONNECTION LIMIT [=] connlimit ]}[...] ];
 
@@ -39,7 +40,7 @@ Parameter Description
 
    Indicates the database name.
 
-   Value range: a string. It must comply with the naming convention.
+   Value range: a string that complies with the naming convention, which includes uppercase and lowercase letters, digits, underscores (_), and dollar signs ($). However, it cannot begin with a digit or dollar sign ($).
 
 -  **OWNER [ = ] user_name**
 
@@ -94,9 +95,19 @@ Parameter Description
 
    Value range: **ORA**, **TD**, and **MySQL**, representing the Oracle-, Teradata-, and MySQL-compatible modes, respectively. If this parameter is not specified, the default value **ORA** is used.
 
+-  **DBCOMPATIBILITY_BEHAVOIR [ = ] opt_compat\_behavior**
+
+   Specifies the compatibility behavior of the database. This parameter is supported only by clusters of version 9.1.0 or later. If this parameter is not specified, the default value **NO_BEHAVIOR** is used, indicating no special behavior.
+
+   The value can be **td_rtrim** or **pg_char**.
+
+   **td_rtrim**: removes the trailing part of a variable-length character string in Teradata compatibility mode.
+
+   **pg_char**: converts the varchar type to the nvarchar2 type in PostgreSQL compatibility mode.
+
 -  **CONNECTION LIMIT [ = ] connlimit**
 
-   Indicates the maximum number of concurrent connections that can be made to the new database.
+   Number of concurrent connections to a database.
 
    Value range: An integer greater than or equal to **-1**. The default value **-1** means no limit.
 

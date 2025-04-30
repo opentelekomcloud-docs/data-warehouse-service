@@ -10,11 +10,11 @@ PG_TOTAL_MEMORY_DETAIL
 .. table:: **Table 1** PG_TOTAL_MEMORY_DETAIL columns
 
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------+
-   | Name                  | Type                  | Description                                                                                                          |
+   | Column                | Type                  | Description                                                                                                          |
    +=======================+=======================+======================================================================================================================+
-   | nodename              | text                  | Node name                                                                                                            |
+   | nodename              | Text                  | Node name                                                                                                            |
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------+
-   | memorytype            | text                  | It can be set to any of the following values:                                                                        |
+   | memorytype            | Text                  | It can be set to any of the following values:                                                                        |
    |                       |                       |                                                                                                                      |
    |                       |                       | -  **max_process_memory**: memory used by a GaussDB(DWS) cluster instance                                            |
    |                       |                       | -  **process_used_memory**: memory used by a GaussDB(DWS) process                                                    |
@@ -30,9 +30,9 @@ PG_TOTAL_MEMORY_DETAIL
    |                       |                       | -  **max_sctpcomm_memory**: maximum memory allowed for the communication library                                     |
    |                       |                       | -  **sctpcomm_used_memory**: memory used for the communication library                                               |
    |                       |                       | -  **sctpcomm_peak_memory**: memory peak of the communication library                                                |
-   |                       |                       | -  **max_topsql_memory**: maximum memory that can be used by Top SQL to record historical job monitoring information |
-   |                       |                       | -  **topsql_used_memory**: memory used by Top SQL to record historical job monitoring information                    |
-   |                       |                       | -  **topsql_peak_memory**: memory peak of Top SQL to record historical job monitoring information                    |
+   |                       |                       | -  **max_topsql_memory**: maximum memory that can be used by top SQL to record historical job monitoring information |
+   |                       |                       | -  **topsql_used_memory**: memory used by top SQL to record historical job monitoring information                    |
+   |                       |                       | -  **topsql_peak_memory**: memory peak of top SQL to record historical job monitoring information                    |
    |                       |                       | -  **other_used_memory**: other used memory                                                                          |
    |                       |                       | -  **gpu_max_dynamic_memory**: maximum GPU memory                                                                    |
    |                       |                       | -  **gpu_dynamic_used_memory**: sum of the available GPU memory and temporary GPU memory                             |
@@ -43,5 +43,5 @@ PG_TOTAL_MEMORY_DETAIL
    |                       |                       | -  **udf_reserved_memory**: memory reserved for the **UDF Worker** process                                           |
    |                       |                       | -  **mmap_used_memory**: memory used for **mmap**                                                                    |
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------+
-   | memorymbytes          | integer               | Size of the used memory (MB)                                                                                         |
+   | memorymbytes          | Integer               | Size of the used memory (MB)                                                                                         |
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------+

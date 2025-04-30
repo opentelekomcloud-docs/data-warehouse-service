@@ -83,21 +83,10 @@ gtm_backup_barrier
 
 **Default value**: **off**
 
-gtm_conn_check_interval
------------------------
-
-**Parameter description**: Sets the CN to check whether the connection between the local thread and the primary GTM is normal.
-
-**Type**: SIGHUP
-
-**Value range**: an integer ranging from 0 to INT_MAX/1000. The unit is second.
-
-**Default value**: **10s**
-
 transaction_deferrable
 ----------------------
 
-**Parameter description**: Specifies whether to delay the execution of a read-only serial transaction without incurring an execution failure. Assume this parameter is set to **on**. When the server detects that the tuples read by a read-only transaction are being modified by other transactions, it delays the execution of the read-only transaction until the other transactions finish modifying the tuples. Currently, this parameter is not used in GaussDB(DWS). Similar to this parameter, the :ref:`default_transaction_deferrable <en-us_topic_0000001510402201__s05ef9312d74143928830d7d459cdc63a>` parameter is used to specify whether to allow delayed execution of a transaction.
+**Parameter description**: Specifies whether to delay the execution of a read-only serial transaction without incurring an execution failure. Assume this parameter is set to **on**. When the server detects that the tuples read by a read-only transaction are being modified by other transactions, it delays the execution of the read-only transaction until the other transactions finish modifying the tuples. Currently, this parameter is not used in GaussDB(DWS). Similar to this parameter, the :ref:`default_transaction_deferrable <en-us_topic_0000001764491912__s05ef9312d74143928830d7d459cdc63a>` parameter is used to specify whether to allow delayed execution of a transaction.
 
 **Type**: USERSET
 
@@ -127,17 +116,6 @@ enable_show_any_tuples
 
 **Default value**: **off**
 
-gtm_connect_retries
--------------------
-
-**Parameter description**: Specifies the number of GTM reconnection attempts.
-
-**Type**: SIGHUP
-
-**Value range**: an integer ranging from 1 to 2147483647.
-
-**Default value**: **30**
-
 idle_in_transaction_timeout
 ---------------------------
 
@@ -145,6 +123,6 @@ idle_in_transaction_timeout
 
 **Type**: USERSET
 
-**Value range**: 0 to 86400, in second. Value **0** indicates that this feature is disabled.
+**Value range**: 0 to 86400, in second.
 
-**Default value**: **0**
+**Default value**: **0**, indicating that the function is disabled.

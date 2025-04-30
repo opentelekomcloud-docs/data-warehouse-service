@@ -30,9 +30,9 @@ Example:
     06:10:15 PM-18:10:15
    (1 row)
 
-:ref:`Table 1 <en-us_topic_0000001510161265__table17541102011>` describes the patterns of date parameter values. They can be used for the **date_format**, **time_format**, **str_to_date**, **str_to_time**, and **from_unixtime** functions.
+:ref:`Table 1 <en-us_topic_0000001764675318__table17541102011>` describes the patterns of date parameter values. They can be used for the **date_format**, **time_format**, **str_to_date**, **str_to_time**, and **from_unixtime** functions.
 
-.. _en-us_topic_0000001510161265__table17541102011:
+.. _en-us_topic_0000001764675318__table17541102011:
 
 .. table:: **Table 1** Formats for the output string
 

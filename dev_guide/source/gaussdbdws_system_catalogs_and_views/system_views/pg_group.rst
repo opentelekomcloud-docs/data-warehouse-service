@@ -10,9 +10,9 @@ PG_GROUP
 .. table:: **Table 1** PG_GROUP columns
 
    ======== ===== ==================================================
-   Name     Type  Description
+   Column   Type  Description
    ======== ===== ==================================================
-   groname  name  Group name
-   grosysid oid   Group ID
+   groname  Name  Group name
+   grosysid OID   Group ID
    grolist  oid[] An array, including all the role IDs in this group
    ======== ===== ==================================================

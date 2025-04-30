@@ -74,14 +74,6 @@ The values of **frame_start** and **frame_end** are as follows:
 
 *frame_start* cannot be **UNBOUNDED FOLLOWING**, *frame_end* cannot be **UNBOUNDED PRECEDING**, and *frame_end* cannot be earlier than *frame_start*. For example, **RANGE BETWEEN CURRENT ROW AND** *N* **PRECEDING** is not allowed.
 
-For clusters of version 8.2.1.220 or later, the LAST_VALUE function supports the IGNORE NULLS syntax. This syntax returns the last value in a non-null window. If all values are **NULL**, **NULL** is returned. The format is as follows:
-
-::
-
-   LAST_VALUE (expression [IGNORE NULLS]) OVER (window_definition)
-
-Currently, only **ROWS between CURRENT ROW and UNBOUNDED FOLLOWING** and **ROWS BETWEEN UNBOUNDED PRECEDING and CURRENT ROW** are supported.
-
 RANK()
 ------
 
@@ -293,6 +285,14 @@ LAST_VALUE(value any)
 Description: Returns the last value of each group.
 
 Return type: same as the parameter type
+
+The **LAST_VALUE** function supports the IGNORE NULLS syntax. This syntax returns the last value in a non-null window. If all values are **NULL**, **NULL** is returned. The format is as follows:
+
+::
+
+   LAST_VALUE (expression) [IGNORE NULLS] OVER (window_definition)
+
+Currently, only **ROWS between CURRENT ROW and UNBOUNDED FOLLOWING** and **ROWS BETWEEN UNBOUNDED PRECEDING and CURRENT ROW** are supported.
 
 Example:
 

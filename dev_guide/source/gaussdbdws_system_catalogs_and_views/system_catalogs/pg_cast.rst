@@ -10,21 +10,21 @@ PG_CAST
 .. table:: **Table 1** PG_CAST columns
 
    +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-   | Name                  | Type                  | Description                                                                                                                                       |
+   | Column                | Type                  | Description                                                                                                                                       |
    +=======================+=======================+===================================================================================================================================================+
-   | castsource            | oid                   | OID of the source data type                                                                                                                       |
+   | castsource            | OID                   | OID of the source data type                                                                                                                       |
    +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-   | casttarget            | oid                   | OID of the target data type                                                                                                                       |
+   | casttarget            | OID                   | OID of the target data type                                                                                                                       |
    +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-   | castfunc              | oid                   | OID of the conversion function. If the value is **0**, no conversion function is required.                                                        |
+   | castfunc              | OID                   | OID of the conversion function. If the value is **0**, no conversion function is required.                                                        |
    +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-   | castcontext           | "char"                | Conversion mode between the source and target data types                                                                                          |
+   | castcontext           | Char                  | Conversion mode between the source and target data types                                                                                          |
    |                       |                       |                                                                                                                                                   |
    |                       |                       | -  **e** indicates that only explicit conversion can be performed (using the CAST or :: syntax).                                                  |
    |                       |                       | -  **i** indicates that only implicit conversion can be performed.                                                                                |
    |                       |                       | -  **a** indicates that both explicit and implicit conversion can be performed between data types.                                                |
    +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-   | castmethod            | "char"                | Conversion method                                                                                                                                 |
+   | castmethod            | Char                  | Conversion method                                                                                                                                 |
    |                       |                       |                                                                                                                                                   |
    |                       |                       | -  **f** indicates that conversion is performed using the specified function in the **castfunc** column.                                          |
    |                       |                       | -  **b** indicates that binary forcible conversion rather than the specified function in the **castfunc** column is performed between data types. |

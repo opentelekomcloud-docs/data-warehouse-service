@@ -10,8 +10,8 @@ ALL_PROCEDURES
 .. table:: **Table 1** ALL_PROCEDURES columns
 
    =========== ==== ===================
-   Name        Type Description
+   Column      Type Description
    =========== ==== ===================
-   owner       name Owner of the object
-   object_name name Object name
+   owner       Name Owner of the object
+   object_name Name Object name
    =========== ==== ===================

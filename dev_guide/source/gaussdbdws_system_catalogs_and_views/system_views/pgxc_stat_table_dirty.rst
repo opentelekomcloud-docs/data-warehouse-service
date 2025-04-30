@@ -14,15 +14,15 @@ PGXC_STAT_TABLE_DIRTY
 .. table:: **Table 1** PGXC_STAT_TABLE_DIRTY columns
 
    +-------------------+-------------------------+--------------------------------------------+
-   | Name              | Type                    | Description                                |
+   | Column            | Type                    | Description                                |
    +===================+=========================+============================================+
-   | nodename          | text                    | Node name                                  |
+   | nodename          | Text                    | Node name                                  |
    +-------------------+-------------------------+--------------------------------------------+
-   | schema            | name                    | Schema name of the table                   |
+   | schema            | Name                    | Schema name of the table                   |
    +-------------------+-------------------------+--------------------------------------------+
-   | tablename         | name                    | Table name                                 |
+   | tablename         | Name                    | Table name                                 |
    +-------------------+-------------------------+--------------------------------------------+
-   | partname          | name                    | Partition name of the partitioned table    |
+   | partname          | Name                    | Partition name of the partitioned table    |
    +-------------------+-------------------------+--------------------------------------------+
    | last_vacuum       | timestampwith time zone | Time of the last manual **VACUUM**         |
    +-------------------+-------------------------+--------------------------------------------+
@@ -32,29 +32,29 @@ PGXC_STAT_TABLE_DIRTY
    +-------------------+-------------------------+--------------------------------------------+
    | last_autoanalyze  | timestampwith time zone | Time of the last **AUTOANALYZE**           |
    +-------------------+-------------------------+--------------------------------------------+
-   | vacuum_count      | bigint                  | Number of times **VACUUM** operations      |
+   | vacuum_count      | Bigint                  | Number of times **VACUUM** operations      |
    +-------------------+-------------------------+--------------------------------------------+
-   | autovacuum_count  | bigint                  | Number of **AUTOVACUUM** operations        |
+   | autovacuum_count  | Bigint                  | Number of **AUTOVACUUM** operations        |
    +-------------------+-------------------------+--------------------------------------------+
-   | analyze_count     | bigint                  | Number of **ANALYZE** operations           |
+   | analyze_count     | Bigint                  | Number of **ANALYZE** operations           |
    +-------------------+-------------------------+--------------------------------------------+
-   | autoanalyze_count | bigint                  | Number of **AUTOANALYZE_COUNT** operations |
+   | autoanalyze_count | Bigint                  | Number of **AUTOANALYZE_COUNT** operations |
    +-------------------+-------------------------+--------------------------------------------+
-   | n_tup_ins         | bigint                  | Number of rows inserted                    |
+   | n_tup_ins         | Bigint                  | Number of rows inserted                    |
    +-------------------+-------------------------+--------------------------------------------+
-   | n_tup_upd         | bigint                  | Number of rows updated                     |
+   | n_tup_upd         | Bigint                  | Number of rows updated                     |
    +-------------------+-------------------------+--------------------------------------------+
-   | n_tup_del         | bigint                  | Number of rows deleted                     |
+   | n_tup_del         | Bigint                  | Number of rows deleted                     |
    +-------------------+-------------------------+--------------------------------------------+
-   | n_tup_hot_upd     | bigint                  | Number of rows with HOT updates            |
+   | n_tup_hot_upd     | Bigint                  | Number of rows with HOT updates            |
    +-------------------+-------------------------+--------------------------------------------+
-   | n_tup_change      | bigint                  | Number of changed rows after **ANALYZE**   |
+   | n_tup_change      | Bigint                  | Number of changed rows after **ANALYZE**   |
    +-------------------+-------------------------+--------------------------------------------+
-   | n_live_tup        | bigint                  | Estimated number of live rows              |
+   | n_live_tup        | Bigint                  | Estimated number of live rows              |
    +-------------------+-------------------------+--------------------------------------------+
-   | n_dead_tup        | bigint                  | Estimated number of dead rows              |
+   | n_dead_tup        | Bigint                  | Estimated number of dead rows              |
    +-------------------+-------------------------+--------------------------------------------+
-   | dirty_rate        | bigint                  | Dirty page rate of a single CN or DN       |
+   | dirty_rate        | Bigint                  | Dirty page rate of a single CN or DN       |
    +-------------------+-------------------------+--------------------------------------------+
    | last_data_changed | timestampwith time zone | Time when a table was last modified        |
    +-------------------+-------------------------+--------------------------------------------+

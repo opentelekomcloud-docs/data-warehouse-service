@@ -5,4 +5,9 @@
 GS_WLM_SQL_ALLOW
 ================
 
-**GS_WLM_SQL_ALLOW** displays the configured resource management SQL whitelist, including the default SQL whitelist and the SQL whitelist configured using the GUC parameter :ref:`wlm_sql_allow_list <en-us_topic_0000001510522653__section3917839115>`.
+The **GS_WLM_SQL_ALLOW** view displays the configured resource management SQL whitelist.
+
+The whitelist contains:
+
+-  Default SQL whitelist of the system.
+-  SQL whitelist specified by the GUC parameter **wlm_sql_allow_list**.

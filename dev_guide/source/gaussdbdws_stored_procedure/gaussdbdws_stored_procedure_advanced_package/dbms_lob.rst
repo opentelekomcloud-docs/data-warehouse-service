@@ -8,45 +8,45 @@ DBMS_LOB
 Related Interfaces
 ------------------
 
-:ref:`Table 1 <en-us_topic_0000001510283745__tffbf9cab696e4f679111cf4cdc7b0647>` provides all interfaces supported by the **DBMS_LOB** package.
+:ref:`Table 1 <en-us_topic_0000001764650560__tffbf9cab696e4f679111cf4cdc7b0647>` provides all interfaces supported by the **DBMS_LOB** package.
 
-.. _en-us_topic_0000001510283745__tffbf9cab696e4f679111cf4cdc7b0647:
+.. _en-us_topic_0000001764650560__tffbf9cab696e4f679111cf4cdc7b0647:
 
 .. table:: **Table 1** DBMS_LOB
 
    +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | API                                                                                           | Description                                                                                                                                                 |
    +===============================================================================================+=============================================================================================================================================================+
-   | :ref:`DBMS_LOB.GETLENGTH <en-us_topic_0000001510283745__lf95449ac7b1a483fbfdd7a4691c9757a>`   | Obtains and returns the specified length of a LOB object.                                                                                                   |
+   | :ref:`DBMS_LOB.GETLENGTH <en-us_topic_0000001764650560__lf95449ac7b1a483fbfdd7a4691c9757a>`   | Obtains and returns the specified length of a LOB object.                                                                                                   |
    +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_LOB.OPEN <en-us_topic_0000001510283745__li7581543191913>`                          | Opens a LOB and returns a LOB descriptor.                                                                                                                   |
+   | :ref:`DBMS_LOB.OPEN <en-us_topic_0000001764650560__li7581543191913>`                          | Opens a LOB and returns a LOB descriptor.                                                                                                                   |
    +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_LOB.READ <en-us_topic_0000001510283745__l56b5fffb69d74008bc3bad24a0ab1955>`        | Loads a part of LOB contents to BUFFER area according to the specified length and initial position offset.                                                  |
+   | :ref:`DBMS_LOB.READ <en-us_topic_0000001764650560__l56b5fffb69d74008bc3bad24a0ab1955>`        | Loads a part of LOB contents to BUFFER area according to the specified length and initial position offset.                                                  |
    +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_LOB.WRITE <en-us_topic_0000001510283745__lb4305a39ac30402496fbaf5f0f07675d>`       | Copies contents in BUFFER area to LOB according to the specified length and initial position offset.                                                        |
+   | :ref:`DBMS_LOB.WRITE <en-us_topic_0000001764650560__lb4305a39ac30402496fbaf5f0f07675d>`       | Copies contents in BUFFER area to LOB according to the specified length and initial position offset.                                                        |
    +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_LOB.WRITEAPPEND <en-us_topic_0000001510283745__led481795fbe5451ea116f59315730865>` | Copies contents in BUFFER area to the end part of LOB according to the specified length.                                                                    |
+   | :ref:`DBMS_LOB.WRITEAPPEND <en-us_topic_0000001764650560__led481795fbe5451ea116f59315730865>` | Copies contents in BUFFER area to the end part of LOB according to the specified length.                                                                    |
    +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_LOB.COPY <en-us_topic_0000001510283745__l7dc53dfc34c7425bbb06c63735c30313>`        | Copies contents in BLOB to another BLOB according to the specified length and initial position offset.                                                      |
+   | :ref:`DBMS_LOB.COPY <en-us_topic_0000001764650560__l7dc53dfc34c7425bbb06c63735c30313>`        | Copies contents in BLOB to another BLOB according to the specified length and initial position offset.                                                      |
    +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_LOB.ERASE <en-us_topic_0000001510283745__l0a15b6d3dc424ef6b5a7785938a17585>`       | Deletes contents in BLOB according to the specified length and initial position offset.                                                                     |
+   | :ref:`DBMS_LOB.ERASE <en-us_topic_0000001764650560__l0a15b6d3dc424ef6b5a7785938a17585>`       | Deletes contents in BLOB according to the specified length and initial position offset.                                                                     |
    +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_LOB.CLOSE <en-us_topic_0000001510283745__tb7117685db7e49b6866f679b1b43a8ac>`       | Closes a LOB descriptor.                                                                                                                                    |
+   | :ref:`DBMS_LOB.CLOSE <en-us_topic_0000001764650560__tb7117685db7e49b6866f679b1b43a8ac>`       | Closes a LOB descriptor.                                                                                                                                    |
    +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_LOB.INSTR <en-us_topic_0000001510283745__li1442318419148>`                         | Returns the position of the Nth occurrence of a character string in LOB.                                                                                    |
+   | :ref:`DBMS_LOB.INSTR <en-us_topic_0000001764650560__li1442318419148>`                         | Returns the position of the Nth occurrence of a character string in LOB.                                                                                    |
    +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_LOB.COMPARE <en-us_topic_0000001510283745__li19579245181414>`                      | Compares two LOBs or a certain part of two LOBs.                                                                                                            |
+   | :ref:`DBMS_LOB.COMPARE <en-us_topic_0000001764650560__li19579245181414>`                      | Compares two LOBs or a certain part of two LOBs.                                                                                                            |
    +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_LOB.SUBSTR <en-us_topic_0000001510283745__li381175591417>`                         | Reads the substring of a LOB and returns the number of read bytes or the number of characters.                                                              |
+   | :ref:`DBMS_LOB.SUBSTR <en-us_topic_0000001764650560__li381175591417>`                         | Reads the substring of a LOB and returns the number of read bytes or the number of characters.                                                              |
    +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_LOB.TRIM <en-us_topic_0000001510283745__li374125861411>`                           | Truncates the LOB of a specified length. After the execution is complete, the length of the LOB is set to the length specified by the **newlen** parameter. |
+   | :ref:`DBMS_LOB.TRIM <en-us_topic_0000001764650560__li374125861411>`                           | Truncates the LOB of a specified length. After the execution is complete, the length of the LOB is set to the length specified by the **newlen** parameter. |
    +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_LOB.CREATETEMPORARY <en-us_topic_0000001510283745__li145817213157>`                | Creates a temporary BLOB or CLOB.                                                                                                                           |
+   | :ref:`DBMS_LOB.CREATETEMPORARY <en-us_topic_0000001764650560__li145817213157>`                | Creates a temporary BLOB or CLOB.                                                                                                                           |
    +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_LOB.APPEND <en-us_topic_0000001510283745__li194203411159>`                         | Adds the content of a LOB to another LOB.                                                                                                                   |
+   | :ref:`DBMS_LOB.APPEND <en-us_topic_0000001764650560__li194203411159>`                         | Adds the content of a LOB to another LOB.                                                                                                                   |
    +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
--  .. _en-us_topic_0000001510283745__lf95449ac7b1a483fbfdd7a4691c9757a:
+-  .. _en-us_topic_0000001764650560__lf95449ac7b1a483fbfdd7a4691c9757a:
 
    DBMS_LOB.GETLENGTH
 
@@ -72,7 +72,7 @@ Related Interfaces
       lob_loc   LOB type object whose length is to be obtained
       ========= ==============================================
 
--  .. _en-us_topic_0000001510283745__li7581543191913:
+-  .. _en-us_topic_0000001764650560__li7581543191913:
 
    DBMS_LOB.OPEN
 
@@ -100,7 +100,7 @@ Related Interfaces
       | open_mode IN BINARY_INTEGER | Open mode (currently, DBMS_LOB.LOB_READWRITE is supported) |
       +-----------------------------+------------------------------------------------------------+
 
--  .. _en-us_topic_0000001510283745__l56b5fffb69d74008bc3bad24a0ab1955:
+-  .. _en-us_topic_0000001764650560__l56b5fffb69d74008bc3bad24a0ab1955:
 
    DBMS_LOB.READ
 
@@ -140,7 +140,7 @@ Related Interfaces
       | buffer                            | Target buffer to store the loaded LOB contents                                                                            |
       +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------+
 
--  .. _en-us_topic_0000001510283745__lb4305a39ac30402496fbaf5f0f07675d:
+-  .. _en-us_topic_0000001764650560__lb4305a39ac30402496fbaf5f0f07675d:
 
    DBMS_LOB.WRITE
 
@@ -184,7 +184,7 @@ Related Interfaces
       | buffer                            | Content to be written                                                                                             |
       +-----------------------------------+-------------------------------------------------------------------------------------------------------------------+
 
--  .. _en-us_topic_0000001510283745__led481795fbe5451ea116f59315730865:
+-  .. _en-us_topic_0000001764650560__led481795fbe5451ea116f59315730865:
 
    DBMS_LOB.WRITEAPPEND
 
@@ -220,7 +220,7 @@ Related Interfaces
       | buffer                            | Content to be written                                                                                   |
       +-----------------------------------+---------------------------------------------------------------------------------------------------------+
 
--  .. _en-us_topic_0000001510283745__l7dc53dfc34c7425bbb06c63735c30313:
+-  .. _en-us_topic_0000001764650560__l7dc53dfc34c7425bbb06c63735c30313:
 
    DBMS_LOB.COPY
 
@@ -265,7 +265,7 @@ Related Interfaces
       |                                   |    If the offset is shorter than 1 or longer than the length of source BLOB, an error is reported.                     |
       +-----------------------------------+------------------------------------------------------------------------------------------------------------------------+
 
--  .. _en-us_topic_0000001510283745__l0a15b6d3dc424ef6b5a7785938a17585:
+-  .. _en-us_topic_0000001764650560__l0a15b6d3dc424ef6b5a7785938a17585:
 
    DBMS_LOB.ERASE
 
@@ -314,7 +314,7 @@ Related Interfaces
       DBMS_LOB.CLOSE (
       src_lob      IN               CLOB);
 
-   .. _en-us_topic_0000001510283745__tb7117685db7e49b6866f679b1b43a8ac:
+   .. _en-us_topic_0000001764650560__tb7117685db7e49b6866f679b1b43a8ac:
 
    .. table:: **Table 9** DBMS_LOB.CLOSE interface parameters
 
@@ -324,7 +324,7 @@ Related Interfaces
       src_loc   LOB type object to be disabled
       ========= ==============================
 
--  .. _en-us_topic_0000001510283745__li1442318419148:
+-  .. _en-us_topic_0000001764650560__li1442318419148:
 
    DBMS_LOB.INSTR
 
@@ -362,7 +362,7 @@ Related Interfaces
       | nth       | Number of pattern matching times. The minimum value is 1.                                                                                 |
       +-----------+-------------------------------------------------------------------------------------------------------------------------------------------+
 
--  .. _en-us_topic_0000001510283745__li19579245181414:
+-  .. _en-us_topic_0000001764650560__li19579245181414:
 
    DBMS_LOB.COMPARE
 
@@ -408,7 +408,7 @@ Related Interfaces
       | offset_2  | Offset of the second LOB descriptor. The initial position is 1.                         |
       +-----------+-----------------------------------------------------------------------------------------+
 
--  .. _en-us_topic_0000001510283745__li381175591417:
+-  .. _en-us_topic_0000001764650560__li381175591417:
 
    DBMS_LOB.SUBSTR
 
@@ -442,7 +442,7 @@ Related Interfaces
       | buffer    | Number of characters or bytes offset from the start position.                                                                                               |
       +-----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
--  .. _en-us_topic_0000001510283745__li374125861411:
+-  .. _en-us_topic_0000001764650560__li374125861411:
 
    DBMS_LOB.TRIM
 
@@ -470,7 +470,7 @@ Related Interfaces
       | newlen    | After truncation, the new LOB length for BLOB is in the unit of byte and that for CLOB is in the unit of character. |
       +-----------+---------------------------------------------------------------------------------------------------------------------+
 
--  .. _en-us_topic_0000001510283745__li145817213157:
+-  .. _en-us_topic_0000001764650560__li145817213157:
 
    DBMS_LOB.CREATETEMPORARY
 
@@ -500,7 +500,7 @@ Related Interfaces
       dur       This parameter is used only for syntax compatibility.
       ========= =====================================================
 
--  .. _en-us_topic_0000001510283745__li194203411159:
+-  .. _en-us_topic_0000001764650560__li194203411159:
 
    DBMS_LOB.APPEND
 

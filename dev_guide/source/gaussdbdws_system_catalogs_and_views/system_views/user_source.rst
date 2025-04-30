@@ -7,12 +7,12 @@ USER_SOURCE
 
 **USER_SOURCE** displays information about stored procedures or functions in this mode, and provides the columns defined by the stored procedures or the functions.
 
-+-------+-----------------------+----------------------------------------------------+
-| Name  | Type                  | Description                                        |
-+=======+=======================+====================================================+
-| owner | character varying(64) | Owner of the stored procedure or the function      |
-+-------+-----------------------+----------------------------------------------------+
-| name  | character varying(64) | Name of the stored procedure or the function       |
-+-------+-----------------------+----------------------------------------------------+
-| text  | text                  | Definition of the stored procedure or the function |
-+-------+-----------------------+----------------------------------------------------+
++--------+-----------------------+----------------------------------------------------+
+| Column | Type                  | Description                                        |
++========+=======================+====================================================+
+| owner  | character varying(64) | Owner of the stored procedure or the function      |
++--------+-----------------------+----------------------------------------------------+
+| Name   | character varying(64) | Name of the stored procedure or the function       |
++--------+-----------------------+----------------------------------------------------+
+| Text   | Text                  | Definition of the stored procedure or the function |
++--------+-----------------------+----------------------------------------------------+

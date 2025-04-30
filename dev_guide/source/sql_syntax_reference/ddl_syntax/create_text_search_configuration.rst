@@ -8,13 +8,13 @@ CREATE TEXT SEARCH CONFIGURATION
 Function
 --------
 
-Creates a text search configuration. A text search configuration specifies a text search parser that can divide a string into tokens, plus dictionaries that can be used to determine which tokens are of interest for searching.
+**CREATE TEXT SEARCH CONFIGURATION** creates a text search configuration. A text search configuration specifies a text search parser that can divide a string into tokens, plus dictionaries that can be used to determine which tokens are of interest for searching.
 
 Important Notes
 ---------------
 
 -  If only the parser is specified, then the new text search configuration initially has no mappings from token types to dictionaries, and therefore will ignore all words. Subsequent **ALTER TEXT SEARCH CONFIGURATION** commands must be used to create mappings to make the configuration useful. If **COPY** option is specified, the parser, mapping and configuration option of text search configuration is copied automatically.
--  If the schema name is specified, the text search configuration is created in the specified schema. Otherwise, the text search configuration is created in the current schema.
+-  If the schema name is given, the text search configuration will be created in the specified schema. Otherwise, the text search configuration is created in the current schema.
 -  The user who defines a text search configuration becomes its owner.
 -  **PARSER** and **COPY** options are mutually exclusive, because when an existing configuration is copied, its parser selection is copied too.
 
@@ -46,9 +46,9 @@ Parameter Description
 
    Specifies the configuration parameter of text search configuration is mainly for the parser executed by **parser_name** or contained by **source_config**.
 
-   Value range: The default, ngram, and zhparser parsers are supported. The parser of default type has no corresponding **configuration_option**. :ref:`Table 1 <en-us_topic_0000001460561468__t5cd5026f6ee04580970c9fe0e49fef47>` lists **configuration_option** for ngram and zhparser parsers.
+   Value range: The default, ngram, and zhparser parsers are supported. The parser of default type has no corresponding **configuration_option**. :ref:`Table 1 <en-us_topic_0000001811515661__t5cd5026f6ee04580970c9fe0e49fef47>` lists **configuration_option** for ngram and zhparser parsers.
 
-   .. _en-us_topic_0000001460561468__t5cd5026f6ee04580970c9fe0e49fef47:
+   .. _en-us_topic_0000001811515661__t5cd5026f6ee04580970c9fe0e49fef47:
 
    .. table:: **Table 1** Configuration parameters for ngram and zhparser parsers
 

@@ -8,7 +8,7 @@ CREATE EXCEPT RULE
 Function
 --------
 
-Creates an exception rule set. When creating an exception rule, you can specify the rule thresholds and operations following the triggering of an exception rule. Currently, only the **abort** operation is supported.
+This syntax is used to create an exception rule set. When creating an exception rule, you can specify the rule thresholds and operations following the triggering of an exception rule. Currently, only the **abort** operation is supported.
 
 Precautions
 -----------
@@ -91,7 +91,7 @@ Parameter Description
 
    Value range: -1, 1~INT64_MAX
 
--  bandwidth
+-  **bandwidth**
 
    Maximum bandwidth that can be used for job execution. Unit: MB.
 

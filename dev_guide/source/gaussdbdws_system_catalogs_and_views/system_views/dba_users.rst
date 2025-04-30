@@ -10,7 +10,7 @@ DBA_USERS
 .. table:: **Table 1** DBA_USERS columns
 
    ======== ===================== ===========
-   Name     Type                  Description
+   Column   Type                  Description
    ======== ===================== ===========
-   username character varying(64) User name
+   username character varying(64) Username
    ======== ===================== ===========

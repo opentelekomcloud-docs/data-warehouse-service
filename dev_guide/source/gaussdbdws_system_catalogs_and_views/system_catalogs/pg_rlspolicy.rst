@@ -10,15 +10,15 @@ PG_RLSPOLICY
 .. table:: **Table 1** PG_RLSPOLICY columns
 
    +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------+
-   | Name                  | Type                  | Description                                                                                                                                 |
+   | Column                | Type                  | Description                                                                                                                                 |
    +=======================+=======================+=============================================================================================================================================+
-   | polname               | name                  | Name of a row-level access control policy                                                                                                   |
+   | polname               | Name                  | Name of a row-level access control policy                                                                                                   |
    +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------+
-   | polrelid              | oid                   | Table OID of a row-level access control policy                                                                                              |
+   | polrelid              | OID                   | Table OID of a row-level access control policy                                                                                              |
    +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------+
-   | polcmd                | char                  | SQL operations affected by a row-level access control policy. The options are **\*(ALL)**, **r(SELECT)**, **w(UPDATE)**, and **d(DELETE)**. |
+   | polcmd                | Char                  | SQL operations affected by a row-level access control policy. The options are **\*(ALL)**, **r(SELECT)**, **w(UPDATE)**, and **d(DELETE)**. |
    +-----------------------+-----------------------+---------------------------------------------------------------------------------------------------------------------------------------------+
-   | polpermissive         | boolean               | Type of a row-level access control policy                                                                                                   |
+   | polpermissive         | Boolean               | Type of a row-level access control policy                                                                                                   |
    |                       |                       |                                                                                                                                             |
    |                       |                       | .. note::                                                                                                                                   |
    |                       |                       |                                                                                                                                             |

@@ -24,7 +24,7 @@ sql_use_spacelimit
 
    ::
 
-      INSERT INTO user1.t1 SELECT * FROM user2.t1;
+      insert into user1.t1 select * from user2.t1;
       ERROR:  The space used on DN (104 kB) has exceeded the sql use space limit (100 kB).
 
    Handling suggestion:

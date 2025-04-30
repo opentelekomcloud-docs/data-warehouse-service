@@ -12,16 +12,16 @@ This section describes the declaration of variables in the PL/SQL and the scope 
 
 **Variable declaration**
 
-For details about the variable declaration syntax, see :ref:`Figure 1 <en-us_topic_0000001460562992__f3705e8285f024bfe8ab480866c9fb57a>`.
+For details about the variable declaration syntax, see :ref:`Figure 1 <en-us_topic_0000001811609505__f3705e8285f024bfe8ab480866c9fb57a>`.
 
-.. _en-us_topic_0000001460562992__f3705e8285f024bfe8ab480866c9fb57a:
+.. _en-us_topic_0000001811609505__f3705e8285f024bfe8ab480866c9fb57a:
 
-.. figure:: /_static/images/en-us_image_0000002076208133.png
+.. figure:: /_static/images/en-us_image_0000002040329244.png
    :alt: **Figure 1** declare_variable::=
 
    **Figure 1** declare_variable::=
 
-The above syntax diagram is explained as follows:
+The syntax is described as follows:
 
 -  **variable_name** indicates the name of a variable.
 -  **type** indicates the type of a variable.
@@ -94,16 +94,16 @@ Assignment Statement
 
 **Syntax**
 
-:ref:`Figure 2 <en-us_topic_0000001460562992__fbc103680b1964ce3bf8a16e5e9076438>` shows the syntax diagram for assigning a value to a variable.
+:ref:`Figure 2 <en-us_topic_0000001811609505__fbc103680b1964ce3bf8a16e5e9076438>` shows the syntax diagram for assigning a value to a variable.
 
-.. _en-us_topic_0000001460562992__fbc103680b1964ce3bf8a16e5e9076438:
+.. _en-us_topic_0000001811609505__fbc103680b1964ce3bf8a16e5e9076438:
 
-.. figure:: /_static/images/en-us_image_0000002076329545.png
+.. figure:: /_static/images/en-us_image_0000002040170940.png
    :alt: **Figure 2** assignment_value::=
 
    **Figure 2** assignment_value::=
 
-The above syntax diagram is explained as follows:
+The syntax is described as follows:
 
 -  **variable_name** indicates the name of a variable.
 -  **value** can be a value or an expression. The type of **value** must be compatible with the type of **variable_name**.
@@ -125,16 +125,16 @@ Call Statement
 
 **Syntax**
 
-:ref:`Figure 3 <en-us_topic_0000001460562992__f299fb9795429468ea45fe86a41dbca6e>` shows the syntax diagram for calling a clause.
+:ref:`Figure 3 <en-us_topic_0000001811609505__f299fb9795429468ea45fe86a41dbca6e>` shows the syntax diagram for calling a clause.
 
-.. _en-us_topic_0000001460562992__f299fb9795429468ea45fe86a41dbca6e:
+.. _en-us_topic_0000001811609505__f299fb9795429468ea45fe86a41dbca6e:
 
-.. figure:: /_static/images/en-us_image_0000002040328696.png
+.. figure:: /_static/images/en-us_image_0000002076330085.png
    :alt: **Figure 3** call_clause::=
 
    **Figure 3** call_clause::=
 
-The above syntax diagram is explained as follows:
+The syntax is described as follows:
 
 -  **procedure_name** specifies the name of a stored procedure.
 -  **parameter** specifies the parameters for the stored procedure. You can set no parameter or multiple parameters.
@@ -162,7 +162,7 @@ The above syntax diagram is explained as follows:
    v_num NUMBER(8,2);
    v_sum INTEGER;
    BEGIN
-   proc_staffs(30, v_sum, v_num);  --Invoke a statement.
+   proc_staffs(30, v_sum, v_num);  --Invoke a statement:
    dbms_output.put_line(v_sum||'#'||v_num);
    RETURN;   --Return a statement.
    END;
@@ -183,7 +183,7 @@ The above syntax diagram is explained as follows:
    v_num INTEGER := 1;
    BEGIN
    dbms_output.put_line(v_num);
-   RETURN;   --Return a statement.
+   RETURN;  --Return a statement.
    END $$;
 
 
@@ -191,5 +191,5 @@ The above syntax diagram is explained as follows:
    CALL func_return();
    1
 
-   -- Delete the function.
+   -- Delete the function:
    DROP FUNCTION func_return;

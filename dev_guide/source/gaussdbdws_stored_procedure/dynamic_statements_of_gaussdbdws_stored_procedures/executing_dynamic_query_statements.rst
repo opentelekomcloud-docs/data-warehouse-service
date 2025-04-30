@@ -10,20 +10,20 @@ You can perform dynamic queries using **EXECUTE IMMEDIATE** or **OPEN FOR** in G
 EXECUTE IMMEDIATE
 -----------------
 
-:ref:`Figure 1 <en-us_topic_0000001510402645__f5bdde6e248a14512a954fb2a0389a90c>` shows the syntax diagram.
+:ref:`Figure 1 <en-us_topic_0000001811491173__f5bdde6e248a14512a954fb2a0389a90c>` shows the syntax diagram.
 
-.. _en-us_topic_0000001510402645__f5bdde6e248a14512a954fb2a0389a90c:
+.. _en-us_topic_0000001811491173__f5bdde6e248a14512a954fb2a0389a90c:
 
-.. figure:: /_static/images/en-us_image_0000001510284113.png
+.. figure:: /_static/images/en-us_image_0000001764651252.png
    :alt: **Figure 1** EXECUTE IMMEDIATE dynamic_select_clause::=
 
    **Figure 1** EXECUTE IMMEDIATE dynamic_select_clause::=
 
-:ref:`Figure 2 <en-us_topic_0000001510402645__fca15d616a3114294949e5b8ed8367c56>` shows the syntax diagram for **using_clause**.
+:ref:`Figure 2 <en-us_topic_0000001811491173__fca15d616a3114294949e5b8ed8367c56>` shows the syntax diagram for **using_clause**.
 
-.. _en-us_topic_0000001510402645__fca15d616a3114294949e5b8ed8367c56:
+.. _en-us_topic_0000001811491173__fca15d616a3114294949e5b8ed8367c56:
 
-.. figure:: /_static/images/en-us_image_0000001460723300.png
+.. figure:: /_static/images/en-us_image_0000001811610645.png
    :alt: **Figure 2** using_clause-1
 
    **Figure 2** using_clause-1
@@ -80,11 +80,11 @@ OPEN FOR
 
 Dynamic query statements can be executed by using **OPEN FOR** to open dynamic cursors.
 
-For details about the syntax, see :ref:`Figure 3 <en-us_topic_0000001510402645__f6e232247a15f4a7d816e4748bab655ec>`.
+For details about the syntax, see :ref:`Figure 3 <en-us_topic_0000001811491173__f6e232247a15f4a7d816e4748bab655ec>`.
 
-.. _en-us_topic_0000001510402645__f6e232247a15f4a7d816e4748bab655ec:
+.. _en-us_topic_0000001811491173__f6e232247a15f4a7d816e4748bab655ec:
 
-.. figure:: /_static/images/en-us_image_0000001510403025.png
+.. figure:: /_static/images/en-us_image_0000001764651248.png
    :alt: **Figure 3** open_for::=
 
    **Figure 3** open_for::=

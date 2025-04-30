@@ -8,7 +8,7 @@ REINDEX
 Function
 --------
 
-Rebuilds an index using the data stored in the index's table, replacing the old copy of the index.
+**REINDEX** rebuilds an index using the data stored in the index's table, replacing the old copy of the index.
 
 There are several scenarios in which **REINDEX** can be used:
 
@@ -25,21 +25,34 @@ Precautions
 
 Index reconstruction of the **REINDEX DATABASE** or **SYSTEM** type cannot be performed in transaction blocks.
 
+In the storage-compute decoupling architecture, REINDEX full database indexes are not supported.
+
+.. warning::
+
+   -  Do not perform the **CREATE INDEX** and **REINDEX** operations on large tables during peak hours.
+   -  For more information about development and design specifications, see "GaussDB(DWS) Development and Design Proposal" in the *Data Warehouse Service (DWS) Developer Guide*.
+
 Syntax
 ------
 
--  Rebuild a general index.
+-  Recreate indexes for the entire database or system catalogs.
 
    ::
 
-      REINDEX { INDEX |  TABLE | DATABASE | SYSTEM } name [ FORCE ];
+      REINDEX { DATABASE | SYSTEM } name [ FORCE ];
 
--  Rebuild an index partition.
+-  Recreate an ordinary index or an index on an ordinary table.
+
+   ::
+
+      REINDEX { INDEX |  TABLE  } name [ FORCE | WITHOUT UNUSABLE ]
+
+-  Recreate an index partition or an index on a partition.
 
    ::
 
       REINDEX  { |   TABLE} name
-          PARTITION partition_name [ FORCE  ];
+          PARTITION partition_name [ FORCE | WITHOUT UNUSABLE ];
 
 Parameter Description
 ---------------------
@@ -72,6 +85,10 @@ Parameter Description
 
    This is an obsolete option. It is ignored if specified.
 
+-  **WITHOUT UNUSABLE**
+
+   If this parameter is specified, the **UNUSABLE** indexes or **UNUSABLE** index partitions on the object is ignored during **REINDEX**. This parameter is supported only by 9.1.0.100 and later versions.
+
 -  **partition_name**
 
    Specifies the name of the partition or index partition to be reindexed.
@@ -88,19 +105,19 @@ Parameter Description
 Examples
 --------
 
-Rebuild a single index:
+Rebuild a single index.
 
 ::
 
    REINDEX INDEX tpcds.tpcds_customer_index1;
 
-Rebuild all indexes on the **tpcds.customer_t1** table:
+Rebuild all indexes on the **tpcds.customer_t1** table.
 
 ::
 
    REINDEX TABLE tpcds.customer_t1;
 
-Rebuild the partition index of partition **P1** in the partitioned table **customer_address**:
+Rebuild the partition index of partition **P1** in the partitioned table **customer_address**.
 
 .. code-block::
 

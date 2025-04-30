@@ -175,7 +175,7 @@ Example:
     t
    (1 row)
 
-.. _en-us_topic_0000001460721276__section13942057572:
+.. _en-us_topic_0000001811515573__section13942057572:
 
 pg_has_role(user, role, privilege)
 ----------------------------------

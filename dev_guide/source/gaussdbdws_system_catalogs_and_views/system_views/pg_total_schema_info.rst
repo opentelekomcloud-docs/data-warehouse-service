@@ -10,15 +10,15 @@ PG_TOTAL_SCHEMA_INFO displays the storage usage of all schemas in each database.
 +--------------+--------+---------------------------------------------------------------------------+
 | Column       | Type   | Description                                                               |
 +==============+========+===========================================================================+
-| schemaid     | oid    | Schema OID                                                                |
+| schemaid     | OID    | Schema OID                                                                |
 +--------------+--------+---------------------------------------------------------------------------+
-| schemaname   | text   | Schema name                                                               |
+| schemaname   | Text   | Schema name                                                               |
 +--------------+--------+---------------------------------------------------------------------------+
-| databaseid   | oid    | Database OID                                                              |
+| databaseid   | OID    | Database OID                                                              |
 +--------------+--------+---------------------------------------------------------------------------+
-| databasename | name   | Database name                                                             |
+| databasename | Name   | Database name                                                             |
 +--------------+--------+---------------------------------------------------------------------------+
-| usedspace    | bigint | Size of the permanent table storage space used by the schema, in bytes.   |
+| usedspace    | Bigint | Size of the permanent table storage space used by the schema, in bytes.   |
 +--------------+--------+---------------------------------------------------------------------------+
-| permspace    | bigint | Upper limit of the permanent table storage space of the schema, in bytes. |
+| permspace    | Bigint | Upper limit of the permanent table storage space of the schema, in bytes. |
 +--------------+--------+---------------------------------------------------------------------------+

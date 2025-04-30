@@ -11,11 +11,11 @@ Precautions
 -----------
 
 -  The CPU, I/O, and memory usage of all jobs on fast and slow lanes (simple jobs on fast lanes and complex jobs on slow lanes) can be monitored.
--  Currently, fast lane jobs have no memory or CPU limits. They may use too many resources and go over the resource limit.
+-  Currently, the memory and CPU usage of fast track jobs are not controlled. When the fast lane jobs occupy a large number of resources, the used resources may exceed the resource limit.
 -  In the DN monitoring view, I/O, memory, and CPU display the resource usage and limits of resource pools.
 -  In the CN monitoring view, I/O, memory, and CPU display the total resource usage and limit of all DN resource pools in the cluster.
 -  The DN monitoring information is updated every 5 seconds. CNs collect monitoring information from DNs every 5 seconds. Because each instance updates or collects user monitoring information independently, the monitoring information update time on each instance may be different.
--  The auxiliary thread automatically invokes the persistence function every 30 seconds to make user monitoring data persistent. So, normally, you don't have to do this.
+-  The auxiliary thread automatically invokes the persistence function every 30 seconds to persist user monitoring data. In normal cases, you do not need to do this.
 -  When there are a large number of users and a large cluster, querying such real-time views will cause network latency due to the real-time communication overhead between CNs and DNs.
 -  Resources are not monitored for an initial administrator.
 
@@ -30,7 +30,7 @@ Procedure
 
    The result view is as follows:
 
-   ::
+   .. code-block::
 
       username        | used_memory | total_memory | used_cpu | total_cpu | used_space | total_space | used_temp_space | total_temp_space | used_spill_space | total_spill_space | read_kbytes | write_kbytes | read_counts | write_counts | read_speed | write_speed | send_speed | recv_speed
       -----------------------+-------------+--------------+----------+-----------+------------+-------------+-----------------+------------------+------------------+-------------------+-------------+--------------+-------------+--------------+------------+-------------+------------+------------
@@ -38,7 +38,7 @@ Procedure
       usern                 |           0 |        17250 |        0 |        48 |          0 |          -1 |               0 |               -1 |                0 |                -1 |           0 |            0 |           0 |            0 |          0 |           0 |          0 |          0
       (2 rows)
 
-   The I/O resource monitoring fields (**read_kbytes**, **write_kbytes**, **read_counts**, **write_counts**, **read_speed**, and **write_speed**) can be available only when the GUC parameter described in :ref:`enable_user_metric_persistent <en-us_topic_0000001510522653__section827402723813>` is enabled.
+   The I/O resource monitoring fields (**read_kbytes**, **write_kbytes**, **read_counts**, **write_counts**, **read_speed**, and **write_speed**) can be available only when the GUC parameter described in :ref:`enable_user_metric_persistent <en-us_topic_0000001811490709__section827402723813>` is enabled.
 
    For details about each column, see :ref:`PG_TOTAL_USER_RESOURCE_INFO <dws_04_0790>`.
 
@@ -50,7 +50,7 @@ Procedure
 
    The query result is as follows:
 
-   ::
+   .. code-block::
 
       userid | used_memory | total_memory | used_cpu | total_cpu | used_space | total_space | used_temp_space | total_temp_space | used_spill_space | total_spill_space | read_kbytes | write_kbytes | read_counts | write_counts | read_speed | write_speed | send_speed | recv_speed
       --------+-------------+--------------+----------+-----------+------------+-------------+-----------------+------------------+------------------+-------------------+-------------+--------------+-------------+--------------+------------+-------------+------------+------------
@@ -65,7 +65,7 @@ Procedure
 
    The query result is as follows:
 
-   ::
+   .. code-block::
 
       username        |           timestamp           | used_memory | total_memory | used_cpu | total_cpu | used_space | total_space | used_temp_space | total_temp_space | used_spill_space | total_spill_space | read_kbytes | write_kbytes | read_counts | write_counts | read_speed  | write_speed | send_speed | recv_speed
       -----------------------+-------------------------------+-------------+--------------+----------+-----------+------------+-------------+-----------------+------------------+------------------+-------------------+-------------+--------------+-------------+--------------+-------------+-------------+------------+------------
@@ -73,6 +73,6 @@ Procedure
       userg                 | 2020-01-08 22:56:06.458659+08 |           0 |        15525 |    33.48 |        48 |          0 |          -1 |               0 |               -1 |        110169581 |                -1 |       17648 |           23 |        2206 |            5 |         123 |           0 |          0 |          0
       userg1                | 2020-01-08 22:56:06.460252+08 |           0 |        13972 |    33.48 |        48 |          0 |          -1 |               0 |               -1 |        136106277 |                -1 |       17648 |           23 |        2206 |            5 |         123 |           0 |          0 |          0
 
-   For the system catalog in :ref:`GS_WLM_USER_RESOURCE_HISTORY <dws_04_0567>`, data in the :ref:`PG_TOTAL_USER_RESOURCE_INFO <dws_04_0790>` view is periodically saved to historical tables only when the GUC parameter :ref:`enable_user_metric_persistent <en-us_topic_0000001510522653__section827402723813>` is enabled.
+   For the system catalog :ref:`GS_WLM_USER_RESOURCE_HISTORY <dws_04_0567>`, data in the :ref:`PG_TOTAL_USER_RESOURCE_INFO <dws_04_0790>` view is periodically saved to historical tables only when the GUC parameter :ref:`enable_user_metric_persistent <en-us_topic_0000001811490709__section827402723813>` is enabled.
 
    For details about each column, see :ref:`GS_WLM_USER_RESOURCE_HISTORY <dws_04_0567>`.

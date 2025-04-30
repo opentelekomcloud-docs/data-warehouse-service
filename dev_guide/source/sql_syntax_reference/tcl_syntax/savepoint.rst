@@ -8,7 +8,7 @@ SAVEPOINT
 Function
 --------
 
-Establishes a new savepoint within the current transaction.
+**SAVEPOINT** establishes a new savepoint within the current transaction.
 
 A savepoint is a special mark inside a transaction that rolls back all commands that are executed after the savepoint was established, restoring the transaction state to what it was at the time of the savepoint.
 

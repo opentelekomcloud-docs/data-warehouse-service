@@ -8,7 +8,7 @@ ALTER VIEW
 Function
 --------
 
-Modifies all auxiliary attributes of a view. (To modify the query definition of a view, use **CREATE OR REPLACE VIEW**.)
+**ALTER VIEW** modifies all auxiliary attributes of a view. (To modify the query definition of a view, use **CREATE OR REPLACE VIEW**.)
 
 Precautions
 -----------
@@ -131,14 +131,15 @@ Parameter Description
 
 -  **REBUILD**
 
-   This clause is used for view decoupling. You can use the saved original statement to rebuild views and restore the dependencies. Note the following:
+   This clause is used for view decoupling. You can use the saved original statement to rebuild views and restore the dependencies. In 9.1.0.200 and later cluster versions, the view decoupling function does not require **view_independent** to be enabled. If a view becomes invalid, it can simply be rebuilt.
+
+   Note the following:
 
    -  View rebuilding starts from the current view and updates all associated backward views. If the forward views on which the current view depends are also unavailable, automatic rebuilding is triggered.
    -  The temporary tables and views that have dependency relationships cannot be decoupled and dropped. However, you can perform the REBUILD operation on temporary views that do not have dependency relationships.
    -  View schema names and view names can be modified. The names of rebuilt view schemas or views are re-created based on the latest name, but the query operation retains the original definition.
    -  Only fields of the character, number, and time types in the base table can be modified.Only fields of the character, number, and time types in the base table can be modified. When a field is added to the base table, the view is not invalidated and the definition remains unchanged.
    -  Invalid views are exported as comments during backup. You need to manually restore the invalid views.
-   -  Views can be automatically rebuilt when **VIEW_INDEPENDENT** is set to **on**.
 
    .. note::
 
@@ -154,7 +155,7 @@ Parameter Description
 
 -  **ONLY**
 
-   Only views and their dependent views are rebuilt. This function is available only if **view_independent** is set to **on**.
+   Only views and their dependent views are rebuilt. This function does not require **view_independent** to be enabled. If a view becomes invalid, it can simply be rebuilt.
 
 Examples
 --------

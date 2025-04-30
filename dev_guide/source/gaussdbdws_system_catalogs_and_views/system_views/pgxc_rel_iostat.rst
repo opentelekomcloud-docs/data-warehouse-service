@@ -5,4 +5,16 @@
 PGXC_REL_IOSTAT
 ===============
 
-**PGXC_REL_IOSTAT** displays statistics on disk read and write of each node in the cluster. All columns except **node_name** are the same as those in the :ref:`GS_REL_IOSTAT <dws_04_0691>` view. This view is accessible only to users with system administrators rights.
+**PGXC_REL_IOSTAT** displays disk read/write statistics on each node in the cluster. This view is accessible only to users with system administrators rights.
+
+.. table:: **Table 1** PGXC_REL_IOSTAT columns
+
+   ========= ====== =======================
+   Column    Type   Description
+   ========= ====== =======================
+   node_name Text   Node name
+   phyrds    Bigint Number of disk reads
+   phywrts   Bigint Number of disk writes
+   phyblkrd  Bigint Number of read pages
+   phyblkwrt Bigint Number of written pages
+   ========= ====== =======================

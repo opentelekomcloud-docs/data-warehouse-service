@@ -24,7 +24,7 @@ exit_on_error
 omit_encoding_error
 -------------------
 
-**Parameter description**: This parameter determines how to handle character code errors that occur when converting a database to UTF-8. If set to true, it replaces the invalid characters with question marks (?).
+**Parameter description**: When performing character encoding conversion in the database, if a character encoding error occurs and the target character set encoding is UTF-8, the converted character with the error can be ignored and replaced with "?".
 
 **Type**: USERSET
 
@@ -35,29 +35,18 @@ omit_encoding_error
 
 **Default value**: **off**
 
-.. _en-us_topic_0000001510522549__sc9cd4d1562654b6ebb842765d3e398e4:
+.. _en-us_topic_0000001811490753__sc9cd4d1562654b6ebb842765d3e398e4:
 
 max_query_retry_times
 ---------------------
 
-**Parameter description**: Specifies the maximum number of automatic retry times when an SQL statement error occurs. Currently, a statement can start retrying if the following errors occur: **Connection reset by peer**, **Lock wait timeout**, and **Connection timed out**. If this parameter is set to **0**, the retry function is disabled.
+**Parameter description**: Specifies the maximum number of retries for the automatic retry feature when a SQL statement encounters an error. Currently, the supported error types for retry include **Connection reset by peer**, **Lock wait timeout**, and **Connection timed out**. Setting this parameter to **0** will disable the retry feature.
 
 **Type**: USERSET
 
 **Value range**: an integer ranging from 0 to 20
 
 **Default value**: **6**
-
-max_cn_temp_file_size
----------------------
-
-**Parameter description**: Specifies the maximum number of temporary files that can be used by the CN during automatic SQL statement retries. The value **0** indicates that no temporary file is used.
-
-**Type**: SIGHUP
-
-**Value range**: an integer ranging from 0 to 10485760. The unit is KB.
-
-**Default value**: **5GB**
 
 retry_ecode_list
 ----------------
@@ -68,4 +57,4 @@ retry_ecode_list
 
 **Value range**: a string
 
-**Default value**: YY001 YY002 YY003 YY004 YY005 YY006 YY007 YY008 YY009 YY010 YY011 YY012 YY013 YY014 YY015 53200 08006 08000 57P01 XX003 XX009 YY016 CG003 CG004 F0011 F0012 45003
+**Default value**: YY001 YY002 YY003 YY004 YY005 YY006 YY007 YY008 YY009 YY010 YY011 YY012 YY013 YY014 YY015 53200 08006 08000 57P01 XX003 XX009 YY016 CG003 CG004 F0011 F0012 45003 42P30

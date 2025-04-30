@@ -8,16 +8,16 @@ DBA_CONSTRAINTS
 **DBA_CONSTRAINTS** displays information about table constraints in database. It is accessible only to users with system administrator rights.
 
 +-----------------------+------------------------+-----------------------------------------------------------------------------------------------+
-| Name                  | Type                   | Description                                                                                   |
+| Column                | Type                   | Description                                                                                   |
 +=======================+========================+===============================================================================================+
 | constraint_name       | vcharacter varying(64) | Constraint name                                                                               |
 +-----------------------+------------------------+-----------------------------------------------------------------------------------------------+
-| constraint_type       | text                   | Constraint type                                                                               |
+| constraint_type       | Text                   | Constraint type                                                                               |
 |                       |                        |                                                                                               |
-|                       |                        | -  C: Check constraint.                                                                       |
-|                       |                        | -  F: Foreign key constraint                                                                  |
-|                       |                        | -  P: Primary key constraint                                                                  |
-|                       |                        | -  U: Unique constraint.                                                                      |
+|                       |                        | -  **C**: Check constraint                                                                    |
+|                       |                        | -  **F**: Foreign key constraint                                                              |
+|                       |                        | -  **P**: Primary key constraint                                                              |
+|                       |                        | -  **U**: Unique constraint.                                                                  |
 +-----------------------+------------------------+-----------------------------------------------------------------------------------------------+
 | table_name            | character varying(64)  | Name of constraint-related table                                                              |
 +-----------------------+------------------------+-----------------------------------------------------------------------------------------------+

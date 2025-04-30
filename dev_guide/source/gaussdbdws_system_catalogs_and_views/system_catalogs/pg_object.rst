@@ -10,11 +10,11 @@ PG_OBJECT
 .. table:: **Table 1** PG_OBJECT columns
 
    +-----------------------+--------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------+
-   | Name                  | Type                     | Description                                                                                                                                         |
+   | Column                | Type                     | Description                                                                                                                                         |
    +=======================+==========================+=====================================================================================================================================================+
-   | object_oid            | oid                      | Object identifier.                                                                                                                                  |
+   | object_oid            | OID                      | Object identifier.                                                                                                                                  |
    +-----------------------+--------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------+
-   | object_type           | "char"                   | Object type:                                                                                                                                        |
+   | object_type           | Char                     | Object type:                                                                                                                                        |
    |                       |                          |                                                                                                                                                     |
    |                       |                          | -  **r** indicates a table, which can be an ordinary table or a temporary table.                                                                    |
    |                       |                          | -  **i** indicates an index.                                                                                                                        |
@@ -23,15 +23,15 @@ PG_OBJECT
    |                       |                          | -  **p** indicates a stored procedure and function.                                                                                                 |
    |                       |                          | -  **f** indicates a foreign table.                                                                                                                 |
    +-----------------------+--------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------+
-   | creator               | oid                      | ID of the creator.                                                                                                                                  |
+   | creator               | OID                      | ID of the creator.                                                                                                                                  |
    +-----------------------+--------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------+
-   | ctime                 | timestamp with time zone | Object creation time.                                                                                                                               |
+   | ctime                 | Timestamp with time zone | Object creation time.                                                                                                                               |
    +-----------------------+--------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------+
-   | mtime                 | timestamp with time zone | Time when the object was last modified. By default, the **ALTER**, **COMMENT**, **GRANT/REVOKE**, and **TRUNCATE** operations are recorded.         |
+   | mtime                 | Timestamp with time zone | Time when the object was last modified. By default, the **ALTER**, **COMMENT**, **GRANT/REVOKE**, and **TRUNCATE** operations are recorded.         |
    |                       |                          |                                                                                                                                                     |
    |                       |                          | **object_mtime_record_mode** can be used to control whether **ALTER**, **COMMENT**, **GRANT**/**REVOKE**, and **TRUNCATE** operations are recorded. |
    +-----------------------+--------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------+
-   | last_analyze_time     | timestamp with time zone | Time when an object is analyzed for the last time.                                                                                                  |
+   | last_analyze_time     | Timestamp with time zone | Time when an object is analyzed for the last time.                                                                                                  |
    +-----------------------+--------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------+
 
 .. important::

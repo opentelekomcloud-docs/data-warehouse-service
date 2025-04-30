@@ -7,12 +7,12 @@ Parallel Data Import
 
 GaussDB(DWS) provides a parallel data import function that enables a large amount of data to be imported in a fast and efficient manner. This section describes parameters for importing data in parallel in GaussDB(DWS).
 
-.. _en-us_topic_0000001460722804__sd65ae1e8226f4611819e91ce8b6a35fb:
+.. _en-us_topic_0000001811609641__sd65ae1e8226f4611819e91ce8b6a35fb:
 
 raise_errors_if_no_files
 ------------------------
 
-**Parameter description**: Specifies whether distinguish between the problems "the number of imported file records is empty" and "the imported file does not exist". If this parameter is set to **true** and the problem "the imported file does not exist" occurs, GaussDB(DWS) will report the error message "file does not exist".
+**Parameter description**: Specifies whether distinguish between the problems "the number of imported file records is empty" and "the imported file does not exist". If set to **TRUE**, GaussDB(DWS) reports the error "file does not exist" when the issue "the imported file does not exist" occurs.
 
 **Type**: SUSET
 
@@ -23,7 +23,7 @@ raise_errors_if_no_files
 
 **Default value**: **off**
 
-.. _en-us_topic_0000001460722804__s004b2931955e4e549caeb98b2f2723af:
+.. _en-us_topic_0000001811609641__s004b2931955e4e549caeb98b2f2723af:
 
 partition_max_cache_size
 ------------------------
@@ -36,7 +36,7 @@ partition_max_cache_size
 
 **Default value**: **2 GB**
 
-.. _en-us_topic_0000001460722804__section89951118396:
+.. _en-us_topic_0000001811609641__section89951118396:
 
 partition_mem_batch
 -------------------
@@ -66,7 +66,7 @@ gds_debug_mod
 max_copy_data_display
 ---------------------
 
-**Parameter description**: GUC control added for the length of the **rawrecord** field in the copy error table, in the text type. The maximum value is 1 GB minus 8203 bytes (that is, 1073733621 bytes). This parameter is supported only by clusters of versions 8.2.1.100 or later.
+**Parameter description**: GUC control added for the length of the **rawrecord** field in the copy error table, in the text type. The maximum value is 1 GB minus 8203 bytes (that is, 1073733621 bytes). This parameter is supported only by clusters of version 8.2.1.100 or later.
 
 When this parameter is set, it indicates the maximum number of characters that can be displayed. If the number of characters exceeds the maximum, an ellipsis (...) is displayed at the end.
 

@@ -10,15 +10,15 @@ PG_TABLES
 .. table:: **Table 1** PG_TABLES columns
 
    +---------------+--------------------------+---------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | Name          | Type                     | Reference                                               | Description                                                                                                             |
+   | Column        | Type                     | Reference                                               | Description                                                                                                             |
    +===============+==========================+=========================================================+=========================================================================================================================+
-   | schemaname    | name                     | :ref:`PG_NAMESPACE <dws_04_0600>`.nspname               | Name of the schema that contains the table                                                                              |
+   | schemaname    | Name                     | :ref:`PG_NAMESPACE <dws_04_0600>`.nspname               | Name of the schema that contains the table                                                                              |
    +---------------+--------------------------+---------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | tablename     | name                     | :ref:`PG_CLASS <dws_04_0578>`.relname                   | Name of the table                                                                                                       |
+   | tablename     | Name                     | :ref:`PG_CLASS <dws_04_0578>`.relname                   | Name of the table                                                                                                       |
    +---------------+--------------------------+---------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | tableowner    | name                     | pg_get_userbyid(:ref:`PG_CLASS <dws_04_0578>`.relowner) | Owner of the table                                                                                                      |
+   | tableowner    | Name                     | pg_get_userbyid(:ref:`PG_CLASS <dws_04_0578>`.relowner) | Owner of the table                                                                                                      |
    +---------------+--------------------------+---------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | tablespace    | name                     | :ref:`PG_TABLESPACE <dws_04_0622>`.spcname              | Tablespace that contains the table. The default value is null                                                           |
+   | tablespace    | Name                     | :ref:`PG_TABLESPACE <dws_04_0622>`.spcname              | Tablespace that contains the table. The default value is null                                                           |
    +---------------+--------------------------+---------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------+
    | hasindexes    | boolean                  | :ref:`PG_CLASS <dws_04_0578>`.relhasindex               | Whether the table has (or recently had) an index. If it does, its value is **true**. Otherwise, its value is **false**. |
    +---------------+--------------------------+---------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------+
@@ -26,11 +26,11 @@ PG_TABLES
    +---------------+--------------------------+---------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------+
    | hastriggers   | boolean                  | :ref:`PG_CLASS <dws_04_0578>`.RELHASTRIGGERS            | Whether the table has triggers. If it does, its value is **true**. Otherwise, its value is **false**.                   |
    +---------------+--------------------------+---------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | tablecreator  | name                     | pg_get_userbyid(:ref:`PG_OBJECT <dws_04_0601>`.creator) | Table creator. If the creator has been deleted, no value is returned.                                                   |
+   | tablecreator  | Name                     | pg_get_userbyid(:ref:`PG_OBJECT <dws_04_0601>`.creator) | Table creator. If the creator has been deleted, no value is returned.                                                   |
    +---------------+--------------------------+---------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | created       | timestamp with time zone | :ref:`PG_OBJECT <dws_04_0601>`.ctime                    | Time when the table was created.                                                                                        |
+   | created       | Timestamp with time zone | :ref:`PG_OBJECT <dws_04_0601>`.ctime                    | Time when the table was created.                                                                                        |
    +---------------+--------------------------+---------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | last_ddl_time | timestamp with time zone | :ref:`PG_OBJECT <dws_04_0601>`.mtime                    | Last time when the cluster was modified.                                                                                |
+   | last_ddl_time | Timestamp with time zone | :ref:`PG_OBJECT <dws_04_0601>`.mtime                    | Last time when the cluster was modified.                                                                                |
    +---------------+--------------------------+---------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------+
 
 Example

@@ -11,39 +11,39 @@ Syntax
 RAISE has the following five syntax formats:
 
 
-.. figure:: /_static/images/en-us_image_0000001510163249.png
+.. figure:: /_static/images/en-us_image_0000001811491549.png
    :alt: **Figure 1** raise_format::=
 
    **Figure 1** raise_format::=
 
 
-.. figure:: /_static/images/en-us_image_0000001460563360.png
+.. figure:: /_static/images/en-us_image_0000001764651228.png
    :alt: **Figure 2** raise_condition::=
 
    **Figure 2** raise_condition::=
 
 
-.. figure:: /_static/images/en-us_image_0000001460723164.png
+.. figure:: /_static/images/en-us_image_0000001811491545.png
    :alt: **Figure 3** raise_sqlstate::=
 
    **Figure 3** raise_sqlstate::=
 
 
-.. figure:: /_static/images/en-us_image_0000001510522913.png
+.. figure:: /_static/images/en-us_image_0000001764651232.png
    :alt: **Figure 4** raise_option::=
 
    **Figure 4** raise_option::=
 
-.. _en-us_topic_0000001460882360__f83a9e69cf9474bd5a885130e5c140da8:
+.. _en-us_topic_0000001764491712__f83a9e69cf9474bd5a885130e5c140da8:
 
-.. figure:: /_static/images/en-us_image_0000001510402909.png
+.. figure:: /_static/images/en-us_image_0000001764651224.png
    :alt: **Figure 5** raise::=
 
    **Figure 5** raise::=
 
-**Parameter description:**
+Parameter description:
 
--  The level option is used to specify the error level, that is, **DEBUG**, **LOG**, **INFO**, **NOTICE**, **WARNING**, or **EXCEPTION** (default). **EXCEPTION** throws an error that normally terminates the current transaction and the others only generate information at their levels. The :ref:`log_min_messages <en-us_topic_0000001460882160__s1ffb0797361d413d875381200fed970b>` and :ref:`client_min_messages <en-us_topic_0000001460882160__sbd8ad9bb6b9b48ba97f998f060dc56f3>` parameters control whether the error messages of specific levels are reported to the client and are written to the server log.
+-  The level option is used to specify the error level, that is, **DEBUG**, **LOG**, **INFO**, **NOTICE**, **WARNING**, or **EXCEPTION** (default). **EXCEPTION** reports an error that normally terminates the current transaction and the others only generate information at their levels. The :ref:`log_min_messages <en-us_topic_0000001811490985__s1ffb0797361d413d875381200fed970b>` and :ref:`client_min_messages <en-us_topic_0000001811490985__sbd8ad9bb6b9b48ba97f998f060dc56f3>` parameters control whether the error messages of specific levels are reported to the client and are written to the server log.
 
 -  **format**: specifies the error message text to be reported, a format character string. The format character string can be appended with an expression for insertion to the message text. In a format character string, **%** is replaced by the parameter value attached to format and **%%** is used to print **%**. For example:
 
@@ -67,11 +67,11 @@ If neither a condition name nor an **SQLSTATE** is designated in a **RAISE EXCEP
 
 .. important::
 
-   If the **SQLSTATE** designates an error code, the error code is not limited to a defined error code. It can be any error code containing five digits or ASCII uppercase rather than **00000**. Do not use an error code ended with three zeros because this kind of error codes is type codes and can be captured by the whole category.
+   If the **SQLSTATE** designates an error code, the error code is not limited to a defined error code. It can be any error code containing five digits or ASCII uppercase rather than **00000**. Avoid using error codes that end with three zeros as they are type codes and can be captured by the entire category.
 
 .. note::
 
-   The syntax described in :ref:`Figure 5 <en-us_topic_0000001460882360__f83a9e69cf9474bd5a885130e5c140da8>` does not append any parameter. This form is used only for the **EXCEPTION** statement in a **BEGIN** block so that the error can be re-processed.
+   The syntax described in :ref:`Figure 5 <en-us_topic_0000001764491712__f83a9e69cf9474bd5a885130e5c140da8>` does not append any parameter. This form is used only for the **EXCEPTION** statement in a **BEGIN** block so that the error can be re-processed.
 
 Examples
 --------
@@ -87,9 +87,9 @@ Display error and hint information when a transaction terminates:
    END;
    /
 
-::
+   call proc_raise1(300011);
 
-   CALL proc_raise1(300011);
+   -- Execution result:
    ERROR:  Noexistence ID --> 300011
    HINT:  Please check your user ID
 
@@ -104,25 +104,23 @@ Two methods are available for setting **SQLSTATE**:
    END;
    /
 
-::
-
    \set VERBOSITY verbose
    call proc_raise2(300011);
 
+   -- Execution result:
    ERROR:  Duplicate user ID: 300011
    SQLSTATE: 23505
    LOCATION:  exec_stmt_raise, pl_exec.cpp:3482
 
 If the main parameter is a condition name or **SQLSTATE**, the following applies:
 
-::
+RAISE division_by_zero;
 
-   RAISE division_by_zero;
-   RAISE SQLSTATE '22012';
+RAISE SQLSTATE '22012';
 
 For example:
 
-::
+.. code-block::
 
    CREATE OR REPLACE PROCEDURE division(div in integer, dividend in integer)
    AS
@@ -139,10 +137,9 @@ For example:
        END IF;
        END;
    /
+   call division(3,0);
 
-::
-
-   CALL division(3,0);
+   -- Execution result:
    ERROR:  division_by_zero
 
 Alternatively:

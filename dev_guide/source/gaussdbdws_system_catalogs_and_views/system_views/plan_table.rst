@@ -10,23 +10,23 @@ PLAN_TABLE
 .. table:: **Table 1** PLAN_TABLE columns
 
    +--------------+----------------+---------------------------------------------------------------------------------------------+
-   | Name         | Type           | Description                                                                                 |
+   | Column       | Type           | Description                                                                                 |
    +==============+================+=============================================================================================+
    | statement_id | varchar2(30)   | Query tag specified by a user                                                               |
    +--------------+----------------+---------------------------------------------------------------------------------------------+
-   | plan_id      | bigint         | ID of a plan to be queried                                                                  |
+   | plan_id      | Bigint         | ID of a plan to be queried                                                                  |
    +--------------+----------------+---------------------------------------------------------------------------------------------+
-   | id           | int            | ID of each operator in a generated plan                                                     |
+   | id           | Int            | ID of each operator in a generated plan                                                     |
    +--------------+----------------+---------------------------------------------------------------------------------------------+
    | operation    | varchar2(30)   | Operation description of an operator in a plan                                              |
    +--------------+----------------+---------------------------------------------------------------------------------------------+
    | options      | varchar2(255)  | Operation parameters                                                                        |
    +--------------+----------------+---------------------------------------------------------------------------------------------+
-   | object_name  | name           | Name of an operated object. It is defined by users, not the object alias used in the query. |
+   | object_name  | Name           | Name of an operated object. It is defined by users, not the object alias used in the query. |
    +--------------+----------------+---------------------------------------------------------------------------------------------+
    | object_type  | varchar2(30)   | Object type                                                                                 |
    +--------------+----------------+---------------------------------------------------------------------------------------------+
-   | object_owner | name           | User-defined schema to which an object belongs                                              |
+   | object_owner | Name           | User-defined schema to which an object belongs                                              |
    +--------------+----------------+---------------------------------------------------------------------------------------------+
    | projection   | varchar2(4000) | Returned column information                                                                 |
    +--------------+----------------+---------------------------------------------------------------------------------------------+

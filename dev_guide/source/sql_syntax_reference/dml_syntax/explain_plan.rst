@@ -8,7 +8,7 @@ EXPLAIN PLAN
 Function
 --------
 
-Saves the information about an execution plan to the **PLAN_TABLE** table. Different from the **EXPLAIN** statement, **EXPLAIN PLAN** only stores plan information and does not print it on the screen.
+You can run the **EXPLAIN PLAN** statement to save the information about an execution plan to the **PLAN_TABLE** table. Different from the **EXPLAIN** statement, **EXPLAIN PLAN** only stores plan information and does not print it on the screen.
 
 Syntax
 ------
@@ -41,7 +41,7 @@ Precautions
 -  Plan information cannot be collected for SQL statements that failed to be executed.
 -  Data in **PLAN_TABLE** is in a session-level life cycle. Sessions are isolated from users and thereby users can view data of only the current session and current user.
 -  **PLAN_TABLE** cannot be joined with GDS foreign tables.
--  For a query that cannot be pushed down, object information cannot be collected and only such information as **REMOTE_QUERY** and **CTE** can be collected. For details, see :ref:`Example 2 <en-us_topic_0000001460561412__s30671eba40e14af88f1e45bd5bbd6c5d>`.
+-  For a query that cannot be pushed down, object information cannot be collected and only such information as **REMOTE_QUERY** and **CTE** can be collected. For details, see :ref:`Example 2 <en-us_topic_0000001811515673__s30671eba40e14af88f1e45bd5bbd6c5d>`.
 
 Example 1
 ---------
@@ -97,7 +97,7 @@ You can perform the following steps to collect execution plans of SQL statements
 
       DELETE FROM PLAN_TABLE WHERE xxx;
 
-.. _en-us_topic_0000001460561412__s30671eba40e14af88f1e45bd5bbd6c5d:
+.. _en-us_topic_0000001811515673__s30671eba40e14af88f1e45bd5bbd6c5d:
 
 Example 2
 ---------
@@ -122,5 +122,5 @@ Query **PLAN_TABLE**.
 
 |image2|
 
-.. |image1| image:: /_static/images/en-us_image_0000001460561528.png
-.. |image2| image:: /_static/images/en-us_image_0000001510401077.png
+.. |image1| image:: /_static/images/en-us_image_0000001811634921.png
+.. |image2| image:: /_static/images/en-us_image_0000001811515849.png

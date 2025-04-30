@@ -11,12 +11,12 @@ Simple LOOP Statements
 The syntax diagram is as follows.
 
 
-.. figure:: /_static/images/en-us_image_0000001460882892.png
+.. figure:: /_static/images/en-us_image_0000001764492168.png
    :alt: **Figure 1** loop::=
 
    **Figure 1** loop::=
 
-Example:
+**Examples**
 
 ::
 
@@ -47,14 +47,14 @@ WHILE-LOOP Statements
 The syntax diagram is as follows.
 
 
-.. figure:: /_static/images/en-us_image_0000001510402925.png
+.. figure:: /_static/images/en-us_image_0000001764492164.png
    :alt: **Figure 2** while_loop::=
 
    **Figure 2** while_loop::=
 
-If the conditional expression is true, a series of statements in the WHILE statement are repeatedly executed and the condition is decided each time the loop body is executed.
+If the conditional expression is true, a series of statements in the **WHILE** statement are repeatedly executed and the condition is decided each time the loop body is executed.
 
-Examples
+**Examples**
 
 ::
 
@@ -84,7 +84,7 @@ FOR_LOOP (*Integer variable*) *Statement*
 The syntax diagram is as follows.
 
 
-.. figure:: /_static/images/en-us_image_0000001510284013.png
+.. figure:: /_static/images/en-us_image_0000001811491441.png
    :alt: **Figure 3** for_loop::=
 
    **Figure 3** for_loop::=
@@ -94,7 +94,7 @@ The syntax diagram is as follows.
    -  The variable **name** is automatically defined as the **integer** type and exists only in this loop. The variable name falls between lower_bound and upper_bound.
    -  When the keyword **REVERSE** is used, the lower bound must be greater than or equal to the upper bound; otherwise, the loop body is not executed.
 
-Example:
+**Examples**
 
 ::
 
@@ -120,7 +120,7 @@ FOR_LOOP Query Statements
 The syntax diagram is as follows.
 
 
-.. figure:: /_static/images/en-us_image_0000001510522937.png
+.. figure:: /_static/images/en-us_image_0000001811610513.png
    :alt: **Figure 4** for_loop_query::=
 
    **Figure 4** for_loop_query::=
@@ -129,7 +129,7 @@ The syntax diagram is as follows.
 
    The variable **target** is automatically defined, its type is the same as that in the **query** result, and it is valid only in this loop. The target value is the query result.
 
-Example:
+**Examples**
 
 ::
 
@@ -156,7 +156,7 @@ FORALL Batch Query Statements
 The syntax diagram is as follows.
 
 
-.. figure:: /_static/images/en-us_image_0000001510163265.png
+.. figure:: /_static/images/en-us_image_0000001811491437.png
    :alt: **Figure 5** forall::=
 
    **Figure 5** forall::=
@@ -165,14 +165,14 @@ The syntax diagram is as follows.
 
    The variable **index** is automatically defined as the **integer** type and exists only in this loop. The index value falls between low_bound and upper_bound.
 
-Example:
+**Examples**
 
 ::
 
    CREATE TABLE hdfs_t1 (
      title NUMBER(6),
      did VARCHAR2(20),
-     data_peroid VARCHAR2(25),
+     data_period VARCHAR2(25),
      kind VARCHAR2(25),
      interval VARCHAR2(20),
      time DATE,

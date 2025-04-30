@@ -12,19 +12,19 @@ The **PG_FINE_DR_INFO** system catalog records the replay status of the fine-gra
    +---------------+--------------------------+----------------------------------------------------------------------------+
    | Name          | Type                     | Description                                                                |
    +===============+==========================+============================================================================+
-   | oid           | oid                      | Row identifier (hidden attribute; displayed only when explicitly selected) |
+   | OID           | OID                      | Row identifier (hidden attribute; displayed only when explicitly selected) |
    +---------------+--------------------------+----------------------------------------------------------------------------+
-   | relid         | oid                      | OID of the standby fine-grained DR table                                   |
+   | relid         | OID                      | OID of the standby fine-grained DR table                                   |
    +---------------+--------------------------+----------------------------------------------------------------------------+
-   | lastcsn       | xid                      | CSN of the last successful playback                                        |
+   | lastcsn       | Xid                      | CSN of the last successful playback                                        |
    +---------------+--------------------------+----------------------------------------------------------------------------+
-   | lastxmin      | xid                      | xmin of the last successful playback                                       |
+   | lastxmin      | Xid                      | xmin of the last successful playback                                       |
    +---------------+--------------------------+----------------------------------------------------------------------------+
-   | lastxmax      | xid                      | xmax of the last successful playback                                       |
+   | lastxmax      | Xid                      | xmax of the last successful playback                                       |
    +---------------+--------------------------+----------------------------------------------------------------------------+
-   | laststarttime | timestamp with time zone | Start time of the last successful playback                                 |
+   | laststarttime | Timestamp with time zone | Start time of the last successful playback                                 |
    +---------------+--------------------------+----------------------------------------------------------------------------+
-   | lastendtime   | timestamp with time zone | End time of the last successful playback                                   |
+   | lastendtime   | Timestamp with time zone | End time of the last successful playback                                   |
    +---------------+--------------------------+----------------------------------------------------------------------------+
 
 Examples

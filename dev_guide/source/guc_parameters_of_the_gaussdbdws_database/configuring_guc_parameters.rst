@@ -29,14 +29,12 @@ Parameter Types and Values
    -  The unit of memory can be KB, MB, or GB.
    -  The unit of time can be ms, s, min, h, or d.
 
-.. _en-us_topic_0000001510522193__s8adb68393b48467a948956afaaaf8589:
-
 Setting GUC Parameters
 ----------------------
 
 You can configure GUC parameters in the following ways:
 
--  Method 1: After a cluster is created, log in to the GaussDB(DWS) console and modify the database parameters of the cluster. For details, see "Modifying Database Parameters" in *Data Warehouse Service (DWS) User Guide*.
+-  Method 1: After a cluster is created, log in to the GaussDB(DWS) console and modify the database parameters of the cluster. For details, see "Modifying Database Parameters" in the *Data Warehouse Service (DWS) User Guide*.
 
 -  Method 2: Connect to a cluster and run SQL commands to configure the parameters of the SUSET or USERSET type.
 

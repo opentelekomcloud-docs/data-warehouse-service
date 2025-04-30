@@ -13,18 +13,18 @@ PG_STAT_GET_MEM_MBYTES_RESERVED
 
 .. table:: **Table 1** PG_STAT_GET_MEM_MBYTES_RESERVED columns
 
-   ==================== ==================================
-   Parameter            Description
-   ==================== ==================================
-   ConnectInfo          Connection information
-   ParctlManager        Concurrency management information
-   GeneralParams        Basic parameter information
-   GeneralParams RPDATA Basic resource pool information
-   ExceptionManager     Exception management information
-   CollectInfo          Collection information
-   GeneralInfo          Basic information
-   ParctlState          Concurrency status information
-   CPU INFO             CPU information
-   ControlGroup         Cgroup information
-   IOSTATE              I/O status information
-   ==================== ==================================
+   ==================== ===================================
+   Column               Description
+   ==================== ===================================
+   ConnectInfo          Connection information.
+   ParctlManager        Concurrency management information.
+   GeneralParams        Basic parameter information.
+   GeneralParams RPDATA Basic resource pool information.
+   ExceptionManager     Exception management information.
+   CollectInfo          Collection information.
+   GeneralInfo          Basic information.
+   ParctlState          Concurrency status information.
+   CPU INFO             CPU information.
+   ControlGroup         Cgroup information.
+   IOSTATE              I/O status information.
+   ==================== ===================================

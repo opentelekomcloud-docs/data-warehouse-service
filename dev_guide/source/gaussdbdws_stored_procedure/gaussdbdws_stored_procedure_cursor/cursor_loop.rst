@@ -10,11 +10,11 @@ The use of cursors in **WHILE** and **LOOP** statements is called a cursor loop.
 Syntax
 ------
 
-:ref:`Figure 1 <en-us_topic_0000001460882556__ffb84c90bcf774206ab06d7f3b17cd9de>` shows the syntax diagram for the **FOR AS** loop.
+:ref:`Figure 1 <en-us_topic_0000001811490369__ffb84c90bcf774206ab06d7f3b17cd9de>` shows the syntax diagram for the **FOR AS** loop.
 
-.. _en-us_topic_0000001460882556__ffb84c90bcf774206ab06d7f3b17cd9de:
+.. _en-us_topic_0000001811490369__ffb84c90bcf774206ab06d7f3b17cd9de:
 
-.. figure:: /_static/images/en-us_image_0000001510522949.png
+.. figure:: /_static/images/en-us_image_0000001764651064.png
    :alt: **Figure 1** FOR_AS_loop::=
 
    **Figure 1** FOR_AS_loop::=
@@ -60,7 +60,7 @@ Examples
    -- Determine the cursor status:
       IF C1%FOUND THEN
           IF C2%FOUND THEN
-            DBMS_OUTPUT.PUT_LINE('Dual cursor share paremeter.');
+            DBMS_OUTPUT.PUT_LINE('Dual cursor share parameter.');
          END IF;
       END IF;
        CLOSE C1;-- Close the cursor.

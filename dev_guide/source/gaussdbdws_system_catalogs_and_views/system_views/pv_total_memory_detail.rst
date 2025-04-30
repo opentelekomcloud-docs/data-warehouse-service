@@ -12,9 +12,9 @@ PV_TOTAL_MEMORY_DETAIL
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------+
    | Name                  | Type                  | Description                                                                                |
    +=======================+=======================+============================================================================================+
-   | nodename              | text                  | Node name                                                                                  |
+   | nodename              | Text                  | Node name                                                                                  |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------+
-   | memorytype            | text                  | Memory type. Its value can be:                                                             |
+   | memorytype            | Text                  | Memory type. Its value can be:                                                             |
    |                       |                       |                                                                                            |
    |                       |                       | -  **max_process_memory**: memory used by a GaussDB(DWS) cluster instance                  |
    |                       |                       | -  **process_used_memory**: memory used by a GaussDB(DWS) process                          |
@@ -40,5 +40,5 @@ PV_TOTAL_MEMORY_DETAIL
    |                       |                       | -  **udf_reserved_memory**: memory reserved for the **UDF Worker** process                 |
    |                       |                       | -  **mmap_used_memory**: memory used for **mmap**                                          |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------+
-   | memorymbytes          | integer               | Size of allocated memory-typed memory                                                      |
+   | memorymbytes          | Integer               | Size of allocated memory-typed memory                                                      |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------+

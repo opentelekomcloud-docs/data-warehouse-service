@@ -132,7 +132,7 @@ Format normalization ensures that only one form of JSONB data exists in the same
 
 **Creates an index**
 
-B-Tree and GIN indexes can be created for the JSONB type.
+The JSONB type in row-store supports both B-tree and GIN indexes, while the JSONB type in column-store only supports CB-tree indexes.
 
 If the entire JSONB column uses a Btree index, the following operators can be used: =, <, <=, >, and >=.
 
@@ -143,25 +143,25 @@ Example: Create the table **test** and insert data into it.
    CREATE TABLE test(id bigserial, data JSONB, PRIMARY KEY (id));
    INSERT INTO test(data) VALUES('{"name":"Jack", "age":10, "nick_name":["Jacky","baobao"], "phone_list":["1111","2222"]}'::jsonb);
 
--  Create a btree index.
+-  Create a B-tree index.
 
    ::
 
       CREATE INDEX idx_test_data_age ON test USING btree(((data->>'age')::int));
 
-   Use the Btree index to query data of "age>1".
+   Use the B-tree index to query data where "age>1".
 
    ::
 
       SELECT * FROM test WHERE (data->>'age')::int>1;
 
--  Creating a Gin Index
+-  Create a GIN index.
 
    ::
 
       CREATE INDEX idx_test_data ON test USING gin (data);
 
-   -- Use the GIN index to check whether there are top-level keywords.
+   Use the GIN index to check whether there are top-level keywords.
 
    ::
 
@@ -175,7 +175,7 @@ Example: Create the table **test** and insert data into it.
       CREATE INDEX idx_test_data_nick_name ON test USING gin((data->'nick_name'));
       SELECT * FROM test WHERE data->'nick_name' ? 'Jacky';
 
--  Use @> to check whether JSON contains nested JSON objects.
+-  Use **@>** to check whether JSON contains nested JSON objects.
 
    ::
 
@@ -185,7 +185,7 @@ Example: Create the table **test** and insert data into it.
 
 An important capability of JSONB is to query whether a JSON contains some elements or whether some elements exist in a JSON.
 
--  Simple scalar/original values contain only the same value:
+-  Simple scalar/original values contain only the same value.
 
    ::
 

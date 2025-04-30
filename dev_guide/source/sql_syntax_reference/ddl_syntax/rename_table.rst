@@ -8,7 +8,7 @@ RENAME TABLE
 Function
 --------
 
-Renames a specified table.
+**RENAME TABLE** renames a specified table.
 
 Precautions
 -----------
@@ -27,8 +27,8 @@ Syntax
    RENAME TABLE
    {[schema.]table_name TO new_table_name} [, ...];
 
-Parameter Description
----------------------
+Parameters
+----------
 
 -  **schema**
 

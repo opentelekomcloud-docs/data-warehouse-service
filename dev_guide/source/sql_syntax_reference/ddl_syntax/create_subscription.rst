@@ -8,12 +8,12 @@ CREATE SUBSCRIPTION
 Function
 --------
 
-Adds a new subscription to the current database. The subscription name must be different from a name of any existing subscription in the database. A subscription represents a replication for connecting to the publication side.
+**CREATE SUBSCRIPTION** adds a new subscription to the current database. The subscription name must be different from a name of any existing subscription in the database. A subscription represents a replication for connecting to the publication side.
 
 Precautions
 -----------
 
--  This statement is supported by clusters of version 8.2.0.100 or later.
+-  This statement is supported by version 8.2.0.100 or later clusters.
 -  A subscription can be created only by the system administrator.
 
 Syntax
@@ -26,7 +26,7 @@ Syntax
        PUBLICATION publication_name [, ...]
        [ WITH ( subscription_parameter [= value] [, ... ] ) ]
 
-.. _en-us_topic_0000001510520997__section1549681213574:
+.. _en-us_topic_0000001811634793__section1549681213574:
 
 Parameter Description
 ---------------------
@@ -37,7 +37,7 @@ Parameter Description
 
    Value range: A string. It must comply with the naming convention.
 
--  .. _en-us_topic_0000001510520997__li17392131613264:
+-  .. _en-us_topic_0000001811634793__li17392131613264:
 
    **conninfo**
 

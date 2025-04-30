@@ -9,12 +9,12 @@ PV_SESSION_STAT
 
 .. table:: **Table 1** PV_SESSION_STAT columns
 
-   ======== ======= ===============================
-   Name     Type    Description
-   ======== ======= ===============================
-   sessid   text    Thread ID and start time
-   statid   integer Statistics ID
-   statname text    Name of the statistics session
-   statunit text    Unit of the statistics session
-   value    bigint  Value of the statistics session
-   ======== ======= ===============================
+   ======== ======= ================================
+   Column   Type    Description
+   ======== ======= ================================
+   sessid   Text    Thread ID and thread start time.
+   statid   Integer Statistics ID.
+   statname Text    Name of the statistics session.
+   statunit Text    Unit of the statistics session.
+   value    Bigint  Value of the statistics session.
+   ======== ======= ================================

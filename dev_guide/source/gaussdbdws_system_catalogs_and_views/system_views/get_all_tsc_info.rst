@@ -20,7 +20,7 @@ Obtains the TSC information of all nodes again. This view is supported only by c
    +-----------------------+---------+---------------------------------------------------------------------+
    | tsc_frequency         | float8  | TSC frequency                                                       |
    +-----------------------+---------+---------------------------------------------------------------------+
-   | tsc_use_freqency      | boolean | Indicates whether to use the TSC frequency for time conversion.     |
+   | tsc_use_frequency     | boolean | Indicates whether to use the TSC frequency for time conversion.     |
    +-----------------------+---------+---------------------------------------------------------------------+
    | tsc_ready             | boolean | Indicates whether the TSC frequency can be used for time conversion |
    +-----------------------+---------+---------------------------------------------------------------------+

@@ -7,7 +7,55 @@ Communication Library Parameters
 
 This section describes parameter settings and value ranges for communication libraries.
 
-.. _en-us_topic_0000001510283789__s0011acc521b848fe85b25a68f534dc73:
+tcp_keepalives_idle
+-------------------
+
+**Parameter description**: Specifies the interval between keepalive signal sending in an OS that supports the **TCP_KEEPIDLE** socket parameter. If no keepalive signal is transmitted, the connection is in idle state.
+
+**Type**: USERSET
+
+.. important::
+
+   -  If the OS does not support the **TCP_KEEPIDLE** parameter, set this parameter to **0**.
+   -  The parameter is ignored on the OS where connections are established using the Unix domain socket.
+
+**Value range**: an integer ranging from 0 to 3600. The unit is second (s).
+
+**Default value**: **0**
+
+tcp_keepalives_interval
+-----------------------
+
+**Parameter description:** Specifies the response time before retransmission when the OS supports the **TCP_KEEPINTVL** socket parameter.
+
+**Type**: USERSET
+
+**Value range**: an integer ranging from 0 to 180. The unit is second (s).
+
+**Default value**: **0**
+
+.. important::
+
+   -  If the OS does not support the **TCP_KEEPINTVL** parameter, set this parameter to **0**.
+   -  The parameter is ignored on the OS where connections are established using the Unix domain socket.
+
+tcp_keepalives_count
+--------------------
+
+**Parameter description**: Specifies the number of keepalived signals that can be waited before the GaussDB(DWS) server is disconnected from the client if the OS supports the **TCP_KEEPCNT** socket parameter.
+
+**Type**: USERSET
+
+.. important::
+
+   -  If the OS does not support the **TCP_KEEPCNT** parameter, set this parameter to **0**.
+   -  The parameter is ignored on the OS where connections are established using the Unix domain socket.
+
+**Value range**: an integer ranging from 0 to 100. **0** indicates that the connection is immediately broken if GaussDB(DWS) does not receive a keepalived signal from the client.
+
+**Default value**: **0**
+
+.. _en-us_topic_0000001764491904__s0011acc521b848fe85b25a68f534dc73:
 
 comm_max_datanode
 -----------------
@@ -22,7 +70,7 @@ comm_max_datanode
 
 .. important::
 
-   If the number of DNs is increased, the change takes effect immediately. If the number of DNs is reduced, the cluster needs to be restarted for the change to take effect.
+   Increasing this parameter value takes effect immediately, while decreasing the value takes effect after the cluster is restarted.
 
 comm_max_stream
 ---------------
@@ -37,7 +85,7 @@ comm_max_stream
 
 .. note::
 
-   If the value of :ref:`comm_max_datanode <en-us_topic_0000001510283789__s0011acc521b848fe85b25a68f534dc73>` is small, the process memory is sufficient. In this case, you can increase the value of **comm_max_stream**.
+   If the value of :ref:`comm_max_datanode <en-us_topic_0000001764491904__s0011acc521b848fe85b25a68f534dc73>` is small, the process memory is sufficient. In this case, you can increase the value of **comm_max_stream**.
 
 max_stream_pool
 ---------------
@@ -48,7 +96,10 @@ max_stream_pool
 
 **Value range**: an integer ranging from -1 to INT_MAX. The values **-1** and **0** indicate that the stream thread pool is disabled.
 
-**Default value**: **65535**
+**Default value**:
+
+-  The formula for a new cluster is **max_stream_pool=MIN(max_connections, max_process_memory/16/5MB, 1024)**.
+-  The formula for a cluster upgraded from versions earlier than is **max_stream_pool = MIN(max_connections, max_process_memory/16/5MB, 1024, value of the old cluster)**. During the upgrade, the settings for the new cluster are forcibly used. The old value is used if it is smaller.
 
 .. note::
 
@@ -59,27 +110,35 @@ max_stream_pool
 enable_stream_sync_quit
 -----------------------
 
-**Parameter description**: whether the stream threads exit synchronously when the stream plan ends. This parameter is supported only by clusters of version 8.2.1.300 or later.
+**Parameter description**: whether the stream threads exit synchronously when the stream plan ends. This parameter is supported only by clusters of version 8.3.0 or later.
 
 **Type**: USERSET
 
 **Value range**: Boolean
 
--  **on** indicates that threads in the stream thread group exit after the steam plan ends.
+-  **on** indicates that threads in the stream thread group exit after the stream plan ends.
 -  **off** indicates that stream threads exit directly after the stream plan ends without waiting for the threads in the stream thread group to exit.
 
 **Default value**: **off**
 
-comm_max_receiver
------------------
+enable_connect_standby
+----------------------
 
-**Parameter description**: Specifies the number of internal receiving threads of the communication library.
+**Parameter description**: Sets the connection between a CN and a standby DN. This parameter is supported only by clusters of version 8.3.0 or later.
 
-**Type**: POSTMASTER
+**Type**: USERSET
 
-**Value range**: an integer ranging from 1 to 50
+**Value range**: Boolean
 
-**Default value**: 4
+-  **on** indicates that the CN connects to the standby server.
+-  **off** indicates that the CN connects to the primary DN.
+
+**Default value**: **off**
+
+.. caution::
+
+   -  You are not advised to use this parameter in routine services. This parameter applies only to O&M operations. You are not advised to use the **gs_guc tool** for global settings. Otherwise, problems such as data inconsistency and result set errors may occur.
+   -  Enabling this parameter for a session with temporary tables will delete the temporary table data on DNs and prevent further actions on those tables.
 
 comm_quota_size
 ---------------
@@ -106,21 +165,6 @@ comm_usable_memory
 .. important::
 
    This parameter must be specifically set based on environment memory and the deployment method. If it is too large, out-of-memory (OOM) may occur. If it is too small, the performance of the communication library may deteriorate.
-
-comm_memory_pool_percent
-------------------------
-
-**Parameter description**: Specifies the percentage of the memory pool resources that can be used by the communication library on a DN. This parameter is used to adaptively reserve memory used by the communication libraries.
-
-**Type**: POSTMASTER
-
-**Value range**: an integer ranging from 0 to 100
-
-**Default value**: **0**
-
-.. important::
-
-   If the memory used by the communication library is small, set this parameter to a small value. Otherwise, set it to a large value.
 
 comm_client_bind
 ----------------
@@ -220,46 +264,10 @@ comm_stat_mode
 
 **Default value:** **off**
 
-enable_stateless_pooler_reuse
------------------------------
-
-**Parameter description**: Specifies whether to enable the pooler reuse mode. The setting takes effect after the cluster is restarted.
-
-**Type**: POSTMASTER
-
-**Value range**: Boolean
-
--  **on** or **true** indicates that the pooler reuse mode is enabled.
--  **off** or **false** indicates that the pooler reuse mode is disabled.
-
-   .. important::
-
-      Set this parameter to the same value for CNs and DNs. If **enable_stateless_pooler_reuse** is set to **off** for CNs and set to **on** for DNs, the cluster communication fails. Restart the cluster to make the setting take effect.
-
-**Default value**: **off**
-
-comm_cn_dn_logic_conn
----------------------
-
-**Parameter description**: Specifies a switch for logical connections between CNs and DNs. The parameter setting takes effect only after the cluster is restarted.
-
-**Type**: POSTMASTER
-
-**Value range**: Boolean
-
--  **on** or **true** indicates that the connections between CNs and DNs are logical, with the libcomm component in use.
--  **off** or **false** indicates that the connections between CNs and DNs are physical, with the libpq component in use.
-
-   .. important::
-
-      If **comm_cn_dn_logic_conn** is set to **off** for CNs and set to **on** for DNs, cluster communication will fail. You are advised to set this parameter to the same value for all CNs and DNs. Restart the cluster to make the setting take effect.
-
-**Default value:** **off**
-
 client_connection_check_interval
 --------------------------------
 
-**Parameter description**: Specifies the interval for checking the client connection status. This parameter is supported by version 8.2.0 or later clusters.
+**Parameter description**: Specifies the interval for checking the client connection status. This parameter is supported by clusters of version 8.2.0 or later.
 
 **Type**: USERSET
 

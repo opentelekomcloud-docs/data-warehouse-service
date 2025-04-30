@@ -8,7 +8,7 @@ ALTER EXCEPT RULE
 Function
 --------
 
-Modifies an exception rule set. You can modify one or more specific rule thresholds in a rule set.
+This syntax is used to modify an exception rule set. You can modify one or more specific rule thresholds in a rule set.
 
 Precautions
 -----------

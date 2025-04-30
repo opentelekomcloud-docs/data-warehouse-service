@@ -10,10 +10,10 @@ PG_FOREIGN_TABLE
 .. table:: **Table 1** PG_FOREIGN_TABLE columns
 
    =========== ======= ====================================================
-   Name        Type    Description
+   Column      Type    Description
    =========== ======= ====================================================
-   ftrelid     oid     OID of the foreign table
-   ftserver    oid     OID of the server where the foreign table is located
+   ftrelid     OID     OID of the foreign table
+   ftserver    OID     OID of the server where the foreign table is located
    ftwriteonly boolean Whether data can be written in the foreign table
-   ftoptions   text[]  Foreign table options
+   ftoptions   Text[]  Foreign table options
    =========== ======= ====================================================

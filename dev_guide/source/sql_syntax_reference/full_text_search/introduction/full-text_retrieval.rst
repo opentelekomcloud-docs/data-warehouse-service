@@ -5,7 +5,7 @@
 Full-Text Retrieval
 ===================
 
-Textual search operators have been used in databases for years. GaussDB(DWS) has **~**, **~\***, **LIKE**, and **ILIKE** operators for textual data types, but they lack many essential properties required by modern information systems. This problem can be solved by using indexes and dictionaries.
+Textual search operators have been used in databases for years. The GaussDB(DWS) has **~**, **~\***, **LIKE**, and **ILIKE** operators for textual data types, but they lack many essential properties required by modern information systems. This problem can be solved by using indexes and dictionaries.
 
 Text search lacks the following essential properties required by information systems:
 

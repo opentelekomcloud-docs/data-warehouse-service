@@ -12,13 +12,13 @@ It is accessible only to users with system administrator rights. You can use vie
 .. table:: **Table 1** PG_USER_MAPPING columns
 
    +-----------+--------+--------------------------------------------+---------------------------------------------------------------------+
-   | Name      | Type   | Reference                                  | Description                                                         |
+   | Column    | Type   | Reference                                  | Description                                                         |
    +===========+========+============================================+=====================================================================+
-   | oid       | oid    | ``-``                                      | Row identifier (hidden attribute; must be explicitly selected)      |
+   | OID       | OID    | ``-``                                      | Row identifier (hidden attribute; must be explicitly selected)      |
    +-----------+--------+--------------------------------------------+---------------------------------------------------------------------+
-   | umuser    | oid    | :ref:`PG_AUTHID <dws_04_0574>`.oid         | OID of the local role being mapped, 0 if the user mapping is public |
+   | umuser    | OID    | :ref:`PG_AUTHID <dws_04_0574>`.oid         | OID of the local role being mapped, 0 if the user mapping is public |
    +-----------+--------+--------------------------------------------+---------------------------------------------------------------------+
-   | umserver  | oid    | :ref:`PG_FOREIGN_SERVER <dws_04_0592>`.oid | OID of the foreign server that contains this mapping                |
+   | umserver  | OID    | :ref:`PG_FOREIGN_SERVER <dws_04_0592>`.oid | OID of the foreign server that contains this mapping                |
    +-----------+--------+--------------------------------------------+---------------------------------------------------------------------+
-   | umoptions | text[] | ``-``                                      | Option used for user mapping. It is a keyword=value string.         |
+   | umoptions | Text[] | ``-``                                      | Option used for user mapping. It is a keyword=value string.         |
    +-----------+--------+--------------------------------------------+---------------------------------------------------------------------+

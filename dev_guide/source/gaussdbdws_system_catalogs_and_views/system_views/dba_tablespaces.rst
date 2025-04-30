@@ -10,7 +10,7 @@ DBA_TABLESPACES
 .. table:: **Table 1** DBA_TABLESPACES columns
 
    =============== ===================== ======================
-   Name            Type                  Description
+   Column          Type                  Description
    =============== ===================== ======================
    tablespace_name character varying(64) Name of the tablespace
    =============== ===================== ======================

@@ -12,13 +12,13 @@ It is accessible only to users with system administrator rights.
 .. table:: **Table 1** PG_LARGEOBJECT columns
 
    +--------+---------+--------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
-   | Name   | Type    | Reference                                        | Description                                                                                                 |
+   | Column | Type    | Reference                                        | Description                                                                                                 |
    +========+=========+==================================================+=============================================================================================================+
-   | loid   | oid     | :ref:`PG_LARGEOBJECT_METADATA <dws_04_0599>`.oid | Identifier of the large object that includes this page                                                      |
+   | loid   | OID     | :ref:`PG_LARGEOBJECT_METADATA <dws_04_0599>`.oid | Identifier of the large object that includes this page.                                                     |
    +--------+---------+--------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
-   | pageno | integer | ``-``                                            | Page number of this page within its large object (counting from zero)                                       |
+   | pageno | Integer | ``-``                                            | Page number of this page within its large object (counting from zero).                                      |
    +--------+---------+--------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
    | data   | bytea   | ``-``                                            | Actual data stored in the large object. This will never be more than **LOBLKSIZE** bytes and might be less. |
    +--------+---------+--------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
 
-Each row of **pg_largeobject** holds data for one page of a large object, beginning at byte offset (**pageno \* LOBLKSIZE**) within the object. The implementation allows sparse storage: pages might be missing, and might be shorter than **LOBLKSIZE** bytes even if they are not the last page of the object. Missing regions within a large object are read as zeroes.
+Each row of **pg_largeobject** holds data for one page of a large object, beginning at byte offset (**pageno \* LOBLKSIZE**) within the object. The implementation allows sparse storage: pages might be missing, and might be shorter than **LOBLKSIZE** bytes even if they are not the last page of the object. Missing regions within a large object are read as 0.

@@ -22,10 +22,10 @@ PV_INSTANCE_TIME
 
 .. table:: **Table 1** PV_INSTANCE_TIME columns
 
-   ========= ======= ======================
-   Name      Type    Description
-   ========= ======= ======================
-   stat_id   integer Type ID
-   stat_name text    Running time type name
-   value     bigint  Running time value
-   ========= ======= ======================
+   ========= ======= =========================
+   Column    Type    Description
+   ========= ======= =========================
+   stat_id   Integer Type ID.
+   stat_name Text    Name of the runtime type.
+   value     Bigint  Runtime value.
+   ========= ======= =========================

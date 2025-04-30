@@ -12,10 +12,10 @@ Configuring Cluster Parameters
 
 To query for historical or archived resource monitoring information about jobs of top SQLs, you need to set related GUC parameters first. The procedure is as follows:
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 #. On the **Cluster Management** page, locate the required cluster and click the cluster name. The cluster details page is displayed.
 #. Click the **Parameter Modifications** tab to view the values of cluster parameters.
-#. Set an appropriate value for parameter :ref:`resource_track_duration <en-us_topic_0000001510522653__section347574425112>` and click **Save**.
+#. Set an appropriate value for parameter :ref:`resource_track_duration <en-us_topic_0000001811490709__section347574425112>` and click **Save**.
 
    .. note::
 
@@ -33,7 +33,7 @@ The TPC-DS sample data is used as an example.
 
 #. Run the **EXPLAIN** statement to query for the estimated cost of the SQL statement to be executed to determine whether resources of the SQL statement will be monitored.
 
-   By default, only resources of a query whose execution cost is greater than the value of :ref:`resource_track_cost <en-us_topic_0000001510522653__section1089022732713>` are monitored and can be queried by users.
+   By default, only resources of a query whose execution cost is greater than the value of :ref:`resource_track_cost <en-us_topic_0000001811490709__section1089022732713>` are monitored and can be queried by users.
 
    For example, run the following statements to query for the estimated execution cost of the SQL statement:
 
@@ -61,18 +61,18 @@ The TPC-DS sample data is used as an example.
    In the following query result, the value in the first row of the **E-costs** column is the estimated cost of the SQL statement.
 
 
-   .. figure:: /_static/images/en-us_image_0000001510402913.png
+   .. figure:: /_static/images/en-us_image_0000001764651120.png
       :alt: **Figure 1** EXPLAIN result
 
       **Figure 1** EXPLAIN result
 
-   In this example, to demonstrate the resource monitoring function of top SQLs, you need to set **resource_track_cost** to a value smaller than the estimated cost in the **EXPLAIN** result, for example, **100**. For details about the parameter setting, see :ref:`resource_track_cost <en-us_topic_0000001510522653__section1089022732713>`.
+   In this example, to demonstrate the resource monitoring function of top SQLs, set the value of **resource_track_cost** to **100**, which should be lower than the estimated cost in the **EXPLAIN** query result. For more details, see :ref:`resource_track_cost <en-us_topic_0000001811490709__section1089022732713>`.
 
    .. note::
 
-      After completing this example, you still need to reset :ref:`resource_track_cost <en-us_topic_0000001510522653__section1089022732713>` to its default value **100000** or a proper value. An overly small parameter value will compromise the database performance.
+      After completing this example, you still need to reset :ref:`resource_track_cost <en-us_topic_0000001811490709__section1089022732713>` to its default value **100000** or a proper value. An overly small parameter value will compromise the database performance.
 
-#. .. _en-us_topic_0000001460563148__en-us_topic_0000001082926861_en-us_topic_0156738790_li14310524114614:
+#. .. _en-us_topic_0000001811609657__en-us_topic_0000001082926861_en-us_topic_0156738790_li14310524114614:
 
    Run SQL statements.
 
@@ -108,19 +108,19 @@ The TPC-DS sample data is used as an example.
 
    For more examples of querying for the real-time resource monitoring information of top SQLs, see :ref:`Real-time Top SQL <dws_04_0397>`.
 
-#. Wait until the SQL statement execution in :ref:`3 <en-us_topic_0000001460563148__en-us_topic_0000001082926861_en-us_topic_0156738790_li14310524114614>` is complete, and then query for the historical resource monitoring information of the statement.
+#. Wait until the SQL statement execution in :ref:`3 <en-us_topic_0000001811609657__en-us_topic_0000001082926861_en-us_topic_0156738790_li14310524114614>` is complete, and then query for the historical resource monitoring information of the statement.
 
    ::
 
       SELECT query,start_time,finish_time,duration,status FROM gs_wlm_session_history ORDER BY start_time desc;
 
-   The preceding command queries for the historical information at the query-level. The peak information includes the execution start time, execution duration (unit: ms), and execution status. The time unit is ms.
+   The preceding command queries for the historical information at the query-level. The peak information includes the execution start time, end time, actual execution time, and execution status. The time unit is ms.
 
    For more examples of querying for the historical resource monitoring information of top SQLs, see :ref:`Historical Top SQL <dws_04_0398>`.
 
-#. Wait for 3 minutes after the execution of the SQL statement in :ref:`3 <en-us_topic_0000001460563148__en-us_topic_0000001082926861_en-us_topic_0156738790_li14310524114614>` is complete, query for the historical resource monitoring information of the statement in the **info** view.
+#. Wait for 3 minutes after the execution of the SQL statement in :ref:`3 <en-us_topic_0000001811609657__en-us_topic_0000001082926861_en-us_topic_0156738790_li14310524114614>` is complete, query for the historical resource monitoring information of the statement in the **info** view.
 
-   If **enable_resource_record** is set to **on** and the execution time of the SQL statement in :ref:`3 <en-us_topic_0000001460563148__en-us_topic_0000001082926861_en-us_topic_0156738790_li14310524114614>` is no less than the value of **resource_track_duration**, historical information about the SQL statement will be archived to the **gs_wlm_session_info** view 3 minutes after the execution of the SQL statement is complete.
+   If **enable_resource_record** is set to **on** and the execution time of the SQL statement in :ref:`3 <en-us_topic_0000001811609657__en-us_topic_0000001082926861_en-us_topic_0156738790_li14310524114614>` is no less than the value of **resource_track_duration**, historical information about the SQL statement will be archived to the **gs_wlm_session_info** view 3 minutes after the execution of the SQL statement is complete.
 
    The **info** view can be queried only when the **postgres** database is connected. Therefore, switch to the **postgres** database before running the following statement:
 

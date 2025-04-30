@@ -9,8 +9,8 @@ DUAL
 
 .. table:: **Table 1** DUAL columns
 
-   ===== ==== =============================
-   Name  Type Description
-   ===== ==== =============================
-   dummy text Expression calculation result
-   ===== ==== =============================
+   ====== ==== =============================
+   Column Type Description
+   ====== ==== =============================
+   dummy  Text Expression calculation result
+   ====== ==== =============================

@@ -8,12 +8,12 @@ DROP PUBLICATION
 Function
 --------
 
-Deletes a publication.
+**DROP PUBLICATION** deletes a publication.
 
 Precautions
 -----------
 
--  This statement is supported by clusters of version 8.2.0.100 or later.
+-  This statement is supported by version 8.2.0.100 or later clusters.
 -  This statement can be used by the publication owner and system administrators only.
 
 Syntax

@@ -10,11 +10,11 @@ PG_AUTH_HISTORY
 .. table:: **Table 1** PG_AUTH_HISTORY columns
 
    +--------------+--------------------------+-------------------------------------------------------------------------------+
-   | Name         | Type                     | Description                                                                   |
+   | Column       | Type                     | Description                                                                   |
    +==============+==========================+===============================================================================+
-   | roloid       | oid                      | ID of the role                                                                |
+   | roloid       | OID                      | Role identifier                                                               |
    +--------------+--------------------------+-------------------------------------------------------------------------------+
-   | passwordtime | timestamp with time zone | Time of password creation and change                                          |
+   | passwordtime | Timestamp with time zone | Time of password creation and change                                          |
    +--------------+--------------------------+-------------------------------------------------------------------------------+
-   | rolpassword  | text                     | Role password that is encrypted using MD5 or SHA256, or that is not encrypted |
+   | rolpassword  | Text                     | Role password that is encrypted using MD5 or SHA256, or that is not encrypted |
    +--------------+--------------------------+-------------------------------------------------------------------------------+

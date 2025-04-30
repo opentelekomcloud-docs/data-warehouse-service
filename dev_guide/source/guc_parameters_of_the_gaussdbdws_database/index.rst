@@ -15,8 +15,7 @@ GUC Parameters of the GaussDB(DWS) Database
 -  :ref:`HA Replication <dws_04_0904>`
 -  :ref:`Query Planning <dws_04_0908>`
 -  :ref:`Error Reporting and Logging <dws_04_0913>`
--  :ref:`Alarm Detection <dws_04_0918>`
--  :ref:`Statistics During the Database Running <dws_04_0919>`
+-  :ref:`Runtime Statistics <dws_04_0919>`
 -  :ref:`Resource Management <dws_04_0922>`
 -  :ref:`Automatic Cleanup <dws_04_0923>`
 -  :ref:`Default Settings of Client Connection <dws_04_0924>`
@@ -45,8 +44,7 @@ GUC Parameters of the GaussDB(DWS) Database
    ha_replication/index
    query_planning/index
    error_reporting_and_logging/index
-   alarm_detection
-   statistics_during_the_database_running/index
+   runtime_statistics/index
    resource_management
    automatic_cleanup
    default_settings_of_client_connection/index

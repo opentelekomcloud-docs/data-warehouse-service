@@ -9,32 +9,32 @@ By collecting statistics about the data file I/Os, **PV_FILE_STAT** displays the
 
 .. table:: **Table 1** PV_FILE_STAT columns
 
-   +-----------+--------+-------------------------------------------------------------------------+
-   | Name      | Type   | Description                                                             |
-   +===========+========+=========================================================================+
-   | filenum   | oid    | File ID                                                                 |
-   +-----------+--------+-------------------------------------------------------------------------+
-   | dbid      | oid    | Database ID                                                             |
-   +-----------+--------+-------------------------------------------------------------------------+
-   | spcid     | oid    | Tablespace ID                                                           |
-   +-----------+--------+-------------------------------------------------------------------------+
-   | phyrds    | bigint | Number of times of reading physical files                               |
-   +-----------+--------+-------------------------------------------------------------------------+
-   | phywrts   | bigint | Number of times of writing into physical files                          |
-   +-----------+--------+-------------------------------------------------------------------------+
-   | phyblkrd  | bigint | Number of times of reading physical file blocks                         |
-   +-----------+--------+-------------------------------------------------------------------------+
-   | phyblkwrt | bigint | Number of times of writing into physical file blocks                    |
-   +-----------+--------+-------------------------------------------------------------------------+
-   | readtim   | bigint | Total duration of reading files. The unit is microsecond.               |
-   +-----------+--------+-------------------------------------------------------------------------+
-   | writetim  | bigint | Total duration of writing files. The unit is microsecond.               |
-   +-----------+--------+-------------------------------------------------------------------------+
-   | avgiotim  | bigint | Average duration of reading and writing files. The unit is microsecond. |
-   +-----------+--------+-------------------------------------------------------------------------+
-   | lstiotim  | bigint | Duration of the last file reading. The unit is microsecond.             |
-   +-----------+--------+-------------------------------------------------------------------------+
-   | miniotim  | bigint | Minimum duration of reading and writing files. The unit is microsecond. |
-   +-----------+--------+-------------------------------------------------------------------------+
-   | maxiowtm  | bigint | Maximum duration of reading and writing files. The unit is microsecond. |
-   +-----------+--------+-------------------------------------------------------------------------+
+   +-----------+--------+-------------------------------------------------------------+
+   | Column    | Type   | Description                                                 |
+   +===========+========+=============================================================+
+   | filenum   | OID    | File ID.                                                    |
+   +-----------+--------+-------------------------------------------------------------+
+   | dbid      | OID    | Database ID.                                                |
+   +-----------+--------+-------------------------------------------------------------+
+   | spcid     | OID    | Tablespace ID.                                              |
+   +-----------+--------+-------------------------------------------------------------+
+   | phyrds    | Bigint | Number of physical files read.                              |
+   +-----------+--------+-------------------------------------------------------------+
+   | phywrts   | Bigint | Number of physical files written.                           |
+   +-----------+--------+-------------------------------------------------------------+
+   | phyblkrd  | Bigint | Number of physical file blocks read.                        |
+   +-----------+--------+-------------------------------------------------------------+
+   | phyblkwrt | Bigint | Number of physical file blocks written.                     |
+   +-----------+--------+-------------------------------------------------------------+
+   | readtim   | Bigint | Total duration of file reads, in microseconds.              |
+   +-----------+--------+-------------------------------------------------------------+
+   | writetim  | Bigint | Total duration of file writes, in microseconds.             |
+   +-----------+--------+-------------------------------------------------------------+
+   | avgiotim  | Bigint | Average duration of file reads and writes, in microseconds. |
+   +-----------+--------+-------------------------------------------------------------+
+   | lstiotim  | Bigint | Duration of the last file read, in microseconds.            |
+   +-----------+--------+-------------------------------------------------------------+
+   | miniotim  | Bigint | Minimum duration of file reads and writes, in microseconds. |
+   +-----------+--------+-------------------------------------------------------------+
+   | maxiowtm  | Bigint | Maximum duration of file reads and writes, in microseconds. |
+   +-----------+--------+-------------------------------------------------------------+

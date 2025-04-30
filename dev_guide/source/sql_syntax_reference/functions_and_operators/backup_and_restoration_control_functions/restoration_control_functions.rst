@@ -5,7 +5,7 @@
 Restoration Control Functions
 =============================
 
-Restoration control functions provide information about the status of standby nodes. These functions may be executed both during restoration and in normal running.
+Restoration control functions provide information about the status of standby nodes. These functions can be executed during restoration or when the database is running properly.
 
 pg_is_in_recovery()
 -------------------
@@ -27,7 +27,7 @@ Example:
 pg_last_xlog_receive_location()
 -------------------------------
 
-Description: Gets the last transaction log location received and synchronized to disk by streaming replication. While streaming replication is in progress, this will increase monotonically. If restoration has completed, then this value will remain static at the value of the last WAL record received and synchronized to disk during restoration. If streaming replication is disabled or if not yet started, the function return will return **NULL**.
+Description: This function gets the last transaction log location received and synchronized to disk by streaming replication. While streaming replication is in progress, this will increase monotonically. If restoration has completed, then this value will remain static at the value of the last WAL record received and synchronized to disk during restoration. If streaming replication is disabled or if not yet started, the function return will return **NULL**.
 
 Return type: text
 
@@ -44,7 +44,7 @@ Example:
 pg_last_xlog_replay_location()
 ------------------------------
 
-Description: Gets last transaction log location replayed during restoration. If restoration is still in progress, this will increase monotonically. If restoration has completed, then this value will remain static at the value of the last WAL record received during that restoration. When the server has been started normally without restoration, the function returns **NULL**.
+Description: Gets last transaction log location replayed during restoration. When the recovery is still in progress, the transaction log keeps increasing. If restoration has completed, then this value will remain static at the value of the last WAL record received during that restoration. When the server has been started normally without restoration, the function returns **NULL**.
 
 Return type: text
 
@@ -193,6 +193,13 @@ Return type: text
 pg_resume_bkp_flag(backupid name)
 ---------------------------------
 
-Description: Resumes the delay xlog flag from a specified backup and returns **start_backup_flag boolean**, **to_delay boolean**, **ddl_delay_recycle_ptr text**, and **rewind_time text**.
+Description: This function resumes the **delay xlog** flag from a specified backup and returns **start_backup_flag boolean**, **to_delay boolean**, **ddl_delay_recycle_ptr text**, and **rewind_time text**.
 
 Return type: record
+
+pg_update_reloptions_in_newcluster
+----------------------------------
+
+Description: This function writes the storage path in the file specified by the **obs-store-path-list** parameter to the **reloptions** field in the **pg_class** table during full restoration of V3 tables to a new cluster. This function is supported only by clusters of version 9.1.0 or later.
+
+Return type: bool

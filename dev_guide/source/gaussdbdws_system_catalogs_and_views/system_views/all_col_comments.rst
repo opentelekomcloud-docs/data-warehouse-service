@@ -9,11 +9,11 @@ ALL_COL_COMMENTS
 
 .. table:: **Table 1** ALL_COL_COMMENTS columns
 
-   =========== ===================== =====================
-   Name        Type                  Description
-   =========== ===================== =====================
+   =========== ===================== ==========================
+   Column      Type                  Description
+   =========== ===================== ==========================
    column_name character varying(64) Column name
-   table_name  character varying(64) Table/View name
-   owner       character varying(64) Owner of a table/view
-   comments    text                  Comments
-   =========== ===================== =====================
+   table_name  character varying(64) Table or view name
+   owner       character varying(64) Owner of the table or view
+   comments    Text                  Comments
+   =========== ===================== ==========================

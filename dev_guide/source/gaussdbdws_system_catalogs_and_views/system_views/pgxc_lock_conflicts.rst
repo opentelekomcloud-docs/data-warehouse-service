@@ -14,40 +14,40 @@ Currently, **PGXC_LOCK_CONFLICTS** collects only information about locks whose *
 .. table:: **Table 1** PGXC_LOCK_CONFLICTS columns
 
    +-----------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | Name                  | Type                     | Description                                                                                                             |
+   | Column                | Type                     | Description                                                                                                             |
    +=======================+==========================+=========================================================================================================================+
-   | locktype              | text                     | Type of the locked object                                                                                               |
+   | locktype              | Text                     | Type of the locked object                                                                                               |
    +-----------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | nodename              | name                     | Name of the node where the locked object resides                                                                        |
+   | nodename              | Name                     | Name of the node where the locked object resides                                                                        |
    +-----------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | dbname                | name                     | Name of the database where the locked object resides. The value is **NULL** if the locked object is a transaction.      |
+   | dbname                | Name                     | Name of the database where the locked object resides. The value is **NULL** if the locked object is a transaction.      |
    +-----------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | nspname               | name                     | Name of the namespace of the locked object                                                                              |
+   | nspname               | Name                     | Name of the namespace of the locked object                                                                              |
    +-----------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | relname               | name                     | Name of the relation targeted by the lock. The value is **NULL** if the object is not a relation or part of a relation. |
+   | relname               | Name                     | Name of the relation targeted by the lock. The value is **NULL** if the object is not a relation or part of a relation. |
    +-----------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | partname              | name                     | Name of the partition targeted by the lock. The value is **NULL** if the locked object is not a partition.              |
+   | partname              | Name                     | Name of the partition targeted by the lock. The value is **NULL** if the locked object is not a partition.              |
    +-----------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | page                  | integer                  | Number of the page targeted by the lock. The value is **NULL** if the locked object is neither a page nor a tuple.      |
+   | page                  | Integer                  | Number of the page targeted by the lock. The value is **NULL** if the locked object is neither a page nor a tuple.      |
    +-----------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | tuple                 | smallint                 | Number of the tuple targeted by the lock. The value is **NULL** if the locked object is not a tuple.                    |
+   | tuple                 | Smallint                 | Number of the tuple targeted by the lock. The value is **NULL** if the locked object is not a tuple.                    |
    +-----------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | transactionid         | xid                      | ID of the transaction targeted by the lock. The value is **NULL** if the locked object is not a transaction.            |
+   | transactionid         | Xid                      | ID of the transaction targeted by the lock. The value is **NULL** if the locked object is not a transaction.            |
    +-----------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | username              | name                     | Name of the user who applies for the lock                                                                               |
+   | username              | Name                     | Name of the user who applies for the lock                                                                               |
    +-----------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | gxid                  | xid                      | ID of the transaction that applies for the lock                                                                         |
+   | gxid                  | Xid                      | ID of the transaction that applies for the lock                                                                         |
    +-----------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | xactstart             | timestamp with time zone | Start time of the transaction that applies for the lock                                                                 |
+   | xactstart             | Timestamp with time zone | Start time of the transaction that applies for the lock                                                                 |
    +-----------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | queryid               | bigint                   | Latest query ID of the thread that applies for the lock                                                                 |
+   | queryid               | Bigint                   | Latest query ID of the thread that applies for the lock                                                                 |
    +-----------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | query                 | text                     | Latest query statement of the thread that applies for the lock                                                          |
+   | query                 | Text                     | Latest query statement of the thread that applies for the lock                                                          |
    +-----------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | pid                   | bigint                   | ID of the thread that applies for the lock                                                                              |
+   | pid                   | Bigint                   | ID of the thread that applies for the lock                                                                              |
    +-----------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | mode                  | text                     | Lock mode                                                                                                               |
+   | mode                  | Text                     | Lock mode                                                                                                               |
    +-----------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------+
-   | granted               | boolean                  | -  **TRUE** if the lock has been held                                                                                   |
+   | granted               | Boolean                  | -  **TRUE** if the lock has been held                                                                                   |
    |                       |                          | -  **FALSE** if the lock is still waiting for another lock                                                              |
    +-----------------------+--------------------------+-------------------------------------------------------------------------------------------------------------------------+

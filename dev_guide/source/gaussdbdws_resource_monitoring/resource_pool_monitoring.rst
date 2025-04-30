@@ -24,11 +24,11 @@ Resources monitored by a resource pool include the running and queuing informati
 .. note::
 
    -  Resource pool monitoring monitors the CPU, I/O, and memory usage of all jobs on the fast and slow lanes.
-   -  Currently, fast lane jobs have no memory or CPU limits. They may use too many resources and go over the resource limit.
+   -  Currently, the memory and CPU usage of fast track jobs are not controlled. When the fast lane jobs occupy a large number of resources, the used resources may exceed the resource limit.
    -  In the monitoring view of DN resource pools, I/O, memory, and CPU display the resource usage and limits of resource pools.
    -  In the monitoring view of CN resource pools, I/O, memory, and CPU display the total resource usage and limit of all DN resource pools in the cluster.
    -  Resource pool monitoring information on DNs is updated every 5 seconds. CNs collect resource pool monitoring information from DNs every 5 seconds. Because each instance updates or collects resource pool monitoring information independently, the monitoring information update time on each instance may be different.
-   -  The auxiliary thread automatically invokes the persistence function every 30 seconds to make the resource pool monitoring data persistent. So, normally, you don't need to do this.
+   -  The auxiliary thread automatically invokes the persistence function every 30 seconds to persist the resource pool monitoring data. In normal cases, you do not need to do this.
 
 Procedure
 ---------

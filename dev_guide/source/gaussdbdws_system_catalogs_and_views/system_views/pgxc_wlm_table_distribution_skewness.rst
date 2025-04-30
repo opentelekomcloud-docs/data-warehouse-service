@@ -14,25 +14,25 @@ The formula for calculating the skew rate is as follows: Skew rate (SKEW_PERCENT
    +--------------+-----------------+------------------------------------------------------------------------------------------------+
    | Column       | Type            | Description                                                                                    |
    +==============+=================+================================================================================================+
-   | schema_name  | name            | Name of the schema where a table is                                                            |
+   | schema_name  | Name            | Name of the schema where a table is                                                            |
    +--------------+-----------------+------------------------------------------------------------------------------------------------+
-   | table_name   | name            | Table name                                                                                     |
+   | table_name   | Name            | Table name                                                                                     |
    +--------------+-----------------+------------------------------------------------------------------------------------------------+
-   | total_size   | numeric         | Total storage space of a table on all nodes, in bytes                                          |
+   | total_size   | Numeric         | Total storage space of a table on all nodes, in bytes                                          |
    +--------------+-----------------+------------------------------------------------------------------------------------------------+
    | avg_size     | numeric(1000,0) | Average storage space of a table on each node, in bytes                                        |
    +--------------+-----------------+------------------------------------------------------------------------------------------------+
-   | max_percent  | numeric         | Percentage (%) of the maximum storage space of a table on each node to the total storage space |
+   | max_percent  | Numeric         | Percentage (%) of the maximum storage space of a table on each node to the total storage space |
    +--------------+-----------------+------------------------------------------------------------------------------------------------+
-   | min_percent  | numeric         | Percentage (%) of the minimum storage space of a table on each node to the total storage space |
+   | min_percent  | Numeric         | Percentage (%) of the minimum storage space of a table on each node to the total storage space |
    +--------------+-----------------+------------------------------------------------------------------------------------------------+
-   | skew_percent | numeric         | Skew rate (%) of a table                                                                       |
+   | skew_percent | Numeric         | Skew rate (%) of a table                                                                       |
    +--------------+-----------------+------------------------------------------------------------------------------------------------+
 
 .. note::
 
    -  To use this view to query the storage distribution information of a specified table, you must have the **SELECT** permission on the table.
-   -  This function is based on the physical file storage space recorded in the :ref:`PG_RELFILENODE_SIZE <dws_04_1611>` system catalog. Ensure that the GUC parameters **use_workload_manager** and **enable_perm_space** are enabled.
+   -  This function is based on the physical file storage space recorded in the :ref:`PG_RELFILENODE_SIZE <dws_04_1408>` system catalog. Ensure that the GUC parameters **use_workload_manager** and **enable_perm_space** are enabled.
    -  When you analyze the disk space skew of each table in a database in a large cluster with a large amount of data, the **PGXC_WLM_TABLE_DISTRIBUTION_SKEWNESS** view delivers better query performance than the **gs_table_distribution()** function and the **PGXC_GET_TABLE_SKEWNESS** view. You are advised to use the **PGXC_WLM_TABLE_DISTRIBUTION_SKEWNESS** view to query the table skew status overview, and then use the **gs_table_distribution(schemaname text, tablename text)** function to obtain the disk space distribution of a specified table on each node.
 
 Example
@@ -64,5 +64,5 @@ You can use the **PGXC_WLM_TABLE_DISTRIBUTION_SKEWNESS** view to query the table
 
    According to the preceding information, data skew occurs in the disk space occupied by the table on DNs. Most data is stored on **dn_6005_6006**.
 
-.. |image1| image:: /_static/images/en-us_image_0000001481220582.png
-.. |image2| image:: /_static/images/en-us_image_0000001532145549.png
+.. |image1| image:: /_static/images/en-us_image_0000001764651192.png
+.. |image2| image:: /_static/images/en-us_image_0000001811610589.png

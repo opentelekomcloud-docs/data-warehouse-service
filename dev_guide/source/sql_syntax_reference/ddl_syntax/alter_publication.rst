@@ -8,12 +8,12 @@ ALTER PUBLICATION
 Function
 --------
 
-Modifies the publication attributes.
+**ALTER PUBLICATION** modifies the publication attributes.
 
 Precautions
 -----------
 
--  This statement is supported by clusters of version 8.2.0.100 or later.
+-  This statement is supported by version 8.2.0.100 or later clusters.
 -  This statement can be used by the owner of a publication and the system administrator only.
 -  To alter the publication owner, you must also be a direct or indirect member of the new owning role, and that role must have CREATE privilege on the database.
 -  In a publication with **FOR ALL TABLES**, the new publication owner must be the system administrator.
@@ -88,7 +88,7 @@ Parameter Description
 
 -  **SET ( publication_parameter [= value] [, ... ] )**
 
-   Modifies the publication parameters initially set by **CREATE PUBLICATION**. For details about the parameters, see :ref:`Parameter description <en-us_topic_0000001460561352__li11304141792615>` of CREATE PUBLICATION.
+   Modifies the publication parameters initially set by **CREATE PUBLICATION**. For details about the parameters, see :ref:`Parameter description <en-us_topic_0000001811634585__li11304141792615>` of CREATE PUBLICATION.
 
 -  **new_owner**
 

@@ -26,7 +26,7 @@ audit_space_limit
 
 **Type**: SIGHUP
 
-**Value range**: an integer ranging from **1024 KB** to **1024 GB**. The unit is KB.
+**Value range**: an integer ranging from **1024** to **1073741824**. The unit is KB.
 
 **Default value**: **1GB**
 
@@ -46,7 +46,7 @@ audit_object_name_format
 
 .. note::
 
-   If the default value is set to **all**, multiple object names will be displayed for SELECT, DELETE, UPDATE, INSERT, MERGE, CREATE TABLE AS and CREATE VIEW AS.
+   If the default value is set to **all**, multiple object names are displayed for SELECT, DELETE, UPDATE, INSERT, MERGE, CREATE TABLE AS, CREATE VIEW AS, DROP USER... CASCADE, DROP OWNED BY... CASCADE, DROP SCHEMA... CASSCADE, DROP TABLE... CASCADE, DROP FOREIGN TABLE... CASCADE, and DROP VIEW... CASCADE.
 
 audit_object_details
 --------------------

@@ -27,7 +27,7 @@ Syntax
 Parameter Description
 ---------------------
 
-See :ref:`Parameter Description <en-us_topic_0000001510520953__s56aa378dd3884fe5b99b87329c9e93c2>` in **DROP ROLE**.
+See :ref:`Parameter Description <en-us_topic_0000001811634797__s56aa378dd3884fe5b99b87329c9e93c2>` in **DROP ROLE**.
 
 Helpful Links
 -------------

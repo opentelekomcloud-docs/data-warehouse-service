@@ -10,15 +10,15 @@ PG_LIFECYCLE_DATA_DISTRIBUTE
 .. table:: **Table 1** PG_LIFECYCLE_DATA_DISTRIBUTE columns
 
    =================== ==== ===============================================
-   Name                Type Description
+   Column              Type Description
    =================== ==== ===============================================
-   schemaname          name Schema name
-   tablename           name Current table name
-   nodename            name Node name
-   hotpartition        text Hot partition on the DN
-   coldpartition       text Cold partition on the DN
-   switchablepartition text Switchable partition on the DN
-   hotdatasize         text Data size of the hot partition on the DN
-   colddatasize        text Data size of the cold partition on the DN
-   switchabledatasize  text Data size of the switchable partition on the DN
+   schemaname          Name Schema name
+   tablename           Name Current table name
+   nodename            Name Node name
+   hotpartition        Text Hot partition on the DN
+   coldpartition       Text Cold partition on the DN
+   switchablepartition Text Switchable partition on the DN
+   hotdatasize         Text Data size of the hot partition on the DN
+   colddatasize        Text Data size of the cold partition on the DN
+   switchabledatasize  Text Data size of the switchable partition on the DN
    =================== ==== ===============================================

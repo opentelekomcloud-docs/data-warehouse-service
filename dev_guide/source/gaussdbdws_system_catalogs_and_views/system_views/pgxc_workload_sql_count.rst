@@ -9,16 +9,16 @@ PGXC_WORKLOAD_SQL_COUNT
 
 .. table:: **Table 1** **PGXC_WORKLOAD_SQL_COUNT** columns
 
-   ============ ====== ===============================
-   Name         Type   Description
-   ============ ====== ===============================
-   node_name    name   Node name
-   workload     name   Workload Cgroup name
-   select_count bigint Number of **SELECT** statements
-   update_count bigint Number of **UPDATE** statements
-   insert_count bigint Number of **INSERT** statements
-   delete_count bigint Number of **DELETE** statements
-   ddl_count    bigint Number of **DDL** statements
-   dml_count    bigint Number of **DML** statements
-   dcl_count    bigint Number of **DCL** statements
-   ============ ====== ===============================
+   ============ ====== ================================
+   Column       Type   Description
+   ============ ====== ================================
+   node_name    Name   Node name.
+   workload     Name   Workload Cgroup name.
+   select_count Bigint Number of **SELECT** statements.
+   update_count Bigint Number of **UPDATE** statements.
+   insert_count Bigint Number of **INSERT** statements.
+   delete_count Bigint Number of **DELETE** statements.
+   ddl_count    Bigint Number of **DDL** statements.
+   dml_count    Bigint Number of **DML** statements.
+   dcl_count    Bigint Number of **DCL** statements.
+   ============ ====== ================================

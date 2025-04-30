@@ -10,23 +10,23 @@ PG_PUBLICATION
 .. table:: **Table 1** PG_PUBLICATION columns
 
    +--------------+---------+------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+
-   | Name         | Type    | Reference                          | Description                                                                                                                                 |
+   | Column       | Type    | Reference                          | Description                                                                                                                                 |
    +==============+=========+====================================+=============================================================================================================================================+
-   | oid          | oid     | ``-``                              | Row identifier (hidden attribute; displayed only when explicitly selected)                                                                  |
+   | OID          | OID     | ``-``                              | Row identifier (hidden attribute; displayed only when explicitly selected)                                                                  |
    +--------------+---------+------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+
-   | pubname      | name    | ``-``                              | Publication name                                                                                                                            |
+   | pubname      | Name    | ``-``                              | Publication name                                                                                                                            |
    +--------------+---------+------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+
-   | pubowner     | oid     | :ref:`PG_AUTHID <dws_04_0574>`.oid | Publication owner                                                                                                                           |
+   | pubowner     | OID     | :ref:`PG_AUTHID <dws_04_0574>`.oid | Publication owner                                                                                                                           |
    +--------------+---------+------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+
-   | puballtables | boolean | ``-``                              | If its value is **true**, the publication includes all the tables in the database, including any tables that will be created in the future. |
+   | puballtables | Boolean | ``-``                              | If its value is **true**, the publication includes all the tables in the database, including any tables that will be created in the future. |
    +--------------+---------+------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+
-   | pubinsert    | boolean | ``-``                              | If its value is **true**, the INSERT operation is copied for the tables in the publication.                                                 |
+   | pubinsert    | Boolean | ``-``                              | If its value is **true**, the INSERT operation is copied for the tables in the publication.                                                 |
    +--------------+---------+------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+
-   | pubupdate    | boolean | ``-``                              | If its value is **true**, the UPDATE operation is copied for the tables in the publication.                                                 |
+   | pubupdate    | Boolean | ``-``                              | If its value is **true**, the UPDATE operation is copied for the tables in the publication.                                                 |
    +--------------+---------+------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+
-   | pubdelete    | boolean | ``-``                              | If its value is **true**, the DELETE operation is copied for the tables in the publication.                                                 |
+   | pubdelete    | Boolean | ``-``                              | If its value is **true**, the DELETE operation is copied for the tables in the publication.                                                 |
    +--------------+---------+------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+
-   | pubtruncate  | boolean | ``-``                              | If its value is **true**, the TRUNCATE operation is copied for the tables in the publication.                                               |
+   | pubtruncate  | Boolean | ``-``                              | If its value is **true**, the TRUNCATE operation is copied for the tables in the publication.                                               |
    +--------------+---------+------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+
 
 Examples

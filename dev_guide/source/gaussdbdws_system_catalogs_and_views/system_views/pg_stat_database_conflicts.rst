@@ -9,14 +9,14 @@ PG_STAT_DATABASE_CONFLICTS
 
 .. table:: **Table 1** PG_STAT_DATABASE_CONFLICTS columns
 
-   ================ ====== =================================
-   Name             Type   Description
-   ================ ====== =================================
-   datid            oid    Database OID
-   datname          name   Database name
-   confl_tablespace bigint Number of conflicting tablespaces
-   confl_lock       bigint Number of conflicting locks
-   confl_snapshot   bigint Number conflicting snapshots
-   confl_bufferpin  bigint Number of conflicting buffers
-   confl_deadlock   bigint Number of conflicting deadlocks
-   ================ ====== =================================
+   ================ ====== ==================================
+   Column           Type   Description
+   ================ ====== ==================================
+   datid            OID    Database OID.
+   datname          Name   Database name.
+   confl_tablespace Bigint Number of conflicting tablespaces.
+   confl_lock       Bigint Number of conflicting locks.
+   confl_snapshot   Bigint Number of conflicting snapshots.
+   confl_bufferpin  Bigint Number of conflicting buffers.
+   confl_deadlock   Bigint Number of conflicting deadlocks.
+   ================ ====== ==================================

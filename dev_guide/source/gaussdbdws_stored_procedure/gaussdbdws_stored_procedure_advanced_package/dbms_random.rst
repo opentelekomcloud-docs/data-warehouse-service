@@ -8,21 +8,21 @@ DBMS_RANDOM
 Related Interfaces
 ------------------
 
-:ref:`Table 1 <en-us_topic_0000001460563132__t8a5bcdf2282f4e64a850b8ae4a7f7076>` provides all interfaces supported by the **DBMS_RANDOM** package.
+:ref:`Table 1 <en-us_topic_0000001764492020__t8a5bcdf2282f4e64a850b8ae4a7f7076>` provides all interfaces supported by the **DBMS_RANDOM** package.
 
-.. _en-us_topic_0000001460563132__t8a5bcdf2282f4e64a850b8ae4a7f7076:
+.. _en-us_topic_0000001764492020__t8a5bcdf2282f4e64a850b8ae4a7f7076:
 
 .. table:: **Table 1** DBMS_RANDOM interface parameters
 
    +--------------------------------------------------------------------------------------------+-------------------------------------------------------------------------+
    | API                                                                                        | Description                                                             |
    +============================================================================================+=========================================================================+
-   | :ref:`DBMS_RANDOM.SEED <en-us_topic_0000001460563132__l4aad3da7b38a4442af63e28faf51e0ba>`  | Sets a seed for a random number.                                        |
+   | :ref:`DBMS_RANDOM.SEED <en-us_topic_0000001764492020__l4aad3da7b38a4442af63e28faf51e0ba>`  | Sets a seed for a random number.                                        |
    +--------------------------------------------------------------------------------------------+-------------------------------------------------------------------------+
-   | :ref:`DBMS_RANDOM.VALUE <en-us_topic_0000001460563132__l605ebfc282024f8e8c0c32fc70b7bb67>` | Generates a random number between a specified low and a specified high. |
+   | :ref:`DBMS_RANDOM.VALUE <en-us_topic_0000001764492020__l605ebfc282024f8e8c0c32fc70b7bb67>` | Generates a random number between a specified low and a specified high. |
    +--------------------------------------------------------------------------------------------+-------------------------------------------------------------------------+
 
--  .. _en-us_topic_0000001460563132__l4aad3da7b38a4442af63e28faf51e0ba:
+-  .. _en-us_topic_0000001764492020__l4aad3da7b38a4442af63e28faf51e0ba:
 
    DBMS_RANDOM.SEED
 
@@ -40,7 +40,7 @@ Related Interfaces
       seed      Generates a seed for a random number.
       ========= =====================================
 
--  .. _en-us_topic_0000001460563132__l605ebfc282024f8e8c0c32fc70b7bb67:
+-  .. _en-us_topic_0000001764492020__l605ebfc282024f8e8c0c32fc70b7bb67:
 
    DBMS_RANDOM.VALUE
 
@@ -76,7 +76,7 @@ Generate a random number between 0 and 1:
 
    SELECT DBMS_RANDOM.VALUE(0,1);
 
-To get a random integer in a range, use a low and high as the lower and upper bounds. The result will be greater than or equal to low, but less than high. To get an integer ranging from 0 to 99, run the following command:
+Generate a random integer ranging from 0 to 100. The random integer is greater than or equal to the specified value of low and less than the specified value of high.
 
 ::
 

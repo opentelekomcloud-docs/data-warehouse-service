@@ -8,7 +8,7 @@ CREATE TRIGGER
 Function
 --------
 
-Creates a trigger. The trigger will be associated with a specified table or view, and will execute a specified function when certain events occur.
+**CREATE TRIGGER** creates a trigger. The trigger will be associated with a specified table or view, and will execute a specified function when certain events occur.
 
 Precautions
 -----------

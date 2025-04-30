@@ -10,13 +10,13 @@ PG_AUTH_MEMBERS
 .. table:: **Table 1** PG_AUTH_MEMBERS columns
 
    +--------------+---------+-----------------------------------------------------------+
-   | Name         | Type    | Description                                               |
+   | Column       | Type    | Description                                               |
    +==============+=========+===========================================================+
-   | roleid       | oid     | ID of a role that has a member                            |
+   | roleid       | OID     | ID of a role that has a member                            |
    +--------------+---------+-----------------------------------------------------------+
-   | member       | oid     | ID of a role that is a member of ROLEID                   |
+   | member       | OID     | ID of a role that is a member of ROLEID                   |
    +--------------+---------+-----------------------------------------------------------+
-   | grantor      | oid     | ID of a role that grants this membership                  |
+   | grantor      | OID     | ID of a role that grants this membership                  |
    +--------------+---------+-----------------------------------------------------------+
    | admin_option | boolean | Whether a member can grant membership in ROLEID to others |
    +--------------+---------+-----------------------------------------------------------+

@@ -8,7 +8,7 @@ CREATE SEQUENCE
 Function
 --------
 
-Adds a sequence to the current database. The owner of a sequence is the user who creates the sequence.
+**CREATE SEQUENCE** adds a sequence to the current database. The owner of a sequence is the user who creates the sequence.
 
 Precautions
 -----------
@@ -23,13 +23,19 @@ Syntax
 
 ::
 
-   CREATE SEQUENCE name [ INCREMENT [ BY ] increment ]
+   CREATE SEQUENCE [ IF NOT EXISTS ] name [ INCREMENT [ BY ] increment ]
        [ MINVALUE minvalue | NO MINVALUE | NOMINVALUE ] [ MAXVALUE maxvalue | NO MAXVALUE | NOMAXVALUE]
        [ START [ WITH ] start ] [ CACHE cache ] [ [ NO ] CYCLE | NOCYCLE ]
        [ OWNED BY { table_name.column_name | NONE } ];
 
 Parameter Description
 ---------------------
+
+-  **IF NOT EXISTS**
+
+   If **IF NOT EXISTS** is specified and a sequence with the same name does not exist, the sequence can be created successfully. If a sequence with the same name already exists during sequence creation, the system will display a message indicating that the sequence already exists and no further operations will be performed. No error will be reported.
+
+   This parameter is supported only by 9.1.0 and later versions.
 
 -  **name**
 
@@ -65,7 +71,10 @@ Parameter Description
 
    Specifies the number sequences stored in the memory for quick access purposes. Within a cache period, the CN does not request a sequence number from the GTM. Instead, the CN uses the sequence number that is locally applied for in advance.
 
-   Default value **1** indicates that one value can be generated each time.
+   In cluster versions 9.1.0.100 and later, the default value is specified by the GUC parameter **default_sequence_cache**.
+
+   -  In a newly installed cluster of 9.1.0.100 or later, the default value is **20**.
+   -  If the cluster is upgraded to version 9.1.0.100 or later from an earlier version, the default value will be **1**. This means that only one value can be generated at a time, and no cache will be available.
 
    .. note::
 

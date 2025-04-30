@@ -5,43 +5,30 @@
 Configuring a Data Source in the Linux OS
 =========================================
 
-The ODBC DRIVER (psqlodbcw.so) provided by GaussDB(DWS) can be used after it has been configured in the data source. To configure data sources, users must configure the **odbc.ini** and **odbcinst.ini** files on the server. The two files are generated during the unixODBC compilation and installation, and are saved in the **/usr/local/etc** directory by default.
+The ODBC DRIVER (psqlodbcw.so) provided by GaussDB(DWS) can be used after it has been configured in the data source. To set up a data source, configure the **odbc.ini** and **odbcinst.ini** files on the server. The two files are generated during the unixODBC compilation and installation, and are saved in the **etc** directory by default.
 
 Procedure
 ---------
 
-#. Obtain the source code package of unixODBC at: Currently, unixODBC-2.2.1 is not supported. unixODBC-2.3.0 is used as an example.
+#. Obtain the source code package of unixODBC at:
 
    https://sourceforge.net/projects/unixodbc/files/unixODBC/2.3.0/unixODBC-2.3.0.tar.gz/download
 
-#. Prepare **unixODBC**.
+#. Currently, unixODBC-2.2.1 is not supported. Assume you are to install unixODBC-2.3.0. Run the following commands. When installing, you can use **--prefix=[your_path]** to specify the installation directory. The data source file will be created in **[your_path]/etc**, and the library file will be generated in **[your_path]/lib**.
 
-   a. Decompress the **unixODBC** code file.
+   .. code-block::
 
-      .. code-block::
+      tar zxvf unixODBC-2.3.0.tar.gz
+      cd unixODBC-2.3.0
+      # Open the configure file. If it does not exist, open the configure.ac file. Find LIB_VERSION.
+      # Change the value of LIB_VERSION to 1:0:0 to compile a *.so.1 dynamic library with the same dependency on psqlodbcw.so.
+      vim configure
 
-         tar -xvf unixODBC-2.3.0.tar.gz
+      ./configure --enable-gui=no --prefix=[your_path] # To perform the compilation on a TaiShan server, add the configure parameter --build=aarch64-unknown-linux-gnu.
+      make
+      make install
 
-   b. Compile the code file and install the driver.
-
-      ::
-
-         cd unixODBC-2.3.0
-         ./configure --enable-gui=no
-         make
-         make install
-
-      .. note::
-
-         -  After the unixODBC is compiled and installed, the **\*.so.2** library file will be in the installation directory. To create the **\*.so.1** library file, change **LIB_VERSION** in the configure file to **1:0:0**.
-
-            ::
-
-               LIB_VERSION="1:0:0"
-
-         -  This driver dynamically loads the **libodbcinst.so.**\ \* library files. If one of the library files is successfully loaded, the library file is loaded. The loading priority is **libodbcinst.so** > **libodbcinst.so.1** > **libodbcinst.so.1.0.0** > **libodbcinst.so.2** > **libodbcinst.so.2.0.0**.
-
-            For example, a directory can be dynamically linked to **libodbcinst.so.1**, **libodbcinst.so.1.0.0**, and **libodbcinst.so.2**. The driver file loads **libodbcinst.so** first. If **libodbcinst.so** cannot be found in the current environment, the driver file searches for **libodbcinst.so.1**, which has a lower priority. After **libodbcinst.so.1** is loaded, the loading is complete.
+   Install unixODBC. If another version of unixODBC has been installed, it will be overwritten after installation.
 
 #. Replace the GaussDB(DWS) client driver.
 
@@ -51,33 +38,33 @@ Procedure
 
    a. Configure the ODBC driver file.
 
-      Add the following content to the end of the **/usr/local/etc/odbcinst.ini** file:
+      Add the following content to the **[your_path]/etc/odbcinst.ini** file:
 
       .. code-block::
 
          [GaussMPP]
-         Driver64=/usr/local/lib/psqlodbcw.so
-         setup=/usr/local/lib/psqlodbcw.so
+         Driver64=[your_path]/lib/odbc/psqlodbcw.so
+         setup=[your_path]/lib/odbc/psqlodbcw.so
 
-      For descriptions of the parameters in the **odbcinst.ini** file, see :ref:`Table 1 <en-us_topic_0000001510283297__taf2925d5217b456dab21acdd246a6218>`.
+      For descriptions of the parameters in the **odbcinst.ini** file, see :ref:`Table 1 <en-us_topic_0000001811490697__taf2925d5217b456dab21acdd246a6218>`.
 
-      .. _en-us_topic_0000001510283297__taf2925d5217b456dab21acdd246a6218:
+      .. _en-us_topic_0000001811490697__taf2925d5217b456dab21acdd246a6218:
 
       .. table:: **Table 1** odbcinst.ini configuration parameters
 
-         +--------------+--------------------------------------------------------------------------------------+-------------------------------------+
-         | Parameter    | Description                                                                          | Example                             |
-         +==============+======================================================================================+=====================================+
-         | [DriverName] | Driver name, corresponding to Driver in DSN.                                         | [DRIVER_N]                          |
-         +--------------+--------------------------------------------------------------------------------------+-------------------------------------+
-         | Driver64     | Path of the dynamic driver library                                                   | Driver64=/xxx/odbc/lib/psqlodbcw.so |
-         +--------------+--------------------------------------------------------------------------------------+-------------------------------------+
-         | setup        | Driver installation path, which is the same as the dynamic library path in Driver64. | setup=/xxx/odbc/lib/psqlodbcw.so    |
-         +--------------+--------------------------------------------------------------------------------------+-------------------------------------+
+         +--------------+--------------------------------------------------------------------------------------+------------------------------------------+
+         | Parameter    | Description                                                                          | Examples                                 |
+         +==============+======================================================================================+==========================================+
+         | [DriverName] | Driver name, corresponding to Driver in DSN.                                         | [DRIVER_N]                               |
+         +--------------+--------------------------------------------------------------------------------------+------------------------------------------+
+         | Driver64     | Path of the dynamic driver library                                                   | Driver64=/xxx/odbc/lib/odbc/psqlodbcw.so |
+         +--------------+--------------------------------------------------------------------------------------+------------------------------------------+
+         | setup        | Driver installation path, which is the same as the dynamic library path in Driver64. | setup=/xxx/odbc/lib/odbc/psqlodbcw.so    |
+         +--------------+--------------------------------------------------------------------------------------+------------------------------------------+
 
    b. Configure the data source file.
 
-      Add the following content to the end of the **/usr/local/etc/odbc.ini** file:
+      Add the following content to the **[your_path]/etc/odbc.ini** file:
 
       .. code-block::
 
@@ -90,14 +77,14 @@ Procedure
          Port=8000 (database listening port)
          Sslmode=allow
 
-      For descriptions of the parameters in the **odbc.ini** file, see :ref:`Table 2 <en-us_topic_0000001510283297__t9b0fd675e5df4f31873fd95186e7fe93>`.
+      For descriptions of the parameters in the **odbc.ini** file, see :ref:`Table 2 <en-us_topic_0000001811490697__t9b0fd675e5df4f31873fd95186e7fe93>`.
 
-      .. _en-us_topic_0000001510283297__t9b0fd675e5df4f31873fd95186e7fe93:
+      .. _en-us_topic_0000001811490697__t9b0fd675e5df4f31873fd95186e7fe93:
 
       .. table:: **Table 2** odbc.ini configuration parameters
 
          +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-         | Parameter             | Description                                                                                                                                                                                                                                                                                                                                  | Example                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+         | Parameter             | Description                                                                                                                                                                                                                                                                                                                                  | Examples                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
          +=======================+==============================================================================================================================================================================================================================================================================================================================================+=================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================+
          | [DSN]                 | Data source name                                                                                                                                                                                                                                                                                                                             | [MPPODBC]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
          +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -121,7 +108,7 @@ Procedure
          +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
          | Port                  | Port ID of the server                                                                                                                                                                                                                                                                                                                        | Port=8000                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
          +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-         | Sslmode               | Whether to enable the SSL mode                                                                                                                                                                                                                                                                                                               | Sslmode=allow                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+         | Sslmode               | Whether to enable the SSL                                                                                                                                                                                                                                                                                                                    | Sslmode=allow                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
          +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
          | UseServerSidePrepare  | Whether to enable the extended query protocol for the database.                                                                                                                                                                                                                                                                              | UseServerSidePrepare=1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
          |                       |                                                                                                                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
@@ -133,11 +120,11 @@ Procedure
          |                       |                                                                                                                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
          |                       | If this parameter is set to **1** and the **support_batch_bind** parameter is set to **on**, the batch query protocol is enabled.                                                                                                                                                                                                            |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
          +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-         | ConnectionExtraInfo   | Whether to display the driver deployment path and process owner in the **connection_info** parameter mentioned in :ref:`connection_info <en-us_topic_0000001460722472__section4834457114318>`                                                                                                                                                | ConnectionExtraInfo=1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+         | ConnectionExtraInfo   | Whether to display the driver deployment path and process owner in the **connection_info** parameter mentioned in :ref:`connection_info <en-us_topic_0000001764491936__section4834457114318>`                                                                                                                                                | ConnectionExtraInfo=1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
          |                       |                                                                                                                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
          |                       |                                                                                                                                                                                                                                                                                                                                              | .. note::                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
          |                       |                                                                                                                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-         |                       |                                                                                                                                                                                                                                                                                                                                              |    The default value is **1**. If this parameter is set to **0**, the ODBC driver reports the name and version of the current driver to the database. If this parameter is set to **1**, the ODBC driver reports the name, deployment path, and process owner of the current driver to the database and records them in the **connection_info** parameter (see :ref:`connection_info <en-us_topic_0000001460722472__section4834457114318>`). You can query this parameter in :ref:`PG_STAT_ACTIVITY <dws_04_0755>` and :ref:`PGXC_STAT_ACTIVITY <dws_04_0820>`. |
+         |                       |                                                                                                                                                                                                                                                                                                                                              |    The default value is **1**. If this parameter is set to **0**, the ODBC driver reports the name and version of the current driver to the database. If this parameter is set to **1**, the ODBC driver reports the name, deployment path, and process owner of the current driver to the database and records them in the **connection_info** parameter (see :ref:`connection_info <en-us_topic_0000001764491936__section4834457114318>`). You can query this parameter in :ref:`PG_STAT_ACTIVITY <dws_04_0755>` and :ref:`PGXC_STAT_ACTIVITY <dws_04_0820>`. |
          +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
          | ForExtensionConnector | ETL tool performance optimization parameter. It can be used to optimize the memory and reduce the memory usage by the peer CN, to avoid system instability caused by excessive CN memory usage.                                                                                                                                              | ForExtensionConnector=1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
          |                       |                                                                                                                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
@@ -158,7 +145,7 @@ Procedure
 
       The valid values of **sslmode** are as follows.
 
-      .. _en-us_topic_0000001510283297__t94b5d25de9a74a5f94c8a8a03af55265:
+      .. _en-us_topic_0000001811490697__t94b5d25de9a74a5f94c8a8a03af55265:
 
       .. table:: **Table 3** sslmode options
 
@@ -203,9 +190,13 @@ Procedure
 
    .. code-block::
 
-      export LD_LIBRARY_PATH=/usr/local/lib/:$LD_LIBRARY_PATH
-      export ODBCSYSINI=/usr/local/etc
-      export ODBCINI=/usr/local/etc/odbc.ini
+      export LD_LIBRARY_PATH=[your_path]/lib/:$LD_LIBRARY_PATH
+      export ODBCSYSINI=[your_path]/etc
+      export ODBCINI=[your_path]/etc/odbc.ini
+
+   .. note::
+
+      It is not recommended to add **LD_LIBRARY_PATH** in the Kylin OS, as it may cause conflicts with the **libssl.so** dynamic library. In the latest version of cluster 9.1.0, the rpath mechanism has been added, so the dependency can be located without **LD_LIBRARY_PATH**.
 
 #. Run the following commands to validate the settings:
 
@@ -247,7 +238,7 @@ Troubleshooting
 
    -  The dependent library of **psqlodbcw.so** does not exist or is not in system environment variables.
 
-      Run **ldd** to check the path in the error information. If **libodbc.so.1** or other UnixODBC libraries are lacking, configure UnixODBC again following the procedure provided in this section, and add the **lib** directory under its installation directory to **LD_LIBRARY_PATH**. If other libraries are lacking, add the **lib** directory under the ODBC driver package to **LD_LIBRARY_PATH**.
+      Run **ldd** to check the path in the error information. If **libodbc.so.1** or other UnixODBC libraries are lacking, configure UnixODBC again following the procedure provided in this section, and add the **lib** directory under its installation directory to **LD_LIBRARY_PATH**. If other libraries are lacking, add the **lib** directory under the ODBC driver package to **LD_LIBRARY_PATH**. Alternatively, you can place the dependency library of **psqlodbcw.so** in the path corresponding to rpath of **psqlodbcw.so**. To view rpath, you can use the **readelf -d** command.
 
 -  [UnixODBC]connect to server failed: no such file or directory
 
@@ -275,7 +266,7 @@ Troubleshooting
 
    Solution:
 
-   Set it to **allow** or a higher level. For more details, see :ref:`Table 3 <en-us_topic_0000001510283297__t94b5d25de9a74a5f94c8a8a03af55265>`.
+   Set it to **allow** or a higher level. For more details, see :ref:`Table 3 <en-us_topic_0000001811490697__t94b5d25de9a74a5f94c8a8a03af55265>`.
 
 -  Server common name "xxxx" does not match host name "xxxxx"
 

@@ -8,7 +8,7 @@ CREATE USER
 Function
 --------
 
-Creates a user.
+**CREATE USER** creates a user.
 
 Important Notes
 ---------------
@@ -16,7 +16,19 @@ Important Notes
 -  A user created using the **CREATE USER** statement has the **LOGIN** permission by default.
 -  A schema named after the user is automatically created in the database where the statement is executed, but not in other databases. You can run the **CREATE SCHEMA** statement to create such a schema for the user in other databases.
 -  The owner of an object created by a system administrator in a schema with the same name as a common user is the common user, not the system administrator.
--  Users other than system administrators cannot create objects in a schema named after a user, unless the users are granted with the role permissions of that schema. For details, see **After the all Permission Is Granted to the Schema of a User, the Error Message "ERROR: current user does not have privilege to role tom" Persists During Table Creation** in the *Data Warehouse Service (DWS) Troubleshooting*.
+-  Users other than system administrators cannot create objects in a schema named after a user, unless the users are granted with the role permissions of that schema. For details, see **After the all Permission Is Granted to the Schema of a User, the Error Message "ERROR: current user does not have privilege to role tom" Persists During Table Creation** in *Troubleshooting*.
+
+.. caution::
+
+   -  Avoid having all business operations run under a single database user. Instead, plan different database users according to the business modules.
+   -  For better access control of different business modules, it is better to use multiple users and permissions instead of depending on the system administrator user to run business operations.
+   -  For more information about development and design specifications, see "GaussDB(DWS) Development and Design Proposal" in the *Data Warehouse Service (DWS) Developer Guide*.
+
+.. caution::
+
+   -  Avoid having all business operations run under a single database user. Instead, plan different database users according to the business modules.
+   -  For better access control of different business modules, it is better to use multiple users and permissions instead of depending on the system administrator user to run business operations.
+   -  For more information about development and design specifications, see "GaussDB(DWS) Development and Design Proposal" in the *Data Warehouse Service (DWS) Developer Guide*.
 
 Syntax
 ------
@@ -88,7 +100,7 @@ Parameters
 
 -  **ENCRYPTED \| UNENCRYPTED**
 
-   Determines whether the password stored in the system will be encrypted. (If neither is specified, the password status is determined by **password_encryption_type**.) According to product security requirements, the password must be stored encrypted. Therefore, **UNENCRYPTED** is forbidden in GaussDB(DWS). If the password is SHA256-encrypted, it will be stored as-is, regardless of whether **ENCRYPTED** or **UNENCRYPTED** is specified (since the system cannot decrypt the specified encrypted password). This allows reloading of the encrypted password during dump/restore.
+   Determines whether the password stored in the system will be encrypted. (If neither is specified, the password status is determined by **password_encryption_type**.) According to product security requirements, the password must be stored encrypted. Therefore, **UNENCRYPTED** is forbidden in GaussDB(DWS). If the password is encrypted using SHA256, it will be stored as it is, regardless of whether it is specified as **ENCRYPTED** or **UNENCRYPTED**. This is because the system cannot decrypt the specified encrypted password. This allows reloading of the encrypted password during dump/restore.
 
 -  **SYSADMIN \| NOSYSADMIN**
 
@@ -132,7 +144,7 @@ Parameters
 
    Only users with the **LOGIN** attribute can log in to the database.
 
-   Value range: If not specified, **NOLOGIN** is the default.
+   Value range: If not specified, **LOGIN** is the default.
 
 -  **REPLICATION \| NOREPLICATION**
 
@@ -166,7 +178,7 @@ Parameters
 
    .. important::
 
-      To ensure the proper running of a cluster, the minimum value of **CONNECTION LIMIT** is the number of CNs in the cluster, because when a cluster runs ANALYZE on a CN, other CNs will connect with the running CN for metadata synchronization. For example, if there are three CNs in the cluster, set **CONNECTION LIMIT** to **3** or a larger value.
+      To ensure the proper running of a cluster, the minimum value of **CONNECTION LIMIT** is the number of CNs in the cluster, because when a cluster runs **ANALYZE** on a CN, other CNs will connect to the running CN for metadata synchronization. For example, if there are three CNs in the cluster, set **CONNECTION LIMIT** to **3** or a larger value.
 
 -  **VALID BEGIN**
 

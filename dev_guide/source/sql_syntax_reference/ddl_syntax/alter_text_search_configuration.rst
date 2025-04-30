@@ -8,7 +8,7 @@ ALTER TEXT SEARCH CONFIGURATION
 Function
 --------
 
-Modifies the definition of a text search configuration. You can modify its mappings from token types to dictionaries, change the configuration's name or owner, or modify the parameters.
+**ALTER TEXT SEARCH CONFIGURATION** modifies the definition of a text search configuration. You can modify its mappings from token types to dictionaries, change the configuration's name or owner, or modify the parameters.
 
 Important Notes
 ---------------

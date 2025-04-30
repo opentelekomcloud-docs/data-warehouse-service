@@ -14,13 +14,13 @@ ALL_DEPENDENCIES
 .. table:: **Table 1** ALL_DEPENDENCIES columns
 
    +----------------------+------------------------+-------------------------------------------+
-   | Name                 | Type                   | Description                               |
+   | Column               | Type                   | Description                               |
    +======================+========================+===========================================+
    | owner                | character varying(30)  | Owner of the object                       |
    +----------------------+------------------------+-------------------------------------------+
-   | name                 | character varying(30)  | Object name                               |
+   | Name                 | character varying(30)  | Object name                               |
    +----------------------+------------------------+-------------------------------------------+
-   | type                 | character varying(17)  | Type of the object                        |
+   | type                 | character varying(17)  | Object type                               |
    +----------------------+------------------------+-------------------------------------------+
    | referenced_owner     | character varying(30)  | Owner of the referenced object            |
    +----------------------+------------------------+-------------------------------------------+
@@ -30,7 +30,7 @@ ALL_DEPENDENCIES
    +----------------------+------------------------+-------------------------------------------+
    | referenced_link_name | character varying(128) | Name of the link to the referenced object |
    +----------------------+------------------------+-------------------------------------------+
-   | schemaid             | numeric                | ID of the current schema                  |
+   | schemaid             | Numeric                | ID of the current schema                  |
    +----------------------+------------------------+-------------------------------------------+
    | dependency_type      | character varying(4)   | Dependency type (REF or HARD)             |
    +----------------------+------------------------+-------------------------------------------+

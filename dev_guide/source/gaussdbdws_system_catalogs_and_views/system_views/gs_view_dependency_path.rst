@@ -12,9 +12,9 @@ GS_VIEW_DEPENDENCY_PATH
    ============ ==== ====================================================
    Column       Type Description
    ============ ==== ====================================================
-   objschema    name View space name
-   objname      name View name
-   refobjschema name Name of the space where the dependent object resides
-   refobjname   name Name of a dependent object
-   path         text Dependency path
+   objschema    Name View space name
+   objname      Name View name
+   refobjschema Name Name of the space where the dependent object resides
+   refobjname   Name Name of a dependent object
+   path         Text Dependency path
    ============ ==== ====================================================

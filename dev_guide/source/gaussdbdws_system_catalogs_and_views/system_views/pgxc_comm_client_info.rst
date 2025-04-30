@@ -10,23 +10,23 @@ PGXC_COMM_CLIENT_INFO
 .. table:: **Table 1** **PGXC_COMM_CLIENT_INFO** columns
 
    +-------------+---------+-------------------------------------------------------------------------------------------------------------------------------------------+
-   | Name        | Type    | Description                                                                                                                               |
+   | Column      | Type    | Description                                                                                                                               |
    +=============+=========+===========================================================================================================================================+
-   | node_name   | text    | Current node name.                                                                                                                        |
+   | node_name   | Text    | Current node name.                                                                                                                        |
    +-------------+---------+-------------------------------------------------------------------------------------------------------------------------------------------+
-   | app         | text    | Client application name                                                                                                                   |
+   | app         | Text    | Client application name.                                                                                                                  |
    +-------------+---------+-------------------------------------------------------------------------------------------------------------------------------------------+
-   | tid         | bigint  | Thread ID of the current thread.                                                                                                          |
+   | tid         | Bigint  | Thread ID of the current thread.                                                                                                          |
    +-------------+---------+-------------------------------------------------------------------------------------------------------------------------------------------+
-   | lwtid       | integer | Lightweight thread ID of the current thread.                                                                                              |
+   | lwtid       | Integer | Lightweight thread ID of the current thread.                                                                                              |
    +-------------+---------+-------------------------------------------------------------------------------------------------------------------------------------------+
-   | query_id    | bigint  | Query ID. It is equivalent to **debug_query_id**.                                                                                         |
+   | query_id    | Bigint  | Query ID. It is equivalent to **debug_query_id**.                                                                                         |
    +-------------+---------+-------------------------------------------------------------------------------------------------------------------------------------------+
-   | socket      | integer | It is displayed if the connection is a physical connection.                                                                               |
+   | socket      | Integer | It is displayed if the connection is a physical connection.                                                                               |
    +-------------+---------+-------------------------------------------------------------------------------------------------------------------------------------------+
-   | remote_ip   | text    | Peer node IP address.                                                                                                                     |
+   | remote_ip   | Text    | Peer node IP address.                                                                                                                     |
    +-------------+---------+-------------------------------------------------------------------------------------------------------------------------------------------+
-   | remote_port | text    | Peer node port.                                                                                                                           |
+   | remote_port | Text    | Peer node port.                                                                                                                           |
    +-------------+---------+-------------------------------------------------------------------------------------------------------------------------------------------+
-   | logic_id    | integer | If the connection is a logical connection, **sid** is displayed. If **-1** is displayed, the current connection is a physical connection. |
+   | logic_id    | Integer | If the connection is a logical connection, **sid** is displayed. If **-1** is displayed, the current connection is a physical connection. |
    +-------------+---------+-------------------------------------------------------------------------------------------------------------------------------------------+

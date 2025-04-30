@@ -10,15 +10,15 @@ GS_OBS_LATENCY
 .. table:: **Table 1** GS_OBS_LATENCY columns
 
    +------------+--------------------------+--------------------------------------------------------------------------------+
-   | Name       | Type                     | Description                                                                    |
+   | Column     | Type                     | Description                                                                    |
    +============+==========================+================================================================================+
-   | nodename   | text                     | Node                                                                           |
+   | nodename   | Text                     | Node                                                                           |
    +------------+--------------------------+--------------------------------------------------------------------------------+
-   | hostname   | text                     | Server node.                                                                   |
+   | hostname   | Text                     | Server node.                                                                   |
    +------------+--------------------------+--------------------------------------------------------------------------------+
-   | latency_ms | double precision         | Average delay of OBS during the 10 minutes before **logtime**. The unit is ms. |
+   | latency_ms | Double precision         | Average delay of OBS during the 10 minutes before **logtime**. The unit is ms. |
    +------------+--------------------------+--------------------------------------------------------------------------------+
-   | reqcount   | bigint                   | Number of OBS requests during the 10 minutes before **logtime**.               |
+   | reqcount   | Bigint                   | Number of OBS requests during the 10 minutes before **logtime**.               |
    +------------+--------------------------+--------------------------------------------------------------------------------+
-   | logtime    | timestamp with time zone | Time when the delay information is recorded.                                   |
+   | logtime    | Timestamp with time zone | Time when the delay information is recorded.                                   |
    +------------+--------------------------+--------------------------------------------------------------------------------+

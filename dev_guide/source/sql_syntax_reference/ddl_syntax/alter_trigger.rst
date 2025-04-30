@@ -8,7 +8,7 @@ ALTER TRIGGER
 Function
 --------
 
-Modifies the definition of a trigger.
+**ALTER TRIGGER** modifies the definition of a trigger.
 
 Precautions
 -----------

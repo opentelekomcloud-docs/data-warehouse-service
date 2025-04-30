@@ -10,13 +10,13 @@ PG_NODE_ENV
 .. table:: **Table 1** PG_NODE_ENV columns
 
    ============= ======= ======================================
-   Name          Type    Description
+   Column        Type    Description
    ============= ======= ======================================
-   node_name     text    Name of the current node
-   host          text    Host name of the current node
-   process       integer Process ID of the current node
-   port          integer Port ID of the current node
-   installpath   text    Installation directory of current node
-   datapath      text    Data directory of the current node
-   log_directory text    Log directory of the current node
+   node_name     Text    Name of the node
+   host          Text    Host name of the node
+   process       Integer Number of the node process
+   port          Integer Port ID of the node
+   installpath   Text    Installation directory of current node
+   datapath      Text    Data directory of the node
+   log_directory Text    Log directory of the node
    ============= ======= ======================================

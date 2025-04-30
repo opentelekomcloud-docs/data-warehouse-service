@@ -5,10 +5,10 @@
 USER_CONS_COLUMNS
 =================
 
-**USER_CONSTRAINTS** displays the information about constraint columns of the tables accessible to the current user.
+**USER_CONS_COLUMNS** displays the information about constraint columns in the tables accessible to the current user.
 
 +-----------------+-----------------------+-------------------------------------+
-| Name            | Type                  | Description                         |
+| Column          | Type                  | Description                         |
 +=================+=======================+=====================================+
 | table_name      | character varying(64) | Name of constraint-related table    |
 +-----------------+-----------------------+-------------------------------------+
@@ -16,5 +16,5 @@ USER_CONS_COLUMNS
 +-----------------+-----------------------+-------------------------------------+
 | constraint_name | character varying(64) | Constraint name                     |
 +-----------------+-----------------------+-------------------------------------+
-| position        | smallint              | Position of the column in the table |
+| position        | Smallint              | Position of the column in the table |
 +-----------------+-----------------------+-------------------------------------+

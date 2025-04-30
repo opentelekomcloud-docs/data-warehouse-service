@@ -10,7 +10,7 @@ Function
 
 **ALTER DEFAULT PRIVILEGES** allows you to set the permissions that will be used for objects to be created. It does not affect permissions assigned to existing objects.
 
-A user can modify only the default permissions of the objects created by the user or the role to which the user belongs. These permissions can be set globally (that is, all objects created in the database) or for objects in a specified schema.
+A user can modify only the default permissions of objects created by the user or the role to which the user belongs. These permissions can be set globally (all objects created in the database) or for objects in a specified schema.
 
 To view information about the default permissions of database users, query the system catalog **PG_DEFAULT_ACL**.
 
@@ -29,18 +29,16 @@ Syntax
        [ IN SCHEMA schema_name [, ...] ]
        abbreviated_grant_or_revoke;
 
--  **abbreviated_grant_or_revoke** grants or revokes permissions on certain objects.
+The **abbreviated_grant_or_revoke** clause is used to specify the objects for which permissions are granted or revoked. The options include:
 
-   ::
-
-      grant_on_tables_clause
-        | grant_on_functions_clause
-        | grant_on_types_clause
-        | grant_on_sequences_clause
-        | revoke_on_tables_clause
-        | revoke_on_functions_clause
-        | revoke_on_types_clause
-        | revoke_on_sequences_clause
+-  grant_on_tables_clause
+-  grant_on_functions_clause
+-  grant_on_types_clause
+-  grant_on_sequences_clause
+-  revoke_on_tables_clause
+-  revoke_on_functions_clause
+-  revoke_on_types_clause
+-  revoke_on_sequences_clause
 
 -  **grant_on_tables_clause** grants permissions on tables.
 
@@ -56,7 +54,7 @@ Syntax
 
    ::
 
-      GRANT { EXECUTE | ALL [ PRIVILEGES ] }
+      GRANT { { EXECUTE | ALTER | DROP } [, ...] | ALL [ PRIVILEGES ] }
           ON FUNCTIONS
           TO { [ GROUP ] role_name | PUBLIC } [, ...]
           [ WITH GRANT OPTION ]
@@ -96,7 +94,7 @@ Syntax
    ::
 
       REVOKE [ GRANT OPTION FOR ]
-          { EXECUTE | ALL [ PRIVILEGES ] }
+          { { EXECUTE | ALTER | DROP } [, ...] | ALL [ PRIVILEGES ] }
           ON FUNCTIONS
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
           [ CASCADE | RESTRICT | CASCADE CONSTRAINTS ]
@@ -133,7 +131,7 @@ Parameter Description
 
    ::
 
-      select a.rolname, n.nspname from pg_authid as a, pg_namespace as n where has_schema_privilege(a.oid, n.oid, 'CREATE');
+      SELECT a.rolname, n.nspname FROM pg_authid as a, pg_namespace as n WHERE has_schema_privilege(a.oid, n.oid, 'CREATE');
 
    Value range: An existing role name.
 
@@ -183,7 +181,7 @@ Examples
 
       ::
 
-         grant usage, create on schema test1 to test2;
+         GRANT usage, create ON SCHEMA test1 TO test2;
 
    -  Grant user **test2** the table query permission of user **test1**.
 
@@ -195,15 +193,15 @@ Examples
 
       ::
 
-         set role test1 password '{password}';
-         create table test3( a int, b int);
+         SET ROLE test1 password '{password}';
+         CREATE TABLE test3( a int, b int);
 
    -  Run the following statement as user **test2**.
 
       ::
 
-         set role test2 password '{password}';
-         select * from test1.test3;
+         SET ROLE test2 password '{password}';
+         SELECT * FROM test1.test3;
           a | b
          ---+---
          (0 rows)

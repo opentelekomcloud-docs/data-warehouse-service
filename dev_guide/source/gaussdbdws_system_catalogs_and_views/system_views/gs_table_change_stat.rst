@@ -10,27 +10,27 @@ GS_TABLE_CHANGE_STAT
 .. table:: **Table 1** GS_TABLE_CHANGE_STAT columns
 
    +-------------------+--------------------------+-------------------------------------------------------------------------------------------+
-   | Name              | Type                     | Description                                                                               |
+   | Column            | Type                     | Description                                                                               |
    +===================+==========================+===========================================================================================+
-   | schemaname        | name                     | Namespace of a table                                                                      |
+   | schemaname        | Name                     | Namespace of a table                                                                      |
    +-------------------+--------------------------+-------------------------------------------------------------------------------------------+
-   | relname           | name                     | Table name                                                                                |
+   | relname           | Name                     | Table name                                                                                |
    +-------------------+--------------------------+-------------------------------------------------------------------------------------------+
-   | last_vacuum       | timestamp with time zone | Time when the last **VACUUM** operation is performed manually                             |
+   | last_vacuum       | Timestamp with time zone | Time when the last **VACUUM** operation is performed manually                             |
    +-------------------+--------------------------+-------------------------------------------------------------------------------------------+
-   | vacuum_count      | bigint                   | Number of times of manually performing the **VACUUM** operation                           |
+   | vacuum_count      | Bigint                   | Number of times of manually performing the **VACUUM** operation                           |
    +-------------------+--------------------------+-------------------------------------------------------------------------------------------+
-   | last_autovacuum   | timestamp with time zone | Time when the last **VACUUM** operation is performed automatically                        |
+   | last_autovacuum   | Timestamp with time zone | Time when the last **VACUUM** operation is performed automatically                        |
    +-------------------+--------------------------+-------------------------------------------------------------------------------------------+
-   | autovacuum_count  | bigint                   | Number of times of automatically performing the **VACUUM** operation                      |
+   | autovacuum_count  | Bigint                   | Number of times of automatically performing the **VACUUM** operation                      |
    +-------------------+--------------------------+-------------------------------------------------------------------------------------------+
-   | last_analyze      | timestamp with time zone | Time when the **ANALYZE** operation is performed (both manually and automatically)        |
+   | last_analyze      | Timestamp with time zone | Time when the **ANALYZE** operation is performed (both manually and automatically)        |
    +-------------------+--------------------------+-------------------------------------------------------------------------------------------+
-   | analyze_count     | bigint                   | Number of times of performing the **ANALYZE** operation (both manually and automatically) |
+   | analyze_count     | Bigint                   | Number of times of performing the **ANALYZE** operation (both manually and automatically) |
    +-------------------+--------------------------+-------------------------------------------------------------------------------------------+
-   | last_autoanalyze  | timestamp with time zone | Time when the last **ANALYZE** operation is performed automatically                       |
+   | last_autoanalyze  | Timestamp with time zone | Time when the last **ANALYZE** operation is performed automatically                       |
    +-------------------+--------------------------+-------------------------------------------------------------------------------------------+
-   | autoanalyze_count | bigint                   | Number of times of automatically performing the **ANALYZE** operation                     |
+   | autoanalyze_count | Bigint                   | Number of times of automatically performing the **ANALYZE** operation                     |
    +-------------------+--------------------------+-------------------------------------------------------------------------------------------+
-   | last_change       | bigint                   | Time when the last modification (**INSERT**, **UPDATE**, or **DELETE**) is performed      |
+   | last_change       | Bigint                   | Time when the last modification (**INSERT**, **UPDATE**, or **DELETE**) is performed      |
    +-------------------+--------------------------+-------------------------------------------------------------------------------------------+

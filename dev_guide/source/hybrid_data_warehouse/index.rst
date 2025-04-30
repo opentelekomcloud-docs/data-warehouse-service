@@ -9,7 +9,7 @@ Hybrid Data Warehouse
 -  :ref:`Support and Constraints <dws_04_1025>`
 -  :ref:`Hybrid Data Warehouse Syntax <dws_04_1026>`
 -  :ref:`Hybrid Data Warehouse Functions <dws_04_1027>`
--  :ref:`Hybrid Data Warehouse GUC Parameters <dws_04_1028>`
+-  :ref:`Hybrid Data Warehouse Binlog <dws_04_1210>`
 
 .. toctree::
    :maxdepth: 1
@@ -19,4 +19,4 @@ Hybrid Data Warehouse
    support_and_constraints
    hybrid_data_warehouse_syntax/index
    hybrid_data_warehouse_functions
-   hybrid_data_warehouse_guc_parameters
+   hybrid_data_warehouse_binlog/index

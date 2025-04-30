@@ -10,10 +10,10 @@ PGXC_BULKLOAD_PROGRESS
 .. table:: **Table 1** PGXC_BULKLOAD_PROGRESS columns
 
    ========== ====== =================================================
-   Name       Type   Description
+   Column     Type   Description
    ========== ====== =================================================
-   session_id bigint GDS session ID
-   query_id   bigint Query ID. It is equivalent to **debug_query_id**.
-   query      text   Query statement
-   progress   text   Progress percentage
+   session_id Bigint GDS session ID
+   query_id   Bigint Query ID. It is equivalent to **debug_query_id**.
+   query      Text   Query statement
+   progress   Text   Progress percentage
    ========== ====== =================================================

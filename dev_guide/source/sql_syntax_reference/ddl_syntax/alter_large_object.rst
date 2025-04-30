@@ -8,7 +8,7 @@ ALTER LARGE OBJECT
 Function
 --------
 
-Changes the owner of a large object.
+**ALTER LARGE OBJECT** changes the owner of a large object.
 
 Precautions
 -----------

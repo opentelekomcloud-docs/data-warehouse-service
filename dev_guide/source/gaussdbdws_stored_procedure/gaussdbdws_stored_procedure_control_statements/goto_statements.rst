@@ -129,5 +129,5 @@ The **GOTO** statement has the following constraints:
       END;
       /
 
-.. |image1| image:: /_static/images/en-us_image_0000001460883000.png
-.. |image2| image:: /_static/images/en-us_image_0000001460563488.png
+.. |image1| image:: /_static/images/en-us_image_0000001811610621.png
+.. |image2| image:: /_static/images/en-us_image_0000001811491541.png

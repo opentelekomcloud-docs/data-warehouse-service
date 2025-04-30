@@ -9,11 +9,11 @@ PV_SESSION_TIME
 
 .. table:: **Table 1** PV_SESSION_TIME columns
 
-   ========= ======= ========================
-   Name      Type    Description
-   ========= ======= ========================
-   sessid    text    Thread ID and start time
-   stat_id   integer Statistics ID
-   stat_name text    Running time type name
-   value     bigint  Running time value
-   ========= ======= ========================
+   ========= ======= ================================
+   Column    Type    Description
+   ========= ======= ================================
+   sessid    Text    Thread ID and thread start time.
+   stat_id   Integer Statistics ID.
+   stat_name Text    Name of the runtime type.
+   value     Bigint  Runtime value.
+   ========= ======= ================================

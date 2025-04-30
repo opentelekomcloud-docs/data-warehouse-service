@@ -188,7 +188,7 @@ Examples:
 position(substring in string)
 -----------------------------
 
-Description: Returns the location of the given substring. If the string does not contain substrings, **0** is returned.
+Description: Specifies the position of the substring in the string. If the string does not contain substrings, 0 is returned.
 
 Return type: integer
 
@@ -313,7 +313,7 @@ If command similar to the following exists, the given value will be escaped.
    SELECT quote_literal(E'O\'42.5');
     quote_literal
    ---------------
-    '0''42.5'
+    'O''42.5'
    (1 row)
 
 If command similar to the following exists, backslash will be properly doubled.
@@ -437,7 +437,7 @@ Examples:
     hom
    (1 row)
 
-.. _en-us_topic_0000001510520925__section13931191583319:
+.. _en-us_topic_0000001811634661__section13931191583319:
 
 substring(string from *pattern*)
 --------------------------------
@@ -456,12 +456,12 @@ Examples:
     mas
    (1 row)
    SELECT substring('foobar' from 'o(.)b');
-    result
+    substring
    --------
     o
    (1 row)
    SELECT substring('foobar' from '(o(.)b)');
-    result
+    substring
    --------
     oob
    (1 row)
@@ -470,7 +470,7 @@ Examples:
 
    If the POSIX pattern contains any parentheses, the portion of the text that matched the first parenthesized sub-expression (the one whose left parenthesis comes first) is returned. You can put parentheses around the whole expression if you want to use parentheses within it without triggering this exception.
 
-.. _en-us_topic_0000001510520925__section12598113333:
+.. _en-us_topic_0000001811634661__section12598113333:
 
 substring(string from *pattern* for *escape*)
 ---------------------------------------------
@@ -540,7 +540,7 @@ Examples:
 
    (1 row)
 
-.. _en-us_topic_0000001510520925__section1740918406323:
+.. _en-us_topic_0000001811634661__section1740918406323:
 
 regexp_matches(string text, pattern text [, flags text])
 --------------------------------------------------------
@@ -558,8 +558,6 @@ The optional **flags** argument contains zero or multiple single-letter flags th
 
 Return type: setof text[]
 
-Examples:
-
 ::
 
    SELECT regexp_matches('foobarbequebaz', '(bar)(beque)');
@@ -567,13 +565,15 @@ Examples:
    ----------------
     {bar,beque}
    (1 row)
+
    SELECT regexp_matches('foobarbequebaz', 'barbeque');
     regexp_matches
    ----------------
     {barbeque}
    (1 row)
-    SELECT regexp_matches('foobarbequebazilbarfbonk', '(b[^b]+)(b[^b]+)', 'g');
-       result
+
+   SELECT regexp_matches('foobarbequebazilbarfbonk', '(b[^b]+)(b[^b]+)', 'g');
+       regexp_matches
    --------------
     {bar,beque}
     {bazil,barf}
@@ -602,7 +602,7 @@ Examples:
     dws | dws |
    (1 row)
 
-.. _en-us_topic_0000001510520925__section17325142812322:
+.. _en-us_topic_0000001811634661__section17325142812322:
 
 regexp_split_to_array(string text, pattern text [, flags text ])
 ----------------------------------------------------------------
@@ -621,7 +621,7 @@ Examples:
     {hello,world}
    (1 row)
 
-.. _en-us_topic_0000001510520925__section9656102314320:
+.. _en-us_topic_0000001811634661__section9656102314320:
 
 regexp_split_to_table(string text, pattern text [, flags text])
 ---------------------------------------------------------------
@@ -669,9 +669,9 @@ Examples:
 repeat(string text, number int)
 -------------------------------
 
-Description: Repeats the given text for the specified number of times.
+Description: Outputs a string repeatedly for a specified number of times.
 
-Return type: string repeated for *number* times
+Return type: text
 
 Examples:
 
@@ -686,7 +686,7 @@ Examples:
 replace(string text, from text, to text)
 ----------------------------------------
 
-Description: Replaces all occurrences in **string** of substring **from** with substring **to**.
+Description: Replaces all contents of substring **from** in **string** and replaces them with the contents of substring **to**.
 
 Return type: text
 
@@ -797,7 +797,7 @@ Examples:
 substrb(text,int,int)
 ---------------------
 
-Description: Extracts a substring. The first **int** indicates the start position of the subtraction. The second **int** indicates the number of characters subtracted.
+Description: Extracts a substring. The first **int** indicates the start position of the subtraction. The second **int** indicates the number of bytes subtracted.
 
 Return type: text
 
@@ -1270,7 +1270,7 @@ Examples:
 locate(substring,string[,position])
 -----------------------------------
 
-Description: From the specified **position** (**1** by default) in the string on, queries and returns the value of **position** where the substring occurs for the first time. The unit is character. If the string does not contain substrings, **0** is returned.
+Description: From the specified **position** (**1** by default) in the string on, queries and returns the value of **position** where the substring occurs for the first time. The unit is character. If the string does not contain substrings, 0 is returned.
 
 Return type: integer
 
@@ -1424,7 +1424,7 @@ Examples:
     , Redwood Shores,
    (1 row)
 
-.. _en-us_topic_0000001510520925__section1287153982819:
+.. _en-us_topic_0000001811634661__section1287153982819:
 
 regexp_replace(string, pattern, replacement [,flags ])
 ------------------------------------------------------
@@ -1494,7 +1494,7 @@ Examples:
 concat_ws(sep text, str"any" [, str"any" [, ...] ])
 ---------------------------------------------------
 
-Description: Concatenates two or more strings, placing a separator between each one. The separator is specified by the first argument.
+Description: Uses the first parameter as the separator, which is associated with all following parameters.
 
 Return type: text
 
@@ -1821,7 +1821,7 @@ Examples:
    SELECT UNHEX('abc') as result;
     result
    --------
-    0x0ABC
+    \x0abc
    (1 row)
 
 SPACE(n int)

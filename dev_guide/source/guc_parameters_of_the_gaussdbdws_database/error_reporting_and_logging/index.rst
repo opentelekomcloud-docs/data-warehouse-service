@@ -5,6 +5,7 @@
 Error Reporting and Logging
 ===========================
 
+-  :ref:`Logging Destination <dws_04_0914>`
 -  :ref:`Logging Time <dws_04_0915>`
 -  :ref:`Logging Content <dws_04_0916>`
 
@@ -12,5 +13,6 @@ Error Reporting and Logging
    :maxdepth: 1
    :hidden: 
 
+   logging_destination
    logging_time
    logging_content

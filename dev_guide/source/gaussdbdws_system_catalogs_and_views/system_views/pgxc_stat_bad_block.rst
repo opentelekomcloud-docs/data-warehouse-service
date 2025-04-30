@@ -9,15 +9,15 @@ PGXC_STAT_BAD_BLOCK
 
 .. table:: **Table 1** PGXC_STAT_BAD_BLOCK columns
 
-   ============ ======================== ===============================
-   Name         Type                     Description
-   ============ ======================== ===============================
-   nodename     text                     Node name
-   databaseid   integer                  Database OID
-   tablespaceid integer                  Tablespace OID
-   relfilenode  integer                  File object ID
-   forknum      integer                  File type
-   error_count  integer                  Number of verification failures
-   first_time   timestamp with time zone Time of the first occurrence
-   last_time    timestamp with time zone Time of the latest occurrence
-   ============ ======================== ===============================
+   ============ ======================== ================================
+   Column       Type                     Description
+   ============ ======================== ================================
+   nodename     Text                     Node name.
+   databaseid   Integer                  Database OID.
+   tablespaceid Integer                  Tablespace OID.
+   relfilenode  Integer                  File object ID.
+   forknum      Integer                  File type.
+   error_count  Integer                  Number of verification failures.
+   first_time   Timestamp with time zone Time of the first occurrence.
+   last_time    Timestamp with time zone Time of the latest occurrence.
+   ============ ======================== ================================

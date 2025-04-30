@@ -56,9 +56,9 @@ Description: Queries whether the transaction ID is visible in snapshot. (do not 
 
 Return type: boolean
 
-The internal transaction ID type (**xid**) is 32 bits wide and wraps around every 4 billion transactions. **txid_snapshot**, the data type used by these functions, stores information about transaction ID visibility at a particular moment in time. :ref:`Table 1 <en-us_topic_0000001510521061__table2238448131119>` describes its components.
+The internal transaction ID type (**xid**) is 32 bits wide and wraps around every 4 billion transactions. **txid_snapshot**, the data type used by these functions, stores information about transaction ID visibility at a particular moment in time. :ref:`Table 1 <en-us_topic_0000001811634813__table2238448131119>` describes its components.
 
-.. _en-us_topic_0000001510521061__table2238448131119:
+.. _en-us_topic_0000001811634813__table2238448131119:
 
 .. table:: **Table 1** Snapshot components
 

@@ -16,11 +16,11 @@ PG_PUBLICATION_REL
    +---------+------+-----------------------------------------+----------------------------------------------------------------------------+
    | Name    | Type | Reference                               | Description                                                                |
    +=========+======+=========================================+============================================================================+
-   | oid     | oid  | ``-``                                   | Row identifier (hidden attribute; displayed only when explicitly selected) |
+   | OID     | OID  | ``-``                                   | Row identifier (hidden attribute; displayed only when explicitly selected) |
    +---------+------+-----------------------------------------+----------------------------------------------------------------------------+
-   | prpubid | oid  | :ref:`PG_PUBLICATION <dws_04_1040>`.oid | Publication OID in the mapping                                             |
+   | prpubid | OID  | :ref:`PG_PUBLICATION <dws_04_1040>`.oid | Publication OID in the mapping                                             |
    +---------+------+-----------------------------------------+----------------------------------------------------------------------------+
-   | prrelid | oid  | :ref:`PG_CLASS <dws_04_0578>`.oid       | OID of the mapped table                                                    |
+   | prrelid | OID  | :ref:`PG_CLASS <dws_04_0578>`.oid       | OID of the mapped table                                                    |
    +---------+------+-----------------------------------------+----------------------------------------------------------------------------+
 
 Examples

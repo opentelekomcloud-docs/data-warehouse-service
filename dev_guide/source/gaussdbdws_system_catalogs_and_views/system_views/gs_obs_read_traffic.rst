@@ -8,19 +8,19 @@ GS_OBS_READ_TRAFFIC
 Collects statistics on the OBS read traffic and average read bandwidth. The statistical results are aggregated every 10 minutes. This view is supported only by clusters of version 8.2.0 or later.
 
 +--------------------+--------------------------+----------------------------------------------------------------------+
-| Name               | Type                     | Description                                                          |
+| Column             | Type                     | Description                                                          |
 +====================+==========================+======================================================================+
 | nodename           | TEXT                     | Cluster node                                                         |
 +--------------------+--------------------------+----------------------------------------------------------------------+
-| hostname           | TEXT                     | Server                                                               |
+| hostname           | TEXT                     | Server node                                                          |
 +--------------------+--------------------------+----------------------------------------------------------------------+
 | traffic_mb         | float8                   | OBS read traffic statistics during the 10 minutes before **logtime** |
 +--------------------+--------------------------+----------------------------------------------------------------------+
 | bandwidth_mb_per_s | float8                   | Average bandwidth, in MB/s                                           |
 +--------------------+--------------------------+----------------------------------------------------------------------+
-| reqcount           | bigint                   | Number of OBS reads during the 10 minutes before **logtime**         |
+| reqcount           | Bigint                   | Number of OBS reads during the 10 minutes before **logtime**         |
 +--------------------+--------------------------+----------------------------------------------------------------------+
-| logtime            | timestamp with time zone | Time when statistics are recorded                                    |
+| logtime            | Timestamp with time zone | Time when statistics are recorded                                    |
 +--------------------+--------------------------+----------------------------------------------------------------------+
 
 Examples

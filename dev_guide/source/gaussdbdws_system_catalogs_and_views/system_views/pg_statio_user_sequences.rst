@@ -10,11 +10,11 @@ PG_STATIO_USER_SEQUENCES
 .. table:: **Table 1** PG_STATIO_USER_SEQUENCES columns
 
    ========== ====== ============================================
-   Name       Type   Description
+   Column     Type   Description
    ========== ====== ============================================
-   relid      oid    OID of this sequence
-   schemaname name   Name of the schema this sequence is in
-   relname    name   Name of this sequence
-   blks_read  bigint Number of disk blocks read from the sequence
-   blks_hit   bigint Cache hits in the sequence
+   relid      OID    OID of this sequence
+   schemaname Name   Name of the schema this sequence is in
+   relname    Name   Name of this sequence
+   blks_read  Bigint Number of disk blocks read from the sequence
+   blks_hit   Bigint Cache hits in the sequence
    ========== ====== ============================================

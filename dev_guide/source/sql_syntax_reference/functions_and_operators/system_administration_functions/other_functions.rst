@@ -8,7 +8,7 @@ Other Functions
 pgxc_pool_check()
 -----------------
 
-Description: Checks whether the connection data buffered in the pool is consistent with **pgxc_node**.
+Description: Checks whether the connection data buffered in the pool is consistent with **pgxc_node**. This parameter has been discarded in 8.3.0 and later cluster versions.
 
 Return type: boolean
 
@@ -152,28 +152,39 @@ Return type: record
 
 .. table:: **Table 1** Fields returned by the gs_table_distribution(schemaname text, tablename text) function
 
-   +-----------------------+-----------------------+---------------------------------------------------+
-   | Name                  | Type                  | Description                                       |
-   +=======================+=======================+===================================================+
-   | schemaname            | name                  | Schema name                                       |
-   +-----------------------+-----------------------+---------------------------------------------------+
-   | tablename             | name                  | Table name                                        |
-   +-----------------------+-----------------------+---------------------------------------------------+
-   | relkind               | character             | Type.                                             |
-   |                       |                       |                                                   |
-   |                       |                       | -  **i**: index                                   |
-   |                       |                       | -  **r**: table                                   |
-   +-----------------------+-----------------------+---------------------------------------------------+
-   | nodename              | name                  | Node name                                         |
-   +-----------------------+-----------------------+---------------------------------------------------+
-   | dnsize                | bigint                | Storage space of the table on the node, in bytes. |
-   +-----------------------+-----------------------+---------------------------------------------------+
+   +-----------------------+-----------------------+----------------------------------------------------------------------------+
+   | Name                  | Type                  | Description                                                                |
+   +=======================+=======================+============================================================================+
+   | schemaname            | name                  | Schema name                                                                |
+   +-----------------------+-----------------------+----------------------------------------------------------------------------+
+   | tablename             | name                  | Table name                                                                 |
+   +-----------------------+-----------------------+----------------------------------------------------------------------------+
+   | relkind               | character             | Type.                                                                      |
+   |                       |                       |                                                                            |
+   |                       |                       | -  **i**: index                                                            |
+   |                       |                       | -  **r**: table                                                            |
+   +-----------------------+-----------------------+----------------------------------------------------------------------------+
+   | relpersistence        | character             | Type.                                                                      |
+   |                       |                       |                                                                            |
+   |                       |                       | -  **t**: local temporary table                                            |
+   |                       |                       | -  **g**: global temporary table                                           |
+   |                       |                       |                                                                            |
+   |                       |                       | -  **u**: unlogged table                                                   |
+   |                       |                       | -  **p**: common table                                                     |
+   +-----------------------+-----------------------+----------------------------------------------------------------------------+
+   | nodename              | name                  | Node name                                                                  |
+   +-----------------------+-----------------------+----------------------------------------------------------------------------+
+   | dnsize                | bigint                | Storage space of the table on the node, in bytes.                          |
+   +-----------------------+-----------------------+----------------------------------------------------------------------------+
+   | sessionid             | bigint                | For a global temporary table, the session ID of each session is displayed. |
+   +-----------------------+-----------------------+----------------------------------------------------------------------------+
 
 .. note::
 
    -  To query for the storage distribution of a specified table by using this function, you must have the **SELECT** permission for the table.
    -  This function is based on the physical file storage space records in the **PG_RELFILENODE_SIZE** system catalog. Ensure that the GUC parameters **use_workload_manager** and **enable_perm_space** are enabled.
-   -  The performance of the **gs_table_distribution** function is lower than that of the **table_distribution** function when a single table is queried. But when the entire database is queried, the performance of the **gs_table_distribution** function is much better. In a large cluster with a large amount of data, you are advised to use the **gs_table_distribution** function to query all tables in the database.
+   -  The **gs_table_distribution** function performs slower than the table_distribution function when querying a single table. However, when querying the entire database, the **gs_table_distribution** function shows significantly better performance. For large clusters with a substantial amount of data, it is recommended to use the **gs_table_distribution** function to query all tables in the database.
+   -  For a global temporary table, the distribution of each session in the storage space is displayed. The **sessionid** column is used to distinguish sessions.
 
 gs_table_distribution()
 -----------------------
@@ -184,22 +195,64 @@ Return type: record
 
 .. table:: **Table 2** Fields returned by the gs_table_distribution() function
 
-   ========== ========= =================================================
-   Name       Type      Description
-   ========== ========= =================================================
-   schemaname name      Schema name
-   tablename  name      Table name
-   relkind    character Type of the table. **i**: index; **r**: table.
-   nodename   name      Node name
-   dnsize     bigint    Storage space of the table on the node, in bytes.
-   ========== ========= =================================================
+   +-----------------------+-----------------------+----------------------------------------------------------------------------+
+   | Name                  | Type                  | Description                                                                |
+   +=======================+=======================+============================================================================+
+   | schemaname            | name                  | Schema name                                                                |
+   +-----------------------+-----------------------+----------------------------------------------------------------------------+
+   | tablename             | name                  | Table name                                                                 |
+   +-----------------------+-----------------------+----------------------------------------------------------------------------+
+   | relkind               | character             | Type of the table. **i**: index; **r**: table.                             |
+   +-----------------------+-----------------------+----------------------------------------------------------------------------+
+   | relpersistence        | character             | Type.                                                                      |
+   |                       |                       |                                                                            |
+   |                       |                       | -  **t**: local temporary table                                            |
+   |                       |                       | -  **g**: global temporary table                                           |
+   |                       |                       |                                                                            |
+   |                       |                       | -  **u**: unlogged table                                                   |
+   |                       |                       | -  **p**: common table                                                     |
+   +-----------------------+-----------------------+----------------------------------------------------------------------------+
+   | nodename              | name                  | Node name                                                                  |
+   +-----------------------+-----------------------+----------------------------------------------------------------------------+
+   | dnsize                | bigint                | Storage space of the table on the node, in bytes.                          |
+   +-----------------------+-----------------------+----------------------------------------------------------------------------+
+   | sessionid             | bigint                | For a global temporary table, the session ID of each session is displayed. |
+   +-----------------------+-----------------------+----------------------------------------------------------------------------+
 
 .. note::
 
    -  To query for the storage distribution of a specified table by using this function, you must have the **SELECT** permission for the table.
    -  This function is based on the physical file storage space records in the **PG_RELFILENODE_SIZE** system catalog. Ensure that the GUC parameters **use_workload_manager** and **enable_perm_space** are enabled.
-   -  The performance of the **gs_table_distribution** function is lower than that of the **table_distribution** function when a single table is queried. But when the entire database is queried, the performance of the **gs_table_distribution** function is much better. In a large cluster with a large amount of data, you are advised to use the **gs_table_distribution** function to query all tables in the database.
+   -  The **gs_table_distribution** function performs slower than the table_distribution function when querying a single table. However, when querying the entire database, the **gs_table_distribution** function shows significantly better performance. For large clusters with a substantial amount of data, it is recommended to use the **gs_table_distribution** function to query all tables in the database.
    -  Based on the **gs_table_distribution()** function, GaussDB(DWS) 8.2.1 and later versions provide the **PGXC_WLM_TABLE_DISTRIBUTION_SKEWNESS** view for data skew query. You are advised to use this view when the number of tables in the database is small (less than 10,000).
+
+check_foreign_key_constraint(schema.table)
+------------------------------------------
+
+Description: Checks whether data in a foreign key table meets foreign key constraints. This is supported only by clusters of version 9.1.0.200 or later.
+
+Return type: text
+
+Example:
+
+::
+
+   set info_constraint_options = 'foreign_key';
+
+   CREATE TABLE ptt1 (a int,b int,e varchar(50),f varchar(50),PRIMARY KEY (a,b)) DISTRIBUTE BY HASH(a,b);
+   CREATE TABLE tt2 (a int , b int, c int, d int) DISTRIBUTE BY HASH(a,b);
+
+   select check_foreign_key_constraint('table_constraints.tt2');
+   check_foreign_key_constraint
+   -----------------------------------------
+   tt2 table has no foreign key constraint
+
+   ALTER TABLE tt2 ADD CONSTRAINT fk_tt1_a FOREIGN KEY (a,b) REFERENCES ptt1(a,b);
+
+   select check_foreign_key_constraint('table_constraints.tt2');
+   check_foreign_key_constraint
+   -------------------------------------------
+   tt2 satisfied all Foreign key constraints
 
 plan_seed()
 -----------
@@ -312,13 +365,13 @@ Return type: boolean
 
 .. note::
 
-   -  This function attempts to create the **public.pgxc_copy_error_log** table. For details about the table, see :ref:`Table 3 <en-us_topic_0000001460561332__table63361925092>`.
+   -  This function attempts to create the **public.pgxc_copy_error_log** table. For details about the table, see :ref:`Table 3 <en-us_topic_0000001811634829__table63361925092>`.
    -  Create the B-tree index on the **relname** column and execute **REVOKE ALL on public.pgxc_copy_error_log FROM public** to manage permissions for the error table (the permissions are the same as those of the **COPY** statement).
    -  **public.pgxc_copy_error_log** is a row-store table. Therefore, this function can be executed and **COPY FROM** error tolerance is available only when row-store tables can be created in the cluster. After the GUC parameter **enable_hadoop_env** is enabled, row-based tables cannot be created in the cluster. The default value is **off**.
    -  Same as the error table and the **COPY** statement, the function requires **sysadmin** or higher permissions.
    -  If the **public.pgxc_copy_error_log** table or the **copy_error_log_relname_idx** index already exists before the function creates it, the function will report an error and roll back.
 
-.. _en-us_topic_0000001460561332__table63361925092:
+.. _en-us_topic_0000001811634829__table63361925092:
 
 .. table:: **Table 3** Error table public.pgxc_copy_error_log
 
@@ -463,7 +516,7 @@ Description: Obtains the time when statistics of the current instance were reset
 
 Return type: timestamptz
 
-.. _en-us_topic_0000001460561332__section158811598710:
+.. _en-us_topic_0000001811634829__section158811598710:
 
 pgxc_node_stat_reset_time()
 ---------------------------
@@ -566,7 +619,7 @@ Description: Creates a load analysis report.
 
 The input parameters are described as follows:
 
--  **begin_snap_id** and **end_snap_id**: IDs of the start and end snapshots, respectively. The IDs are of the bigint type. The value of **begin_snap_id** must be less than that of **end_snap_id**, and the time for the start and end snapshots cannot overlap. You can check whether the snapshot time overlaps by querying **select s1.end_ts < s2.start_ts from (select \* from dbms_om.snapshot where snapshot_id=$begin_snap_id) as s1, (select \* from dbms_om.snapshot where snapshot_id=$end_snap_id) as s2** in the **dbms_om.snapshot** table. If **true** is returned, the snapshot time does not overlap. Otherwise, the snapshot time overlaps.
+-  **begin_snap_id** and **end_snap_id**: IDs of the start and end snapshots, respectively. The IDs are of the bigint type. The value of **begin_snap_id** must be less than that of **end_snap_id**, and the time for the start and end snapshots cannot overlap. You can check whether the snapshot time overlaps by querying **select s1.end_ts < s2.start_ts from (select \* from dbms_om.snapshot where snapshot_id=end_snap_id) as s2;** in the **dbms_om.snapshot** table. If **true** is returned, the snapshot time does not overlap. Otherwise, the snapshot time overlaps.
 -  **report_type**: report type. The value is a cstring and can be **summary**, **detail**, or **all**.
 -  **report_scope**: report scope. The value is a cstring and can be **cluster** or **node**.
 -  **node_name**: node name. The value is a cstring. If **report_scope** is **node**, the value of this parameter must be **pg_catalog**, which indicates the CN or DN name in the **node_name** column of the **pgxc_node** table.
@@ -578,7 +631,7 @@ Return type: text
    -  Only the database administrator **SYSADMIN** can execute this function.
    -  This function can be executed only on CNs. If it is executed on DNs, the following message will be returned: "WDR report can only be created on coordinator."
    -  If the report is created successfully, message "Report %s has been generated" will be returned.
-   -  The statistics cannot be reset between the time the start snapshot is taken and the time the end snapshot is taken. Otherwise, error message "Instance reset time is different" will be displayed. For details about the events that cause a statistics reset, see the :ref:`pgxc_node_stat_reset_time <en-us_topic_0000001460561332__section158811598710>` function.
+   -  The statistics cannot be reset between the time the start snapshot is taken and the time the end snapshot is taken. Otherwise, error message "Instance reset time is different" will be displayed. For details about the events that cause a statistics reset, see the :ref:`pgxc_node_stat_reset_time <en-us_topic_0000001811634829__section158811598710>` function.
 
 wdr_xdb_query(db_name text, snapshot_id bigint, view_name text)
 ---------------------------------------------------------------
@@ -683,6 +736,101 @@ Example:
     public     | t1         |              3 |              0
    (3 rows)
 
+pg_get_bucket_epoch(relid)
+--------------------------
+
+Description: Queries the **epoch** value of the **v3** table on the current node. To print the **epoch** values of all subpartitions in a partitioned table, you must provide the OID of the parent table. This function can be executed only in VW write scenarios. This function is supported only by clusters of version 9.1.0.200 or later.
+
+Return type: record
+
+Fields in the returned value:
+
+-  **relfilenode oid**: column-store **relfilenode** of a non-partitioned table. For a partitioned table, the value is **0**.
+-  **partfilenode oid**: **relfilenode** of a column-store partitioned table. For a non-partitioned table, the value is **0.**
+-  **epoch xid**: **epoch** value corresponding to the table on the current node.
+
+Example:
+
+::
+
+   select * from pg_get_bucket_epoch(2147483732);
+    relfilenode | partfilenode |  epoch
+   -------------+--------------+--------
+     2137383742 |            0 | 1000001
+   (1 row)
+
+pg_get_bucket_epoch(tablespaceid, databaseid, relfilenode)
+----------------------------------------------------------
+
+Description: Queries the **epoch** value of the **v3** table on the current node. Enter the OID of the tablespace where the **v3** table is located, the OID of the database, and the **relfilenode** corresponding to the table. This function can be executed in both VW write and read scenarios. This function is supported only by clusters of version 9.1.0.200 or later.
+
+Return type: xid
+
+Fields in the returned value:
+
+**epoch xid**: **epoch** value corresponding to the table on the current node.
+
+Example:
+
+::
+
+   select * from pg_get_bucket_epoch(2147483729, 16792, 2147483732);
+    epoch
+   -------
+   1000001
+   (1 row)
+
+pgxc_get_bucket_epoch(tablespaceid, databaseid, relfilenode)
+------------------------------------------------------------
+
+Description: Queries the **epoch** values of the **v3** table on all DNs. Enter the OID of the tablespace where the **v3** table is located, the OID of the database, and the **relfilenode** corresponding to the table. This function can be executed in both VW write and read scenarios. This function is supported only by clusters of version 9.1.0.200 or later.
+
+Return type: record
+
+Fields in the returned value:
+
+-  **nodename text**: node name
+-  **epoch xid**: **epoch** value corresponding to the table on the current node.
+
+Example:
+
+::
+
+   select * from pgxc_get_bucket_epoch(2147483729, 16792, 2147483732);
+     nodename |  epoch
+   -----------+---------
+    datanode3 | 1000001
+    datanode1 |       0
+    datanode2 |       0
+   (1 row)
+
+current_temp_schema()
+---------------------
+
+Description: Returns the temporary schema of the current session. If the current session does not have a temporary schema, null is returned. This function is supported by clusters of version 8.2.1.220 or later.
+
+Return type: name
+
+Example:
+
+::
+
+   select current_temp_schema();
+    current_temp_schema
+   ---------------------
+
+   (1 row)
+
+::
+
+   create temp table tmp1(a int,b int) distribute by hash(a);
+   CREATE TABLE
+   select current_temp_schema();
+              current_temp_schema
+   ------------------------------------------
+    pg_temp_coordinator1_2_2_140718823485088
+   (1 row)
+
 get_volatile_pg_class()
 -----------------------
 
@@ -700,7 +848,7 @@ get_volatile_pg_class(relname text)
 
 Description: Obtains the **pg_class** metadata related to a specified volatile temporary table in the current session. This parameter is supported by version 8.2.0 or later clusters.
 
-Parameter: name of the volatile temporary table in the current session.
+Parameter: name of the **volatile** temporary table in the current session.
 
 Return type: record
 
@@ -770,7 +918,7 @@ Example:
 pg_get_publication_tables(pubname text)
 ---------------------------------------
 
-Description: Returns the relid list of tables to be published based on the publication name. This function is supported by clusters of version 8.2.0.100 or later.
+Description: Returns the relid list of tables to be published based on the publication name. This function is supported by version 8.2.0.100 or later clusters.
 
 Parameter: **pubname**
 
@@ -790,7 +938,7 @@ Example:
 pg_relation_is_publishable(relname regclass)
 --------------------------------------------
 
-Description: Checks whether a table can be published. This function is supported by clusters of version 8.2.0.100 or later.
+Description: Checks whether a table can be published. This function is supported by version 8.2.0.100 or later clusters.
 
 Parameter: **relname**
 
@@ -809,7 +957,7 @@ Example:
 get_col_cu_info(schema_name text, table_name text, row_count int8, dirty_percent int8)
 --------------------------------------------------------------------------------------
 
-Description: Queries the CU information of a column-store table. The CU information of each partition is collected separately. This function is supported by clusters of version 8.2.0.100 or later.
+Description: Queries the CU information of a column-store table. The CU information of each partition is collected separately. This function is supported by version 8.2.0.100 or later clusters.
 
 Parameters: schema name (mandatory), table name (mandatory), threshold for the number of rows in a small CU (optional, 200 by default, ranging from 1 to 60000, and percentage threshold for deleting dirty CUs (optional, 70 by default, ranging from 1 to 100)
 
@@ -856,7 +1004,7 @@ Example:
 get_col_file_vacuum_info(schema_name text, table_name text, force_get_rewritten_file_num bool)
 ----------------------------------------------------------------------------------------------
 
-Description: Queries the vacuum information of a column-store table. The vacuum information of each partition is collected separately. This function is supported by clusters of version 8.2.0.100 or later.
+Description: Queries the vacuum information of a column-store table. The vacuum information of each partition is collected separately. This function is supported by version 8.2.0.100 or later clusters.
 
 Parameters: schema name (mandatory), table name (mandatory), and whether to forcibly obtain the precise number of files that can be cleared (mandatory, **false** by default)
 
@@ -894,7 +1042,7 @@ Example:
 get_col_file_vacuum_info(schema_name text, table_name text, colvacuum_threshold_scale_factor int)
 -------------------------------------------------------------------------------------------------
 
-Description: Queries the vacuum information of a column-store table. The vacuum information of each partition is collected separately. This function is supported by clusters of version 8.2.0.100 or later.
+Description: Queries the vacuum information of a column-store table. The vacuum information of each partition is collected separately. This function is supported by version 8.2.0.100 or later clusters.
 
 Parameters: schema name (mandatory), table name (mandatory), and **colvacuum_threshold_scale_factor** (mandatory. The value range is 0 to 100, indicating the ratio of dead tuples.)
 
@@ -932,7 +1080,7 @@ Example:
 get_all_col_cu_info(row_count int8)
 -----------------------------------
 
-Description: Queries the CU information of all column-store tables in the database. This function is supported by clusters of version 8.2.0.100 or later.
+Description: Queries the CU information of all column-store tables in the database. This function is supported by version 8.2.0.100 or later clusters.
 
 Parameter: threshold for the number of rows in a small CU (optional, **200** by default, and ranging from **1** to **60000**)
 
@@ -974,7 +1122,7 @@ Example:
 get_all_col_file_vacuum_info(force_get_rewritten_file_num bool)
 ---------------------------------------------------------------
 
-Description: Queries the vacuum information of all column-store tables in the database. This function is supported by clusters of version 8.2.0.100 or later.
+Description: Queries the vacuum information of all column-store tables in the database. This function is supported by version 8.2.0.100 or later clusters.
 
 Parameter: whether to forcibly obtain the accurate number of files that can be cleared (mandatory. It can be **true** or **false** .)
 
@@ -1030,7 +1178,7 @@ Return type: record
    +-----------------------+---------+---------------------------------------------------------------------+
    | tsc_frequency         | float8  | TSC frequency.                                                      |
    +-----------------------+---------+---------------------------------------------------------------------+
-   | tsc_use_freqency      | boolean | Indicates whether to use the TSC frequency for time conversion.     |
+   | tsc_use_frequency     | boolean | Indicates whether to use the TSC frequency for time conversion.     |
    +-----------------------+---------+---------------------------------------------------------------------+
    | tsc_ready             | boolean | Indicates whether the TSC frequency can be used for time conversion |
    +-----------------------+---------+---------------------------------------------------------------------+
@@ -1068,7 +1216,7 @@ Return type: record
    +-----------------------+---------+---------------------------------------------------------------------+
    | tsc_frequency         | float8  | TSC frequency                                                       |
    +-----------------------+---------+---------------------------------------------------------------------+
-   | tsc_use_freqency      | boolean | Indicates whether to use the TSC frequency for time conversion.     |
+   | tsc_use_frequency     | boolean | Indicates whether to use the TSC frequency for time conversion.     |
    +-----------------------+---------+---------------------------------------------------------------------+
    | tsc_ready             | boolean | Indicates whether the TSC frequency can be used for time conversion |
    +-----------------------+---------+---------------------------------------------------------------------+

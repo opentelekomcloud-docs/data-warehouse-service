@@ -7,7 +7,7 @@ UUID Functions
 
 UUID functions are used to generate UUID data (see :ref:`UUID Type <dws_06_0019>`).
 
-.. _en-us_topic_0000001460561400__section1896117291214:
+.. _en-us_topic_0000001764516474__section1896117291214:
 
 uuid_generate_v1()
 ------------------
@@ -49,7 +49,7 @@ Example:
 
 .. note::
 
-   UUID is generated in the way the :ref:`uuid_generate_v1() <en-us_topic_0000001460561400__section1896117291214>` function works. The function generates a UUID based on the time information, cluster node ID, and ID of the thread that generates the sequence. The UUID is globally unique in a single cluster, however, there is a possibility that the time information, cluster node IDs, thread IDs, and clock sequences of multiple clusters are the same at the same time. Therefore, there is a low probability that UUIDs generated among multiple clusters are duplicate.
+   UUID is generated in the way the :ref:`uuid_generate_v1() <en-us_topic_0000001764516474__section1896117291214>` function works. The function generates a UUID based on the time information, cluster node ID, and ID of the thread that generates the sequence. The UUID is globally unique in a single cluster, however, there is a possibility that the time information, cluster node IDs, thread IDs, and clock sequences of multiple clusters are the same at the same time. Therefore, there is a low probability that UUIDs generated among multiple clusters are duplicate.
 
 sys_guid()
 ----------

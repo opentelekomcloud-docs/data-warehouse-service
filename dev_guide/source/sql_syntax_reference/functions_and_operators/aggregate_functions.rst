@@ -22,7 +22,7 @@ Examples:
 
 ::
 
-   SELECT SUM(ss_ext_tax) FROM tpcds.STORE_SALES;
+   postgres=#SELECT SUM(ss_ext_tax) FROM tpcds.STORE_SALES;
      sum
    --------------
     213267594.69
@@ -41,7 +41,7 @@ Examples:
 
 ::
 
-   SELECT MAX(inv_quantity_on_hand) FROM tpcds.inventory;
+   postgres=#SELECT MAX(inv_quantity_on_hand) FROM tpcds.inventory;
       max
    ---------
     1000000
@@ -60,7 +60,7 @@ Examples:
 
 ::
 
-   SELECT MIN(inv_quantity_on_hand) FROM tpcds.inventory;
+   postgres=#SELECT MIN(inv_quantity_on_hand) FROM tpcds.inventory;
     min
    -----
       0
@@ -70,8 +70,6 @@ avg(expression)
 ---------------
 
 Description: Average (arithmetic mean) of all input values
-
-If the input parameter type is DOUBLE PRECISION, it accepts values from 1.34E-154 to 1.34E+154. Values outside this range cause the "value out of range: overflow" error. To avoid this, use the cast function to change the column type to numeric.
 
 Return type:
 
@@ -83,7 +81,7 @@ Examples:
 
 ::
 
-   SELECT AVG(inv_quantity_on_hand) FROM tpcds.inventory;
+   postgres=#SELECT AVG(inv_quantity_on_hand) FROM tpcds.inventory;
             avg
    ----------------------
     500.0387129084044604
@@ -103,7 +101,7 @@ Examples:
 
 ::
 
-   SELECT MEDIAN(inv_quantity_on_hand) FROM tpcds.inventory;
+   postgres=#SELECT MEDIAN(inv_quantity_on_hand) FROM tpcds.inventory;
     median
    --------
        500
@@ -125,12 +123,12 @@ Examples:
 
 ::
 
-   SELECT percentile_cont(0.3) within group(order by x) FROM (SELECT generate_series(1,5) AS x) AS t;
+   postgres=#SELECT percentile_cont(0.3) within group(order by x) FROM (SELECT generate_series(1,5) AS x) AS t;
    percentile_cont
    -----------------
    2.2
    (1 row)
-   SELECT percentile_cont(0.3) within group(order by x desc) FROM (SELECT generate_series(1,5) AS x) AS t;
+   postgres=#SELECT percentile_cont(0.3) within group(order by x desc) FROM (SELECT generate_series(1,5) AS x) AS t;
    percentile_cont
    -----------------
    3.8
@@ -149,12 +147,12 @@ Examples:
 
 ::
 
-   SELECT percentile_disc(0.3) within group(order by x) FROM (SELECT generate_series(1,5) AS x) AS t;
+   postgres=#SELECT percentile_disc(0.3) within group(order by x) FROM (SELECT generate_series(1,5) AS x) AS t;
    percentile_disc
    -----------------
    2
    (1 row)
-   SELECT percentile_disc(0.3) within group(order by x desc) FROM (SELECT generate_series(1,5) AS x) AS t;
+   postgres=#SELECT percentile_disc(0.3) within group(order by x desc) FROM (SELECT generate_series(1,5) AS x) AS t;
    percentile_disc
    -----------------
    4
@@ -171,7 +169,7 @@ Examples:
 
 ::
 
-   SELECT COUNT(inv_quantity_on_hand) FROM tpcds.inventory;
+   postgres=#SELECT COUNT(inv_quantity_on_hand) FROM tpcds.inventory;
      count
    ----------
     11158087
@@ -188,7 +186,7 @@ Examples:
 
 ::
 
-   SELECT COUNT(*) FROM tpcds.inventory;
+   postgres=#SELECT COUNT(*) FROM tpcds.inventory;
      count
    ----------
     11745000
@@ -320,7 +318,7 @@ The aggregation column is of the text character set type:
 
 ::
 
-   SELECT deptno, listagg(ename, ',') WITHIN GROUP(ORDER BY ename) AS employees FROM emp GROUP BY deptno;
+   postgres=#SELECT deptno, listagg(ename, ',') WITHIN GROUP(ORDER BY ename) AS employees FROM emp GROUP BY deptno;
     deptno |              employees
    --------+--------------------------------------
         10 | CLARK,KING,MILLER
@@ -332,7 +330,7 @@ The aggregation column is of the integer type:
 
 ::
 
-   SELECT deptno, listagg(mgrno, ',') WITHIN GROUP(ORDER BY mgrno NULLS FIRST) AS mgrnos FROM emp GROUP BY deptno;
+   postgres=#SELECT deptno, listagg(mgrno, ',') WITHIN GROUP(ORDER BY mgrno NULLS FIRST) AS mgrnos FROM emp GROUP BY deptno;
     deptno |            mgrnos
    --------+-------------------------------
         10 | 7782,7839
@@ -344,7 +342,7 @@ The aggregation column is of the floating point type:
 
 ::
 
-   SELECT job, listagg(bonus, '($); ') WITHIN GROUP(ORDER BY bonus DESC) || '($)' AS bonus FROM emp GROUP BY job;
+   postgres=#SELECT job, listagg(bonus, '($); ') WITHIN GROUP(ORDER BY bonus DESC) || '($)' AS bonus FROM emp GROUP BY job;
        job     |                      bonus
    ------------+-------------------------------------------------
     CLERK      | 10234.21($); 2000.80($); 1100.00($); 1000.22($)
@@ -358,7 +356,7 @@ The aggregation column is of the time type:
 
 ::
 
-   SELECT deptno, listagg(hiredate, ', ') WITHIN GROUP(ORDER BY hiredate DESC) AS hiredates FROM emp GROUP BY deptno;
+   postgres=#SELECT deptno, listagg(hiredate, ', ') WITHIN GROUP(ORDER BY hiredate DESC) AS hiredates FROM emp GROUP BY deptno;
     deptno |                                                          hiredates
    --------+------------------------------------------------------------------------------------------------------------------------------
         10 | 1982-01-23 00:00:00, 1981-11-17 00:00:00, 1981-06-09 00:00:00
@@ -366,11 +364,11 @@ The aggregation column is of the time type:
         30 | 2015-02-20 00:00:00, 2010-02-22 00:00:00, 1997-09-28 00:00:00, 1981-12-03 00:00:00, 1981-09-08 00:00:00, 1981-05-01 00:00:00
    (3 rows)
 
-The aggregation column is of the time interval type:
+The aggregation column is of the time interval type.
 
 ::
 
-   SELECT deptno, listagg(vacationTime, '; ') WITHIN GROUP(ORDER BY vacationTime DESC) AS vacationTime FROM emp GROUP BY deptno;
+   postgres=#SELECT deptno, listagg(vacationTime, '; ') WITHIN GROUP(ORDER BY vacationTime DESC) AS vacationTime FROM emp GROUP BY deptno;
     deptno |                                    vacationtime
    --------+------------------------------------------------------------------------------------
         10 | 1 year 30 days; 40 days; 10 days
@@ -382,7 +380,7 @@ By default, the delimiter is empty:
 
 ::
 
-   SELECT deptno, listagg(job) WITHIN GROUP(ORDER BY job) AS jobs FROM emp GROUP BY deptno;
+   postgres=#SELECT deptno, listagg(job) WITHIN GROUP(ORDER BY job) AS jobs FROM emp GROUP BY deptno;
     deptno |                     jobs
    --------+----------------------------------------------
         10 | CLERKMANAGERPRESIDENT
@@ -394,7 +392,7 @@ When **listagg** is used as a window function, the **OVER** clause does not supp
 
 ::
 
-   SELECT deptno, mgrno, bonus, listagg(ename,'; ') WITHIN GROUP(ORDER BY hiredate) OVER(PARTITION BY deptno) AS employees FROM emp;
+   postgres=#SELECT deptno, mgrno, bonus, listagg(ename,'; ') WITHIN GROUP(ORDER BY hiredate) OVER(PARTITION BY deptno) AS employees FROM emp;
     deptno | mgrno |  bonus   |                 employees
    --------+-------+----------+-------------------------------------------
         10 |  7839 | 10000.01 | CLARK; KING; MILLER
@@ -433,7 +431,7 @@ The default delimiter is a comma (,).
 
 ::
 
-   SELECT group_concat(sname) FROM group_concat_test;
+   postgres=#SELECT group_concat(sname) FROM group_concat_test;
                   group_concat
    ------------------------------------------
     ADAMS,FORD,JONES,KING,MILLER,SCOTT,SMITH
@@ -443,7 +441,7 @@ Delimiters can be customized for the **group_concat** function.
 
 ::
 
-   SELECT group_concat(sname separator ';') from group_concat_test;
+   postgres=#SELECT group_concat(sname separator ';') from group_concat_test;
                   group_concat
    ------------------------------------------
     ADAMS;FORD;JONES;KING;MILLER;SCOTT;SMITH
@@ -453,7 +451,7 @@ The **group_concat** function supports the **ORDER BY** clause, which concatenat
 
 ::
 
-   SELECT group_concat(sname order by snumber separator ';') FROM group_concat_test;
+   postgres=#SELECT group_concat(sname order by snumber separator ';') FROM group_concat_test;
                   group_concat
    ------------------------------------------
     MILLER;FORD;SCOTT;SMITH;KING;JONES;ADAMS
@@ -470,7 +468,7 @@ Examples:
 
 ::
 
-    SELECT COVAR_POP(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
+   postgres=# SELECT COVAR_POP(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
        covar_pop
    ------------------
     829.749627587403
@@ -487,7 +485,7 @@ Examples:
 
 ::
 
-   SELECT COVAR_SAMP(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
+   postgres=#SELECT COVAR_SAMP(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
        covar_samp
    ------------------
     830.052235037289
@@ -498,15 +496,13 @@ stddev_pop(expression)
 
 Description: Overall standard difference
 
-If the input parameter type is DOUBLE PRECISION, it accepts values from 1.34E-154 to 1.34E+154. Values outside this range cause the "value out of range: overflow" error. To avoid this, use the cast function to change the column type to numeric.
-
 Return type: **double precision** for floating-point arguments, otherwise **numeric**
 
 Examples:
 
 ::
 
-   SELECT STDDEV_POP(inv_quantity_on_hand) FROM tpcds.inventory WHERE inv_warehouse_sk = 1;
+   postgres=#SELECT STDDEV_POP(inv_quantity_on_hand) FROM tpcds.inventory WHERE inv_warehouse_sk = 1;
        stddev_pop
    ------------------
     289.224294957556
@@ -517,15 +513,13 @@ stddev_samp(expression)
 
 Description: Sample standard deviation of the input values
 
-If the input parameter type is DOUBLE PRECISION, it accepts values from 1.34E-154 to 1.34E+154. Values outside this range cause the "value out of range: overflow" error. To avoid this, use the cast function to change the column type to numeric.
-
 Return type: **double precision** for floating-point arguments, otherwise **numeric**
 
 Examples:
 
 ::
 
-   SELECT STDDEV_SAMP(inv_quantity_on_hand) FROM tpcds.inventory WHERE inv_warehouse_sk = 1;
+   postgres=#SELECT STDDEV_SAMP(inv_quantity_on_hand) FROM tpcds.inventory WHERE inv_warehouse_sk = 1;
       stddev_samp
    ------------------
     289.224359757315
@@ -536,15 +530,13 @@ var_pop(expression)
 
 Description: Population variance of the input values (square of the population standard deviation)
 
-If the input parameter type is DOUBLE PRECISION, it accepts values from 1.34E-154 to 1.34E+154. Values outside this range cause the "value out of range: overflow" error. To avoid this, use the cast function to change the column type to numeric.
-
 Return type: **double precision** for floating-point arguments, otherwise **numeric**
 
 Examples:
 
 ::
 
-   SELECT VAR_POP(inv_quantity_on_hand) FROM tpcds.inventory WHERE inv_warehouse_sk = 1;
+   postgres=#SELECT VAR_POP(inv_quantity_on_hand) FROM tpcds.inventory WHERE inv_warehouse_sk = 1;
          var_pop
    --------------------
     83650.692793695475
@@ -555,15 +547,13 @@ var_samp(expression)
 
 Description: Sample variance of the input values (square of the sample standard deviation)
 
-If the input parameter type is DOUBLE PRECISION, it accepts values from 1.34E-154 to 1.34E+154. Values outside this range cause the "value out of range: overflow" error. To avoid this, use the cast function to change the column type to numeric.
-
 Return type: **double precision** for floating-point arguments, otherwise **numeric**
 
 Examples:
 
 ::
 
-   SELECT VAR_SAMP(inv_quantity_on_hand) FROM tpcds.inventory WHERE inv_warehouse_sk = 1;
+   postgres=#SELECT VAR_SAMP(inv_quantity_on_hand) FROM tpcds.inventory WHERE inv_warehouse_sk = 1;
          var_samp
    --------------------
     83650.730277028768
@@ -580,7 +570,7 @@ Examples:
 
 ::
 
-   SELECT BIT_AND(inv_quantity_on_hand) FROM tpcds.inventory WHERE inv_warehouse_sk = 1;
+   postgres=#SELECT BIT_AND(inv_quantity_on_hand) FROM tpcds.inventory WHERE inv_warehouse_sk = 1;
     bit_and
    ---------
           0
@@ -597,7 +587,7 @@ Examples:
 
 ::
 
-   SELECT BIT_OR(inv_quantity_on_hand) FROM tpcds.inventory WHERE inv_warehouse_sk = 1;
+   postgres=#SELECT BIT_OR(inv_quantity_on_hand) FROM tpcds.inventory WHERE inv_warehouse_sk = 1;
     bit_or
    --------
       1023
@@ -614,7 +604,7 @@ Examples:
 
 ::
 
-   SELECT bool_and(100 <2500);
+   postgres=#SELECT bool_and(100 <2500);
     bool_and
    ----------
     t
@@ -631,7 +621,7 @@ Examples:
 
 ::
 
-   SELECT bool_or(100 <2500);
+   postgres=#SELECT bool_or(100 <2500);
     bool_or
    ----------
     t
@@ -648,10 +638,10 @@ Examples:
 
 ::
 
-   SELECT CORR(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
+   postgres=#SELECT CORR(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
           corr
    -------------------
-    .0381383624904186
+    0.0381383624904186
    (1 row)
 
 every(expression)
@@ -665,7 +655,7 @@ Examples:
 
 ::
 
-   SELECT every(100 <2500);
+   postgres=#SELECT every(100 <2500);
     every
    -------
     t
@@ -682,7 +672,7 @@ Examples:
 
 ::
 
-   SELECT d_moy, d_fy_week_seq, rank() OVER(PARTITION BY d_moy ORDER BY d_fy_week_seq) FROM tpcds.date_dim WHERE d_moy < 4 AND d_fy_week_seq < 7 ORDER BY 1,2;
+   postgres=#SELECT d_moy, d_fy_week_seq, rank() OVER(PARTITION BY d_moy ORDER BY d_fy_week_seq) FROM tpcds.date_dim WHERE d_moy < 4 AND d_fy_week_seq < 7 ORDER BY 1,2;
       d_moy | d_fy_week_seq | rank
    -------+---------------+------
         1 |             1 |    1
@@ -740,7 +730,7 @@ Examples:
 
 ::
 
-   SELECT REGR_AVGX(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
+   postgres=#SELECT REGR_AVGX(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
        regr_avgx
    ------------------
     578.606576740795
@@ -757,7 +747,7 @@ Examples:
 
 ::
 
-   SELECT REGR_AVGY(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
+   postgres=#SELECT REGR_AVGY(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
        regr_avgy
    ------------------
     50.0136711629602
@@ -774,7 +764,7 @@ Examples:
 
 ::
 
-   SELECT REGR_COUNT(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
+   postgres=#SELECT REGR_COUNT(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
     regr_count
    ------------
           2743
@@ -791,7 +781,7 @@ Examples:
 
 ::
 
-   SELECT REGR_INTERCEPT(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
+   postgres=#SELECT REGR_INTERCEPT(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
      regr_intercept
    ------------------
     49.2040847848607
@@ -808,10 +798,10 @@ Examples:
 
 ::
 
-   SELECT REGR_R2(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
+   postgres=#SELECT REGR_R2(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
          regr_r2
    --------------------
-    .00145453469345058
+    0.00145453469345058
    (1 row)
 
 regr_slope(Y, X)
@@ -825,10 +815,10 @@ Examples:
 
 ::
 
-   SELECT REGR_SLOPE(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
+   postgres=#SELECT REGR_SLOPE(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
         regr_slope
    --------------------
-    .00139920009665259
+    0.00139920009665259
    (1 row)
 
 regr_sxx(Y, X)
@@ -842,7 +832,7 @@ Examples:
 
 ::
 
-   SELECT REGR_SXX(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
+   postgres=#SELECT REGR_SXX(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
         regr_sxx
    ------------------
     1626645991.46135
@@ -859,7 +849,7 @@ Examples:
 
 ::
 
-   SELECT REGR_SXY(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
+   postgres=#SELECT REGR_SXY(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
         regr_sxy
    ------------------
     2276003.22847225
@@ -876,7 +866,7 @@ Examples:
 
 ::
 
-   SELECT REGR_SYY(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
+   postgres=#SELECT REGR_SYY(sr_fee, sr_net_loss) FROM tpcds.store_returns WHERE sr_customer_sk < 1000;
        regr_syy
    -----------------
     2189417.6547314
@@ -887,15 +877,13 @@ stddev(expression)
 
 Description: Alias of **stddev_samp**
 
-If the input parameter type is DOUBLE PRECISION, it accepts values from 1.34E-154 to 1.34E+154. Values outside this range cause the "value out of range: overflow" error. To avoid this, use the cast function to change the column type to numeric.
-
 Return type: **double precision** for floating-point arguments, otherwise **numeric**
 
 Examples:
 
 ::
 
-   SELECT STDDEV(inv_quantity_on_hand) FROM tpcds.inventory WHERE inv_warehouse_sk = 1;
+   postgres=#SELECT STDDEV(inv_quantity_on_hand) FROM tpcds.inventory WHERE inv_warehouse_sk = 1;
          stddev
    ------------------
     289.224359757315
@@ -906,15 +894,13 @@ variance(expexpression,ression)
 
 Description: Alias of **var_samp**
 
-If the input parameter type is DOUBLE PRECISION, it accepts values from 1.34E-154 to 1.34E+154. Values outside this range cause the "value out of range: overflow" error. To avoid this, use the cast function to change the column type to numeric.
-
 Return type: **double precision** for floating-point arguments, otherwise **numeric**
 
 Examples:
 
 ::
 
-   SELECT VARIANCE(inv_quantity_on_hand) FROM tpcds.inventory WHERE inv_warehouse_sk = 1;
+   postgres=#SELECT VARIANCE(inv_quantity_on_hand) FROM tpcds.inventory WHERE inv_warehouse_sk = 1;
          variance
    --------------------
     83650.730277028768
@@ -945,7 +931,7 @@ The following shows the CHECKSUM value of a column that can be converted to the 
 
 ::
 
-   SELECT CHECKSUM(inv_quantity_on_hand) FROM tpcds.inventory;
+   postgres=#SELECT CHECKSUM(inv_quantity_on_hand) FROM tpcds.inventory;
         checksum
    -------------------
     24417258945265247
@@ -955,7 +941,7 @@ CHECKSUM value of a column that cannot be converted to the TEXT type by default 
 
 ::
 
-   SELECT CHECKSUM(inv_quantity_on_hand::TEXT) FROM tpcds.inventory;
+   postgres=#SELECT CHECKSUM(inv_quantity_on_hand::TEXT) FROM tpcds.inventory;
         checksum
    -------------------
     24417258945265247
@@ -965,8 +951,78 @@ The following shows the CHECKSUM value of all columns in a table. Note that the 
 
 ::
 
-   SELECT CHECKSUM(inventory::TEXT) FROM tpcds.inventory;
+   postgres=#SELECT CHECKSUM(inventory::TEXT) FROM tpcds.inventory;
         checksum
    -------------------
     25223696246875800
    (1 row)
+
+approx_count_distinct(col_name)
+-------------------------------
+
+Description: Uses the HyperLogLog++ (HLL++) algorithm to estimate the cardinality (number of rows in a column after deduplication). This function is supported only by clusters of version 8.3.0 or later.
+
+Input parameter description: **col_name** indicates the column whose cardinality needs to be estimated.
+
+.. note::
+
+   You can adjust the error rate by setting the **approx_count_distinct_precision** parameter.
+
+   -  The value range is [10,20]. The default value is 17. The theoretical error rate is 3‰.
+
+   -  This parameter indicates the number of buckets in the HyperLogLog++ (HLL++) algorithm. A larger value of this parameter indicates a larger number of buckets and a smaller theoretical error rate.
+   -  Increasing this parameter value will increase the computing time and memory usage, but they will still be much lower than the cost of using a **COUNT DISTINCT** query. You are advised to use this function to replace the **COUNT DISTINCT** statement when the estimation cardinality is large.
+
+Examples:
+
+::
+
+   CREATE TABLE employeeinfo (empno smallint, ename varchar(20), job varchar(20), hiredate date,deptno smallint) WITH (ORIENTATION = COLUMN);
+   INSERT INTO employeeinfo VALUES (7155, 'JACK', 'SALESMAN', '2018-12-01', 30);
+   INSERT INTO employeeinfo VALUES (7003, 'TOM', 'FINANCE', '2016-06-15', 20);
+   INSERT INTO employeeinfo VALUES (7357, 'MAX', 'SALESMAN', '2020-10-01', 30);
+
+   SELECT APPROX_COUNT_DISTINCT(empno) from employeeinfo;
+    approx_count_distinct
+   -----------------------
+                        3
+   (1 row)
+
+   SELECT COUNT(DISTINCT empno) FROM employeeinfo GROUP BY ename;
+    count
+   -------
+        1
+        1
+        1
+   (3 rows)
+
+UNIQ(col_name)
+--------------
+
+Description: Aggregate function for calculating the number of non-duplicated values. Similar to **COUNT DISTINCT**, this function calculates the number of rows in a column after deduplication and returns a value indicating the rows without duplication. This function is supported only by clusters of version 8.3.0 or later.
+
+Input parameter description: **col_name** indicates the column for which the number of rows after deduplication needs to be calculated. The value can be SMALLINT, INTEGER, BIGINT, REAL, DOUBLE PRECISION, TEXT, VARCHAR, TIMESTAMP, TIMESTAMPTZ, DATE, TIMETZ or UUID.
+
+.. note::
+
+   -  Currently, only GaussDB(DWS) column-store tables support the **UNIQ** function.
+   -  When the **UNIQ** function is used, the SQL statement must contain **GROUP BY**. To achieve better performance, the GROUP BY fields must be evenly distributed.
+   -  To deduplicate three or more columns in an SQL statement, you can use the **UNIQ** function, which is more efficient than the **COUNT DISTINCT** function.
+   -  Generally, the memory usage of the **UNIQ** function is lower than that of the **COUNT DISTINCT** function. If the memory usage exceeds the threshold when the **COUNT DISTINCT** function is used, you can use the **UNIQ** function to reduce the memory usage.
+
+Examples:
+
+::
+
+   CREATE TABLE employeeinfo (empno smallint, ename varchar(20), job varchar(20), hiredate date,deptno smallint) WITH (ORIENTATION = COLUMN);
+   INSERT INTO employeeinfo VALUES (7155, 'JACK', 'SALESMAN', '2018-12-01', 30);
+   INSERT INTO employeeinfo VALUES (7003, 'TOM', 'FINANCE', '2016-06-15', 20);
+   INSERT INTO employeeinfo VALUES (7357, 'MAX', 'SALESMAN', '2020-10-01', 30);
+
+   SELECT UNIQ(deptno) FROM employeeinfo GROUP BY ename;
+    uniq
+   ------
+       1
+       1
+       1
+   (3 rows)

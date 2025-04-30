@@ -10,7 +10,7 @@ ALL_CONS_COLUMNS
 .. table:: **Table 1** ALL_CONS_COLUMNS columns
 
    +-----------------+-----------------------+-------------------------------------+
-   | Name            | Type                  | Description                         |
+   | Column          | Type                  | Description                         |
    +=================+=======================+=====================================+
    | table_name      | character varying(64) | Name of constraint-related table    |
    +-----------------+-----------------------+-------------------------------------+
@@ -18,5 +18,5 @@ ALL_CONS_COLUMNS
    +-----------------+-----------------------+-------------------------------------+
    | constraint_name | character varying(64) | Constraint name                     |
    +-----------------+-----------------------+-------------------------------------+
-   | position        | smallint              | Position of the column in the table |
+   | position        | Smallint              | Position of the column in the table |
    +-----------------+-----------------------+-------------------------------------+

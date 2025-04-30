@@ -8,17 +8,17 @@ PG_TRIGGER
 **PG_TRIGGER** records the trigger information.
 
 +-----------------------+-----------------------+-------------------------------------------------------------------------------------------------------+
-| Name                  | Type                  | Description                                                                                           |
+| Column                | Type                  | Description                                                                                           |
 +=======================+=======================+=======================================================================================================+
-| tgrelid               | oid                   | OID of the table where the trigger is located.                                                        |
+| tgrelid               | OID                   | OID of the table where the trigger is located.                                                        |
 +-----------------------+-----------------------+-------------------------------------------------------------------------------------------------------+
-| tgname                | name                  | Trigger name.                                                                                         |
+| tgname                | Name                  | Trigger name.                                                                                         |
 +-----------------------+-----------------------+-------------------------------------------------------------------------------------------------------+
-| tgfoid                | oid                   | Trigger OID.                                                                                          |
+| tgfoid                | OID                   | Trigger OID.                                                                                          |
 +-----------------------+-----------------------+-------------------------------------------------------------------------------------------------------+
-| tgtype                | smallint              | Trigger type                                                                                          |
+| tgtype                | Smallint              | Trigger type.                                                                                         |
 +-----------------------+-----------------------+-------------------------------------------------------------------------------------------------------+
-| tgenabled             | "char"                | **O**: The trigger fires in "origin" or "local" mode.                                                 |
+| tgenabled             | Char                  | **O**: The trigger fires in "origin" or "local" mode.                                                 |
 |                       |                       |                                                                                                       |
 |                       |                       | **D**: The trigger is disabled.                                                                       |
 |                       |                       |                                                                                                       |
@@ -26,23 +26,23 @@ PG_TRIGGER
 |                       |                       |                                                                                                       |
 |                       |                       | **A**: The trigger always fires.                                                                      |
 +-----------------------+-----------------------+-------------------------------------------------------------------------------------------------------+
-| tgisinternal          | boolean               | Internal trigger ID. If the value is true, it indicates an internal trigger.                          |
+| tgisinternal          | Boolean               | Internal trigger ID. If the value is true, it indicates an internal trigger.                          |
 +-----------------------+-----------------------+-------------------------------------------------------------------------------------------------------+
-| tgconstrrelid         | oid                   | The table referenced by the integrity constraint                                                      |
+| tgconstrrelid         | OID                   | Table referenced by the integrity constraint.                                                         |
 +-----------------------+-----------------------+-------------------------------------------------------------------------------------------------------+
-| tgconstrindid         | oid                   | Index of the integrity constraint                                                                     |
+| tgconstrindid         | OID                   | Index of the integrity constraint.                                                                    |
 +-----------------------+-----------------------+-------------------------------------------------------------------------------------------------------+
-| tgconstraint          | oid                   | OID of the constraint trigger in the **pg_constraint**                                                |
+| tgconstraint          | OID                   | OID of the constraint trigger in **pg_constraint**.                                                   |
 +-----------------------+-----------------------+-------------------------------------------------------------------------------------------------------+
-| tgdeferrable          | boolean               | The constraint trigger is of the DEFERRABLE type.                                                     |
+| tgdeferrable          | Boolean               | The constraint trigger is of the DEFERRABLE type.                                                     |
 +-----------------------+-----------------------+-------------------------------------------------------------------------------------------------------+
-| tginitdeferred        | boolean               | whether the trigger is of the INITIALLY DEFERRED type                                                 |
+| tginitdeferred        | Boolean               | whether the trigger is of the INITIALLY DEFERRED type.                                                |
 +-----------------------+-----------------------+-------------------------------------------------------------------------------------------------------+
-| tgnargs               | smallint              | Input parameters number of the trigger function                                                       |
+| tgnargs               | Smallint              | Input parameters number of the trigger function.                                                      |
 +-----------------------+-----------------------+-------------------------------------------------------------------------------------------------------+
 | tgattr                | int2vector            | Column ID specified by the trigger. If no column is specified, an empty array is used.                |
 +-----------------------+-----------------------+-------------------------------------------------------------------------------------------------------+
-| tgargs                | bytea                 | Parameter transferred to the trigger                                                                  |
+| tgargs                | bytea                 | Parameter transferred to the trigger.                                                                 |
 +-----------------------+-----------------------+-------------------------------------------------------------------------------------------------------+
 | tgqual                | pg_node_tree          | Indicates the WHEN condition of the trigger. If the WHEN condition does not exist, the value is null. |
 +-----------------------+-----------------------+-------------------------------------------------------------------------------------------------------+

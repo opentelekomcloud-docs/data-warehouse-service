@@ -10,11 +10,11 @@ GS_STAT_DB_CU
 .. table:: **Table 1** GS_STAT_DB_CU columns
 
    ============= ====== =================================
-   Name          Type   Description
+   Column        Type   Description
    ============= ====== =================================
-   node_name1    text   Node name
-   db_name       text   Database name
-   mem_hit       bigint Number of memory hits
-   hdd_sync_read bigint Number of disk synchronous reads
-   hdd_asyn_read bigint Number of disk asynchronous reads
+   node_name1    Text   Node name
+   db_name       Text   Database name
+   mem_hit       Bigint Number of memory hits
+   hdd_sync_read Bigint Number of disk synchronous reads
+   hdd_asyn_read Bigint Number of disk asynchronous reads
    ============= ====== =================================

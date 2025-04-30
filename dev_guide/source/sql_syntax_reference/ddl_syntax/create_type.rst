@@ -8,7 +8,7 @@ CREATE TYPE
 Function
 --------
 
-Defines a new data type in the current database. The user who defines a new data type becomes its owner. Types are designed only for row-store tables.
+**CREATE TYPE** defines a new data type in the current database. The user who defines a new data type becomes its owner. Types are designed only for row-store tables.
 
 Four types of data can be created by using **CREATE TYPE**: composite data, base data, a shell data, and enumerated data.
 
@@ -24,7 +24,7 @@ Four types of data can be created by using **CREATE TYPE**: composite data, base
 
 -  Shell types
 
-   This parameter allows you to create a shell type, which is a type name that has no definition yet. You can use CREATE TYPE with only the type name to make a shell type. Shell types are needed as forward references when base types are created.
+   With this parameter, you can create a shell type, which is a type name without a definition. To create a shell type, use **CREATE TYPE** with only the type name. Shell types are needed as forward references when base types are created.
 
 -  Enumerated types
 
@@ -98,11 +98,11 @@ When creating a base type, you can place parameters in any order. The **input_fu
 
    Specifies the name of a function that converts data from the external text format of a type to its internal format.
 
-   An input function can be declared with either one parameter of the CString type or three parameters of the CString, OID, and integer types.
+   An input function can be declared as taking one parameter of the cstring type or taking three parameters of the cstring, oid, and integer types.
 
    -  The cstring-type parameter is the input text as a C string.
    -  The oid-type parameter is the OID of the type (except for array types, where the parameter is the element type OID of an array type).
-   -  The integer parameter represents the typmod of the destination column, with **-1** passed if unknown.
+   -  The integer-type parameter is typmod of the destination column, if known (**-1** will be passed if not known).
 
    An input function must return a value of the data type itself. Generally, an input function must be declared as **STRICT**. If it is not, it will be called with a **NULL** parameter coming first when the system reads a **NULL** input value. In this case, the function must still return **NULL** unless an error raises. (This mechanism is designed for supporting domain input functions, which may need to reject **NULL** input values.)
 
@@ -231,7 +231,7 @@ When creating a base type, you can place parameters in any order. The **input_fu
 
 .. note::
 
-   Whenever a user-defined type is created, GaussDB(DWS) automatically creates an associated array type whose name consists of the element type name with an underscore (_) added to the beginning of it.
+   Whenever a user-defined type is created, GaussDB(DWS) automatically creates an associated array type whose name consists of the element type name prepended with an underscore (_).
 
 Example
 -------
@@ -291,7 +291,7 @@ This statement creates a placeholder for the type to be created, which can then 
        AS 'filename'
        LANGUAGE C IMMUTABLE STRICT not fenced;
 
-Finally, provide a complete definition of the data type.
+-- Finally, provide a complete definition of the data type:
 
 ::
 

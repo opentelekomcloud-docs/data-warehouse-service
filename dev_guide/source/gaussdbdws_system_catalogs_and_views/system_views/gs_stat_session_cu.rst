@@ -9,11 +9,11 @@ GS_STAT_SESSION_CU
 
 .. table:: **Table 1** GS_STAT_SESSION_CU columns
 
-   ============= ======= ======================================
-   Name          Type    Description
-   ============= ======= ======================================
-   node_name1    text    Node name
-   mem_hit       integer Number of memory hits
-   hdd_sync_read integer Number of hard disk synchronous reads
-   hdd_asyn_read integer Number of hard disk asynchronous reads
-   ============= ======= ======================================
+   ============= ======= =================================
+   Column        Type    Description
+   ============= ======= =================================
+   node_name1    Text    Node name
+   mem_hit       Integer Number of memory hits
+   hdd_sync_read Integer Number of disk synchronous reads
+   hdd_asyn_read Integer Number of disk asynchronous reads
+   ============= ======= =================================

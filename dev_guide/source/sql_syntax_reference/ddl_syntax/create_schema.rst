@@ -8,7 +8,7 @@ CREATE SCHEMA
 Function
 --------
 
-Creates a schema.
+**CREATE SCHEMA** creates a schema.
 
 Named objects are accessed either by "qualifying" their names with the schema name as a prefix, or by setting a search path that includes the desired schema(s). When creating named objects, you can also use the schema name as a prefix.
 
@@ -29,12 +29,15 @@ Syntax
 
       CREATE SCHEMA schema_name
           [ AUTHORIZATION user_name ] [ WITH PERM SPACE 'space_limit'] [ schema_element [ ... ] ];
+      CREATE SCHEMA IF NOT EXISTS schema_name
+          [ AUTHORIZATION user_name ] [ WITH PERM SPACE 'space_limit'] ;
 
--  Create a schema based on a username:
+-  Create a schema based on a user name:
 
    ::
 
       CREATE SCHEMA AUTHORIZATION user_name [ WITH PERM SPACE 'space_limit'] [ schema_element [ ... ] ];
+      CREATE SCHEMA IF NOT EXISTS AUTHORIZATION user_name [ WITH PERM SPACE 'space_limit'] ;
 
 Parameter Description
 ---------------------
@@ -67,6 +70,12 @@ Parameter Description
    Indicates an SQL statement defining an object to be created within the schema. Currently, only **CREATE TABLE**, **CREATE VIEW**, **CREATE INDEX**, **CREATE PARTITION**, and **GRANT** are accepted as clauses within **CREATE SCHEMA**.
 
    Objects created by sub-commands are owned by the user specified by **AUTHORIZATION**.
+
+-  **IF NOT EXISTS**
+
+   If **IF NOT EXISTS** is specified and no schema with the same name exists, a schema can be created. If a schema with the same name already exists during schema creation, the system will not report an error but will display a message indicating that the schema already exists and no further operations will be performed. When this parameter is used, the **Schema_element** subcommand cannot be included.
+
+   The **IF NOT EXISTS** parameter is supported only in 9.1.0 and later versions.
 
 .. note::
 

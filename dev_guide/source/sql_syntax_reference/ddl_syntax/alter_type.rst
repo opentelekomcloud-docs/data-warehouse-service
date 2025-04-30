@@ -8,7 +8,7 @@ ALTER TYPE
 Function
 --------
 
-Modifies the definition of a type.
+**ALTER TYPE** modifies the definition of a type.
 
 Syntax
 ------
@@ -144,13 +144,13 @@ Rename the data type.
 
    ALTER TYPE compfoo RENAME TO compfoo1;
 
-Change the owner of user-defined type **compfoo1** to **usr1**.
+Change the owner of the user-defined type **compfoo1** to **usr1**.
 
 ::
 
    ALTER TYPE compfoo1 OWNER TO usr1;
 
-Change the schema of user-defined type **compfoo1** to **usr1**.
+Change the schema of the user-defined type **compfoo1** to **usr1**.
 
 ::
 

@@ -291,7 +291,7 @@ The time zone offset from UTC, measured in seconds. Positive values correspond t
    SELECT EXTRACT(timezone FROM TIMETZ '17:12:28');
     date_part
    -----------
-      0
+      28800
    (1 row)
 
 timezone_hour
@@ -304,7 +304,7 @@ The hour component of the time zone offset
    SELECT EXTRACT(timezone_hour FROM TIMETZ '17:12:28');
     date_part
    -----------
-          0
+          8
    (1 row)
 
 timezone_minute

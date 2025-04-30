@@ -17,7 +17,7 @@ Precautions
 
 -  When a SELECT query is performed on an HStore table, the system will scan the data in column-store primary table CUs, the delta table, and the update information in each row in the memory. The three types of information will be combined before returned.
 
--  If data is queried based on the primary key index or unique index,
+-  In the scenario where data is queried using the primary key index or unique index:
 
    For traditional column-store tables, the unique index stores both the data location information (blocknum, offset) of the row-store Delta table and the data location information (cuid, offset) of the column-store primary table. After the data is merged to the primary table, a new index tuple will be inserted, and the index will keep bloating.
 

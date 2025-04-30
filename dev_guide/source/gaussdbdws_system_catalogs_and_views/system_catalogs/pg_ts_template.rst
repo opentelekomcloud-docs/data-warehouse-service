@@ -12,11 +12,11 @@ PG_TS_TEMPLATE
    +---------------+---------+---------------------------------------+----------------------------------------------------------------+
    | Name          | Type    | Reference                             | Description                                                    |
    +===============+=========+=======================================+================================================================+
-   | oid           | oid     | ``-``                                 | Row identifier (hidden attribute; must be explicitly selected) |
+   | OID           | OID     | ``-``                                 | Row identifier (hidden attribute; must be explicitly selected) |
    +---------------+---------+---------------------------------------+----------------------------------------------------------------+
-   | tmplname      | name    | ``-``                                 | Text search template name                                      |
+   | tmplname      | Name    | ``-``                                 | Text search template name                                      |
    +---------------+---------+---------------------------------------+----------------------------------------------------------------+
-   | tmplnamespace | oid     | :ref:`PG_NAMESPACE <dws_04_0600>`.oid | OID of the namespace that contains the template                |
+   | tmplnamespace | OID     | :ref:`PG_NAMESPACE <dws_04_0600>`.oid | OID of the namespace that contains the template                |
    +---------------+---------+---------------------------------------+----------------------------------------------------------------+
    | tmplinit      | regproc | :ref:`PG_PROC <dws_04_0608>`.oid      | OID of the template's initialization function                  |
    +---------------+---------+---------------------------------------+----------------------------------------------------------------+

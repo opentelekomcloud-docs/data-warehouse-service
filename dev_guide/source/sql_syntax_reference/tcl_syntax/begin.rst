@@ -8,7 +8,7 @@ BEGIN
 Function
 --------
 
-Initiates an anonymous block or a single transaction. This section describes the syntax of **BEGIN** used to initiate an anonymous block. For details about the **BEGIN** syntax that initiates transactions, see :ref:`START TRANSACTION <dws_06_0265>`.
+**BEGIN** may be used to initiate an anonymous block or a single transaction. This section describes the syntax of **BEGIN** used to initiate an anonymous block. For details about the **BEGIN** syntax that initiates transactions, see :ref:`START TRANSACTION <dws_06_0265>`.
 
 An anonymous block is a structure that can dynamically create and execute stored procedure code instead of permanently storing code as a database object in the database.
 

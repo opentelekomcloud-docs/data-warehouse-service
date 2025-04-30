@@ -13,11 +13,11 @@ Conditional expressions include the following types:
 
    **CASE** expressions are similar to the **CASE** statements in other coding languages.
 
-   :ref:`Figure 1 <en-us_topic_0000001510401013__f01d218ade2304aa39904ab7270de148d>` shows the syntax of a **CASE** expression.
+   :ref:`Figure 1 <en-us_topic_0000001764516522__f01d218ade2304aa39904ab7270de148d>` shows the syntax of a **CASE** expression.
 
-   .. _en-us_topic_0000001510401013__f01d218ade2304aa39904ab7270de148d:
+   .. _en-us_topic_0000001764516522__f01d218ade2304aa39904ab7270de148d:
 
-   .. figure:: /_static/images/en-us_image_0000001460721336.jpg
+   .. figure:: /_static/images/en-us_image_0000001811634945.jpg
       :alt: **Figure 1** case::=
 
       **Figure 1** case::=
@@ -56,11 +56,11 @@ Conditional expressions include the following types:
 
 -  DECODE
 
-   :ref:`Figure 2 <en-us_topic_0000001510401013__fd14d2a98b6614a1990d3a7745dd91b21>` shows the syntax of a **DECODE** expression.
+   :ref:`Figure 2 <en-us_topic_0000001764516522__fd14d2a98b6614a1990d3a7745dd91b21>` shows the syntax of a **DECODE** expression.
 
-   .. _en-us_topic_0000001510401013__fd14d2a98b6614a1990d3a7745dd91b21:
+   .. _en-us_topic_0000001764516522__fd14d2a98b6614a1990d3a7745dd91b21:
 
-   .. figure:: /_static/images/en-us_image_0000001510161425.png
+   .. figure:: /_static/images/en-us_image_0000001764675566.png
       :alt: **Figure 2** decode::=
 
       **Figure 2** decode::=
@@ -79,18 +79,18 @@ Conditional expressions include the following types:
 
 -  COALESCE
 
-   :ref:`Figure 3 <en-us_topic_0000001510401013__f49993c20aa1746a1bcd8dc6fc33f1129>` shows the syntax of a **COALESCE** expression.
+   :ref:`Figure 3 <en-us_topic_0000001764516522__f49993c20aa1746a1bcd8dc6fc33f1129>` shows the syntax of a **COALESCE** expression.
 
-   .. _en-us_topic_0000001510401013__f49993c20aa1746a1bcd8dc6fc33f1129:
+   .. _en-us_topic_0000001764516522__f49993c20aa1746a1bcd8dc6fc33f1129:
 
-   .. figure:: /_static/images/en-us_image_0000001510401081.png
+   .. figure:: /_static/images/en-us_image_0000001764675562.png
       :alt: **Figure 3** coalesce::=
 
       **Figure 3** coalesce::=
 
    **COALESCE** returns its first non-NULL value. If all the arguments are NULL, return **NULL**. This value is replaced by the default value when data is displayed. Like a **CASE** expression, **COALESCE** only evaluates the parameters that are needed to determine the result. That is, parameters to the right of the first non-null parameter are not evaluated.
 
-   Example:
+   The following is an example:
 
    ::
 
@@ -124,18 +124,18 @@ Conditional expressions include the following types:
 
 -  NULLIF
 
-   :ref:`Figure 4 <en-us_topic_0000001510401013__f08785065f90f4fcf836fcc8d88b56686>` shows the syntax of a **NULLIF** expression.
+   :ref:`Figure 4 <en-us_topic_0000001764516522__f08785065f90f4fcf836fcc8d88b56686>` shows the syntax of a **NULLIF** expression.
 
-   .. _en-us_topic_0000001510401013__f08785065f90f4fcf836fcc8d88b56686:
+   .. _en-us_topic_0000001764516522__f08785065f90f4fcf836fcc8d88b56686:
 
-   .. figure:: /_static/images/en-us_image_0000001460721340.png
+   .. figure:: /_static/images/en-us_image_0000001811515869.png
       :alt: **Figure 4** nullif::=
 
       **Figure 4** nullif::=
 
    Only if **value1** is equal to **value2** can **NULLIF** return the **NULL** value. Otherwise, **value1** is returned.
 
-   Examples
+   The following is an example:
 
    ::
 
@@ -168,11 +168,11 @@ Conditional expressions include the following types:
 
 -  GREATEST (maximum value) and LEAST (minimum value)
 
-   :ref:`Figure 5 <en-us_topic_0000001510401013__f7837163f04e147fdbf313fc02759293e>` shows the syntax of a **GREATEST** expression.
+   :ref:`Figure 5 <en-us_topic_0000001764516522__f7837163f04e147fdbf313fc02759293e>` shows the syntax of a **GREATEST** expression.
 
-   .. _en-us_topic_0000001510401013__f7837163f04e147fdbf313fc02759293e:
+   .. _en-us_topic_0000001764516522__f7837163f04e147fdbf313fc02759293e:
 
-   .. figure:: /_static/images/en-us_image_0000001460881036.png
+   .. figure:: /_static/images/en-us_image_0000001811515877.png
       :alt: **Figure 5** greatest::=
 
       **Figure 5** greatest::=
@@ -187,11 +187,11 @@ Conditional expressions include the following types:
          155555
       (1 row)
 
-   :ref:`Figure 6 <en-us_topic_0000001510401013__f7c82b3fb53a74e5b928072c3e971408a>` shows the syntax of a **LEAST** expression.
+   :ref:`Figure 6 <en-us_topic_0000001764516522__f7c82b3fb53a74e5b928072c3e971408a>` shows the syntax of a **LEAST** expression.
 
-   .. _en-us_topic_0000001510401013__f7c82b3fb53a74e5b928072c3e971408a:
+   .. _en-us_topic_0000001764516522__f7c82b3fb53a74e5b928072c3e971408a:
 
-   .. figure:: /_static/images/en-us_image_0000001510282157.png
+   .. figure:: /_static/images/en-us_image_0000001764675570.png
       :alt: **Figure 6** least::=
 
       **Figure 6** least::=
@@ -214,11 +214,11 @@ Conditional expressions include the following types:
 
 -  NVL
 
-   :ref:`Figure 7 <en-us_topic_0000001510401013__f94614e31e7e046d7842d729dbd442f86>` shows the syntax of an **NVL** expression.
+   :ref:`Figure 7 <en-us_topic_0000001764516522__f94614e31e7e046d7842d729dbd442f86>` shows the syntax of an **NVL** expression.
 
-   .. _en-us_topic_0000001510401013__f94614e31e7e046d7842d729dbd442f86:
+   .. _en-us_topic_0000001764516522__f94614e31e7e046d7842d729dbd442f86:
 
-   .. figure:: /_static/images/en-us_image_0000001460561532.jpg
+   .. figure:: /_static/images/en-us_image_0000001764516602.jpg
       :alt: **Figure 7** nvl::=
 
       **Figure 7** nvl::=
@@ -245,11 +245,11 @@ Conditional expressions include the following types:
 
 -  IF
 
-   :ref:`Figure 8 <en-us_topic_0000001510401013__fig591124561511>` shows the syntax of an **IF** expression.
+   :ref:`Figure 8 <en-us_topic_0000001764516522__fig591124561511>` shows the syntax of an **IF** expression.
 
-   .. _en-us_topic_0000001510401013__fig591124561511:
+   .. _en-us_topic_0000001764516522__fig591124561511:
 
-   .. figure:: /_static/images/en-us_image_0000001510161421.png
+   .. figure:: /_static/images/en-us_image_0000001811634941.png
       :alt: **Figure 8** if::=
 
       **Figure 8** if::=
@@ -260,11 +260,11 @@ Conditional expressions include the following types:
 
 -  IFNULL
 
-   :ref:`Figure 9 <en-us_topic_0000001510401013__fig294554533118>` shows the syntax of a **NULLIF** expression.
+   :ref:`Figure 9 <en-us_topic_0000001764516522__fig294554533118>` shows the syntax of a **NULLIF** expression.
 
-   .. _en-us_topic_0000001510401013__fig294554533118:
+   .. _en-us_topic_0000001764516522__fig294554533118:
 
-   .. figure:: /_static/images/en-us_image_0000001510521085.png
+   .. figure:: /_static/images/en-us_image_0000001764516598.png
       :alt: **Figure 9** ifnull::=
 
       **Figure 9** ifnull::=

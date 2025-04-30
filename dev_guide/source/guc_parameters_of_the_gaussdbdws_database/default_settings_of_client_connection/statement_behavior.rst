@@ -48,7 +48,7 @@ current_schema
 
    **$user** indicates the name of the schema with the same name as the current session user. If the schema does not exist, **$user** will be ignored.
 
-.. _en-us_topic_0000001510402201__s2bc15c6041414a058ad5e1738739a120:
+.. _en-us_topic_0000001764491912__s2bc15c6041414a058ad5e1738739a120:
 
 default_tablespace
 ------------------
@@ -56,7 +56,7 @@ default_tablespace
 **Parameter description**: Specifies the default tablespace of the created objects (tables and indexes) when a **CREATE** command does not explicitly specify a tablespace.
 
 -  The value of this parameter is either the name of a tablespace, or an empty string that specifies the use of the default tablespace of the current database. If a non-default tablespace is specified, users must have CREATE privilege for it. Otherwise, creation attempts will fail.
--  This parameter is not used for temporary tables. For them, the :ref:`temp_tablespaces <en-us_topic_0000001510402201__sf6153b3838a045159743f7f32e69ffa3>` is consulted instead.
+-  This parameter is not used for temporary tables. For them, the :ref:`temp_tablespaces <en-us_topic_0000001764491912__sf6153b3838a045159743f7f32e69ffa3>` is consulted instead.
 -  This parameter is not used when users create databases. By default, a new database inherits its tablespace setting from the template database.
 
 **Type**: USERSET
@@ -81,21 +81,7 @@ default_storage_nodegroup
 
 **Default value**: **installation**
 
-default_colversion
-------------------
-
-**Parameter description**: Sets the storage format version of the column-store table that is created by default.
-
-**Type**: SIGHUP
-
-**Value range**: enumerated values
-
--  **1.0**: Each column in a column-store table is stored in a separate file. The file name is **relfilenode.C1.0**, **relfilenode.C2.0**, **relfilenode.C3.0**, or similar.
--  **2.0**: All columns of a column-store table are combined and stored in a file. The file is named **relfilenode.C1.0**.
-
-**Default value:** **2.0**
-
-.. _en-us_topic_0000001510402201__sf6153b3838a045159743f7f32e69ffa3:
+.. _en-us_topic_0000001764491912__sf6153b3838a045159743f7f32e69ffa3:
 
 temp_tablespaces
 ----------------
@@ -106,7 +92,7 @@ The value of this parameter is a list of names of tablespaces. When there is mor
 
 **Type**: USERSET
 
-**Value range**: a string An empty string indicates that all temporary objects are created only in the default tablespace of the current database. For details, see :ref:`default_tablespace <en-us_topic_0000001510402201__s2bc15c6041414a058ad5e1738739a120>`.
+**Value range**: a string An empty string indicates that all temporary objects are created only in the default tablespace of the current database. For details, see :ref:`default_tablespace <en-us_topic_0000001764491912__s2bc15c6041414a058ad5e1738739a120>`.
 
 **Default value**: empty
 
@@ -140,21 +126,21 @@ default_transaction_isolation
 
 **Default value**: **READ COMMITTED**
 
-default_transaction_read_only
------------------------------
+default_transaction_read_only_probe
+-----------------------------------
 
-**Parameter description**: Specifies whether each new transaction is in read-only state.
+**Parameter description**: Specifies whether to terminate the execution of special statements (e.g., statements for flushing data to disks and generating new tables or physical files) when the database is about to become read-only (disk usage reaches 90%). The CM module checks and sets the disk usage threshold. It is not advised to set this parameter. This is supported only by clusters of version 9.1.0.200 or later.
 
-**Type**: SIGHUP
+**Type**: USERSET
 
 **Value range**: Boolean
 
--  **on** indicates the transaction is in read-only state.
--  **off** indicates the transaction is in read/write state.
+-  **on** indicates that the execution of the special statement is terminated.
+-  **off** indicates that the execution of the special statement is not terminated.
 
 **Default value**: **off**
 
-.. _en-us_topic_0000001510402201__s05ef9312d74143928830d7d459cdc63a:
+.. _en-us_topic_0000001764491912__s05ef9312d74143928830d7d459cdc63a:
 
 default_transaction_deferrable
 ------------------------------
@@ -216,7 +202,7 @@ vacuum_freeze_min_age
 
 .. note::
 
-   Although you can set this parameter to a value ranging from **0** to **1000000000** anytime, **VACUUM** will limit the effective value to half the value of :ref:`autovacuum_freeze_max_age <en-us_topic_0000001510283565__s60e0fbc2967c44b3bb6c53c29e9c772e>` by default.
+   Although you can set this parameter to a value ranging from **0** to **1000000000** anytime, **VACUUM** will limit the effective value to half the value of **autovacuum_freeze_max_age** by default.
 
 **Default value**: **5000000000**
 
@@ -231,7 +217,7 @@ vacuum_freeze_table_age
 
 .. note::
 
-   Although users can set this parameter to a value ranging from **0** to **2000000000** anytime, **VACUUM** will limit the effective value to 95% of :ref:`autovacuum_freeze_max_age <en-us_topic_0000001510283565__s60e0fbc2967c44b3bb6c53c29e9c772e>` by default. Therefore, a periodic manual VACUUM has a chance to run before an anti-wraparound autovacuum is launched for the table.
+   Although users can set this parameter to a value ranging from **0** to **2000000000** anytime, **VACUUM** will limit the effective value to 95% of **autovacuum_freeze_max_age** by default. Therefore, a periodic manual VACUUM has a chance to run before an anti-wraparound autovacuum is launched for the table.
 
 **Default value**: **15000000000**
 

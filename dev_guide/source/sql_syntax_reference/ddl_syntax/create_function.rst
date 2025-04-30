@@ -8,7 +8,7 @@ CREATE FUNCTION
 Function
 --------
 
-Defines a new function.
+**CREATE FUNCTION** defines a new function.
 
 Precautions
 -----------
@@ -131,7 +131,7 @@ Parameter Description
 
 -  **DETERMINISTIC**
 
-   Adapted to Oracle SQL syntax. This parameter is not recommended.
+   Adapted to Oracle SQL syntax. You are not advised to use it.
 
 -  **column_name**
 
@@ -167,11 +167,11 @@ Parameter Description
 
    Examples:
 
-   #. .. _en-us_topic_0000001460561404__li144181920184412:
+   #. .. _en-us_topic_0000001811634697__li144181920184412:
 
       If a user-defined function references objects such as tables and views, the function cannot be defined as **IMMUTABLE**, because the function may return different results when the data in a referenced table changes.
 
-   #. .. _en-us_topic_0000001460561404__li1341819203448:
+   #. .. _en-us_topic_0000001811634697__li1341819203448:
 
       If a user-defined function references a **STABLE** or **VOLATILE** function, the function cannot be defined as IMMUTABLE.
 
@@ -179,7 +179,7 @@ Parameter Description
 
    #. If a user-defined function contains an aggregation operation that will generate **STREAM** plans to complete the operation (meaning that DNs and CNs are involved for results calculation, such as the **LISTAGG** function), the function cannot be defined as **IMMUTABLE**.
 
-   To prevent possible problems, you can set **behavior_compat_options** to **check_function_conflicts** in the database to check definition conflicts. This method can identify the :ref:`1 <en-us_topic_0000001460561404__li144181920184412>` and :ref:`2 <en-us_topic_0000001460561404__li1341819203448>` scenarios described above.
+   To prevent possible problems, you can set **behavior_compat_options** to **check_function_conflicts** in the database to check definition conflicts. This method can identify the :ref:`1 <en-us_topic_0000001811634697__li144181920184412>` and :ref:`2 <en-us_topic_0000001811634697__li1341819203448>` scenarios described above.
 
 -  **STABLE**
 
@@ -303,7 +303,7 @@ Parameter Description
 
    .. important::
 
-      When the function is creating users, the unencrypted passwords will be recorded in the log. You are not advised to do it.
+      When the function is creating users, the log will record unencrypted passwords. You are not advised to do it.
 
 Examples
 --------

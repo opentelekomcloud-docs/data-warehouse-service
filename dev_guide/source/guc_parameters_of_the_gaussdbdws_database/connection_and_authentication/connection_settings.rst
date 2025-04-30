@@ -7,7 +7,7 @@ Connection Settings
 
 This section describes parameters related to the connection mode between the client and server.
 
-.. _en-us_topic_0000001460722472__s2d671f584b5647a19255e7c6a3d116aa:
+.. _en-us_topic_0000001764491936__s2d671f584b5647a19255e7c6a3d116aa:
 
 max_connections
 ---------------
@@ -32,18 +32,7 @@ If the parameter is set to a large value, GaussDB(DWS) requires more SystemV sha
 
 .. important::
 
-   The value of **max_connections** is related to :ref:`max_prepared_transactions <en-us_topic_0000001460563104__s7f44489cfdce4bbea287150fb7333b9e>`. Before setting **max_connections**, ensure that the value of **max_prepared_transactions** is greater than or equal to that of **max_connections**. In this way, each session has a prepared transaction in the waiting state.
-
-sysadmin_reserved_connections
------------------------------
-
-**Parameter description**: Specifies the minimum number of connections reserved for administrators.
-
-**Type**: POSTMASTER
-
-**Value range**: an integer ranging from 0 to 262143
-
-**Default value**: **3**
+   The value of **max_connections** is related to :ref:`max_prepared_transactions <en-us_topic_0000001811610373__s7f44489cfdce4bbea287150fb7333b9e>`. Before setting **max_connections**, ensure that the value of **max_prepared_transactions** is greater than or equal to that of **max_connections**. In this way, each session has a prepared transaction in the waiting state.
 
 application_name
 ----------------
@@ -56,7 +45,7 @@ application_name
 
 **Default value**: **gsql**
 
-.. _en-us_topic_0000001460722472__section4834457114318:
+.. _en-us_topic_0000001764491936__section4834457114318:
 
 connection_info
 ---------------
@@ -79,4 +68,4 @@ connection_info
 
          {"driver_name":"ODBC","driver_version": "(GaussDB x.x.x build 39137c2d) compiled at 2022-09-23 15:43:11 commit 3629 last mr 5138 debug","driver_path":"/usr/local/lib/psqlodbcw.so","os_user":"omm"}
 
-      For ODBC, JDBC, and GSQL connections, **driver_name**, **driver_version**, **driver_path**, and **os_user** are displayed by default. For other interface connections, **driver_name** and **driver_version** are displayed by default. The display of **driver_path** and **os_user** is specified by users.
+      By default, **driver_name**, **driver_version**, **driver_path**, and **os_user** are displayed for ODBC, JDBC, and gsql connections. For other connections, **driver_name** and **driver_version** are displayed by default. The display of **driver_path** and **os_user** is controlled by users (see :ref:`Connecting to a Database <dws_04_0093>` and :ref:`Configuring a Data Source in the Linux OS <dws_04_0119>`).

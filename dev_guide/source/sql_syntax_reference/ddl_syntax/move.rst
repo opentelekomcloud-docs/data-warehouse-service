@@ -8,7 +8,7 @@ MOVE
 Function
 --------
 
-Repositions a cursor without retrieving any data. **MOVE** works exactly like the :ref:`FETCH <dws_06_0216>` command, except it only repositions the cursor and does not return rows.
+**MOVE** repositions a cursor without retrieving any data. **MOVE** works exactly like the :ref:`FETCH <dws_06_0216>` command, except it only repositions the cursor and does not return rows.
 
 Precautions
 -----------
@@ -44,7 +44,7 @@ The **direction** clause specifies optional parameters.
 Parameter Description
 ---------------------
 
-**MOVE** command parameters are the same as **FETCH** command parameters. For details, see :ref:`Parameter Description <en-us_topic_0000001460880956__s680662240a104ac7a51873c7c888bdd1>` in **FETCH**.
+**MOVE** command parameters are the same as **FETCH** command parameters. For details, see :ref:`Parameter Description <en-us_topic_0000001764675150__s680662240a104ac7a51873c7c888bdd1>` in **FETCH**.
 
 .. note::
 

@@ -10,13 +10,13 @@ PG_REDACTION_POLICY
 .. table:: **Table 1** PG_REDACTION_POLICY columns
 
    +-----------------------+-----------------------+-------------------------------------------------------------------------------------------+
-   | Name                  | Type                  | Description                                                                               |
+   | Column                | Type                  | Description                                                                               |
    +=======================+=======================+===========================================================================================+
-   | object_oid            | oid                   | OID of the object to be redacted.                                                         |
+   | object_oid            | OID                   | OID of the object to be redacted.                                                         |
    +-----------------------+-----------------------+-------------------------------------------------------------------------------------------+
-   | policy_name           | name                  | Name of the redaction policy.                                                             |
+   | policy_name           | Name                  | Name of the redaction policy.                                                             |
    +-----------------------+-----------------------+-------------------------------------------------------------------------------------------+
-   | enable                | boolean               | Policy status (enabled or disabled).                                                      |
+   | enable                | Boolean               | Policy status (enabled or disabled).                                                      |
    |                       |                       |                                                                                           |
    |                       |                       | .. note::                                                                                 |
    |                       |                       |                                                                                           |
@@ -27,9 +27,9 @@ PG_REDACTION_POLICY
    +-----------------------+-----------------------+-------------------------------------------------------------------------------------------+
    | expression            | pg_node_tree          | Policy effective expression (for users).                                                  |
    +-----------------------+-----------------------+-------------------------------------------------------------------------------------------+
-   | policy_description    | text                  | Description of a policy.                                                                  |
+   | policy_description    | Text                  | Description of a policy.                                                                  |
    +-----------------------+-----------------------+-------------------------------------------------------------------------------------------+
-   | inherited             | bool                  | Whether a redaction policy is inherited from another redaction policy.                    |
+   | inherited             | Bool                  | Whether a redaction policy is inherited from another redaction policy.                    |
    +-----------------------+-----------------------+-------------------------------------------------------------------------------------------+
    | policy_order          | float4                | Masking policy sequence. This field is supported by 8.2.1.100 and later cluster versions. |
    +-----------------------+-----------------------+-------------------------------------------------------------------------------------------+

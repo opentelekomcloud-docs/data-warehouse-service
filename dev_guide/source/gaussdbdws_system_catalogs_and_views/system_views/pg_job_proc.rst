@@ -10,8 +10,8 @@ The **PG_JOB_PROC** view replaces the **PG_JOB_PROC** system catalog in earlier 
 .. table:: **Table 1** PG_JOB_PROC columns
 
    ====== ====== ===========
-   Name   Type   Description
+   Column Type   Description
    ====== ====== ===========
-   job_id bigint Job ID
-   what   text   Job content
+   job_id Bigint Job ID
+   what   Text   Job content
    ====== ====== ===========

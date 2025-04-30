@@ -99,7 +99,7 @@ allocate_mem_cost
 smp_thread_cost
 ---------------
 
-**Parameter description**: Specifies the optimizer's cost for calculating parallel threads of an operator. This parameter is used for tuning if **query_dop** is not suitable for system load management. (This parameter is supported by version 8.2.0 or later clusters.)
+**Parameter description**: Specifies the optimizer's cost for calculating parallel threads of an operator. This parameter is used for tuning if **query_dop** is not suitable for system load management. (This parameter is supported only by clusters of version 8.2.0 or later.)
 
 **Type**: USERSET
 

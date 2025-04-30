@@ -10,20 +10,20 @@ This section describes how to execute anonymous blocks in dynamic statements. Ap
 Syntax
 ------
 
-:ref:`Figure 1 <en-us_topic_0000001460882408__fa37441543aa3495d84b876c58afc0a2d>` shows the syntax diagram.
+:ref:`Figure 1 <en-us_topic_0000001764491748__fa37441543aa3495d84b876c58afc0a2d>` shows the syntax diagram.
 
-.. _en-us_topic_0000001460882408__fa37441543aa3495d84b876c58afc0a2d:
+.. _en-us_topic_0000001764491748__fa37441543aa3495d84b876c58afc0a2d:
 
-.. figure:: /_static/images/en-us_image_0000001510522789.png
+.. figure:: /_static/images/en-us_image_0000001764492280.png
    :alt: **Figure 1** call_anonymous_block::=
 
    **Figure 1** call_anonymous_block::=
 
-:ref:`Figure 2 <en-us_topic_0000001460882408__f1cfe980b10ab4ce88a9b967d374ec40e>` shows the syntax diagram for **using_clause**.
+:ref:`Figure 2 <en-us_topic_0000001764491748__f1cfe980b10ab4ce88a9b967d374ec40e>` shows the syntax diagram for **using_clause**.
 
-.. _en-us_topic_0000001460882408__f1cfe980b10ab4ce88a9b967d374ec40e:
+.. _en-us_topic_0000001764491748__f1cfe980b10ab4ce88a9b967d374ec40e:
 
-.. figure:: /_static/images/en-us_image_0000001510163121.png
+.. figure:: /_static/images/en-us_image_0000001811610625.png
    :alt: **Figure 2** using_clause-4
 
    **Figure 2** using_clause-4

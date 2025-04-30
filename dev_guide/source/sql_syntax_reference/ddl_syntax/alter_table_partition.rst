@@ -8,7 +8,7 @@ ALTER TABLE PARTITION
 Function
 --------
 
-Modifies table partitioning, including adding, deleting, splitting, merging partitions, and modifying partition attributes.
+**ALTER TABLE PARTITION** modifies table partitioning, including adding, deleting, splitting, merging partitions, and modifying partition attributes.
 
 Precautions
 -----------
@@ -23,13 +23,18 @@ Precautions
 -  When you run the **DROP PARTITION** command to delete a partition, the data in the partition is also deleted.
 -  Use **PARTITION FOR()** to choose partitions. The number of specified values in the brackets should be the same as the column number in customized partition, and they must be consistent.
 -  The **Value** partitioned table does not support the **Alter Partition** operation.
--  For OBS multi-temperature tables:
+-  For OBS hot and cold tables:
 
-   -  The tablespace of a partitioned table cannot be an OBS tablespace during the **MOVE**, **EXCHANGE**, **MERGE**, and **SPLIT** operations.
-   -  When an **ALTER** statement is executed, the cold and hot data attributes in the partitions cannot be changed, that is, data in the cold partition should still be in the cold partition after a data operation, and hot partition data should be in the hot partition. Cold partition data cannot be migrated to the local tablespace.
+   -  They do not support specifying the partition table's tablespace as the OBS tablespace for **MOVE**, **EXCHANGE**, **MERGE**, and **SPLIT** operations.
+   -  When an **ALTER** statement is executed, the data in the cold partition should stay in the cold partition, and the data in the hot partition should remain in the hot partition. It is not allowed to move cold partition data to the local tablespace.
    -  Only the default tablespace is supported for cold partitions.
    -  Cold and hot partitions cannot be merged.
-   -  Cold partition switching is not supported for the **EXCHANGE** operation.
+   -  Cold partition switching is not supported during the **EXCHANGE** operation.
+
+.. warning::
+
+   -  Avoid performing **ALTER TABLE**, **ALTER TABLE PARTITION**, **DROP PARTITION**, and **TRUNCATE** operations during peak hours to prevent long SQL statements from blocking these operations or SQL services.
+   -  For more information about development and design specifications, see "GaussDB(DWS) Development and Design Proposal" in the *GaussDB(DWS) Developer Guide*.
 
 Syntax
 ------
@@ -45,6 +50,8 @@ Syntax
 
    ::
 
+          modify_clause  |
+          rebuild_clause |
           exchange_clause  |
           row_clause  |
           merge_clause  |
@@ -53,6 +60,18 @@ Syntax
           add_clause  |
           drop_clause  |
           truncate_partitioned_clause
+
+   -  The syntax of **modify_clause** is used to set whether a partition index is usable.
+
+      ::
+
+         MODIFY PARTITION partition_name { UNUSABLE LOCAL INDEXES | REBUILD UNUSABLE LOCAL INDEXES }
+
+   -  The **rebuild_clause** syntax is used to rebuild the index of a partition. This syntax is supported only by clusters of version 8.3.0.100 or later.
+
+      ::
+
+         REBUILD PARTITION partition_name [ WITHOUT UNUSABLE ]
 
    -  The **exchange_clause** syntax is used to move the data from a general table to a specified partition.
 
@@ -70,7 +89,8 @@ Syntax
       -  The number and information of indexes of the ordinary table and the partitioned table should be consistent.
       -  The number and information of constraints of the ordinary table and the partitioned table should be consistent.
       -  The ordinary table cannot be a temporary table or unlogged table.
-      -  The ordinary table and the partitioned table must be in the same logical cluster or node group.
+      -  To exchange partitions, an ordinary table and a partitioned table need to be in the same logical cluster or node group. Otherwise, data from each table is inserted into the other table, which makes the partition exchange time depend on the table data volume. This can be very slow for large tables and partitioned tables.
+      -  In online scale-out and redistribution scenarios, the exchange partition statement may interfere with the redistribution of common tables and partitioned tables (if there are lock conflicts between the partition exchange and redistribution statement). Usually, the redistribution of common tables and partitioned tables is retried twice after being interrupted, but if the same table is exchanged too often, the redistribution may fail multiple times. If the redistribution process of an ordinary table is interrupted by the partition exchange operation, the data has been replaced with the data in the original partition table during the redistribution retry. In this case, full redistribution will be performed again.
       -  If other columns following the last valid column in the partitioned table are deleted and the deleted columns are not considered, the partitioned table can be exchanged with the ordinary table as long as the columns of the two tables are the same.
       -  The table-level parameter **colversion** of a column-store ordinary table must be the same as that of a column-store partitioned table. Partition swap between colversion2.0 and colversion1.0 is not allowed.
 
@@ -133,7 +153,7 @@ Syntax
 
             -  The first new partition key specified by **partition_less_than_item** must be larger than that of the former partition (if any), and the last partition key specified by **partition_less_than_item** must be equal to that of the splitting partition.
             -  The start point (if any) of the first new partition specified by **partition_start_end_item** must be equal to the partition key (if any) of the previous partition. The end point (if any) of the last partition specified by **partition_start_end_item** must be equal to the partition key of the splitting partition.
-            -  **partition_less_than_item** supports a maximum of four partition keys and **partition_start_end_item** supports only one partition key. For details about the supported data types, see :ref:`Partition Key <en-us_topic_0000001460561364__lb144da954d4c4ac58c1e9ae1391e59ac>`.
+            -  **partition_less_than_item** supports a maximum of four partition keys and **partition_start_end_item** supports only one partition key. For details about the supported data types, see :ref:`Partition Key <en-us_topic_0000001764675414__lb144da954d4c4ac58c1e9ae1391e59ac>`.
             -  **partition_less_than_item** and **partition_start_end_item** cannot be used in the same statement.
 
       -  The syntax of **partition_less_than_item** is as follows:
@@ -143,7 +163,7 @@ Syntax
             PARTITION partition_name VALUES LESS THAN ( { partition_value | MAXVALUE }  [, ...] )
 
 
-      -  The syntax of **partition_start_end_item** is as follows. For details about the constraints, see :ref:`partition_start_end_item syntax <en-us_topic_0000001460561364__li2094151861116>`.
+      -  The syntax of **partition_start_end_item** is as follows. For details about the constraints, see :ref:`partition_start_end_item syntax <en-us_topic_0000001764675414__li2094151861116>`.
 
          ::
 
@@ -168,7 +188,7 @@ Syntax
 
          .. important::
 
-            -  If the source partition is not a :ref:`DEFAULT partition <en-us_topic_0000001460561364__li105701736194813>`, the boundary specified by the split point is a non-void proper subset of the source partition boundary. If the source partition is a DEFAULT partition, the boundary specified by the split point cannot overlap with the boundaries of other non-DEFAULT partitions.
+            -  If the source partition is not a :ref:`DEFAULT partition <en-us_topic_0000001764675414__li105701736194813>`, the boundary specified by the split point is a non-void proper subset of the source partition boundary. If the source partition is a DEFAULT partition, the boundary specified by the split point cannot overlap with the boundaries of other non-DEFAULT partitions.
             -  The boundary specified by the split point is the boundary of the first partition after the keyword **INTO**. The difference between the boundary of the source partition and the specified boundary of the split point is the boundary of the second partition.
             -  If the source partition is the DEFAULT partition, the boundary of the second partition is still DEFAULT.
 
@@ -180,7 +200,7 @@ Syntax
 
          .. important::
 
-            -  The syntax of :ref:`list_partition_item <en-us_topic_0000001460561364__li135021622911>` is the same as the syntax specifying a partition in creating a list partitioned table, except that the boundary value here cannot be DEFAULT.
+            -  The syntax of :ref:`list_partition_item <en-us_topic_0000001764675414__li135021622911>` is the same as the syntax specifying a partition in creating a list partitioned table, except that the boundary value here cannot be DEFAULT.
             -  Except for the last partition, the boundaries of other partitions must be explicitly defined. The defined boundary cannot be DEFAULT and must be a non-empty proper subset of the source partition boundary. The boundary of the last partition is the difference set between the source partition boundary and other partition boundaries, and the boundary of the last partition is not empty (that is, the difference set cannot be empty).
             -  If the source partition is a DEFAULT partition, the boundary of the last partition is DEFAULT.
 
@@ -194,8 +214,8 @@ Syntax
 
       .. important::
 
-         -  The :ref:`partition_less_than_item <en-us_topic_0000001460561364__li1147714355320>` syntax can only be used for range partitioned tables. Otherwise, an error will be reported.
-         -  The syntax of :ref:`partition_less_than_item <en-us_topic_0000001460561364__li1147714355320>` is the same as the syntax specifying partitions in creating a range partitioned table.
+         -  The :ref:`partition_less_than_item <en-us_topic_0000001764675414__li1147714355320>` syntax can only be used for range partitioned tables. Otherwise, an error will be reported.
+         -  The syntax of :ref:`partition_less_than_item <en-us_topic_0000001764675414__li1147714355320>` is the same as the syntax specifying partitions in creating a range partitioned table.
          -  If the boundary value of the last partition is a MAXVALUE, new partitions cannot be added. Otherwise, an error will be reported.
 
       **The add_clause syntax for list partitioning is as follows:**
@@ -206,8 +226,8 @@ Syntax
 
       .. important::
 
-         -  The :ref:`list_partition_item <en-us_topic_0000001460561364__li135021622911>` syntax can only be used for a list partitioned table. Otherwise, an error will be reported.
-         -  The :ref:`list_partition_item <en-us_topic_0000001460561364__li135021622911>` syntax is the same as the syntax specifying a partition in creating a list partitioned table.
+         -  The :ref:`list_partition_item <en-us_topic_0000001764675414__li135021622911>` syntax can only be used for a list partitioned table. Otherwise, an error will be reported.
+         -  The :ref:`list_partition_item <en-us_topic_0000001764675414__li135021622911>` syntax is the same as the syntax specifying a partition in creating a list partitioned table.
          -  If the current partition table contains DEFAULT partitions, no new partitions can be added. Otherwise, an error will be reported.
 
    -  The syntax of **drop_clause** is used to remove a specified partition from a partitioned table.
@@ -226,9 +246,11 @@ Syntax
 
       ::
 
-         TRUNCATE PARTITION { partition_name | FOR (  partition_value  [, ...] )  } ;
+         TRUNCATE PARTITION { partition_name | FOR (  partition_value  [, ...] )  };
 
       .. important::
+
+         **partition_value** indicates the partition key value. Multiple partition key values can be specified. Use commas (,) to separate multiple partition key values.
 
          When the **PARTITION FOR** clause is used, the entire partition where **partition_value** is located is cleared.
 
@@ -269,6 +291,10 @@ Parameter Description
 -  **REBUILD UNUSABLE LOCAL INDEXES**
 
    Rebuilds all the indexes in the partition.
+
+-  **WITHOUT UNUSABLE**
+
+   Ignores indexes in the **UNUSABLE** state when rebuilding indexes on the partition.
 
 -  **ENABLE/DISABLE ROW MOVEMENT**
 
@@ -451,7 +477,7 @@ Examples
               subject      varchar(30)
       );
 
-   Add data to table **math_grade**. The data is in line with the partition rule of partition **math** in the partition table **student_grade**.
+   Add data to table **math_grade**. The data in the **student_grade** partition table conforms to the partition rule of partition **math**.
 
    ::
 

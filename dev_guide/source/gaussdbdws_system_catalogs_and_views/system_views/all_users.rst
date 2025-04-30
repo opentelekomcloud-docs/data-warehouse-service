@@ -10,8 +10,8 @@ ALL_USERS
 .. table:: **Table 1** ALL_USERS columns
 
    ======== ==== ===============
-   Name     Type Description
+   Column   Type Description
    ======== ==== ===============
-   username name User name
-   user_id  oid  OID of the user
+   username Name Username
+   user_id  OID  OID of the user
    ======== ==== ===============

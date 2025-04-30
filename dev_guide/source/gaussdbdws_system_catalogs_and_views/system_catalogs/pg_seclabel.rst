@@ -14,13 +14,13 @@ See also :ref:`PG_SHSECLABEL <dws_04_0618>`, which performs a similar function f
    +----------+---------+-----------------------------------+--------------------------------------------------------------------+
    | Name     | Type    | Reference                         | Description                                                        |
    +==========+=========+===================================+====================================================================+
-   | objoid   | oid     | Any OID column                    | OID of the object this security label pertains to                  |
+   | objoid   | OID     | Any OID column                    | OID of the object this security label pertains to                  |
    +----------+---------+-----------------------------------+--------------------------------------------------------------------+
-   | classoid | oid     | :ref:`PG_CLASS <dws_04_0578>`.oid | OID of the system catalog that contains the object                 |
+   | classoid | OID     | :ref:`PG_CLASS <dws_04_0578>`.oid | OID of the system catalog that contains the object                 |
    +----------+---------+-----------------------------------+--------------------------------------------------------------------+
-   | objsubid | integer | ``-``                             | For a security label on a table column, this is the column number. |
+   | objsubid | Integer | N/A                               | For a security label on a table column, this is the column number. |
    +----------+---------+-----------------------------------+--------------------------------------------------------------------+
-   | provider | text    | ``-``                             | Label provider associated with this label                          |
+   | provider | Text    | N/A                               | Label provider associated with this label                          |
    +----------+---------+-----------------------------------+--------------------------------------------------------------------+
-   | label    | text    | ``-``                             | Security label applied to this object                              |
+   | label    | Text    | N/A                               | Security label applied to this object                              |
    +----------+---------+-----------------------------------+--------------------------------------------------------------------+

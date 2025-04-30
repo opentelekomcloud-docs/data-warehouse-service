@@ -8,7 +8,7 @@ CREATE TABLE AS
 Function
 --------
 
-Creates a table based on the results of a query.
+**CREATE TABLE AS** creates a table based on the results of a query.
 
 It creates a table and fills it with data obtained using **SELECT**. The table columns have the names and data types associated with the output columns of the **SELECT**. Except that you can override the **SELECT** output column names by giving an explicit list of new column names.
 
@@ -41,7 +41,7 @@ Parameter Description
 
 -  [ GLOBAL \| LOCAL \| VOLATILE ] { TEMPORARY \| TEMP }
 
-   Specifies the type of a temporary table, which can be **GLOBAL**, **LOCAL**, or **VOLATILE**. For details, see :ref:`GLOBAL | LOCAL | VOLATILE <en-us_topic_0000001460561348__l40601c13ccdb4b5d85be38edd4f99676>`.
+   Specifies the type of a temporary table. The value can be **GLOBAL**, **LOCAL**, or **VOLATILE**. For details, see :ref:`·GLOBAL | LOCAL | VOLATI... <en-us_topic_0000001764675138__l40601c13ccdb4b5d85be38edd4f99676>` in the section "CREATE TABLE".
 
 -  **UNLOGGED**
 
@@ -52,7 +52,10 @@ Parameter Description
 
       .. caution::
 
-         The UNLOGGED table uses no primary/standby mechanism. In the case of system faults or abnormal breakpoints, data loss may occur. Therefore, the UNLOGGED table cannot be used to store basic data.
+         #. The UNLOGGED table uses no primary/standby mechanism. In the case of system faults or abnormal breakpoints, data loss may occur. Therefore, the UNLOGGED table cannot be used to store basic data.
+         #. Starting from version 9.1.0, UNLOGGED tables are automatically saved in the **pg_unlogged** tablespace and cannot be moved or assigned to other tablespaces.
+         #. After an earlier version is upgraded to 9.1.0, the UNLOGGED table created in the earlier version is still stored in the original tablespace.
+         #. If the instance restarts unexpectedly, the UNLOGGED table will be reset, which can impact the instance's recovery time objective (RTO). Version 9.1.0 has a script called **switch_unlogged_tablespace.py** that can move unlogged tables to optimize the recovery time objective (RTO). This script works together with the GUC parameter **enable_unlogged_tablespace_compat**.
 
 -  **table_name**
 
@@ -94,7 +97,7 @@ Parameter Description
 
       .. note::
 
-         Currently, compression is unavailable for row-store tables.
+         Currently, row-store table compression is not supported.
 
    -  MAX_BATCHROW
 
@@ -115,6 +118,8 @@ Parameter Description
    -  enable_delta
 
       Specifies whether to enable delta tables in column-store tables. The parameter is only valid for column-store tables.
+
+      Using column-store tables with delta tables is not recommended. This may cause disk bloat and performance deterioration due to delayed merge.
 
       Default value: **off**
 

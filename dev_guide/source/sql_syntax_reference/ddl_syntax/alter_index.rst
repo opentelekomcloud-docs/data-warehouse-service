@@ -8,12 +8,13 @@ ALTER INDEX
 Function
 --------
 
-Modifies the definition of an existing index.
+**ALTER INDEX** modifies the definition of an existing index.
 
 Precautions
 -----------
 
 -  Only the owner of an index or a system administrator can run this statement.
+-  For indexes of **unlogged** tables, **tablespace** cannot be set to a tablespace other than **pg_unlogged**.
 
 Syntax
 ------
@@ -64,7 +65,7 @@ Syntax
    ::
 
       ALTER INDEX index_name
-          REBUILD [ PARTITION index_partition_name ];
+          REBUILD [ PARTITION index_partition_name ] [WITHOUT UNUSABLE];
 
 -  Rename an index partition.
 
@@ -96,35 +97,39 @@ Syntax
 Parameter Description
 ---------------------
 
--  IF EXISTS
+-  **IF EXISTS**
 
    If the specified index does not exist, a notice instead of an error is sent.
 
--  RENAME TO
+-  **RENAME TO**
 
    Changes only the name of the index. There is no effect on the stored data.
 
--  SET ( { STORAGE_PARAMETER = value } [, ...] )
+-  **SET ( { STORAGE_PARAMETER = value } [, ...] )**
 
    Change one or more index-method-specific storage parameters. Note that the index contents will not be modified immediately by this command. You might need to rebuild the index with **REINDEX** to get the desired effects depending on parameters.
 
--  RESET ( { storage_parameter } [, ...] )
+-  **RESET ( { storage_parameter } [, ...] )**
 
    Reset one or more index-method-specific storage parameters to the default value. Similar to the **SET** statement, **REINDEX** may be used to completely update the index.
 
--  [ MODIFY PARTITION index_partition_name ] UNUSABLE
+-  **[ MODIFY PARTITION index_partition_name ] UNUSABLE**
 
    Sets the index on a table or index partition to be unavailable.
 
--  REBUILD [ PARTITION index_partition_name ]
+-  **REBUILD [ PARTITION index_partition_name ]**
 
    Recreates the index on a table or index partition.
 
--  RENAME PARTITION
+-  **WITHOUT UNUSABLE**
+
+   Indexes that are in an UNUSABLE state are not rebuilt when rebuilding indexes in tables or index partitions.
+
+-  **RENAME PARTITION**
 
    Renames an index partition.
 
--  COMMENT comment_text
+-  **COMMENT comment_text**
 
    Adds, modifies, or deletes index comments.
 

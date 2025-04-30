@@ -8,12 +8,12 @@ DROP REDACTION POLICY
 Function
 --------
 
-Deletes a data redaction/masking policy applied to a specified table.
+**DROP REDACTION POLICY** deletes a data masking policy applied to a specified table.
 
 Precautions
 -----------
 
-Only the table owner has the permission to delete a data redaction policy.
+Only the table owner and users granted the **gs_redaction_policy** preset role have the permission to delete data masking policies.
 
 Syntax
 ------
@@ -31,16 +31,16 @@ Parameter Description
 
 -  **policy_name**
 
-   Specifies the name of the redaction policy to be deleted.
+   Specifies the name of the masking policy to be deleted.
 
 -  **table_name**
 
-   Specifies the name of the table to which the redaction policy is applied.
+   Specifies the name of the table with the masking policy to be deleted.
 
 Examples
 --------
 
-Delete the redaction policy **mask_emp** from table **emp**:
+Delete the masking policy **mask_emp** from table **emp**:
 
 ::
 

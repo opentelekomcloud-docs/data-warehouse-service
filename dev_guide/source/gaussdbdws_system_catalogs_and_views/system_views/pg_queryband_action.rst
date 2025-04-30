@@ -10,15 +10,15 @@ PG_QUERYBAND_ACTION
 .. table:: **Table 1** PG_QUERYBAND_ACTION columns
 
    +------------+---------+----------------------------------------------------------+
-   | Name       | Type    | Description                                              |
+   | Column     | Type    | Description                                              |
    +============+=========+==========================================================+
-   | qband      | text    | **query_band** key-value pairs                           |
+   | qband      | Text    | **query_band** key-value pairs                           |
    +------------+---------+----------------------------------------------------------+
-   | respool_id | oid     | OID of the resource pool associated with **query_band**  |
+   | respool_id | OID     | OID of the resource pool associated with **query_band**  |
    +------------+---------+----------------------------------------------------------+
-   | respool    | text    | Name of the resource pool associated with **query_band** |
+   | respool    | Text    | Name of the resource pool associated with **query_band** |
    +------------+---------+----------------------------------------------------------+
-   | priority   | text    | Intra-queue priority associated with **query_band**      |
+   | priority   | Text    | Intra-queue priority associated with **query_band**      |
    +------------+---------+----------------------------------------------------------+
-   | qborder    | integer | **query_band** query order                               |
+   | qborder    | Integer | **query_band** query order                               |
    +------------+---------+----------------------------------------------------------+

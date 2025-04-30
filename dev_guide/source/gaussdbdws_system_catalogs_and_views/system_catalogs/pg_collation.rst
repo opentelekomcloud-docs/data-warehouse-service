@@ -12,17 +12,17 @@ PG_COLLATION
    +---------------+---------+---------------------------------------+---------------------------------------------------------------------------------------+
    | Name          | Type    | Reference                             | Description                                                                           |
    +===============+=========+=======================================+=======================================================================================+
-   | oid           | oid     | ``-``                                 | Row identifier (hidden attribute; must be explicitly selected)                        |
+   | OID           | OID     | N/A                                   | Row identifier (hidden attribute; displayed only when explicitly selected)            |
    +---------------+---------+---------------------------------------+---------------------------------------------------------------------------------------+
-   | collname      | name    | ``-``                                 | Collation name (unique per namespace and encoding)                                    |
+   | collname      | Name    | N/A                                   | Collation name (unique per namespace and encoding)                                    |
    +---------------+---------+---------------------------------------+---------------------------------------------------------------------------------------+
-   | collnamespace | oid     | :ref:`PG_NAMESPACE <dws_04_0600>`.oid | OID of the namespace that contains this collation                                     |
+   | collnamespace | OID     | :ref:`PG_NAMESPACE <dws_04_0600>`.oid | OID of the namespace that contains this collation                                     |
    +---------------+---------+---------------------------------------+---------------------------------------------------------------------------------------+
-   | collowner     | oid     | :ref:`PG_AUTHID <dws_04_0574>`.oid    | Owner of the collation                                                                |
+   | collowner     | OID     | :ref:`PG_AUTHID <dws_04_0574>`.oid    | Owner of the collation                                                                |
    +---------------+---------+---------------------------------------+---------------------------------------------------------------------------------------+
-   | collencoding  | integer | ``-``                                 | Encoding in which the collation is applicable, or **-1** if it works for any encoding |
+   | collencoding  | Integer | N/A                                   | Encoding in which the collation is applicable, or **-1** if it works for any encoding |
    +---------------+---------+---------------------------------------+---------------------------------------------------------------------------------------+
-   | collcollate   | name    | ``-``                                 | **LC_COLLATE** for this collation object                                              |
+   | collcollate   | Name    | N/A                                   | **LC_COLLATE** for this collation object                                              |
    +---------------+---------+---------------------------------------+---------------------------------------------------------------------------------------+
-   | collctype     | name    | ``-``                                 | **LC_CTYPE** for this collation object                                                |
+   | collctype     | Name    | N/A                                   | **LC_CTYPE** for this collation object                                                |
    +---------------+---------+---------------------------------------+---------------------------------------------------------------------------------------+

@@ -12,17 +12,17 @@ REDACTION_POLICIES
    +--------------------+---------+----------------------------------------------------------------------+
    | Name               | Type    | Description                                                          |
    +====================+=========+======================================================================+
-   | object_owner       | name    | Owner of the object to be redacted.                                  |
+   | object_owner       | Name    | Owner of the object to be redacted.                                  |
    +--------------------+---------+----------------------------------------------------------------------+
-   | object_name        | name    | Redacted object name                                                 |
+   | object_name        | Name    | Redacted object name.                                                |
    +--------------------+---------+----------------------------------------------------------------------+
-   | policy_name        | name    | Name of the redact policy                                            |
+   | policy_name        | Name    | Name of the redaction policy.                                        |
    +--------------------+---------+----------------------------------------------------------------------+
-   | expression         | text    | Policy effective expression (for users)                              |
+   | expression         | Text    | Policy effective expression (for users).                             |
    +--------------------+---------+----------------------------------------------------------------------+
-   | enable             | boolean | Policy status (enabled or disabled)                                  |
+   | enable             | Boolean | Policy status (enabled or disabled).                                 |
    +--------------------+---------+----------------------------------------------------------------------+
-   | policy_description | text    | Description of a policy                                              |
+   | policy_description | Text    | Policy description.                                                  |
    +--------------------+---------+----------------------------------------------------------------------+
-   | inherited          | bool    | Whether a redacted column is inherited from another redacted column. |
+   | inherited          | Bool    | Whether a redacted column is inherited from another redacted column. |
    +--------------------+---------+----------------------------------------------------------------------+

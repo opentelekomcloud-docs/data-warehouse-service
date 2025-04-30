@@ -8,12 +8,12 @@ CREATE PUBLICATION
 Function
 --------
 
-Adds a new publication to the current database. The publication name must be different from the name of any existing publication in the current database. A publication is essentially the replication of data changes in a set of tables achieved by logical replication.
+**CREATE PUBLICATION** adds a new publication to the current database. The publication name must be different from the name of any existing publication in the current database. A publication is essentially the replication of data changes in a set of tables achieved by logical replication.
 
 Precautions
 -----------
 
--  This statement is supported by clusters of version 8.2.0.100 or later.
+-  This statement is supported by version 8.2.0.100 or later clusters.
 -  If neither **FOR TABLE** nor **FOR ALL TABLES** is specified, a publication starts with a set of empty tables. Tables can be added later.
 -  Creating a publication does not start replication. It defines only one group and filtering logic for future subscribers. To create a publication, the caller must have CREATE permission on the current database.
 -  To add a table to a publication, the caller must have ownership of the table. To use FOR ALL TABLES and FOR ALL TABLES IN SCHEMA clauses, the caller must have system administrator permissions.
@@ -69,7 +69,7 @@ Parameter Description
 
    Value range: A string. It must comply with the naming convention.
 
--  .. _en-us_topic_0000001460561352__li11304141792615:
+-  .. _en-us_topic_0000001811634585__li11304141792615:
 
    **WITH ( publication_parameter [=value] [, ... ] )**
 

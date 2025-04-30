@@ -8,12 +8,12 @@ DROP INDEX
 Function
 --------
 
-Deletes an index.
+**DROP INDEX** deletes an index.
 
 Precautions
 -----------
 
-Only the owner of an index or a system administrator can run the **DROP INDEX** command.
+Only the owner of an index or a system administrator can run **DROP INDEX** command.
 
 Syntax
 ------
@@ -23,14 +23,14 @@ Syntax
    DROP INDEX [ CONCURRENTLY ][ IF EXISTS ]
        index_name [, ...] [ CASCADE | RESTRICT ];
 
-Parameter Description
----------------------
+Parameters
+----------
 
 -  **CONCURRENTLY**
 
-   Deletes an index without locking concurrent selections, inserts, updates, and deletes on the index table. A regular **DROP INDEX** obtains an exclusive lock on the table to prevent other access until the index is deleted. With this option, the command waits until any conflicting transaction is complete.
+   Deletes an index without locking concurrent selections, inserts, updates, and deletes on the index table. A normal **DROP INDEX** obtains an exclusive lock on the table to prevent other access until the index is deleted. With this option, the command waits until the conflicting transaction is complete.
 
-   Note that only one index name can be specified and the **CASCADE** option is not supported. (Therefore, indexes that support **UNIQUE** or **PRIMARY KEY** constraints cannot be deleted in this way.) Regular **DROP INDEX** commands can be executed within a transaction block, but **DROP INDEX CONCURRENTLY** cannot.
+   Note that only one index name can be specified and the **CASCADE** option is not supported. (Therefore, indexes that support **UNIQUE** or **PRIMARY KEY** constraints cannot be deleted in this way.) Regular **DROP INDEX** commands can be executed within a transaction block, but cannot be executed in **DROP INDEX CONCURRENTLY** mode.
 
 -  **IF EXISTS**
 
@@ -40,7 +40,7 @@ Parameter Description
 
    Specifies the name of the index to be deleted.
 
-   Value range: an existing index.
+   Value range: An existing index.
 
 -  **CASCADE \| RESTRICT**
 

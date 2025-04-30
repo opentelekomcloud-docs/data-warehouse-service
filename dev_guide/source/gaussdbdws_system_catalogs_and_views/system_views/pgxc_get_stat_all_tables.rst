@@ -13,23 +13,25 @@ You are advised to run **VACUUM FULL** to tables (excluding system catalogs) who
 
 .. note::
 
-   For clusters of 8.2.0.100 or later, 8.2.0.100 is recommended for querying the dirty page rate.
+   For clusters of 8.2.0.100 or later, :ref:`PGXC_STAT_TABLE_DIRTY <dws_04_1046>` is recommended for querying the dirty page rate.
 
 .. table:: **Table 1** PGXC_GET_STAT_ALL_TABLES columns
 
    =============== ============ ==============================
-   Name            Type         Description
+   Column          Type         Description
    =============== ============ ==============================
-   relid           oid          Table OID
-   relname         name         Table name
-   schemaname      name         Schema name of the table
-   n_tup_ins       numeric      Number of inserted tuples
-   n_tup_upd       numeric      Number of updated tuples
-   n_tup_del       numeric      Number of deleted tuples
-   n_live_tup      numeric      Number of live tuples
-   n_dead_tup      numeric      Number of dead tuples
+   relid           OID          Table OID
+   relname         Name         Table name
+   schemaname      Name         Schema name of the table
+   n_tup_ins       Numeric      Number of inserted tuples
+   n_tup_upd       Numeric      Number of updated tuples
+   n_tup_del       Numeric      Number of deleted tuples
+   n_live_tup      Numeric      Number of live tuples
+   n_dead_tup      Numeric      Number of dead tuples
    dirty_page_rate numeric(5,2) Dirty page rate (%) of a table
    =============== ============ ==============================
+
+For details, see "Functions and Operators > System Administration Functions > Other Functions" in the *SQL Syntax*.
 
 Examples
 --------

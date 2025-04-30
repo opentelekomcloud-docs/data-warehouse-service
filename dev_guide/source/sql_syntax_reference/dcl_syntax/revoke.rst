@@ -8,7 +8,7 @@ REVOKE
 Function
 --------
 
-Revokes the rights of one or more roles.
+**REVOKE** revokes rights from one or more roles.
 
 Precautions
 -----------
@@ -23,7 +23,7 @@ If a non-owner user of an object attempts to **REVOKE** rights on the object, th
 Syntax
 ------
 
--  Revoke rights on a specified table or view.
+-  Revoke the permission of specified table and view.
 
    ::
 
@@ -35,7 +35,7 @@ Syntax
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
           [ CASCADE | RESTRICT ];
 
--  Revoke rights on specified columns in a table.
+-  Revoke the permission of specified fields on the table.
 
    ::
 
@@ -46,7 +46,7 @@ Syntax
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
           [ CASCADE | RESTRICT ];
 
--  Revoke rights on a specified database.
+-  Revoke the permission of a specified database.
 
    ::
 
@@ -57,18 +57,18 @@ Syntax
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
           [ CASCADE | RESTRICT ];
 
--  Revoke rights on a specified function.
+-  Revoke the permission of a specified function.
 
    ::
 
       REVOKE [ GRANT OPTION FOR ]
-          { EXECUTE | ALL [ PRIVILEGES ] }
+          { { EXECUTE | ALTER | DROP } [, ...] | ALL [ PRIVILEGES ] }
           ON { FUNCTION {function_name ( [ {[ argmode ] [ arg_name ] arg_type} [, ...] ] )} [, ...]
              | ALL FUNCTIONS IN SCHEMA schema_name [, ...] }
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
           [ CASCADE | RESTRICT ];
 
--  Revoke rights on a specified large object.
+-  Revoke the permission of a specified large object.
 
    ::
 
@@ -78,7 +78,7 @@ Syntax
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
           [ CASCADE | RESTRICT ];
 
--  Revoke rights on a specified sequence.
+-  Revoke the permission on a specified sequence.
 
    ::
 
@@ -88,7 +88,7 @@ Syntax
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
           [ CASCADE | RESTRICT ];
 
--  Revoke rights on a specified schema.
+-  Revoke the permission of a specified schema.
 
    ::
 
@@ -98,7 +98,7 @@ Syntax
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
           [ CASCADE | RESTRICT ];
 
--  Revoke rights on a specified sub-cluster.
+-  Revoke the permission of a specified sub-cluster.
 
    ::
 
@@ -108,7 +108,7 @@ Syntax
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
           [ CASCADE | RESTRICT ];
 
--  Revoke rights by role.
+-  Revoke the permission of roles based on roles.
 
    ::
 
@@ -116,7 +116,7 @@ Syntax
           role_name [, ...] FROM role_name [, ...]
           [ CASCADE | RESTRICT ];
 
--  Revoke the sysadmin permission of a role.
+-  Revoke the sysadmin permission of roles.
 
    ::
 
@@ -127,7 +127,7 @@ Parameter Description
 
 The keyword **PUBLIC** indicates an implicitly defined group that contains all roles.
 
-See :ref:`Parameter Description <en-us_topic_0000001510401021__s226158f44a8f4b908e69a283aeb813cd>` of the **GRANT** command for the meaning of the privileges and related parameters.
+See :ref:`Parameter Description <en-us_topic_0000001811515601__s226158f44a8f4b908e69a283aeb813cd>` of the **GRANT** command for the meaning of the privileges and related parameters.
 
 Permissions of a role include the permissions directly granted to the role, permissions inherited from the parent role, and permissions granted to **PUBLIC**. Therefore, revoking the **SELECT** permission for an object from **PUBLIC** does not necessarily mean that the **SELECT** permission for the object has been revoked from all roles, because the **SELECT** permission directly granted to roles and inherited from parent roles still remains. Similarly, if the **SELECT** permission is revoked from a user but is not revoked from **PUBLIC**, the user can still run the **SELECT** statement.
 
@@ -190,13 +190,13 @@ Revoke the query permissions for **r_reason_sk** and **r_reason_id** in the **tp
 
    REVOKE select (r_reason_sk, r_reason_id) ON tpcds.reason FROM joe;
 
-Revoke function permissions from user **joe**.
+Revoke user joe's execute permission on function **func_add_sql**.
 
 ::
 
    REVOKE execute ON FUNCTION func_add_sql(integer, integer) FROM joe CASCADE;
 
-Helpful Links
--------------
+Links
+-----
 
 :ref:`GRANT <dws_06_0250>`
