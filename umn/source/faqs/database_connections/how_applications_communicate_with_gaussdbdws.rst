@@ -37,7 +37,7 @@ The key points in communication check are the ECS outbound rule and GaussDB(DWS)
 
 #. **Check the ECS outbound rules:**
 
-   Ensure that the outbound rule of the ECS security group allows access. If access is not allowed, see the .
+   Ensure that the outbound rule of the ECS security group allows access. If access is not allowed, see .
 
    |image1|
 
@@ -60,13 +60,13 @@ Service Applications and GaussDB(DWS) Are in Different VPCs in the Same Region
 
 To ensure low service latency, you are advised to deploy service applications and GaussDB(DWS) in the same region. For example, if service applications are deployed on an ECS, you are advised to deploy the data warehouse cluster in the same VPC as the ECS. If a different VPC is selected for the data warehouse cluster, the ECS cannot directly connect to GaussDB(DWS).
 
-For example, both ECS and GaussDB(DWS) are deployed in , but ECS is in VPC1 and GaussDB(DWS) is in VPC2. In this case, you need to create a between VPC1 and VPC2 so that ECS can access GaussDB(DWS) using the private IP address of GaussDB(DWS).
+For example, both ECS and GaussDB(DWS) are deployed in , but ECS is in VPC 1 and GaussDB(DWS) is in VPC 2. In this case, you need to create a between VPC 1 and VPC 2 so that ECS can access GaussDB(DWS) using the private IP address of GaussDB(DWS).
 
 The key points for checking the communication are the ECS outbound rules, GaussDB(DWS) inbound rules, and VPC peering connection. The check procedure is as follows:
 
 #. **Check the ECS outbound rules:**
 
-   Ensure that the outbound rule of the ECS security group allows access. If access is not allowed, see the .
+   Ensure that the outbound rule of the ECS security group allows access. If access is not allowed, see .
 
    |image3|
 
@@ -76,7 +76,7 @@ The key points for checking the communication are the ECS outbound rules, GaussD
 
    |image4|
 
-#. Create a between VPC1 where the ECS is and VPC2 where GaussDB(DWS) is.
+#. Create a between VPC 1 where the ECS is and VPC 2 where GaussDB(DWS) is.
 
 #. Log in to the ECS. If the internal IP address of GaussDB(DWS) can be pinged, the network connection is normal. If the IP address cannot be pinged, check the preceding configuration. If the ECS has a firewall, check the firewall configuration.
 
@@ -104,7 +104,7 @@ If service applications are not on the cloud but in the local data center, they 
 
    **gsql -d gaussdb -h** *public_IP_address* **-p 8000 -U dbadmin -W** *password* **-r**
 
--  **Scenario 2**: On-premises services cannot access the external network. In this case, is required for communication.
+-  **Scenario 2**: On-premises services cannot access the external network. In this case, use .
 
 .. |image1| image:: /_static/images/en-us_image_0000001389594973.png
 .. |image2| image:: /_static/images/en-us_image_0000001389237417.png

@@ -7,56 +7,21 @@ What Is GaussDB(DWS)?
 
 GaussDB(DWS) is an online data analysis and processing database built on the cloud infrastructure and platform. It offers scalable, ready-to-use, and fully managed analytical database services, and is compatible with ANSI/ISO SQL92, SQL99, and SQL 2003 syntax. Additionally, GaussDB(DWS) is interoperable with other database ecosystems such as PostgreSQL, Oracle, Teradata, and MySQL. This makes it a competitive option for petabyte-scale big data analytics across diverse industries.
 
--  Standard Data Warehouse (DWS 2.0): Oriented to data analysis scenarios, DWS 2.0 provides enterprise-level data warehouse services with high performance, high scalability, high reliability, high security, and easy O&M. It is capable of data analysis at a scale of 2048 nodes and 20 petabytes of data. It supports hot and cold data analysis, elastic scaling of storage and computing resources, and on-demand and pay-per-use pricing, providing users with elastic, flexible, and cost-effective experience. It is applicable to converged analysis services that integrate libraries, warehouses, cities, and lakes.
--  **Stream data warehouse**: The stream data warehouse is built on top of the standard data warehouse. It integrates stream and time sequence engines to provide real-time data ingestion and high-concurrency real-time analysis capabilities. It can be used for IoT real-time analysis.
--  **Hybrid data warehouse**: It provides high-concurrency, high-performance, and low-latency transaction processing capabilities based on large-scale data query and analysis capabilities. It is suitable for hybrid transaction/analytical processing (HTAP). A database can be used for both production and analysis.
-
-Architecture
-------------
-
-GaussDB(DWS) employs the shared-nothing architecture and the massively parallel processing (MPP) engine, and consists of numerous independent logical nodes that do not share the system resources such as CPUs, memory, and storage. In such a system architecture, service data is separately stored on numerous nodes. Data analysis tasks are executed in parallel on the nodes where data is stored. The massively parallel data processing significantly improves response speed.
-
-
-.. figure:: /_static/images/en-us_image_0000001924569532.png
-   :alt: **Figure 1** Architecture
-
-   **Figure 1** Architecture
-
--  **Application layer**
-
-   Data loading tools, extract, transform, and load (ETL) tools, business intelligence (BI) tools, as well as data mining and analysis tools, can be integrated with GaussDB(DWS) through standard APIs. GaussDB(DWS) is compatible with the PostgreSQL ecosystem, and the SQL syntax is compatible with Oracle and Teradata. Applications can be smoothly migrated to GaussDB(DWS) with few changes.
-
--  **API**
-
-   Applications can connect to GaussDB(DWS) through standard JDBC and ODBC.
-
--  **GaussDB(DWS)**
-
-   A GaussDB(DWS) cluster contains nodes of the same flavor in the same subnet. These nodes jointly provide services. Datanodes (DNs) in a cluster store data on disks. Coordinators (CNs) receive access requests from applications and return the execution results to clients. In addition, a CN splits and distributes tasks to the DNs for parallel processing.
-
--  **Automatic data backup**
-
-   Cluster snapshots can be automatically backed up to the EB-level Object Storage Service (OBS), which facilitates periodic backup of the cluster during off-peak hours, ensuring data recovery after a cluster exception occurs.
-
-   A snapshot is a complete backup of GaussDB(DWS) at a specific time point, including the configuration data and service data of a cluster.
-
--  **Tool chain**
-
-   The parallel data loading tool General Data Service (GDS), SQL syntax migration tool Database Schema Convertor (DSC), and SQL development tool Data Studio are provided. The cluster O&M can be monitored on a console.
+.. _en-us_topic_0000002203312045__section131011524141910:
 
 Logical Cluster Architecture
 ----------------------------
 
-:ref:`Figure 2 <en-us_topic_0000001951848293__fig1981483841611>` shows the logical architecture of a GaussDB(DWS) cluster. For details about instances, see :ref:`Table 1 <en-us_topic_0000001951848293__en-us_topic_0059778972_tf208b79c11514cb9ae9d57ba2bef8ec9>`.
+:ref:`Figure 1 <en-us_topic_0000002203312045__fig1310115249196>` shows the logical architecture of a GaussDB(DWS) cluster. For details about the instance, see :ref:`Table 1 <en-us_topic_0000002203312045__table16101024161915>`.
 
-.. _en-us_topic_0000001951848293__fig1981483841611:
+.. _en-us_topic_0000002203312045__fig1310115249196:
 
-.. figure:: /_static/images/en-us_image_0000001924728908.png
-   :alt: **Figure 2** Logical cluster architecture
+.. figure:: /_static/images/en-us_image_0000002203312345.png
+   :alt: **Figure 1** Logical cluster architecture
 
-   **Figure 2** Logical cluster architecture
+   **Figure 1** Logical cluster architecture
 
-.. _en-us_topic_0000001951848293__en-us_topic_0059778972_tf208b79c11514cb9ae9d57ba2bef8ec9:
+.. _en-us_topic_0000002203312045__table16101024161915:
 
 .. table:: **Table 1** Cluster architecture description
 
@@ -86,7 +51,7 @@ Logical Cluster Architecture
    |                                  |                                                                                                                                                                                   |                                                                                                                                                                                                                                                                                                                                                                        |
    |                                  |                                                                                                                                                                                   | GaussDB(DWS) handles the global resource load in a cluster using the Central Coordinator (CCN) for adaptive dynamic load management. When the cluster is started for the first time, the CM selects the CN with the smallest ID as the CCN. If the CCN is faulty, CM replaces it with a new one.                                                                       |
    +----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | Datanode (DN)                    | A DN stores service data by column or row or in the hybrid mode, executes data query tasks, and returns execution results to CNs.                                                 | A cluster consists of multiple DNs and each DN stores part of data. GaussDB(DWS) provides DN high availability: active DN, standby DN, and secondary DN. The working principles of the three are as follows:                                                                                                                                                           |
+   | Datanode (DN)                    | A DN stores data in row-store, column-store, or hybrid mode, executes data query tasks, and returns execution results to CNs.                                                     | There are multiple DNs in the cluster. Each DN stores part of data. GaussDB(DWS) provides DN high availability: active DN, standby DN, and secondary DN. The working principles of the three are as follows:                                                                                                                                                           |
    |                                  |                                                                                                                                                                                   |                                                                                                                                                                                                                                                                                                                                                                        |
    |                                  |                                                                                                                                                                                   | -  During data synchronization, if the active DN suddenly becomes faulty, the standby DN is switched to the active state.                                                                                                                                                                                                                                              |
    |                                  |                                                                                                                                                                                   | -  Before the faulty active DN recovers, the new active DN synchronizes data logs to the secondary DN.                                                                                                                                                                                                                                                                 |
@@ -97,7 +62,7 @@ Logical Cluster Architecture
    | Storage                          | Functions as the server's local storage resources to store data permanently.                                                                                                      | ``-``                                                                                                                                                                                                                                                                                                                                                                  |
    +----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-DNs in a cluster store data on disks. :ref:`Figure 3 <en-us_topic_0000001951848293__fig138416215395>` describes the objects on each DN and the relationships among them logically.
+DNs in a cluster store data on disks. :ref:`Figure 2 <en-us_topic_0000002203312045__fig9103172419199>` describes the objects on each DN and the relationships among them logically.
 
 -  A database manages various data objects and is isolated from other databases.
 -  A datafile segment stores data in only one table. A table containing more than 1 GB of data is stored in multiple data file segments.
@@ -106,9 +71,42 @@ DNs in a cluster store data on disks. :ref:`Figure 3 <en-us_topic_00000019518482
 
 Data can be distributed in replication, round-robin, or hash mode. You can specify the distribution mode during table creation.
 
-.. _en-us_topic_0000001951848293__fig138416215395:
+.. _en-us_topic_0000002203312045__fig9103172419199:
 
-.. figure:: /_static/images/en-us_image_0000001952008369.png
-   :alt: **Figure 3** Logical database architecture
+.. figure:: /_static/images/en-us_image_0000002167906120.png
+   :alt: **Figure 2** Logical database architecture
 
-   **Figure 3** Logical database architecture
+   **Figure 2** Logical database architecture
+
+Storage-Compute Coupled Architecture
+------------------------------------
+
+GaussDB(DWS) employs the shared-nothing architecture and the massively parallel processing (MPP) engine, and consists of numerous independent logical nodes that do not share the system resources such as CPUs, memory, and storage. In such a system architecture, service data is separately stored on numerous nodes. Data analysis tasks are executed in parallel on the nodes where data is stored. The massively parallel data processing significantly improves response speed.
+
+
+.. figure:: /_static/images/en-us_image_0000002168065832.png
+   :alt: **Figure 3** Architecture
+
+   **Figure 3** Architecture
+
+-  **Application layer**
+
+   Data loading tools, extract, transform, and load (ETL) tools, business intelligence (BI) tools, as well as data mining and analysis tools, can be integrated with GaussDB(DWS) through standard APIs. GaussDB(DWS) is compatible with the PostgreSQL ecosystem, and the SQL syntax is compatible with Oracle and Teradata. Applications can be smoothly migrated to GaussDB(DWS) with few changes.
+
+-  **API**
+
+   Applications can connect to GaussDB(DWS) through standard JDBC and ODBC.
+
+-  **GaussDB(DWS)**
+
+   A GaussDB(DWS) cluster contains nodes of the same flavor in the same subnet. These nodes jointly provide services. Datanodes (DNs) in a cluster store data on disks. CNs, or Coordinators, receive access requests from the clients and return the execution results. They also split and distribute tasks to the Datanodes (DNs) for parallel execution.
+
+-  **Automatic data backup**
+
+   Cluster snapshots can be automatically backed up to the EB-level Object Storage Service (OBS), which facilitates periodic backup of the cluster during off-peak hours, ensuring data recovery after a cluster exception occurs.
+
+   A snapshot is a complete backup of GaussDB(DWS) at a specified time point. It records all configuration data and service data of the cluster at the specified moment.
+
+-  **Tool chain**
+
+   The parallel data loading tool General Data Service (GDS), SQL syntax migration tool Database Schema Convertor (DSC), and SQL development tool Data Studio are provided. The cluster O&M can be monitored on a console.

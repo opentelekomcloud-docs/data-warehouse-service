@@ -12,9 +12,9 @@ GaussDB(DWS) snapshots are used to restore all the configurations and service da
 GaussDB(DWS) Snapshot
 ---------------------
 
-A GaussDB(DWS) snapshot is a full or incremental backup of a GaussDB(DWS) cluster at a specific point in time. It records the current database data and cluster information, including the number of nodes, node specifications, and administrator name. Snapshots can be created manually or automatically.
+A GaussDB(DWS) snapshot is a full backup and an incremental backup of a data warehouse cluster at a point in time. It records the data in the current database and cluster information, including the number of nodes, node specifications, and database administrator username. Snapshots can be created manually or automatically.
 
-When a snapshot is used for restoration, GaussDB(DWS) creates a new cluster based on the cluster information recorded in the snapshot and restores data from the snapshot.
+When restoring data from a snapshot to a cluster, GaussDB(DWS) creates a cluster based on the cluster information recorded in the snapshot and restores database information from the snapshot data.
 
 For details, see "Backing Up and Restoring a GaussDB(DWS) Cluster" in the *Data Warehouse Service (DWS) User Guide*.
 

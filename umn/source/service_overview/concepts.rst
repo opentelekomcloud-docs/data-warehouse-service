@@ -14,7 +14,7 @@ GaussDB(DWS) Management Concepts
 
 -  Node
 
-   A GaussDB(DWS) cluster can have 3 to 256 nodes. A hybrid data warehouse (standalone) can only have one node. Each node can store and analyze data.
+   A GaussDB(DWS) cluster can have 3 to 256 nodes. A storage-compute coupled data warehouse (standalone) can only have one node. Each node can store and analyze data.
 
 -  Type
 
@@ -33,7 +33,7 @@ GaussDB(DWS) Database Concepts
 
 -  Databases
 
-   A data warehouse cluster is an analysis-oriented relational database platform that supports online analysis.
+   A database manages data objects and is isolated from other databases. While creating an object, you can specify a tablespace for it. If you do not specify it, the object will be saved to the **PG_DEFAULT** space by default. Objects managed by a database can be distributed to multiple tablespaces.
 
 -  OLAP
 
@@ -55,6 +55,30 @@ GaussDB(DWS) Database Concepts
 
    You can use a client to connect to the GaussDB(DWS) cluster. The client can be used for connection on the cloud platform and over the Internet.
 
--  Database User
+-  Database users and roles
 
-   You can add and control users who can access the database of a data warehouse cluster by assigning specific permissions to them. The database administrator generated when you create a cluster is the default database user.
+   GaussDB(DWS) uses users and roles to control the access to databases. A role can be a database user or a group of database users based on the role setting. In GaussDB(DWS), the difference between roles and users is that a role does not have the **LOGIN** permission by default. In GaussDB(DWS), one user can have only one role, but you can put a user's role under a parent role to grant multiple permissions to the user.
+
+-  Instance
+
+   In GaussDB(DWS), instances are a group of database processes running in the memory. An instance can manage one or more databases that form a cluster. A cluster is an area in the storage disk. This area is initialized during installation and composed of a directory. The directory, called data directory, stores all data and is created by **initdb**. Theoretically, one server can start multiple instances on different ports, but GaussDB(DWS) manages only one instance at a time. The start and stop of an instance rely on the specific data directory. For compatibility purposes, the concept of instance name may be introduced.
+
+-  Tablespaces
+
+   In GaussDB(DWS), a tablespace is a directory storing physical files of the databases the tablespace contains. Multiple tablespaces can coexist. Files are physically isolated using tablespaces and managed by a file system.
+
+-  Schema
+
+   GaussDB(DWS) schemas logically separate databases. All database objects are created under certain schemas. In GaussDB(DWS), schemas and users are loosely bound. When you create a user, a schema with the same name as the user will be created automatically. You can also create a schema or specify another schema.
+
+-  V2 table
+
+   A V2 table refers to a table whose **colversion** defined in the **CREATE TABLE** syntax is 2.0 during table creation, indicating that each column of the column-store table is combined and stored in a file named **relfilenode.C1.0**, and data is stored on the local disk. For storage-compute coupled clusters, if **colversion** is not specified, the created column-store table is a V2 table by default.
+
+-  V3 table
+
+   A V3 table refers to a table whose **colversion** defined in the **CREATE TABLE** syntax is 3.0 during table creation, indicating that each column of the column-store table is stored in a file named **C1_field.0**, and data is stored in the OBS file system. For storage-compute coupled clusters, if **colversion** is not specified, the created column-store table is a V3 table by default.
+
+-  Transaction management
+
+   In GaussDB(DWS), transactions are managed by multi-version concurrency control (MVCC) and two-phase locking (2PL). It enables smooth data reads and writes. In GaussDB(DWS), MVCC saves historical version data together with the current tuple version. GaussDB(DWS) uses the VACUUM process instead of rollback segments to routinely delete historical version data. This does not affect user operations, unless in performance tuning. Transactions are automatically submitted in GaussDB(DWS).

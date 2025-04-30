@@ -17,7 +17,7 @@ Different storage media determine the cost, performance, and application scenari
 .. table:: **Table 1** Differences between hot and cold data storage
 
    +--------------+----------------+------+----------------------+--------------------------------------------------------------------------------------------------------------------+
-   | Storage      | Read and Write | Cost | Capacity             | Application Scenario                                                                                               |
+   | Storage      | Read and Write | Cost | Capacity             | Scenario                                                                                                           |
    +==============+================+======+======================+====================================================================================================================+
    | Hot storage  | Fast           | High | Fixed and restricted | This mode is applicable to scenarios where the data volume is limited and needs to be frequently read and updated. |
    +--------------+----------------+------+----------------------+--------------------------------------------------------------------------------------------------------------------+

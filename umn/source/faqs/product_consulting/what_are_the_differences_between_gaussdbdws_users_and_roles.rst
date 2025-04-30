@@ -14,7 +14,7 @@ Users and roles are shared within the entire cluster, but their data is not shar
 -  A user can be regarded as a role with the login permission.
 -  A role can be regarded as a user without the login permission.
 
-The permissions provided by Gauss(DWS) include the O&M permissions for components on the management plane. You can assign different permissions to users as needed. The management plane uses roles for better permissions management. You can select specified permissions and assign them to roles in a unified manner. In this way, permissions can be viewed and managed in a centralized manner.
+The permissions provided by GaussDB(DWS) include the O&M permissions for components on the management plane. You can grant permissions to users as needed. The management plane uses roles for better permissions management. You can select specified permissions and assign them to roles in a unified manner. In this way, permissions can be viewed and managed in a centralized manner.
 
 The following figure shows the relationships between permissions, roles, and users in unified permissions management.
 

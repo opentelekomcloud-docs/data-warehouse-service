@@ -6,8 +6,21 @@ Change History
 ==============
 
 +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
-| Release Date                      | Change Description                                                                                                                           |
+| Release Date                      | What's New                                                                                                                                   |
 +===================================+==============================================================================================================================================+
+| 2025-04-03                        | This issue is the nineteenth official release for cluster version 9.1.0.211.                                                                 |
+|                                   |                                                                                                                                              |
+|                                   | Added the following functions:                                                                                                               |
+|                                   |                                                                                                                                              |
+|                                   | -  Query filter for resource management                                                                                                      |
+|                                   | -  Exception rules for resource management                                                                                                   |
+|                                   | -  GaussDB(DWS) cluster GUC parameter modification                                                                                           |
+|                                   | -  Schema snapshot manual creation                                                                                                           |
+|                                   | -  Snapshot restoration to the current cluster                                                                                               |
+|                                   | -  Table restoration to the original cluster                                                                                                 |
+|                                   | -  Table restoration to a new cluster                                                                                                        |
+|                                   | -  Automated snapshot policy configuration                                                                                                   |
++-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 | 2024-09-30                        | This issue is the eighteenth official release for the 8.2.1.220 cluster.                                                                     |
 +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 | 2024-04-02                        | This issue is the seventeenth official release for the 8.1.3.325 cluster.                                                                    |
@@ -15,35 +28,35 @@ Change History
 |                                   | Added the following functions:                                                                                                               |
 |                                   |                                                                                                                                              |
 |                                   | -  Database user management                                                                                                                  |
-|                                   | -  Viewing redistribution details                                                                                                            |
-|                                   | -  Upgrading clusters                                                                                                                        |
+|                                   | -  Redistribution detail checking                                                                                                            |
+|                                   | -  Cluster upgrade                                                                                                                           |
 +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 | 2023-09-26                        | This issue is the sixteenth official release.                                                                                                |
 |                                   |                                                                                                                                              |
-|                                   | Added the following sections:                                                                                                                |
+|                                   | Added the following functions:                                                                                                               |
 |                                   |                                                                                                                                              |
-|                                   | -  Cluster Topology                                                                                                                          |
-|                                   | -  Performing a Primary/Standby Switchback                                                                                                   |
-|                                   | -  Associating and Disassociating ELB                                                                                                        |
+|                                   | -  Cluster topology                                                                                                                          |
+|                                   | -  Primary/Standby switchback                                                                                                                |
+|                                   | -  Associating and disassociating ELB                                                                                                        |
 +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 | 2022-11-03                        | This issue is the fifteenth official release.                                                                                                |
 |                                   |                                                                                                                                              |
-|                                   | Added the following sections:                                                                                                                |
+|                                   | Added the following functions:                                                                                                               |
 |                                   |                                                                                                                                              |
-|                                   | -  Scaling Out a Cluster                                                                                                                     |
-|                                   | -  Cluster Redistribution                                                                                                                    |
+|                                   | -  Scaling out a cluster                                                                                                                     |
+|                                   | -  Performing cluster redistribution                                                                                                         |
 +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 | 2021-04-17                        | This issue is the fourteenth official release.                                                                                               |
 |                                   |                                                                                                                                              |
-|                                   | Added the following sections:                                                                                                                |
+|                                   | Added the following functions:                                                                                                               |
 |                                   |                                                                                                                                              |
-|                                   | -  Databases Monitoring (DMS)                                                                                                                |
-|                                   | -  Managing Alarms                                                                                                                           |
-|                                   | -  Managing Nodes                                                                                                                            |
+|                                   | -  Database monitoring (DMS)                                                                                                                 |
+|                                   | -  Alarm management                                                                                                                          |
+|                                   | -  Node management                                                                                                                           |
 +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 | 2020-11-03                        | This issue is the thirteenth official release.                                                                                               |
 |                                   |                                                                                                                                              |
-|                                   | Modified the following section:                                                                                                              |
+|                                   | Modified the following sections:                                                                                                             |
 |                                   |                                                                                                                                              |
 |                                   | -  Creating a DWS 2.0 Cluster                                                                                                                |
 +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
@@ -54,7 +67,7 @@ Change History
 |                                   | -  Step 3: Connecting to a Cluster                                                                                                           |
 |                                   | -  Modifying Database Parameters                                                                                                             |
 |                                   | -  Managing Enterprise Projects                                                                                                              |
-|                                   | -  Overview                                                                                                                                  |
+|                                   | -  Snapshot Overview                                                                                                                         |
 |                                   | -  Syntax of Fine-Grained Permissions Policies                                                                                               |
 |                                   | -  Dumping the Database Audit Logs                                                                                                           |
 +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
@@ -99,7 +112,7 @@ Change History
 +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 | 2018-09-15                        | This issue is the seventh official release.                                                                                                  |
 |                                   |                                                                                                                                              |
-|                                   | Modified the following section:                                                                                                              |
+|                                   | Modified the following sections:                                                                                                             |
 |                                   |                                                                                                                                              |
 |                                   | -  Preparation: Changing the Image Title.                                                                                                    |
 |                                   |                                                                                                                                              |
@@ -118,7 +131,7 @@ Change History
 |                                   | -  Monitoring Clusters Using Cloud Eye: Added the description of creating alarm rules.                                                       |
 |                                   | -  Using JDBC to Connect to a Cluster: Added the description of referencing JDBC JAR files.                                                  |
 |                                   |                                                                                                                                              |
-|                                   | Added the following section:                                                                                                                 |
+|                                   | Added the following sections:                                                                                                                |
 |                                   |                                                                                                                                              |
 |                                   | -  Managing tags: Added the functions of adding tags to a cluster and searching for a cluster by tag.                                        |
 +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
@@ -144,7 +157,7 @@ Change History
 +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 | 2017-11-01                        | This issue is the fourth official release.                                                                                                   |
 |                                   |                                                                                                                                              |
-|                                   | -  Added the following section:                                                                                                              |
+|                                   | -  Added the following sections:                                                                                                             |
 |                                   |                                                                                                                                              |
 |                                   |    -  Step 4: Viewing Other Documents and Deleting Resources                                                                                 |
 |                                   |                                                                                                                                              |
@@ -157,7 +170,7 @@ Change History
 |                                   |                                                                                                                                              |
 |                                   | -  Added the following sections:                                                                                                             |
 |                                   |                                                                                                                                              |
-|                                   |    -  Resetting Your Password                                                                                                                |
+|                                   |    -  Resetting a Password                                                                                                                   |
 |                                   |    -  Introduction to SQL                                                                                                                    |
 |                                   |    -  Using JDBC to Connect to a Cluster                                                                                                     |
 |                                   |    -  Updating the MRS Data Source Configuration                                                                                             |
