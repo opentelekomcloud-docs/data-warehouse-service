@@ -44,4 +44,4 @@ When calling the API to obtain a user token, you must set **auth.scope** in the 
        }
    }
 
-After a token is obtained, the **X-Auth-Token** header field must be added to requests to specify the token when calling other APIs. For example, if the token is **ABCDEFJ....**, **X-Auth-Token: ABCDEFJ....** can be added to a request.
+After a token is obtained, the **X-Auth-Token** header field must be added to requests to specify the token when calling other APIs. If the token is **ABCDEFG....**, add **X-Auth-Token: ABCDEFG....** to a request.

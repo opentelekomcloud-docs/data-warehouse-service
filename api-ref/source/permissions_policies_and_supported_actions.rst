@@ -15,12 +15,12 @@ You can grant users permissions by using roles and policies. Roles are provided 
 
    Policy-based authorization is useful if you want to allow or deny the access to an API.
 
-An account has all of the permissions required to call all APIs, but IAM users must have the required permissions specifically assigned. The permissions required for calling an API are determined by the actions supported by the API. Only users who have been granted permissions allowing the actions can call the API successfully. For example, if an IAM user wants to query the GaussDB(DWS) cluster list using an API, the user must have been granted permissions that allow the **dws:openAPICluster:list** action.
+An account has full permissions to access all APIs, but each IAM user needs to be granted the necessary permissions before they can begin using the APIs. The permissions required for calling an API are determined by the actions supported by the API. Only users who have been granted permissions allowing the actions can call the API successfully. For example, if an IAM user wants to query the GaussDB(DWS) cluster list using an API, the user must have been granted permissions that allow the **dws:openAPICluster:list** action.
 
 Supported Actions
 -----------------
 
-DWS provides system-defined policies that can be directly used in IAM. You can also create custom policies and use them to supplement system-defined policies, implementing more refined access control. Actions supported by policies are specific to APIs. The following are common concepts related to policies:
+GaussDB(DWS) provides system-defined policies that can be directly used in IAM. Database administrators can also create custom policies and use them to supplement system-defined policies, implementing more refined access control. Actions supported by policies are specific to APIs. The following are common concepts related to policies:
 
 -  **Permissions**: Allow or deny operations on specified resources under specific conditions.
 -  **APIs**: RESTful APIs that can be called in a custom policy.
