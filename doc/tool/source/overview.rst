@@ -5,29 +5,29 @@
 Overview
 ========
 
-This document describes how to use GaussDB(DWS) tools, including client tools, as shown in :ref:`Table 1 <en-us_topic_0000001233800667__table138932093610>`, and server tools, as shown in :ref:`Table 2 <en-us_topic_0000001233800667__table1139657195412>`.
+This document describes how to use GaussDB(DWS) tools, including client tools, as shown in :ref:`Table 1 <en-us_topic_0000001860318433__table138932093610>`, and server tools, as shown in :ref:`Table 2 <en-us_topic_0000001860318433__table1139657195412>`.
 
 The client tools can be obtained by referring to :ref:`Downloading Related Tools <dws_07_0002>`.
 
 The server tools are stored in the **$GPHOME/script** and **$GAUSSHOME/bin** paths on the database server.
 
-.. _en-us_topic_0000001233800667__table138932093610:
+.. _en-us_topic_0000001860318433__table138932093610:
 
-.. table:: **Table 1** Client Tools
+.. table:: **Table 1** Client tools
 
-   +-------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | Tool        | Description                                                                                                                                                                                                                                                                                   |
-   +=============+===============================================================================================================================================================================================================================================================================================+
-   | gsql        | A command-line interface (CLI) SQL client tool running on the Linux OS. It is used to connect to the database in a GaussDB(DWS) cluster and perform operation and maintenance on the database.                                                                                                |
-   +-------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | Data Studio | A client tool used to connect to a database. It provides a GUI for managing databases and objects, editing, executing, and debugging SQL scripts, and viewing execution plans. Data Studio can run on a 32-bit or 64-bit Windows OS. You can use it after decompression without installation. |
-   +-------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | GDS         | A CLI tool running on the Linux OS. It works with foreign tables to quickly import and export data. The GDS tool package needs to be installed on the server where the data source file is located. This server is called the data server or the GDS server.                                  |
-   +-------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | DSC         | A CLI tool used for migrating SQL scripts from Teradata or Oracle to GaussDB(DWS) to rebuild a database on GaussDB(DWS). DSC runs on the Linux OS. You can use it after decompression without installation.                                                                                   |
-   +-------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   +-------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Tool        | Overview                                                                                                                                                                                                                                                                                                    |
+   +=============+=============================================================================================================================================================================================================================================================================================================+
+   | gsql        | A command-line interface (CLI) SQL client tool running on the Linux OS. It is used to connect to the database in a data warehouse cluster and operate and maintain the database.                                                                                                                            |
+   +-------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Data Studio | A client tool used to connect to a database. It provides a GUI for managing databases and objects, editing, executing, and debugging SQL scripts, and viewing execution plans. Data Studio can run on a 32-bit or 64-bit Windows OS. You can use it after decompression without installation.               |
+   +-------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | GDS         | A CLI tool running on the Linux OS. It efficiently handles the import and export of data using foreign tables. The GDS tool package needs to be installed on the server where the data source file is located. This server is called the data server or the GDS server.                                     |
+   +-------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | DSC         | Database Schema Convertor (DSC) is a CLI tool running on Linux or Windows. It migrates SQL scripts in Teradata or Oracle databases to SQL scripts applicable to GaussDB(DWS), enabling GaussDB(DWS) database rebuilding. DSC runs on the Linux OS. You can use it after decompression without installation. |
+   +-------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-.. _en-us_topic_0000001233800667__table1139657195412:
+.. _en-us_topic_0000001860318433__table1139657195412:
 
 .. table:: **Table 2** Server Tools
 
@@ -47,6 +47,4 @@ The server tools are stored in the **$GPHOME/script** and **$GAUSSHOME/bin** pat
    | :ref:`gds_uninstall <dws_07_0107>` | gds_uninstall is a script tool used to uninstall GDS in batches.                                                                                                                                                                                                                               |
    +------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | :ref:`gds_ctl <dws_07_0105>`       | gds_ctl is a script tool used for starting or stopping GDS service processes in batches. You can start or stop GDS service processes, which use the same port, on multiple nodes at a time, and set a daemon for each GDS process during the startup.                                          |
-   +------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`gs_sshexkey <dws_07_0108>`   | During cluster installation, you need to execute commands and transfer files among hosts in the cluster. gs_sshexkey is used to help users establish mutual trust.                                                                                                                             |
    +------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+

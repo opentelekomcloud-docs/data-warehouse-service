@@ -7,10 +7,10 @@ DSC Configuration
 
 Configure the following items:
 
--  :ref:`Setting application.properties <en-us_topic_0000001772536384__en-us_topic_0000001706224133_en-us_topic_0000001382367698_section1939611146913>`: Configure the migration behavior of DSC, for example, whether to overwrite the files in the target folder and whether to format the SQL files.
--  :ref:`Setting Java Memory Allocation <en-us_topic_0000001772536384__en-us_topic_0000001706224133_en-us_topic_0000001382367698_section1724815444492>`: Configure the memory that can be used by DSC. If the memory usage exceeds the threshold, DSC displays an error and exits.
+-  :ref:`Setting application.properties <en-us_topic_0000001860198709__en-us_topic_0000001382367698_section1939611146913>`: Configure the migration behavior of DSC, for example, whether to overwrite the files in the target folder and whether to format the SQL files.
+-  :ref:`Setting Java Memory Allocation <en-us_topic_0000001860198709__en-us_topic_0000001382367698_section1724815444492>`: Configure the memory that can be used by DSC. If the memory usage exceeds the threshold, DSC displays an error and exits.
 
-.. _en-us_topic_0000001772536384__en-us_topic_0000001706224133_en-us_topic_0000001382367698_section1939611146913:
+.. _en-us_topic_0000001860198709__en-us_topic_0000001382367698_section1939611146913:
 
 Setting application.properties
 ------------------------------
@@ -23,7 +23,7 @@ Perform the following steps to configure the parameters:
 
 #. Set parameters in the **application.properties** file as needed.
 
-   :ref:`Table 1 <en-us_topic_0000001772536384__en-us_topic_0000001706224133_en-us_topic_0000001382367698_table60771938143352>` describes the parameters in the **application.properties** file.
+   :ref:`Table 1 <en-us_topic_0000001860198709__en-us_topic_0000001382367698_table60771938143352>` describes the parameters in the **application.properties** file.
 
    .. note::
 
@@ -32,7 +32,7 @@ Perform the following steps to configure the parameters:
 
 #. Save the configuration and exit.
 
-.. _en-us_topic_0000001772536384__en-us_topic_0000001706224133_en-us_topic_0000001382367698_table60771938143352:
+.. _en-us_topic_0000001860198709__en-us_topic_0000001382367698_table60771938143352:
 
 .. table:: **Table 1** Parameters in the application.properties file
 
@@ -99,7 +99,7 @@ Perform the following steps to configure the parameters:
    +----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------+-------------------------+---------------------------------------------------------------------+
    | -  NoOfThreads             | Number of threads used for migration                                                                                                                                                                                                                                                                                  | Depending on available system resources | 3                       | NoOfThreads=3                                                       |
    +----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------+-------------------------+---------------------------------------------------------------------+
-   | -  MaxFileSizeWarning      | Warning threshold for the input file size (unit: KB, MB, or GB).                                                                                                                                                                                                                                                      | 10 KB 1 GB                              | 10MB                    | MaxFileSizeWarning=10MB                                             |
+   | -  MaxFileSizeWarning      | Warning threshold for the input file size (unit: KB, MB, or GB).                                                                                                                                                                                                                                                      | 10 KB~1 GB                              | 10MB                    | MaxFileSizeWarning=10MB                                             |
    |                            |                                                                                                                                                                                                                                                                                                                       |                                         |                         |                                                                     |
    |                            | If an invalid value is specified, the default value is used.                                                                                                                                                                                                                                                          |                                         |                         |                                                                     |
    |                            |                                                                                                                                                                                                                                                                                                                       |                                         |                         |                                                                     |
@@ -137,7 +137,7 @@ Perform the following steps to configure the parameters:
    |                            |                                                                                                                                                                                                                                                                                                                       |                                         |                         |                                                                     |
    |                            |                                                                                                                                                                                                                                                                                                                       |                                         |                         | This indicates that the process will use up to 2048 MB of memory.   |
    +----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------+-------------------------+---------------------------------------------------------------------+
-   | -  executesqlingauss       | Run the migrated script in GaussDB. The value can be true or false. The script can be executed only on the server running the Linux operating system.                                                                                                                                                                 | -  true                                 | false                   | executesqlingauss=false                                             |
+   | -  executesqlingauss       | Runs the migrated scripts in GaussDB(DWS). The value can be true or false. The script can be executed only on the server running the Linux operating system.                                                                                                                                                          | -  true                                 | false                   | executesqlingauss=false                                             |
    |                            |                                                                                                                                                                                                                                                                                                                       | -  false                                |                         |                                                                     |
    +----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------+-------------------------+---------------------------------------------------------------------+
 
@@ -146,7 +146,7 @@ Perform the following steps to configure the parameters:
    -  If a parameter is set to an incorrect or invalid value, DSC uses the default value of the parameter.
    -  If the extensions (for example, **.doc**) are not supported, then it is recommended you add extension in **fileExtension** configuration parameter in **application.properties** file.
 
-.. _en-us_topic_0000001772536384__en-us_topic_0000001706224133_en-us_topic_0000001382367698_section1724815444492:
+.. _en-us_topic_0000001860198709__en-us_topic_0000001382367698_section1724815444492:
 
 Setting Java Memory Allocation
 ------------------------------
@@ -173,20 +173,20 @@ If the memory usage exceeds the limit during migration, DSC displays the "java.l
    |                       |                                              | Default value: **1024**                                                                    |
    +-----------------------+----------------------------------------------+--------------------------------------------------------------------------------------------+
 
-Open the **gaussdb.properties** file in the **config** folder of the verification file and configure parameters by referring to :ref:`Table 3 <en-us_topic_0000001772536384__en-us_topic_0000001706224133_en-us_topic_0000001382367698_table18539728123518>` to connect to GaussDB(DWS).
+Open the **gaussdb.properties** file in the **config** folder of the verification file and configure parameters by referring to :ref:`Table 3 <en-us_topic_0000001860198709__en-us_topic_0000001382367698_table18539728123518>` to connect to GaussDB(DWS).
 
-.. _en-us_topic_0000001772536384__en-us_topic_0000001706224133_en-us_topic_0000001382367698_table18539728123518:
+.. _en-us_topic_0000001860198709__en-us_topic_0000001382367698_table18539728123518:
 
 .. table:: **Table 3** Parameters in the gaussdb.properties file
 
-   +--------------+-----------------------------------------------------+-------------+---------+-------------+
-   | Parameter    | Description                                         | Value Range | Default | Example     |
-   +==============+=====================================================+=============+=========+=============+
-   | gaussdb-user | GaussDB(DWS) database user who has all permissions. | NA          | NA      | user1       |
-   +--------------+-----------------------------------------------------+-------------+---------+-------------+
-   | gaussdb-port | Port of the GaussDB(DWS) database                   | NA          | NA      | 2002        |
-   +--------------+-----------------------------------------------------+-------------+---------+-------------+
-   | gaussdb-name | Name of the GaussDB(DWS) database                   | NA          | NA      | GaussDB A   |
-   +--------------+-----------------------------------------------------+-------------+---------+-------------+
-   | gaussdb-ip   | IP address of the GaussDB(DWS) database             | NA          | NA      | 10.XX.XX.XX |
-   +--------------+-----------------------------------------------------+-------------+---------+-------------+
+   +--------------+----------------------------------------------------+-------------+---------+-------------+
+   | Parameter    | Description                                        | Value Range | Default | Example     |
+   +==============+====================================================+=============+=========+=============+
+   | gaussdb-user | GaussDB(DWS) database user who has all permissions | N/A         | N/A     | user1       |
+   +--------------+----------------------------------------------------+-------------+---------+-------------+
+   | gaussdb-port | Port of the GaussDB(DWS) database                  | N/A         | N/A     | 8000        |
+   +--------------+----------------------------------------------------+-------------+---------+-------------+
+   | gaussdb-name | Name of the GaussDB(DWS) database                  | N/A         | N/A     | gaussdb     |
+   +--------------+----------------------------------------------------+-------------+---------+-------------+
+   | gaussdb-ip   | IP address of the GaussDB(DWS) database            | N/A         | N/A     | 10.XX.XX.XX |
+   +--------------+----------------------------------------------------+-------------+---------+-------------+

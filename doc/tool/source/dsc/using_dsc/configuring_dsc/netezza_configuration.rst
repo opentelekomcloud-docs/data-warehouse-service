@@ -7,9 +7,9 @@ Netezza Configuration
 
 Netezza parameters are used to customize rules for Netezza script migration.
 
-Open the **features-netezza.properties** file in the **config** folder and set parameters in :ref:`Table 1 <en-us_topic_0000001819416089__en-us_topic_0000001706223977_en-us_topic_0218440629_table60771938143352>` as required.
+Open the **features-netezza.properties** file in the **config** folder and set parameters in :ref:`Table 1 <en-us_topic_0000001813439152__en-us_topic_0218440629_table60771938143352>` as required.
 
-.. _en-us_topic_0000001819416089__en-us_topic_0000001706223977_en-us_topic_0218440629_table60771938143352:
+.. _en-us_topic_0000001813439152__en-us_topic_0218440629_table60771938143352:
 
 .. table:: **Table 1** Parameters in the **features-netezza.properties** file
 

@@ -5,7 +5,7 @@
 Downloading and Installing DSC
 ==============================
 
-Before using DSC, install it on a Linux or Windows server. DSC supports 64-bit Linux OSs. For details about other OSs supported by DSC, see :ref:`Table 4 <en-us_topic_0000001772696052__en-us_topic_0000001706105073_en-us_topic_0000001392380920_table1750314290446>`.
+Before using DSC, install it on a Linux or Windows server. DSC supports 64-bit Linux OSs. For details about other OSs supported by DSC, see :ref:`Table 4 <en-us_topic_0000001860198637__en-us_topic_0000001392380920_table1750314290446>`.
 
 Prerequisites
 -------------
@@ -30,7 +30,7 @@ Prerequisites
 
             ls -l
 
--  JRE 1.8 or later and Perl have been installed. For details about the hardware and software requirements, see :ref:`Operating Environment <en-us_topic_0000001772696052>`.
+-  JRE 1.8 or later and Perl have been installed. For details about the hardware and software requirements, see :ref:`Operating Environment <dws_16_0008>`.
 
    To check the installed Java version and set the Java path, perform the following steps:
 
@@ -82,12 +82,12 @@ Prerequisites
 Downloading DSC
 ---------------
 
-#. Log in to the GaussDB(DWS) management console. In the navigation tree on the left, choose **Connections**.
+#. Log in to the GaussDB(DWS) console. In the navigation pane, choose **Management** > **Client Connections**. The **Download Client and Driver** page is displayed.
 
 #. On the **Download Client and Driver** page, click **here** to download the **DSC** software package.
 
 
-   .. figure:: /_static/images/en-us_image_0000001706105425.png
+   .. figure:: /_static/images/en-us_image_0000002081683680.png
       :alt: **Figure 1** Downloading the DSC client
 
       **Figure 1** Downloading the DSC client
@@ -113,7 +113,7 @@ Windows:
 
 #. Find and check the files in the **DSC** directory.
 
-   :ref:`Table 1 <en-us_topic_0000001819336053__en-us_topic_0000001706224301_en-us_topic_0000001290072612_en-us_topic_0218440254_table9595434171818>` describes the obtained folders and files.
+   :ref:`Table 1 <en-us_topic_0000001813438740__en-us_topic_0000001290072612_en-us_topic_0218440254_table9595434171818>` describes the obtained folders and files.
 
 **Linux:**
 
@@ -136,7 +136,7 @@ Windows:
       ls
       config   lib   scripts   bin  input output runDSC.sh  runDSC.bat
 
-.. _en-us_topic_0000001819336053__en-us_topic_0000001706224301_en-us_topic_0000001290072612_en-us_topic_0218440254_table9595434171818:
+.. _en-us_topic_0000001813438740__en-us_topic_0000001290072612_en-us_topic_0218440254_table9595434171818:
 
 .. table:: **Table 1** DSC directory
 

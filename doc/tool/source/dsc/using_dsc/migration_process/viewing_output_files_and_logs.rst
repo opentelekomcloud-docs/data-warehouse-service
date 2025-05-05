@@ -32,6 +32,6 @@ After the migration is complete, you can use a comparison tool (for example, Bey
 Viewing Log Files
 -----------------
 
-Execution information and error messages are written into corresponding log files. For details, see :ref:`Log Reference <en-us_topic_0000001772696088>`.
+Execution information and error messages are written into corresponding log files. For details, see :ref:`Log Reference <en-us_topic_0000001813598960>`.
 
-Check whether errors are logged. If they are, rectify the faults by following the instructions in :ref:`Troubleshooting <en-us_topic_0000001772696072>`.
+Check whether errors are logged. If they are, rectify the faults by following the instructions in :ref:`Troubleshooting <en-us_topic_0000001860318609>`.

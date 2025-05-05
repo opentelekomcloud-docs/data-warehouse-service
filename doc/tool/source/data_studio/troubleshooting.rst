@@ -1,23 +1,23 @@
-:original_name: DWS_DS_145.html
+:original_name: DWS_DS_039.html
 
-.. _DWS_DS_145:
+.. _DWS_DS_039:
 
 Troubleshooting
 ===============
 
 #. **Data Studio does not open.**
 
-   **Solution**: Check whether JRE is missing. Verify the Java path in the environment. For details about the supported Java JDK versions, see :ref:`System Requirements <dws_ds_14>`.
+   Solution: Check whether JRE is missing. Verify the Java path in the environment. For details about the supported Java JDK versions, see :ref:`System Requirements <dws_ds_004>`.
 
 #. **Data Studio does not open and displays a 'Java Runtime' error when I double-click the Data Studio.exe file.**
 
-   **Solution:**
+   **Solution**
 
    -  Without JRE:
 
       |image1|
 
-      Check whether the Java Runtime Environment (JRE) or Java Development Kit (JDK) version 1.8.0_141 or above with appropriate bit number is installed on the system and Java Home path is set. If there are more than one version of Java installed, set the **-vm** parameter in the configuration file by referring to :ref:`Installing and Configuring Data Studio <dws_ds_16>`. This is a prerequisite for running Data Studio.
+      Check whether the Java Runtime Environment (JRE) or Java Development Kit (JDK) version 1.8.0_141 or above with appropriate bit number is installed on the system and Java Home path is set. If there is more than one version of Java installed, set the **-vm** parameter in the configuration file by referring to :ref:`Configuring Data Studio <dws_ds_007>`. This is a prerequisite for running Data Studio.
 
    -  Old JRE version:
 
@@ -31,13 +31,13 @@ Troubleshooting
 
       Check the version of the JRE or JDK installed in the system. If the installed Java version is incompatible with the system, this error occurs. Update the JRE to version 1.8.0_141 or above with appropriate bit number.
 
-      You are advised to run the batch file to check compatibility and launch Data Studio. For details, see :ref:`Quick Start <dws_ds_19>`.
+      You are advised to run the batch file to check compatibility and launch Data Studio. For details, see :ref:`6 <en-us_topic_0000001860198941__en-us_topic_0000001533190636_en-us_topic_0000001523826708_en-us_topic_0000001514019285_li7537173111372>`.
 
-#. .. _en-us_topic_0000001188362524__en-us_topic_0185264982_li107293206554:
+#. .. _en-us_topic_0000001813439016__en-us_topic_0185264982_li107293206554:
 
    **The following information is displayed when you run the StartDataStudio.bat file:**
 
-   **Solution:**
+   **Solution**
 
    +-------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------+
    | Message                                                                                                                 | Solution                                                                  |
@@ -54,7 +54,7 @@ Troubleshooting
    +-------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------+
    | The Java version supported by Data Studio must be 1.8 or later. Before using Data Studio, you need to install Java 1.8. | Install Java 1.8 that matches the number of bits of the operating system. |
    +-------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------+
-   | You are trying to run 64-bit Data Studio in the following environment:                                                  | Install 64-bit Java 1.8.                                                  |
+   | You are attempting to run 64-bit Data Studio on:                                                                        | Install 64-bit Java 1.8.                                                  |
    |                                                                                                                         |                                                                           |
    | -  64-bit OS                                                                                                            |                                                                           |
    |                                                                                                                         |                                                                           |
@@ -70,7 +70,7 @@ Troubleshooting
    |                                                                                                                         |                                                                           |
    | -  32-bit Java 1.8 JDK (incompatible)                                                                                   |                                                                           |
    |                                                                                                                         |                                                                           |
-   |    Install the 32-bit Data Studio.                                                                                      |                                                                           |
+   |    Install 32-bit Data Studio.                                                                                          |                                                                           |
    +-------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------+
 
 #. **Why does Data Studio not connect to the server even with all valid inputs?**
@@ -101,7 +101,7 @@ Troubleshooting
 
 #. **When I connect to the database and load a large number of SQL queries into SQL Terminal, the "Out Of Memory" or "Java Heap Error" error may occur in Data Studio. How do I solve this problem?**
 
-   **Solution**: When the Data Studio has used up the allocated maximum Java memory, the message "Out of Memory" or "Java Heap Error" is displayed. By default, the **Data Studio.ini** configuration file (in the Data Studio installation path) contains the entry **-Xmx1200m**. 1200m indicates 1200 MB, which is the maximum Java memory that can be used by Data Studio. The memory usage of Data Studio depends on the size of data obtained by users during the use of Data Studio.
+   **Solution**: When the Data Studio has used up the allocated maximum Java memory, the message "Out of Memory" or "Java Heap Error" is displayed. By default, the **Data Studio.ini** configuration file (in the Data Studio installation path) contains the entry **-Xmx1200m**. 1200m indicates 1,200 MB, which is the maximum Java memory that can be used by Data Studio. The memory usage of Data Studio depends on the size of data obtained by users during the use of Data Studio.
 
    To solve this problem, you can expand the Java memory size to an ideal value. For example, change **-Xmx1200m** to **-Xmx2000m** and restart Data Studio. If the updated memory is used up, the same problem may occur again.
 
@@ -125,29 +125,31 @@ Troubleshooting
 
    **Solution**: The possible causes are as follows:
 
-   -  An invalid client SSL certificate and/or client SSL key file was selected. Select a correct file and try again. For details, see :ref:`Adding a Connection <dws_ds_34>`.
+   -  An invalid client SSL certificate and/or client SSL key file was selected. Select a correct file and try again. For details, see :ref:`Adding a Connection <en-us_topic_0000001813598612__section6296113873912>`.
    -  The identity of the object in the database may have changed. Check whether the identity of the object has changed and try again.
-   -  You do not have the required permissions. Contact the database administrator to obtain required permissions.
+   -  You may not have sufficient permissions. Contact the database administrator to obtain required permissions.
 
 #. **Why does the system receive a message indicating that the DDL operation fails when the DDL operation is performed?**
 
    **Solution**: The possible causes are as follows:
 
-   -  An invalid client SSL certificate and/or client SSL key file was selected. Select a correct file and try again. For details, see :ref:`Adding a Connection <dws_ds_34>`.
+   -  An invalid client SSL certificate or client SSL key file was selected. Select a correct file and try again. For details, see :ref:`Adding a Connection <en-us_topic_0000001813598612__section6296113873912>`.
    -  The identity of the object in the database may have changed. Check whether the identity of the object has changed and try again.
-   -  You do not have the required permissions. Contact the database administrator to obtain required permissions.
+   -  You may not have sufficient permissions. Contact the database administrator to obtain required permissions.
 
-#. **Why do I receive the following error message when performing a Show DDL or Export DDL operation?**
+#. .. _en-us_topic_0000001813439016__en-us_topic_0185264982_li1161793674918:
+
+   **Why do I receive the following error message when performing a Show DDL or Export DDL operation?**
 
    **"Failed to start this program because MSVCRT100.dll is missing. Try reinstalling the program to resolve the problem."**
 
-   **Solution**: **gs_dump.exe** needs to be executed to display or export DDL, which requires the VC runtime library **msvcrt100.dll**.
+   **Solution**: **gs_dump.exe** needs to be executed to display or export DDL, which requires the MS VC runtime library **msvcrt100.dll**.
 
    To resolve this issue, copy the **msvcrt100.dll file** from the **\\Windows\\System32** folder to the **\\Windows\\SysWOW64 folder**.
 
 #. **Why is the saved connection details not displayed when I try to establish a connection?**
 
-   **Solution**: If the **Profile** folder in the User Data folder is unavailable or has been manually modified, this problem may occur. Ensure that the Profile folder exists and its name meets the requirements.
+   **Solution**: If the **Profile** folder in the User Data folder is unavailable or has been manually modified, this problem may occur. Ensure that the **Profile** folder exists and its name meets the requirements.
 
 #. **Why are historical sql query records lost when I close and restart data studio?**
 
@@ -171,7 +173,7 @@ Troubleshooting
 
 #. **Why can't I edit temporary tables when the Reuse Connections option is disabled?**
 
-   **Answer**: After the Reuse Connection option is disabled, the tool creates a new session, but the temporary table can be edited only in the existing connection. To edit temporary tables, enable the **Reuse Connection** option. For details, see :ref:`Managing SQL Terminal Connections <dws_ds_130>`.
+   **Answer**: After the Reuse Connection option is disabled, the tool creates a new session, but the temporary table can be edited only in the existing connection. To edit temporary tables, enable the **Reuse Connection** option. For details, see :ref:`Managing Connections in the SQL Terminal <dws_ds_037>`.
 
 #. **What happens when I add the same column multiple times in a multi-column sort dialog box?**
 
@@ -189,17 +191,17 @@ Troubleshooting
 
    **Answer**: Canceling a table query that is being executed may cause the console to display the names of tables that are not created. In this case, you are advised to delete the table so that you can perform operations on tables with the same name.
 
-#. **What should I do if I cannot log in to Data Studio because the security key is cracked?**
+#. What should I do if I cannot log in to Data Studio because the security key is cracked?
 
    **Solution**: Perform the following steps to generate a new security key:
 
    a. Choose **Datastudio** > **Userdata** and delete the security folder.
-   b. Restart Data Studio
-   c. Create a new security folder and generate a new key.
+   b. Restart Data Studio.
+   c. Create a security folder and generate a new key.
    d. Enter the password again to log in to Data Studio.
 
-.. |image1| image:: /_static/images/en-us_image_0000001234200735.png
-.. |image2| image:: /_static/images/en-us_image_0000001809221997.png
-.. |image3| image:: /_static/images/en-us_image_0000001809304349.png
-.. |image4| image:: /_static/images/en-us_image_0000001188521212.png
-.. |image5| image:: /_static/images/en-us_image_0000001188521210.png
+.. |image1| image:: /_static/images/en-us_image_0000001860319117.png
+.. |image2| image:: /_static/images/en-us_image_0000001860199281.png
+.. |image3| image:: /_static/images/en-us_image_0000001813439420.png
+.. |image4| image:: /_static/images/en-us_image_0000001813439416.png
+.. |image5| image:: /_static/images/en-us_image_0000001813599204.png

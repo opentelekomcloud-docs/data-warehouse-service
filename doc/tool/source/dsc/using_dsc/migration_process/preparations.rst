@@ -9,7 +9,7 @@ Before the migration, create an input folder and an output folder, and copy all 
 
 #. Run the following commands to create an input folder and an output folder. You can create the folder anywhere based on your preferences. You can also use the default folders for input, output, provided as part of package.
 
-   .. code-block::
+   ::
 
       mkdir input
       mkdir output
@@ -31,7 +31,7 @@ Before the migration, create an input folder and an output folder, and copy all 
 
       -  To obtain the encoding format of a source file in Linux, run the following command on the server where the source file is located:
 
-         .. code-block::
+         ::
 
             file -bi <Input file name>
 

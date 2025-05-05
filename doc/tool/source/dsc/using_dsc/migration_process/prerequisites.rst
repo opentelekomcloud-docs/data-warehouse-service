@@ -2,21 +2,21 @@
 
 .. _dws_16_0018:
 
-.. _en-us_topic_0000001772696064:
+.. _en-us_topic_0000001860198829:
 
 Prerequisites
 =============
 
-.. _en-us_topic_0000001772696064__en-us_topic_0000001657865686_en-us_topic_0000001382208082_section20896201617216:
+.. _en-us_topic_0000001860198829__en-us_topic_0000001382208082_section20896201617216:
 
 Executing Custom DB Scripts
 ---------------------------
 
 Custom scripts are executed to support input keywords that do not exist in certain versions of the target database. These scripts must be executed in each target database before the migration.
 
-:ref:`Table 1 <en-us_topic_0000001772696064__en-us_topic_0000001657865686_en-us_topic_0000001382208082_table101312310197>` describes the custom scripts in the **DSC/scripts/** directory. For details about how to execute custom scripts, see :ref:`Custom DB Script Configuration <en-us_topic_0000001772696064__en-us_topic_0000001657865686_en-us_topic_0000001382208082_section974418973610>`.
+:ref:`Table 1 <en-us_topic_0000001860198829__en-us_topic_0000001382208082_table101312310197>` describes the custom scripts in the **DSC/scripts/** directory. For details about how to execute custom scripts, see :ref:`Custom DB Script Configuration <en-us_topic_0000001860198829__en-us_topic_0000001382208082_section974418973610>`.
 
-.. _en-us_topic_0000001772696064__en-us_topic_0000001657865686_en-us_topic_0000001382208082_table101312310197:
+.. _en-us_topic_0000001860198829__en-us_topic_0000001382208082_table101312310197:
 
 .. table:: **Table 1** Custom DB scripts
 
@@ -58,7 +58,7 @@ Follow the steps to execute custom DB scripts:
 
       Use Data Studio to connect to the target database, and then open and run the SQL file in Data Studio.
 
-.. _en-us_topic_0000001772696064__en-us_topic_0000001657865686_en-us_topic_0000001382208082_section974418973610:
+.. _en-us_topic_0000001860198829__en-us_topic_0000001382208082_section974418973610:
 
 Custom DB Script Configuration
 ------------------------------
@@ -67,11 +67,11 @@ Custom scripts are SQL files used to migrate from Teradata/Oracle the input keyw
 
 These scripts must be executed in each target database before the migration.
 
-Open the **scripts** folder in the release package. :ref:`Table 2 <en-us_topic_0000001772696064__en-us_topic_0000001657865686_en-us_topic_0000001382208082_table177441591362>` lists the folders and files in the **scripts** folder.
+Open the **scripts** folder in the release package. :ref:`Table 2 <en-us_topic_0000001860198829__en-us_topic_0000001382208082_table177441591362>` lists the folders and files in the **scripts** folder.
 
 The SQL files contain the scripts for the custom migration functions. The GaussDB(DWS) database needs to use these functions to support specific features of Teradata.
 
-.. _en-us_topic_0000001772696064__en-us_topic_0000001657865686_en-us_topic_0000001382208082_table177441591362:
+.. _en-us_topic_0000001860198829__en-us_topic_0000001382208082_table177441591362:
 
 .. table:: **Table 2** Custom DB scripts for DSC
 
@@ -106,17 +106,17 @@ The SQL files contain the scripts for the custom migration functions. The GaussD
 Configuring DSC and Migration Properties
 ----------------------------------------
 
-To configure DSC, configure parameters in the configuration files in the **config** folder of DSC. :ref:`Table 3 <en-us_topic_0000001772696064__en-us_topic_0000001657865686_en-us_topic_0000001382208082_table132687359208>` describes the parameters.
+To configure DSC, configure parameters in the configuration files in the **config** folder of DSC. :ref:`Table 3 <en-us_topic_0000001860198829__en-us_topic_0000001382208082_table132687359208>` describes the parameters.
 
-.. _en-us_topic_0000001772696064__en-us_topic_0000001657865686_en-us_topic_0000001382208082_table132687359208:
+.. _en-us_topic_0000001860198829__en-us_topic_0000001382208082_table132687359208:
 
 .. table:: **Table 3** Parameters for configuring DSC
 
    +---------------------------------------------------------------+-----------------------------------------------------------------------------------------------------+--------------------------------------------------------------------+
    | Migration                                                     | Configuration File                                                                                  | Parameter                                                          |
    +===============================================================+=====================================================================================================+====================================================================+
-   | :ref:`Teradata SQL Migration <en-us_topic_0000001772696076>`  | -  DSC: *application.properties*                                                                    | ::                                                                 |
-   |                                                               | -  :ref:`Teradata SQL Configuration <en-us_topic_0000001819416085>`: *features-teradata.properties* |                                                                    |
+   | :ref:`Teradata SQL Migration <en-us_topic_0000001860198977>`  | -  DSC: *application.properties*                                                                    | ::                                                                 |
+   |                                                               | -  :ref:`Teradata SQL Configuration <en-us_topic_0000001813438796>`: *features-teradata.properties* |                                                                    |
    |                                                               |                                                                                                     |    deleteToTruncate=True/False                                     |
    |                                                               |                                                                                                     |    distributeByHash=one/many                                       |
    |                                                               |                                                                                                     |    extendedGroupByClause=True/False                                |
@@ -129,8 +129,8 @@ To configure DSC, configure parameters in the configuration files in the **confi
    |                                                               |                                                                                                     |    tdMigrateZEROIFNULL=True/False                                  |
    |                                                               |                                                                                                     |    volatile=local temporary/unlogged                               |
    +---------------------------------------------------------------+-----------------------------------------------------------------------------------------------------+--------------------------------------------------------------------+
-   | :ref:`Teradata Perl Migration <en-us_topic_0000001772536404>` | -  DSC: *application.properties*                                                                    | ::                                                                 |
-   |                                                               | -  :ref:`Teradata Perl Configuration <en-us_topic_0000001819336057>`: *perl-migration.properties*   |                                                                    |
+   | :ref:`Teradata Perl Migration <en-us_topic_0000001860318449>` | -  DSC: *application.properties*                                                                    | ::                                                                 |
+   |                                                               | -  :ref:`Teradata Perl Configuration <en-us_topic_0000001813439212>`: *perl-migration.properties*   |                                                                    |
    |                                                               |                                                                                                     |    add-timing-on=True/False                                        |
    |                                                               |                                                                                                     |    db-bteq-tag-name=bteq                                           |
    |                                                               |                                                                                                     |    db-tdsql-tag-name=sql_lang                                      |
@@ -140,8 +140,8 @@ To configure DSC, configure parameters in the configuration files in the **confi
    |                                                               |                                                                                                     |    target_files=overwrite/cancel                                   |
    |                                                               |                                                                                                     |    migrate-executequery=True/False                                 |
    +---------------------------------------------------------------+-----------------------------------------------------------------------------------------------------+--------------------------------------------------------------------+
-   | :ref:`MySQL SQL Migration <en-us_topic_0000001819416105>`     | -  DSC: *application.properties*                                                                    | ::                                                                 |
-   |                                                               | -  :ref:`MySQL Configuration <en-us_topic_0000001772696060>`: *features-mysql.properties*           |                                                                    |
+   | :ref:`MySQL SQL Migration <en-us_topic_0000001860198801>`     | -  DSC: *application.properties*                                                                    | ::                                                                 |
+   |                                                               | -  :ref:`MySQL Configuration <en-us_topic_0000001860318481>`: *features-mysql.properties*           |                                                                    |
    |                                                               |                                                                                                     |    table.databaseAsSchema=true                                     |
    |                                                               |                                                                                                     |    table.defaultSchema=public                                      |
    |                                                               |                                                                                                     |    table.schema=                                                   |

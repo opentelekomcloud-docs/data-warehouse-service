@@ -37,10 +37,3 @@ Procedure
          .. code-block::
 
             kill -9 128954
-
-   -  If GDS is started using the **gds_ctl.py** command, run the following commands to stop GDS:
-
-      .. code-block::
-
-         cd /opt/bin/dws/gds/bin
-         python3 gds_ctl.py stop
