@@ -8,7 +8,7 @@ CLOSE
 Function
 --------
 
-Frees the resources associated with an open cursor.
+**CLOSE** frees the resources associated with an open cursor.
 
 Precautions
 -----------

@@ -5,9 +5,9 @@
 Character Types
 ===============
 
-:ref:`Table 1 <en-us_topic_0000001460880984__en-us_topic_0000001145830639_t0c62e4928aa34bdbb99c6b9fe3c6996b>` lists the character types that can be used in GaussDB(DWS). For string operators and related built-in functions, see :ref:`Character Processing Functions and Operators <dws_06_0030>`.
+:ref:`Table 1 <en-us_topic_0000001811634865__en-us_topic_0000001145830639_t0c62e4928aa34bdbb99c6b9fe3c6996b>` lists the character types that can be used in GaussDB(DWS). For string operators and related built-in functions, see :ref:`Character Processing Functions and Operators <dws_06_0030>`.
 
-.. _en-us_topic_0000001460880984__en-us_topic_0000001145830639_t0c62e4928aa34bdbb99c6b9fe3c6996b:
+.. _en-us_topic_0000001811634865__en-us_topic_0000001145830639_t0c62e4928aa34bdbb99c6b9fe3c6996b:
 
 .. table:: **Table 1** Character types
 
@@ -38,13 +38,13 @@ Character Types
    -  In addition to the size limitation on each column, the total size of each tuple is 1,073,733,621 bytes (1 GB - 8023 bytes).
    -  For string data, you are advised to use variable-length strings and specify the maximum length. To avoid truncation, ensure that the specified maximum length is greater than the maximum number of characters to be stored. You are not advised to use fixed-length character types such as CHAR(n), NCHAR(n), and CHARACTER(n) unless you know that the data type is a fixed-length character string.
 
-GaussDB(DWS) has two other fixed-length character types, as listed in :ref:`Table 2 <en-us_topic_0000001460880984__en-us_topic_0000001145830639_ta7a9f8927f4b419e9d1c0a01d2dac911>`.
+GaussDB(DWS) has two other fixed-length character types, as listed in :ref:`Table 2 <en-us_topic_0000001811634865__en-us_topic_0000001145830639_ta7a9f8927f4b419e9d1c0a01d2dac911>`.
 
 The name type is used only in the internal system catalog as the storage identifier. The length of this type is 64 bytes (63 characters plus the terminator). This data type is not recommended for common users. When the name type is aligned with other data types (for example, in multiple branches of **case when**, one branch returns the name type and other branches return the text type), the name type may be aligned but characters may be truncated. If you do not want to have 64-bit truncated characters, you need to forcibly convert the name type to the text type.
 
 The type **"char"** only uses one byte of storage. It is internally used in the system catalogs as a simplistic enumeration type.
 
-.. _en-us_topic_0000001460880984__en-us_topic_0000001145830639_ta7a9f8927f4b419e9d1c0a01d2dac911:
+.. _en-us_topic_0000001811634865__en-us_topic_0000001145830639_ta7a9f8927f4b419e9d1c0a01d2dac911:
 
 .. table:: **Table 2** Special character types
 

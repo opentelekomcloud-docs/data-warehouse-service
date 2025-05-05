@@ -14,23 +14,23 @@ Each operator class defines semantics for index columns of a particular data typ
    +--------------+---------+---------------------------------------+-----------------------------------------------------------------------------------------------+
    | Name         | Type    | Reference                             | Description                                                                                   |
    +==============+=========+=======================================+===============================================================================================+
-   | oid          | oid     | ``-``                                 | Row identifier (hidden attribute; must be explicitly selected)                                |
+   | OID          | OID     | ``-``                                 | Row identifier (hidden attribute; must be explicitly selected)                                |
    +--------------+---------+---------------------------------------+-----------------------------------------------------------------------------------------------+
-   | opcmethod    | oid     | :ref:`PG_AM <dws_04_0569>`.oid        | Index access method the operator class is for                                                 |
+   | opcmethod    | OID     | :ref:`PG_AM <dws_04_0569>`.oid        | Index access method the operator class is for                                                 |
    +--------------+---------+---------------------------------------+-----------------------------------------------------------------------------------------------+
-   | opcname      | name    | ``-``                                 | Name of the operator class                                                                    |
+   | opcname      | Name    | ``-``                                 | Name of the operator class                                                                    |
    +--------------+---------+---------------------------------------+-----------------------------------------------------------------------------------------------+
-   | opcnamespace | oid     | :ref:`PG_NAMESPACE <dws_04_0600>`.oid | Namespace to which the operator class belongs                                                 |
+   | opcnamespace | OID     | :ref:`PG_NAMESPACE <dws_04_0600>`.oid | Namespace to which the operator class belongs                                                 |
    +--------------+---------+---------------------------------------+-----------------------------------------------------------------------------------------------+
-   | opcowner     | oid     | :ref:`PG_AUTHID <dws_04_0574>`.oid    | Owner of the operator class                                                                   |
+   | opcowner     | OID     | :ref:`PG_AUTHID <dws_04_0574>`.oid    | Owner of the operator class                                                                   |
    +--------------+---------+---------------------------------------+-----------------------------------------------------------------------------------------------+
-   | opcfamily    | oid     | :ref:`PG_OPFAMILY <dws_04_0605>`.oid  | Operator family containing the operator class                                                 |
+   | opcfamily    | OID     | :ref:`PG_OPFAMILY <dws_04_0605>`.oid  | Operator family containing the operator class                                                 |
    +--------------+---------+---------------------------------------+-----------------------------------------------------------------------------------------------+
-   | opcintype    | oid     | :ref:`PG_TYPE <dws_04_0629>`.oid      | Data type that the operator class indexes                                                     |
+   | opcintype    | OID     | :ref:`PG_TYPE <dws_04_0629>`.oid      | Data type that the operator class indexes                                                     |
    +--------------+---------+---------------------------------------+-----------------------------------------------------------------------------------------------+
    | opcdefault   | boolean | ``-``                                 | Whether the operator class is the default for **opcintype**. If it is, its value is **true**. |
    +--------------+---------+---------------------------------------+-----------------------------------------------------------------------------------------------+
-   | opckeytype   | oid     | :ref:`PG_TYPE <dws_04_0629>`.oid      | Type of data stored in index, or zero if same as **opcintype**                                |
+   | opckeytype   | OID     | :ref:`PG_TYPE <dws_04_0629>`.oid      | Type of data stored in index, or zero if same as **opcintype**                                |
    +--------------+---------+---------------------------------------+-----------------------------------------------------------------------------------------------+
 
 An operator class's **opcmethod** must match the **opfmethod** of its containing operator family. Also, there must be no more than one **pg_opclass** row having **opcdefault** true for any given combination of **opcmethod** and **opcintype**.

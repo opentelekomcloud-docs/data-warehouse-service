@@ -8,14 +8,22 @@ TRUNCATE
 Function
 --------
 
-Quickly removes all rows from a database table.
+**TRUNCATE** quickly removes all rows from a database table.
 
-**TRUNCATE** has the same effect as an unqualified **DELETE** on each table, but it is faster since it does not actually scan the tables. This is most useful on large tables.
+It has the same effect as an unqualified **DELETE** on each table, but it is faster since it does not actually scan the tables. This is most useful on large tables.
 
 Precautions
 -----------
 
-Exercise caution when running the **TRUNCATE TABLE** statement. Before running this statement, ensure that the table data can be deleted. After you run the **TRUNCATE TABLE** statement to delete table data, the data cannot be restored.
+-  Exercise caution when running the **TRUNCATE TABLE** statement. Before running this statement, ensure that the table data can be deleted. After you run the **TRUNCATE TABLE** statement to delete table data, the data cannot be restored.
+
+-  The **TRUNCATE** operation on global temporary tables only truncates data of the current session. Data of other sessions is not affected.
+-  In the storage-compute decoupling architecture, it is not possible to perform the **TRUNCATE** operation on common tables and temporary tables simultaneously.
+
+.. warning::
+
+   -  Avoid performing **ALTER TABLE**, **ALTER TABLE PARTITION**, **DROP PARTITION**, and **TRUNCATE** operations during peak hours to prevent long SQL statements from blocking these operations or SQL services.
+   -  For more information about development and design specifications, see "GaussDB(DWS) Development and Design Proposal" in the *GaussDB(DWS) Developer Guide*.
 
 TRUNCATE TABLE
 --------------
@@ -30,7 +38,7 @@ TRUNCATE TABLE
 
    -  **TRUNCATE TABLE** deletes content, releases space, but does not delete definitions.
    -  **DELETE TABLE** deletes content, but does not delete definitions nor release space.
-   -  **DROP TABLE** deletes content and definitions, and releases space.
+   -  **DROP TABLE** deletes content and definitions and releases space.
 
 Syntax
 ------
@@ -40,7 +48,7 @@ Syntax
 ::
 
    TRUNCATE [ TABLE ] [ ONLY ] {[[database_name.]schema_name.]table_name [ * ]} [, ... ]
-       [ CONTINUE IDENTITY ] [ CASCADE | RESTRICT ];
+       [ CONTINUE IDENTITY ] [ CASCADE | RESTRICT ] ;
 
 Parameter Description
 ---------------------

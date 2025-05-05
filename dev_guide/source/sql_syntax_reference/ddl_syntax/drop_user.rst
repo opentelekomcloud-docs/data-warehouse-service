@@ -8,7 +8,7 @@ DROP USER
 Function
 --------
 
-Deletes a user. Doing so will also delete the schema that has the same name as the user.
+Deleting a user will also delete the schema having the same name as the user.
 
 Precautions
 -----------
@@ -18,6 +18,11 @@ Precautions
 -  In a multi-tenant scenario, the service user will also be deleted when you delete a user group. If the specified **CASCADE** concatenation is deleted, **CASCADE** will be specified upon the deletion of the service user. If you fail to delete a user, an error is reported, and you cannot delete other users either.
 -  If the error table specified by the GDS foreign table created by user A is under the schema of user B, user B cannot be deleted by specifying the **CASCADE** keyword in **DROP USER**.
 -  If a "role is being used by other users" error is displayed when you run **DROP USER**, it might be that threads cannot respond to signals in a timely manner during the **CLEAN CONNECTION** process. As a result, connections are not completely cleared. In this case, you need to run **CLEAN CONNECTION** again.
+
+|image1|
+
+-  Be cautious when using **DROP OBJECT** (e.g., **DATABASE**, **USER/ROLE**, **SCHEMA**, **TABLE**, **VIEW**) as it may cause data loss, especially with **CASCADE** deletions. Always back up data before proceeding.
+-  For more information about development and design specifications, see "GaussDB(DWS) Development and Design Proposal" in the *Data Warehouse Service (DWS) Developer Guide*.
 
 Syntax
 ------
@@ -37,7 +42,7 @@ Parameter Description
 
    Specifies the name of a user to be deleted.
 
-   Value range: an existing user name.
+   Value range: An existing user name.
 
 -  **CASCADE \| RESTRICT**
 
@@ -51,8 +56,8 @@ Parameter Description
       -  If **enable_kill_query** is **on** and **CASCADE** is used to delete user objects, the processes will be automatically killed and the user will be deleted at the same time.
       -  If **enable_kill_query** is **off** and **CASCADE** is used to delete user objects, the user will be deleted after the processes are automatically killed.
 
-Examples
---------
+Example
+-------
 
 Delete user **jim**:
 
@@ -60,7 +65,9 @@ Delete user **jim**:
 
    DROP USER jim CASCADE;
 
-Helpful Links
--------------
+Links
+-----
 
 :ref:`ALTER USER <dws_06_0149>`, :ref:`CREATE USER <dws_06_0186>`
+
+.. |image1| image:: /_static/images/danger_3.0-en-us.png

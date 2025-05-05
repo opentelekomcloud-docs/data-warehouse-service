@@ -13,7 +13,7 @@ Constraints
 Java UDF can be used for some Java logical computing. You are not advised to encapsulate services in Java UDF.
 
 -  You are not advised to connect to a database in any way (for example, JDBC) in Java functions.
--  Currently, only data types listed in :ref:`Table 1 <en-us_topic_0000001460722504__table10200627143416>` are supported. Other data types, such as user-defined data types and complex data types (for example, Java array and its derived types) are not supported.
+-  Currently, only data types listed in :ref:`Table 1 <en-us_topic_0000001811609533__table10200627143416>` are supported. Other data types, such as user-defined data types and complex data types (for example, Java array and its derived types) are not supported.
 -  Currently, UDAF and UDTF are not supported.
 
 Examples
@@ -21,7 +21,7 @@ Examples
 
 Before using PL/Java, you need to pack the implementation of Java methods into a JAR package and deploy it into the database. Then, create functions as a database administrator. For compatibility purposes, use JRE 1.8.0_322 for compilation.
 
-#. .. _en-us_topic_0000001460722504__li84576364168:
+#. .. _en-us_topic_0000001811609533__li84576364168:
 
    Compile a JAR package.
 
@@ -71,7 +71,7 @@ Before using PL/Java, you need to pack the implementation of Java methods into a
 
       SELECT gs_extend_library('addjar', 'obs://bucket/path/javaudf-example.jar accesskey=access_key_value_to_be_replaced  secretkey=secret_access_key_value_to_be_replaced  region=region_name libraryname=example');
 
-   For details about how to use the **gs_extend_library** function, see :ref:`Manage JAR packages and files <en-us_topic_0000001460722504__li1437422919465>`. Change the values of AK and SK as needed. Replace *region_name* with an actual region name.
+   For details about how to use the **gs_extend_library** function, see :ref:`Manage JAR packages and files <en-us_topic_0000001811609533__li1437422919465>`. Change the values of AK and SK as needed. Replace *region_name* with an actual region name.
 
 #. Use a PL/Java function.
 
@@ -86,10 +86,10 @@ Before using PL/Java, you need to pack the implementation of Java methods into a
 
    .. note::
 
-      -  The data type defined in the java_upperstring function should be a type in GaussDB(DWS) and match the data type defined in :ref:`1 <en-us_topic_0000001460722504__li84576364168>` in the upperString method in Java. For details about the mapping between GaussDB(DWS) and Java data types, see :ref:`Table 1 <en-us_topic_0000001460722504__table10200627143416>`.
-      -  The AS clause specifies the class name and static method name of the Java method invoked by the function. The format is *Class name*\ **.**\ *Method name*. The class name and method name must match the Java class and method defined in :ref:`1 <en-us_topic_0000001460722504__li84576364168>`.
+      -  The data type defined in the java_upperstring function should be a type in GaussDB(DWS) and match the data type defined in :ref:`1 <en-us_topic_0000001811609533__li84576364168>` in the upperString method in Java. For details about the mapping between GaussDB(DWS) and Java data types, see :ref:`Table 1 <en-us_topic_0000001811609533__table10200627143416>`.
+      -  The AS clause specifies the class name and static method name of the Java method invoked by the function. The format is *Class name*\ **.**\ *Method name*. The class name and method name must match the Java class and method defined in :ref:`1 <en-us_topic_0000001811609533__li84576364168>`.
       -  To use PL/Java functions, set **LANGUAGE** to **JAVA**.
-      -  For details about CREATE FUNCTION, see :ref:`Create functions <en-us_topic_0000001460722504__li1541715862915>`.
+      -  For details about CREATE FUNCTION, see :ref:`Create functions <en-us_topic_0000001811609533__li1541715862915>`.
 
    Execute the java_upperstring function.
 
@@ -161,7 +161,7 @@ Before using PL/Java, you need to pack the implementation of Java methods into a
 SQL Definition and Usage
 ------------------------
 
--  .. _en-us_topic_0000001460722504__li1437422919465:
+-  .. _en-us_topic_0000001811609533__li1437422919465:
 
    **Manage JAR packages and files.**
 
@@ -190,7 +190,7 @@ SQL Definition and Usage
          -  **region**: region where the OBS bucket stored in the JAR package of a user-defined function belongs to. This parameter is mandatory.
          -  **libraryname**: user-defined library name, which is used to invoke JAR files in GaussDB(DWS). If **action** is set to **addjar** or **rmjar**, **libraryname** must be specified. If **action** is set to **ls**, **libraryname** is optional. Note that a user-defined library name cannot contain the following characters: ``/|;&$<>\'{}"()[]~*?!``
 
--  .. _en-us_topic_0000001460722504__li1541715862915:
+-  .. _en-us_topic_0000001811609533__li1541715862915:
 
    Create functions.
 
@@ -200,7 +200,7 @@ SQL Definition and Usage
 
    -  The **RETURNS** clause specifies the return type for the function.
 
-   -  The **AS** clause specifies the class name and static method name of the Java method to be invoked. If the **NULL** value needs to be transferred to the Java method as an input parameter, specify the name of the Java encapsulation class corresponding to the parameter type. For details, see :ref:`NULL Handling <en-us_topic_0000001460722504__section11546180328>`.
+   -  The **AS** clause specifies the class name and static method name of the Java method to be invoked. If the **NULL** value needs to be transferred to the Java method as an input parameter, specify the name of the Java encapsulation class corresponding to the parameter type. For details, see :ref:`NULL Handling <en-us_topic_0000001811609533__section11546180328>`.
 
    -  For details about the syntax, see CREATE FUNCTION.
 
@@ -209,9 +209,9 @@ SQL Definition and Usage
          CREATE [ OR REPLACE ] FUNCTION function_name
          ( [ { argname [ argmode ] argtype [ { DEFAULT | := | = } expression ]} [, ...] ])
          [ RETURNS rettype [ DETERMINISTIC ] ]
-         LANGAUGE JAVA
+         LANGUAGE JAVA
          [
-             { IMMUTABLE | STATBLE | VOLATILE }
+             { IMMUTABLE | STABLE | VOLATILE }
              | [ NOT ] LEAKPROOF
              | WINDOW
              | { CALLED ON NULL INPUT | RETURNS NULL ON NULL INPUT |STRICT }
@@ -237,9 +237,9 @@ SQL Definition and Usage
 
       DROP FUNCTION [ IF EXISTS ] function_name [ ( [ {[ argmode ] [ argname ] argtype} [, ...] ] ) [ CASCADE | RESTRICT ] ];
 
-   To delete an overloaded function (for details, see :ref:`Overloaded Functions <en-us_topic_0000001460722504__section13355162616820>`), specify **argtype** in the function. To delete other functions, simply specify **function_name**.
+   To delete an overloaded function (for details, see :ref:`Overloaded Functions <en-us_topic_0000001811609533__section13355162616820>`), specify **argtype** in the function. To delete other functions, simply specify **function_name**.
 
--  .. _en-us_topic_0000001460722504__li19929482465:
+-  .. _en-us_topic_0000001811609533__li19929482465:
 
    Authorize permissions for functions.
 
@@ -256,7 +256,7 @@ SQL Definition and Usage
 Mapping for Basic Data Types
 ----------------------------
 
-.. _en-us_topic_0000001460722504__table10200627143416:
+.. _en-us_topic_0000001811609533__table10200627143416:
 
 .. table:: **Table 1** PL/Java mapping for default data types
 
@@ -321,7 +321,7 @@ The expected result is as follows:
    3
    (1 row)
 
-.. _en-us_topic_0000001460722504__section11546180328:
+.. _en-us_topic_0000001811609533__section11546180328:
 
 NULL Handling
 -------------
@@ -368,7 +368,7 @@ The expected result is as follows:
    3
    (1 row)
 
-.. _en-us_topic_0000001460722504__section13355162616820:
+.. _en-us_topic_0000001811609533__section13355162616820:
 
 Overloaded Functions
 --------------------
@@ -480,15 +480,15 @@ GUC Parameters
 
    .. important::
 
-      -  **udf_memory_limit** is a part of **max_process_memory**. When a CN or DN is started, memory calculated by **udf_memory_limit** minus **200 MB** will be reserved for Worker processes. CN and DN processes are different from the UDF Worker process, and the CN and DN processes will save memory for the UDF Worker process.
+      -  **udf_memory_limit** is a part of **max_process_memory**. When a CN or DN is started, memory calculated by **udf_memory_limit** minus **200 MB** will be reserved for UDF Worker processes. CN and DN processes are different from the UDF Worker process, and the CN and DN processes will save memory for the UDF Worker process.
 
-         For example, if **max_process_memory** is set to **10GB** on a DN and **udf_memory_limit** is set to **4GB**, the DN can use a maximum of 6.2 GB memory, that is, 10 GB - (4 GB - 200 MB). This case applies even if no UDF is executed. By default, the value of **udf_memory_limit** is **0.05 \* max_process_memory**. Querying the **pv_total_memory_detail** view will prove that the value of **process_used_memory** would never exceed the calculation result of **max_process_memory** - (**udf_memory_limit** - **200MB**).
+         For example, if **max_process_memory** is set to **10GB** on a DN and **udf_memory_limit** is set to **4GB**, the DN can use a maximum of 6.2 GB memory, that is, 10 GB - (4 GB - 200 MB). This case applies even if no UDF is executed. By default, the value of **udf_memory_limit** is **0.05 \* max_process_memory**. Querying the **pv_total_memory_detail** view will prove that the value of **process_used_memory** would never exceed the calculation result of **max_process_memory** - (**udf_memory_limit** - **200 MB**).
 
       -  If the UDF process is disconnected, an error message will be displayed. Example: "memory in UDF Work Process is limited by cgroup: [usage: xxx, max_usage_history: xxx, limit: xxx]." You can learn the current memory usage from this message. In the error information, **usage** indicates the total physical memory used by the rest of the UDF process after a UDF process is killed. **max_usage_history** indicates the highest memory usage of the UDF process after the UDF instance is started. **limit** indicates the maximum memory used by the UDF process. If the value of **max_usage_history** is close to the value of **limit**, the memory usage of the current cluster may exceed the limit. In this case, optimize workloads or adjust the value of **udf_memory_limit** as needed.
 
       -  Executing a simplest Java UDF on a CN consumes about 50 MB physical memory. You can set this parameter based on the memory usage and concurrency of Java functions to be used. After this parameter is added, you are not advised to set **UDFWorkerMemHardLimit** and **FencedUDFMemoryLimit**.
 
-      -  If the parallelism of the UDF process is excessively high and the memory usage exceeds the **udf_memory_limit** value, unexpected situations such as process exit may occur. In this scenario, the execution result may be unreliable. You are advised to set this parameter to reserve sufficient memory based on the site requirements. If the system has the **/var/log/messages** log, check the log to see whether the memory is insufficient because the cgroup memory limit has been reached. If the memory is severely insufficient, the UDF master process may exit. You can view the UDF log for analysis. The default UDF log path is **$GAUSSLOG/cm/cm_agent/pg_log**. For example, if the following log is displayed, the memory resources are insufficient and the UDF master process exits. In this case, you need to check the **udf_memory_limit** parameter.
+      -  If the parallelism of the UDF process is excessively high and the memory usage exceeds the **udf_memory_limit** value, unexpected situations such as process exit may occur. In this scenario, the execution result may be unreliable. You are advised to set this parameter to reserve sufficient memory based on the site requirements. If the system has the **/var/log/messages** log, check the log to see whether the memory is insufficient because the cgroup memory limit has been reached. If the memory is severely insufficient, the UDF master process may exit. You can view the UDF log for analysis. The default UDF log path is **$GAUSSLOG/cm/cm_agent/pg_log**. For example, if the log below is displayed, the memory resources are insufficient and the UDF master process exits. In this case, you need to check the **udf_memory_limit** parameter.
 
          0 [BACKEND] FATAL: poll() failed: Bad address, please check the parameter:udf_memory_limit to make sure there is enough memory.
 
@@ -552,6 +552,6 @@ You can change Java Logger levels. For example, if the Java Logger level is chan
 Security Issues
 ---------------
 
-In GaussDB(DWS), PL/Java is an untrusted language. Only user **sysadmin** can create PL/Java functions. The user can grant other users the permission for using the PL/Java functions. For details, see :ref:`Authorize permissions for functions <en-us_topic_0000001460722504__li19929482465>`.
+In GaussDB(DWS), PL/Java is an untrusted language. Only user **sysadmin** can create PL/Java functions. The user can grant other users the permission for using the PL/Java functions. For details, see :ref:`Authorize permissions for functions <en-us_topic_0000001811609533__li19929482465>`.
 
 In addition, PL/Java controls user access to file systems, forbidding users from reading most system files, or writing, deleting, or executing any system files in Java methods.

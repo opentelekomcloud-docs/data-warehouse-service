@@ -8,9 +8,9 @@ RELEASE SAVEPOINT
 Function
 --------
 
-Destroys a savepoint previously defined in the current transaction.
+**RELEASE SAVEPOINT** destroys a savepoint previously defined in the current transaction.
 
-Destroying a savepoint makes it unavailable as a rollback point, but it generates no other user-visible behavior. It does not undo the effects of commands executed after the savepoint was established. To do that, use **ROLLBACK TO SAVEPOINT**. Destroying a savepoint when it is no longer needed allows the system to reclaim some resources earlier than the transaction end.
+Destroying a savepoint makes it unavailable as a rollback point, but it has no other user visible behavior. It does not undo the effects of commands executed after the savepoint was established. To do that, use **ROLLBACK TO SAVEPOINT**. Destroying a savepoint when it is no longer needed allows the system to reclaim some resources earlier than transaction end.
 
 **RELEASE SAVEPOINT** also destroys all savepoints that were established after the named savepoint was established.
 
@@ -19,7 +19,7 @@ Precautions
 
 -  Specifying a savepoint name that was not previously defined causes an error.
 -  It is not possible to release a savepoint when the transaction is in an aborted state.
--  If multiple savepoints have the same name, only the newest one will be destroyed.
+-  If multiple savepoints have the same name, only the one that was most recently defined is released.
 
 Syntax
 ------

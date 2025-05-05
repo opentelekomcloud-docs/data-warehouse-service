@@ -10,7 +10,7 @@ Function
 
 **LOCK TABLE** obtains a table-level lock.
 
-When the lock for commands referencing a table is automatically acquired, GaussDB(DWS) always uses the lock mode with minimum constraints. Use **LOCK** if a more strict lock mode is needed. For example, suppose an application runs a transaction at the **Read Committed** isolation level and needs to ensure that data in a table remains stable in the duration of the transaction. To achieve this, you could obtain **SHARE** lock mode over the table before the query. This will prevent concurrent data changes and ensure subsequent reads of the table see a stable view of committed data. It is because the **SHARE** lock mode conflicts with the **ROW EXCLUSIVE** lock acquired by writers, and your **LOCK TABLE name IN SHARE MODE** statement will wait until any concurrent holders of **ROW EXCLUSIVE** mode locks commit or roll back. Therefore, once you obtain the lock, there are no uncommitted writes outstanding; furthermore none can begin until you release the lock.
+When the lock for commands referencing a table is automatically acquired, GaussDB(DWS) always uses the lock mode with minimum constraints. Use **LOCK** if users need a more strict lock mode. For example, suppose an application runs a transaction at the **Read Committed** isolation level and needs to ensure that data in a table remains stable in the duration of the transaction. To achieve this, you could obtain **SHARE** lock mode over the table before the query. This will prevent concurrent data changes and ensure subsequent reads of the table see a stable view of committed data. It is because the **SHARE** lock mode conflicts with the **ROW EXCLUSIVE** lock acquired by writers, and your **LOCK TABLE name IN SHARE MODE** statement will wait until any concurrent holders of **ROW EXCLUSIVE** mode locks commit or roll back. Therefore, once you obtain the lock, there are no uncommitted writes outstanding; furthermore none can begin until you release the lock.
 
 Precautions
 -----------
@@ -19,7 +19,7 @@ Precautions
 -  If no lock mode is specified, then **ACCESS EXCLUSIVE**, the most restrictive mode, is used.
 -  LOCK TABLE ... IN ACCESS SHARE MODE requires the **SELECT** permission on the target table. All other forms of **LOCK** require table-level **UPDATE** and/or the **DELETE** permission.
 -  There is no **UNLOCK TABLE** command. Locks are always released at transaction end.
--  **LOCK TABLE** only deals with table-level locks, and so the mode names involving **ROW** are all misnomers. These mode names should generally be read as indicating the intention of the user to acquire row-level locks within the locked table. Also, **ROW EXCLUSIVE** mode is a shareable table lock. Keep in mind that all the lock modes have identical semantics so far as **LOCK TABLE** is concerned, differing only in the rules about which modes conflict with which. For details about the rules, see :ref:`Table 1 <en-us_topic_0000001510400945__tec3c848278c344f9a15c8ab751ad98d7>`.
+-  **LOCK TABLE** only deals with table-level locks, and so the mode names involving **ROW** are all misnomers. These mode names should generally be read as indicating the intention of the user to acquire row-level locks within the locked table. Also, **ROW EXCLUSIVE** mode is a shareable table lock. Keep in mind that all the lock modes have identical semantics so far as **LOCK TABLE** is concerned, differing only in the rules about which modes conflict with which. For details about the rules, see :ref:`Table 1 <en-us_topic_0000001764675166__tec3c848278c344f9a15c8ab751ad98d7>`.
 
 Syntax
 ------
@@ -33,7 +33,7 @@ Syntax
 Parameter Description
 ---------------------
 
-.. _en-us_topic_0000001510400945__tec3c848278c344f9a15c8ab751ad98d7:
+.. _en-us_topic_0000001764675166__tec3c848278c344f9a15c8ab751ad98d7:
 
 .. table:: **Table 1** Lock mode conflicts
 
@@ -127,7 +127,7 @@ Parameter Description
 
    .. note::
 
-      -  This parameter is supported only by clusters of version 8.2.1.300 or later.
+      -  This parameter is supported only by clusters of version 8.2.1.200 or later.
       -  The **UPDATE EXCLUSIVE** lock is used only in the **VACUUM** syntax.
 
 -  **NOWAIT**
@@ -142,7 +142,7 @@ Parameter Description
 
    .. important::
 
-      -  This parameter is supported by clusters of version 8.2.0.100 or later.
+      -  This parameter is supported by version 8.2.0.100 or later clusters.
       -  Currently, only the ACCESS SHARE lock mode is supported. If other lock modes are used, an error will be reported.
 
 Examples

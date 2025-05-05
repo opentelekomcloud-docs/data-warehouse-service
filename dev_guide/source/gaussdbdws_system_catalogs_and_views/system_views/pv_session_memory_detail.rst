@@ -14,23 +14,23 @@ You can run the **SELECT \* FROM pv_session_memctx_detail (**\ *threadid*\ **,''
 .. table:: **Table 1** PV_SESSION_MEMORY_DETAIL columns
 
    +-------------+----------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-   | Name        | Type     | Description                                                                                                                                       |
+   | Column      | Type     | Description                                                                                                                                       |
    +=============+==========+===================================================================================================================================================+
-   | sessid      | text     | Thread start time+thread ID (string: *timestamp*.\ *threadid*)                                                                                    |
+   | sessid      | Text     | Thread start time+thread ID (string: *timestamp*.\ *threadid*)                                                                                    |
    +-------------+----------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-   | sesstype    | text     | Thread name                                                                                                                                       |
+   | sesstype    | Text     | Thread name                                                                                                                                       |
    +-------------+----------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-   | contextname | text     | Name of the memory context                                                                                                                        |
+   | contextname | Text     | Name of the memory context                                                                                                                        |
    +-------------+----------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-   | level       | smallint | Hierarchy of the memory context                                                                                                                   |
+   | level       | Smallint | Hierarchy of the memory context                                                                                                                   |
    +-------------+----------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-   | parent      | text     | Name of the parent memory context                                                                                                                 |
+   | parent      | Text     | Name of the parent memory context                                                                                                                 |
    +-------------+----------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-   | totalsize   | bigint   | Total size of the memory context, in bytes                                                                                                        |
+   | totalsize   | Bigint   | Total size of the memory context, in bytes                                                                                                        |
    +-------------+----------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-   | freesize    | bigint   | Total size of released memory in the memory context, in bytes                                                                                     |
+   | freesize    | Bigint   | Total size of released memory in the memory context, in bytes                                                                                     |
    +-------------+----------+---------------------------------------------------------------------------------------------------------------------------------------------------+
-   | usedsize    | bigint   | Size of used memory in the memory context, in bytes. For TempSmallContextGroup, this parameter specifies the number of collected memory contexts. |
+   | usedsize    | Bigint   | Size of used memory in the memory context, in bytes. For TempSmallContextGroup, this parameter specifies the number of collected memory contexts. |
    +-------------+----------+---------------------------------------------------------------------------------------------------------------------------------------------------+
 
 Example

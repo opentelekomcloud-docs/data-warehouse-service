@@ -130,7 +130,7 @@ Example:
 
 Description: power (exponent calculation)
 
-In MySQL-compatible mode, this operator means exclusive OR. For details, see operator :ref:`# <en-us_topic_0000001510161237__en-us_topic_0000001233708663_section4643184681818>` in :ref:`Bit String Functions and Operators <dws_06_0032>`.
+In MySQL-compatible mode, this operator means exclusive OR. For details, see operator :ref:`# <en-us_topic_0000001811634861__en-us_topic_0000001233708663_section4643184681818>` in :ref:`Bit String Functions and Operators <dws_06_0032>`.
 
 Example:
 

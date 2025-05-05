@@ -5,28 +5,6 @@
 Primary Server
 ==============
 
-vacuum_defer_cleanup_age
-------------------------
-
-**Parameter description**: Specifies the number of transactions by which **VACUUM** will defer the cleanup of invalid row-store table records, so that **VACUUM** and **VACUUM FULL** do not clean up deleted tuples immediately.
-
-**Type**: SIGHUP
-
-**Value range**: an integer ranging from 0 to 1000000. **0** means no delay.
-
-**Default value**: **0**
-
-data_replicate_buffer_size
---------------------------
-
-**Parameter description**: Specifies the size of memory used by queues when the sender sends data pages to the receiver. The value of this parameter affects the buffer size copied for the replication between the primary and standby servers.
-
-**Type**: POSTMASTER
-
-**Value range**: an integer ranging from 4 to 1023. The unit is MB.
-
-**Default value**: **16MB** for CNs and **128MB** for DNs
-
 enable_data_replicate
 ---------------------
 
@@ -41,31 +19,16 @@ enable_data_replicate
 
 **Default value**: **on**
 
-enable_incremental_catchup
---------------------------
-
-**Parameter description**: Specifies the data catchup mode between the primary and standby nodes.
-
-**Type**: SIGHUP
-
-**Value range:** Boolean
-
--  **on** indicates that the standby node uses the incremental catchup mode. That is, the standby server scans local data files on the standby server to obtain the list of differential data files between the primary and standby nodes and then performs catchup between the primary and standby nodes.
--  **off** indicates that the standby node uses the full catchup mode. That is, the standby node scans all local data files on the primary node to obtain the list of differential data files between the primary and standby nodes and performs catchup between the primary and standby nodes.
-
-**Default value**: **on**
-
-wait_dummy_time
+ha_module_debug
 ---------------
 
-**Parameter description**: Specifies the maximum duration for the primary, standby, and secondary clusters to wait for the secondary cluster to start in sequence and the maximum duration for the secondary cluster to send the scanning list when incremental data catchup is enabled.
+**Parameter description**: This command is used to view the replication status log of a specific data block during data replication.
 
-**Type**: SIGHUP
+**Type**: USERSET
 
-**Value range**: Integer, from 1 to **INT_MAX**, in seconds.
+**Value range**: Boolean
 
-**Default value**: **300s**
+-  **on** indicates that the log records the status of each data block during data replication.
+-  **off** indicates that the status of each data block is not recorded in logs during data replication.
 
-.. caution::
-
-   The unit can only be second.
+**Default value:** **off**

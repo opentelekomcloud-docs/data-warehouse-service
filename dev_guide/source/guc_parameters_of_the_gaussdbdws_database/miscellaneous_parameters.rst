@@ -8,7 +8,7 @@ Miscellaneous Parameters
 enable_cluster_resize
 ---------------------
 
-**Parameter description**: Indicates whether the current session is a scale-out redistribution session. This parameter applies only to scale-out redistribution sessions. Do not set this parameter for other service sessions.
+**Parameter description**: Indicates whether the current session is for scaling or redistributing data. It should only be used for these specific sessions and not set for other service sessions.
 
 **Type**: SUSET
 
@@ -78,7 +78,7 @@ job_queue_processes
 
 After the scheduled task function is enabled, the **job_scheduler** thread at a scheduled interval polls the **pg_jobs** system catalog. The scheduled task check is performed every second by default.
 
-Too many concurrent tasks consume many system resources, so you need to set the number of concurrent tasks to be processed. If the current number of concurrent tasks reaches **job_queue_processes** and some of them expire, these tasks will be postponed to the next polling period. Therefore, you are advised to set the polling interval (the **interval** parameter of the submit interface) based on the execution duration of each task to avoid the problem that tasks in the next polling period cannot be properly processed because overlong task execution time.
+Too many concurrent tasks consume many system resources, so you need to set the number of concurrent tasks to be processed. If the current number of concurrent tasks reaches **job_queue_processes** and some of them expire, these tasks will be postponed to the next polling period. Therefore, you are advised to set the polling interval (the **interval** parameter of the **submit** API) based on the execution duration of each task to avoid the problem that tasks in the next polling period cannot be properly processed because overlong task execution time.
 
 Note: If the number of parallel jobs is large and the value is too small, these jobs will wait in queues. However, a large parameter value leads to large resource consumption. You are advised to set this parameter to **100** and change it based on the system resource condition.
 
@@ -120,20 +120,6 @@ ngram_punctuation_ignore
 
 -  **on**: Ignores punctuations.
 -  **off**: Does not ignore punctuations.
-
-**Default value**: **on**
-
-zhparser_dict_in_memory
------------------------
-
-**Parameter description**: Specifies whether Zhparser adds a dictionary to memory.
-
-**Type**: POSTMASTER
-
-**Value range**: Boolean
-
--  **on**: Adds the dictionary to memory.
--  **off**: Does not add the dictionary to memory.
 
 **Default value**: **on**
 
@@ -221,7 +207,7 @@ zhparser_seg_with_duality
 
 **Default value**: **off**
 
-.. _en-us_topic_0000001460882428__section13787157164412:
+.. _en-us_topic_0000001811490665__section13787157164412:
 
 acceleration_with_compute_pool
 ------------------------------
@@ -273,20 +259,6 @@ table_skewness_warning_rows
 
 **Default value**: **100000**
 
-auto_process_residualfile
--------------------------
-
-**Parameter description**: Specifies whether to enable the residual file recording function.
-
-**Type**: SIGHUP
-
-**Value range**: Boolean
-
--  **on** indicates that the residual file recording function is enabled.
--  **off** indicates that the residual file recording function is disabled.
-
-**Default value**: **off**
-
 enable_view_update
 ------------------
 
@@ -314,17 +286,6 @@ view_independent
 -  **off** indicates that the view decoupling function is disabled. Tables, functions, synonyms, and other views on which views depend cannot be deleted separately. You can only delete them in the cascade mode.
 
 **Default value**: **off**
-
-bulkload_report_threshold
--------------------------
-
-**Parameter description**: Sets the threshold for reporting import and export statistics. When the data volume exceeds this threshold, the :ref:`PGXC_BULKLOAD_STATISTICS <dws_04_0796>` view can be used to query synchronized data volume, record count, execution time, and other information.
-
-**Type**: SIGHUP
-
-**Value range**: an integer ranging from **0** to **INT_MAX**
-
-**Default value**: **50**
 
 assign_abort_xid
 ----------------
@@ -365,13 +326,113 @@ default_distribution_mode
 
    The default value of this parameter is **roundrobin** for a new GaussDB(DWS) 8.1.2 cluster and is **hash** for an upgrade to GaussDB(DWS) 8.1.2.
 
+object_mtime_record_mode
+------------------------
+
+**Parameter description**: Sets the update action of the **mtime** column in the **PG_OBJECT** system catalog.
+
+**Type**: SIGHUP
+
+**Value range**: a string
+
+-  de\ **fault**: **ALTER**, **COMMENT**, **GRANT/REVOKE**, and **TRUNCATE** operations update the **mtime** column by default.
+-  **disable**: The **mtime** column is not updated.
+-  **disable_acl**: **GRANT** or **REVOKE** operation does not update the **mtime** column.
+-  **disable_truncate**: **TRUNCATE** operations do not update the **mtime** column.
+-  **disable_partition**: Partition **ALTER** operations do not update the **mtime** column.
+
+**Default value**: **default**
+
 max_volatile_tables
 -------------------
 
-**Parameter description**: Specifies the maximum number of volatile tables created for each session, including volatile tables and their auxiliary tables. This parameter is supported by version 8.2.0 or later clusters.
+**Parameter description**: Specifies the maximum number of volatile tables created for each session, including volatile tables and their auxiliary tables. This parameter is supported by clusters of version 8.2.0 or later.
 
 **Type**: USERSET
 
 **Value range**: an integer ranging from 0 to INT_MAX
 
 **Default value**: **300**
+
+query_cache_refresh_time
+------------------------
+
+**Parameter description**: Specifies the cache refresh interval for queries for which the **enable_accelerate_select** parameter takes effect. This parameter is supported only by clusters of version 8.3.0 or later.
+
+**Type**: USERSET
+
+**Value range**: a floating point number ranging from 0 to 10000.0, in seconds
+
+**Default value**: **60.0**
+
+vector_engine_strategy
+----------------------
+
+**Parameter description**: Specifies the vectorization enhancement policy. This parameter is supported only by clusters of version 8.3.0 or later.
+
+**Type**: USERSET
+
+**Value range**: enumerated values
+
+-  **force** specifies that the vectorization-enhanced plan is forcibly rolled back to the row storage plan when there are scenarios that do not support vectorization.
+-  **improve** specifies that vectorization enhancement is enabled even when there are scenarios that do not support vectorization.
+
+**Default value**: **improve**
+
+default_temptable_type
+----------------------
+
+**Parameter description**: Specifies the type of temporary table created when **CREATE TABLE** is used to create a temporary table without specifying the table type before **TEMP** or **TEMPORARY**. This parameter is supported only by clusters of version 9.1.0 or later.
+
+**Type**: USERSET
+
+**Value range**: enumerated values
+
+-  **local**: creates a local temporary table when the type is not specified.
+-  **volatile**: creates a volatile temporary table when the type is not specified.
+
+**Default value**: **local**
+
+pgxc_node_readonly
+------------------
+
+**Parameter description**: Specifies whether a CN or DN is an elastic or classic DN. This parameter is supported only by clusters of version 9.1.0 or later.
+
+**Type**: SUSET
+
+**Value range**: Boolean
+
+-  **on** indicates that the CN or DN is an elastic node.
+-  **off** indicates that the CN or DN is a classic node.
+
+**Default value**: **off**
+
+hudi_sync_max_commits
+---------------------
+
+**Parameter description**: Specifies the maximum number of commits for a single synchronization task in Hudi. This parameter is supported only by clusters of version 9.1.0.100 or later.
+
+**Type**: SIGHUP
+
+**Value range**: an integer ranging from -1 to INT_MAX
+
+-  **-1** indicates no limit.
+-  **0** indicates no limit.
+-  Any other value indicates the maximum number of commits.
+
+**Default value**: **-1**
+
+foreign_table_default_rw_options
+--------------------------------
+
+**Parameter description**: Specifies the default permissions when creating a foreign table without specifying them. This parameter is supported only by clusters of version 9.0.3 or later.
+
+**Type**: USERSET
+
+**Value range**: a string
+
+-  **READ_ONLY** indicates the read-only permission.
+-  **WRITE_ONLY** indicates the write-only permission.
+-  **READ_WRITE** indicates the read-write permission.
+
+**Default value**: **READ_ONLY**

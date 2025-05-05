@@ -9,11 +9,11 @@ ALL_SOURCE
 
 .. table:: **Table 1** ALL_SOURCE columns
 
-   ===== ==== ========================
-   Name  Type Description
-   ===== ==== ========================
-   owner name Owner of the object
-   name  name Object name
-   type  name Type of the object
-   text  text Definition of the object
-   ===== ==== ========================
+   ====== ==== ========================
+   Column Type Description
+   ====== ==== ========================
+   owner  Name Owner of the object
+   Name   Name Name of the object
+   type   Name Type of the object
+   Text   Text Definition of the object
+   ====== ==== ========================

@@ -12,11 +12,11 @@ V$SESSION_LONGOPS
    +-----------+---------+------------------------------------------------------------------------------------+
    | Name      | Type    | Description                                                                        |
    +===========+=========+====================================================================================+
-   | sid       | bigint  | OID of the running background process                                              |
+   | sid       | Bigint  | OID of the running background process                                              |
    +-----------+---------+------------------------------------------------------------------------------------+
-   | serial#   | integer | Sequence number of the running background process, which is **0** in GaussDB(DWS). |
+   | serial#   | Integer | Sequence number of the running background process, which is **0** in GaussDB(DWS). |
    +-----------+---------+------------------------------------------------------------------------------------+
-   | sofar     | integer | Completed workload, which is empty in GaussDB(DWS).                                |
+   | sofar     | Integer | Completed workload, which is empty in GaussDB(DWS).                                |
    +-----------+---------+------------------------------------------------------------------------------------+
-   | totalwork | integer | Total workload, which is empty in GaussDB(DWS).                                    |
+   | totalwork | Integer | Total workload, which is empty in GaussDB(DWS).                                    |
    +-----------+---------+------------------------------------------------------------------------------------+

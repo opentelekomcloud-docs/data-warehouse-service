@@ -12,7 +12,7 @@ In GaussDB(DWS), business rules and logics are saved as stored procedures.
 
 A stored procedure is a combination of SQL, PL/SQL, and Java statements. Stored procedures can move the code that executes business rules from applications to databases. In this way, code can be used by multiple programs at a time.
 
-For how to create and invoke a stored procedure, see "CREATE PROCEDURE" in the *Data Warehouse Service (DWS) SQL Syntax Reference*.
+For details about how to create and invoke a stored procedure, see section "CREATE PROCEDURE" in *SQL Syntax Reference*.
 
 The functions created using the PL/pgSQL language mentioned in :ref:`GaussDB(DWS) PL/pgSQL Functions <dws_04_0510>` are similar to the application methods of stored procedures. Unless otherwise specified, the following sections apply to stored procedures and PL/pgSQL functions.
 

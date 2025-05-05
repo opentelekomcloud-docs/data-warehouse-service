@@ -10,15 +10,15 @@ PGXC_OS_THREADS
 .. table:: **Table 1** PGXC_OS_THREADS columns
 
    +---------------+--------------------------+-----------------------------------------------------------------------------------+
-   | Name          | Type                     | Description                                                                       |
+   | Column        | Type                     | Description                                                                       |
    +===============+==========================+===================================================================================+
-   | node_name     | text                     | All normal node names in the cluster                                              |
+   | node_name     | Text                     | Names of all normal nodes currently in the cluster.                               |
    +---------------+--------------------------+-----------------------------------------------------------------------------------+
-   | pid           | bigint                   | IDs of running threads among all the normal node processes in the current cluster |
+   | pid           | Bigint                   | Thread IDs currently running in the processes of all normal nodes in the cluster. |
    +---------------+--------------------------+-----------------------------------------------------------------------------------+
-   | lwpid         | integer                  | Lightweight thread ID corresponding to the PID                                    |
+   | lwpid         | Integer                  | Lightweight thread IDs corresponding to the PIDs.                                 |
    +---------------+--------------------------+-----------------------------------------------------------------------------------+
-   | thread_name   | text                     | Thread name corresponding to the PID                                              |
+   | thread_name   | Text                     | Thread names corresponding to the PIDs.                                           |
    +---------------+--------------------------+-----------------------------------------------------------------------------------+
-   | creation_time | timestamp with time zone | Thread creation time corresponding to the PID                                     |
+   | creation_time | Timestamp with time zone | Creation time of the threads corresponding to the PIDs.                           |
    +---------------+--------------------------+-----------------------------------------------------------------------------------+

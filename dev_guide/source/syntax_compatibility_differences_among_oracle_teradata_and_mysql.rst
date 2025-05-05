@@ -5,7 +5,7 @@
 Syntax Compatibility Differences Among Oracle, Teradata, and MySQL
 ==================================================================
 
-GaussDB(DWS) is compatible with Oracle, Teradata and MySQL syntax, of which the syntax behavior is different.
+In GaussDB(DWS), **DBCOMPATIBILITY** can be set to **TD**, **Oracle**, or **MySQL** to be compatible with Teradata, Oracle, or MySQL syntax, respectively. Syntax behavior varies with the three modes.
 
 The database compatibility model can be specified using the **DBCOMPATIBILITY** parameter when creating a database. For details, refer to the **CREATE DATABASE** syntax.
 

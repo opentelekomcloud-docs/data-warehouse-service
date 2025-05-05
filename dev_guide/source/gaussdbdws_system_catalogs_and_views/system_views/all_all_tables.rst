@@ -10,9 +10,9 @@ ALL_ALL_TABLES
 .. table:: **Table 1** ALL_ALL_TABLES columns
 
    =============== ==== =============================================
-   Name            Type Description
+   Column          Type Description
    =============== ==== =============================================
-   owner           name Owner of the table or the view
-   table_name      name Name of the table or the view
-   tablespace_name name Tablespace where the table or view is located
+   owner           Name Owner of the table or view
+   table_name      Name Name of the table or view
+   tablespace_name Name Tablespace where the table or view is located
    =============== ==== =============================================

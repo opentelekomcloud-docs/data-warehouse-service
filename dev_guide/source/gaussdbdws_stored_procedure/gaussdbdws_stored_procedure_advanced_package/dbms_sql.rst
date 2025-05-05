@@ -8,54 +8,54 @@ DBMS_SQL
 Related Interfaces
 ------------------
 
-:ref:`Table 1 <en-us_topic_0000001460882592__table11636114145319>` lists interfaces supported by the **DBMS_SQL** package.
+:ref:`Table 1 <en-us_topic_0000001811609969__table11636114145319>` lists interfaces supported by the **DBMS_SQL** package.
 
-.. _en-us_topic_0000001460882592__table11636114145319:
+.. _en-us_topic_0000001811609969__table11636114145319:
 
 .. table:: **Table 1** DBMS_SQL
 
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
    | API                                                                                   | Description                                                                                             |
    +=======================================================================================+=========================================================================================================+
-   | :ref:`DBMS_SQL.OPEN_CURSOR <en-us_topic_0000001460882592__li1531162015334>`           | Opens a cursor.                                                                                         |
+   | :ref:`DBMS_SQL.OPEN_CURSOR <en-us_topic_0000001811609969__li1531162015334>`           | Opens a cursor.                                                                                         |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_SQL.CLOSE_CURSOR <en-us_topic_0000001460882592__li156795412510>`           | Closes an open cursor.                                                                                  |
+   | :ref:`DBMS_SQL.CLOSE_CURSOR <en-us_topic_0000001811609969__li156795412510>`           | Closes an open cursor.                                                                                  |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_SQL.PARSE <en-us_topic_0000001460882592__li2228125392012>`                 | Transmits a group of SQL statements to a cursor. Currently, only the **SELECT** statement is supported. |
+   | :ref:`DBMS_SQL.PARSE <en-us_topic_0000001811609969__li2228125392012>`                 | Transmits a group of SQL statements to a cursor. Currently, only the **SELECT** statement is supported. |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_SQL.EXECUTE <en-us_topic_0000001460882592__li55721712815>`                 | Performs a set of dynamically defined operations on the cursor.                                         |
+   | :ref:`DBMS_SQL.EXECUTE <en-us_topic_0000001811609969__li55721712815>`                 | Performs a set of dynamically defined operations on the cursor.                                         |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_SQL.FETCHE_ROWS <en-us_topic_0000001460882592__li126241517289>`            | Reads a row of cursor data.                                                                             |
+   | :ref:`DBMS_SQL.FETCHE_ROWS <en-us_topic_0000001811609969__li126241517289>`            | Reads a row of cursor data.                                                                             |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_SQL.DEFINE_COLUMN <en-us_topic_0000001460882592__li93441630193318>`        | Dynamically defines a column.                                                                           |
+   | :ref:`DBMS_SQL.DEFINE_COLUMN <en-us_topic_0000001811609969__li93441630193318>`        | Dynamically defines a column.                                                                           |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_SQL.DEFINE_COLUMN_CHAR <en-us_topic_0000001460882592__li15241105533618>`   | Dynamically defines a column of the CHAR type.                                                          |
+   | :ref:`DBMS_SQL.DEFINE_COLUMN_CHAR <en-us_topic_0000001811609969__li15241105533618>`   | Dynamically defines a column of the CHAR type.                                                          |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_SQL.DEFINE_COLUMN_INT <en-us_topic_0000001460882592__li1061171414373>`     | Dynamically defines a column of the INT type.                                                           |
+   | :ref:`DBMS_SQL.DEFINE_COLUMN_INT <en-us_topic_0000001811609969__li1061171414373>`     | Dynamically defines a column of the INT type.                                                           |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_SQL.DEFINE_COLUMN_LONG <en-us_topic_0000001460882592__li3604521153710>`    | Dynamically defines a column of the LONG type.                                                          |
+   | :ref:`DBMS_SQL.DEFINE_COLUMN_LONG <en-us_topic_0000001811609969__li3604521153710>`    | Dynamically defines a column of the LONG type.                                                          |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_SQL.DEFINE_COLUMN_RAW <en-us_topic_0000001460882592__li17405103123711>`    | Dynamically defines a column of the RAW type.                                                           |
+   | :ref:`DBMS_SQL.DEFINE_COLUMN_RAW <en-us_topic_0000001811609969__li17405103123711>`    | Dynamically defines a column of the RAW type.                                                           |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_SQL.DEFINE_COLUMN_TEXT <en-us_topic_0000001460882592__li163691742193714>`  | Dynamically defines a column of the TEXT type.                                                          |
+   | :ref:`DBMS_SQL.DEFINE_COLUMN_TEXT <en-us_topic_0000001811609969__li163691742193714>`  | Dynamically defines a column of the TEXT type.                                                          |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_SQL.DEFINE_COLUMN_UNKNOWN <en-us_topic_0000001460882592__li8476651143718>` | Dynamically defines a column of an unknown type.                                                        |
+   | :ref:`DBMS_SQL.DEFINE_COLUMN_UNKNOWN <en-us_topic_0000001811609969__li8476651143718>` | Dynamically defines a column of an unknown type.                                                        |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_SQL.COLUMN_VALUE <en-us_topic_0000001460882592__li182631611152817>`        | Reads a dynamically defined column value.                                                               |
+   | :ref:`DBMS_SQL.COLUMN_VALUE <en-us_topic_0000001811609969__li182631611152817>`        | Reads a dynamically defined column value.                                                               |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_SQL.COLUMN_VALUE_CHAR <en-us_topic_0000001460882592__li55491765289>`       | Reads a dynamically defined column value of the CHAR type.                                              |
+   | :ref:`DBMS_SQL.COLUMN_VALUE_CHAR <en-us_topic_0000001811609969__li55491765289>`       | Reads a dynamically defined column value of the CHAR type.                                              |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_SQL.COLUMN_VALUE_INT <en-us_topic_0000001460882592__li169604123012>`       | Reads a dynamically defined column value of the INT type.                                               |
+   | :ref:`DBMS_SQL.COLUMN_VALUE_INT <en-us_topic_0000001811609969__li169604123012>`       | Reads a dynamically defined column value of the INT type.                                               |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_SQL.COLUMN_VALUE_LONG <en-us_topic_0000001460882592__li9209325173117>`     | Reads a dynamically defined column value of the LONG type.                                              |
+   | :ref:`DBMS_SQL.COLUMN_VALUE_LONG <en-us_topic_0000001811609969__li9209325173117>`     | Reads a dynamically defined column value of the LONG type.                                              |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_SQL.COLUMN_VALUE_RAW <en-us_topic_0000001460882592__li1644815212328>`      | Reads a dynamically defined column value of the RAW type.                                               |
+   | :ref:`DBMS_SQL.COLUMN_VALUE_RAW <en-us_topic_0000001811609969__li1644815212328>`      | Reads a dynamically defined column value of the RAW type.                                               |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_SQL.COLUMN_VALUE_TEXT <en-us_topic_0000001460882592__li5561542153219>`     | Reads a dynamically defined column value of the TEXT type.                                              |
+   | :ref:`DBMS_SQL.COLUMN_VALUE_TEXT <en-us_topic_0000001811609969__li5561542153219>`     | Reads a dynamically defined column value of the TEXT type.                                              |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_SQL.COLUMN_VALUE_UNKNOWN <en-us_topic_0000001460882592__li13946783337>`    | Reads a dynamically defined column value of an unknown type.                                            |
+   | :ref:`DBMS_SQL.COLUMN_VALUE_UNKNOWN <en-us_topic_0000001811609969__li13946783337>`    | Reads a dynamically defined column value of an unknown type.                                            |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_SQL.IS_OPEN <en-us_topic_0000001460882592__li17449205852910>`              | Checks whether a cursor is opened.                                                                      |
+   | :ref:`DBMS_SQL.IS_OPEN <en-us_topic_0000001811609969__li17449205852910>`              | Checks whether a cursor is opened.                                                                      |
    +---------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
 
 .. note::
@@ -63,7 +63,7 @@ Related Interfaces
    -  You are advised to use **dbms_sql.define_column** and **dbms_sql.column_value** to define columns.
    -  If the size of the result set is greater than the value of **work_mem**, the result set will be flushed to disk. The value of **work_mem** must be no greater than 512 MB.
 
--  .. _en-us_topic_0000001460882592__li1531162015334:
+-  .. _en-us_topic_0000001811609969__li1531162015334:
 
    DBMS_SQL.OPEN_CURSOR
 
@@ -77,7 +77,7 @@ Related Interfaces
       )
       RETURN INTEGER;
 
--  .. _en-us_topic_0000001460882592__li156795412510:
+-  .. _en-us_topic_0000001811609969__li156795412510:
 
    DBMS_SQL.CLOSE_CURSOR
 
@@ -100,7 +100,7 @@ Related Interfaces
       cursorid       ID of the cursor to be closed
       ============== =============================
 
--  .. _en-us_topic_0000001460882592__li2228125392012:
+-  .. _en-us_topic_0000001811609969__li2228125392012:
 
    DBMS_SQL.PARSE
 
@@ -129,7 +129,7 @@ Related Interfaces
       | language_flag  | Version language number. Currently, only **1** is supported. |
       +----------------+--------------------------------------------------------------+
 
--  .. _en-us_topic_0000001460882592__li55721712815:
+-  .. _en-us_topic_0000001811609969__li55721712815:
 
    DBMS_SQL.EXECUTE
 
@@ -152,7 +152,7 @@ Related Interfaces
       cursorid       ID of the cursor whose query statement is parsed
       ============== ================================================
 
--  .. _en-us_topic_0000001460882592__li126241517289:
+-  .. _en-us_topic_0000001811609969__li126241517289:
 
    DBMS_SQL.FETCHE_ROWS
 
@@ -175,7 +175,7 @@ Related Interfaces
       curosorid      ID of the cursor to be executed
       ============== ===============================
 
--  .. _en-us_topic_0000001460882592__li93441630193318:
+-  .. _en-us_topic_0000001811609969__li93441630193318:
 
    DBMS_SQL.DEFINE_COLUMN
 
@@ -207,7 +207,7 @@ Related Interfaces
       | column_size    | Length of a defined column                                                                                           |
       +----------------+----------------------------------------------------------------------------------------------------------------------+
 
--  .. _en-us_topic_0000001460882592__li15241105533618:
+-  .. _en-us_topic_0000001811609969__li15241105533618:
 
    DBMS_SQL.DEFINE_COLUMN_CHAR
 
@@ -236,7 +236,7 @@ Related Interfaces
       column_size    Length of a dynamically defined column
       ============== =====================================================
 
--  .. _en-us_topic_0000001460882592__li1061171414373:
+-  .. _en-us_topic_0000001811609969__li1061171414373:
 
    DBMS_SQL.DEFINE_COLUMN_INT
 
@@ -261,7 +261,7 @@ Related Interfaces
       position       Position of a dynamically defined column in the query
       ============== =====================================================
 
--  .. _en-us_topic_0000001460882592__li3604521153710:
+-  .. _en-us_topic_0000001811609969__li3604521153710:
 
    DBMS_SQL.DEFINE_COLUMN_LONG
 
@@ -286,7 +286,7 @@ Related Interfaces
       position       Position of a dynamically defined column in the query
       ============== =====================================================
 
--  .. _en-us_topic_0000001460882592__li17405103123711:
+-  .. _en-us_topic_0000001811609969__li17405103123711:
 
    DBMS_SQL.DEFINE_COLUMN_RAW
 
@@ -315,7 +315,7 @@ Related Interfaces
       column_size    Column length
       ============== =====================================================
 
--  .. _en-us_topic_0000001460882592__li163691742193714:
+-  .. _en-us_topic_0000001811609969__li163691742193714:
 
    DBMS_SQL.DEFINE_COLUMN_TEXT
 
@@ -342,7 +342,7 @@ Related Interfaces
       max_size       Maximum length of the defined TEXT type
       ============== =====================================================
 
--  .. _en-us_topic_0000001460882592__li8476651143718:
+-  .. _en-us_topic_0000001811609969__li8476651143718:
 
    DBMS_SQL.DEFINE_COLUMN_UNKNOWN
 
@@ -369,7 +369,7 @@ Related Interfaces
       column         Dynamically defined parameter
       ============== =====================================================
 
--  .. _en-us_topic_0000001460882592__li182631611152817:
+-  .. _en-us_topic_0000001811609969__li182631611152817:
 
    DBMS_SQL.COLUMN_VALUE
 
@@ -396,7 +396,7 @@ Related Interfaces
       column_value   Return value of a defined column
       ============== =====================================================
 
--  .. _en-us_topic_0000001460882592__li55491765289:
+-  .. _en-us_topic_0000001811609969__li55491765289:
 
    DBMS_SQL.COLUMN_VALUE_CHAR
 
@@ -431,7 +431,7 @@ Related Interfaces
       | actual_length  | Length of a return value                                                                                                                   |
       +----------------+--------------------------------------------------------------------------------------------------------------------------------------------+
 
--  .. _en-us_topic_0000001460882592__li169604123012:
+-  .. _en-us_topic_0000001811609969__li169604123012:
 
    DBMS_SQL.COLUMN_VALUE_INT
 
@@ -454,7 +454,7 @@ Related Interfaces
       position       Position of a dynamically defined column in the query
       ============== =====================================================
 
--  .. _en-us_topic_0000001460882592__li9209325173117:
+-  .. _en-us_topic_0000001811609969__li9209325173117:
 
    DBMS_SQL.COLUMN_VALUE_LONG
 
@@ -487,7 +487,7 @@ Related Interfaces
       actual_length  Length of a return value
       ============== =====================================================
 
--  .. _en-us_topic_0000001460882592__li1644815212328:
+-  .. _en-us_topic_0000001811609969__li1644815212328:
 
    DBMS_SQL.COLUMN_VALUE_RAW
 
@@ -522,7 +522,7 @@ Related Interfaces
       | actual_length  | Length of a return value. The value longer than this length will be truncated.                                                             |
       +----------------+--------------------------------------------------------------------------------------------------------------------------------------------+
 
--  .. _en-us_topic_0000001460882592__li5561542153219:
+-  .. _en-us_topic_0000001811609969__li5561542153219:
 
    DBMS_SQL.COLUMN_VALUE_TEXT
 
@@ -547,7 +547,7 @@ Related Interfaces
       position       Position of a dynamically defined column in the query
       ============== =====================================================
 
--  .. _en-us_topic_0000001460882592__li13946783337:
+-  .. _en-us_topic_0000001811609969__li13946783337:
 
    DBMS_SQL.COLUMN_VALUE_UNKNOWN
 
@@ -574,7 +574,7 @@ Related Interfaces
       column_type    Returned parameter type
       ============== =====================================================
 
--  .. _en-us_topic_0000001460882592__li17449205852910:
+-  .. _en-us_topic_0000001811609969__li17449205852910:
 
    DBMS_SQL.IS_OPEN
 
@@ -602,7 +602,7 @@ Examples
 
 ::
 
-   -- Perform operations on RAW data in a stored procedure.
+   --Perform operations on raw data in a stored procedure.
    create or replace procedure pro_dbms_sql_all_02(in_raw raw,v_in int,v_offset int)
    as
    cursorid int;
@@ -618,29 +618,29 @@ Examples
    insert into pro_dbms_sql_all_tb1_02 values(1,HEXTORAW('DEADBEEE'));
    insert into pro_dbms_sql_all_tb1_02 values(2,in_raw);
    query := 'select * from pro_dbms_sql_all_tb1_02 order by 1';
-   -- Open a cursor.
+   --Open a cursor.
    cursorid := dbms_sql.open_cursor();
-   -- Compile the cursor.
+   --Compile the cursor.
    dbms_sql.parse(cursorid, query, 1);
-   -- Define a column.
+   --Define a column.
    define_column_ret:= dbms_sql.define_column(cursorid,1,v_id);
    define_column_ret_raw:= dbms_sql.define_column_raw(cursorid,2,v_info,10);
-   -- Execute the cursor.
+   --Execute the cursor.
    execute_ret := dbms_sql.execute(cursorid);
    loop
    exit when (dbms_sql.fetch_rows(cursorid) <= 0);
-   -- Obtain values.
+   --Obtain values.
    dbms_sql.column_value(cursorid,1,v_id);
    dbms_sql.column_value_raw(cursorid,2,v_info,v_in,v_offset);
-   -- Output the result.
+   --Output the result.
    dbms_output.put_line('id:'|| v_id || ' info:' || v_info);
    end loop;
-   -- Close the cursor.
+   --Close the cursor.
    dbms_sql.close_cursor(cursorid);
    end;
    /
-   -- Invoke the stored procedure.
+   --Invoke the stored procedure.
    call pro_dbms_sql_all_02(HEXTORAW('DEADBEEF'),0,1);
 
-   -- Delete the stored procedure.
+   --Delete the stored procedure.
    DROP PROCEDURE pro_dbms_sql_all_02;

@@ -10,7 +10,7 @@ PG_CONTROL_GROUP_CONFIG
 .. table:: **Table 1** PG_CONTROL_GROUP_CONFIG columns
 
    ======================= ==== =======================================
-   Name                    Type Description
+   Column                  Type Description
    ======================= ==== =======================================
-   pg_control_group_config text Configuration information of the cgroup
+   pg_control_group_config Text Configuration information of the Cgroup
    ======================= ==== =======================================

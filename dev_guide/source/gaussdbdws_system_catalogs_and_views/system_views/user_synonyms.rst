@@ -9,12 +9,16 @@ USER_SYNONYMS
 
 .. table:: **Table 1** **USER_SYNONYMS** columns
 
-   ================= ==== ================================================
-   Name              Type Description
-   ================= ==== ================================================
-   schema_name       text Name of the schema to which the synonym belongs.
-   synonym_name      text Synonym name.
-   table_owner       text Owner of the associated object.
-   table_schema_name text Schema name of the associated object.
-   table_name        text Name of the associated object.
-   ================= ==== ================================================
+   +-------------------+------+------------------------------------------------------+
+   | Name              | Type | Description                                          |
+   +===================+======+======================================================+
+   | schema_name       | Text | Name of the schema the synonym belongs to.           |
+   +-------------------+------+------------------------------------------------------+
+   | synonym_name      | Text | Synonym name.                                        |
+   +-------------------+------+------------------------------------------------------+
+   | table_owner       | Text | Owner of the associated object.                      |
+   +-------------------+------+------------------------------------------------------+
+   | table_schema_name | Text | Name of the schema the associated object belongs to. |
+   +-------------------+------+------------------------------------------------------+
+   | table_name        | Text | Name of the associated object.                       |
+   +-------------------+------+------------------------------------------------------+

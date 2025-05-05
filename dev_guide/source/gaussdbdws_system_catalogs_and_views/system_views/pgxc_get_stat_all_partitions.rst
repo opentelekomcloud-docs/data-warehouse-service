@@ -11,23 +11,23 @@ The statistics of this view depend on the **ANALYZE** operation. To obtain the m
 
 .. note::
 
-   For clusters of 8.2.0.100 or later, 8.2.0.100 is recommended for querying the dirty page rate.
+   For clusters of 8.2.0.100 or later, :ref:`PGXC_STAT_TABLE_DIRTY <dws_04_1046>` is recommended for querying the dirty page rate.
 
 .. table:: **Table 1** PGXC_GET_STAT_ALL_PARTITIONS columns
 
    =============== ============ ==============================
-   Name            Type         Description
+   Column          Type         Description
    =============== ============ ==============================
-   relid           oid          Table OID
-   partid          oid          Partition OID
-   schemaname      name         Schema name of the table
-   relname         name         Table name
-   partname        name         Partition name
-   n_tup_ins       numeric      Number of inserted tuples
-   n_tup_upd       numeric      Number of updated tuples
-   n_tup_del       numeric      Number of deleted tuples
-   n_live_tup      numeric      Number of live tuples
-   n_dead_tup      numeric      Number of dead tuples
+   relid           OID          Table OID
+   partid          OID          Partition OID
+   schemaname      Name         Schema name of the table
+   relname         Name         Table name
+   partname        Name         Partition name
+   n_tup_ins       Numeric      Number of inserted tuples
+   n_tup_upd       Numeric      Number of updated tuples
+   n_tup_del       Numeric      Number of deleted tuples
+   n_live_tup      Numeric      Number of live tuples
+   n_dead_tup      Numeric      Number of dead tuples
    page_dirty_rate numeric(5,2) Dirty page rate (%) of a table
    =============== ============ ==============================
 

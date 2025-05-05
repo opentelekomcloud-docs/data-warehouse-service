@@ -10,25 +10,25 @@ PGXC_RUNNING_XACTS
 .. table:: **Table 1** PGXC_RUNNING_XACTS columns
 
    +-------------+---------+----------------------------------------------------------------------------------------------+
-   | Name        | Type    | Description                                                                                  |
+   | Column      | Type    | Description                                                                                  |
    +=============+=========+==============================================================================================+
-   | handle      | integer | Handle corresponding to the transaction in GTM                                               |
+   | handle      | Integer | Handle corresponding to the transaction in GTM                                               |
    +-------------+---------+----------------------------------------------------------------------------------------------+
-   | gxid        | xid     | Transaction ID                                                                               |
+   | gxid        | Xid     | Transaction ID                                                                               |
    +-------------+---------+----------------------------------------------------------------------------------------------+
    | state       | tinyint | Transaction status (**3**: prepared or **0**: starting)                                      |
    +-------------+---------+----------------------------------------------------------------------------------------------+
-   | node        | text    | Node name                                                                                    |
+   | node        | Text    | Node name                                                                                    |
    +-------------+---------+----------------------------------------------------------------------------------------------+
-   | xmin        | xid     | Minimum transaction ID **xmin** on the node                                                  |
+   | xmin        | Xid     | Minimum transaction ID **xmin** on the node                                                  |
    +-------------+---------+----------------------------------------------------------------------------------------------+
    | vacuum      | boolean | Whether the current transaction is lazy vacuum                                               |
    +-------------+---------+----------------------------------------------------------------------------------------------+
-   | timeline    | bigint  | Number of database restarts                                                                  |
+   | timeline    | Bigint  | Number of database restarts                                                                  |
    +-------------+---------+----------------------------------------------------------------------------------------------+
-   | prepare_xid | xid     | Transaction ID in **prepared** state. If the status is not **prepared**, the value is **0**. |
+   | prepare_xid | Xid     | Transaction ID in **prepared** state. If the status is not **prepared**, the value is **0**. |
    +-------------+---------+----------------------------------------------------------------------------------------------+
-   | pid         | bigint  | Thread ID corresponding to the transaction                                                   |
+   | pid         | Bigint  | Thread ID corresponding to the transaction                                                   |
    +-------------+---------+----------------------------------------------------------------------------------------------+
-   | next_xid    | xid     | Transaction ID sent from a CN to a DN                                                        |
+   | next_xid    | Xid     | Transaction ID sent from a CN to a DN                                                        |
    +-------------+---------+----------------------------------------------------------------------------------------------+

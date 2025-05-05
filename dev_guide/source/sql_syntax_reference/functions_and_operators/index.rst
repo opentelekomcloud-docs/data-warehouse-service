@@ -23,7 +23,7 @@ Functions and Operators
 -  :ref:`Conditional Expression Functions <dws_06_0050>`
 -  :ref:`Range Functions and Operators <dws_06_0045>`
 -  :ref:`Data Redaction Functions <dws_06_0064>`
--  :ref:`Roaring Bitmap Functions and Operators <dws_06_0991>`
+-  :ref:`Bitmap Functions and Operators <dws_06_0991>`
 -  :ref:`UUID Functions <dws_06_0040>`
 -  :ref:`Text Search Functions and Operators <dws_06_0039>`
 -  :ref:`HLL Functions and Operators <dws_06_0042>`
@@ -39,6 +39,10 @@ Functions and Operators
 -  :ref:`Trigger Functions <dws_06_0066>`
 -  :ref:`XML Functions <dws_06_0067>`
 -  :ref:`Call Stack Recording Functions <dws_06_0068>`
+-  :ref:`Hudi System Functions <dws_06_0359>`
+-  :ref:`Funnel and Retention Functions <dws_06_0372>`
+-  :ref:`EXTERNAL SCHEMA System Functions <dws_06_0374>`
+-  :ref:`Storage-Compute Decoupling Functions <dws_06_0382>`
 
 .. toctree::
    :maxdepth: 1
@@ -62,7 +66,7 @@ Functions and Operators
    conditional_expression_functions
    range_functions_and_operators/index
    data_redaction_functions
-   roaring_bitmap_functions_and_operators/index
+   bitmap_functions_and_operators/index
    uuid_functions
    text_search_functions_and_operators/index
    hll_functions_and_operators/index
@@ -78,3 +82,7 @@ Functions and Operators
    trigger_functions
    xml_functions/index
    call_stack_recording_functions
+   hudi_system_functions
+   funnel_and_retention_functions
+   external_schema_system_functions
+   storage-compute_decoupling_functions/index

@@ -11,9 +11,9 @@ To process SQL statements, the stored procedure process assigns a memory segment
 
    If JDBC is used to call a stored procedure whose returned value is a cursor, the returned cursor is not available.
 
-Cursors are classified into explicit cursors and implicit cursors. :ref:`Table 1 <en-us_topic_0000001510402481__tc43c8c4ed32a432c864256c4fca6147a>` shows the usage conditions of explicit and implicit cursors for different SQL statements.
+Cursors are classified into explicit cursors and implicit cursors. :ref:`Table 1 <en-us_topic_0000001764491120__tc43c8c4ed32a432c864256c4fca6147a>` shows the usage conditions of explicit and implicit cursors for different SQL statements.
 
-.. _en-us_topic_0000001510402481__tc43c8c4ed32a432c864256c4fca6147a:
+.. _en-us_topic_0000001764491120__tc43c8c4ed32a432c864256c4fca6147a:
 
 .. table:: **Table 1** Cursor usage conditions
 

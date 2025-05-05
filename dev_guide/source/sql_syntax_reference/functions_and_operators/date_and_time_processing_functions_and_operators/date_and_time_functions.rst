@@ -39,7 +39,7 @@ Example:
     60 years 2 mons 18 days
    (1 row)
 
-.. _en-us_topic_0000001460721248__section5485357588:
+.. _en-us_topic_0000001764675478__section5485357588:
 
 adddate(date, interval \| int)
 ------------------------------
@@ -106,13 +106,44 @@ Example:
 
 ::
 
-   select addtime('2020-11-13 01:01:01', '23:59:59');
+   SELECT ADDTIME('2020-11-13 01:01:01', '23:59:59');
           addtime
    ---------------------
     2020-11-14 01:01:00
    (1 row)
 
-.. _en-us_topic_0000001460721248__section2345185695713:
+addtime(time, interval)
+
+::
+
+   SELECT ADDTIME('20:1:1'::TIME, '20:59:59+8');
+     addtime
+   -----------
+    233:01:00
+   (1 row)
+
+   SELECT ADDTIME('20:1:1'::TIME, '8 20:59:59');
+     addtime
+   -----------
+    233:01:00
+   (1 row)
+
+addtime(text, interval)
+
+::
+
+   SELECT ADDTIME('20:1:1', '20:59:59+8');
+     addtime
+   -----------
+    233:01:00
+   (1 row)
+   SELECT ADDTIME('20:1:1', '8 20:59:59');
+     addtime
+   -----------
+    233:01:00
+   (1 row)
+
+.. _en-us_topic_0000001764675478__section2345185695713:
 
 subdate(date, interval \| int)
 ------------------------------
@@ -187,14 +218,14 @@ Example:
 date_add(date, interval)
 ------------------------
 
-Description: Returns the result of a given datetime plus the time interval of a specified unit. It is equivalent to :ref:`adddate(date, interval | int) <en-us_topic_0000001460721248__section5485357588>`.
+Description: Returns the result of a given datetime plus the time interval of a specified unit. It is equivalent to :ref:`adddate(date, interval | int) <en-us_topic_0000001764675478__section5485357588>`.
 
 Return type: timestamp
 
 date_sub(date, interval)
 ------------------------
 
-Description: Returns the result of a given datetime minus the time interval of a specified unit. It is equivalent to :ref:`subdate(date, interval | int) <en-us_topic_0000001460721248__section2345185695713>`.
+Description: Returns the result of a given datetime minus the time interval of a specified unit. It is equivalent to :ref:`subdate(date, interval | int) <en-us_topic_0000001764675478__section2345185695713>`.
 
 Return type: timestamp
 
@@ -460,21 +491,21 @@ Example:
    SELECT date_trunc('day', date_trunc('year',CURRENT_DATE)+ '-1');
           date_trunc
    ------------------------
-    2022-12-31 00:00:00+00
+    2022-12-31 00:00:00+08
    (1 row)
 
    -- Obtain the first day of this year.
    SELECT date_trunc('year',CURRENT_DATE);
           date_trunc
    ------------------------
-    2023-01-01 00:00:00+00
+    2023-01-01 00:00:00+08
    (1 row)
 
    -- Obtain the first day of last year.
    SELECT date_trunc('year',now() + '-1 year');
           date_trunc
    ------------------------
-    2022-01-01 00:00:00+00
+    2022-01-01 00:00:00+08
    (1 row)
 
 trunc(timestamp)
@@ -617,7 +648,7 @@ Example:
    SELECT hour(timestamptz '2018-12-13 12:11:15+06');
     hour
    ------
-      6
+      14
    (1 row)
 
 isfinite(date)
@@ -1071,7 +1102,7 @@ Example:
    SELECT from_unixtime(875996580, '%Y %D %M %h:%i:%s');
           from_unixtime
    ---------------------------
-    1997 4th October 08:23:00
+    1997 5th October 04:23:00
    (1 row)
 
 unix_timestamp([timestamp with time zone])

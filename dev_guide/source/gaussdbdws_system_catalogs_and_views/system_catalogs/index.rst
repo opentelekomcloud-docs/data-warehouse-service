@@ -6,6 +6,7 @@ System Catalogs
 ===============
 
 -  :ref:`GS_BLOCKLIST_QUERY <dws_04_1006>`
+-  :ref:`GS_BLOCKLIST_SQL <dws_04_1245>`
 -  :ref:`GS_OBSSCANINFO <dws_04_0562>`
 -  :ref:`GS_RESPOOL_RESOURCE_HISTORY <dws_04_0975>`
 -  :ref:`GS_WLM_INSTANCE_HISTORY <dws_04_0564>`
@@ -21,6 +22,7 @@ System Catalogs
 -  :ref:`PG_AUTHID <dws_04_0574>`
 -  :ref:`PG_AUTH_HISTORY <dws_04_0575>`
 -  :ref:`PG_AUTH_MEMBERS <dws_04_0576>`
+-  :ref:`PG_BLOCKLISTS <dws_04_1407>`
 -  :ref:`PG_CAST <dws_04_0577>`
 -  :ref:`PG_CLASS <dws_04_0578>`
 -  :ref:`PG_COLLATION <dws_04_0579>`
@@ -33,6 +35,7 @@ System Catalogs
 -  :ref:`PG_DESCRIPTION <dws_04_0586>`
 -  :ref:`PG_ENUM <dws_04_0588>`
 -  :ref:`PG_EXCEPT_RULE <dws_04_1201>`
+-  :ref:`PG_EXTERNAL_NAMESPACE <dws_04_1096>`
 -  :ref:`PG_EXTENSION <dws_04_0589>`
 -  :ref:`PG_EXTENSION_DATA_SOURCE <dws_04_0590>`
 -  :ref:`PG_FINE_DR_INFO <dws_04_1037>`
@@ -41,10 +44,12 @@ System Catalogs
 -  :ref:`PG_FOREIGN_TABLE <dws_04_0593>`
 -  :ref:`PG_INDEX <dws_04_0594>`
 -  :ref:`PG_INHERITS <dws_04_0595>`
+-  :ref:`PG_JOB_INFO <dws_04_1104>`
 -  :ref:`PG_JOBS <dws_04_0596>`
 -  :ref:`PG_LANGUAGE <dws_04_0597>`
 -  :ref:`PG_LARGEOBJECT <dws_04_0598>`
 -  :ref:`PG_LARGEOBJECT_METADATA <dws_04_0599>`
+-  :ref:`PG_MATVIEW <dws_04_1067>`
 -  :ref:`PG_NAMESPACE <dws_04_0600>`
 -  :ref:`PG_OBJECT <dws_04_0601>`
 -  :ref:`PG_OBSSCANINFO <dws_04_0602>`
@@ -60,7 +65,7 @@ System Catalogs
 -  :ref:`PG_RANGE <dws_04_0609>`
 -  :ref:`PG_REDACTION_COLUMN <dws_04_0610>`
 -  :ref:`PG_REDACTION_POLICY <dws_04_0611>`
--  :ref:`PG_RELFILENODE_SIZE <dws_04_1611>`
+-  :ref:`PG_RELFILENODE_SIZE <dws_04_1408>`
 -  :ref:`PG_RLSPOLICY <dws_04_0612>`
 -  :ref:`PG_RESOURCE_POOL <dws_04_0613>`
 -  :ref:`PG_REWRITE <dws_04_0614>`
@@ -97,6 +102,7 @@ System Catalogs
    :hidden: 
 
    gs_blocklist_query
+   gs_blocklist_sql
    gs_obsscaninfo
    gs_respool_resource_history
    gs_wlm_instance_history
@@ -112,6 +118,7 @@ System Catalogs
    pg_authid
    pg_auth_history
    pg_auth_members
+   pg_blocklists
    pg_cast
    pg_class
    pg_collation
@@ -124,6 +131,7 @@ System Catalogs
    pg_description
    pg_enum
    pg_except_rule
+   pg_external_namespace
    pg_extension
    pg_extension_data_source
    pg_fine_dr_info
@@ -132,10 +140,12 @@ System Catalogs
    pg_foreign_table
    pg_index
    pg_inherits
+   pg_job_info
    pg_jobs
    pg_language
    pg_largeobject
    pg_largeobject_metadata
+   pg_matview
    pg_namespace
    pg_object
    pg_obsscaninfo

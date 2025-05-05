@@ -146,7 +146,7 @@ Parameter Description
 
 -  **new_owner**
 
-   Indicates the new owner of the server. To change the owner, you must be the owner of the external server and a direct or indirect member of the new owning role, and must have the **USAGE** permission on the encapsulator of the external server.
+   Indicates the new owner of the server. To change the owner, you must be the owner of the external server and a direct or indirect member of the new owner role, and must have the USAGE permission on the encapsulator of the external server.
 
 -  **new_name**
 

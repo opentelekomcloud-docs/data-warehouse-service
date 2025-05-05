@@ -10,30 +10,30 @@ PGXC_CLASS
 .. table:: **Table 1** PGXC_CLASS columns
 
    +-----------------------+-----------------------+------------------------------------------------------------------------+
-   | Name                  | Type                  | Description                                                            |
+   | Column                | Type                  | Description                                                            |
    +=======================+=======================+========================================================================+
-   | pcrelid               | oid                   | Table OID                                                              |
+   | pcrelid               | OID                   | Table OID                                                              |
    +-----------------------+-----------------------+------------------------------------------------------------------------+
-   | pclocatortype         | "char"                | Locator type                                                           |
+   | pclocatortype         | Char                  | Locator type                                                           |
    |                       |                       |                                                                        |
    |                       |                       | -  **H**: hash                                                         |
    |                       |                       | -  **M**: Modulo                                                       |
    |                       |                       | -  **N**: Round Robin                                                  |
    |                       |                       | -  **R**: Replicate                                                    |
    +-----------------------+-----------------------+------------------------------------------------------------------------+
-   | pchashalgorithm       | smallint              | Distributed tuple using the hash algorithm                             |
+   | pchashalgorithm       | Smallint              | Distributed tuple using the hash algorithm                             |
    +-----------------------+-----------------------+------------------------------------------------------------------------+
-   | pchashbuckets         | smallint              | Value of a harsh container                                             |
+   | pchashbuckets         | Smallint              | Value of a harsh container                                             |
    +-----------------------+-----------------------+------------------------------------------------------------------------+
-   | pgroup                | name                  | Name of the node group                                                 |
+   | pgroup                | Name                  | Node group name                                                        |
    +-----------------------+-----------------------+------------------------------------------------------------------------+
-   | redistributed         | "char"                | The table has been redistributed.                                      |
+   | redistributed         | Char                  | Whether a table has been redistributed                                 |
    +-----------------------+-----------------------+------------------------------------------------------------------------+
-   | redis_order           | integer               | Redistribution sequence                                                |
+   | redis_order           | Integer               | Redistribution sequence                                                |
    +-----------------------+-----------------------+------------------------------------------------------------------------+
    | pcattnum              | int2vector            | Column number used as a distribution key                               |
    +-----------------------+-----------------------+------------------------------------------------------------------------+
    | nodeoids              | oidvector_extend      | List of distributed table node OIDs                                    |
    +-----------------------+-----------------------+------------------------------------------------------------------------+
-   | options               | text                  | Extension status information. This is a reserved column in the system. |
+   | options               | Text                  | Extension status information, which is a reserved column in the system |
    +-----------------------+-----------------------+------------------------------------------------------------------------+

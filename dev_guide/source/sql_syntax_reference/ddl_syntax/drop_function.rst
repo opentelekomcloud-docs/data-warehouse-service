@@ -8,7 +8,7 @@ DROP FUNCTION
 Function
 --------
 
-Deletes an existing function.
+**DROP FUNCTION** deletes an existing function.
 
 Precautions
 -----------
@@ -35,7 +35,7 @@ Parameter Description
 
    Specifies the name of the function to be deleted.
 
-   Value range: an existing function name.
+   Value range: An existing function name.
 
 -  **argmode**
 

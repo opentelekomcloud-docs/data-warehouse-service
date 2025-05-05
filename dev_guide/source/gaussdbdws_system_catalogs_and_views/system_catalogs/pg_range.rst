@@ -12,15 +12,15 @@ This is in addition to the types' entries in :ref:`PG_TYPE <dws_04_0629>`.
 .. table:: **Table 1** PG_RANGE columns
 
    +--------------+---------+---------------------------------------+---------------------------------------------------------------------------------------------------------------+
-   | Name         | Type    | Reference                             | Description                                                                                                   |
+   | Column       | Type    | Reference                             | Description                                                                                                   |
    +==============+=========+=======================================+===============================================================================================================+
-   | rngtypid     | oid     | :ref:`PG_TYPE <dws_04_0629>`.oid      | OID of the range type                                                                                         |
+   | rngtypid     | OID     | :ref:`PG_TYPE <dws_04_0629>`.oid      | OID of the range type                                                                                         |
    +--------------+---------+---------------------------------------+---------------------------------------------------------------------------------------------------------------+
-   | rngsubtype   | oid     | :ref:`PG_TYPE <dws_04_0629>`.oid      | OID of the element type (subtype) of this range type                                                          |
+   | rngsubtype   | OID     | :ref:`PG_TYPE <dws_04_0629>`.oid      | OID of the element type (subtype) of this range type                                                          |
    +--------------+---------+---------------------------------------+---------------------------------------------------------------------------------------------------------------+
-   | rngcollation | oid     | :ref:`PG_COLLATION <dws_04_0579>`.oid | OID of the collation used for range comparisons, or 0 if none                                                 |
+   | rngcollation | OID     | :ref:`PG_COLLATION <dws_04_0579>`.oid | OID of the collation used for range comparisons, or 0 if none                                                 |
    +--------------+---------+---------------------------------------+---------------------------------------------------------------------------------------------------------------+
-   | rngsubopc    | oid     | :ref:`PG_OPCLASS <dws_04_0603>`.oid   | OID of the subtype's operator class used for range comparisons                                                |
+   | rngsubopc    | OID     | :ref:`PG_OPCLASS <dws_04_0603>`.oid   | OID of the subtype's operator class used for range comparisons                                                |
    +--------------+---------+---------------------------------------+---------------------------------------------------------------------------------------------------------------+
    | rngcanonical | regproc | :ref:`PG_PROC <dws_04_0608>`.oid      | OID of the function to convert a range value into canonical form, or 0 if none                                |
    +--------------+---------+---------------------------------------+---------------------------------------------------------------------------------------------------------------+

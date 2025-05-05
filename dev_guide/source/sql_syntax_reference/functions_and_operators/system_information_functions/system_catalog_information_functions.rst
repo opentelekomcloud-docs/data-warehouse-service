@@ -72,65 +72,6 @@ Return type: text
 
 Note: **pg_get_expr** decompiles the internal form of an individual expression, such as the default value for a column. It can be useful when examining the contents of system catalogs. If the expression might contain Vars, specify the OID of the relationship they refer to as the second parameter; if no Vars are expected, zero is sufficient.
 
-pg_get_functiondef(func_oid)
-----------------------------
-
-Description: Gets definition of a function.
-
-Return type: text
-
-**func_oid** is the OID of the function, which can be queried in the **PG_PROC** system catalog.
-
-Example: Query the OID and definition of the **justify_days** function.
-
-::
-
-   SELECT oid FROM pg_proc WHERE proname ='justify_days';
-    oid
-   ------
-    1295
-   (1 row)
-
-   SELECT * FROM pg_get_functiondef(1295);
-    headerlines |                          definition
-   -------------+--------------------------------------------------------------
-              4 | CREATE OR REPLACE FUNCTION pg_catalog.justify_days(interval)+
-                |  RETURNS interval                                           +
-                |  LANGUAGE internal                                          +
-                |  IMMUTABLE STRICT NOT FENCED NOT SHIPPABLE                  +
-                | AS $function$interval_justify_days$function$                +
-                |
-   (1 row)
-
-Note: The query result returned by **pg_get_functiondef** is in the original text format of the stored procedure. The escape character (\\) is used to facilitate subsequent parsing.
-
-pg_get_function_arguments(func_oid)
------------------------------------
-
-Description: Gets argument list of function's definition (with default values).
-
-Return type: text
-
-Note: **pg_get_function_arguments** returns the argument list of a function, in the form it would need to appear in within **CREATE FUNCTION**.
-
-pg_get_function_identity_arguments(func_oid)
---------------------------------------------
-
-Description: Gets argument list to identify a function (without default values).
-
-Return type: text
-
-Note: **pg_get_function_identity_arguments** returns the argument list necessary to identify a function, in the form it would need to appear in within **ALTER FUNCTION**. This form omits default values.
-
-pg_get_function_result(func_oid)
---------------------------------
-
-Description: Gets **RETURNS** clause for function.
-
-Return type: text
-
-Note: **pg_get_function_result** returns the appropriate **RETURNS** clause for the function.
-
 pg_get_indexdef(index_oid)
 --------------------------
 
@@ -273,6 +214,61 @@ Return type: text
 
 Remarks: **pg_get_tabledef** reconstructs the **CREATE** statement of the table definition, including the table definition, index information, and comments. Users need to create the dependent objects of the table, such as groups, schemas, tablespaces, and servers. The table definition does not include the statements for creating these dependent objects.
 
+pg_get_tabledef(table_name/table_oid, forCreate boolean)
+--------------------------------------------------------
+
+Description: Obtains a table definition based on **table_name**. It is supported only by clusters of version 9.1.0.100 or later.
+
+Return type: text
+
+-  If the **forCreate** parameter is **true**, the table definition obtained will exclude the **TO GROUP** clause.
+-  If the **forCreate** parameter is **false**, the table definition obtained will include the **TO GROUP** clause.
+
+pg_get_tabledef(table_name/table_oid, forCreate boolean,withColComm boolean)
+----------------------------------------------------------------------------
+
+Description: Obtains a table definition based on **table_name**. This function is supported only by clusters of version 9.1.0.200 or later.
+
+Return type: text
+
+-  If **withColComment** is **true**, the comment for a column field is displayed next to it,
+-  If **withColComment** is **false**, the comment for a column is shown at the end of the table definition.
+
+Examples:
+
+.. code-block::
+
+   SELECT pg_get_tabledef('person',false,true);
+                     pg_get_tabledef
+   ----------------------------------------------------
+    SET search_path = public;                         +
+    CREATE  TABLE person (                            +
+            id integer COMMENT 'Student ID',                +
+            name character varying(25) COMMENT 'Name',+
+            address text COMMENT 'Address'               +
+    )                                                 +
+    WITH (orientation=row, compression=no)            +
+    DISTRIBUTE BY ROUNDROBIN                          +
+    TO GROUP group_version1;
+   (1 row)
+
+   SELECT pg_get_tabledef('person',false,false);
+                  pg_get_tabledef
+   ---------------------------------------------
+    SET search_path = public;                  +
+    CREATE  TABLE person (                     +
+            id integer,                        +
+            name character varying(25),        +
+            address text                       +
+    )                                          +
+    WITH (orientation=row, compression=no)     +
+    DISTRIBUTE BY ROUNDROBIN                   +
+    TO GROUP group_version1;                   +
+    COMMENT ON COLUMN person.id IS 'Student ID';     +
+    COMMENT ON COLUMN person.name IS 'Name';   +
+    COMMENT ON COLUMN person.address IS 'Address';
+   (1 row)
+
 pg_options_to_table(reloptions)
 -------------------------------
 
@@ -282,7 +278,7 @@ Return type: SETOF record
 
 Note: **pg_options_to_table** returns the set of storage option name/value pairs (**option_name**/**option_value**) when passing **pg_class.reloptions** or **pg_attribute.attoptions**.
 
-Example:
+The following is an example:
 
 ::
 
@@ -352,7 +348,7 @@ The expression **collation for** returns the collation of the value that is pass
     "default"
    (1 row)
 
-The value might be quoted and schema-qualified. If no collation is derived for the argument expression, then a null value is returned. If the parameter is not of a collectable data type, then an error is thrown.
+The value might be quoted and schema-qualified. If no collation is derived for the argument expression, then a null value is returned. If the parameter is not of a collatable data type, then an error is thrown.
 
 getdistributekey(table_name)
 ----------------------------

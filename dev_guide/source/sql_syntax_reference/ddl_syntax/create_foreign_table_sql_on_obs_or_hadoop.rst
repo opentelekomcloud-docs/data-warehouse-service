@@ -8,7 +8,7 @@ CREATE FOREIGN TABLE (SQL on OBS or Hadoop)
 Function
 --------
 
-Creates an HDFS or OBS foreign table in the current database to access structured data stored on HDFS or OBS. You can also export data in ORC format to HDFS or OBS.
+**CREATE FOREIGN TABLE** creates an HDFS or OBS foreign table in the current database to access structured data stored on HDFS or OBS. You can also export data in ORC or PARQUET format to HDFS or OBS.
 
 Data stored in OBS: Data storage is decoupled from compute. The cluster storage cost is low, and storage capacity is not limited. Clusters can be deleted at any time. However, the computing performance depends on the OBS access performance and is lower than that of HDFS. OBS is recommended for applications that do not demand a lot of computation.
 
@@ -17,29 +17,30 @@ Data stored in HDFS: Data storage is not decoupled from compute. The cluster sto
 .. note::
 
    -  The hybrid data warehouse (standalone) does not support HDFS foreign tables.
-   -  The real-time data warehouse (standalone) 8.2.0 and later versions support OBS foreign tables. If OBS foreign tables are used, you need to set the foreign data wrapper of the server to **DFS_FDW**.
+   -  The hybrid data warehouse (standalone) 8.2.0.100 and later versions support OBS foreign tables, but you need to set the foreign data wrapper of the server to **DFS_FDW**.
+   -  The following read and write foreign tables are supported only in the storage-compute decoupling 3.0 version.
 
 Precautions
 -----------
 
--  HDFS foreign tables and OBS foreign tables are classified into read-only and write-only foreign tables. Read-only foreign tables are used for query, and write-only foreign tables can be used to export data from GaussDB(DWS) to a distributed file system.
--  You can import and query data in various formats such as ORC, TEXT, CSV, CARBONDATA, PARQUET, and JSON. If you are using OBS foreign tables, you can export them in ORC, CSV, and TEXT formats. However, if you are using HDFS foreign tables, you can only export them in ORC format.
+-  The HDFS foreign table and OBS foreign table are classified into read-only, write-only, and read-write foreign tables. Read-only foreign tables are used for query. Write-only foreign tables can be used to export data from GaussDB(DWS) to the distributed file system. Read-write foreign tables can be used for query and data export. Only 9.1.0.100 and later versions support read-write foreign tables.
+-  This mode allows you to import and query data in a variety of formats including ORC, TEXT, CSV, CARBONDATA, PARQUET, and JSON. If you are dealing with OBS foreign tables, you can export them in the ORC format or the PARQUET format (only supported in the storage-compute decoupling 3.0 version). HDFS foreign tables can be exported in ORC or PARQUET format.
 -  In this mode, you need to manually create a foreign server. For details, see :ref:`CREATE SERVER <dws_06_0175>`.
 -  If the foreign data wrapper is set to **HDFS_FDW** or **DFS_FDW** when you manually create a server, you need to specify the distribution mode in the **DISTRIBUTE BY** clause when creating a read-only foreign table.
 
 .. table:: **Table 1** Read and write formats supported by OBS foreign tables
 
-   ========== ================ ==========
+   ========== ================ ========== ==========
    Data Type  DFS_FDW/HDFS_FDW
-   ========== ================ ==========
-   ``-``      READ ONLY        WRITE ONLY
-   ORC        Y                Y
-   PARQUET    Y                x
-   CARBONDATA Y                x
-   TEXT       Y                x
-   CSV        Y                x
-   JSON       Y                x
-   ========== ================ ==========
+   ========== ================ ========== ==========
+   ``-``      READ ONLY        WRITE ONLY READ WRITE
+   ORC        Y                Y          Y
+   PARQUET    Y                Y          Y
+   CARBONDATA Y                x          x
+   TEXT       Y                x          x
+   CSV        Y                x          x
+   JSON       Y                x          x
+   ========== ================ ========== ==========
 
 Syntax
 ------
@@ -56,7 +57,7 @@ Create an HDFS foreign table.
          table_constraint [, ...]} [, ...] ] )
        SERVER server_name
        OPTIONS ( { option_name ' value ' } [, ...] )
-       [ {WRITE ONLY | READ ONLY}]
+       [ {WRITE ONLY | READ ONLY | READ WRITE} ]
        DISTRIBUTE BY {ROUNDROBIN | REPLICATION}
 
        [ PARTITION BY ( column_name ) [ AUTOMAPPED ] ] ;
@@ -77,7 +78,7 @@ Create an HDFS foreign table.
       {PRIMARY KEY | UNIQUE} (column_name)
       [NOT ENFORCED [ENABLE QUERY OPTIMIZATION | DISABLE QUERY OPTIMIZATION] | ENFORCED]
 
-.. _en-us_topic_0000001510401001__s755e54aa01f04a4bb44806bedcebdab4:
+.. _en-us_topic_0000001811634745__s755e54aa01f04a4bb44806bedcebdab4:
 
 Parameter Description
 ---------------------
@@ -166,15 +167,16 @@ Parameter Description
 
    -  **format**: format of the data source file in the foreign table.
 
-      HDFS read-only foreign tables support ORC, TEXT, JSON, CSV, and Parquet file formats, while the write-only foreign tables support only the ORC file format.
+      The HDFS foreign table can read data in ORC, TEXT, JSON, CSV, and Parquet file formats when in READ ONLY mode. But if you are using the WRITE ONLY/READ WRITE foreign table, you can only work with data in ORC and PARQUET file formats.
 
-      OBS read-only foreign tables support ORC, TEXT, JSON, CSV, CarbonData, and Parquet file formats, while the write-only foreign tables support only the ORC file format.
+      OBS foreign tables allow you to read data in ORC, TEXT, JSON, CSV, CarbonData, Parquet, and Hudi file formats in read-only mode. But if you are using write-only mode, you can only work with data in ORC and Parquet file formats.
 
       .. note::
 
-         Only JSON objects (embraced in {}) can be imported. JSON arrays (embraced in []) cannot be imported. However, arrays inside a JSON object can be imported.
+         -  Only JSON objects (embraced in {}) can be imported. JSON arrays (embraced in []) cannot be imported. However, arrays inside a JSON object can be imported.
+         -  Apache Hudi is a transactional data lake platform. In the current version, you can set the **format** parameter of an OBS foreign table to **Hudi** to access the corresponding Hudi table data sets. This version also provides the method of accessing the incremental or real-time view of the Hudi table.
 
-   -  **foldername**: The directory of the data source file in the foreign table, that is, the corresponding file directory in HDFS or on OBS. This parameter is mandatory for the write-only foreign table and optional for the read-only foreign table.
+   -  **foldername**: The directory of the data source file in the foreign table, that is, the corresponding file directory in HDFS or on OBS. This is mandatory for WRITE ONLY and READ WRITE writable foreign tables and optional for READ ONLY foreign tables.
 
       When accessing a DLI multi-version table, you do not need to specify the **foldername** parameter.
 
@@ -186,10 +188,10 @@ Parameter Description
 
       .. note::
 
-         -  You are advised to use the **foldername** parameter to specify the location of the data source. For a read-only foreign table, either **filenames** or **foldername** must be specified. For a write-only foreign table, only **foldername** can be specified.
+         -  You are advised to use the **foldername** parameter to specify the location of the data source. For a read-only foreign table, either **filenames** or **foldername** must be specified. For a write-only foreign table or read-write foreign table, only **foldername** can be specified.
          -  If **foldername** is an absolute directory, it should be enclosed by slashes (/). Multiple paths are separated by commas (,).
          -  When you query a partitioned table, data is pruned based on partition information, and data files that meet the requirement are queried. Pruning involves scanning HDFS directory contents many times. Therefore, do not use columns with low repetition as partition column.
-         -  An OBS read-only foreign table is not supported.
+         -  OBS read-only foreign tables and read/write foreign tables are not supported.
 
    -  delimiter
 
@@ -326,44 +328,46 @@ Parameter Description
 
    -  dataencoding
 
-      This parameter specifies the data code of the data table to be exported when the database code is different from the data code of the data table. For example, the database code is Latin-1, but the data in the exported data table is in UTF-8 format. This parameter is optional. If this parameter is not specified, the database encoding format is used by default. This syntax is valid only for the write-only HDFS foreign table.
+      This parameter specifies the data code of the data table to be exported when the database code is different from the data code of the data table. For example, the database code is Latin-1, but the data in the exported data table is in UTF-8 format. This parameter is optional. If this parameter is not specified, the database encoding format is used by default. This syntax is valid only for the WRITE ONLY/READ WRITE foreign table of HDFS.
 
       Value range: data code types supported by the database encoding
 
       .. note::
 
-         The **dataencoding** parameter is valid only for the ORC-formatted write-only HDFS foreign table.
+         The **dataencoding** parameter is available only for HDFS foreign tables in ORC format with WRITE ONLY or READ WRITE.
 
    -  filesize
 
-      Specifies the file size of a write-only foreign table. This parameter is optional. If this parameter is not specified, the file size in the distributed file system configuration is used by default. This syntax is available only for the write-only foreign table.
+      Specifies the file size of a write-only foreign table. This parameter is optional. If this parameter is not specified, the file size in the distributed file system configuration is used by default. This syntax is valid only for WRITE ONLY/READ WRITE writable foreign tables.
 
       Value range: an integer ranging from 1 to 1024
 
       .. note::
 
-         The **filesize** parameter is valid only for the ORC-formatted write-only HDFS foreign table.
+         The **filesize** parameter is available only for HDFS foreign tables in ORC format with WRITE ONLY or READ WRITE.
 
    -  compression
 
       Specifies the file compression mode. This parameter is optional and is supported only by cluster versions 8.2.0 and later.
 
-      For a WRITE ONLY foreign table, it specifies the compression mode for ORC files.
+      For a write only/read-write foreign table, it specifies the compression mode for ORC files.
 
       For a READ ONLY foreign table, it specifies the compression mode for TEXT, CSV, or JSON files.
 
       Value range:
 
-      -  For ORC files: the value is **zlib**, **snappy**, and **lz4**, with **snappy** as default value.
+      -  For ORC files: the value can be **zlib** (default), **snappy**, and **lz4**.
+      -  For Parquet files: **zlib**, **snappy** (default), **lz4**, **lz4_hadoop**.
       -  For TEXT, CSV, and JSON files: the value is **gzip**.
 
          .. caution::
 
-            In versions earlier than 8.2.0, the parameter cannot be specified for READ ONLY foreign tables.
+            -  In versions earlier than 8.2.0, the parameter cannot be specified for READ ONLY foreign tables.
+            -  The **lz4_hadoop** compression option is designed to work with the Hive LZ4 algorithm. By setting the compression format for a parquet foreign table, both the parquet foreign table and Hive can seamlessly exchange data.
 
    -  version
 
-      Specifies the ORC version number. This parameter is optional. This syntax is available only for the write-only foreign table.
+      Specifies the ORC version number. This parameter is optional. This syntax is available only for WRITE ONLY/READ WRITE foreign tables.
 
       Value range: Only **0.12** is supported. The default value is **0.12**.
 
@@ -379,11 +383,17 @@ Parameter Description
 
       Specifies the name of the DLI multi-version table to be accessed. This parameter is available only when the server type is DLI. This parameter is supported only in 8.1.1 or later.
 
+   -  cache_policy
+
+      Specifies the disk cache policy for foreign tables. This parameter is supported only in the storage-compute decoupling 3.0 version.
+
+      Value range: For foreign tables, this parameter can be set to **ALL** or **NONE**. **ALL** indicates that the hot cache in the disk cache is used, and **NONE** indicates that the cold cache is used. Hot cache occupies more space than cold cache and uses more complex replacement algorithms.
+
    -  checkencoding
 
       Specifies whether to check the character encoding.
 
-      Value range: **low**, **high** The default value is **low**.
+      Value range: **no**, **low**, and **high** The default value is **low**.
 
       .. note::
 
@@ -394,6 +404,8 @@ Parameter Description
          -  Setting **checkencoding** to **low** enables invalid characters toleration. If **NULL** and **DELIMITER** are set to spaces or question marks (?), errors like "illegal chars conversion may confuse null 0x20" will be displayed, prompting you to modify parameters that may cause confusion and preventing importing errors.
 
          In ORC format, the rule of error tolerance for invalid characters imported is as follows:
+
+         -  If **checkencoding** is set to **no**, invalid characters are not checked during data import. If you confirm that there are no invalid characters, this option can shorten the import time.
 
          -  If **checkencoding** is **low**, an imported field containing invalid characters will be replaced with a quotation mark string of the same length.
          -  If **checkencoding** is **high**, data import stops when an invalid character is detected.
@@ -413,139 +425,187 @@ Parameter Description
 
          For JSON format, **SELECT COUNT(*)** does not parse specific fields. Therefore, no error is reported when a field is missing or the format is incorrect.
 
+   -  auth_server
+
+      Specifies a server, which is used for user identity authentication when KMS is used to encrypt data in the Hudi foreign table. This parameter can be specified only when **format** is set to **Hudi**. This parameter is supported only by clusters of version 8.3.0 or later.
+
+      Value range: name of an available HDFS server.
+
+      .. note::
+
+         MRS provides the column-level encryption capability for Hudi data. RangerKMS is used to manage users and key IDs and control encryption and decryption permissions. You can specify the **auth_server** parameter when creating a foreign table to bind user **RangerKMS** to the table. In this way, you can be authorized and obtain keys to read encrypted data.
+
+   -  kms_url
+
+      Specifies the IP address and port number of the KMS service. This parameter can be specified only when **format** is set to **hudi** and **auth_server** is specified. This parameter is supported only by clusters of version 8.3.0 or later.
+
+      Value range: a valid string in **ip**:**port** format.
+
+      .. note::
+
+         Generally, if **auth_server** is specified, the IP address and port number of the KMS service can be automatically parsed. If this parameter is specified, the address is forcibly used to access the KMS service.
+
+   -  cow_improve
+
+      Optimization parameter for the **COPY_ON_WRITE** table. When this parameter is enabled, DNs replace the dws-bigdata component to directly read data from OBS. This parameter can be specified only when **format** is set to **Hudi** and cannot be specified together with **auth_server**. This parameter is supported only by clusters of version 8.3.0 or later.
+
+      Value range: **true**, **on**, **false**, and **off**. The default value is **false** or **off**.
+
+      .. note::
+
+         This parameter is invalid for MERGE_ON_READ tables.
+
+   -  julian_adjust
+
+      Specifies whether to correct the Julian day in the data. This parameter is optional and is supported only by cluster versions 8.3.0 and later.
+
+      The value can be **true** or **false**. Default value: **true**
+
+      .. note::
+
+         Spark 2.X uses the Julian day, and Spark 3.0 and later versions use the Proleptic Gregorian calendar. As a result, some dates before parquet 1582 are different. Correct the dates based on the site requirements.
+
    .. table:: **Table 2** OBS foreign table options supported by Text, CSV, JSON, ORC, CarbonData, and Parquet formats
 
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | Parameter            | OBS       |           |           |           |            |            |           |   |
-      +======================+===========+===========+===========+===========+============+============+===========+===+
-      | ``-``                | TEXT      | CSV       | JSON      | ORC       |            | CARBONDATA | PARQUET   |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      |                      | READ ONLY | READ ONLY | READ ONLY | READ ONLY | WRITE ONLY | READ ONLY  | READ ONLY |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | location             | Y         | Y         | Y         | Y         | x          | Y          | Y         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | format               | Y         | Y         | Y         | Y         | Y          | Y          | Y         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | header               | x         | Y         | x         | x         | x          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | delimiter            | Y         | Y         | x         | x         | x          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | quote                | x         | Y         | x         | x         | x          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | escape               | x         | Y         | x         | x         | x          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | null                 | Y         | Y         | x         | x         | x          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | noescaping           | Y         | x         | x         | x         | x          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | encoding             | Y         | Y         | Y         | Y         | Y          | Y          | Y         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | fill_missing_fields  | Y         | Y         | x         | x         | x          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | ignore_extra_data    | Y         | Y         | x         | x         | x          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | date_format          | Y         | Y         | Y         | x         | x          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | time_format          | Y         | Y         | Y         | x         | x          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | timestamp_format     | Y         | Y         | Y         | x         | x          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | smalldatetime_format | Y         | Y         | Y         | x         | x          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | chunksize            | Y         | Y         | Y         | x         | x          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | filenames            | x         | x         | x         | x         | x          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | foldername           | Y         | Y         | Y         | Y         | Y          | Y          | Y         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | dataencoding         | x         | x         | x         | x         | x          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | filesize             | x         | x         | x         | x         | x          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | compression          | Y         | Y         | Y         | x         | Y          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | version              | x         | x         | x         | x         | Y          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | checkencoding        | Y         | Y         | Y         | Y         | x          | Y          | Y         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | totalrows            | Y         | Y         | Y         | Y         | x          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-      | force_mapping        | x         | x         | Y         | x         | x          | x          | x         |   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+---+
-
-   .. note::
-
-      **chunksize** indicates the cache size of each OBS reading thread on a DN. The format can be text, CSV, or JSON. The default size is 32 MB.
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | Parameter            | OBS       |           |           |           |            |            |            |           |            |            |           |
+      +======================+===========+===========+===========+===========+============+============+============+===========+============+============+===========+
+      | ``-``                | TEXT      | CSV       | JSON      | ORC       |            |            | CARBONDATA | PARQUET   |            |            | HUDI      |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      |                      | READ ONLY | READ ONLY | READ ONLY | READ ONLY | WRITE ONLY | READ WRITE | READ ONLY  | READ ONLY | WRITE ONLY | READ WRITE | READ ONLY |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | location             | Y         | Y         | Y         | Y         | x          | x          | Y          | Y         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | format               | Y         | Y         | Y         | Y         | Y          | Y          | Y          | Y         | Y          | Y          | Y         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | header               | x         | Y         | x         | x         | x          | x          | x          | x         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | delimiter            | Y         | Y         | x         | x         | x          | x          | x          | x         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | quote                | x         | Y         | x         | x         | x          | x          | x          | x         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | escape               | x         | Y         | x         | x         | x          | x          | x          | x         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | null                 | Y         | Y         | x         | x         | x          | x          | x          | x         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | noescaping           | Y         | x         | x         | x         | x          | x          | x          | x         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | encoding             | Y         | Y         | Y         | Y         | Y          | Y          | Y          | Y         | Y          | Y          | Y         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | fill_missing_fields  | Y         | Y         | x         | x         | x          | x          | x          | x         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | ignore_extra_data    | Y         | Y         | x         | x         | x          | x          | x          | x         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | date_format          | Y         | Y         | Y         | x         | x          | x          | x          | x         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | time_format          | Y         | Y         | Y         | x         | x          | x          | x          | x         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | timestamp_format     | Y         | Y         | Y         | x         | x          | x          | x          | x         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | smalldatetime_format | Y         | Y         | Y         | x         | x          | x          | x          | x         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | chunksize            | Y         | Y         | Y         | x         | x          | x          | x          | x         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | filenames            | x         | x         | x         | x         | x          | x          | x          | x         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | foldername           | Y         | Y         | Y         | Y         | Y          | Y          | Y          | Y         | Y          | Y          | Y         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | dataencoding         | x         | x         | x         | x         | x          | x          | x          | x         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | filesize             | x         | x         | x         | x         | x          | x          | x          | x         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | compression          | Y         | Y         | Y         | x         | Y          | Y          | x          | x         | Y          | Y          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | version              | x         | x         | x         | x         | Y          | Y          | x          | x         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | checkencoding        | Y         | Y         | Y         | Y         | x          | Y          | Y          | Y         | Y          | Y          | Y         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | totalrows            | Y         | Y         | Y         | Y         | x          | Y          | x          | x         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | force_mapping        | x         | x         | Y         | x         | x          | x          | x          | x         | x          | x          | x         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | auth_server          | x         | x         | x         | x         | x          | x          | x          | x         | x          | x          | Y         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | kms_url              | x         | x         | x         | x         | x          | x          | x          | x         | x          | x          | Y         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | cow_improve          | x         | x         | x         | x         | x          | x          | x          | x         | x          | x          | Y         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
+      | julian_adjust        | x         | x         | x         | x         | x          | x          | x          | Y         | x          | x          | Y         |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+------------+-----------+------------+------------+-----------+
 
    .. table:: **Table 3** HDFS foreign table options supported by Text, CSV, JSON, ORC, and Parquet formats
 
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | Parameter            | HDFS      |           |           |           |            |           |
-      +======================+===========+===========+===========+===========+============+===========+
-      | ``-``                | TEXT      | CSV       | JSON      | ORC       |            | PARQUET   |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      |                      | READ ONLY | READ ONLY | READ ONLY | READ ONLY | WRITE ONLY | READ ONLY |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | location             | x         | x         | x         | x         | x          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | format               | Y         | Y         | Y         | Y         | Y          | Y         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | header               | x         | Y         | x         | x         | x          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | delimiter            | Y         | Y         | x         | x         | x          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | quote                | x         | Y         | x         | x         | x          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | escape               | x         | Y         | x         | x         | x          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | null                 | Y         | Y         | x         | x         | x          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | noescaping           | Y         | x         | x         | x         | x          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | encoding             | Y         | Y         | Y         | Y         | Y          | Y         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | fill_missing_fields  | Y         | Y         | x         | x         | x          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | ignore_extra_data    | Y         | Y         | x         | x         | x          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | date_format          | Y         | Y         | Y         | x         | x          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | time_format          | Y         | Y         | Y         | x         | x          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | timestamp_format     | Y         | Y         | Y         | x         | x          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | smalldatetime_format | Y         | Y         | Y         | x         | x          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | chunksize            | Y         | Y         | Y         | x         | x          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | filenames            | Y         | Y         | Y         | Y         | x          | Y         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | foldername           | Y         | Y         | Y         | Y         | Y          | Y         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | dataencoding         | x         | x         | x         | x         | Y          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | filesize             | x         | x         | x         | x         | Y          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | compression          | Y         | Y         | Y         | x         | Y          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | version              | x         | x         | x         | x         | Y          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | checkencoding        | Y         | Y         | Y         | Y         | Y          | Y         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | totalrows            | x         | x         | x         | x         | x          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
-      | force_mapping        | x         | x         | Y         | x         | x          | x         |
-      +----------------------+-----------+-----------+-----------+-----------+------------+-----------+
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | Parameter            | HDFS      |           |           |           |            |            |           |            |            |
+      +======================+===========+===========+===========+===========+============+============+===========+============+============+
+      | ``-``                | TEXT      | CSV       | JSON      | ORC       |            |            | PARQUET   |            |            |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      |                      | READ ONLY | READ ONLY | READ ONLY | READ ONLY | WRITE ONLY | READ WRITE | READ ONLY | WRITE ONLY | READ WRITE |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | location             | x         | x         | x         | x         | x          | x          | x         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | format               | Y         | Y         | Y         | Y         | Y          | Y          | Y         | Y          | Y          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | header               | x         | Y         | x         | x         | x          | x          | x         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | delimiter            | Y         | Y         | x         | x         | x          | x          | x         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | quote                | x         | Y         | x         | x         | x          | x          | x         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | escape               | x         | Y         | x         | x         | x          | x          | x         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | null                 | Y         | Y         | x         | x         | x          | x          | x         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | noescaping           | Y         | x         | x         | x         | x          | x          | x         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | encoding             | Y         | Y         | Y         | Y         | Y          | Y          | Y         | Y          | Y          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | fill_missing_fields  | Y         | Y         | x         | x         | x          | x          | x         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | ignore_extra_data    | Y         | Y         | x         | x         | x          | x          | x         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | date_format          | Y         | Y         | Y         | x         | x          | x          | x         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | time_format          | Y         | Y         | Y         | x         | x          | x          | x         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | timestamp_format     | Y         | Y         | Y         | x         | x          | x          | x         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | smalldatetime_format | Y         | Y         | Y         | x         | x          | x          | x         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | chunksize            | Y         | Y         | Y         | x         | x          | x          | x         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | filenames            | Y         | Y         | Y         | Y         | x          | x          | Y         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | foldername           | Y         | Y         | Y         | Y         | Y          | Y          | Y         | Y          | Y          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | dataencoding         | x         | x         | x         | x         | Y          | Y          | x         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | filesize             | x         | x         | x         | x         | Y          | Y          | x         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | compression          | Y         | Y         | Y         | x         | Y          | Y          | x         | Y          | Y          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | version              | x         | x         | x         | x         | Y          | Y          | x         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | checkencoding        | Y         | Y         | Y         | Y         | Y          | Y          | Y         | Y          | Y          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | totalrows            | x         | x         | x         | x         | x          | x          | x         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | force_mapping        | x         | x         | Y         | x         | x          | x          | x         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
+      | julian_adjust        | x         | x         | x         | x         | x          | x          | Y         | x          | x          |
+      +----------------------+-----------+-----------+-----------+-----------+------------+------------+-----------+------------+------------+
 
    .. note::
 
       **chunksize** indicates the cache size of each OBS reading thread on a DN. The format can be text, CSV, or JSON. The default size is 4 MB.
 
--  WRITE ONLY \| READ ONLY
+-  WRITE ONLY \| READ ONLY \| READ WRITE
 
    **WRITE ONLY** creates a write-only HDFS/OBS foreign table.
 
    **READ ONLY** creates a read-only HDFS/OBS foreign table.
+
+   **READ WRITE** creates a read/write HDFS/OBS foreign table.
 
    If the foreign table type is not specified, a read-only foreign table is created by default.
 
@@ -563,10 +623,11 @@ Parameter Description
 
    .. note::
 
-      -  HDFS write-only foreign tables support only level-1 partitions.
+      -  A write-only partitioned foreign table can have up to four levels of partitions, meaning that you can specify a maximum of four columns as partition columns. At least one column must be reserved as a non-partition column.
       -  HDFS read-only foreign tables support partition tables in text, CSV, CarbonData, ORC, and Parquet formats.
-      -  OBS write-only foreign tables do not support partitioning.
-      -  OBS read-only foreign tables support partition tables in ORC and Parquet formats.
+      -  HDFS write-only foreign tables support ORC and Parquet partitioned tables.
+      -  HDFS read and write foreign tables support ORC and Parquet partitioned tables.
+      -  OBS read-only, write-only, and read-write foreign tables support ORC and Parquet partitioned tables.
       -  Columns of the floating point or Boolean type cannot be used as partition columns.
       -  The maximum length of a partition field can be specified by the GUC parameter **dfs_partition_directory_length**.
       -  A partition directory name is in the format *Partition column name*\ **=**\ *Partition column value*. Special characters in the name will be escaped. To ensure that the total length of the name after escaping does not exceed **dfs_partition_directory_length**, it is advisable to keep the name length before escaping less than or equal to (**dfs_partition_directory_length** + 1)/3.
@@ -608,30 +669,33 @@ Parameter Description
 
    Disables the optimization of an execution plan using an informational constraint.
 
-.. _en-us_topic_0000001510401001__s0b7a85d0acff48e79ada2f91d1e79a0f:
+.. _en-us_topic_0000001811634745__s0b7a85d0acff48e79ada2f91d1e79a0f:
 
-Informational Constraint
-------------------------
+Informational Constraints
+-------------------------
 
 In GaussDB(DWS), the use of data constraints depend on users. If users can make data sources strictly comply with certain constraints, the query on data with such constraints can be accelerated. Foreign tables do not support Index. Informational constraint is used for optimizing query plans.
 
-**The constraints of creating informational constraints for a foreign table are as follows:**
+The constraints of creating informational constraints for an HDFS foreign table are as follows:
 
 -  You can create an informational constraint only if the values in a NOT NULL column in your table are unique. Otherwise, the query result will be different from expected.
 -  Currently, the informational constraint of GaussDB(DWS) supports only PRIMARY KEY and UNIQUE constraints.
 -  The informational constraints of GaussDB(DWS) support the NOT ENFORCED attribute.
 -  UNIQUE informational constraints can be created for multiple columns in a table, but only one PRIMARY KEY constraint can be created in a table.
 -  Multiple informational constraints can be established in a column of a table (because the function that establishing a column or multiple constraints in a column is the same.) Therefore, you are not advised to set up multiple informational constraints in a column, and only one Primary Key type can be set up.
+-  Table-level COMMENT is not supported.
 -  Multi-column combination constraints are not supported.
 -  Different CNs in the same cluster cannot concurrently export data to the same write-only ORC foreign table.
 -  The catalog of a write-only foreign table in ORC format can only be used as the export catalog of a single foreign table of GaussDB(DWS). It cannot be used for multiple foreign tables, and other components cannot write other files to this catalog.
+
+.. _en-us_topic_0000001811634745__s07885a43a93744359b82400d0a8873b3:
 
 Example 1
 ---------
 
 In HDFS, import the TPC-H benchmark test tables **part** and **region** using Hive. The path of the **part** table is **/user/hive/warehouse/partition.db/part_4**, and that of the **region** table is **/user/hive/warehouse/mppdb.db/region_orc11_64stripe/**.
 
-#. .. _en-us_topic_0000001510401001__li390413437714:
+#. .. _en-us_topic_0000001811634745__li390413437714:
 
    Establish HDFS_Server, with HDFS_FDW or DFS_FDW as the foreign data wrapper.
 
@@ -719,9 +783,9 @@ In HDFS, import the TPC-H benchmark test tables **part** and **region** using Hi
 Example 2
 ---------
 
-Export data from the TPC-H benchmark test table region table to the **/user/hive/warehouse/mppdb.db/regin_orc/** directory of the HDFS file system through the HDFS write-only foreign table.
+Export data from the TPC-H benchmark test table **region** to the **/user/hive/warehouse/mppdb.db/regin_orc/** directory of the HDFS file system through the HDFS write-only foreign table.
 
-#. Create an HDFS foreign table. The corresponding foreign data wrapper is **HDFS_FDW** or **DFS_FDW**, which is the same as that in :ref:`Example 1 <en-us_topic_0000001510401001__li390413437714>`.
+#. Create an HDFS foreign table. The corresponding foreign data wrapper is **HDFS_FDW** or **DFS_FDW**, which is the same as that in :ref:`Example 1 <en-us_topic_0000001811634745__li390413437714>`.
 
 #. Create a write-only HDFS foreign table.
 
@@ -749,7 +813,86 @@ Export data from the TPC-H benchmark test table region table to the **/user/hive
 
       INSERT INTO ft_wo_region SELECT * FROM region;
 
-Example 3
+Example 3 (Only for the Storage-Compute Decoupling 3.0 Version)
+---------------------------------------------------------------
+
+Export data from the TPC-H benchmark test table region table to the **/user/hive/warehouse/mppdb.db/region_orc/** directory of the HDFS file system through the write-only, multi-level partitioned HDFS foreign table.
+
+#. Create an HDFS foreign table. The corresponding foreign data wrapper is **HDFS_FDW** or **DFS_FDW**, which is the same as that in :ref:`Example 1 <en-us_topic_0000001811634745__s07885a43a93744359b82400d0a8873b3>`.
+
+#. Create a write-only foreign table for HDFS multi-level partitions.
+
+   ::
+
+      CREATE FOREIGN TABLE ft_wo_region_partition
+      (
+          R_REGIONKEY INT4,
+          R_NAME TEXT,
+          R_COMMENT TEXT
+      )
+      SERVER
+          hdfs_server
+      OPTIONS
+      (
+          FORMAT 'orc',
+          encoding 'utf8',
+          FOLDERNAME '/user/hive/warehouse/mppdb.db/region_orc/'
+      )
+      WRITE ONLY
+      PARTITION BY (R_REGIONKEY, R_NAME);
+
+#. Writes data to the HDFS file system through a write-only foreign table.
+
+   ::
+
+      INSERT INTO ft_wo_region_partition SELECT * FROM region;
+
+Example 4 (Only for the Storage-Compute Decoupling 3.0 Version)
+---------------------------------------------------------------
+
+Read data from the OBS file system through the foreign table **partsupp**.
+
+#. Create an OBS server.
+
+   .. important::
+
+      -  Hard-coded or plaintext AK and SK are risky. For security purposes, encrypt your AK and SK and store them in the configuration file or environment variables.
+      -  For details about the syntax for creating a server, see :ref:`CREATE SERVER <dws_06_0175>`.
+
+   ::
+
+      CREATE SERVER obs_srv FOREIGN DATA WRAPPER dfs_fdw OPTIONS (
+          address 'obs.example.com',
+          type 'obs',
+          access_key 'xxx',
+          secret_access_key 'xxx'
+      );
+
+#. Create an OBS foreign table **partsupp** and use the cold cache in the disk cache.
+
+   ::
+
+      CREATE FOREIGN TABLE PARTSUPP
+      (
+         PS_PARTKEY     BIGINT NOT NULL,
+         PS_SUPPKEY     BIGINT NOT NULL,
+         PS_AVAILQTY    BIGINT NOT NULL,
+         PS_SUPPLYCOST  DECIMAL(15,2)  NOT NULL,
+         PS_COMMENT     VARCHAR(199) NOT NULL
+      ) SERVER obs_srv options (
+          encoding     'utf-8',
+          format       'parquet',
+          foldername   'xxx',
+          cache_policy 'NONE'
+      ) READ ONLY DISTRIBUTE BY ROUNDROBIN;
+
+#. Read data from OBS through the foreign table **partsupp**.
+
+   ::
+
+      SELECT * FROM PARTSUPP;
+
+Example 5
 ---------
 
 Perform operations on an HDFS foreign table that includes informational constraints.
@@ -789,7 +932,7 @@ Perform operations on an HDFS foreign table that includes informational constrai
 
    ::
 
-      ALTER FOREIGN TABLE ft_region DROP CONSTRAINT region_pkey RESTRICT;
+      ALTER FOREIGN TABLE ft_region DROP CONSTRAINT ft_region_pkey RESTRICT;
 
       SELECT conname, contype, consoft, conindid, conkey FROM pg_constraint WHERE conname ='ft_region_pkey';
        conname | contype | consoft | conindid | conkey
@@ -831,7 +974,7 @@ Perform operations on an HDFS foreign table that includes informational constrai
 
       ALTER FOREIGN TABLE ft_region DROP CONSTRAINT constr_unique CASCADE;
 
-Example 4
+Example 6
 ---------
 
 Read json data stored in OBS using a foreign table.
@@ -867,7 +1010,7 @@ Read json data stored in OBS using a foreign table.
 
    .. important::
 
-      Hard-coded or plaintext AK and SK are risky. For security purposes, encrypt your AK and SK and store them in the configuration file or environment variables.
+      // Hard-coded or plaintext AK and SK are risky. For security purposes, encrypt your AK and SK and store them in the configuration file or environment variables.
 
    ::
 
@@ -897,7 +1040,7 @@ Read json data stored in OBS using a foreign table.
        repeat  | nesting5 |   2 | complicated5
       (5 rows)
 
-Example 5
+Example 7
 ---------
 
 Read a DLI multi-version foreign table using a foreign table. Only DLI 8.1.1 and later support the multi-version foreign table example.
@@ -927,7 +1070,7 @@ Read a DLI multi-version foreign table using a foreign table. Only DLI 8.1.1 and
 
    .. important::
 
-      Hard-coded or plaintext AK and SK are risky. For security purposes, encrypt your AK and SK and store them in the configuration file or environment variables.
+      // Hard-coded or plaintext AK and SK are risky. For security purposes, encrypt your AK and SK and store them in the configuration file or environment variables.
 
    ::
 

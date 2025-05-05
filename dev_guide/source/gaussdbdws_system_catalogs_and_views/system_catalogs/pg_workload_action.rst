@@ -10,10 +10,10 @@ PG_WORKLOAD_ACTION
 .. table:: **Table 1** PG_WORKLOAD_ACTION columns
 
    ====== ==== ===================================================
-   Name   Type Description
+   Column Type Description
    ====== ==== ===================================================
-   qband  name **query_band** key-value pairs
-   class  name Class of the object associated with **query_band**
-   object name Object associated with **query_band**
-   action name Action of the object associated with **query_band**
+   qband  Name **query_band** key-value pairs
+   class  Name Class of the object associated with **query_band**
+   object Name Object associated with **query_band**
+   action Name Action of the object associated with **query_band**
    ====== ==== ===================================================

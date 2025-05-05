@@ -12,11 +12,11 @@ V$SESSION
    +----------+---------+-----------------------------------------------------------------------------------+
    | Name     | Type    | Description                                                                       |
    +==========+=========+===================================================================================+
-   | sid      | bigint  | OID of the background process of the current activity                             |
+   | sid      | Bigint  | OID of the background process of the current activity                             |
    +----------+---------+-----------------------------------------------------------------------------------+
-   | serial#  | integer | Sequence number of the active background process, which is **0** in GaussDB(DWS). |
+   | serial#  | Integer | Sequence number of the active background process, which is **0** in GaussDB(DWS). |
    +----------+---------+-----------------------------------------------------------------------------------+
-   | user#    | oid     | OID of the user that has logged in to the background process                      |
+   | user#    | OID     | OID of the user that has logged in to the background process                      |
    +----------+---------+-----------------------------------------------------------------------------------+
-   | username | name    | Name of the user that has logged in to the background process                     |
+   | username | Name    | Name of the user that has logged in to the background process                     |
    +----------+---------+-----------------------------------------------------------------------------------+

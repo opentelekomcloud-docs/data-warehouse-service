@@ -10,11 +10,9 @@ pg_get_residualfiles()
 
 Description: Obtains all residual file records of the current node. This function is an instance-level function and is irrelevant to the current database. It can run on any instance.
 
-Parameter type: none
-
 Return type: record
 
-The following table describes return columns.
+The following information is displayed:
 
 .. table:: **Table 1** pg_get_residualfiles () return fields
 
@@ -46,11 +44,9 @@ pgxc_get_residualfiles()
 
 Description: Unified CN query function of pg_get_residualfiles() This function is a cluster-level function and is irrelevant to the current database. It runs on CNs.
 
-Parameter type: none
-
 Return type: record
 
-The following table describes return columns.
+The following information is displayed:
 
 .. table:: **Table 2** pgxc_get_residualfiles () return fields
 

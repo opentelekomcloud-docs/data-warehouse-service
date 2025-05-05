@@ -10,7 +10,7 @@ ALL_IND_EXPRESSIONS
 .. table:: **Table 1** ALL_IND_EXPRESSIONS columns
 
    +-------------------+-----------------------+-------------------------------------------------------+
-   | Name              | Type                  | Description                                           |
+   | Column            | Type                  | Description                                           |
    +===================+=======================+=======================================================+
    | index_owner       | character varying(64) | Index owner                                           |
    +-------------------+-----------------------+-------------------------------------------------------+
@@ -20,7 +20,7 @@ ALL_IND_EXPRESSIONS
    +-------------------+-----------------------+-------------------------------------------------------+
    | table_name        | character varying(64) | Table name                                            |
    +-------------------+-----------------------+-------------------------------------------------------+
-   | column_expression | text                  | Function-based index expression of a specified column |
+   | column_expression | Text                  | Function-based index expression of a specified column |
    +-------------------+-----------------------+-------------------------------------------------------+
-   | column_position   | smallint              | Position of a column in the index                     |
+   | column_position   | Smallint              | Position of a column in the index                     |
    +-------------------+-----------------------+-------------------------------------------------------+

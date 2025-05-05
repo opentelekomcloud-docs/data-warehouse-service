@@ -8,22 +8,22 @@ UTL_RAW
 Related Interfaces
 ------------------
 
-:ref:`Table 1 <en-us_topic_0000001510162745__tbb333794a6d24e4b909eba1954dfe32e>` provides all interfaces supported by the **UTL_RAW** package.
+:ref:`Table 1 <en-us_topic_0000001811609461__tbb333794a6d24e4b909eba1954dfe32e>` provides all interfaces supported by the **UTL_RAW** package.
 
-.. _en-us_topic_0000001510162745__tbb333794a6d24e4b909eba1954dfe32e:
+.. _en-us_topic_0000001811609461__tbb333794a6d24e4b909eba1954dfe32e:
 
 .. table:: **Table 1** UTL_RAW
 
    +-----------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+
    | API                                                                                                       | Description                                                           |
    +===========================================================================================================+=======================================================================+
-   | :ref:`UTL_RAW.CAST_FROM_BINARY_INTEGER <en-us_topic_0000001510162745__t8f43a09ba6a544b19feb45523271d118>` | Converts an INTEGER type value to a binary representation (RAW type). |
+   | :ref:`UTL_RAW.CAST_FROM_BINARY_INTEGER <en-us_topic_0000001811609461__t8f43a09ba6a544b19feb45523271d118>` | Converts an INTEGER type value to a binary representation (RAW type). |
    +-----------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+
-   | :ref:`UTL_RAW.CAST_TO_BINARY_INTEGER <en-us_topic_0000001510162745__t5d8a43c2658f486181cf6003be0a5559>`   | Converts a binary representation (RAW type) to an INTEGER type value. |
+   | :ref:`UTL_RAW.CAST_TO_BINARY_INTEGER <en-us_topic_0000001811609461__t5d8a43c2658f486181cf6003be0a5559>`   | Converts a binary representation (RAW type) to an INTEGER type value. |
    +-----------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+
-   | :ref:`UTL_RAW.LENGTH <en-us_topic_0000001510162745__ldd90efc6657941b09f2374d918657451>`                   | Obtains the length of the RAW type object.                            |
+   | :ref:`UTL_RAW.LENGTH <en-us_topic_0000001811609461__ldd90efc6657941b09f2374d918657451>`                   | Obtains the length of the RAW type object.                            |
    +-----------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+
-   | :ref:`UTL_RAW.CAST_TO_RAW <en-us_topic_0000001510162745__l96640547e66f4cfaac327a3d86b71404>`              | Converts a VARCHAR2 type value to a binary expression (RAW type).     |
+   | :ref:`UTL_RAW.CAST_TO_RAW <en-us_topic_0000001811609461__l96640547e66f4cfaac327a3d86b71404>`              | Converts a VARCHAR2 type value to a binary expression (RAW type).     |
    +-----------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+
 
 .. important::
@@ -43,7 +43,7 @@ Related Interfaces
       endianess   IN  INTEGER)
       RETURN RAW;
 
-   .. _en-us_topic_0000001510162745__t8f43a09ba6a544b19feb45523271d118:
+   .. _en-us_topic_0000001811609461__t8f43a09ba6a544b19feb45523271d118:
 
    .. table:: **Table 2** UTL_RAW.CAST_FROM_BINARY_INTEGER interface parameters
 
@@ -68,7 +68,7 @@ Related Interfaces
       endianess  IN  INTEGER)
       RETURN BINARY_INTEGER;
 
-   .. _en-us_topic_0000001510162745__t5d8a43c2658f486181cf6003be0a5559:
+   .. _en-us_topic_0000001811609461__t5d8a43c2658f486181cf6003be0a5559:
 
    .. table:: **Table 3** UTL_RAW.CAST_TO_BINARY_INTEGER interface parameters
 
@@ -80,7 +80,7 @@ Related Interfaces
       | endianess | Specifies the **INTEGER** type value **1** or **2** of the byte sequence. (**1** indicates **BIG_ENDIAN** and **2** indicates **LITTLE-ENDIAN**.) |
       +-----------+---------------------------------------------------------------------------------------------------------------------------------------------------+
 
--  .. _en-us_topic_0000001510162745__ldd90efc6657941b09f2374d918657451:
+-  .. _en-us_topic_0000001811609461__ldd90efc6657941b09f2374d918657451:
 
    UTL_RAW.LENGTH
 
@@ -102,7 +102,7 @@ Related Interfaces
       r         Specifies a RAW type object.
       ========= ============================
 
--  .. _en-us_topic_0000001510162745__l96640547e66f4cfaac327a3d86b71404:
+-  .. _en-us_topic_0000001811609461__l96640547e66f4cfaac327a3d86b71404:
 
    UTL_RAW.CAST_TO_RAW
 

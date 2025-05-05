@@ -8,7 +8,7 @@ DBA_TABLES
 **DBA_TABLES** displays all tables in the database. This view is accessible only to users with system administrator rights.
 
 +-----------------------+-----------------------+------------------------------------------------------+
-| Name                  | Type                  | Description                                          |
+| Column                | Type                  | Description                                          |
 +=======================+=======================+======================================================+
 | owner                 | character varying(64) | Table owner                                          |
 +-----------------------+-----------------------+------------------------------------------------------+
@@ -28,5 +28,5 @@ DBA_TABLES
 |                       |                       | -  **YES** indicates that it is deleted.             |
 |                       |                       | -  **NO** indicates that it is not deleted.          |
 +-----------------------+-----------------------+------------------------------------------------------+
-| num_rows              | numeric               | The estimated number of rows in the table            |
+| num_rows              | Numeric               | Estimated number of rows in the table                |
 +-----------------------+-----------------------+------------------------------------------------------+

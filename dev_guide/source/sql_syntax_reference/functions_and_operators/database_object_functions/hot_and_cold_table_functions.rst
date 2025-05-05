@@ -107,7 +107,7 @@ refresh_hot_storage(relname text, partname text)
 
 Description: Synchronizes partition data of a specified hot and cold table to OBS. The returned value is the number of switched partitions. This function is supported only in 8.2.1.100 or later.
 
-Parameters:
+Parameter:
 
 -  **relname**: table name (name of a cold and hot table. If the name of a non-cold and hot table is used, no error is reported and **0** is returned.)
 -  **partname**: partition name (specifies a partition name of a cold and hot table)
@@ -118,6 +118,45 @@ Return type: integer
 
    SELECT refresh_hot_storage('multi_temper_table','p1');
     refresh_hot_storage
+   ---------------------
+               1
+   (1 row)
+
+reload_cold_partition(relname text)
+-----------------------------------
+
+Description: This function converts all cold partitions to hot ones. The returned value is the number of switched partitions. This function is supported only by 8.3.0 and later versions.
+
+Parameter:
+
+**relname**: table name (name of a cold and hot table. If the name of a non-cold and hot table is used, no error is reported and **0** is returned.)
+
+Return type: integer
+
+::
+
+   SELECT reload_cold_partition('multi_temper_table');
+    reload_cold_partition
+   ---------------------
+               4
+   (1 row)
+
+reload_cold_partition(relname text, partname text)
+--------------------------------------------------
+
+Description: This function converts specific cold partitions to hot ones. The returned value is the number of switched partitions. This function is supported only by 8.3.0 and later versions.
+
+Parameter:
+
+-  **relname**: table name (name of a cold and hot table. If the name of a non-cold and hot table is used, no error is reported and **0** is returned.)
+-  **partname**: partition name (specifies a partition name of a cold and hot table)
+
+Return type: integer
+
+::
+
+   SELECT reload_cold_partition('multi_temper_table','p1');
+    reload_cold_partition
    ---------------------
                1
    (1 row)

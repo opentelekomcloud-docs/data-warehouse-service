@@ -13,7 +13,12 @@ Function
 Precautions
 -----------
 
-Only the owner of a schema or a user granted with the DROP permission for the schema or a system administrator has the permission to execute the **Drop SCHEMA** statement.
+-  Only the owner of a schema or a user granted with the DROP permission for the schema or a system administrator has the permission to execute the **Drop SCHEMA** statement.
+
+|image1|
+
+-  Be cautious when using **DROP OBJECT** (e.g., **DATABASE**, **USER/ROLE**, **SCHEMA**, **TABLE**, **VIEW**) as it may cause data loss, especially with **CASCADE** deletions. Always back up data before proceeding.
+-  For more information about development and design specifications, see "GaussDB(DWS) Development and Design Proposal" in the *Data Warehouse Service (DWS) Developer Guide*.
 
 Syntax
 ------
@@ -61,3 +66,5 @@ Links
 -----
 
 :ref:`ALTER SCHEMA <dws_06_0136>`, :ref:`CREATE SCHEMA <dws_06_0173>`
+
+.. |image1| image:: /_static/images/danger_3.0-en-us.png

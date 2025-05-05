@@ -8,20 +8,20 @@ Executing Dynamic Non-query Statements
 Syntax
 ------
 
-:ref:`Figure 1 <en-us_topic_0000001510162925__ff22be8f7560147fb8e4d56af6224d63c>` shows the syntax diagram.
+:ref:`Figure 1 <en-us_topic_0000001764650852__ff22be8f7560147fb8e4d56af6224d63c>` shows the syntax diagram.
 
-.. _en-us_topic_0000001510162925__ff22be8f7560147fb8e4d56af6224d63c:
+.. _en-us_topic_0000001764650852__ff22be8f7560147fb8e4d56af6224d63c:
 
-.. figure:: /_static/images/en-us_image_0000001510284021.png
+.. figure:: /_static/images/en-us_image_0000001811610649.png
    :alt: **Figure 1** noselect::=
 
    **Figure 1** noselect::=
 
-:ref:`Figure 2 <en-us_topic_0000001510162925__f0f94a40afad6436aa7bdec9de6505226>` shows the syntax diagram for **using_clause**.
+:ref:`Figure 2 <en-us_topic_0000001764650852__f0f94a40afad6436aa7bdec9de6505226>` shows the syntax diagram for **using_clause**.
 
-.. _en-us_topic_0000001510162925__f0f94a40afad6436aa7bdec9de6505226:
+.. _en-us_topic_0000001764650852__f0f94a40afad6436aa7bdec9de6505226:
 
-.. figure:: /_static/images/en-us_image_0000001460723192.png
+.. figure:: /_static/images/en-us_image_0000001811491569.png
    :alt: **Figure 2** using_clause-2
 
    **Figure 2** using_clause-2

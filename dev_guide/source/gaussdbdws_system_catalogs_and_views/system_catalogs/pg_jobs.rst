@@ -12,35 +12,35 @@ PG_JOBS
    +-----------------+-----------------------------+--------------------------------------------------------------------------+
    | Name            | Type                        | Description                                                              |
    +=================+=============================+==========================================================================+
-   | job_id          | integer                     | Job ID, primary key, unique (with a unique index)                        |
+   | job_id          | Integer                     | Job ID, primary key, unique (with a unique index)                        |
    +-----------------+-----------------------------+--------------------------------------------------------------------------+
-   | what            | text                        | Job content                                                              |
+   | what            | Text                        | Job content                                                              |
    +-----------------+-----------------------------+--------------------------------------------------------------------------+
-   | log_user        | oid                         | Username of the job creator                                              |
+   | log_user        | OID                         | Username of the job creator                                              |
    +-----------------+-----------------------------+--------------------------------------------------------------------------+
-   | priv_user       | oid                         | User ID of the job executor                                              |
+   | priv_user       | OID                         | User ID of the job executor                                              |
    +-----------------+-----------------------------+--------------------------------------------------------------------------+
-   | job_db          | oid                         | OID of the database where the job is executed                            |
+   | job_db          | OID                         | OID of the database where the job is executed                            |
    +-----------------+-----------------------------+--------------------------------------------------------------------------+
-   | job_nsp         | oid                         | OID of the namespace where a job is running                              |
+   | job_nsp         | OID                         | OID of the namespace where a job is running                              |
    +-----------------+-----------------------------+--------------------------------------------------------------------------+
-   | job_node        | oid                         | CN node on which the job will be created and executed                    |
+   | job_node        | OID                         | CN node on which the job will be created and executed                    |
    +-----------------+-----------------------------+--------------------------------------------------------------------------+
-   | is_broken       | boolean                     | Indicates whether the current job is invalid.                            |
+   | is_broken       | Boolean                     | Whether the current job is invalid                                       |
    +-----------------+-----------------------------+--------------------------------------------------------------------------+
-   | start_date      | timestamp without time zone | Start time of the first job execution, accurate to millisecond           |
+   | start_date      | Timestamp without time zone | Start time of the first job execution, accurate to millisecond           |
    +-----------------+-----------------------------+--------------------------------------------------------------------------+
-   | next_run_date   | timestamp without time zone | Scheduled time of the next job execution, accurate to millisecond        |
+   | next_run_date   | Timestamp without time zone | Scheduled time of the next job execution, accurate to millisecond        |
    +-----------------+-----------------------------+--------------------------------------------------------------------------+
-   | failure_count   | smallint                    | Number of consecutive failures.                                          |
+   | failure_count   | Smallint                    | Number of consecutive failures                                           |
    +-----------------+-----------------------------+--------------------------------------------------------------------------+
-   | interval        | text                        | Job execution interval                                                   |
+   | interval        | Text                        | Job execution interval                                                   |
    +-----------------+-----------------------------+--------------------------------------------------------------------------+
-   | last_start_date | timestamp without time zone | Start time of the last job execution, accurate to millisecond            |
+   | last_start_date | Timestamp without time zone | Start time of the last job execution, accurate to millisecond            |
    +-----------------+-----------------------------+--------------------------------------------------------------------------+
-   | last_end_date   | timestamp without time zone | End time of the last job execution, accurate to millisecond              |
+   | last_end_date   | Timestamp without time zone | End time of the last job execution, accurate to millisecond              |
    +-----------------+-----------------------------+--------------------------------------------------------------------------+
-   | last_suc_date   | timestamp without time zone | Start time of the last successful job execution, accurate to millisecond |
+   | last_suc_date   | Timestamp without time zone | Start time of the last successful job execution, accurate to millisecond |
    +-----------------+-----------------------------+--------------------------------------------------------------------------+
-   | this_run_date   | timestamp without time zone | Start time of the ongoing job execution, accurate to millisecond         |
+   | this_run_date   | Timestamp without time zone | Start time of the ongoing job execution, accurate to millisecond         |
    +-----------------+-----------------------------+--------------------------------------------------------------------------+

@@ -10,10 +10,10 @@ PG_RULES
 .. table:: **Table 1** PG_RULES columns
 
    ========== ==== ==================================================
-   Name       Type Description
+   Column     Type Description
    ========== ==== ==================================================
-   schemaname name Name of the schema that contains the table
-   tablename  name Name of the table the rule is for
-   rulename   name Rule name
-   definition text Rule definition (a reconstructed creation command)
+   schemaname Name Name of the schema that contains the table
+   tablename  Name Name of the table the rule is for
+   rulename   Name Rule name
+   definition Text Rule definition (a reconstructed creation command)
    ========== ==== ==================================================

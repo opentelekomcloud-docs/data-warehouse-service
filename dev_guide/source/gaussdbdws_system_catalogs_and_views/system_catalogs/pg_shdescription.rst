@@ -16,9 +16,9 @@ Unlike most system catalogs, **PG_SHDESCRIPTION** is shared across all databases
    +-------------+------+-----------------------------------+--------------------------------------------------------------+
    | Name        | Type | Reference                         | Description                                                  |
    +=============+======+===================================+==============================================================+
-   | objoid      | oid  | Any OID column                    | OID of the object this description pertains to               |
+   | objoid      | OID  | Any OID column                    | OID of the object this description pertains to               |
    +-------------+------+-----------------------------------+--------------------------------------------------------------+
-   | classoid    | oid  | :ref:`PG_CLASS <dws_04_0578>`.oid | OID of the system catalog where the object resides           |
+   | classoid    | OID  | :ref:`PG_CLASS <dws_04_0578>`.oid | OID of the system catalog where the object resides           |
    +-------------+------+-----------------------------------+--------------------------------------------------------------+
-   | description | text | ``-``                             | Arbitrary text that serves as the description of this object |
+   | description | Text | N/A                               | Arbitrary text that serves as the description of this object |
    +-------------+------+-----------------------------------+--------------------------------------------------------------+

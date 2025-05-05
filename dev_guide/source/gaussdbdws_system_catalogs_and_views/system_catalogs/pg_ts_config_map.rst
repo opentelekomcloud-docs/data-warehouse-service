@@ -12,11 +12,11 @@ PG_TS_CONFIG_MAP
    +--------------+---------+---------------------------------------+--------------------------------------------------------------------------+
    | Name         | Type    | Reference                             | Description                                                              |
    +==============+=========+=======================================+==========================================================================+
-   | mapcfg       | oid     | :ref:`PG_TS_CONFIG <dws_04_0624>`.oid | OID of the :ref:`PG_TS_CONFIG <dws_04_0624>` entry owning this map entry |
+   | mapcfg       | OID     | :ref:`PG_TS_CONFIG <dws_04_0624>`.oid | OID of the :ref:`PG_TS_CONFIG <dws_04_0624>` entry owning this map entry |
    +--------------+---------+---------------------------------------+--------------------------------------------------------------------------+
-   | maptokentype | integer | ``-``                                 | A token type emitted by the configuration's parser                       |
+   | maptokentype | Integer | N/A                                   | A token type emitted by the configuration's parser                       |
    +--------------+---------+---------------------------------------+--------------------------------------------------------------------------+
-   | mapseqno     | integer | ``-``                                 | Order in which to consult this entry                                     |
+   | mapseqno     | Integer | N/A                                   | Order in which to consult this entry                                     |
    +--------------+---------+---------------------------------------+--------------------------------------------------------------------------+
-   | mapdict      | oid     | :ref:`PG_TS_DICT <dws_04_0626>`.oid   | OID of the text search dictionary to consult                             |
+   | mapdict      | OID     | :ref:`PG_TS_DICT <dws_04_0626>`.oid   | OID of the text search dictionary to consult                             |
    +--------------+---------+---------------------------------------+--------------------------------------------------------------------------+

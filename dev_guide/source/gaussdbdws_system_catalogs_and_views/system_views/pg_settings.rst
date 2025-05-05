@@ -10,37 +10,37 @@ PG_SETTINGS
 .. table:: **Table 1** PG_SETTINGS columns
 
    +------------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | Name       | Type    | Description                                                                                                                                                               |
+   | Column     | Type    | Description                                                                                                                                                               |
    +============+=========+===========================================================================================================================================================================+
-   | name       | text    | Parameter name                                                                                                                                                            |
+   | Name       | Text    | Parameter name                                                                                                                                                            |
    +------------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | setting    | text    | Current value of the parameter                                                                                                                                            |
+   | setting    | Text    | Current value of the parameter                                                                                                                                            |
    +------------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | unit       | text    | Implicit unit of the parameter                                                                                                                                            |
+   | unit       | Text    | Implicit unit of the parameter                                                                                                                                            |
    +------------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | category   | text    | Logical group of the parameter                                                                                                                                            |
+   | category   | Text    | Logical group of the parameter                                                                                                                                            |
    +------------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | short_desc | text    | Brief description of the parameter                                                                                                                                        |
+   | short_desc | Text    | Brief description of the parameter                                                                                                                                        |
    +------------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | extra_desc | text    | Detailed description of the parameter                                                                                                                                     |
+   | extra_desc | Text    | Detailed description of the parameter                                                                                                                                     |
    +------------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | context    | text    | Context of parameter values including internal, postmaster, sighup, backend, superuser, and user                                                                          |
+   | context    | Text    | Context of parameter values including internal, postmaster, sighup, backend, superuser, and user                                                                          |
    +------------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | vartype    | text    | Parameter type. It can be **bool**, **enum**, **integer**, **real**, or **string**.                                                                                       |
+   | vartype    | Text    | Parameter type. It can be **bool**, **enum**, **integer**, **real**, or **string**.                                                                                       |
    +------------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | source     | text    | Method of assigning the parameter value                                                                                                                                   |
+   | source     | Text    | Method of assigning the parameter value                                                                                                                                   |
    +------------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | min_val    | text    | Minimum value of the parameter. If the parameter type is not numeric data, the value of this column is null.                                                              |
+   | min_val    | Text    | Minimum value of the parameter. If the parameter type is not numeric data, the value of this column is null.                                                              |
    +------------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | max_val    | text    | Maximum value of the parameter. If the parameter type is not numeric data, the value of this column is null.                                                              |
+   | max_val    | Text    | Maximum value of the parameter. If the parameter type is not numeric data, the value of this column is null.                                                              |
    +------------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | enumvals   | text[]  | Valid values of an enum-typed parameter. If the parameter type is not enum, the value of this column is null.                                                             |
+   | enumvals   | Text[]  | Valid values of an enum-typed parameter. If the parameter type is not enum, the value of this column is null.                                                             |
    +------------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | boot_val   | text    | Default parameter value used upon the database startup                                                                                                                    |
+   | boot_val   | Text    | Default parameter value used upon the database startup                                                                                                                    |
    +------------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | reset_val  | text    | Default parameter value used upon the database reset                                                                                                                      |
+   | reset_val  | Text    | Default parameter value used upon the database reset                                                                                                                      |
    +------------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | sourcefile | text    | Configuration file used to set parameter values. If parameter values are not configured using the configuration file, the value of this column is null.                   |
+   | sourcefile | Text    | Configuration file used to set parameter values. If parameter values are not configured using the configuration file, the value of this column is null.                   |
    +------------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | sourceline | integer | Row number of the configuration file for setting parameter values. If parameter values are not configured using the configuration file, the value of this column is null. |
+   | sourceline | Integer | Row number of the configuration file for setting parameter values. If parameter values are not configured using the configuration file, the value of this column is null. |
    +------------+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+

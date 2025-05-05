@@ -5,7 +5,7 @@
 Transaction Monitoring
 ======================
 
-The automatic rollback transaction can be monitored and its statement problems can be located by setting the transaction timeout warning. In addition, the statements with long execution time can also be monitored.
+By setting transaction timeout alerts, you can monitor transactions that are automatically rolled back and identify statement issues, as well as monitor statements that take too long to execute.
 
 transaction_sync_naptime
 ------------------------

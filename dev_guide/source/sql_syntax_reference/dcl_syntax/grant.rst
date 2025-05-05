@@ -8,7 +8,7 @@ GRANT
 Function
 --------
 
-Grants permissions to roles and users.
+**GRANT** grants permissions to roles and users.
 
 **GRANT** is used in the following scenarios:
 
@@ -112,7 +112,7 @@ Syntax
 
    ::
 
-      GRANT { EXECUTE | ALL [ PRIVILEGES ] }
+      GRANT { { EXECUTE | ALTER | DROP } [, ...] | ALL [ PRIVILEGES ] }
           ON { FUNCTION {function_name ( [ {[ argmode ] [ arg_name ] arg_type} [, ...] ] )} [, ...]
              | ALL FUNCTIONS IN SCHEMA schema_name [, ...] }
           TO { [ GROUP ] role_name | PUBLIC } [, ...]
@@ -204,7 +204,7 @@ Syntax
       GRANT ALL { PRIVILEGES | PRIVILEGE }
          TO role_name;
 
-.. _en-us_topic_0000001510401021__s226158f44a8f4b908e69a283aeb813cd:
+.. _en-us_topic_0000001811515601__s226158f44a8f4b908e69a283aeb813cd:
 
 Parameter Description
 ---------------------
@@ -271,6 +271,18 @@ Parameter Description
 -  **COMPUTE**
 
    Allows users to perform elastic computing in a computing sub-cluster that they have the compute permission on.
+
+-  **ALTER**
+
+   Allows users to modify tables, schemas, or functions.
+
+-  **DROP**
+
+   Allows users to delete tables, schemas, or functions.
+
+-  **VACUUM**
+
+   Allows users to perform **VACUUM** on tables.
 
 -  **ALL PRIVILEGES**
 

@@ -10,10 +10,10 @@ ALL_VIEWS
 .. table:: **Table 1** ALL_VIEWS columns
 
    =========== ======= =======================
-   Name        Type    Description
+   Column      Type    Description
    =========== ======= =======================
-   owner       name    Owner of the view
-   view_name   name    Name of the view
-   text_length integer Text length of the view
-   text        text    Text in the view
+   owner       Name    Owner of the view
+   view_name   Name    View name
+   text_length Integer Text length of the view
+   Text        Text    Text in the view
    =========== ======= =======================

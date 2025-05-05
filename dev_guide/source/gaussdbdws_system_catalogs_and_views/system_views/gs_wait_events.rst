@@ -12,25 +12,25 @@ The values of statistical columns in this view are accumulated only when the **e
 .. table:: **Table 1** GS_WAIT_EVENTS columns
 
    +-----------------+--------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | Name            | Type   | Description                                                                                                                                                             |
+   | Column          | Type   | Description                                                                                                                                                             |
    +=================+========+=========================================================================================================================================================================+
-   | nodename        | name   | Node name                                                                                                                                                               |
+   | nodename        | Name   | Node name                                                                                                                                                               |
    +-----------------+--------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | type            | text   | Event type, which can be **STATUS**, **LOCK_EVENT**, **LWLOCK_EVENT**, or **IO_EVENT**                                                                                  |
+   | type            | Text   | Event type, which can be **STATUS**, **LOCK_EVENT**, **LWLOCK_EVENT**, or **IO_EVENT**                                                                                  |
    +-----------------+--------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | event           | text   | Event name. For details, see :ref:`PG_THREAD_WAIT_STATUS <dws_04_0783>`.                                                                                                |
+   | event           | Text   | Event name. For details, see :ref:`PG_THREAD_WAIT_STATUS <dws_04_0783>`.                                                                                                |
    +-----------------+--------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | wait            | bigint | Number of times an event occurs. This column and all the columns below are values accumulated during process running.                                                   |
+   | wait            | Bigint | Number of times an event occurs. This column and all the columns below are values accumulated during process running.                                                   |
    +-----------------+--------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | failed_wait     | bigint | Number of waiting failures. In the current version, this column is used only for counting timeout errors and waiting failures of locks such as **LOCK** and **LWLOCK**. |
+   | failed_wait     | Bigint | Number of waiting failures. In the current version, this column is used only for counting timeout errors and waiting failures of locks such as **LOCK** and **LWLOCK**. |
    +-----------------+--------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | total_wait_time | bigint | Total duration of the event                                                                                                                                             |
+   | total_wait_time | Bigint | Total duration of the event                                                                                                                                             |
    +-----------------+--------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | avg_wait_time   | bigint | Average duration of the event                                                                                                                                           |
+   | avg_wait_time   | Bigint | Average duration of the event                                                                                                                                           |
    +-----------------+--------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | max_wait_time   | bigint | Maximum wait time of the event                                                                                                                                          |
+   | max_wait_time   | Bigint | Maximum wait time of the event                                                                                                                                          |
    +-----------------+--------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | min_wait_time   | bigint | Minimum wait time of the event                                                                                                                                          |
+   | min_wait_time   | Bigint | Minimum wait time of the event                                                                                                                                          |
    +-----------------+--------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 In the current version, for events whose **type** is **LOCK_EVENT**, **LWLOCK_EVENT**, or **IO_EVENT**, the display scope of **GS_WAIT_EVENTS** is the same as that of the corresponding events in the :ref:`PG_THREAD_WAIT_STATUS <dws_04_0783>` view.

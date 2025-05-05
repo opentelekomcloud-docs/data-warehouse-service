@@ -8,7 +8,7 @@ CREATE ROLE
 Function
 --------
 
-Creates a role.
+Create a role.
 
 A role is an entity that has own database objects and permissions. In different environments, a role can be considered a user, a group, or both.
 
@@ -61,7 +61,7 @@ The syntax of role information configuration clause **option** is as follows:
        | AUTHINFO 'authinfo'
        | PASSWORD EXPIRATION period
 
-.. _en-us_topic_0000001510282049__sd3fd937137c548e2ae142614383082aa:
+.. _en-us_topic_0000001811634513__sd3fd937137c548e2ae142614383082aa:
 
 Parameters
 ----------
@@ -86,11 +86,11 @@ Parameters
 
 -  **DISABLE**
 
-   By default, you can change your password unless it is disabled. Use this parameter to disable the password of a user. After the password of a user is disabled, the password will be deleted from the system. The user can connect to the database only through external authentication, for example, IAM authentication, Kerberos authentication, or LDAP authentication. Only administrators can enable or disable a password. Common users cannot disable the password of an initial user. To enable a password, run **ALTER USER** and specify the password.
+   By default, you can change your password unless it is disabled. Use this parameter to disable the password of a user. After the password of a user is disabled, the password will be deleted from the system. The user can connect to the database only through external authentication, for example, IAM, Kerberos, LDAP, or oneaccess. Only administrators can enable or disable a password. Common users cannot disable the password of an initial user. To enable a password, run **ALTER USER** and specify the password.
 
 -  **ENCRYPTED \| UNENCRYPTED**
 
-   Determines whether the password stored in the system will be encrypted. (If neither is specified, the password status is determined by **password_encryption_type**.) According to product security requirements, the password must be stored encrypted. Therefore, **UNENCRYPTED** is forbidden in GaussDB(DWS). If the password is SHA256-encrypted, it will be stored as-is, regardless of whether **ENCRYPTED** or **UNENCRYPTED** is specified (since the system cannot decrypt the specified encrypted password). This allows reloading of the encrypted password during dump/restore.
+   Determines whether the password stored in the system will be encrypted. (If neither is specified, the password status is determined by **password_encryption_type**.) According to product security requirements, the password must be stored encrypted. Therefore, **UNENCRYPTED** is forbidden in GaussDB(DWS). If the password is encrypted using SHA256, it will be stored as it is, regardless of whether it is specified as **ENCRYPTED** or **UNENCRYPTED**. This is because the system cannot decrypt the specified encrypted password. This allows reloading of the encrypted password during dump/restore.
 
 -  **SYSADMIN \| NOSYSADMIN**
 
@@ -172,7 +172,7 @@ Parameters
 
    .. important::
 
-      To ensure the proper running of a cluster, the minimum value of **CONNECTION LIMIT** is the number of CNs in the cluster, because when a cluster runs ANALYZE on a CN, other CNs will connect with the running CN for metadata synchronization. For example, if there are three CNs in the cluster, set **CONNECTION LIMIT** to **3** or a larger value.
+      To ensure the proper running of a cluster, the minimum value of **CONNECTION LIMIT** is the number of CNs in the cluster, because when a cluster runs **ANALYZE** on a CN, other CNs will connect to the running CN for metadata synchronization. For example, if there are three CNs in the cluster, set **CONNECTION LIMIT** to **3** or a larger value.
 
 -  **VALID BEGIN**
 
@@ -266,12 +266,14 @@ Parameters
 
 -  **AUTHINFO 'authinfo'**
 
-   This attribute is used to specify the role authentication type. **authinfo** is the description character string, which is case sensitive. Only the LDAP type is supported. Its description character string is **ldap**. LDAP authentication is an external authentication mode. Therefore, **PASSWORD DISABLE** must be specified.
+   This attribute is used to specify the role authentication type. **authinfo** is the description character string, which is case sensitive. Currently, only the LDAP and OneAcess type is supported. Its description character string is **ldap** and **oneaccess**. LDAP and **OneAcess** are external authentication modes. Therefore, **PASSWORD DISABLE** must be specified.
 
    .. important::
 
       -  Additional information about LDAP authentication can be added to **authinfo**, for example, **fulluser** in LDAP authentication, which is equivalent to **ldapprefix**\ +\ **username**\ +\ **ldapsuffix**. If the content of **authinfo** is **ldap**, the role authentication type is LDAP. In this case, the **ldapprefix** and **ldapsuffix** information is provided by the corresponding record in the **pg_hba.conf** file.
-      -  When executing the **ALTER ROLE** command, users are not allowed to change the authentication type. Only LDAP users are allowed to modify LDAP attributes.
+      -  When the OneAccess authentication mode is supported, authinfo must contain **oneaccessClientId** and **domain** information in the '**oneaccessClientId=**\ *xxxx*, **domain=**\ *xxxx*' format. **oneaccessClientId** indicates the ID of the oneaccess user and contains a maximum of 256 characters. **domain** indicates the access domain name of the oneaccess user and contains a maximum of 64 characters.
+      -  When executing the **ALTER ROLE** command, users are not allowed to change the authentication type. Only LDAP or OneAccess users are allowed to modify the LDAP or OneAccess attributes.
+      -  OneAccess is identified by internal code logic and does not need to be configured in **pg_hba.conf**. The authentication information is provided by **authinfo**.
 
 -  **PASSWORD EXPIRATION period**
 
@@ -306,11 +308,17 @@ Create a role with a validity period from January 1, 2015 to January 1, 2026:
 
    CREATE ROLE role2 WITH LOGIN AUTHINFO 'ldapcn=role2,cn=user,dc=lework,dc=com' PASSWORD DISABLE;
 
+Create a role and set the authentication type to **OneAccess**. The authinfo information of OneAccess authentication is specified when the role is created. In this case, **oneaccess** is case sensitive and must be enclosed in single quotation marks.
+
+::
+
+   CREATE ROLE role3 WITH LOGIN AUTHINFO 'oneaccessClientId=AbCd123,domain=example.exampleoneaccess.com' PASSWORD DISABLE;
+
 -- Create a role and set the validity period of its login password to 30 days:
 
 ::
 
-   CREATE ROLE role3 WITH LOGIN PASSWORD '{password}' PASSWORD EXPIRATION 30;
+   CREATE ROLE role4 WITH LOGIN PASSWORD '{password}' PASSWORD EXPIRATION 30;
 
 Links
 -----

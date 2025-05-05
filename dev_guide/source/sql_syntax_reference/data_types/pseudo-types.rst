@@ -7,9 +7,9 @@ Pseudo-Types
 
 GaussDB(DWS) has a number of special-purpose entries that are collectively called pseudo-types. A pseudo-type cannot be used as a column data type, but it can be used to declare a function's argument or result type.
 
-Pseudo-types are useful in situations where a function's behavior does not correspond to simply taking or returning a value of a specific SQL data type. :ref:`Table 1 <en-us_topic_0000001510520981__t6c556c1e17d64480875dad682fb109b4>` lists all pseudo-types.
+Pseudotypes are highly beneficial in functions that require more complex input and output than standard SQL data types. :ref:`Table 1 <en-us_topic_0000001811634709__t6c556c1e17d64480875dad682fb109b4>` lists all pseudo-types.
 
-.. _en-us_topic_0000001510520981__t6c556c1e17d64480875dad682fb109b4:
+.. _en-us_topic_0000001811634709__t6c556c1e17d64480875dad682fb109b4:
 
 .. table:: **Table 1** Pseudo-Types
 
@@ -53,7 +53,7 @@ The **internal** pseudo-type is used to declare functions that are meant only to
 
 For example:
 
-Create or replace the showall() function.
+Create or replace the showall() function:
 
 ::
 
@@ -61,7 +61,7 @@ Create or replace the showall() function.
    AS $$ SELECT count(*) from tpcds.store_sales where ss_customer_sk = 9692; $$
    LANGUAGE SQL;
 
-Invoke the showall() function.
+Invoke the showall() function:
 
 ::
 

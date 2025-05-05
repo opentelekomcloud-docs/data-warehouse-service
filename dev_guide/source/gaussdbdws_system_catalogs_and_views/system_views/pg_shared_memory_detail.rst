@@ -9,13 +9,13 @@ PG_SHARED_MEMORY_DETAIL
 
 .. table:: **Table 1** PG_SHARED_MEMORY_DETAIL columns
 
-   =========== ======== =============================================
-   Name        Type     Description
-   =========== ======== =============================================
-   contextname text     Name of the context in the memory
-   level       smallint Hierarchy of the memory context
-   parent      text     Context of the parent memory
-   totalsize   bigint   Total size of the shared memory, in bytes
-   freesize    bigint   Remaining size of the shared memory, in bytes
-   usedsize    bigint   Used size of the shared memory, in bytes
-   =========== ======== =============================================
+   =========== ======== ==============================================
+   Column      Type     Description
+   =========== ======== ==============================================
+   contextname Text     Name of the memory context.
+   level       Smallint Hierarchy of the memory context.
+   parent      Text     Parent memory context.
+   totalsize   Bigint   Total size of the shared memory, in bytes.
+   freesize    Bigint   Remaining size of the shared memory, in bytes.
+   usedsize    Bigint   Used size of the shared memory, in bytes.
+   =========== ======== ==============================================

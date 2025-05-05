@@ -8,7 +8,7 @@ ALTER SESSION
 Function
 --------
 
-Defines or modifies the conditions or parameters that affect the current session. Modified session parameters are kept until the current session is disconnected.
+**ALTER SESSION** defines or modifies the conditions or parameters that affect the current session. Modified session parameters are kept until the current session is disconnected.
 
 Precautions
 -----------
@@ -56,7 +56,7 @@ Parameter Description
 
    .. note::
 
-      Some parameters that are viewed by **SHOW ALL** cannot be set by **SET**. For example, **max_datanodes**.
+      Some parameters that viewed by **SHOW ALL** cannot be set by **SET**. For example, **max_datanodes**.
 
 -  **value**
 

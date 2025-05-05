@@ -5,16 +5,16 @@
 Other Optimizer Options
 =======================
 
-.. _en-us_topic_0000001460562696__sa5c1527051e54fbdb6c5346d54bcbf5a:
+.. _en-us_topic_0000001764650460__sa5c1527051e54fbdb6c5346d54bcbf5a:
 
 default_statistics_target
 -------------------------
 
-**Parameter description**: Specifies the default statistics target for table columns without a column-specific target set via **ALTER TABLE SET STATISTICS**. If this parameter is set to a positive number, it indicates the number of samples of statistics information. If this parameter is set to a negative number, percentage is used to set the statistic target. The negative number converts to its corresponding percentage, for example, -5 means 5%. During sampling, the random sampling size is **default_statistics_target** x 300. For example, if the **default_statistics_target** is 100, 30,000 data records from 30,000 pages are randomly sampled.
+**Parameter description**: Specifies the default statistics target for table columns without a column-specific target set via **ALTER TABLE SET STATISTICS**. If this parameter is set to a positive number, it indicates the number of samples of statistics information. If this parameter is set to a negative number, percentage is used to set the statistic target. The negative number converts to its corresponding percentage, for example, -5 means 5%. During sampling, a random sample size is determined by multiplying the **default_statistics_target** by 300. For example, if the default value is **100**, then 30,000 pages will be randomly read and 30,000 data records will be randomly selected from them to complete the random sampling.
 
 **Type**: USERSET
 
-**Value range**: an integer ranging from -100 to 10,000
+**Value range**: an integer ranging from -100 to 10000
 
 .. important::
 
@@ -22,7 +22,7 @@ default_statistics_target
    -  Changing settings of this parameter may result in performance deterioration. If query performance deteriorates, you can:
 
       #. Restore to the default statistics.
-      #. Use hints to optimize the query plan.
+      #. Use hints to optimize the query plan. For details, see :ref:`Hint-based Tuning <dws_04_0454>`.
 
    -  If this parameter is set to a negative value, the number of samples is greater than or equal to 2% of the total data volume, and the number of records in user tables is less than 1.6 million, the time taken by running **ANALYZE** will be longer than when this parameter uses its default value.
    -  **AUTOANALYZE** does not allow you to set a sampling size for temporary table sampling. Its default value will be used for sampling.
@@ -116,10 +116,24 @@ join_collapse_limit
 
 **Default value**: **8**
 
+join_search_mode
+----------------
+
+**Parameter description**: plan path search mode.
+
+**Type**: USERSET
+
+**Value range**: enumerated values
+
+-  **exhaustive**: Traditional dynamic planning and genetic methods are used to search for planned paths.
+-  **heuristic**: The heuristic method is used to search for planned paths. This method improves the plan generation performance, but there is a possibility that the optimal plan is ignored. This setting only takes effect for scenarios where a Drive Hint is specified or the number of joined tables exceeds **from_collapse_limit**.
+
+Default value: **heuristic**
+
 enable_from_collapse_hint
 -------------------------
 
-**Parameter description**: Specifies whether to rewrite the **FROM** list to make the hint take effect, and then rewrite it again based on the **from_collapse_limit** and **join_collapse_limit** parameters. This parameter is supported by version 8.2.0 or later clusters.
+**Parameter description**: Specifies whether to rewrite the **FROM** list to make the hint take effect, and then rewrite it again based on the **from_collapse_limit** and **join_collapse_limit** parameters. This parameter is supported by clusters of version 8.2.0 or later.
 
 **Type**: USERSET
 
@@ -168,7 +182,7 @@ enable_hdfs_predicate_pushdown
 windowagg_pushdown_enhancement
 ------------------------------
 
-**Parameter description**: Specifies whether to enable enhanced predicate pushdown for window functions in aggregation scenarios. (This parameter is supported by version 8.2.0 or later clusters.)
+**Parameter description**: Specifies whether to enable enhanced predicate pushdown for window functions in aggregation scenarios. (This parameter is supported only by clusters of version 8.2.0 or later.)
 
 **Type**: SUSET
 
@@ -182,7 +196,7 @@ windowagg_pushdown_enhancement
 implied_quality_optmode
 -----------------------
 
-**Parameter description**: Specifies how to pass conditions for the equivalent columns in a statement. (This parameter is supported by version 8.2.0 or later clusters.)
+**Parameter description**: Specifies how to pass conditions for the equivalent columns in a statement. (This parameter is supported only by clusters of version 8.2.0 or later.)
 
 **Type**: SUSET
 
@@ -219,7 +233,7 @@ hashagg_table_size
 
 **Default value**: **0**
 
-.. _en-us_topic_0000001460562696__se75ab653da604c90acf654efc674c720:
+.. _en-us_topic_0000001764650460__se75ab653da604c90acf654efc674c720:
 
 enable_codegen
 --------------
@@ -285,13 +299,24 @@ codegen_cost_threshold
 llvm_compile_expr_limit
 -----------------------
 
-**Parameter description**: This sets a limit on the number of expressions that can be compiled using LLVM. If the number of expressions exceeds the limit, only the initial ones will be compiled, and an alert will be triggered. To enable the alert, run **SET analysis_options="on(LLVM_COMPILE)"** before executing **explain performance**. This parameter is supported by clusters of version 8.2.1.220 or later.
+**Parameter description**: Specifies the limit for compiling expressions with LLVM. If there are more expressions than the limit, only the first ones are compiled and an alarm is generated. (To allow the alarm to be generated, execute **SET analysis_options="on(LLVM_COMPILE)"** before **explain performance** is executed.)
 
 **Type**: USERSET
 
-**Value range**: an integer ranging from **-1** to **INT_MAX**
+**Value range**: an integer ranging from -1 to INT_MAX
 
 **Default value**: **500**
+
+llvm_compile_time_limit
+-----------------------
+
+Parameter description: If the percentage of the LLVM compilation time to the executor running time exceeds the threshold specified by **llvm_compile_time_limit**, an alarm is generated. (To allow the alarm to be generated, execute **SET analysis_options="on(LLVM_COMPILE)"** before **explain performance** is executed.) This parameter is supported only by clusters of version 8.3.0 or later.
+
+**Type**: USERSET
+
+**Value range**: a floating point number ranging from 0.0 to 1.0
+
+**Default value**: **0.2**
 
 enable_constraint_optimization
 ------------------------------
@@ -306,6 +331,8 @@ enable_constraint_optimization
 -  **off** indicates the plan cannot be used.
 
 **Default value**: **on**
+
+.. _en-us_topic_0000001764650460__s3210646666fe4eb4806c86579cfa0684:
 
 enable_bloom_filter
 -------------------
@@ -328,16 +355,75 @@ enable_bloom_filter
    Constraints:
 
    #. Only **INNER JOIN**, **SEMI JOIN**, **RIGHT JOIN**, **RIGHT SEMI JOIN**, **RIGHT ANTI JOIN** and **RIGHT ANTI FULL JOIN** are supported.
-   #. The number of rows in the internal table in the join cannot exceed 50,000.
    #. JOIN condition of the internal table: It cannot be an expression for HDFS internal or foreign tables. It can be an expression for column-store tables, but only at the non-join layer.
    #. The join condition of the foreign table must be simple column join.
    #. When the join conditions of the internal and foreign tables (HDFS) are both simple column joins, the estimated data that can be removed at the plan layer must be over 1/3.
    #. Joined columns cannot contain NULL values.
-   #. Data is not spilled to disks at the JOIN layer.
    #. Data type:
 
       -  HDFS internal and foreign tables support SMALLINT, INTEGER, BIGINT, REAL/FLOAT4, DOUBLE PRECISION/FLOAT8, CHAR(n)/CHARACTER(n)/NCHAR(n), VARCHAR(n)/CHARACTER VARYING(n), CLOB and TEXT.
       -  Column-store tables support SMALLINT, INTEGER, BIGINT, OID, "char", CHAR(n)/CHARACTER(n)/NCHAR(n), VARCHAR(n)/CHARACTER VARYING(n), NVARCHAR2(n), CLOB, TEXT, DATE, TIME, TIMESTAMP and TIMESTAMPTZ. The collation of the character type must be **C**.
+
+.. _en-us_topic_0000001764650460__section84976274498:
+
+runtime_filter_type
+-------------------
+
+**Parameter description** : Specifies the type of runtime filter used, and only takes effect when :ref:`enable_bloom_filter <en-us_topic_0000001764650460__s3210646666fe4eb4806c86579cfa0684>` is enabled. This is supported only by clusters of version 9.1.0.100 or later.
+
+**Type**: USERSET
+
+**Value range**: enumerated values
+
+-  **All** indicates that the runtime filters in all scenarios are used.
+-  **Topn_filter** indicates the runtime filters in the **ORDER BY** scenario with **LIMIT** are used.
+-  **Bloom_filter** indicates that only runtime filters in join scenarios are used, and a bloom filter is generated for filtering after meeting certain conditions.
+-  **Min_max** indicates that only the runtime filters in join scenarios are used and only a **min_max** filter is generated for filtering.
+-  **None** indicates that no runtime filters are used, and only the original bloom filter has filtering effect.
+
+**Default value**: **All**
+
+.. important::
+
+   -  Application scenario: Plan type of the **HASH JOIN** foreign table in a column-store table and the **ORDER BY** plan type with **LIMIT** in a column-store table.
+   -  Constraints:
+
+      -  The usage restrictions for JOIN scenarios are the same as those for the :ref:`enable_bloom_filter <en-us_topic_0000001764650460__s3210646666fe4eb4806c86579cfa0684>` parameter.
+      -  In the order by scenario with limit, the order by field types only support **SMALLINT**, **INTEGER**, **BIGINT**, **"char"**, **CHAR(n)/CHARACTER(n)/NCHAR(n)**, **VARCHAR(n)/CHARACTER VARYING(n)**, **NVARCHAR2(n)**, **TEXT**, **DATE**, **TIME**, **TIMESTAMP**, and **TIMESTAMPTZ**, and the sorting rules for character types must be specified as **C**.
+
+runtime_filter_ratio
+--------------------
+
+Parameter description: Specifies the threshold for using bloom filter for fine-grained row-level filtering in join scenarios in runtime filter, and only takes effect when :ref:`runtime_filter_type <en-us_topic_0000001764650460__section84976274498>` is set to a value greater than or equal to **Bloom_filter**. This is supported only by clusters of version 9.1.0.100 or later.
+
+**Type**: USERSET
+
+**Value range**: a floating point number ranging from 0.0 to 1.0
+
+**Default value**: **0.01**
+
+.. important::
+
+   -  Application scenario: HASH JOIN of column-store tables, where the internal table **estimate_join_rows**/foreign table **estimate_join_rows** <= **runtime_filter_ratio**. Fine-grained row-level filtering is only recommended for join scenarios where there is a significant difference in data volume between the internal and foreign tables. Improper **runtime_filter_ratio** settings may lead to degraded performance in join scenarios.
+   -  Usage restrictions: Fine-grained row-level filtering is only supported for join field types of **SMALLINT**, **INTEGER**, **BIGINT**, and **FLOAT**.
+
+runtime_filter_cost_options
+---------------------------
+
+**Parameter description** : Specifies whether to generate a runtime filter plan based on the cost. This is supported only by clusters of version 9.1.0.200 or later.
+
+**Type**: USERSET
+
+**Value range**: a string
+
+-  **apply_partial**: The runtime filter path can be generated as long as the **build** end contains a table required by a runtime filter on the **probe** end.
+-  **apply_all**: The runtime filter path can be generated only when the **build** end contains all tables required by the runtime filter that can be applied to the **probe** end.
+
+**Default value**: **''**, indicating that runtime filters are not used during plan generation, regardless of the cost.
+
+.. important::
+
+   If both **apply_partial** and **apply_all** are set, the setting of **apply_all** takes effect.
 
 enable_extrapolation_stats
 --------------------------
@@ -356,7 +442,7 @@ enable_extrapolation_stats
 -  If the current cluster is upgraded from an earlier version to 8.2.0.100, the default value is **off** to ensure forward compatibility.
 -  If the cluster version 8.2.0.100 is newly installed, the default value is **on**.
 
-.. _en-us_topic_0000001460562696__section114241119217:
+.. _en-us_topic_0000001764650460__section114241119217:
 
 autoanalyze
 -----------
@@ -376,6 +462,76 @@ autoanalyze
 
 **Default value**: **on**
 
+enable_analyze_partition
+------------------------
+
+**Parameter description**: Specifies whether to support collecting statistics for a specific partition of a table. After enabling this parameter, you can collect statistics for a specific partition using **ANALYZE table_name PARTITION ( partition_name )**, and when querying data on this partition of the table, the optimizer will choose to use partition statistics.
+
+**Type**: USERSET
+
+**Value range**: Boolean
+
+-  **on** indicates supporting collecting statistics for a specific partition of a table.
+-  **off** indicates that collecting statistics for a specific partition of a table is not supported.
+
+**Default value**: **off**
+
+analyze_use_dn_correlation
+--------------------------
+
+**Parameter description**: Specifies whether CNs use correlation statistics of DNs when executing ANALYZE. This is supported only by clusters of version 9.1.0.100 or later.
+
+**Type**: USERSET
+
+**Value range**: Boolean
+
+-  **on** indicates that CNs use correlation statistics of DNs.
+-  **off** indicates that CNs do not use correlation statistics of DNs.
+
+**Default value**: **on**
+
+analyze_predicate_column_threshold
+----------------------------------
+
+**Parameter description**: Specifies whether to enable ANALYZE operations for predicate columns and the minimum number of columns supported. This is supported only by clusters of version 9.1.0.100 or later.
+
+**Type**: SIGHUP
+
+**Value range**: an integer ranging from 0 to 10000
+
+-  The value **0** indicates that ANALYZE operations are disabled for predicate columns and predicate columns are not collected or analyzed.
+-  A value greater than 0 indicates that predicate column collection is enabled and predicate column analysis is performed only on tables whose number of columns is greater than or equal to the value of this parameter.
+
+**Default value**: **10**
+
+enable_runtime_analyze_concurrent
+---------------------------------
+
+**Parameter description**: Specifies whether to support concurrent RUNTIME ANALYZE operations on a table. This is supported only by clusters of version 9.1.0.100 or later.
+
+**Type**: USERSET
+
+**Value range**: Boolean
+
+-  **on** indicates that concurrent operations are supported.
+-  **off** indicates that concurrent operations are not supported.
+
+**Default value**: **on**
+
+analyze_max_columns_count
+-------------------------
+
+**Parameter description**: Specifies the maximum number of columns supported by ANALYZE. This is supported only by clusters of version 9.1.0.100 or later.
+
+**Type**: USERSET
+
+**Value range**: an integer ranging from -1 to 10000
+
+-  **-1** indicates that the number of columns supported by ANALYZE is not limited.
+-  A value greater than **-1** indicates that only columns up to this value will be collected, and any columns beyond this value will not be collected.
+
+**Default value**: **-1**
+
 query_dop
 ---------
 
@@ -387,7 +543,7 @@ query_dop
 
 [1, 64]: Fixed SMP is enabled, and the system will use the specified degree.
 
-0: SMP adaptation function is enabled. The system dynamically selects the optimal parallelism degree [1,8] (x86 platforms) for each query based on the resource usage and query plans.
+**0**: SMP adaptation function is enabled. The system dynamically selects the optimal parallelism degree [1,8] (x86 platforms) for each query based on the resource usage and query plans.
 
 [-64, -1]: SMP adaptation is enabled, and the system will dynamically select a degree from the limited range.
 
@@ -397,7 +553,7 @@ query_dop
    -  After enabling concurrent queries, ensure you have sufficient CPU, memory, network, and I/O resources to achieve the optimal performance.
    -  To prevent performance deterioration caused by an overly large value of **query_dop**, the system calculates the maximum number of available CPU cores for a DN and uses the number as the upper limit for this parameter. If the value of **query_dop** is greater than 4 and also the upper limit, the system resets **query_dop** to the upper limit.
 
-**Default value**: **1**
+**Default value**: **1** (**0** for cloud flavors with 64 GB or larger memory)
 
 query_dop_ratio
 ---------------
@@ -453,7 +609,7 @@ enable_sonic_hashagg
 
 .. note::
 
-   -  If **enable_sonic_hashagg** is enabled and certain constraints are met, the Hash Agg operator will be used for column-oriented hash table design, and the memory usage of the operator can be reduced. However, in scenarios where the code generation technology (enabled by :ref:`enable_codegen <en-us_topic_0000001460562696__se75ab653da604c90acf654efc674c720>`) can significantly improve performance, the performance of the operator may deteriorate.
+   -  If **enable_sonic_hashagg** is enabled and certain constraints are met, the Hash Agg operator will be used for column-oriented hash table design, and the memory usage of the operator can be reduced. However, in scenarios where the code generation technology (enabled by :ref:`enable_codegen <en-us_topic_0000001764650460__se75ab653da604c90acf654efc674c720>`) can significantly improve performance, the performance of the operator may deteriorate.
    -  If **enable_sonic_hashagg** is set to **on**, when certain constraints are met, the hash aggregation operator designed for column-oriented hash tables is used and its name is displayed as **Sonic Hash Aggregation** in the output of the Explain Analyze/Performance operation. When the constraints are not met, the operator name is displayed as **Hash Aggregation**.
 
 **Default value**: **on**
@@ -610,7 +766,7 @@ max_streams_per_query
 enable_agg_limit_opt
 --------------------
 
-**Parameter description**: Specifies whether to optimize **select distinct col from table limit N**. This parameter is valid only if N is less than 16,384. **table** indicates a column-store table. This parameter is supported only by clusters of version 8.2.0.101 or later.
+**Parameter description**: Specifies whether to optimize **select distinct col from table limit N**. This parameter is valid only if N is less than 16,384. The parameter **table** indicates a column-store table. This parameter is supported only by clusters of version 8.2.0.101 or later.
 
 **Type**: USERSET
 
@@ -620,7 +776,7 @@ enable_agg_limit_opt
 
 -  **off** indicates that the optimization is disabled.
 
-**Default value**: **off**
+**Default value**: **on**
 
 stream_ctescan_pred_threshold
 -----------------------------
@@ -698,3 +854,93 @@ max_skew_num
 **Value range**: an integer ranging from 0 to INT_MAX
 
 **Default value**: **10**
+
+enable_dict_plan
+----------------
+
+**Parameter description**: Specifies whether the optimizer uses dictionary encoding to speed up queries that use operators such as **Group By** and **Filter**. This parameter is supported only by clusters of 8.3.0 or later.
+
+**Type**: USERSET
+
+**Value range**: Boolean
+
+-  **on**: enables the optimizer dictionary encoding.
+-  **off**: disables the optimizer dictionary encoding.
+
+Default value: **off**
+
+dict_plan_distinct_limit
+------------------------
+
+**Parameter description**: Specifies the distinct value of a column in a table. Dictionary encoding is enabled only when the value is less than or equal to the threshold. This parameter is supported only by clusters of 8.3.0 or later.
+
+**Type**: USERSET
+
+**Value range**: 0 to INT_MAX
+
+**Default value**: **10000**
+
+.. note::
+
+   The two parameters **dict_plan_distinct_limit** and **dict_plan_duplicate_ratio** determine if dictionary encoding is applied.
+
+dict_plan_duplicate_ratio
+-------------------------
+
+**Parameter description**: Specifies the repetition rate threshold of a column. Dictionary encoding is enabled only when the repetition rate of the column is greater than or equal to the threshold. Dictionary encoding is suitable for columns with a small number of distinct values and a high repetition rate. This parameter is supported only by clusters of 8.3.0 or later.
+
+**Type**: USERSET
+
+**Value range**: 0.0 to 100, in percentage
+
+**Default value**: **90**
+
+.. note::
+
+   The two parameters **dict_plan_distinct_limit** and **dict_plan_duplicate_ratio** determine if dictionary encoding is applied.
+
+enable_cu_predicate_pushdown
+----------------------------
+
+**Parameter description:**
+
+#. Function overview: Specifies whether simple filter criteria are pushed down to the CU for filtering. Enabling this will enhance query performance, particularly when working with the **bitmap_columns** column and PCK sorting column. It applies to specific **WHERE**, **IS NULL**, and **IN** conditions. This parameter is supported only by clusters of 8.3.0 or later.
+#. Supported column types:
+
+   -  Integer type: INT2, INT4, and INT8
+   -  Date and time type: DATE, TIMESTAMP, and TIMESTAMPTZ
+   -  String types: VARCHAR and TEXT
+   -  Numeral type: NUMERIC (a maximum of 19 characters)
+
+#. Query conditions: This function supports multiple **WHERE** expressions, including:
+
+   -  **IN** expression: matches multiple values.
+   -  **IS NULL** / **IS NOT NULL** condition: checks whether the column value is null.
+   -  Comparison expressions: greater than (>), less than (<), equal to (=), and not equal to (<>), which is used for range query and exact match.
+
+**Type**: USERSET
+
+**Value range**: Boolean
+
+-  **on**: Simple filter criteria are pushed down to the CU for filtering.
+-  **off**: Simple filter criteria are not pushed down to the CU for filtering.
+
+**Default value**: **on**
+
+.. note::
+
+   The basic filter conditions for the dictionary column include the equality operator (=), the **IN** expression, and the **IS (NOT) NULL** condition. This filter is known as the CU Predicate Filter, as it is pushed down to the storage layer and applied during the VectorBatch filling process.
+
+info_constraint_options
+-----------------------
+
+**Parameter description**: Specifies whether or which kind of informational constraints can be created. This is supported only by clusters of version 9.1.0.100 or later.
+
+**Type**: USERSET
+
+**Value range**: enumerated values
+
+-  **none**: indicates that no informational constraint can be created.
+-  **foreign_key**: indicates that foreign key constraints can be created.
+
+**Default value**: **none**

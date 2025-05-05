@@ -35,6 +35,15 @@ Parameter Description
 
       After the **DISCARD VOLATILE { TEMPORARY \| TEMP }** statement is executed, all volatile temporary table resources in the current session will be cleared. However, the statement cannot clear a single volatile temporary table resource.
 
+-  **GLOBAL { TEMPORARY \| TEMP }** **[ TABLE table_name ]**
+
+   -  Run the **DISCARD GLOBAL TEMP** command to release resources related to the global temporary table in the current session.
+   -  **DISCARD GLOBAL TEMP TABLE table_name** releases resources of a specified global temporary table in the current session.
+
+   .. caution::
+
+      If a global temporary table occupies resources in a session, you need to run the **DISCARD** command to clear the resources of all sessions before performing DDL operations.
+
 -  **TEMP \| TEMPORARY**
 
    Releases resources related to all temporary tables in the current session, including volatile and global temporary tables.
@@ -69,6 +78,26 @@ Parameter Description
 
 Examples
 --------
+
+-  DISCARD global temporary tables
+
+   .. code-block::
+
+      CREATE GLOBAL TEMP TABLE t_global_temp(a int,b int);
+      NOTICE:  The 'DISTRIBUTE BY' clause is not specified. Using round-robin as the distribution mode by default.
+      HINT:  Please use 'DISTRIBUTE BY' clause to specify suitable data distribution column.
+      CREATE TABLE
+
+      INSERT INTO t_global_temp VALUES(1,1),(2,2);
+      INSERT 0 2
+
+      DROP TABLE t_global_temp;
+      ERROR:  can not DROP TABLE when global temp table "t_global_temp" is in use
+
+      DISCARD GLOBAL TEMP TABLE t_global_temp;
+
+      DROP TABLE t_global_temp;
+      DROP TABLE
 
 -  DISCARD VOLATILE temporary tables
 

@@ -12,21 +12,21 @@ GS_OBSSCANINFO
    +--------------+-----------+-----------+------------------------------------------------------------+
    | Name         | Type      | Reference | Description                                                |
    +==============+===========+===========+============================================================+
-   | query_id     | bigint    | ``-``     | Specifies a query ID.                                      |
+   | query_id     | Bigint    | ``-``     | Specifies a query ID.                                      |
    +--------------+-----------+-----------+------------------------------------------------------------+
-   | user_id      | text      | ``-``     | Specifies a database user who performs queries.            |
+   | user_id      | Text      | ``-``     | Specifies a database user who performs queries.            |
    +--------------+-----------+-----------+------------------------------------------------------------+
-   | table_name   | text      | ``-``     | Specifies the name of a foreign table on OBS.              |
+   | table_name   | Text      | ``-``     | Specifies the name of a foreign table on OBS.              |
    +--------------+-----------+-----------+------------------------------------------------------------+
-   | file_type    | text      | ``-``     | Specifies the format of files storing the underlying data. |
+   | file_type    | Text      | ``-``     | Specifies the format of files storing the underlying data. |
    +--------------+-----------+-----------+------------------------------------------------------------+
    | time_stamp   | time_stam | ``-``     | Specifies the scanning start time.                         |
    +--------------+-----------+-----------+------------------------------------------------------------+
    | actual_time  | double    | ``-``     | Specifies the scanning execution time in seconds.          |
    +--------------+-----------+-----------+------------------------------------------------------------+
-   | file_scanned | bigint    | ``-``     | Specifies the number of files scanned.                     |
+   | file_scanned | Bigint    | ``-``     | Specifies the number of files scanned.                     |
    +--------------+-----------+-----------+------------------------------------------------------------+
    | data_size    | double    | ``-``     | Specifies the size of data scanned in bytes.               |
    +--------------+-----------+-----------+------------------------------------------------------------+
-   | billing_info | text      | ``-``     | Specifies the reserved fields.                             |
+   | billing_info | Text      | ``-``     | Specifies the reserved fields.                             |
    +--------------+-----------+-----------+------------------------------------------------------------+

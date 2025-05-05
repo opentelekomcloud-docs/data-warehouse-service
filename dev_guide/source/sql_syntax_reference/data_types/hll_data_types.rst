@@ -7,9 +7,9 @@ HLL Data Types
 
 HyperLoglog (HLL) is an approximation algorithm for efficiently counting the number of distinct values in a data set. It features faster computing and lower space usage. You only need to store HLL data structures, instead of data sets. When new data is added to a data set, make hash calculation on the data and insert the result to an HLL. Then, you can obtain the final result based on the HLL.
 
-:ref:`Table 1 <en-us_topic_0000001702130117__en-us_topic_0000001233708675_table55621821164213>` compares HLL with other algorithms.
+:ref:`Table 1 <en-us_topic_0000001811515509__en-us_topic_0000001233708675_table55621821164213>` compares HLL with other algorithms.
 
-.. _en-us_topic_0000001702130117__en-us_topic_0000001233708675_table55621821164213:
+.. _en-us_topic_0000001811515509__en-us_topic_0000001233708675_table55621821164213:
 
 .. table:: **Table 1** Comparison between HLL and other algorithms
 
@@ -32,9 +32,9 @@ HLL has advantages over others in the computing speed and storage space requirem
       -  When default parameter configuration is used, the calculated number of distinct values is 1.6e plus 12. If the calculated result is **NaN**, you need to adjust **log2m** and **regwidth** to accommodate more distinct values.
       -  The hash algorithm has an extremely low probability of collision. However, you are still advised to select 2 or 3 hash seeds for verification when using the hash algorithm for the first time. If there is only a small difference between the distinct values, you can select any one of the seeds as the hash seed.
 
-:ref:`Table 2 <en-us_topic_0000001702130117__en-us_topic_0000001233708675_table18186113885012>` describes main HLL data structures.
+:ref:`Table 2 <en-us_topic_0000001811515509__en-us_topic_0000001233708675_table18186113885012>` describes main HLL data structures.
 
-.. _en-us_topic_0000001702130117__en-us_topic_0000001233708675_table18186113885012:
+.. _en-us_topic_0000001811515509__en-us_topic_0000001233708675_table18186113885012:
 
 .. table:: **Table 2** Main HLL data structures
 

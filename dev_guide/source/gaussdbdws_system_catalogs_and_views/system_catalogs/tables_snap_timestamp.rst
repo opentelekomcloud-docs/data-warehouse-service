@@ -10,17 +10,17 @@ TABLES_SNAP_TIMESTAMP
 .. table:: **Table 1** dbms_om.tables_snap_timestamp columns
 
    +-------------+--------------------------+-------------------------------------------------------------------+
-   | Name        | Type                     | Description                                                       |
+   | Column      | Type                     | Description                                                       |
    +=============+==========================+===================================================================+
-   | snapshot_id | name                     | Snapshot ID. This column is the primary key and distribution key. |
+   | snapshot_id | Name                     | Snapshot ID. This column is the primary key and distribution key. |
    +-------------+--------------------------+-------------------------------------------------------------------+
-   | db_name     | text                     | Name of the database to which the view belongs                    |
+   | db_name     | Text                     | Name of the database to which the view belongs.                   |
    +-------------+--------------------------+-------------------------------------------------------------------+
-   | tablename   | text                     | View name                                                         |
+   | tablename   | Text                     | View name.                                                        |
    +-------------+--------------------------+-------------------------------------------------------------------+
-   | start_ts    | timestamp with time zone | Snapshot start time                                               |
+   | start_ts    | Timestamp with time zone | Snapshot start time.                                              |
    +-------------+--------------------------+-------------------------------------------------------------------+
-   | end_ts      | timestamp with time zone | Snapshot end time                                                 |
+   | end_ts      | Timestamp with time zone | Snapshot end time.                                                |
    +-------------+--------------------------+-------------------------------------------------------------------+
 
 .. important::

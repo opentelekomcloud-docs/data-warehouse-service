@@ -11,27 +11,7 @@ This section describes memory parameters.
 
    Parameters described in this section take effect only after the database service restarts.
 
-enable_memory_limit
--------------------
-
-**Parameter description**: Specifies whether to enable the logical memory management module.
-
-**Type**: POSTMASTER
-
-**Value range**: Boolean
-
--  **on** indicates the logic memory management module is enabled.
--  **off** indicates the logic memory management module is disabled.
-
-**Default value**: **on**
-
-.. important::
-
-   -  If the result of **max_process_memory** - **max_shared_memory** - **cstore buffers** is less than 2 GB, **enable_memory_limit** is forcibly set to **off**.
-   -  The **max_shared_memory** parameter is closely related to the **shared_buffer**, **max_connections**, and **max_prepared_transactions** parameters. If the value of **max_shared_memory** is too large, you can decrease the values of the three parameters.
-   -  The dynamic load management function depends on the memory management function. After the **enable_memory_limit** parameter is disabled, the dynamic load management and TopSQL functions become invalid.
-
-.. _en-us_topic_0000001460563104__sadc1e0e8c1c246a4a6cad3967deebaad:
+.. _en-us_topic_0000001811610373__sadc1e0e8c1c246a4a6cad3967deebaad:
 
 max_process_memory
 ------------------
@@ -46,7 +26,7 @@ max_process_memory
 
 **Setting suggestions:**
 
--  On DNs, the value of this parameter is determined based on the physical system memory and the number of DNs deployed on a single node. If multiple DNs are deployed on a server, the value of **max_process_memory** is (Physical memory - **vm.min_free_kbytes**) x 0.8/(n + Number of primary DNs). If a single DN is deployed on a server, the value of **max_process_memory** is (Physical memory - **vm.min_free_kbytes**) x 0.6. This parameter aims to ensure system reliability, preventing node OOM caused by increasing memory usage. **vm.min_free_kbytes** indicates OS memory reserved for kernels to receive and send data. Its value is at least 5% of the total memory. That is, **max_process_memory** = Physical memory x 0.8/ (n + Number of primary DNs). If the cluster scale (number of nodes in the cluster) is smaller than 256, n=1; if the cluster scale is larger than 256 and smaller than 512, n=2; if the cluster scale is larger than 512, n=3.
+-  On DNs, the value of this parameter is determined based on the physical system memory and the number of DNs deployed on a single node. If multiple DNs are deployed on a server, the calculation formula for the **max_process_memory** value is as follows: (Physical memory size - **vm.min_free_kbytes**) x 0.8/(n + Number of primary DNs). If only one DN is deployed on a server, the calculation formula for the **max_process_memory** value is (Physical memory size - **vm.min_free_kbytes**) x 0.6. This parameter aims to ensure system reliability, preventing node OOM caused by increasing memory usage. **vm.min_free_kbytes** indicates OS memory reserved for kernels to receive and send data. Its value is at least 5% of the total memory. That is, **max_process_memory** = Physical memory x 0.8/ (n + Number of primary DNs). If the cluster scale (number of nodes in the cluster) is smaller than 256, n=1; if the cluster scale is larger than 256 and smaller than 512, n=2; if the cluster scale is larger than 512, n=3.
 -  You are not advised to set this parameter to the minimum threshold.
 -  Set this parameter on CNs to the same value as that on DNs.
 -  RAM is the maximum memory allocated to the cluster.
@@ -71,7 +51,7 @@ max_process_memory_auto_adjust
 
 **Suggestion**: Set this parameter to **on**. For a cluster where each server only has one DN, the initial value of **max_process_memory** is increased in 8.2.0 and later versions to improve memory resource utilization. However, after a primary/standby switchover, there will be two primary DNs running on the same server. Using the initial value of **max_process_memory** in this case may cause OOM, and you need to let the CM dynamically adjust the value.
 
-.. _en-us_topic_0000001460563104__s9292cfbf38fa4b17b93e9a47330da753:
+.. _en-us_topic_0000001811610373__s9292cfbf38fa4b17b93e9a47330da753:
 
 shared_buffers
 --------------
@@ -84,7 +64,7 @@ shared_buffers
 
 Changing the value of **BLCKSZ** will result in a change in the minimum value of the **shared_buffers**.
 
-**Default value**: The value of CN is half of the value of DN. The value of DN is calculated using the following formula: **POWER(2,ROUND(LOG(2, max_process_memory/18),0))**. If the maximum value allowed by the OS is smaller than 32 MB, this parameter will be automatically changed to the maximum value allowed by the OS during database initialization.
+**Default value**: The value of this parameter for CNs is half of that for DNs, which is calculated using the formula **POWER(2,ROUND(LOG(2,max_process_memory/18),0))**. If the maximum value allowed by the OS is smaller than 32 MB, this parameter will be automatically changed to the maximum value allowed by the OS during database initialization.
 
 **Setting suggestions:**
 
@@ -155,7 +135,7 @@ temp_buffers
    -  This parameter can be modified only before the first use of temporary tables within each session. Subsequent attempts to change the value of this parameter will not take effect on that session.
    -  Based on the value of **temp_buffers**, a session allocates temporary buffers as required. The cost of setting a large value in sessions that do not require many temporary buffers is only a buffer descriptor. If a buffer is used, 8192 bytes will be consumed for it.
 
-.. _en-us_topic_0000001460563104__s7f44489cfdce4bbea287150fb7333b9e:
+.. _en-us_topic_0000001811610373__s7f44489cfdce4bbea287150fb7333b9e:
 
 max_prepared_transactions
 -------------------------
@@ -168,13 +148,13 @@ When GaussDB(DWS) is deployed as an HA system, set this parameter on the standby
 
 **Value range**: an integer ranging from 0 to 536870911. The value of CN set to **0** indicates that the prepared transaction feature is disabled.
 
-**Default value**: **800** for both CNs and DNs
+**Default value**: **800** for CNs and **5000** for DNs
 
 .. note::
 
-   Set this parameter to a value greater than or equal to that of :ref:`max_connections <en-us_topic_0000001460722472__s2d671f584b5647a19255e7c6a3d116aa>` to avoid failures in preparation.
+   Set this parameter to a value greater than or equal to that of :ref:`max_connections <en-us_topic_0000001764491936__s2d671f584b5647a19255e7c6a3d116aa>` to avoid failures in preparation.
 
-.. _en-us_topic_0000001460563104__s7be4202f202f4ccc8ecee5816cf7b2ab:
+.. _en-us_topic_0000001811610373__s7be4202f202f4ccc8ecee5816cf7b2ab:
 
 work_mem
 --------
@@ -187,7 +167,7 @@ For a complex query, several sort or Hash operations may be running in parallel;
 
 **Value range**: an integer ranging from 64 to INT_MAX. The unit is KB.
 
-**Default value**: 512 MB for small-scale memory and 2 GB for large-scale memory (If :ref:`max_process_memory <en-us_topic_0000001460563104__sadc1e0e8c1c246a4a6cad3967deebaad>` is greater than or equal to 30 GB, it is large-scale memory. Otherwise, it is small-scale memory.)
+**Default value**: 512 MB for small-scale memory and 2 GB for large-scale memory (If :ref:`max_process_memory <en-us_topic_0000001811610373__sadc1e0e8c1c246a4a6cad3967deebaad>` is greater than or equal to 30 GB, it is large-scale memory. Otherwise, it is small-scale memory.)
 
 **Setting suggestions:**
 
@@ -196,6 +176,10 @@ If the physical memory specified by **work_mem** is insufficient, additional ope
 -  In complex serial query scenarios, each query requires five to ten associated operations. Set **work_mem** using the following formula: **work_mem** = 50% of the memory/10.
 -  In simple serial query scenarios, each query requires two to five associated operations. Set **work_mem** using the following formula: **work_mem** = 50% of the memory/5.
 -  For concurrent queries, use the formula: **work_mem** = **work_mem** in serialized scenario/Number of concurrent SQL statements.
+
+   .. important::
+
+      Once memory adaptation is enabled, there is no need to use **work_mem** to optimize operator memory usage after collecting statistics. The system generates a plan for each statement and estimates the memory usage of each operator and the entire statement based on the current workload. The system then schedules the queue based on the workload and the overall memory usage of the statement, which can result in statement queuing in high-concurrency scenarios.
 
 query_mem
 ---------
@@ -247,7 +231,7 @@ enable_rowagg_memory_control
 
 **Default value**: **on**
 
-.. _en-us_topic_0000001460563104__sfbfa78b6871442cb85a84a425335ce38:
+.. _en-us_topic_0000001811610373__sfbfa78b6871442cb85a84a425335ce38:
 
 maintenance_work_mem
 --------------------
@@ -258,12 +242,12 @@ maintenance_work_mem
 
 **Value range**: an integer ranging from 1024 to INT_MAX. The unit is KB.
 
-**Default value**: 512 MB for small-scale memory and 2 GB for large-scale memory (If :ref:`max_process_memory <en-us_topic_0000001460563104__sadc1e0e8c1c246a4a6cad3967deebaad>` is greater than or equal to 30 GB, it is large-scale memory. Otherwise, it is small-scale memory.)
+**Default value**: 512 MB for small-scale memory and 2 GB for large-scale memory (If :ref:`max_process_memory <en-us_topic_0000001811610373__sadc1e0e8c1c246a4a6cad3967deebaad>` is greater than or equal to 30 GB, it is large-scale memory. Otherwise, it is small-scale memory.)
 
 **Setting suggestions:**
 
--  You are advised to set this parameter to the same value of :ref:`work_mem <en-us_topic_0000001460563104__s7be4202f202f4ccc8ecee5816cf7b2ab>` so that database dump can be cleared or restored more quickly. In a database session, only one maintenance operation can be performed at a time. Maintenance is usually performed when there are not much sessions.
--  When the :ref:`Automatic Cleanup <dws_04_0923>` process is running, up to :ref:`autovacuum_max_workers <en-us_topic_0000001510283565__s502d4304994d4da5bd3cda661aab27ac>` times of this memory may be allocated. Set **maintenance_work_mem** to a value equal to or larger than the value of :ref:`work_mem <en-us_topic_0000001460563104__s7be4202f202f4ccc8ecee5816cf7b2ab>`.
+-  You are advised to set this parameter to the same value of :ref:`work_mem <en-us_topic_0000001811610373__s7be4202f202f4ccc8ecee5816cf7b2ab>` so that database dump can be cleared or restored more quickly. In a database session, only one maintenance operation can be performed at a time. Maintenance is usually performed when there are not much sessions.
+-  When the :ref:`Automatic Cleanup <dws_04_0923>` process is running, up to :ref:`autovacuum_max_workers <en-us_topic_0000001764650468__s502d4304994d4da5bd3cda661aab27ac>` times of this memory may be allocated. Set **maintenance_work_mem** to a value equal to or larger than the value of :ref:`work_mem <en-us_topic_0000001811610373__s7be4202f202f4ccc8ecee5816cf7b2ab>`.
 -  If a large amount of data needs to be processed in the cluster, increase the value of this parameter in sessions.
 
 psort_work_mem
@@ -326,27 +310,24 @@ cstore_buffers
 
 **Value range**: an integer ranging from 16384 to INT_MAX. The unit is KB.
 
-**Default value**: The CN size is 32 MB, and the DN size is calculated as follows: **POWER(2,ROUND(LOG(2, max_process_memory/18),0))**.
+**Default value**: The value of this parameter for CNs is 32 MB, while that for DNs is calculated using the formula **POWER(2,ROUND(LOG(2,max_process_memory/18),0))**.
 
 **Setting suggestions:**
 
-Column-store tables use the shared buffer specified by **cstore_buffers** instead of that specified by :ref:`shared_buffers <en-us_topic_0000001460563104__s9292cfbf38fa4b17b93e9a47330da753>`. When column-store tables are mainly used, reduce the value of **shared_buffers** and increase that of **cstore_buffers**.
+Column-store tables use the shared buffer specified by **cstore_buffers** instead of that specified by :ref:`shared_buffers <en-us_topic_0000001811610373__s9292cfbf38fa4b17b93e9a47330da753>`. When column-store tables are mainly used, reduce the value of **shared_buffers** and increase that of **cstore_buffers**.
 
 Use **cstore_buffers** to specify the cache of ORC, Parquet, or CarbonData metadata and data for OBS or HDFS foreign tables. The metadata cache size should be 1/4 of **cstore_buffers** and not exceed 2 GB. The remaining cache is shared by column-store data and foreign table column-store data.
 
-enable_orc_cache
-----------------
+dfs_max_memory
+--------------
 
-**Parameter description**: Specifies whether to reserve 1/4 of **cstore_buffers** for storing ORC metadata when the cstore buffer is initialized.
+**Parameter description**: Specifies the maximum memory that can be occupied during ORC export. If the memory is insufficient when a wide table is exported, increase the value of this parameter and try again. This parameter is supported only by clusters of version 8.3.0 or later.
 
-**Type**: POSTMASTER
+**Type**: USERSET
 
-**Value range**: Boolean
+**Value range**: an integer ranging from 131072 to 10485760. The unit is KB.
 
-**Default value**:
-
--  **on** indicates that the orc metadata cache is enabled, which improves the query performance of the HDFS table but occupies the column-store buffer resources. The column-store performance deteriorates.
--  **off** indicates the orc metadata cache is disabled.
+**Default value**: 262144 KB (256 MB)
 
 schedule_splits_threshold
 -------------------------
@@ -373,7 +354,7 @@ bulk_read_ring_size
 check_cu_size_threshold
 -----------------------
 
-**Parameter description**: If the amount of data inserted to a CU is greater than the value of this parameter when data is inserted to a column-store table, the system starts row-level size verification to prevent the generation of a CU whose size is greater than 1 GB (non-compressed size).
+**Parameter description**: When inserting data into a column-store table, if the amount of data already inserted in a CU exceeds the value of this parameter, row-level size verification will be performed to prevent the creation of uncompressed CUs larger than 1 GB.
 
 **Type**: USERSET
 
@@ -381,13 +362,32 @@ check_cu_size_threshold
 
 **Default value:** 1 GB
 
-max_volatile_memory
--------------------
+.. important::
 
-**Parameter description**: Specifies the maximum total memory occupied by contexts related to volatile temporary tables in all sessions. The memory used by a query to create a volatile table cannot exceed the value of this parameter, or an error will be reported. This parameter is supported by version 8.2.0 or later clusters.
+   If row-level size verification fails multiple times, you are advised to temporarily set the parameter to **0** at the session level.
 
-**Type**: SIGHUP
+memory_spread_strategy
+----------------------
 
-**Value range**: an integer ranging from 1024 to INT_MAX. The unit is KB.
+**Parameter description**: Specifies the DN memory expansion policy of a customized resource pool. You are advised to set this parameter for services with sufficient memory. After this parameter is set, the query performance is improved. The maximum memory can be the same as that of the default resource pool. However, there may be errors caused by insufficient memory in some service scenarios if the memory is small. This parameter is supported only by clusters of version 8.1.3 or later.
 
-**Default value:** 1 GB
+**Type**: USERSET
+
+**Value range**: enumerated values
+
+-  **none**: indicates that the memory is not expanded.
+-  **negative**: indicates that the memory and operators are expanded based on the estimated usage.
+-  **crazy**: indicates that the memory is directly expanded, which is equivalent to the memory expansion policy of the default resource pool. However, there may be errors caused by insufficient memory in some service scenarios if the memory is small.
+
+**Default value**: **none**
+
+async_io_acc_max_memory
+-----------------------
+
+**Parameter description**: Specifies the maximum memory that can be used for asynchronous read/write acceleration in a single task thread. This parameter is supported only by clusters of version 9.0.0 or later.
+
+**Type**: USERSET
+
+**Value range**: an integer ranging from 4096 to **INT_MAX/2**, in KB.
+
+**Default value**: **128MB**

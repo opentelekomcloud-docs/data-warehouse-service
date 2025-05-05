@@ -7,7 +7,7 @@ Viewing GUC Parameters
 
 GaussDB(DWS) GUC parameters can control database system behaviors. You can check and adjust the GUC parameters based on your business scenario and data volume.
 
--  After a cluster is installed, you can check database parameters on the GaussDB(DWS) console.
+-  After a cluster is installed, you can check database parameters on the GaussDB(DWS) management console.
 
    |image1|
 
@@ -17,7 +17,7 @@ GaussDB(DWS) GUC parameters can control database system behaviors. You can check
 
       .. note::
 
-         Method 2 is limited to querying GUC parameter values of CNs. To view GUC parameter values of DNs, you can utilize Method 1 on the management console.
+         Method 2 can only be used to check the GUC parameter values of CNs, while the GUC parameter values of DNs can be viewed through Method 1: by using the management console.
 
       To view a certain parameter, run the following command:
 
@@ -47,4 +47,4 @@ GaussDB(DWS) GUC parameters can control database system behaviors. You can check
 
          SELECT * FROM pg_settings;
 
-.. |image1| image:: /_static/images/en-us_image_0000001510283865.png
+.. |image1| image:: /_static/images/en-us_image_0000001811610577.png

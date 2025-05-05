@@ -8,7 +8,7 @@ USER_TRIGGERS
 **USER_TRIGGERS** displays the information about triggers accessible to the current user.
 
 +--------------+-----------------------+---------------------------------------------+
-| Name         | Type                  | Description                                 |
+| Column       | Type                  | Description                                 |
 +==============+=======================+=============================================+
 | trigger_name | character varying(64) | Trigger name                                |
 +--------------+-----------------------+---------------------------------------------+

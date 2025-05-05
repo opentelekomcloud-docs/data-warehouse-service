@@ -14,9 +14,6 @@ The purpose of cost-based vacuum delay is to allow administrators to reduce the 
    -  vacuum_cost_delay*accumulated_balance/vacuum_cost_limit
    -  vacuum_cost_delay*4
 
-Context
--------
-
 During the execution of the ANALYZE \| ANALYSE and VACUUM statements, the system maintains an internal counter that keeps track of the estimated cost of the various I/O operations that are performed. When the accumulated cost reaches a limit (specified by **vacuum_cost_limit**), the process performing the operation will sleep for a short period of time (specified by **vacuum_cost_delay**). Then, the counter resets and the operation continues.
 
 By default, this feature is disabled. To enable this feature, set **vacuum_cost_delay** to a value other than 0.

@@ -96,7 +96,7 @@ Syntax
 
       [ WITH ( {storage_parameter = value} [, ... ] ) ]
 
--  .. _en-us_topic_0000001460561364__li1147714355320:
+-  .. _en-us_topic_0000001764675414__li1147714355320:
 
    **partition_less_than_item** is as follows:
 
@@ -115,7 +115,7 @@ Syntax
               {END({partition_value | MAXVALUE})}
       }
 
--  .. _en-us_topic_0000001460561364__li135021622911:
+-  .. _en-us_topic_0000001764675414__li135021622911:
 
    list_partition_item:
 
@@ -230,6 +230,8 @@ Parameter Description
 
       Specifies whether to enable delta tables in column-store tables. The parameter is only valid for column-store tables.
 
+      Using column-store tables with delta tables is not recommended. This may cause disk bloat and performance deterioration due to delayed merge.
+
       Default value: **off**
 
    -  DELTAROW_THRESHOLD
@@ -238,7 +240,7 @@ Parameter Description
 
       The value ranges from **0** to **60000**. The default value is **6000**.
 
-   -  COLD_TABLECPACE
+   -  COLD_TABLESPACE
 
       Specifies the OBS tablespace for the cold partitions in a multi-temperature table. This parameter is available only to partitioned column-store tables and cannot be modified. It must be used together with **storage_policy**. The parameter **STORAGE_POLICY** can be left unconfigured. In this case, the default value **default_obs_tbs** is used.
 
@@ -251,14 +253,22 @@ Parameter Description
       Value range: *Cold and hot switchover policy name*:*Cold and hot switchover threshold*. Currently, only LMT and HPN policies are supported. LMT indicates that the switchover is performed based on the last update time of partitions. HPN indicates the switchover is performed based on a fixed number of reserved hot partitions.
 
       -  **LMT:[**\ *day*\ **]**: Switch the hot partition data that is not updated in the last *[day]* days to the OBS tablespace as cold partition data. *[day]* is an integer ranging from 0 to 36500, in days.
-      -  **HPN:[**\ *hot_partition_num*\ **]**: [*hot_partition_num*] indicates the number of hot partitions (with data) to be retained. The rule is to find the maximum sequence ID of the partitions with data. The partitions without data whose sequence ID is greater than the maximum sequence ID are hot partitions, and [*hot_partition_num*] partitions are retained as hot partitions in descending order according to the sequence ID. A partition whose sequence ID is smaller than the minimum sequence ID of the retained hot partition is a cold partition. During hot and cold partition switchover, data needs to be migrated to the OBS tablespace. *[hot_partition_num]* is an integer ranging from **0** to **1600**.
+      -  **HPN:[**\ *hot_partition_num*\ **]**: [*hot_partition_num*] indicates the number of hot partitions (with data) to be retained. The rule is to find the maximum sequence ID of the partitions with data. The partitions without data whose sequence ID is greater than the maximum sequence ID are hot partitions, and [*hot_partition_num*] partitions are retained as hot partitions in descending order according to the sequence ID. A partition whose sequence ID is smaller than the minimum sequence ID of the retained hot partition is a cold partition. During hot and cold partition switchover, data needs to be migrated to the OBS tablespace. *[hot_partition_num]* is an integer ranging from 0 to 1600.
 
          .. important::
 
             -  The hybrid data warehouse (standalone) does not support cold and hot partition switchover.
             -  For a LIST partition, you are advised to use the HPN policy with caution. Otherwise, the new partition may not be a hot partition.
 
-   -  .. _en-us_topic_0000001460561364__li672910401685:
+   -  ENABLE_MULTI_TEMP_DISKCACHE
+
+      This parameter improves the performance of tables that separate cold and hot data. It is only applicable to tables that support this feature and is supported in versions 9.1.0 and later.
+
+      Value range: **on**/**true**, **off**/**false**
+
+      Default value: **on**/**true**
+
+   -  .. _en-us_topic_0000001764675414__li672910401685:
 
       PERIOD
 
@@ -270,13 +280,13 @@ Parameter Description
 
          -  In a database compatible with Teradata or MySQL, if the partition key type is **DATE**, **PERIOD** cannot be less than 1 day.
 
-         -  If PERIOD is set when a partitioned table is created, you can specify only the partition key. Two default partitions are created during table creation. The time ranges of the two default partitions are both PERIOD. The boundary time of the first default partition is the first hour, day, week, month, or year past the current time. The time unit is selected based on the maximum unit of PERIOD. The boundary time of the second default partition is the boundary time of the first partition plus PERIOD. Assume that the current time is 2022-02-17 16:32:45, and the boundary of the first default partition is described in :ref:`Table 1 <en-us_topic_0000001460561364__table1398181711544>`.
+         -  If PERIOD is set when a partitioned table is created, you can specify only the partition key. Two default partitions are created during table creation. The time ranges of the two default partitions are both PERIOD. The boundary time of the first default partition is the first hour, day, week, month, or year past the current time. The time unit is selected based on the maximum unit of PERIOD. The boundary time of the second default partition is the boundary time of the first partition plus PERIOD. Assume that the current time is 2022-02-17 16:32:45, and the boundary of the first default partition is described in :ref:`Table 1 <en-us_topic_0000001764675414__table1398181711544>`.
 
-            For more information about the default partitions, see :ref:`Example 8 <en-us_topic_0000001460561364__li1238894117165>`.
+            For more information about the default partitions, see :ref:`Example 8 <en-us_topic_0000001764675414__li1238894117165>`.
 
          -  The hybrid data warehouse (standalone) does not support automatic partition creation.
 
-      .. _en-us_topic_0000001460561364__table1398181711544:
+      .. _en-us_topic_0000001764675414__table1398181711544:
 
       .. table:: **Table 1** Partition boundaries
 
@@ -289,7 +299,7 @@ Parameter Description
          13month Year                2023-01-01 00:00:00
          ======= =================== ===================================
 
-   -  .. _en-us_topic_0000001460561364__li49277207810:
+   -  .. _en-us_topic_0000001764675414__li49277207810:
 
       TTL
 
@@ -299,7 +309,7 @@ Parameter Description
 
       .. note::
 
-         -  PERIOD indicates that data is partitioned by time period. The partition size may affect the query performance. The :ref:`proc_add_partition (relname regclass, boundaries_interval interval) <en-us_topic_0000001510281985__en-us_topic_0000001444998754_section9462151915274>` function is automatically invoked to create a partition after each period. Time To Live (TTL) specifies the data storage period of the table. The data that exceeds the TTL period will be cleared. To do this, the :ref:`proc_drop_partition (relname regclass, older_than interval) <en-us_topic_0000001510281985__en-us_topic_0000001444998754_section9128833152714>` function is automatically invoked based on the period. The **PERIOD** and **TTL** values are of the Interval type, for example, **1 hour**, **1 day**, **1 week**, **1 month**, **1 year**, and **1 month 2 day 3 hour**.
+         -  PERIOD indicates that data is partitioned by time period. The partition size may affect the query performance. The :ref:`proc_add_partition (relname regclass, boundaries_interval interval) <en-us_topic_0000001764516310__en-us_topic_0000001444998754_section9462151915274>` function is automatically invoked to create a partition after each period. Time To Live (TTL) specifies the data storage period of the table. The data that exceeds the TTL period will be cleared. To do this, the :ref:`proc_drop_partition (relname regclass, older_than interval) <en-us_topic_0000001764516310__en-us_topic_0000001444998754_section9128833152714>` function is automatically invoked based on the period. The **PERIOD** and **TTL** values are of the Interval type, for example, **1 hour**, **1 day**, **1 week**, **1 month**, **1 year**, and **1 month 2 day 3 hour**.
          -  The hybrid data warehouse (standalone) does not support automatic partition deletion.
 
    -  COLVERSION
@@ -379,7 +389,7 @@ Parameter Description
 
    **TO GROUP** specifies the Node Group in which the table is created. Currently, it cannot be used for HDFS tables. **TO NODE** is used for internal scale-out tools.
 
--  .. _en-us_topic_0000001460561364__lb144da954d4c4ac58c1e9ae1391e59ac:
+-  .. _en-us_topic_0000001764675414__lb144da954d4c4ac58c1e9ae1391e59ac:
 
    **PARTITION BY RANGE(partition_key)**
 
@@ -424,9 +434,9 @@ Parameter Description
       -  Upper boundaries must be specified for each partition.
       -  The types of upper boundaries must be the same as those of partition keys.
       -  In a partition list, partitions are arranged in ascending order of upper boundary values. Therefore, a partition with a certain upper boundary value is placed before another partition with a larger upper boundary value.
-      -  If a partition key consists of multiple columns, the columns are used for partitioning in sequence. The first column is preferred to be used for partitioning. If the values of the first columns are the same, the second column is used. The subsequent columns are used in the same manner.
+      -  If a partition key consists of multiple columns, the columns are used for partitioning in sequence. The first column is the preferred choice for partitioning. If the values of the first columns are the same, the second column is used. The subsequent columns are used in the same manner.
 
--  .. _en-us_topic_0000001460561364__li2094151861116:
+-  .. _en-us_topic_0000001764675414__li2094151861116:
 
    **partition_start_end_item**
 
@@ -441,7 +451,7 @@ Parameter Description
 
    -  **partition_name**: name or name prefix of a range partition. It is the name prefix only in the following cases (assuming that **partition_name** is **p1**):
 
-      -  Using START+END+EVERY will result in partition names such as **p1_1**, **p1_2**, and the like. For example, if **PARTITION p1 START(1) END(4) EVERY(1)** is defined, the generated partitions are [1, 2), [2, 3), and [3, 4), and their names are **p1_1**, **p1_2**, and **p1_3**. In this case, **p1** is a name prefix.
+      -  If START+END+EVERY is used, the names of partitions will be defined as **p1_1**, **p1_2**, and the like. For example, if **PARTITION p1 START(1) END(4) EVERY(1)** is defined, the generated partitions are [1, 2), [2, 3), and [3, 4), and their names are **p1_1**, **p1_2**, and **p1_3**. In this case, **p1** is a name prefix.
       -  If the defined statement is in the first place and has **START** specified, the range (**MINVALUE**, **START**) will be automatically used as the first actual partition, and its name will be **p1_0**. The other partitions are then named **p1_1**, **p1_2**, and the like. For example, if **PARTITION p1 START(1), PARTITION p2 START(2)** is defined, generated partitions are (MINVALUE, 1), [1, 2), and [2, MAXVALUE), and their names will be **p1_0**, **p1_1**, and **p2**. In this case, **p1** is a name prefix and **p2** is a partition name. **MINVALUE** means the minimum value.
 
    -  **partition_value**: start point value or end point value of a range partition. The value depends on **partition_key** and cannot be **MAXVALUE**.
@@ -476,7 +486,7 @@ Parameter Description
 
       The following conventions and constraints apply to list partitioned tables:
 
-      -  .. _en-us_topic_0000001460561364__li105701736194813:
+      -  .. _en-us_topic_0000001764675414__li105701736194813:
 
          The partition whose boundary value is **DEFAULT** is the default partition.
 
@@ -486,7 +496,7 @@ Parameter Description
 
       -  Regardless of the number of partition keys, the boundary of the DEFAULT partition can only be DEFAULT.
 
-      -  If a partition key consists of multiple columns, each **partition_value** must contain the values of all partition keys. If a partition key contains only one column, the parentheses on both sides of **partition_value** can be omitted. For details, see :ref:`Example 4: Creating a List Partition <en-us_topic_0000001460561364__li72564306344>`.
+      -  If a partition key consists of multiple columns, each **partition_value** must contain the values of all partition keys. If a partition key contains only one column, the parentheses on both sides of **partition_value** can be omitted. For details, see :ref:`Example 4: Creating a List Partition <en-us_topic_0000001764675414__li72564306344>`.
 
       -  If the partition key consists of multiple columns, compare the values in the columns one by one. If a value is different from another value, regardless of their columns, they are different values.
 
@@ -697,11 +707,11 @@ Examples
               PARTITION P5 VALUES (202301)
       );
 
--  .. _en-us_topic_0000001460561364__li72564306344:
+-  .. _en-us_topic_0000001764675414__li72564306344:
 
    Example 4: Create list partitioned tables with partition keys.
 
-   A partitioned table has two partition keys: **period** and **city**.
+   A partitioned table has two partition keys, **period** and **city**.
 
    ::
 
@@ -816,7 +826,7 @@ Examples
                    7 | 2020-08-05 00:00:00
       (1 row)
 
--  .. _en-us_topic_0000001460561364__li1238894117165:
+-  .. _en-us_topic_0000001764675414__li1238894117165:
 
    Example 8: Use **START END** to create a partitioned table with multiple partitions at a time.
 

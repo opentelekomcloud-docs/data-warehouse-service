@@ -89,7 +89,7 @@ Each non-empty range has two bounds: a lower bound and an upper bound. All value
 
 Inclusion of lower bound is represented by "[", and exclusion of lower bound is represented by "(". Similarly, inclusion of upper bound is represented by "]", and exclusion of upper bound is represented by ")".
 
-The :ref:`lower_inc(anyrange) <en-us_topic_0000001510281961__en-us_topic_0000001495702129_section19905992346>` and :ref:`lower_inc(anyrange) <en-us_topic_0000001510281961__en-us_topic_0000001495702129_section19905992346>` functions are used to test the upper and lower bounds of a range, respectively.
+The :ref:`lower_inc(anyrange) <en-us_topic_0000001811515649__en-us_topic_0000001495702129_section19905992346>` and :ref:`lower_inc(anyrange) <en-us_topic_0000001811515649__en-us_topic_0000001495702129_section19905992346>` functions are used to test the upper and lower bounds of a range, respectively.
 
 Infinite (Unbounded) Range
 --------------------------
@@ -98,7 +98,7 @@ When the lower bound of a range is unbounded, it means that all values less than
 
 Element types with the infinity values can be used as explicit bound values. For example, in the timestamp range, [today, infinity) does not include a special timestamp value **infinity**.
 
-The functions :ref:`lower_inf(anyrange) <en-us_topic_0000001510281961__en-us_topic_0000001495702129_section3663181517345>` and :ref:`upper_inf(anyrange) <en-us_topic_0000001510281961__en-us_topic_0000001495702129_section1578181883411>` are used to test whether a range has infinite upper bound or lower bound, respectively.
+The functions :ref:`lower_inf(anyrange) <en-us_topic_0000001811515649__en-us_topic_0000001495702129_section3663181517345>` and :ref:`upper_inf(anyrange) <en-us_topic_0000001811515649__en-us_topic_0000001495702129_section1578181883411>` are used to test whether a range has infinite upper bound or lower bound, respectively.
 
 Input/Output Values of a Range
 ------------------------------
@@ -188,7 +188,7 @@ If the third parameter is ignored, the range will be deemed as '[)'.
     [1.0,14.0)
    (1 row)
 
-Although '(]' is specified here, it is converted to the standard form in the return result because int8range is a type of :ref:`Discrete Ranges <en-us_topic_0000001665098248__en-us_topic_0000001645397490_section19719344172411>`:
+Although '(]' is specified here, it is converted to the standard form in the return result because int8range is a type of :ref:`Discrete Ranges <en-us_topic_0000001764516238__en-us_topic_0000001645397490_section19719344172411>`:
 
 .. code-block::
 
@@ -208,7 +208,7 @@ Although '(]' is specified here, it is converted to the standard form in the ret
     (,2.2)
    (1 row)
 
-.. _en-us_topic_0000001665098248__en-us_topic_0000001645397490_section19719344172411:
+.. _en-us_topic_0000001764516238__en-us_topic_0000001645397490_section19719344172411:
 
 Discrete Ranges
 ---------------
@@ -245,6 +245,6 @@ You can create GiST indexes for table columns of the range type. Example:
    CREATE TABLE reservation (room int, during tsrange);
    CREATE INDEX reservation_idx ON reservation USING GIST (during);
 
-GiST indexes can accelerate queries involving the following range operators: =, &&, <@, @>, <>, ``-|-``, &<, and &. >. For details, see :ref:`Range Operators <en-us_topic_0000001510520885>`.
+GiST indexes can accelerate queries involving the following range operators: =, &&, <@, @>, <>, ``-|-``, &<, and &. >. For details, see :ref:`Range Operators <en-us_topic_0000001764516502>`.
 
 In addition, you can also create B-tree indexes on table columns of the range type. For these index types, basically the only useful range operation is equivalence. B-tree indexes for range types are primarily used to enable sorting within a query. They are not actually created.

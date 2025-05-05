@@ -8,7 +8,7 @@ SELECT INTO
 Function
 --------
 
-Defines a new table based on a query result and insert the query result to the new table.
+**SELECT INTO** defines a new table based on a query result and insert data obtained by query to the new table.
 
 Different from **SELECT**, data found by **SELECT INTO** is not returned to the client. The table columns have the same names and data types as the output columns of the **SELECT**.
 
@@ -42,18 +42,18 @@ Parameter Description
 
 **INTO [ [ GLOBAL \| LOCAL \| VOLATILE ] { TEMPORARY \| TEMP } \| UNLOGGED ] [ TABLE ] new_table**
 
-**[ GLOBAL \| LOCAL \| VOLATILE ] { TEMPORARY \| TEMP }** specifies the type of a temporary table. For details, see the description of :ref:`GLOBAL | LOCAL | VOLATILE <en-us_topic_0000001460561348__l40601c13ccdb4b5d85be38edd4f99676>` in "CRATE TABLE."
+**[ GLOBAL \| LOCAL \| VOLATILE ] { TEMPORARY \| TEMP }** specifies the type of a temporary table. For details, see the description in "CREATE TABLE".
 
-**UNLOGGED** indicates that the table is created as an unlogged table. Data written to unlogged tables is not written to the write-ahead log, which makes them considerably faster than ordinary tables. However, they are not crash-safe: an unlogged table is automatically truncated upon a crash or unclean shutdown. The contents of an unlogged table are also not replicated to standby servers. Any indexes created on an unlogged table are automatically unlogged as well.
+**UNLOGGED** indicates that the table is created as an unlogged table. Data written to unlogged tables is not written to the write-ahead log, which makes them considerably faster than ordinary tables. However, they are not crash-safe: an unlogged table is automatically truncated after a crash or unclean shutdown. The contents of an unlogged table are also not replicated to standby servers. Any indexes created on an unlogged table are automatically unlogged as well.
 
 **new_table** specifies the name of the new table.
 
 .. note::
 
-   For details about other **SELECT INTO** parameters, see :ref:`Parameter Description <en-us_topic_0000001460880880__s3d562432879c4244bcdbfdf9f30bcc5e>` in **SELECT**.
+   For details about other **SELECT INTO** parameters, see :ref:`Parameter Description <en-us_topic_0000001811515533__s3d562432879c4244bcdbfdf9f30bcc5e>` in **SELECT**.
 
-Examples
---------
+Example
+-------
 
 Add values whose **TABLE_SK** is less than 3 in the **reason_t** table to the new table.
 

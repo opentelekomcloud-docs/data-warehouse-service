@@ -9,14 +9,14 @@ PV_REDO_STAT
 
 .. table:: **Table 1** PV_REDO_STAT columns
 
-   ========= ====== ================================
+   ========= ====== ==================================
    Name      Type   Description
-   ========= ====== ================================
-   phywrts   bigint Number of physical writes
-   phyblkwrt bigint Number of physical write blocks
-   writetim  bigint Time consumed by physical writes
-   avgiotim  bigint Average time for each write
-   lstiotim  bigint Last write time
-   miniotim  bigint Minimum write time
-   maxiowtm  bigint Maximum write time
-   ========= ====== ================================
+   ========= ====== ==================================
+   phywrts   Bigint Number of physical writes.
+   phyblkwrt Bigint Number of physical blocks written.
+   writetim  Bigint Time taken for physical writes.
+   avgiotim  Bigint Average time taken per write.
+   lstiotim  Bigint Time taken for the last write.
+   miniotim  Bigint Minimum time taken for a write.
+   maxiowtm  Bigint Maximum time taken for a write.
+   ========= ====== ==================================

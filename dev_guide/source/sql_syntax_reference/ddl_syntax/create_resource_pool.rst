@@ -8,7 +8,7 @@ CREATE RESOURCE POOL
 Function
 --------
 
-Creates a resource pool and specifies the Cgroup for the resource pool.
+**CREATE RESOURCE POOL** creates a resource pool and specifies the Cgroup for the resource pool.
 
 Precautions
 -----------
@@ -21,7 +21,7 @@ Syntax
 ::
 
    CREATE RESOURCE POOL pool_name
-       [WITH ({MEM_PERCENT=pct | CONTROL_GROUP="group_name" | ACTIVE_STATEMENTS=stmt | MAX_DOP = dop | MEMORY_LIMIT='memory_size' | io_limits=io_limits | io_priority='priority' | nodegroup='nodegroup_name' | is_foreign = boolean | except_rule='except_rule' | weight=bandwidth_weight}[, ... ])];
+       [WITH ({MEM_PERCENT=pct | CONTROL_GROUP="group_name" | ACTIVE_STATEMENTS=stmt | MAX_DOP = dop | MEMORY_LIMIT='memory_size' | io_limits=io_limits | io_priority='priority' | nodegroup='nodegroup_name' | is_foreign = boolean | except_rule='except_rule' | weight=bandwidth_weight | enable_concurrency_scaling=boolean}[, ... ])];
 
 Parameter Description
 ---------------------
@@ -110,6 +110,17 @@ Parameter Description
 
    Specifies the network bandwidth weight of the resource pool.
 
+-  **enable_concurrency_scaling**
+
+   Specifies whether to enable the elastic concurrency expansion function. This function is supported only by 9.1.0.100 and later versions.
+
+   Value range:
+
+   -  **true** indicates that the elastic concurrent expansion function of jobs in the resource pool is enabled.
+   -  **false** indicates that the elastic concurrent expansion function of jobs in the resource pool is disabled.
+
+   The default value is **false**.
+
 Examples
 --------
 
@@ -144,6 +155,12 @@ Create a resource pool, and associate it with the **wg2** Workload Cgroup under 
 ::
 
    CREATE RESOURCE POOL pool5 WITH (CONTROL_GROUP="class1:wg2:3");
+
+Create a resource pool and enable the elastic concurrent expansion function of the resource pool.
+
+::
+
+   CREATE RESOURCE POOL pool6 WITH (enable_concurrency_scaling=true);
 
 Helpful Links
 -------------

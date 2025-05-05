@@ -8,7 +8,7 @@ CLEAN CONNECTION
 Function
 --------
 
-Clears database connections when a database is abnormal. You may use this statement to delete a specific user's connections to a specified database.
+**CLEAN CONNECTION** clears database connections when a database is abnormal. You may use this statement to delete a specific user's connections to a specified database.
 
 Precautions
 -----------

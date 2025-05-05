@@ -10,23 +10,23 @@ PG_SUBSCRIPTION
 .. table:: **Table 1** PG_SUBSCRIPTION columns
 
    +-----------------+---------+--------------------------------------+----------------------------------------------------------------------------------------------------------------+
-   | Name            | Type    | Reference                            | Description                                                                                                    |
+   | Column          | Type    | Reference                            | Description                                                                                                    |
    +=================+=========+======================================+================================================================================================================+
-   | oid             | oid     | ``-``                                | Row identifier (hidden attribute; displayed only when explicitly selected)                                     |
+   | OID             | OID     | ``-``                                | Row identifier (hidden attribute; displayed only when explicitly selected)                                     |
    +-----------------+---------+--------------------------------------+----------------------------------------------------------------------------------------------------------------+
-   | subdbid         | oid     | :ref:`PG_DATABASE <dws_04_0582>`.oid | OID of the database that the subscription belongs to                                                           |
+   | subdbid         | OID     | :ref:`PG_DATABASE <dws_04_0582>`.oid | OID of the database that the subscription belongs to                                                           |
    +-----------------+---------+--------------------------------------+----------------------------------------------------------------------------------------------------------------+
-   | subname         | name    | ``-``                                | Name of a subscription                                                                                         |
+   | subname         | Name    | ``-``                                | Name of a subscription                                                                                         |
    +-----------------+---------+--------------------------------------+----------------------------------------------------------------------------------------------------------------+
-   | subowner        | oid     | :ref:`PG_AUTHID <dws_04_0574>`.oid   | Owner of a subscription                                                                                        |
+   | subowner        | OID     | :ref:`PG_AUTHID <dws_04_0574>`.oid   | Owner of a subscription                                                                                        |
    +-----------------+---------+--------------------------------------+----------------------------------------------------------------------------------------------------------------+
-   | subenabled      | boolean | ``-``                                | If it is **true**, the subscription is enabled and should be replicated.                                       |
+   | subenabled      | Boolean | ``-``                                | If it is **true**, the subscription is enabled and should be replicated.                                       |
    +-----------------+---------+--------------------------------------+----------------------------------------------------------------------------------------------------------------+
-   | subconninfo     | text    | ``-``                                | Information about the connection to the database at the publisher end                                          |
+   | subconninfo     | Text    | ``-``                                | Information about the connection to the database at the publisher end                                          |
    +-----------------+---------+--------------------------------------+----------------------------------------------------------------------------------------------------------------+
-   | subslotname     | text    | ``-``                                | Name of the replication slot in the publisher database If this parameter is left blank, the value is **NONE**. |
+   | subslotname     | Text    | ``-``                                | Name of the replication slot in the publisher database If this parameter is left blank, the value is **NONE**. |
    +-----------------+---------+--------------------------------------+----------------------------------------------------------------------------------------------------------------+
-   | subpublications | text[]  | ``-``                                | Array of subscribed publication names. These are the references to the publications on the publisher server.   |
+   | subpublications | Text[]  | ``-``                                | Array of subscribed publication names. These are the references to the publications on the publisher server.   |
    +-----------------+---------+--------------------------------------+----------------------------------------------------------------------------------------------------------------+
 
 Examples

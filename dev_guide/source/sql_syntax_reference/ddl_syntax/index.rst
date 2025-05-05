@@ -6,15 +6,17 @@ DDL Syntax
 ==========
 
 -  :ref:`DDL Syntax Overview <dws_06_0119>`
+-  :ref:`ALTER BLOCK RULE <dws_06_0291>`
 -  :ref:`ALTER DATABASE <dws_06_0120>`
 -  :ref:`ALTER EXCEPT RULE <dws_06_0280>`
+-  :ref:`ALTER EXTERNAL SCHEMA <dws_06_0366>`
 -  :ref:`ALTER FOREIGN TABLE (GDS Import and Export) <dws_06_0123>`
 -  :ref:`ALTER FOREIGN TABLE (for HDFS or OBS) <dws_06_0124>`
--  :ref:`ALTER FOREIGN TABLE (SQL on other GaussDB(DWS)) <dws_06_0125>`
 -  :ref:`ALTER FUNCTION <dws_06_0126>`
 -  :ref:`ALTER GROUP <dws_06_0127>`
 -  :ref:`ALTER INDEX <dws_06_0128>`
 -  :ref:`ALTER LARGE OBJECT <dws_06_0129>`
+-  :ref:`ALTER MATERIALIZED VIEW <dws_06_0358>`
 -  :ref:`ALTER PUBLICATION <dws_06_0284>`
 -  :ref:`ALTER REDACTION POLICY <dws_06_0132>`
 -  :ref:`ALTER RESOURCE POOL <dws_06_0133>`
@@ -40,15 +42,17 @@ DDL Syntax
 -  :ref:`CLUSTER <dws_06_0153>`
 -  :ref:`COMMENT <dws_06_0154>`
 -  :ref:`CREATE BARRIER <dws_06_0155>`
+-  :ref:`CREATE BLOCK RULE <dws_06_0292>`
 -  :ref:`CREATE DATABASE <dws_06_0156>`
 -  :ref:`CREATE EXCEPT RULE <dws_06_0281>`
+-  :ref:`CREATE EXTERNAL SCHEMA <dws_06_0367>`
 -  :ref:`CREATE FOREIGN TABLE (for GDS Import and Export) <dws_06_0159>`
 -  :ref:`CREATE FOREIGN TABLE (SQL on OBS or Hadoop) <dws_06_0161>`
 -  :ref:`CREATE FOREIGN TABLE (for OBS Import and Export) <dws_06_0160>`
--  :ref:`CREATE FOREIGN TABLE (SQL on other GaussDB(DWS)) <dws_06_0162>`
 -  :ref:`CREATE FUNCTION <dws_06_0163>`
 -  :ref:`CREATE GROUP <dws_06_0164>`
 -  :ref:`CREATE INDEX <dws_06_0165>`
+-  :ref:`CREATE MATERIALIZED VIEW <dws_06_0357>`
 -  :ref:`CREATE PROCEDURE <dws_06_0170>`
 -  :ref:`CREATE PUBLICATION <dws_06_0285>`
 -  :ref:`CREATE REDACTION POLICY <dws_06_0168>`
@@ -71,12 +75,14 @@ DDL Syntax
 -  :ref:`CREATE VIEW <dws_06_0187>`
 -  :ref:`CURSOR <dws_06_0188>`
 -  :ref:`DISCARD <dws_06_0283>`
+-  :ref:`DROP BLOCK RULE <dws_06_0293>`
 -  :ref:`DROP DATABASE <dws_06_0189>`
 -  :ref:`DROP EXCEPT RULE <dws_06_0282>`
 -  :ref:`DROP FOREIGN TABLE <dws_06_0192>`
 -  :ref:`DROP FUNCTION <dws_06_0193>`
 -  :ref:`DROP GROUP <dws_06_0194>`
 -  :ref:`DROP INDEX <dws_06_0195>`
+-  :ref:`DROP MATERIALIZED VIEW <dws_06_0360>`
 -  :ref:`DROP OWNED <dws_06_0198>`
 -  :ref:`DROP PUBLICATION <dws_06_0286>`
 -  :ref:`DROP REDACTION POLICY <dws_06_0199>`
@@ -98,6 +104,7 @@ DDL Syntax
 -  :ref:`DROP VIEW <dws_06_0215>`
 -  :ref:`FETCH <dws_06_0216>`
 -  :ref:`MOVE <dws_06_0217>`
+-  :ref:`REFRESH MATERIALIZED VIEW <dws_06_0361>`
 -  :ref:`REINDEX <dws_06_0218>`
 -  :ref:`RENAME TABLE <dws_06_0276>`
 -  :ref:`RESET <dws_06_0219>`
@@ -114,15 +121,17 @@ DDL Syntax
    :hidden: 
 
    ddl_syntax_overview
+   alter_block_rule
    alter_database
    alter_except_rule
+   alter_external_schema
    alter_foreign_table_gds_import_and_export
    alter_foreign_table_for_hdfs_or_obs
-   alter_foreign_table_sql_on_other_gaussdbdws
    alter_function
    alter_group
    alter_index
    alter_large_object
+   alter_materialized_view
    alter_publication
    alter_redaction_policy
    alter_resource_pool
@@ -148,15 +157,17 @@ DDL Syntax
    cluster
    comment
    create_barrier
+   create_block_rule
    create_database
    create_except_rule
+   create_external_schema
    create_foreign_table_for_gds_import_and_export
    create_foreign_table_sql_on_obs_or_hadoop
    create_foreign_table_for_obs_import_and_export
-   create_foreign_table_sql_on_other_gaussdbdws
    create_function
    create_group
    create_index
+   create_materialized_view
    create_procedure
    create_publication
    create_redaction_policy
@@ -179,12 +190,14 @@ DDL Syntax
    create_view
    cursor
    discard
+   drop_block_rule
    drop_database
    drop_except_rule
    drop_foreign_table
    drop_function
    drop_group
    drop_index
+   drop_materialized_view
    drop_owned
    drop_publication
    drop_redaction_policy
@@ -206,6 +219,7 @@ DDL Syntax
    drop_view
    fetch
    move
+   refresh_materialized_view
    reindex
    rename_table
    reset

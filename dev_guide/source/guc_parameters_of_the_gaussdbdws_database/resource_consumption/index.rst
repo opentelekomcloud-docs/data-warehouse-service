@@ -10,6 +10,7 @@ Resource Consumption
 -  :ref:`Kernel Resources <dws_04_0895>`
 -  :ref:`Cost-based Vacuum Delay <dws_04_0896>`
 -  :ref:`Asynchronous I/O Operations <dws_04_0898>`
+-  :ref:`Disk Caching <dws_04_1237>`
 
 .. toctree::
    :maxdepth: 1
@@ -20,3 +21,4 @@ Resource Consumption
    kernel_resources
    cost-based_vacuum_delay
    asynchronous_i_o_operations
+   disk_caching

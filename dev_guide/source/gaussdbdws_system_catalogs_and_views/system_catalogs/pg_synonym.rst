@@ -10,15 +10,15 @@ PG_SYNONYM
 .. table:: **Table 1** **PG_SYNONYM** columns
 
    +--------------+------+-----------------------------------------------------------------+
-   | Name         | Type | Description                                                     |
+   | Column       | Type | Description                                                     |
    +==============+======+=================================================================+
-   | synname      | name | Synonym name.                                                   |
+   | synname      | Name | Synonym name.                                                   |
    +--------------+------+-----------------------------------------------------------------+
-   | synnamespace | oid  | OID of the namespace where the synonym is located.              |
+   | synnamespace | OID  | OID of the namespace where the synonym is located.              |
    +--------------+------+-----------------------------------------------------------------+
-   | synowner     | oid  | Owner of a synonym, usually the OID of the user who created it. |
+   | synowner     | OID  | Owner of a synonym, usually the OID of the user who created it. |
    +--------------+------+-----------------------------------------------------------------+
-   | synobjschema | name | Schema name specified by the associated object.                 |
+   | synobjschema | Name | Schema name specified by the associated object.                 |
    +--------------+------+-----------------------------------------------------------------+
-   | synobjname   | name | Name of the associated object.                                  |
+   | synobjname   | Name | Name of the associated object.                                  |
    +--------------+------+-----------------------------------------------------------------+

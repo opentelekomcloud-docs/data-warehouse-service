@@ -23,7 +23,7 @@ enable_light_colupdate
 
    There is a low probability that an error is reported when lightweight **UPDATE** and backend column-store **AUTOVACUUM** coexist. You can run **ALTER TABLE** to set the table-level parameter **enable_column_autovacuum_garbage** to **off** to avoid this issue. If the table-level parameter **enable_column_autovacuum_garbage** is set to **off**, the backend column-store **AUTOVACUUM** of the table is disabled.
 
-.. _en-us_topic_0000001460882380__s9b7f64f4f112450490c8c74b520cc915:
+.. _en-us_topic_0000001764491796__s9b7f64f4f112450490c8c74b520cc915:
 
 enable_fast_query_shipping
 --------------------------
@@ -144,13 +144,15 @@ cost_model_version
 
 **Type**: USERSET
 
-**Value range**: **0**, **1**, **2**
+**Value range**: **0**, **1**, **2**, **3**, or **4**
 
 -  **0** indicates that the original cost estimation model is used.
 -  **1** indicates that the enhanced distinct estimation of the expression, HashJoin cost estimation model, estimation of the number of rows, distribution key selection during redistribution, and estimation of the number of aggregate rows are used on the basis of **0**.
 -  **2** indicates that the ANALYZE sampling algorithm with better randomicity is used on the basis of **1** to improve the accuracy of statistics collection.
+-  **3** indicates that the broadcast cost estimation in large cluster scenarios is optimized based on **2** so that the optimizer can select a better plan. This option is supported only by clusters of version 8.3.0 or later.
+-  **4** indicates that in addition to the optimizations made to the cost estimation of hashjoin parallelization, skew, and column-store index ordering in **3**, there are also optimized row estimations for coalesce expressions and improved recognition of skew optimization for subquery constant output columns during joins.
 
-**Default value**: **1**
+**Default value**: **4**
 
 debug_assertions
 ----------------
@@ -181,24 +183,6 @@ distribute_test_param
 
 **Default value**: **-1, default, default**
 
-enable_crc_check
-----------------
-
-**Parameter description**: Specifies whether to enable data checks. Check information is generated when table data is written and is checked when the data is read. You are not advised to modify the settings.
-
-**Type**: POSTMASTER
-
-**Value range**: Boolean
-
--  **on** indicates that data checks are enabled.
--  **off** indicates that data checks are disabled.
-
-**Default value**: **on**
-
-.. important::
-
-   If CRC is enabled, all data on a page must be written to WALs when hint bits of tuples on the page are modified for the first time after a checkpoint. This deteriorates the performance of the first query after the checkpoint.
-
 ignore_checksum_failure
 -----------------------
 
@@ -213,21 +197,6 @@ ignore_checksum_failure
 
 **Default value**: **off**
 
-default_orientation
--------------------
-
-**Parameter description**: Specifies the type of the table to be created if no storage method is specified during table creation. The value for each node must be the same.
-
-**Type**: SUSET
-
-**Value range**: **row**, **column**, **column enabledelta**
-
--  **row**: creates a row-store table.
--  **column**: creates a column-store table.
--  **column enabledelta**: creates a column-store table with delta tables enabled.
-
-**Default value**: **row**
-
 default_table_behavior
 ----------------------
 
@@ -235,10 +204,12 @@ default_table_behavior
 
 **Type**: USERSET
 
-**Value range**: an empty string, **column_btree_index**
+**Value range**: **column_btree_index**, **column_high_compress**, **column_middle_compress**, or **column_low_compress**
 
--  An empty string indicates that the behavior type of the table is not set.
 -  **column_btree_index** indicates that the default index for creating a column-store table is **btree**.
+-  **column_high_compress** indicates that the default compression level of column-store tables is **high**.
+-  **column_middle_compress** indicates that the default compression level of column-store tables is **middle**.
+-  **column_low_compress** indicates that the default compression level of column-store tables is **low**.
 
 **Default value**: an empty string
 
@@ -281,7 +252,7 @@ enable_csqual_pushdown
 explain_dna_file
 ----------------
 
-**Parameter description**: Specifies the name of a CSV file exported when :ref:`explain_perf_mode <en-us_topic_0000001460882380__s16fe71bb07ef45c4b3119ee670eac7d1>` is set to **run**.
+**Parameter description**: Specifies the name of a CSV file exported when :ref:`explain_perf_mode <en-us_topic_0000001764491796__s16fe71bb07ef45c4b3119ee670eac7d1>` is set to **run**.
 
 **Type**: USERSET
 
@@ -293,7 +264,7 @@ explain_dna_file
 
 **Default value**: **NULL**
 
-.. _en-us_topic_0000001460882380__s16fe71bb07ef45c4b3119ee670eac7d1:
+.. _en-us_topic_0000001764491796__s16fe71bb07ef45c4b3119ee670eac7d1:
 
 explain_perf_mode
 -----------------
@@ -358,7 +329,7 @@ qual_num_distinct
 trace_notify
 ------------
 
-**Parameter description**: Specifies whether to generate a large amount of debugging output for the **LISTEN** and **NOTIFY** commands. :ref:`client_min_messages <en-us_topic_0000001460882160__sbd8ad9bb6b9b48ba97f998f060dc56f3>` or :ref:`log_min_messages <en-us_topic_0000001460882160__s1ffb0797361d413d875381200fed970b>` must be **DEBUG1** or lower so that such output can be recorded in the logs on the client or server separately.
+**Parameter description**: Specifies whether to generate a large amount of debugging output for the **LISTEN** and **NOTIFY** commands. :ref:`client_min_messages <en-us_topic_0000001811490985__sbd8ad9bb6b9b48ba97f998f060dc56f3>` or :ref:`log_min_messages <en-us_topic_0000001811490985__s1ffb0797361d413d875381200fed970b>` must be **DEBUG1** or lower so that such output can be recorded in the logs on the client or server separately.
 
 **Type**: USERSET
 
@@ -580,17 +551,42 @@ This parameter can control the combination of query rewriting rules, for example
 
 **Value range**: a string
 
--  **none**: Does not use any optional query rewriting rules.
--  **lazyagg**: Uses the Lazy Agg query rewriting rules for eliminating aggregation operations in subqueries.
--  **magicset**: Uses the Magic Set query rewriting rule (to push down conditions from the main query to pulled up sublinks).
--  **uniquecheck**: Uses the Unique Check rewriting rule. (This function can help optimization engineers improve scenarios where the target column lack the expression sublink of the aggregate function. Note that it can only be enabled if the value of the target column is unique after the sublink is aggregated based on the associated column.)
+-  **none**: No optional query rewrite rules are used.
+-  **Lazyagg**: The Lazy Agg query rewrite rule is used to eliminate aggregate operations in subqueries.
+-  **magicset**: The Magic Set query rewrite rule is used to push conditions from the main query down to promoted sublinks.
+-  **uniquecheck**: Uses the Unique Check rewriting rule. (The scenario where the target column does not contain the expression sublink of the aggregate function can be improved. The function can be enabled only when the value of the target column is unique after the sublink is aggregated based on the associated column. This function is recommended to be used by optimization engineers.)
 -  **disablerep**: Uses the function that prohibits pulling up sublinks of the replication table. (Disables sublink pull-up for the replication table.)
 -  **projection_pushdown**: the Projection Pushdown rewriting rule (Removes columns that are not used by the parent query from the subquery).
 -  **or_conversion**: the OR conversion rewriting rule (eliminates the association OR conditions that are inefficient to execute).
 -  **plain_lazyagg**: the **Plain Lazy Agg** query rewriting rule (eliminates aggregation operations in a single subquery). This option is supported only by clusters of version 8.1.3.100 or later.
 -  **eager_magicset**: Uses the **eager_magicset** query rewriting rule (to push down conditions from the main query to subqueries). This option is supported only by clusters of version 8.2.0 or later.
+-  **casewhen_simplification**: This rewrite rule uses the **CASE WHEN** statement to simplify queries. When enabled, it rewrites **(case when xxx then const1 else const2)=const1**. This option is supported only by clusters of version 8.3.0 or later.
+-  **outer_join_quality_imply**: When there is an equi-join condition between a left outer join and a right outer join, this rule pushes the expression condition on the outer table's join column down to the inner table's join column. This option is supported only by clusters of version 8.3.0 or later.
+-  **inlist_merge**: This query rewrite rule uses the **inlist_or_inlist** method to merge **OR** statements with the same base table column. When enabled, it merges and rewrites **(where a in (list1) or a in (list2))** to support **inlist2join**. This option is supported only by clusters of version 8.3.0 or later.
+-  **subquery_qual_pull_up**: For subqueries that cannot be promoted, if the subquery has filtering conditions on columns that are also used for joining with other tables, this rule extracts the filtering conditions from the subquery and passes them to the other side of the join condition. Currently, only **var op const** forms without type conversion, such as **a > 2**, are supported. When enabled, it is assumed that **outer_join_quality_imply** is also enabled. This is supported only by clusters of version 9.1.0 or later.
 
-**Default value**: **magicset**, **or_conversion**, **projection_pushdown**, and **plain_lazyagg**
+**Default value**: **magicset**, **or_conversion**, **projection_pushdown**, **plain_lazyagg**, or **subquery_qual_pull_up**
+
+mv_rewrite_rule
+---------------
+
+**Parameter description**: whether to enable the rewriting rule for the materialized view.
+
+**Type**: USERSET
+
+**Value range**: a string
+
+-  **none**: No materialized view rewriting rule is used. This value is available only in clusters of version 8.2.1.100 or later.
+-  **text**: materialized view rewriting rule that uses text matching. This value is available only in clusters of version 8.2.1.100 or later.
+-  **general**: indicates whether to enable structure matching. This value is supported only by 9.1.0.200 and later cluster versions.
+-  **predicate**: specifies whether to enable the expression framework for structure matching rewriting. This parameter is used for preprocessing and regularization of filter and association conditions. This parameter takes effect only when **general** is enabled. This value is supported only by 9.1.0.210 and later cluster versions.
+-  **view_delta**: indicates whether to use the primary and foreign key relationships to eliminate redundant joins in materialized views and then match the materialized views with queries. This value is supported only by 9.1.0.210 and later cluster versions.
+
+**Default value**: **text**, **general**, and **predicate**
+
+.. important::
+
+   **general**, **predicate**, and **view_delta** are restricted for commercial use. To use them, contact technical support.
 
 enable_compress_spill
 ---------------------
@@ -609,7 +605,7 @@ enable_compress_spill
 analysis_options
 ----------------
 
-**Parameter description**: Specifies whether to enable function options in the corresponding options to use the corresponding location functions, including data verification and performance statistics. For details, see the options in the value range.
+**Parameter description**: Specifies whether to enable corresponding features, such as data validation and performance statistics.
 
 **Type**: USERSET
 
@@ -618,6 +614,9 @@ analysis_options
 -  **LLVM_COMPILE** indicates that the codegen compilation time of each thread is displayed on the explain performance page.
 -  **HASH_CONFLICT** indicates that the log file in the **pg_log** directory of the DN process displays the hash table statistics, including the hash table size, hash chain length, and hash conflict information.
 -  **STREAM_DATA_CHECK** indicates that a CRC check is performed on data before and after network data transmission.
+-  **TURBO_DATA_CHECK** indicates that the data context of the **ScalarVector** and **VectorBatch** operators of Turbo is verified. This parameter is supported only by clusters of version 8.3.0.100 or later.
+-  **KEEP_SAMPLE_DATA**: This parameter retains the sampling data used in each analyze operation in the form of temporary tables. This parameter is supported only by clusters of version 9.1.0 or later.
+-  **BLOCK_RULE**: indicates that the time required for checking the query filter is displayed on the explain performance page. This is supported only by 9.1.0.100 and later cluster versions.
 
 **Default value**: **off(ALL)**, which indicates that no location function is enabled.
 
@@ -640,7 +639,7 @@ Currently, the two parameter values differ only when there is an alarm about mul
 hll_default_log2m
 -----------------
 
-**Parameter description**: Specifies the number of buckets for HLL data. The precision of distinct values calculated by HLL is impacted by the number of buckets. Increasing the number of buckets results in smaller deviations. The deviation range is as follows: [-1.04/2\ :sup:`log2m*1/2`, +1.04/2\ :sup:`log2m*1/2`]
+**Parameter description**: Specifies the number of buckets for HLL data. The number of buckets affects the precision of distinct values calculated by HLL. As the number of buckets increases, the deviation becomes smaller. The deviation range is as follows: [-1.04/2\ :sup:`log2m*1/2`, +1.04/2\ :sup:`log2m*1/2`]
 
 **Type**: USERSET
 
@@ -651,7 +650,7 @@ hll_default_log2m
 hll_default_regwidth
 --------------------
 
-**Parameter description**: Specifies the number of bits in each bucket for HLL data. A larger value indicates more memory occupied by HLL. **hll_default_regwidth** and **hll_default_log2m** determine the maximum number of distinct values that can be calculated by HLL. For details, see :ref:`Table 1 <en-us_topic_0000001460882380__table05450516616>`.
+**Parameter description**: Specifies the number of bits in each bucket for HLL data. A larger value indicates more memory occupied by HLL. **hll_default_regwidth** and **hll_default_log2m** determine the maximum number of distinct values that can be calculated by HLL. For details, see :ref:`Table 1 <en-us_topic_0000001764491796__table05450516616>`.
 
 **Type**: USERSET
 
@@ -659,7 +658,7 @@ hll_default_regwidth
 
 **Default value**: **5**
 
-.. _en-us_topic_0000001460882380__table05450516616:
+.. _en-us_topic_0000001764491796__table05450516616:
 
 .. table:: **Table 1** Maximum number of calculated distinct values determined by hll_default_log2m and hll_default_regwidth
 
@@ -721,7 +720,18 @@ enable_compress_hll
 
 **Default value**: **off**
 
-.. _en-us_topic_0000001460882380__section1765913299426:
+approx_count_distinct_precision
+-------------------------------
+
+**Parameter description**: Specifies the number of buckets in the HyperLogLog++ (HLL++) algorithm. This parameter can be used to adjust the error rate of the **approx_count_distinct** aggregate function. The number of buckets affects the precision of estimating the distinct value. Having more buckets increases the accuracy of the estimation. The deviation range is as follows: [-1.04/2\ :sup:`log2m*1/2`, +1.04/2\ :sup:`log2m*1/2`]
+
+**Type**: USERSET
+
+**Value range**: an integer ranging from 10 to 20.
+
+**Default value**: 17
+
+.. _en-us_topic_0000001764491796__section1765913299426:
 
 udf_memory_limit
 ----------------
@@ -730,7 +740,7 @@ udf_memory_limit
 
 **Type**: POSTMASTER
 
-**Value range**: an integer ranging from 200 x 1024 to the value of :ref:`max_process_memory <en-us_topic_0000001460563104__sadc1e0e8c1c246a4a6cad3967deebaad>` and the unit is KB.
+**Value range**: an integer ranging from 200 x 1024 to the value of :ref:`max_process_memory <en-us_topic_0000001811610373__sadc1e0e8c1c246a4a6cad3967deebaad>` and the unit is KB.
 
 **Default value**: **0.05 \* max_process_memory**
 
@@ -741,24 +751,11 @@ FencedUDFMemoryLimit
 
 **Type**: USERSET
 
-**Suggestion**: You are not advised to set this parameter. You can set :ref:`udf_memory_limit <en-us_topic_0000001460882380__section1765913299426>` instead.
+**Suggestion**: You are not advised to set this parameter. You can set :ref:`udf_memory_limit <en-us_topic_0000001764491796__section1765913299426>` instead.
 
 **Value range**: an integer. The unit can be KB, MB, or GB. **0** indicates that the memory is not limited.
 
 **Default value**: **0**
-
-UDFWorkerMemHardLimit
----------------------
-
-**Parameter description**: Specifies the maximum value of **fencedUDFMemoryLimit**.
-
-**Type**: POSTMASTER
-
-**Suggestion**: You are not advised to set this parameter. You can set :ref:`udf_memory_limit <en-us_topic_0000001460882380__section1765913299426>` instead.
-
-**Value range**: an integer. The unit can be KB, MB, or GB.
-
-**Default value**: **1 GB**
 
 enable_pbe_optimization
 -----------------------
@@ -787,17 +784,6 @@ enable_light_proxy
 -  **off** indicates that the optimization does not optimize the execution.
 
 **Default value**: **on**
-
-checkpoint_flush_after
-----------------------
-
-**Parameter description**: Specifies the number of consecutive disk pages that the checkpointer writer thread writes before asynchronous flush. In GaussDB(DWS), the size of a disk page is 8 KB.
-
-**Type**: SIGHUP
-
-**Value range**: an integer ranging from 0 to 256. **0** indicates that the asynchronous flush function is disabled. For example, if the value is **32**, the checkpointer thread continuously writes 32 disk pages (that is, 32 x 8 = 256 KB) before asynchronous flush.
-
-**Default value**: **32**
 
 enable_parallel_ddl
 -------------------
@@ -830,12 +816,12 @@ gc_fdw_verify_option
 .. note::
 
    -  If this parameter is enabled, the performance deteriorates slightly. In performance-sensitive scenarios, you can disable this parameter to improve the performance.
-   -  If an exception is thrown during the result set row verification. You can set **log_min_messages=debug1** and **logging_module='on(COOP_ANALYZE)'** to obtain the collaborative analysis logs.
+   -  If the result set row count check fails, an exception will be reported. To enable cooperative analysis logs, set **log_min_messages** to **debug1** and **logging_module** to **'on(COOP_ANALYZE)'**.
 
 show_acce_estimate_detail
 -------------------------
 
-**Parameter description**: When the GaussDB(DWS) cluster is accelerated (:ref:`acceleration_with_compute_pool <en-us_topic_0000001460882428__section13787157164412>` is set to **on**), specifies whether the **EXPLAIN** statement displays the evaluation information about execution plan pushdown to computing Node Groups. The evaluation information is generally used by O&M personnel during maintenance, and it may affect the output display of the **EXPLAIN** statement. Therefore, this parameter is disabled by default. The evaluation information is displayed only if the **verbose** option of the **EXPLAIN** statement is enabled.
+**Parameter description**: When the GaussDB(DWS) cluster is accelerated (:ref:`acceleration_with_compute_pool <en-us_topic_0000001811490665__section13787157164412>` is set to **on**), specifies whether the **EXPLAIN** statement displays the evaluation information about execution plan pushdown to computing Node Groups. The evaluation information is generally used by O&M personnel during maintenance, and it may affect the output display of the **EXPLAIN** statement. Therefore, this parameter is disabled by default. The evaluation information is displayed only if the **verbose** option of the **EXPLAIN** statement is enabled.
 
 **Type**: USERSET
 
@@ -846,36 +832,130 @@ show_acce_estimate_detail
 
 **Default value**: **off**
 
-support_batch_bind
-------------------
-
-**Parameter description**: Specifies whether to batch bind and execute PBE statements through interfaces such as JDBC, ODBC, and Libpq.
-
-**Type**: SIGHUP
-
-**Value range**: Boolean
-
--  **on** indicates that batch binding and execution are used.
--  **off** indicates that batch binding and execution are not used.
-
-**Default value**: **on**
-
-.. _en-us_topic_0000001460882380__section8513287116:
+.. _en-us_topic_0000001764491796__section8513287116:
 
 full_group_by_mode
 ------------------
 
-**Parameter description**: This parameter is used together with **disable_full_group_by_mysql** to control the two different behaviors after the **disable_full_group_by_mysql** syntax feature is disabled. This parameter is supported only by clusters of version 8.2.1.109 or later.
+**Parameter description**: Used in conjunction with **disable_full_group_by_mysql** in :ref:`behavior_compat_options <en-us_topic_0000001811490801__section1980124735516>` to control two different behaviors when **disable_full_group_by_mysql syntax** is enabled.
 
 **Type**: USERSET
 
 **Value range**: a string
 
--  **nullpadding** indicates that NULL values in a non-aggregation column are replaced with values and non-null values in the column are used. The result set may contain different rows.
--  **notpadding** indicates that NULL values are not processed for non-aggregation columns and the entire row of data is obtained. The result set of non-aggregation columns is a random row.
+-  **nullpadding** indicates that NULL values in non-aggregate columns are filled with the non-NULL values in that column, potentially resulting in different rows in the result set.
+-  **notpadding** indicates that NULL values in non-aggregate columns are not processed, and the entire row data is used, resulting in a random row for non-aggregate columns in the result set.
 
 **Default value**: **notpadding**
 
 .. important::
 
-   This parameter takes effect only when **disable_full_group_by_mysql** is enabled in the MySQL compatibility library and non-aggregation columns exist in the query. The two behaviors of this parameter also take effect only for non-aggregation columns in the query.
+   This parameter only takes effect when **disable_full_group_by_mysql** is enabled in the MySQL-compatible library and non-aggregate columns are present in the query. The two behaviors of this parameter only apply to non-aggregate columns in the query.
+
+enable_cudesc_streaming
+-----------------------
+
+**Parameter description**: Specifies whether to use the cudesc streaming path for accessing data across logical clusters in the decoupled storage and compute architecture. This parameter is supported only by clusters of version 9.1.0 or later.
+
+**Type**: SUSET
+
+**Value range**: enumerated values
+
+-  **off** indicates that cudesc streaming is disabled.
+-  **on** indicates that cudesc streaming is enabled.
+-  **only_read_on** indicates that cudesc streaming is supported only during data reading.
+
+**Default value**: **on**
+
+force_read_from_rw
+------------------
+
+**Parameter description**: Forces data to be read from other logical clusters in the decoupled storage and compute architecture (i.e., read data from the logical cluster where the table resides). This parameter is supported only by clusters of version 9.0.0 or later.
+
+**Type**: USERSET
+
+**Value range**: Boolean
+
+**Default value**: **off**
+
+kv_sync_up_timeout
+------------------
+
+**Parameter description**: Specifies the timeout interval for KV synchronization in the decoupled storage and compute architecture. This parameter is supported only by clusters of version 9.0.0 or later.
+
+**Type**: USERSET
+
+**Value range**: an integer ranging from 0 to 2147483647
+
+**Default value**: **10min**
+
+enable_insert_foreign_table_dop
+-------------------------------
+
+**Parameter description**: Specifies whether to enable DOP acceleration when data is written into an OBS foreign table. The number of DOP threads on each DN is determined by **query_dop**. By adjusting its value, you can control the level of parallelism for your queries. This parameter is supported only in 9.1.0.200 and later versions.
+
+**Type**: USERSET
+
+**Value range**: Boolean
+
+-  **on** indicates that foreign table DOP acceleration is enabled.
+-  **off** indicates that foreign table DOP acceleration is disabled.
+
+**Default value**: **off**
+
+enable_insert_foreign_table_dop_opt
+-----------------------------------
+
+**Parameter description**: Specifies whether to enable partition redistribution optimization after **insert dop** is enabled for a foreign table. If the number of partitions to be exported is greater than 10 times the number of partitions, you are advised to enable this function to reduce small files in a single partition and improve export performance. This parameter is supported only in 9.1.0.200 and later versions.
+
+**Type**: USERSET
+
+**Value range**: Boolean
+
+-  **on** indicates that the **insert dop** redistribution optimization of the partitioned foreign table is enabled.
+-  **off** indicates that the insert dop redistribution optimization of the partitioned foreign table is disabled.
+
+**Default value**: **off**
+
+.. _en-us_topic_0000001764491796__section19418514112914:
+
+enable_hstore_binlog_table
+--------------------------
+
+**Parameter description**: Specifies whether binlog tables can be created.
+
+**Type**: SIGHUP
+
+**Value range**: Boolean
+
+-  **on** indicates that binlog tables can be created.
+-  **off** indicates that binlog tables cannot be created.
+
+**Default value**: **off**
+
+.. _en-us_topic_0000001764491796__section192371051875:
+
+enable_generate_binlog
+----------------------
+
+**Parameter description**: Specifies whether binlogs are generated for DML operations on binlog tables in the current session. This parameter is supported only by clusters of version 9.1.0.200 or later.
+
+**Type**: USERSET
+
+**Value range**: Boolean
+
+-  **on** indicates that binlogs are generated.
+-  **off** indicates that binlogs are not generated.
+
+**Default value**: **on**
+
+binlog_consume_timeout
+----------------------
+
+**Parameter description**: Specifies the duration for cyclically determining whether all binlog records are consumed during binlog table scaling or **VACUUM FULL** operations. This parameter is supported only by 8.3.0.100 and later versions. The unit is second.
+
+**Type**: SIGHUP
+
+**Value range**: an integer ranging from 0 to 86400
+
+**Default value**: 3600

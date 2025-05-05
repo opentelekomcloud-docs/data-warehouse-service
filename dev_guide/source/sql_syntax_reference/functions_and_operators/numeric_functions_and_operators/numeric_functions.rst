@@ -53,7 +53,7 @@ Example:
    SELECT asin(0.5);
           asin
    ------------------
-    .523598775598299
+    0.523598775598299
    (1 row)
 
 atan(x)
@@ -70,7 +70,7 @@ Example:
    SELECT atan(1);
           atan
    ------------------
-    .785398163397448
+    0.785398163397448
    (1 row)
 
 atan2(y, x)
@@ -172,7 +172,7 @@ Example:
    SELECT cos(-3.1415927);
            cos
    -------------------
-    -.999999999999999
+    -0.999999999999999
    (1 row)
 
 cot(x)
@@ -189,7 +189,7 @@ Example:
    SELECT cot(1);
           cot
    ------------------
-    .642092615934331
+    0.642092615934331
    (1 row)
 
 degrees(double precision)
@@ -274,7 +274,7 @@ Example:
    SELECT radians(45.0);
         radians
    ------------------
-    .785398163397448
+    0.785398163397448
    (1 row)
 
 random()
@@ -291,7 +291,7 @@ Example:
    SELECT random();
          random
    ------------------
-    .824823560658842
+    0.824823560658842
    (1 row)
 
 rand()
@@ -308,7 +308,7 @@ Example:
    SELECT rand();
          rand
    ------------------
-    .824823560658842
+    0.824823560658842
    (1 row)
 
 ln(double precision or numeric)
@@ -325,7 +325,7 @@ Example:
    SELECT ln(2.0);
            ln
    -------------------
-    .6931471805599453
+    0.6931471805599453
    (1 row)
 
 log(double precision or numeric)
@@ -381,9 +381,7 @@ Example:
 mod(x,y)
 --------
 
-Description: Specifies the remainder of x/y (modulus).
-
-If x is 0, 0 is returned. If y is 0, x is returned.
+Description: Specifies the remainder of x/y (modulus). If x is 0, 0 is returned. If y is 0, x is returned.
 
 Return type: same as the parameter type
 
@@ -531,11 +529,11 @@ Example:
    SELECT sin(1.57079);
           sin
    ------------------
-    .999999999979986
+    0.999999999979986
    (1 row)
 
-sqrt(x)
--------
+sqrt(double precision or numeric)
+---------------------------------
 
 Description: Returns the square root.
 

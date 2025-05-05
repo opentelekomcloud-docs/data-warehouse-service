@@ -15,11 +15,11 @@ Define a record type and use this type to declare a variable.
 Syntax
 ------
 
-For the syntax of the record type, see :ref:`Figure 1 <en-us_topic_0000001460722500__fig092918316312>`.
+For the syntax of the record type, see :ref:`Figure 1 <en-us_topic_0000001764650124__fig092918316312>`.
 
-.. _en-us_topic_0000001460722500__fig092918316312:
+.. _en-us_topic_0000001764650124__fig092918316312:
 
-.. figure:: /_static/images/en-us_image_0000001510522785.png
+.. figure:: /_static/images/en-us_image_0000001764492120.png
    :alt: **Figure 1** Syntax of the record type
 
    **Figure 1** Syntax of the record type

@@ -10,15 +10,15 @@ PG_PREPARED_XACTS
 .. table:: **Table 1** PG_PREPARED_XACTS columns
 
    +-------------+--------------------------+------------------------------------------+--------------------------------------------------------------------+
-   | Name        | Type                     | Reference                                | Description                                                        |
+   | Column      | Type                     | Reference                                | Description                                                        |
    +=============+==========================+==========================================+====================================================================+
-   | transaction | xid                      | ``-``                                    | Numeric transaction identifier of the prepared transaction         |
+   | transaction | Xid                      | N/A                                      | Numeric transaction identifier of the prepared transaction         |
    +-------------+--------------------------+------------------------------------------+--------------------------------------------------------------------+
-   | gid         | text                     | ``-``                                    | Global transaction identifier that was assigned to the transaction |
+   | gid         | Text                     | N/A                                      | Global transaction identifier that was assigned to the transaction |
    +-------------+--------------------------+------------------------------------------+--------------------------------------------------------------------+
-   | prepared    | timestamp with time zone | ``-``                                    | Time at which the transaction is prepared for commit               |
+   | prepared    | Timestamp with time zone | N/A                                      | Time at which the transaction is prepared for commit               |
    +-------------+--------------------------+------------------------------------------+--------------------------------------------------------------------+
-   | owner       | name                     | :ref:`PG_AUTHID <dws_04_0574>`.rolname   | Name of the user that executes the transaction                     |
+   | owner       | Name                     | :ref:`PG_AUTHID <dws_04_0574>`.rolname   | Name of the user that executes the transaction                     |
    +-------------+--------------------------+------------------------------------------+--------------------------------------------------------------------+
-   | database    | name                     | :ref:`PG_DATABASE <dws_04_0582>`.datname | Name of the database in which the transaction is executed          |
+   | database    | Name                     | :ref:`PG_DATABASE <dws_04_0582>`.datname | Name of the database in which the transaction is executed          |
    +-------------+--------------------------+------------------------------------------+--------------------------------------------------------------------+

@@ -18,7 +18,7 @@ Note: **pg_column_size** displays the space for storing an independent data valu
 
 ::
 
-   SELECT pg_column_size(1);
+   postgres=#SELECT pg_column_size(1);
     pg_column_size
    ----------------
                  4
@@ -44,7 +44,7 @@ Example:
 
 ::
 
-   SELECT pg_database_size('gaussdb');
+   postgres=#SELECT pg_database_size('gaussdb');
     pg_database_size
    ------------------
             51590112
@@ -70,9 +70,9 @@ Example:
 
 ::
 
-   analyze;
+   postgres=#analyze;
    ANALYZE
-   SELECT get_db_source_datasize();
+   postgres=#SELECT get_db_source_datasize();
     get_db_source_datasize
    ------------------------
                35384925667
@@ -99,7 +99,7 @@ Description: Is an abbreviation of **pg_relation_size(..., 'main')**.
 
 Return type: bigint
 
-Note: **pg_relation_size** receives the OID or name of a table, index, or compressed table, and returns the size.
+Note: **pg_relation_size** returns the size in bytes of the table, index, or compressed table with the specified OID or name.
 
 pg_partition_size(oid,oid)
 --------------------------
@@ -176,8 +176,57 @@ Return type: bigint
 pg_total_relation_size(text)
 ----------------------------
 
-Description: Specifies the disk space used by the table with a specified name, including the index and the compressed data. The table name can be schema-qualified.
+Description: This function specifies the disk space used by the table with the specified name, including the index and compressed data. The table name can be schema-qualified.
 
 Return type: bigint
 
-Note: **pg_total_relation_size** receives the OID or name of a table or a compressed table, and returns the sizes of the data, related indexes, and the compressed table in bytes.
+Note: **pg_total_relation_size** can specify the OID or name of a table or compressed table, and then return the data in bytes and the sizes of all related indexes and compressed tables.
+
+pg_obs_file_size(regclass)
+--------------------------
+
+Description: This function obtains the CU file size, file name, and bucket ID stored on OBS by specifying the OID or name of a V3 column-store table. This function is supported only by clusters of version 9.1.0 or later.
+
+Parameter: The input parameter can be the table OID or table name.
+
+Return type: record
+
+.. table:: **Table 1** Return fields
+
+   ======== ======= ======================================
+   Field    Type    Description
+   ======== ======= ======================================
+   bucketid integer ID of the bucket for storing CU files.
+   filename text    CU file name.
+   size     bigint  CU file size, in bytes.
+   ======== ======= ======================================
+
+Example:
+
+::
+
+   SELECT * FROM pg_obs_file_size('t3_col_part_dif_partition');
+    bucketid |     filename     | size
+   ----------+------------------+------
+           9 | 23488119324673.0 |  512
+          22 | 23488102760449.0 |  512
+          21 | 23488119521281.0 |  512
+          16 | 23488102662145.0 |  512
+   (4 rows)
+
+pg_obs_file_size(text, text)
+----------------------------
+
+Description: This function specifies a partition of a column-store V3 table (primary table name or partitioned table) and returns the size, file name, and bucket ID of the CU file stored on OBS. This function is supported only by clusters of version 9.1.0 or later.
+
+Parameter: The input parameter can be the table OID or table name. The partition name is used as the partition name.
+
+Return type: record
+
+======== ======= ======================================
+Field    Type    Description
+======== ======= ======================================
+bucketid integer ID of the bucket for storing CU files.
+filename text    CU file name.
+size     bigint  CU file size, in bytes.
+======== ======= ======================================

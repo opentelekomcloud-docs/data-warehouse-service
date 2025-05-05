@@ -10,25 +10,25 @@ GS_COLUMN_TABLE_IO_STAT
 .. table:: **Table 1** GS_COLUMN_TABLE_IO_STAT columns
 
    +------------+--------+----------------------------------------------------------+
-   | Name       | Type   | Description                                              |
+   | Column     | Type   | Description                                              |
    +============+========+==========================================================+
-   | schemaname | name   | Namespace of a table                                     |
+   | schemaname | Name   | Namespace of a table                                     |
    +------------+--------+----------------------------------------------------------+
-   | relname    | name   | Table name                                               |
+   | relname    | Name   | Table name                                               |
    +------------+--------+----------------------------------------------------------+
-   | heap_read  | bigint | Number of blocks logically read in the heap              |
+   | heap_read  | Bigint | Number of blocks logically read in the heap              |
    +------------+--------+----------------------------------------------------------+
-   | heap_hit   | bigint | Number of block hits in the heap                         |
+   | heap_hit   | Bigint | Number of block hits in the heap                         |
    +------------+--------+----------------------------------------------------------+
-   | idx_read   | bigint | Number of blocks logically read in the index             |
+   | idx_read   | Bigint | Number of blocks logically read in the index             |
    +------------+--------+----------------------------------------------------------+
-   | idx_hit    | bigint | Number of block hits in the index                        |
+   | idx_hit    | Bigint | Number of block hits in the index                        |
    +------------+--------+----------------------------------------------------------+
-   | cu_read    | bigint | Number of logical reads in the Compression Unit          |
+   | cu_read    | Bigint | Number of logical reads in the Compression Unit          |
    +------------+--------+----------------------------------------------------------+
-   | cu_hit     | bigint | Number of hits in the Compression Unit                   |
+   | cu_hit     | Bigint | Number of hits in the Compression Unit                   |
    +------------+--------+----------------------------------------------------------+
-   | cidx_read  | bigint | Number of indexes logically read in the Compression Unit |
+   | cidx_read  | Bigint | Number of indexes logically read in the Compression Unit |
    +------------+--------+----------------------------------------------------------+
-   | cidx_hit   | bigint | Number of index hits in the Compression Unit             |
+   | cidx_hit   | Bigint | Number of index hits in the Compression Unit             |
    +------------+--------+----------------------------------------------------------+

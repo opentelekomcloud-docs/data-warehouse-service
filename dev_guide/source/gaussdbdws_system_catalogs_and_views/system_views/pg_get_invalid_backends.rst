@@ -10,15 +10,15 @@ PG_GET_INVALID_BACKENDS
 .. table:: **Table 1** PG_GET_INVALID_BACKENDS columns
 
    +---------------+--------------------------+--------------------------------------------------+
-   | Name          | Type                     | Description                                      |
+   | Column        | Type                     | Description                                      |
    +===============+==========================+==================================================+
-   | pid           | bigint                   | Thread ID                                        |
+   | pid           | Bigint                   | Thread ID                                        |
    +---------------+--------------------------+--------------------------------------------------+
-   | node_name     | text                     | Node information connected to the backend thread |
+   | node_name     | Text                     | Node information connected to the backend thread |
    +---------------+--------------------------+--------------------------------------------------+
-   | dbname        | name                     | Name of the connected database                   |
+   | dbname        | Name                     | Name of the connected database                   |
    +---------------+--------------------------+--------------------------------------------------+
-   | backend_start | timestamp with time zone | Backend thread startup time                      |
+   | backend_start | Timestamp with time zone | Backend thread startup time                      |
    +---------------+--------------------------+--------------------------------------------------+
-   | query         | text                     | Query statement performed by the backend thread  |
+   | query         | Text                     | Query statement performed by the backend thread  |
    +---------------+--------------------------+--------------------------------------------------+

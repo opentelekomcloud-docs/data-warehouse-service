@@ -8,7 +8,7 @@ ALTER DATABASE
 Function
 --------
 
-Modifies the attributes of a database, including the database name, owner, maximum number of connections, and object isolation attributes.
+This command is used to modify the attributes of a database, including the database name, owner, maximum number of connections, and object isolation attribute.
 
 Important Notes
 ---------------

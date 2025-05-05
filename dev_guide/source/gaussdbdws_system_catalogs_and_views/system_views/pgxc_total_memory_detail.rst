@@ -10,11 +10,11 @@ PGXC_TOTAL_MEMORY_DETAIL
 .. table:: **Table 1** PGXC_TOTAL_MEMORY_DETAIL columns
 
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------+
-   | Name                  | Type                  | Description                                                                                |
+   | Column                | Type                  | Description                                                                                |
    +=======================+=======================+============================================================================================+
-   | nodename              | text                  | Node name                                                                                  |
+   | nodename              | Text                  | Node name                                                                                  |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------+
-   | memorytype            | text                  | Memory name, which can be set to any of the following values:                              |
+   | memorytype            | Text                  | Memory name, which can be set to any of the following values:                              |
    |                       |                       |                                                                                            |
    |                       |                       | -  **max_process_memory**: memory used by a GaussDB(DWS) cluster instance                  |
    |                       |                       | -  **process_used_memory**: memory used by a GaussDB(DWS) process                          |
@@ -40,5 +40,5 @@ PGXC_TOTAL_MEMORY_DETAIL
    |                       |                       | -  **udf_reserved_memory**: memory reserved for the **UDF Worker** process                 |
    |                       |                       | -  **mmap_used_memory**: memory used for **mmap**                                          |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------+
-   | memorymbytes          | integer               | Size of the used memory (MB)                                                               |
+   | memorymbytes          | Integer               | Size of the used memory (MB)                                                               |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------+

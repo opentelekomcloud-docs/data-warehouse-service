@@ -8,7 +8,7 @@ CLUSTER
 Function
 --------
 
-Clusters a table according to an index.
+Cluster a table according to an index.
 
 **CLUSTER** instructs GaussDB(DWS) to cluster the table specified by **table_name** based on the index specified by **index_name**. The index specified by **index_name** must have been defined in the specified table.
 
@@ -31,7 +31,10 @@ Precautions
 
 -  Because the optimizer records statistics about the ordering of tables, it is advisable to run **ANALYZE** on the newly clustered table. Otherwise, the optimizer might make poor choices of query plans.
 -  **CLUSTER** cannot be executed in transactions.
--  When a **CLUSTER** operation is performed on a table, it triggers table rebuilding. During this rebuilding process, data is dumped into a new data file. Once the rebuilding is complete, the original file is deleted. However, it is important to note that if the table is large, the rebuilding process can consume a significant amount of disk space. When the disk space is insufficient, exercise caution when performing the **CLUSTER** operation on large tables to prevent the cluster from being read-only.
+-  The **CLUSTER** operation cannot be performed on global temporary tables.
+
+-  Performing a **CLUSTER** operation on a table triggers a rebuilding process where data is dumped into a new data file. Once the process is complete, the original file is deleted. Keep in mind that if the table is large, this process can consume a significant amount of disk space. When the disk space is insufficient, exercise caution when performing the **CLUSTER** operation on large tables to prevent the cluster from being read-only.
+-  In the storage-compute decoupling architecture, a message is displayed indicating that operations on the entire cluster database are not supported.
 
 Syntax
 ------

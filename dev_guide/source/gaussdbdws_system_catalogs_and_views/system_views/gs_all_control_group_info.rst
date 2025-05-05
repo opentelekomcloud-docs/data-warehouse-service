@@ -10,16 +10,16 @@ GS_ALL_CONTROL_GROUP_INFO
 .. table:: **Table 1** GS_ALL_CONTROL_GROUP_INFO columns
 
    ======== ====== ==================================================
-   Name     Type   Description
+   Column   Type   Description
    ======== ====== ==================================================
-   name     text   Name of the Cgroup
-   type     text   Type of the Cgroup
-   gid      bigint Cgroup ID
-   classgid bigint ID of the Class Cgroup to which a Workload belongs
-   class    text   Class Cgroup
-   workload text   Workload Cgroup
-   shares   bigint CPU quota allocated to a Cgroup
-   limits   bigint Limit of CPUs allocated to a Cgroup
-   wdlevel  bigint Workload Cgroup level
-   cpucores text   Usage of CPU cores in a Cgroup
+   Name     Text   Name of the Cgroup
+   type     Text   Type of the Cgroup
+   gid      Bigint Cgroup ID
+   classgid Bigint ID of the Class Cgroup to which a Workload belongs
+   class    Text   Class Cgroup
+   workload Text   Workload Cgroup
+   shares   Bigint CPU quota allocated to a Cgroup
+   limits   Bigint Limit of CPUs allocated to a Cgroup
+   wdlevel  Bigint Workload Cgroup level
+   cpucores Text   Usage of CPU cores in a Cgroup
    ======== ====== ==================================================

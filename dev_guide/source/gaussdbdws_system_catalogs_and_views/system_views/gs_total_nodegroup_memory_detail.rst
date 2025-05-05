@@ -10,20 +10,20 @@ GS_TOTAL_NODEGROUP_MEMORY_DETAIL
 .. table:: **Table 1** GS_TOTAL_NODEGROUP_MEMORY_DETAIL columns
 
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------------+
-   | Name                  | Type                  | Description                                                                                                                            |
+   | Column                | Type                  | Description                                                                                                                            |
    +=======================+=======================+========================================================================================================================================+
-   | ngname                | text                  | Name of a logical cluster                                                                                                              |
+   | ngname                | Text                  | Logical cluster name                                                                                                                   |
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------------+
-   | memorytype            | text                  | Memory type. Its value can be:                                                                                                         |
+   | memorytype            | Text                  | Memory type. The value can be:                                                                                                         |
    |                       |                       |                                                                                                                                        |
    |                       |                       | -  **ng_total_memory**: total memory of the logical cluster                                                                            |
    |                       |                       | -  **ng_used_memory**: memory usage of the logical cluster                                                                             |
    |                       |                       | -  **ng_estimate_memory**: estimated memory usage of the logical cluster                                                               |
    |                       |                       | -  **ng_foreignrp_memsize**: total memory of the external resource pool of the logical cluster                                         |
-   |                       |                       | -  **ng_foreignrp_memsize**: memory usage of the external resource pool of the logical cluster                                         |
+   |                       |                       | -  **ng_foreignrp_usedsize**: memory usage of the external resource pool of the logical instance                                       |
    |                       |                       | -  **ng_foreignrp_peaksize**: peak memory usage of the external resource pool of the logical cluster                                   |
    |                       |                       | -  **ng_foreignrp_mempct**: percentage of the external resource pool of the logical cluster to the total memory of the logical cluster |
    |                       |                       | -  **ng_foreignrp_estmsize**: estimated memory usage of the external resource pool of the logical cluster                              |
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------------+
-   | memorymbytes          | integer               | Size of allocated memory-typed memory                                                                                                  |
+   | memorymbytes          | Integer               | Size of allocated memory-typed memory                                                                                                  |
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------------+

@@ -12,8 +12,8 @@ Type Resolution for UNION, CASE, and Related Constructs
 
 -  If all inputs are of the same type, and it is not unknown, resolve as that type.
 -  If all inputs are of type **unknown**, resolve as type **text** (the preferred type of the string category). Otherwise, **unknown** inputs are ignored.
--  If the non-unknown inputs are not all of the same type category, the query fails. (Type **unknown** is not included.)
--  If the non-unknown inputs are all of the same type category, choose the first non-unknown input type which is a preferred type in that category, if there is one. (Exception: The UNION operation regards the type of the first branch as the selected type.)
+-  If the entered values are not the same type, the query fails (except for the **unknown** type).
+-  When input types fall under the same category, the preferred type of that category is chosen, unless the union operation selects the type of the first branch as the chosen type.
 
    .. note::
 

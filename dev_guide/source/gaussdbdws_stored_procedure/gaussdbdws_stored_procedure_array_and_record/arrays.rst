@@ -30,7 +30,7 @@ Its parameters are as follows:
    -  The scope of an array type defined in a stored procedure takes effect only in this storage process.
    -  It is recommended that you use one of the preceding methods to define an array type. If both methods are used to define the same array type, GaussDB(DWS) prefers the array type defined in a stored procedure to declare array variables.
 
-In GaussDB(DWS) 8.1.0 and earlier versions, the system does not verify the length of array elements and out-of-bounds write because the array can automatically increase. This version adds related constraints to be compatible with Oracle databases. If out-of-bounds write exists, you can configure **varray_verification** in the parameter :ref:`behavior_compat_options <en-us_topic_0000001510522261__section1980124735516>` to be compatible with previously unverified operations.
+In GaussDB(DWS) 8.1.0 and earlier versions, the system does not verify the length of array elements and out-of-bounds write because the array can automatically increase. This version adds related constraints to be compatible with Oracle databases. If out-of-bounds write exists, you can configure **varray_verification** in the parameter :ref:`behavior_compat_options <en-us_topic_0000001811490801__section1980124735516>` to be compatible with previously unverified operations.
 
 Example:
 
@@ -192,7 +192,7 @@ The EXTEND function can extend arrays. The EXTEND function can be invoked in eit
 
 -  Method 1:
 
-   EXTEND contains an integer input parameter, indicating that the array size is extended by the specified length. After executing the EXTEND function, the values of the COUNT and LAST functions change accordingly.
+   EXTEND contains an integer input parameter, indicating that the array size is extended by the specified length. When the EXTEND function is executed, the values returned by the COUNT and LAST functions will be updated accordingly.
 
    Use:
 

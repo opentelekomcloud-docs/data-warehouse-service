@@ -8,13 +8,13 @@ CREATE REDACTION POLICY
 Function
 --------
 
-Creates a data redaction policy for a table.
+**CREATE REDACTION POLICY** creates a data redaction policy for a table.
 
 Precautions
 -----------
 
--  Only the table owner has the permission to create a data redaction policy.
--  You can create data redaction policies only for ordinary tables. Redaction policies are unavailable to system catalogs, HDFS tables, foreign tables, temporary tables, UNLOGGED tables, views, and functions.
+-  Only the table object owner and users who have been granted the **gs_redaction_policy** preset role are authorized to create data masking policies.
+-  Data masking policies can be created for regular tables and non-EXTERNAL-SCHEMA foreign tables (such as OBS, HDFS, GDS, and foreign tables for coordinated analysis), but not for system catalogs, EXTERNAL SCHEMA foreign tables, temporary tables, UNLOGGED tables, views, or functions.
 -  Synonyms cannot be used to create redaction policies for ordinary table objects.
 -  Table objects and redaction policies have a one-to-one mapping relationship. A redaction policy is a collection of data redaction functions that can be applied to multiple columns in a table. You can set different redaction functions for different columns.
 -  A redaction policy is enabled by default upon its creation, that is, the **enable** parameter of the policy is **true** by default.
@@ -63,7 +63,7 @@ Parameter Description
       #. The expression can be a combination of multiple subexpressions connected by AND and/or OR.
       #. Each subexpression supports only the =, <>, !=, >=, >, <=, and < operators. The left and right operand values can only be constant values or one of the following system constant values: **SESSION_USER**, **CURRENT_USER**, **USER**, **CURRENT_ROLE**, and **CURRENT_SCHEMA** system constants or the **SYS_CONTEXT** system function.
       #. Each subexpression can be an IN or NOT IN expression. The value for the left operand can be any of the system constant values listed in rule 2, and each element in the array of the right operand must be a constant value.
-      #. Each subexpression can be a :ref:`pg_has_role(user, role, privilege) <en-us_topic_0000001460721276__section13942057572>` system function.
+      #. Each subexpression can be a :ref:`pg_has_role(user, role, privilege) <en-us_topic_0000001811515573__section13942057572>` system function.
       #. If you want a redaction policy to be valid in all conditions, that is, you want it to take effect on all users (including the table owner), you are advised to use the (1=1) expression to create this policy.
       #. If the WHEN clause is not specified, the redaction policy is disabled by default. You need to manually specify a WHEN expression for the policy to take effect.
 

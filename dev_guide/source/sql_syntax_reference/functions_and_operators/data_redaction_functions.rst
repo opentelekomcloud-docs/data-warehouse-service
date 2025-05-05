@@ -70,7 +70,9 @@ Return type: same as **column_name**
 
    Redaction functions are recommended if you want to create redaction policies.
 
-   For how to use data masking functions, see "Database Security Management" > "Sensitive Data Management" > "Data Redaction" in the *Data Warehouse Service (DWS) Developer Guide*.
+   For how to use data redaction functions, see .
+
+   For details about how to use data redaction functions, see the examples in "Database Security Management > Managing Users and Their Permissions > Data Redaction" in the *Developer Guide*.
 
 User-Defined Redaction Functions
 --------------------------------
@@ -85,3 +87,5 @@ User-defined redaction functions must meet the following requirements:
 -  The functions only implement the formatting for specific data types and do not involve complex association operations with other table objects.
 
 If either of the first two requirements is not met, an error will be reported when you create a redaction policy. If either of the last two requirements is not met, unexpected problems may occur in query execution results.
+
+Deleting the bound user-defined data redaction function will cause an error during query execution due to an invalid redaction policy.

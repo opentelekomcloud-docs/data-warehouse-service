@@ -95,7 +95,7 @@ Insert records whose **TABLE_SK** is less than **1** into the table.
 
    INSERT INTO reason_t1 SELECT * FROM reason_t1 WHERE TABLE_SK < 1;
 
-Insert multiple records into a table.
+Insert records into the table.
 
 ::
 
@@ -136,3 +136,20 @@ Insert some data in a table to another table: Use the **WITH** subquery to obtai
 .. code-block::
 
    WITH temp_t AS (SELECT * FROM reason_t1) INSERT INTO reason_t1 SELECT * FROM temp_t ORDER BY 1;
+
+Insert data into a partition of a partitioned table:
+
+::
+
+   CREATE TABLE test_range_row(a int, d int)
+   DISTRIBUTE BY hash(a) PARTITION BY RANGE(d)
+   (
+       PARTITION p1 values LESS THAN (60),
+       PARTITION p2 values LESS THAN (75),
+       PARTITION p3 values LESS THAN (90),
+       PARTITION p4 VALUES LESS THAN (maxvalue)
+   );
+   INSERT OVERWRITE INTO test_range_row PARTITION(p1) VALUES(55,51);
+   INSERT OVERWRITE INTO test_range_row PARTITION(p3) VALUES(85,80);
+
+   DELETE FROM test_range_row PARTITION(p1);

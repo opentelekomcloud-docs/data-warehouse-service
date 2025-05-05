@@ -12,16 +12,16 @@ GS_VIEW_DEPENDENCY
    +-----------------------+-----------------------+------------------------------------------------------+
    | Column                | Type                  | Description                                          |
    +=======================+=======================+======================================================+
-   | objschema             | name                  | View space name                                      |
+   | objschema             | Name                  | View space name                                      |
    +-----------------------+-----------------------+------------------------------------------------------+
-   | objname               | name                  | View name                                            |
+   | objname               | Name                  | View name                                            |
    +-----------------------+-----------------------+------------------------------------------------------+
-   | refobjschema          | name                  | Name of the space where the dependent object resides |
+   | refobjschema          | Name                  | Name of the space where the dependent object resides |
    +-----------------------+-----------------------+------------------------------------------------------+
-   | refobjname            | name                  | Name of a dependent object                           |
+   | refobjname            | Name                  | Name of a dependent object                           |
    +-----------------------+-----------------------+------------------------------------------------------+
-   | relobjkind            | char                  | Type of a dependent object                           |
+   | relobjkind            | Char                  | Type of a dependent object                           |
    |                       |                       |                                                      |
-   |                       |                       | -  r: table                                          |
-   |                       |                       | -  v: view                                           |
+   |                       |                       | -  **r**: table                                      |
+   |                       |                       | -  **v**: view                                       |
    +-----------------------+-----------------------+------------------------------------------------------+

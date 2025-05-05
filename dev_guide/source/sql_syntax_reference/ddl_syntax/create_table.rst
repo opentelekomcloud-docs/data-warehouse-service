@@ -26,6 +26,27 @@ Precautions
 -  Whether column-store tables support a delta table is specified by the **enable_delta** parameter. The threshold for storing data into a delta table is specified by the **deltarow_threshold** parameter. Using column-store tables with delta tables is not recommended. This may cause disk bloat and performance deterioration due to delayed merge.
 -  Multi-temperature tables support only partitioned column-store tables and depend on available OBS tablespaces.
 -  Multi-temperature tables support only the default tablespace **default_obs_tbs**. If you need to add an OBS tablespace, contact technical support.
+-  To create a column-store table, explicitly set **orientation** to **column**. When creating a local table in the storage-compute decoupling edition with all data stored on EVS disks, make sure to explicitly set **colversion** to **2.0**.
+-  Once a table is created, it cannot be switched from a non-V3 table to a V3 table using the **ALTER TABLE** syntax. In other words, a non-V3 table with a colversion of 2.0 cannot be converted to a V3 table with a colversion of 3.0.
+-  Delta tables and column-store level-2 partitions cannot be set for V3 tables (for example, **colversion = 3.0**, storage and compute separated tables).
+-  V3 tables cannot be configured as H-Store tables, hot-and-cold-data-separated tables, or time sequence tables.
+-  Global temporary tables and temporary tables cannot be created for V3 tables. Any created temporary tables are automatically converted to temporary tables with colversion 2.0.
+
+.. warning::
+
+   -  You are not advised to specify a user-defined tablespace when creating an ordinary table.
+   -  Do not specify the **COMPRESS** compression attribute when creating a row-store table.
+   -  When creating a hash-distributed table object, ensure that data is evenly distributed. (For a table with more than 10 GB data, the skew rate must be less than 10%.)
+   -  When creating a table object for **REPLICATION** distribution, ensure that the number of rows in the table is less than 1 million.
+   -  When creating an H-Store table, ensure that the database GUC parameter settings meet the following requirements:
+
+      -  **autovacuum** is set to **on**.
+      -  The value of **autovacuum_max_workers_hstore** is greater than **0**.
+      -  The value of **autovacuum_max_workers** is greater than that of **autovacuum_max_workers_hstore**.
+
+   -  For a large table (with more than 50 million rows of data) that contains the time field, the table must be designed as a partition table and the partition interval must be properly designed based on the query characteristics.
+   -  For a table where a large amount of data needs to be added, deleted, or modified, it is recommended that the number of indexes be less than or equal to three. The maximum number of indexes is five.
+   -  For more information about development and design specifications, see "GaussDB(DWS) Development and Design Proposal" in the *Data Warehouse Service (DWS) Developer Guide*.
 
 Syntax
 ------
@@ -39,7 +60,7 @@ Syntax
            [, ... ])|
            LIKE source_table [ like_option [...] ] }
        [ WITH ( {storage_parameter = value} [, ... ] ) ]
-       [ ON COMMIT { PRESERVE ROWS | DELETE ROWS ]
+       [ ON COMMIT { PRESERVE ROWS | DELETE ROWS } ]
        [ COMPRESS | NOCOMPRESS ]
        [ DISTRIBUTE BY { REPLICATION | ROUNDROBIN | { HASH ( column_name [,...] ) } } ]
        [ TO { GROUP groupname | NODE ( nodename [, ... ] ) } ]
@@ -57,7 +78,8 @@ Syntax
         ON UPDATE on_update_expr |
         COMMENT 'text' |
         UNIQUE [ NULLS [NOT] DISTINCT | NULLS IGNORE ] index_parameters |
-        PRIMARY KEY index_parameters }
+        PRIMARY KEY index_parameters |
+        REFERENCES reftable [ ( refcolumn ) ] }
       [ DEFERRABLE | NOT DEFERRABLE | INITIALLY DEFERRED | INITIALLY IMMEDIATE ]
 
 -  **compress_mode** of a column is as follows:
@@ -89,6 +111,62 @@ Syntax
 
       [ WITH ( {storage_parameter = value} [, ... ] ) ]
 
+Table Design Reference
+----------------------
+
+GaussDB(DWS) is compatible with the PostgreSQL ecosystem. Row storage and its B-tree index are similar to those of PostgreSQL. Column storage and its index are self-developed. When creating a table, it is crucial to choose the right storage method, distribution column, partition key, and index. This ensures efficient data access during SQL execution, reducing I/O consumption. The following figure illustrates the process from SQL statement initiation to data acquisition, helping you understand the function of each technical method for performance optimization.
+
+|image1|
+
+#. When the SQL statement is executed, the partition table is optimized using the Partition Column to pinpoint the specific partition.
+#. The Distribute Column is used in a distributed hash table to quickly identify the data shard where the data resides. The data shard is located on a DN in a storage-compute coupled architecture, while in a storage-compute decoupled architecture, it is located on a bucket.
+#. In row-store mode, B-tree is used to quickly locate the data page. In column-store mode, the **min-max** index is used to quickly locate the CU data block that may contain relevant data. This index is particularly effective when filtering on the PCK column.
+#. The system automatically maintains the **min-max** index for all columns in the column-store mode. There is no need for manual index definition. The **min-max** index is used for coarse filtering. CU data blocks meeting the min-max condition may not contain data rows that meet the filter condition. If a bitmap column is defined, the bitmap index can quickly locate the row number of data that meets the filter condition in the CU. For ordered CUs, binary search is also used to quickly locate the row number of data.
+#. Column storage supports B-tree and GIN indexes, which can quickly locate the CU and row number of data that meets the conditions. However, due to high index maintenance costs, it is advised to use bitmap indexes instead unless there are high performance requirements for point queries.
+
+The following table lists the existing optimization methods of GaussDB(DWS).
+
+.. table:: **Table 1** Optimization methods
+
+   +-------------+----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+   | No.         | Method                     | Usage                                                                                                                                                                                                                                                                                   | Example SQL                                                   | Modifiable After Creation                                                                                             |
+   +=============+============================+=========================================================================================================================================================================================================================================================================================+===============================================================+=======================================================================================================================+
+   | 1           | String                     | #. The string type has slower performance compared to the fixed-length type, so it is not recommended for scenarios where the fixed-length type is more suitable.                                                                                                                       | ``-``                                                         | Yes (The existing data can be rewritten.)                                                                             |
+   |             |                            | #. If the specified length is less than 16, performance will be significantly improved.                                                                                                                                                                                                 |                                                               |                                                                                                                       |
+   +-------------+----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+   | 2           | Numeric                    | Specifying precision for the numeric type is essential for improving performance. It is not advisable to use the numeric type without specifying precision.                                                                                                                             | ``-``                                                         | Yes (The existing data can be rewritten.)                                                                             |
+   +-------------+----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+   | 3           | Partition by Column        | #. This requires user-defined settings and is designed for partitioned tables. Pruning is possible using partition keys and partition-wise joins are supported. This method is suitable for equality and range queries.                                                                 | ::                                                            | No (You need to create a new table to make modifications.)                                                            |
+   |             |                            | #. Having more than 1000 partitions is not recommended, and it is advisable to limit the number of partition columns to two.                                                                                                                                                            |                                                               |                                                                                                                       |
+   |             |                            |                                                                                                                                                                                                                                                                                         |    SELECT * FROM t1 WHERE t1.c1='p1';                         |                                                                                                                       |
+   +-------------+----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+   | 4           | secondary_part_column      | #. This requires user-defined settings and is applicable only to column-store tables and equality queries.                                                                                                                                                                              | ::                                                            | No (You need to create a new table to make modifications.)                                                            |
+   |             |                            | #. Specify a level-2 partition on the most commonly used equivalent filter.                                                                                                                                                                                                             |                                                               |                                                                                                                       |
+   |             |                            |                                                                                                                                                                                                                                                                                         |    SELECT * FROM t1 WHERE t1.c1='p1';                         |                                                                                                                       |
+   +-------------+----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+   | 5           | Distribute by Column       | This requires user-defined settings and is suitable for join fields that require frequent **GROUP BY** or multi-table joins. It reduces data shuffling through local joins and is ideal for equality queries.                                                                           | ::                                                            | No (You need to create a new table to make modifications.)                                                            |
+   |             |                            |                                                                                                                                                                                                                                                                                         |                                                               |                                                                                                                       |
+   |             |                            |                                                                                                                                                                                                                                                                                         |    SELECT * FROM t1 join t2 on  t1.c3 = t2.c1;                |                                                                                                                       |
+   +-------------+----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+   | 6           | Bitmap column              | Define the bitmap index (cardinality <= 32) or bloom filter (cardinality > 32) based on the repeated values in the CU. This method is applicable to equivalent queries of varchar or text type columns. It is advised to create indexes on columns involved in the **WHERE** condition. | ::                                                            | Yes (Modification does not rewrite existing data. Only the new data is affected.)                                     |
+   |             |                            |                                                                                                                                                                                                                                                                                         |                                                               |                                                                                                                       |
+   |             |                            |                                                                                                                                                                                                                                                                                         |    SELECT * FROM t1 WHERE t1.c4='hello';                      |                                                                                                                       |
+   +-------------+----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+   | 7           | **min-max** index          | #. The **min-max** index is automatically generated and can be used for both equality and range queries.                                                                                                                                                                                | ::                                                            | Yes (The PCK columns can be modified. Modification does not rewrite existing data and only the new data is affected.) |
+   |             |                            | #. The **min-max** filtering effect depends on the data order. Specifying the PCK column enhances the filtering effect.                                                                                                                                                                 |                                                               |                                                                                                                       |
+   |             |                            |                                                                                                                                                                                                                                                                                         |    SELECT * FROM t1 WHERE c3 > 100 and c3 < 200;              |                                                                                                                       |
+   +-------------+----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+   | 8           | Primary key (B-tree index) | #. UPSERT data import strongly depends on the primary key and needs to be customized. It is applicable to equality and range queries. We suggest limiting the number of columns to five or fewer.                                                                                       | ::                                                            | Yes (The index can be modified and re-created.)                                                                       |
+   |             |                            | #. If service requirements are met, it is better to use fixed-length type columns. During definition, place columns with more distinct values at the beginning.                                                                                                                         |                                                               |                                                                                                                       |
+   |             |                            |                                                                                                                                                                                                                                                                                         |    SELECT * FROM t1 WHERE c3 > 100 and c3 < 200;              |                                                                                                                       |
+   +-------------+----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+   | 9           | GIN index                  | #. This requires user-defined settings and is suitable for multi-condition equality queries. Avoid using columns with more than 1 million distinct values.                                                                                                                              | ::                                                            | Yes (The index can be modified and re-created.)                                                                       |
+   |             |                            | #. It is recommended when the data volume after filtering is less than 1000. If the data volume remains large after filtering, it is not recommended.                                                                                                                                   |                                                               |                                                                                                                       |
+   |             |                            |                                                                                                                                                                                                                                                                                         |    SELECT * FROM t1 WHERE c1 = 100 and c3 = 200 and c2 = 105; |                                                                                                                       |
+   +-------------+----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+   | 10          | Orientation=column/row     | This method specifies whether a table is stored in rows or columns. Row-store tables cannot be compressed and are best suited for point queries and frequent updates. Column-store tables can be compressed and are ideal for analysis purposes.                                        | ``-``                                                         | No (You need to create a new table to make modifications.)                                                            |
+   +-------------+----------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
+
 Parameters
 ----------
 
@@ -96,22 +174,34 @@ Parameters
 
    If this key word is specified, the created table is not a log table. Data written to unlogged tables is not written to the write-ahead log, which makes them considerably faster than ordinary tables. However, an unlogged table is automatically truncated after a crash or unclean shutdown, incurring data loss risks. The contents of an unlogged table are also not replicated to standby servers. Any indexes created on an unlogged table are not automatically logged as well.
 
-   Usage scenario: Unlogged tables do not ensure safe data. Users can back up data before using unlogged tables; for example, users should back up the data before a system upgrade.
+   Usage scenario: Unlogged tables do not ensure safe data. You can back up data before using unlogged tables; for example, you should back up the data before a system upgrade.
 
-   Troubleshooting: If data is missing in the indexes of unlogged tables due to some unexpected operations such as an unclean shutdown, users should re-create the indexes with errors.
+   Troubleshooting: If data is missing in the indexes of unlogged tables due to some unexpected operations such as an unclean shutdown, you should re-create the indexes with errors.
 
    .. important::
 
-      The UNLOGGED table uses no primary/standby mechanism. In the case of system faults or abnormal breakpoints, data loss may occur. Therefore, the UNLOGGED table cannot be used to store basic data.
+      #. The UNLOGGED table uses no primary/standby mechanism. In the case of system faults or abnormal breakpoints, data loss may occur. Therefore, the UNLOGGED table cannot be used to store basic data.
+      #. Starting from version 9.1.0, UNLOGGED tables are automatically saved in the **pg_unlogged** tablespace and cannot be moved or assigned to other tablespaces.
+      #. After an earlier version is upgraded to 9.1.0, the UNLOGGED table created in the earlier version is still stored in the original tablespace.
+      #. If the instance restarts unexpectedly, the UNLOGGED table will be reset, which can impact the instance's recovery time objective (RTO). Version 9.1.0 has a script called **switch_unlogged_tablespace.py** that can move unlogged tables to optimize the recovery time objective (RTO). This script works together with the GUC parameter **enable_unlogged_tablespace_compat**.
 
--  .. _en-us_topic_0000001460561348__l40601c13ccdb4b5d85be38edd4f99676:
+-  .. _en-us_topic_0000001764675138__l40601c13ccdb4b5d85be38edd4f99676:
 
    **GLOBAL \| LOCAL** \| **VOLATILE**
 
-   Specify the keywords **GLOBAL**, **LOCAL**, and **VOLATILE** before **TEMP** or **TEMPORARY** to create temporary tables with different attributes.
+   Specify the keywords **GLOBAL**, **LOCAL**, and **VOLATILE** before **TEMP** or **TEMPORARY** to create temporary tables with different attributes. Global temporary tables are supported only by 8.2.1.220 and later cluster versions.
 
-   -  Currently, the keywords **GLOBAL** and **LOCAL** are introduced for standard SQL compatibility. No matter whether **GLOBAL** or **LOCAL** is specified, the GaussDB(DWS) creates a LOCAL temporary table.
+   -  If **LOCAL** is specified, a local temporary table is created.
+
+   -  If keyword **GLOBAL** is specified, the attributes of the temporary table depend on the GUC parameter **enable_global_temp_table**. The default value of this parameter is **ON**.
+
+      If **enable_global_temp_tabl** is set to **on**, a global temporary table **GLOBAL** is created.
+
+      If **enable_global_temp_tabl** is set to **off,** a local temporary table **LOCAL** is created. You can also specify keyword **LOCAL** to reach the same effect.
+
    -  If **VOLATILE** is specified, a temporary volatile table is created.
+
+   -  If **default_temptable_type** is set to **local**, temporary tables created without keywords are local temporary tables. If **default_temptable_type** is set to **volatile**, temporary tables created without keywords are volatile temporary tables.
 
 -  **TEMPORARY \| TEMP**
 
@@ -131,6 +221,13 @@ Parameters
          -  Views cannot be created based on volatile temporary tables.
          -  A tablespace cannot be specified when a temporary table is created. The default tablespace of a volatile temporary table is **pg_volatile**.
          -  The following constraints cannot be specified when a volatile temporary table is created: CHECK, UNIQUE, PRIMARY KEY, TRIGGER, EXCLUDE, and PARTIAL CLUSTER.
+
+      -  Similar to common tables, all metadata in global temporary tables is stored in system catalogs.
+
+         -  The difference between a global temporary table and a local temporary table is that in a global temporary table, the metadata is not deleted when a session exits, but the session data is deleted. Data of different sessions is independent but shares the metadata of the same global temporary table.
+         -  A global temporary table has a schema that is similar to a regular table, unlike a local or volatile temporary table which has a schema starting with **pg_temp**. This means that a global temporary table can have the same name as a local or volatile temporary table.
+         -  Global temporary tables support only common row-store and column-store tables. Delta tables, time series tables, and cold and hot tables are not supported.
+         -  Operations cannot be performed on global temporary tables of other logical clusters.
 
 -  **IF NOT EXISTS**
 
@@ -156,7 +253,7 @@ Parameters
 
    .. note::
 
-      In a database that is compatible with Teradata or MySQL syntax, if the data type of a column is set to DATE, the DATE type is returned. Otherwise, the TIMESTAMP type is returned.
+      In a database compatible with Teradata or MySQL syntax, if the data type of a column is set to DATE, the DATE type is returned. Otherwise, the TIMESTAMP type is returned.
 
 -  **compress_mode**
 
@@ -231,27 +328,23 @@ Parameters
 
       Default value: **ROW** (row-store)
 
-      .. note::
-
-         In cluster 8.1.3 and later versions, the GUC parameter **default_orientation** (default value: **row**) is added. If the storage mode is not specified when a table is created, by default, the table is created based on the value of the parameter (row, column, column enabledelta).
-
    -  COMPRESSION
 
       Specifies the compression level of the table data. It determines the compression ratio and time. Generally, the higher the level of compression, the higher the ratio, the longer the time, and the lower the level of compression, the lower the ratio, the shorter the time. The actual compression ratio depends on the distribution characteristics of loading table data.
 
       Valid value:
 
-      The valid values for column-store tables are **YES**/**NO** and **LOW**/**MIDDLE**/**HIGH**, and the default is **LOW**. If this parameter is set to **YES**, the compression level is **LOW** by default.
+      The valid values for column-store tables are **YES**/**NO** and **LOW**/**MIDDLE**/**HIGH**, and the default is **LOW**. When this parameter is set to **YES**, the compression level is **LOW** by default.
 
       .. note::
 
-         -  Currently, compression is unavailable for row-store tables.
+         -  Currently, row-store table compression is not supported.
          -  To determine the size of a new GaussDB(DWS) cluster, consider the size of ORC data compressed and migrated to column-store tables in GaussDB(DWS). If the compression level is low, the size of a copy is about 1.5 to 2 times that of ORC. If the compression level is high, the size of a copy is basically the same as that of ORC.
          -  The middle compression of column-stores uses dictionary compression. For data not suitable for dictionary compression, the file size after middle compression may be greater than that of after low compression.
 
       GaussDB(DWS) provides the following compression algorithms:
 
-      .. table:: **Table 1** Compression algorithms for column-based storage
+      .. table:: **Table 2** Compression algorithms for column-based storage
 
          +-------------+--------------------------------------------------------+--------------------------------------+---------------------------------------------------------+
          | COMPRESSION | NUMERIC                                                | STRING                               | INT                                                     |
@@ -291,7 +384,7 @@ Parameters
 
       Value range: 10000 to 60000
 
-      Default value: **60000**
+      Default value: 60,000
 
    -  PARTIAL_CLUSTER_ROWS
 
@@ -299,15 +392,44 @@ Parameters
 
       Value range: 600000 to 2147483647
 
+      Default value: 4,200,000
+
+   -  time_format
+
+      You can use auto-increment and decrement partitions for **INT4**, **INT8**, **VARCHAR**, and **TEXT** columns, which are commonly used for storing time-related data. The **time_format** option is applicable only when the partition key is **INT4**, **INT8**, **VARCHAR**, or **TEXT** and a period is specified. This is supported only by clusters of version 9.1.0.200 or later.
+
+      #. The value of **time_format** must comply with the PostgreSQL specifications, for example, **yyyymmdd**.
+
+      #. Restrictions on **time_format** differ by partition key type.
+
+         **VARCHAR**/**TEXT**:
+
+         -  The precision can be accurate to seconds.
+         -  The value cannot contain letters, for example, **month**, **am**, and **pm**.
+         -  The time must be arranged in descending order, for example, year, month, day, hour, minute, and second.
+
+         **INT4**/**INT8**:
+
+         -  The precision can be accurate to hours.
+         -  The value can contain only **Y**, **M**, **D**, and **HH24**.
+         -  The time must be arranged in descending order, for example, year, month, day, and hour.
+
+      #. **ALTER** restrictions:
+
+         -  The set operation is not supported.
+         -  When period is reset (indicating that automatic partitioning is disabled and a message is displayed), you can reset this option.
+
    -  enable_delta
 
-      Specifies whether to enable delta tables in column-store tables. The parameter is only valid for column-store tables.
+      Specifies whether to enable delta tables in column-store tables. The parameter is only valid for column-store tables. If **COLVERSION** is set to **3.0**, **enable_delta** cannot be turned on because this parameter is not supported by V3 tables.
+
+      Using column-store tables with delta tables is not recommended. This may cause disk bloat and performance deterioration due to delayed merge.
 
       Default value: **off**
 
    -  enable_hstore
 
-      Specifies whether an H-Store table will be created (based on column-store tables). The parameter is only valid for column-store tables. This parameter is supported by version 8.2.0.100 or later clusters.
+      Specifies whether an H-Store table will be created (based on column-store tables). The parameter is only valid for column-store tables. This parameter is supported by version 8.2.0.100 or later clusters. If **COLVERSION** is set to **3.0**, **enable_delta** cannot be turned on because this parameter is not supported by V3 tables.
 
       Default value: **off**
 
@@ -315,7 +437,7 @@ Parameters
 
          If this parameter is enabled, the following GUC parameters must be set to ensure that H-Store tables are cleared.
 
-         autovacuum=on, autovacuum_max_workers=6, autovacuum_max_workers_hstore=3.
+         Set **autovacuum** to **on**, **autovacuum_max_workers** to **6**, and **autovacuum_max_workers_hstore** to **3**.
 
    -  enable_disaster_cstore
 
@@ -350,7 +472,9 @@ Parameters
 
       **2.0**: All columns of a column-store table are combined and stored in a file. The file is named **relfilenode.C1.0**.
 
-      Default value: **2.0**
+      **3.0**: Each column of a column-store table is stored in a file. The file is stored in the OBS file system and named **C1_fileid.0**.
+
+      Default value: The default value for the storage-compute coupled version is 2.0, while for the storage-compute decoupling version, it is 3.0.
 
       The value of **COLVERSION** can only be set to **2.0** for OBS multi-temperature tables.
 
@@ -363,6 +487,9 @@ Parameters
             -  In the Roach data backup scenario, the backup time is significantly reduced.
             -  The build and catch up time is greatly reduced.
             -  The occupied disk space decreases significantly.
+
+         -  The storage-compute decoupling 3.0 version is compatible with all column-store versions. When creating a table, you need to explicitly specify the value of **colversion** (**1.0**, **2.0**, or **3.0**). If **colversion** is set to **3.0**, a table in decoupled storage and computing mode is created. If **colversion** is not explicitly specified, a column-store table of version 3.0 is created by default. When creating a table with decoupled storage and compute nodes, set **colversion** to **3.0** and set **orientation** to **column**.
+         -  V3 storage-compute decoupling tables do not support colversion switching using **ALTER TABLE**, for example, from 2.0 to 3.0.
 
    -  analyze_mode
 
@@ -377,6 +504,12 @@ Parameters
 
       Default value: **all**
 
+   -  incremental_analyze
+
+      Specifies whether to enable the incremental analyze mode for partitioned tables. This parameter is valid only for partitioned tables and cannot be set for replicated tables. This is supported only by clusters of version 9.1.0.100 or later.
+
+      The default value is **false**.
+
    -  SKIP_FPI_HINT
 
       Indicates whether to skip the hint bits operation when the full-page writes (FPW) log needs to be written during sequential scanning.
@@ -387,6 +520,12 @@ Parameters
 
          If **SKIP_FPI_HINT** is set to **true** and the checkpoint operation is performed on a table, no Xlog will be generated when the table is sequentially scanned. This applies to intermediate tables that are queried less frequently, reducing the size of Xlogs and improving query performance.
 
+   -  on_commit_preserve_rows
+
+      It is similar to **ON COMMIT { PRESERVE ROWS \| DELETE ROWS }**. The two parameters cannot be specified at the same time. This parameter is used only for global temporary tables.
+
+      Default value: **true**
+
    -  enable_column_autovacuum_garbage
 
       Determines whether to enable CU rewriting logic for column-store tables using AUTOVACUUM. This parameter is supported only by clusters of version 8.2.1.100 or later.
@@ -395,9 +534,78 @@ Parameters
 
       Default value: **true**
 
+   -  secondary_part_column
+
+      Specifies the name of a level-2 partition column in a column-store table. Only one column can be specified as the level-2 partition column. This parameter applies only to H-Store column-store tables. This parameter is supported only by clusters of version 8.3.0 or later.
+
+      .. note::
+
+         -  The column specified as a level-2 partition column cannot be deleted or modified.
+         -  The level-2 partition column can be specified only when a table is created. After a table is created, the level-2 partition column cannot be modified.
+         -  You are not advised to specify a distribution column as a level-2 partition column.
+         -  The level-2 partition column determines how the table is logically split into hash partitions on DNs, which enhances the query performance for that column.
+
+   -  secondary_part_num
+
+      Specifies the number of level-2 partitions in a column-store table. This parameter applies only to H-Store column-store tables. This parameter is supported only by clusters of version 8.3.0 or later.
+
+      Value range: 1 to 32
+
+      Default value: **8**
+
+      .. note::
+
+         -  This parameter can be specified only when **secondary_part_column** is specified.
+         -  The number of level-2 partitions can be specified only when a table is created and cannot be modified after the table is created.
+         -  You are not advised to change the default value, which may affect the import and query performance.
+
+   -  enable_hstore_opt
+
+      If the **enable_hstore_opt** table-level parameter is enabled, the **enable_hstore** table-level parameter is also enabled by default. This parameter is supported only in cluster 8.3.0 and later versions. This parameter supports V2 .
+
+      Default value: **false**
+
+   -  bitmap_columns
+
+      **bitmap index** is only applicable to the new H-Store (**hstore_opt** table). To generate the **bitmap index** mapping, you need to enable the **enable_hstore_opt** table-level parameter and set **bitmap_columns** to **Specified Columns**. This parameter is supported only by clusters of version 8.3.0 or later.
+
+   -  enable_turbo_store
+
+      Determines whether to create a turbo table (column-store tables). The parameter is only valid for column-store tables.
+
+      Default value: **off**
+
+      .. note::
+
+         Turbo tables enhance the storage efficiency of numeric and varchar data types using the integers, leading to accelerated processing speeds for these types.
+
+         -  For enhanced performance, it is advised to define the numeric type with **precision** and **scale (p, s)**. The storage allocation is as follows: For p <= 9, 4-byte integers are used for storage. For p <= 18, 8-byte integers are used. For p <= 37, 16-byte integers are used. If p > 37 or remain unspecified, a variable-length format is used, which is less space-efficient and yields suboptimal performance.
+         -  If the maximum length (n) of the varchar type is less than or equal to 2 bytes, 2-byte integers are used for storage. If the maximum length (n) of the varchar type is less than or equal to 4 bytes, 4-byte integers are used for storage. If the maximum length (n) of the varchar type is less than or equal to 16 bytes, 16-byte integers are used for storage. For varchar type columns involved in **GROUP BY** or **HashJoin** operations, it is advisable to limit the maximum byte length n to 16 or fewer to leverage integer storage for strings, thereby enhancing performance.
+         -  At present, the turbo table does not have support for the timing table, delta table, and lightweight update.
+
+   -  .. _en-us_topic_0000001764675138__en-us_topic_0000001342465185_li14679114513562:
+
+      **cache_policy** (This parameter is supported only in 9.0.2 and later versions where the storage and compute nodes are decoupled.)
+
+      Specifies the cache mode of tables or partitioned tables (disks). If one of the following values is specified in the cache policy, hot cache is used. Otherwise, cold cache is used. Hot cache occupies more space than cold cache and uses more complex replacement policies.
+
+      Valid value:
+
+      -  **ALL**: Hot cache is used for the entire table.
+      -  **NONE**: Cold cache is used for the entire table.
+      -  **HPN**: The first *N* partitions in a partitioned table use hot cache. The rest of the partitions use cold cache.
+      -  **HPL:** *P1, P2, ...*. In a partitioned table, the specified partitions use hot cache. The rest of the partitions use cold cache.
+
+      The default value is **ALL**.
+
+      .. note::
+
+         -  For foreign tables and non-partitioned tables, only the **ALL** and **NONE** cache policies are supported.
+         -  Only range-partitioned and list-partitioned internal tables support HPN and HPL cache policies.
+
 -  **ON COMMIT { PRESERVE ROWS \| DELETE ROWS }**
 
-   **ON COMMIT** determines what to do when you commit a temporary table creation operation.
+   **ON COMMIT** determines what to do when you commit a temporary table creation operation. Global temporary tables support only the **PRESERVE ROWS** option.
 
    -  **PRESERVE ROWS** (Default): No special action is taken at the ends of transactions. The temporary table and its table data are unchanged.
    -  **DELETE ROWS**: All rows in the temporary table will be deleted at the end of each transaction block.
@@ -486,6 +694,8 @@ Parameters
 
    If the node group specified by **TO GROUP** is a replication table node group, the table is created on all CNs and DNs, but the replication table data is distributed only on the DNs in the replication table node group.
 
+   The Storage-compute decoupling 3.0 supports read-only logical clusters. If a user is not bound to any read-only logical clusters but sets **TO GROUP** to a logical cluster in a table creation statement, an error will be reported during table creation. If a user bound to a read-only logical cluster creates a table, the table will be created in the logical cluster specified by the GUC parameter **default_storage_nodegroup**. If **default_storage_nodegroup** is set to **installation**, tables will be created in the first logical cluster.
+
 -  **COMMENT [=] 'text'**
 
    The **COMMENT** clause can specify table comments during table creation.
@@ -557,7 +767,7 @@ Parameters
 
    The following table lists the behaviors of the three processing modes.
 
-   .. table:: **Table 2** Processing of NULL values in index columns in unique indexes
+   .. table:: **Table 3** Processing of NULL values in index columns in unique indexes
 
       +--------------------+--------------------------------+------------------------------------------------------------------------------------------------------------+
       | Constraint         | All Index Columns Are NULL     | Some Index Columns Are NULL.                                                                               |
@@ -585,6 +795,14 @@ Parameters
 
       If **DISTRIBUTE BY REPLICATION** is not specified, the column set with a primary key constraint must contain distributed columns.
 
+-  **REFERENCES reftable [ ( refcolumn ) ]**
+
+   The foreign key constraint requires that the group consisting of one or more columns in the new table should contain and match only the referenced column values in the referenced table. The referenced column should be the only column or primary key in the referenced table.
+
+   .. note::
+
+      GaussDB(DWS) does not check foreign key constraints. When using foreign key constraints, you need to use the **check_foreign_key_constraint** function to check whether the data in the foreign key table meets the foreign key constraints.
+
 -  **DEFERRABLE \| NOT DEFERRABLE**
 
    Controls whether the constraint can be deferred. A constraint that is not deferrable will be checked immediately after every command. Checking of constraints that are deferrable can be postponed until the end of the transaction using the **SET CONSTRAINTS** command. **NOT DEFERRABLE** is the default value. Currently, only **UNIQUE** and **PRIMARY KEY** constraints of row-store tables accept this clause. All the other constraints are not deferrable.
@@ -604,6 +822,41 @@ Parameters
 
 Examples
 --------
+
+Create a V3 table with storage and compute decoupled (supported only in the storage-compute decoupling 3.0 version).
+
+::
+
+   CREATE TABLE  public.t1
+   (
+   id integer not null,
+   data integer,
+   age integer
+   )
+   WITH (ORIENTATION =COLUMN, COLVERSION =3.0)
+   DISTRIBUTE BY ROUNDROBIN;
+
+Specify the cache policy when creating a table (supported only in clusters of the storage-compute decoupling 3.0 version).
+
+::
+
+   CREATE TABLE Sports
+   (
+       N_NATIONKEY  INT NOT NULL
+     , N_NAME       CHAR(25) NOT NULL
+     , N_REGIONKEY  INT NOT NULL
+     , N_COMMENT    VARCHAR(152)
+   ) WITH (orientation = column, colversion = 3.0, cache_policy = 'HPL: Balls, Basketball')
+   tablespace cu_obs_tbs
+   DISTRIBUTE BY ROUNDROBIN
+   partition by list(N_NAME)
+   (
+     partition Balls values ('Basketball', 'football', 'badminton'),
+     partition Athletics values ('High jump', 'long jump', 'javelin'),
+     partition Water_Sports values ('Surfing', 'diving', 'swimming'),
+     partition Shooting values ('air guns', 'Rifles', 'archery'),
+     partition rest values (DEFAULT)
+   );
 
 Define a unique column constraint for the table:
 
@@ -636,7 +889,7 @@ Define a primary key table constraint for the table. You can define a primary ke
    )
    DISTRIBUTE BY HASH(C_CUSTKEY,C_NAME);
 
-Define the **CHECK** column constraint.
+Define the **CHECK** column constraint:
 
 ::
 
@@ -704,3 +957,5 @@ Helpful Links
 -------------
 
 :ref:`ALTER TABLE <dws_06_0142>`, :ref:`12.101-RENAME TABLE <dws_06_0276>`, and :ref:`DROP TABLE <dws_06_0208>`
+
+.. |image1| image:: /_static/images/en-us_image_0000002012629900.png

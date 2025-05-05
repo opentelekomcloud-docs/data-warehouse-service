@@ -14,11 +14,11 @@ An explicit cursor performs the following six PL/SQL steps to process query stat
 
 #. **Define a static cursor:** Define a cursor name and its corresponding **SELECT** statement.
 
-   :ref:`Figure 1 <en-us_topic_0000001460882280__f5ebd05f39359414695fc9535d74c7e54>` shows the syntax diagram for defining a static cursor.
+   :ref:`Figure 1 <en-us_topic_0000001811610073__f5ebd05f39359414695fc9535d74c7e54>` shows the syntax diagram for defining a static cursor.
 
-   .. _en-us_topic_0000001460882280__f5ebd05f39359414695fc9535d74c7e54:
+   .. _en-us_topic_0000001811610073__f5ebd05f39359414695fc9535d74c7e54:
 
-   .. figure:: /_static/images/en-us_image_0000001460882724.jpg
+   .. figure:: /_static/images/en-us_image_0000001764492260.jpg
       :alt: **Figure 1** static_cursor_define::=
 
       **Figure 1** static_cursor_define::=
@@ -41,42 +41,42 @@ An explicit cursor performs the following six PL/SQL steps to process query stat
 
    **Define a dynamic cursor:** Define a **ref** cursor, which means that the cursor can be opened dynamically by a set of static SQL statements. Define the type of the **ref** cursor first and then the cursor variable of this cursor type. Dynamically bind a **SELECT** statement through **OPEN FOR** when the cursor is opened.
 
-   :ref:`Figure 2 <en-us_topic_0000001460882280__fe28df92329334de2a2590c78cfd4cd7f>` and :ref:`Figure 3 <en-us_topic_0000001460882280__f685eab9d29d6492d9f48bf7f5f39c966>` show the syntax diagrams for defining a dynamic cursor.
+   :ref:`Figure 2 <en-us_topic_0000001811610073__fe28df92329334de2a2590c78cfd4cd7f>` and :ref:`Figure 3 <en-us_topic_0000001811610073__f685eab9d29d6492d9f48bf7f5f39c966>` show the syntax diagrams for defining a dynamic cursor.
 
-   .. _en-us_topic_0000001460882280__fe28df92329334de2a2590c78cfd4cd7f:
+   .. _en-us_topic_0000001811610073__fe28df92329334de2a2590c78cfd4cd7f:
 
-   .. figure:: /_static/images/en-us_image_0000001510163101.png
+   .. figure:: /_static/images/en-us_image_0000001764651216.png
       :alt: **Figure 2** cursor_typename::=
 
       **Figure 2** cursor_typename::=
 
    GaussDB(DWS) supports the dynamic cursor type **sys_refcursor**. A function or stored procedure can use the **sys_refcursor** parameter to pass on or pass out the cursor result set. A function can return **sys_refcursor** to return the cursor result set.
 
-   .. _en-us_topic_0000001460882280__f685eab9d29d6492d9f48bf7f5f39c966:
+   .. _en-us_topic_0000001811610073__f685eab9d29d6492d9f48bf7f5f39c966:
 
-   .. figure:: /_static/images/en-us_image_0000001460563220.png
+   .. figure:: /_static/images/en-us_image_0000001764492264.png
       :alt: **Figure 3** dynamic_cursor_define::=
 
       **Figure 3** dynamic_cursor_define::=
 
 #. **Open the static cursor:** Execute the **SELECT** statement corresponding to the cursor. The query result is placed in the work area and the pointer directs to the head of the work area to identify the cursor result set. If the cursor query statement contains the **FOR UPDATE** option, the **OPEN** statement locks the data row corresponding to the cursor result set in the database table.
 
-   :ref:`Figure 4 <en-us_topic_0000001460882280__f01b830e0c0dd439ab274074b6799fc00>` shows the syntax diagram for opening a static cursor.
+   :ref:`Figure 4 <en-us_topic_0000001811610073__f01b830e0c0dd439ab274074b6799fc00>` shows the syntax diagram for opening a static cursor.
 
-   .. _en-us_topic_0000001460882280__f01b830e0c0dd439ab274074b6799fc00:
+   .. _en-us_topic_0000001811610073__f01b830e0c0dd439ab274074b6799fc00:
 
-   .. figure:: /_static/images/en-us_image_0000001460882728.png
+   .. figure:: /_static/images/en-us_image_0000001811610617.png
       :alt: **Figure 4** open_static_cursor::=
 
       **Figure 4** open_static_cursor::=
 
    **Open the dynamic cursor:** Use the **OPEN FOR** statement to open the dynamic cursor and the SQL statement is dynamically bound.
 
-   :ref:`Figure 5 <en-us_topic_0000001460882280__f0dba806a4d8f42e0a7faef4fb03bfa57>` shows the syntax diagram for opening a dynamic cursor.
+   :ref:`Figure 5 <en-us_topic_0000001811610073__f0dba806a4d8f42e0a7faef4fb03bfa57>` shows the syntax diagram for opening a dynamic cursor.
 
-   .. _en-us_topic_0000001460882280__f0dba806a4d8f42e0a7faef4fb03bfa57:
+   .. _en-us_topic_0000001811610073__f0dba806a4d8f42e0a7faef4fb03bfa57:
 
-   .. figure:: /_static/images/en-us_image_0000001510522761.png
+   .. figure:: /_static/images/en-us_image_0000001764492268.png
       :alt: **Figure 5** open_dynamic_cursor::=
 
       **Figure 5** open_dynamic_cursor::=
@@ -85,11 +85,11 @@ An explicit cursor performs the following six PL/SQL steps to process query stat
 
 #. **Fetch cursor data**: Retrieve data rows in the result set and place them in specified output variables.
 
-   :ref:`Figure 6 <en-us_topic_0000001460882280__f5214e8d3c1564810bdecfe35843913f4>` shows the syntax diagram for fetching cursor data.
+   :ref:`Figure 6 <en-us_topic_0000001811610073__f5214e8d3c1564810bdecfe35843913f4>` shows the syntax diagram for fetching cursor data.
 
-   .. _en-us_topic_0000001460882280__f5214e8d3c1564810bdecfe35843913f4:
+   .. _en-us_topic_0000001811610073__f5214e8d3c1564810bdecfe35843913f4:
 
-   .. figure:: /_static/images/en-us_image_0000001510163097.png
+   .. figure:: /_static/images/en-us_image_0000001811491529.png
       :alt: **Figure 6** fetch_cursor::=
 
       **Figure 6** fetch_cursor::=
@@ -100,11 +100,11 @@ An explicit cursor performs the following six PL/SQL steps to process query stat
 
 #. **Close the cursor**: When fetching and finishing the data in the cursor result set, close the cursor immediately to release system resources used by the cursor and invalidate the work area of the cursor so that the **FETCH** statement cannot be used to fetch data any more. A closed cursor can be reopened using the **OPEN** statement.
 
-   :ref:`Figure 7 <en-us_topic_0000001460882280__f0629b4efb62e44a7911972faf2b359e9>` shows the syntax diagram for closing a cursor.
+   :ref:`Figure 7 <en-us_topic_0000001811610073__f0629b4efb62e44a7911972faf2b359e9>` shows the syntax diagram for closing a cursor.
 
-   .. _en-us_topic_0000001460882280__f0629b4efb62e44a7911972faf2b359e9:
+   .. _en-us_topic_0000001811610073__f0629b4efb62e44a7911972faf2b359e9:
 
-   .. figure:: /_static/images/en-us_image_0000001510402769.jpg
+   .. figure:: /_static/images/en-us_image_0000001811610605.jpg
       :alt: **Figure 7** close_cursor::=
 
       **Figure 7** close_cursor::=

@@ -18,28 +18,28 @@ None
 Syntax
 ------
 
--  Set a foreign table's attributes.
+-  Set a foreign table's attributes:
 
    ::
 
       ALTER FOREIGN TABLE [ IF EXISTS ]  table_name
           OPTIONS ( {[ ADD | SET | DROP ] option ['value']} [, ... ]);
 
--  Set the owner of a foreign table.
+-  Set the owner of the foreign table:
 
    ::
 
       ALTER FOREIGN TABLE [ IF EXISTS ] tablename
           OWNER TO new_owner;
 
--  Update a foreign table column.
+-  Update a foreign table column:
 
    ::
 
       ALTER FOREIGN TABLE [ IF EXISTS ] table_name
           MODIFY ( { column_name data_type | column_name [ CONSTRAINT constraint_name ] NOT NULL [ ENABLE ] | column_name [ CONSTRAINT constraint_name ] NULL } [, ...] );
 
--  Modify a column of a foreign table.
+-  Modify the column of the foreign table:
 
    ::
 
@@ -60,7 +60,7 @@ Syntax
 
    For details, see :ref:`ALTER TABLE <dws_06_0142>`.
 
--  Add a foreign table informational constraint.
+-  Add a foreign table informational constraint:
 
    ::
 
@@ -69,7 +69,7 @@ Syntax
           { PRIMARY KEY | UNIQUE } ( column_name )
           [ NOT ENFORCED [ ENABLE QUERY OPTIMIZATION | DISABLE QUERY OPTIMIZATION ] | ENFORCED ];
 
-   For parameters about adding an informational constraint to a foreign table, see :ref:`Parameter Description <en-us_topic_0000001510401001__s755e54aa01f04a4bb44806bedcebdab4>`.
+   For parameters about adding an informational constraint to a foreign table, see :ref:`Parameter Description <en-us_topic_0000001811634745__s755e54aa01f04a4bb44806bedcebdab4>`.
 
 -  Remove a foreign table informational constraint.
 
@@ -77,6 +77,13 @@ Syntax
 
       ALTER FOREIGN TABLE [ IF EXISTS ] tablename
           DROP CONSTRAINT constraint_name ;
+
+-  Set the row-level access control switch (supported by cluster versions 9.1.0 and later).
+
+   .. code-block::
+
+      ALTER FOREIGN TABLE [ IF EXISTS ] tablename
+              ENABLE | DISABLE | FORCE | NO FORCE ROW LEVEL SECURITY
 
 Parameter Description
 ---------------------
@@ -101,7 +108,7 @@ Parameter Description
 
    Specifies the new type for an existing column.
 
-   Value range: a string. It must comply with the naming convention.
+   Value range: A string compliant with the identifier naming rules.
 
 -  **constraint_name**
 
@@ -113,9 +120,9 @@ Parameter Description
 
    Value range: a string. It must comply with the naming convention.
 
-For details on how to modify other parameters in the foreign table, such as **IF EXISTS**, see :ref:`Parameter Description <en-us_topic_0000001510281989__s3e87132692794964b56e3ba420e7b544>` in **ALTER TABLE**.
+For details on how to modify other parameters in the foreign table, such as **IF EXISTS**, see :ref:`Parameter Description <en-us_topic_0000001811634545__s3e87132692794964b56e3ba420e7b544>` in **ALTER TABLE**.
 
-.. _en-us_topic_0000001460561392__s8302a739997543e0a22f9ee43ce9bfbf:
+.. _en-us_topic_0000001764516270__s8302a739997543e0a22f9ee43ce9bfbf:
 
 Examples
 --------

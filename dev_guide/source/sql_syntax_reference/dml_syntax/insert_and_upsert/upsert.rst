@@ -8,7 +8,7 @@ UPSERT
 Function
 --------
 
-Inserts rows into a table. When a row duplicates an existing primary key or unique key value, the row will be ignored or updated.
+**UPSERT** inserts rows into a table. When a row duplicates an existing primary key or unique key value, the row will be ignored or updated.
 
 .. important::
 
@@ -17,9 +17,9 @@ Inserts rows into a table. When a row duplicates an existing primary key or uniq
 Syntax
 ------
 
-For details, see :ref:`Syntax <en-us_topic_0000001460721292__se26969fe97994814b5f45a6173164204>` of **INSERT**. The following table describes the syntax of **UPSERT**.
+For details, see :ref:`Syntax <en-us_topic_0000001764516334__se26969fe97994814b5f45a6173164204>` of **INSERT**. The following table describes the syntax of **UPSERT**.
 
-.. _en-us_topic_0000001510401025__table663035101813:
+.. _en-us_topic_0000001811515753__table663035101813:
 
 .. table:: **Table 1** UPSERT syntax
 
@@ -70,12 +70,12 @@ The **UPDATE** clause can use **VALUES(colname)** or **EXCLUDED.colname** to ref
 
 -  **WHERE** clause
 
-   -  The **WHERE** clause is used to determine whether a specified condition is met when data conflict occurs. If yes, update the conflict data. Otherwise, ignore it.
+   -  The **WHERE** clause is used to determine whether a specified condition is met when data conflict occurs. If yes, update the conflicting data. Otherwise, ignore the conflict.
    -  Only syntax 2 of **Update Data Upon Conflict** can specify the **WHERE** clause, that is, **INSERT INTO ON CONFLICT(...) DO UPDATE SET WHERE**.
 
 Note the following when using the syntax:
 
--  Syntax 1 and syntax 2 described in :ref:`Table 1 <en-us_topic_0000001510401025__table663035101813>` cannot be used together in the same statement.
+-  Syntax 1 and syntax 2 described in :ref:`Table 1 <en-us_topic_0000001811515753__table663035101813>` cannot be used together in the same statement.
 -  The **WITH** clause cannot be used at the same time.
 -  **INSERT OVERWRITE** cannot be used at the same time.
 -  The **UPDATE** clause and its **WHERE** clause do not support subqueries.
@@ -85,7 +85,12 @@ Note the following when using the syntax:
 Precautions
 -----------
 
--  When UPSERT is executed on column-store tables, enable DELTA tables to avoid small CUs from being generated. A large number of small CUs may cause tables to bloat or lead to poor query performance.
+.. warning::
+
+   -  Do not concurrently update the same column-store table using the **UPDATE** and **UPSERT** statements.
+   -  For more information about development and design specifications, see "GaussDB(DWS) Development and Design Proposal" in the *Data Warehouse Service (DWS) Developer Guide*.
+
+-  When UPSERT is executed on column-store tables, enable DELTA tables to avoid small CUs from. A large number of small CUs may cause space occupation poor query performance.
 
 -  **UPSERT**, **UPDATE**, and **DELETE** operations cannot be concurrently performed because they need to wait for the CU lock. This problem cannot be solved even if the DELTA table is enabled. To execute **UPSERT**, **UPDATE**, and **DELETE** operations concurrently on column-store tables, use H-Store tables.
 
@@ -99,9 +104,9 @@ Precautions
 
    .. note::
 
-      Example: Multiple **UPSERT** statements are executed simultaneously in a transaction or through JDBC(**setAutoCommit(false)**). Multiple similar tasks are executed at the same time.
+      For example, multiple **UPSERT** statements are executed in batches in a transaction or through JDBC (**setAutoCommit(false)**). Multiple similar tasks are executed at the same time.
 
-      **Possible result**: The update sequences of different threads may vary on different nodes. As a result, a deadlock may occur when the same row is concurrently updated.
+      **Possible result**: The update sequences of different threads may vary depending on nodes. As a result, a deadlock may occur when the same row is concurrently updated.
 
       **Solution:**
 
@@ -112,7 +117,7 @@ Precautions
 
       In the preceding solution, method 1 can only reduce the waiting time but cannot solve the deadlock problem. If there are **UPSERT** statements in the service, you are advised to decrease the value of this parameter. Methods 2, 3, and 4 can solve the deadlock problem, but method 2 is recommended because its performance is better than another two methods.
 
--  The distribution column cannot be updated. **(Exception: Update is allowed if the distribution key is the same as the updated value.)**
+-  The distribution column cannot be updated. (Exception: Update is allowed if the distribution key is the same as the updated value.)
 
    ::
 
@@ -130,7 +135,7 @@ Precautions
 
 -  When performing the update operation of **UPSERT** using **INSERT INTO SELECT**, pay attention to the query result sequence of **SELECT**. In a distributed environment, if the **ORDER BY** statement is not used, the sequence of returned results may be different each time the same **SELECT** statement is executed. As a result, the execution result of the **UPSERT** statement does not meet the expectation.
 
--  Multiple updates are not supported. If multiple groups of data are in conflict, an error is reported (**except when the query plan is a PGXC plan**).
+-  Multiple updates are not supported. If a conflict occurs when multiple groups of data are inserted, an error similar to **INSERT ON CONFLICT DO UPDATE command cannot affect row a second time** is reported (except when the query plan is a PGXC plan).
 
    ::
 

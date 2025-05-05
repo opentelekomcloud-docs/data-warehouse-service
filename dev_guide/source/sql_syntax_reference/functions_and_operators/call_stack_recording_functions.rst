@@ -68,7 +68,7 @@ Note:
 -  If the function is called successfully, **true** is returned. Otherwise, **false** is returned.
 -  If **Memory profiling failed, check if $MALLOC_CONF contain 'prof:true'.** is displayed, it indicates that the module is used when **MALLOC_CONF=prof:true** is not set. In this case, you need to set the environment variable.
 -  If **Type %d is not supported. The valid range is 0-3.** is displayed, the parameter value is incorrect. The correct values are **0**, **1**, **2**, and **3**.
--  If **Memory profiling failed, inputed type is %d, failed number is %d.** is displayed, contact technical support for assistance.
+-  If "Memory profiling failed, input type is %d, failed number is %d." is displayed, contact technical support.
 
 Outputting Memory Call Stack Information
 ----------------------------------------
@@ -157,4 +157,4 @@ Outputs memory statistics. Execute the following statement to generate the memor
    t
    (1 row)
 
-.. |image1| image:: /_static/images/en-us_image_0000001595316921.png
+.. |image1| image:: /_static/images/en-us_image_0000001764675554.png

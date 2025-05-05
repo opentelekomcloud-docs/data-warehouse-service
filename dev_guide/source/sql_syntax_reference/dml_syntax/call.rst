@@ -8,7 +8,7 @@ CALL
 Function
 --------
 
-Calls defined functions or stored procedures.
+**CALL** calls defined functions or stored procedures.
 
 Precautions
 -----------
@@ -43,9 +43,9 @@ Parameter Description
 
    .. note::
 
-      The parameters include input parameters (whose name and type are separated by **IN**) and output parameters (whose name and type are separated by **OUT**). When you run the **CALL** statement to call a function or stored procedure, the parameter list must contain an output parameter for non-overloaded functions. You can set the output parameter to a variable or any constant. For details, see :ref:`Examples <en-us_topic_0000001510161413__s573ee29c39fc4f11b27b21a603ec6b59>`. For an overloaded package function, the parameter list can have no output parameter, but the function may not be found. If an output parameter is contained, it must be a constant.
+      The parameters include input parameters (whose name and type are separated by **IN**) and output parameters (whose name and type are separated by **OUT**). When you run the **CALL** statement to call a function or stored procedure, the parameter list must contain an output parameter for non-overloaded functions. You can set the output parameter to a variable or any constant. For details, see :ref:`Examples <en-us_topic_0000001764675218__s573ee29c39fc4f11b27b21a603ec6b59>`. For an overloaded package function, the parameter list can have no output parameter, but the function may not be found. If an output parameter is contained, it must be a constant.
 
-.. _en-us_topic_0000001510161413__s573ee29c39fc4f11b27b21a603ec6b59:
+.. _en-us_topic_0000001764675218__s573ee29c39fc4f11b27b21a603ec6b59:
 
 Examples
 --------
@@ -61,26 +61,26 @@ Create the **func_add_sql** function to compute the sum of two integers and retu
    END;
    /
 
-Transfer based on parameter values.
+Transfer based on parameter values:
 
 ::
 
    CALL func_add_sql(1, 3);
 
-Transfer based on the naming flags.
+Transfer based on the naming flags:
 
 ::
 
    CALL func_add_sql(num1 => 1,num2 => 3);
    CALL func_add_sql(num2 := 2, num1 := 3);
 
-Delete a function.
+Delete a function:
 
 ::
 
    DROP FUNCTION func_add_sql;
 
-Create a function with output parameters.
+Create a function with output parameters:
 
 ::
 
@@ -92,13 +92,13 @@ Create a function with output parameters.
    END;
    /
 
-Set output parameters to constants.
+Set output parameters to constants:
 
 ::
 
    CALL func_increment_sql(1,2,1);
 
-Set output parameters to variables.
+Set output parameters to variables:
 
 ::
 
@@ -110,7 +110,7 @@ Set output parameters to variables.
    END;
    /
 
-Create overloaded functions.
+Create overloaded functions:
 
 ::
 
@@ -137,14 +137,14 @@ Create overloaded functions.
    end;
    /
 
-Call a function.
+Call a function:
 
 ::
 
    call package_func_overload(1, 'test');
    call package_func_overload(1, 1);
 
-Delete a function.
+Delete a function:
 
 ::
 

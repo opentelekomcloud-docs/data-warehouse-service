@@ -57,7 +57,7 @@ Parameter Description
 
 -  *option*
 
-   Specifies the name of a parameter to be modified. Each type of dictionaries has a template containing their custom parameters. Parameters function in a way irrelevant to their setting sequence. For details about parameters, see :ref:`option <en-us_topic_0000001510161321__li1286812455448>`.
+   Specifies the name of a parameter to be modified. Each type of dictionaries has a template containing their custom parameters. Parameters function in a way irrelevant to their setting sequence. For details about parameters, see :ref:`option <en-us_topic_0000001811634845__li1286812455448>`.
 
    .. note::
 

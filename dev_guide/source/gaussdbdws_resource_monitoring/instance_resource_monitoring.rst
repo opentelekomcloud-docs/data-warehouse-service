@@ -71,7 +71,7 @@ Procedure
       coordinator1 | 2020-01-14 21:58:23.216645+08 |        0 |    11988 |      300 |  1.17085 | 3.21182 |   324.729 |    2831.13 |            8 |            13 |            0 |             0 |           0 |            0
       (7 rows)
 
--  To query historical resource usage of a cluster, you can invoke the **pgxc_get_wlm_current_instance_info** stored procedure on the CN.
+-  To query the historical resource usage of a cluster, you can call the **pgxc_get_wlm_history_instance_info** stored procedure function on the CN.
 
    ::
 

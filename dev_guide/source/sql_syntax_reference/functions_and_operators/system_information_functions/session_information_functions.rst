@@ -76,7 +76,7 @@ Example:
 current_schemas(boolean)
 ------------------------
 
-Description: **current_schemas(boolean)** returns an array of the names of all schemas presently in the search path. The Boolean option determines whether implicitly included system schemas such as **pg_catalog** exist in the returned search path.
+Description: **current_schemas(boolean)** returns an array of the names of all schemas presently in the search path. The Boolean option determines whether implicitly included system schemas such as **pg_catalog** are included in the returned search path.
 
 Return type: name[]
 
@@ -101,7 +101,7 @@ Example:
 current_user
 ------------
 
-Description: User name of current execution context **current_user** is the identifier of the user whose permission needs to be checked. It is usually used to represent a session user, but this setting can be changed according to :ref:`SET ROLE <dws_06_0222>`. It also changes during the execution of functions with the attribute **SECURITY DEFINER**.
+Description: Username of current execution context. **current_user** is the identifier of the user whose permission needs to be checked. It is usually used to represent a session user, but this setting can be changed according to :ref:`SET ROLE <dws_06_0222>`. It also changes during the execution of functions with the attribute **SECURITY DEFINER**.
 
 Return type: name
 
@@ -272,7 +272,7 @@ Example:
 pg_postmaster_start_time()
 --------------------------
 
-Description: Server start time **pg_postmaster_start_time** returns the **timestamp with time zone** when the server started.
+Description: Specifies the start time of the database instance. **pg_postmaster_start_time** returns the timestamp (with time zone) when the database instance was started.
 
 Return type: timestamp with time zone
 

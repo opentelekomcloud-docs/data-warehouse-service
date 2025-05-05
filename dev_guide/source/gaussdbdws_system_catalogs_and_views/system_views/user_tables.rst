@@ -8,7 +8,7 @@ USER_TABLES
 **USER_TABLES** displays table information in the current schema.
 
 +-----------------------+-----------------------+------------------------------------------------------+
-| Name                  | Type                  | Description                                          |
+| Column                | Type                  | Description                                          |
 +=======================+=======================+======================================================+
 | owner                 | character varying(64) | Table owner                                          |
 +-----------------------+-----------------------+------------------------------------------------------+
@@ -28,5 +28,5 @@ USER_TABLES
 |                       |                       | -  **YES** indicates that it is deleted.             |
 |                       |                       | -  **NO** indicates that it is not deleted.          |
 +-----------------------+-----------------------+------------------------------------------------------+
-| num_rows              | numeric               | The estimated number of rows in the table            |
+| num_rows              | Numeric               | Estimated number of rows in the table                |
 +-----------------------+-----------------------+------------------------------------------------------+

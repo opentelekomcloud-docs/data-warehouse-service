@@ -7,17 +7,6 @@ Connection Pool Parameters
 
 When a connection pool is used to access the database, database connections are established and then stored in the memory as objects during system running. When you need to access the database, no new connection is established. Instead, an existing idle connection is selected from the connection pool. After you finish accessing the database, the database does not disable the connection but puts it back into the connection pool. The connection can be used for the next access request.
 
-min_pool_size
--------------
-
-**Parameter description**: Specifies the minimum number of connections between a CN's connection pool and another CN/DN.
-
-**Type**: POSTMASTER
-
-**Value range**: an integer ranging from 1 to 65535
-
-**Default value**: **1**
-
 max_pool_size
 -------------
 
@@ -75,16 +64,29 @@ enable_force_reuse_connections
 
 **Default value**: **off**
 
-enable_pooler_parallel
------------------------
+syscache_clean_policy
+---------------------
 
-**Parameter description**: Specifies whether a CN's connection pool can be connected in parallel mode.
+**Parameter description**: Specifies the policy for clearing the memory and number of idle DN connections. This is supported only by clusters of version 9.1.0.100 or later.
 
 **Type**: SIGHUP
 
-**Value range**: Boolean
+**Value range**: a string
 
--  **on** indicates that a CN's connection pool can be connected in parallel mode.
--  **off** indicates that a CN's connection pool cannot be connected in parallel mode.
+This parameter policy consists of three values:
 
-**Default value**: **on**
+#. The first value ranges from 0 to 1 and represents the percentage of total available memory used by DNs. When the percentage of used memory reaches this value, 1/4 of the stream threads will be cleared, and the second value will be evaluated.
+#. The second value ranges from 0 to 1 and represents the percentage of total available memory used by syscache on DNs. When the percentage of syscache memory usage reaches this value, the third value will be evaluated.
+#. The third value ranges from 0 to INT_MAX and is measured in MB. It represents the size of syscache memory used by idle threads. When the syscache memory usage of an idle thread reaches this value, the syscache used by that thread will be cleared.
+
+**Default value**: 0.8,0.3,64
+
+.. important::
+
+   -  Before setting this parameter, evaluate the memory usage using views :ref:`PV_SESSION_MEMORY_DETAIL <dws_04_0852>` and :ref:`PV_TOTAL_MEMORY_DETAIL <dws_04_0855>`.
+   -  When setting this parameter, follow the specified format, ensuring that the three values are separated by commas without spaces.
+   -  If the parameter is not set according to the specified format and the setting fails, a WARNING log will be generated in the log, and the parameter value displayed when using the SHOW command to query the parameter will be the last successfully set value. If the setting fails and the system is restarted, the parameter will be set to the default value.
+   -  During the Readcommand phase, if a thread on CN times out after 30 seconds, it will clear DNs if syscache is greater than 256 MB. There are two operations:
+
+      #. If the overall memory usage reaches 80%, an auxiliary thread will monitor the memory usage and clear 1/4 of the stream threads. It will also check if syscache usage exceeds 30% of the total memory usage. If it does, it will clear the syscache of Readcommand phase pg threads greater than 64 MB.
+      #. If a stream thread is idle for more than 30 seconds and syscache usage is greater than 64 MB, it will clear the syscache.

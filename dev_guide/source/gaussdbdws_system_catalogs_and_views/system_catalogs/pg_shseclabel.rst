@@ -18,11 +18,11 @@ Unlike most system catalogs, **PG_SHSECLABEL** is shared across all databases of
    +----------+------+-----------------------------------+----------------------------------------------------+
    | Name     | Type | Reference                         | Description                                        |
    +==========+======+===================================+====================================================+
-   | objoid   | oid  | Any OID column                    | OID of the object this security label pertains to  |
+   | objoid   | OID  | Any OID column                    | OID of the object this security label pertains to  |
    +----------+------+-----------------------------------+----------------------------------------------------+
-   | classoid | oid  | :ref:`PG_CLASS <dws_04_0578>`.oid | OID of the system catalog where the object resides |
+   | classoid | OID  | :ref:`PG_CLASS <dws_04_0578>`.oid | OID of the system catalog where the object resides |
    +----------+------+-----------------------------------+----------------------------------------------------+
-   | provider | text | ``-``                             | Label provider associated with this label          |
+   | provider | Text | N/A                               | Label provider associated with this label          |
    +----------+------+-----------------------------------+----------------------------------------------------+
-   | label    | text | ``-``                             | Security label applied to this object              |
+   | label    | Text | N/A                               | Security label applied to this object              |
    +----------+------+-----------------------------------+----------------------------------------------------+

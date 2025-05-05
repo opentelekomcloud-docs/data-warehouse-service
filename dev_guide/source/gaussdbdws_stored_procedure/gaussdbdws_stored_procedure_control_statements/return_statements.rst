@@ -5,23 +5,23 @@
 RETURN Statements
 =================
 
-In GaussDB(DWS), data can be returned in either of the following ways: **RETURN**, **RETURN NEXT**, or **RETURN QUERY**. **RETURN NEXT** and **RETURN QUERY** are used only for functions and cannot be used for stored procedures.
+GaussDB(DWS) provides two methods for returning data: **RETURN** (or **RETURN NEXT**) and **RETURN QUERY**. **RETURN NEXT** and **RETURN QUERY** are used only for functions and cannot be used for stored procedures.
 
 RETURN
 ------
 
 **Syntax**
 
-:ref:`Figure 1 <en-us_topic_0000001510162929__fa40a1c0c0b6f4aba8952d533d6f111a5>` shows the syntax diagram for a return statement.
+:ref:`Figure 1 <en-us_topic_0000001764651016__fa40a1c0c0b6f4aba8952d533d6f111a5>` shows the syntax of a return statement.
 
-.. _en-us_topic_0000001510162929__fa40a1c0c0b6f4aba8952d533d6f111a5:
+.. _en-us_topic_0000001764651016__fa40a1c0c0b6f4aba8952d533d6f111a5:
 
-.. figure:: /_static/images/en-us_image_0000002040174922.jpg
+.. figure:: /_static/images/en-us_image_0000002076373741.jpg
    :alt: **Figure 1** return_clause::=
 
    **Figure 1** return_clause::=
 
-The syntax details are as follows:
+The syntax is explained as follows:
 
 This statement returns control from a stored procedure or function to a caller.
 
@@ -48,7 +48,7 @@ This statement returns control from a stored procedure or function to a caller.
    v_num NUMBER(8,2);
    v_sum INTEGER;
    BEGIN
-   proc_staffs(30, v_sum, v_num);  --Invoke a statement.
+   proc_staffs(30, v_sum, v_num);  --Call a statement.
    dbms_output.put_line(v_sum||'#'||v_num);
    RETURN;   --Return a statement.
    END;
@@ -77,7 +77,7 @@ This statement returns control from a stored procedure or function to a caller.
    CALL func_return();
    1
 
-   -- Delete the function.
+   -- Delete the function:
    DROP FUNCTION func_return;
 
 RETURN NEXT and RETURN QUERY
@@ -95,7 +95,7 @@ return_query_clause::=
 
 |image2|
 
-The syntax details are as follows:
+The syntax is explained as follows:
 
 If a function needs to return a result set, use **RETURN NEXT** or **RETURN QUERY** to add results to the result set, and then continue to execute the next statement of the function. As the **RETURN NEXT** or **RETURN QUERY** statement is executed repeatedly, more and more results will be added to the result set. After the function is executed, all results are returned.
 
@@ -145,5 +145,5 @@ If a function needs to return a result set, use **RETURN NEXT** or **RETURN QUER
     10
    (2 rows)
 
-.. |image1| image:: /_static/images/en-us_image_0000002076212665.png
-.. |image2| image:: /_static/images/en-us_image_0000002076334057.png
+.. |image1| image:: /_static/images/en-us_image_0000002040176034.png
+.. |image2| image:: /_static/images/en-us_image_0000002076335169.png

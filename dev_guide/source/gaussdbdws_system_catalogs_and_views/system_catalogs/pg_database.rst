@@ -10,35 +10,35 @@ PG_DATABASE
 .. table:: **Table 1** PG_DATABASE columns
 
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------+
-   | Name                  | Type                  | Description                                                                                                                      |
+   | Column                | Type                  | Description                                                                                                                      |
    +=======================+=======================+==================================================================================================================================+
-   | datname               | name                  | Database name                                                                                                                    |
+   | datname               | Name                  | Database name                                                                                                                    |
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------+
-   | datdba                | oid                   | Owner of the database, usually the user who created it                                                                           |
+   | datdba                | OID                   | Owner of the database, usually the user who created it                                                                           |
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------+
-   | encoding              | integer               | Character encoding for this database                                                                                             |
+   | encoding              | Integer               | Character encoding for this database                                                                                             |
    |                       |                       |                                                                                                                                  |
    |                       |                       | You can use pg_encoding_to_char() to convert this number to the encoding name.                                                   |
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------+
-   | datcollate            | name                  | Sequence used by the database                                                                                                    |
+   | datcollate            | Name                  | Sequence used by the database                                                                                                    |
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------+
-   | datctype              | name                  | Character type used by the database                                                                                              |
+   | datctype              | Name                  | Character type used by the database                                                                                              |
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------+
    | datistemplate         | boolean               | Whether this column can serve as a template database                                                                             |
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------+
    | datallowconn          | boolean               | If false then no one can connect to this database. This column is used to protect the **template0** database from being altered. |
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------+
-   | datconnlimit          | integer               | Maximum number of concurrent connections allowed on this database. **-1** indicates no limit.                                    |
+   | datconnlimit          | Integer               | Maximum number of concurrent connections allowed on this database. **-1** indicates no limit.                                    |
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------+
-   | datlastsysoid         | oid                   | Last system OID in the database                                                                                                  |
+   | datlastsysoid         | OID                   | Last system OID in the database                                                                                                  |
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------+
    | datfrozenxid          | xid32                 | Tracks whether the database needs to be vacuumed in order to prevent transaction ID wraparound.                                  |
    |                       |                       |                                                                                                                                  |
    |                       |                       | To ensure forward compatibility, this column is reserved. The **datfrozenxid64** column is added to record the information.      |
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------+
-   | dattablespace         | oid                   | Default tablespace of the database                                                                                               |
+   | dattablespace         | OID                   | Default tablespace of the database                                                                                               |
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------+
-   | datcompatibility      | name                  | Database compatibility mode                                                                                                      |
+   | datcompatibility      | Name                  | Database compatibility mode                                                                                                      |
    |                       |                       |                                                                                                                                  |
    |                       |                       | -  **ORA**: compatible with the Oracle database                                                                                  |
    |                       |                       | -  **TD**: compatible with the Teradata database                                                                                 |
@@ -46,5 +46,5 @@ PG_DATABASE
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------+
    | datacl                | aclitem[]             | Access permissions                                                                                                               |
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------+
-   | datfrozenxid64        | xid                   | Tracks whether the database needs to be vacuumed in order to prevent transaction ID wraparound.                                  |
+   | datfrozenxid64        | Xid                   | Tracks whether the database needs to be vacuumed in order to prevent transaction ID wraparound.                                  |
    +-----------------------+-----------------------+----------------------------------------------------------------------------------------------------------------------------------+

@@ -8,14 +8,14 @@ COMMENT
 Function
 --------
 
-Defines or changes the comment of an object.
+**COMMENT** defines or changes the comment of an object.
 
 Precautions
 -----------
 
 -  Only one comment string is stored for each object. To modify a comment, issue a new **COMMENT** command for the same object. To remove a comment, write **NULL** in place of the text string. Comments are automatically deleted when their objects are deleted.
 -  Currently, there is no security protection for viewing comments. Any user connected to a database can view all the comments for objects in the database. For shared objects such as databases, roles, and tablespaces, comments are stored globally so any user connected to any database in the cluster can see all the comments for shared objects. Therefore, do not put security-critical information in comments.
--  For most kinds of objects, only the owner of objects can set the comment. Roles do not have owners, so the rule for **COMMENT ON ROLE** is that you must be administrator to comment on an administrator role, or have the **CREATEROLE** permission to comment on non-administrator roles. An administrator can comment on anything.
+-  For most kinds of objects, only the owner of objects can set the comment. Roles do not have owners, so the rule for **COMMENT ON ROLE** is that you must be administrator to comment on an administrator role, or have the CREATEROLE permission to comment on non-administrator roles. An administrator can comment on anything.
 
 Syntax
 ------
@@ -80,9 +80,7 @@ Parameter Description
 
    Specifies the name of the object to be commented.
 
--  **table_name.column_name**
-
-   **view_name.column_name**
+-  **table_name.column_name**/**view_name.column_name**
 
    Specifies the column whose comment is defined or modified. You can add the table name or view name as the prefix.
 

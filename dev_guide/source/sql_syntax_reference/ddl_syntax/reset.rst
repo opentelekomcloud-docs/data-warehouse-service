@@ -8,7 +8,7 @@ RESET
 Function
 --------
 
-Restores runtime parameters to their default values. The default values are parameter default values complied in the **postgresql.conf** configuration file.
+**RESET** restores run-time parameters to their default values. The default values are parameter default values complied in the **postgresql.conf** configuration file.
 
 **RESET** is an alternative spelling for:
 
@@ -26,7 +26,7 @@ Syntax
 
    RESET {configuration_parameter | CURRENT_SCHEMA | TIME ZONE | TRANSACTION ISOLATION LEVEL | SESSION AUTHORIZATION | ALL };
 
-.. _en-us_topic_0000001510161381__se65334e5a0844cf2926813c622b3fc24:
+.. _en-us_topic_0000001811634689__se65334e5a0844cf2926813c622b3fc24:
 
 Parameter Description
 ---------------------

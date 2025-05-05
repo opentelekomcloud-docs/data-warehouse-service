@@ -8,9 +8,9 @@ CREATE ROW LEVEL SECURITY POLICY
 Function
 --------
 
-Creates a row-level access control policy for a table.
+**CREATE ROW LEVEL SECURITY POLICY** creates a row-level access control policy for a table.
 
-The policy takes effect only after row-level access control is enabled (by running **ALTER TABLE**... **ENABLE ROW LEVEL SECURITY**).
+The policy takes effect only after row-level access control is enabled (by running **ALTER TABLE**... ENABLE ROW LEVEL SECURITY \| ALTER FOREIGN TABLE ... **ENABLE ROW LEVEL SECURITY**).
 
 Currently, row-level access control affects the read (**SELECT**, **UPDATE**, **DELETE**) of data tables and does not affect the write (**INSERT** and **MERGE INTO**) of data tables. The table owner or system administrators can create an expression in the **USING** clause. When the client reads the data table, the database server combines the expressions that meet the condition and applies it to the execution plan in the statement rewriting phase of a query. For each tuple in a data table, if the expression returns **TRUE**, the tuple is visible to the current user; if the expression returns **FALSE** or **NULL**, the tuple is invisible to the current user.
 
@@ -23,15 +23,15 @@ Row-level access control policies can be applied to a specified user (role) or t
 Precautions
 -----------
 
--  Row-level access control policies can be defined for row-store tables, row-store partitioned tables, column-store tables, column-store partitioned tables, replication tables, unlogged tables, and hash tables.
+-  Row-level access control policies can be defined for row-store tables, row-store partitioned tables, column-store tables, column-store partitioned tables, replication tables, unlogged tables, hash tables, and non-EXTERNAL SCHEMA foreign tables.
 
--  Row-level access control policies cannot be defined for HDFS tables, foreign tables, and temporary tables.
+-  Row-level access control policies cannot be defined for HDFS tables, EXTERNAL SCHEMA foreign tables, and temporary tables.
 
 -  Row-level access control policies cannot be defined for views.
 
 -  A maximum of 100 row-level access control policies cannot be defined for a table.
 
--  System administrators and table owners are not affected by row-level access control and can view full data of tables.
+-  Users with administrator permissions, initial O&M users (Ruby), table owners, and members of the table owner role are not affected by row-level access control and can view full data of the table.
 
 -  Tables queried by using SQL statements, views, functions, and stored procedures are affected by row-level access control policies.
 
@@ -131,7 +131,7 @@ Example 1: Create a Row-level Access Control Policy That the Current User Can On
       CREATE ROLE alice PASSWORD '{password}';
       CREATE ROLE bob PASSWORD '{password}';
 
-#. Create data table **public.all_data**:
+#. Create the data table **public.all_data**:
 
    ::
 
@@ -236,7 +236,7 @@ Example 2: Partition Permission Management Through Row-Level Control
 
       CREATE ROLE alice PASSWORD '{password1}';
 
-#. Create range partitioned table **web_returns_p1**, and insert data into the table.
+#. Create a range partitioned table **web_returns_p1**, and insert data into the table.
 
    ::
 

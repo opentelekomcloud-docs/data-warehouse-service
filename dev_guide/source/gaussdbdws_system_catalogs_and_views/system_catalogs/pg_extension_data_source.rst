@@ -12,17 +12,17 @@ PG_EXTENSION_DATA_SOURCE
    +------------+-----------+---------------+---------------------------------------------------------------------+
    | Name       | Type      | Reference     | Description                                                         |
    +============+===========+===============+=====================================================================+
-   | oid        | oid       | ``-``         | Row identifier (hidden attribute; must be explicitly selected)      |
+   | OID        | OID       | ``-``         | Row identifier (hidden attribute; must be explicitly selected)      |
    +------------+-----------+---------------+---------------------------------------------------------------------+
-   | srcname    | name      | ``-``         | Name of an external data source                                     |
+   | srcname    | Name      | ``-``         | Name of an external data source                                     |
    +------------+-----------+---------------+---------------------------------------------------------------------+
-   | srcowner   | oid       | PG_AUTHID.oid | Owner of an external data source                                    |
+   | srcowner   | OID       | PG_AUTHID.oid | Owner of an external data source                                    |
    +------------+-----------+---------------+---------------------------------------------------------------------+
-   | srctype    | text      | ``-``         | Type of an external data source. It is NULL by default.             |
+   | srctype    | Text      | ``-``         | Type of an external data source. It is NULL by default.             |
    +------------+-----------+---------------+---------------------------------------------------------------------+
-   | srcversion | text      | ``-``         | Type of an external data source. It is NULL by default.             |
+   | srcversion | Text      | ``-``         | Type of an external data source. It is NULL by default.             |
    +------------+-----------+---------------+---------------------------------------------------------------------+
    | srcacl     | aclitem[] | ``-``         | Access permissions                                                  |
    +------------+-----------+---------------+---------------------------------------------------------------------+
-   | srcoptions | text[]    | ``-``         | Option used for foreign data sources. It is a keyword=value string. |
+   | srcoptions | Text[]    | ``-``         | Option used for foreign data sources. It is a keyword=value string. |
    +------------+-----------+---------------+---------------------------------------------------------------------+

@@ -8,9 +8,10 @@ ODBC Development Example
 Code for Common Functions
 -------------------------
 
+The following example shows how to obtain data from GaussDB(DWS) through ODBC.
+
 ::
 
-   // The following example shows how to obtain data from GaussDB(DWS) through the ODBC interface.
    // DBtest.c (compile with: libodbc.so)
    #include <stdlib.h>
    #include <stdio.h>
@@ -99,14 +100,12 @@ Code for Common Functions
 Code for Batch Processing
 -------------------------
 
+-  Enable **UseBatchProtocol** in the data source and set **support_batch_bind** to **on**.
+-  Use **CHECK_ERROR** to check and print error information.
+-  This example is used to interactively obtain the DSN, data volume to be processed, and volume of ignored data from users, and insert required data into the **test_odbc_batch_insert** table.
+
 ::
 
-   /**********************************************************************
-   * Set UseBatchProtocol to 1 in the data source and set the database parameter support_batch_bind
-   * to on.
-   * The CHECK_ERROR command is used to check and print error information.
-   * This example is used to interactively obtain the DSN, data volume to be processed, and volume of ignored data from users, and insert required data into the test_odbc_batch_insert table.
-   ***********************************************************************/
    #include <stdio.h>
    #include <stdlib.h>
    #include <sql.h>
@@ -170,7 +169,7 @@ Code for Batch Processing
        CHECK_ERROR(retcode, "SQLAllocHandle(SQL_HANDLE_ENV)",
                    henv, SQL_HANDLE_ENV);
 
-       // Set ODBC Verion
+       // Set ODBC Version
        retcode = SQLSetEnvAttr(henv, SQL_ATTR_ODBC_VERSION,
                                            (SQLPOINTER*)SQL_OV_ODBC3, 0);
        CHECK_ERROR(retcode, "SQLSetEnvAttr(SQL_ATTR_ODBC_VERSION)",

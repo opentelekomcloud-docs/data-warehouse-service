@@ -10,21 +10,21 @@ PG_USER_STATUS
 .. table:: **Table 1** PG_USER_STATUS columns
 
    +-----------------------+--------------------------+-----------------------------------------------------------------------------------------------------------------+
-   | Name                  | Type                     | Description                                                                                                     |
+   | Column                | Type                     | Description                                                                                                     |
    +=======================+==========================+=================================================================================================================+
-   | roloid                | oid                      | ID of the role                                                                                                  |
+   | roloid                | OID                      | ID of the role                                                                                                  |
    +-----------------------+--------------------------+-----------------------------------------------------------------------------------------------------------------+
-   | failcount             | integer                  | Specifies the number of failed attempts.                                                                        |
+   | failcount             | Integer                  | Specifies the number of failed attempts.                                                                        |
    +-----------------------+--------------------------+-----------------------------------------------------------------------------------------------------------------+
-   | locktime              | timestamp with time zone | Time at which the role is locked                                                                                |
+   | locktime              | Timestamp with time zone | Time at which the role is locked                                                                                |
    +-----------------------+--------------------------+-----------------------------------------------------------------------------------------------------------------+
-   | rolstatus             | smallint                 | Role state                                                                                                      |
+   | rolstatus             | Smallint                 | Role state                                                                                                      |
    |                       |                          |                                                                                                                 |
    |                       |                          | -  **0**: normal                                                                                                |
    |                       |                          | -  **1** indicates that the role is locked for some time because the failed login attempts exceed the threshold |
    |                       |                          | -  **2** indicates that the role is locked by the administrator.                                                |
    +-----------------------+--------------------------+-----------------------------------------------------------------------------------------------------------------+
-   | permspace             | bigint                   | Size of the permanent table storage space used by a role in the current instance.                               |
+   | permspace             | Bigint                   | Size of the permanent table storage space used by a role in the current instance.                               |
    +-----------------------+--------------------------+-----------------------------------------------------------------------------------------------------------------+
-   | tempspace             | bigint                   | Size of the temporary table storage space used by a role in the current instance.                               |
+   | tempspace             | Bigint                   | Size of the temporary table storage space used by a role in the current instance.                               |
    +-----------------------+--------------------------+-----------------------------------------------------------------------------------------------------------------+

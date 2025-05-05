@@ -40,7 +40,7 @@ GaussDB(DWS) is compatible with Postgres-XC features and supports the major feat
 Languages Supported by GaussDB(DWS)
 -----------------------------------
 
-GaussDB(DWS) supports PL/pgSQL, PL/Java, and PL/R.
+GaussDB(DWS) supports PL/pgSQL and PL/Java.
 
 SQL Syntax Text Conventions
 ---------------------------

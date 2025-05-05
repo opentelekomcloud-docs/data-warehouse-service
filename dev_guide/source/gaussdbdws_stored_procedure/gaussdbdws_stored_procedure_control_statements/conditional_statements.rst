@@ -12,14 +12,14 @@ GaussDB(DWS) supports five usages of **IF**:
 -  IF_THEN
 
 
-   .. figure:: /_static/images/en-us_image_0000001460723100.jpg
+   .. figure:: /_static/images/en-us_image_0000001764492144.jpg
       :alt: **Figure 1** IF_THEN::=
 
       **Figure 1** IF_THEN::=
 
    **IF_THEN** is the simplest form of **IF**. If the condition is true, statements are executed. If it is false, they are skipped.
 
-   **Example**
+   **Examples**
 
    ::
 
@@ -30,14 +30,14 @@ GaussDB(DWS) supports five usages of **IF**:
 -  IF_THEN_ELSE
 
 
-   .. figure:: /_static/images/en-us_image_0000001510163181.jpg
+   .. figure:: /_static/images/en-us_image_0000001764492148.jpg
       :alt: **Figure 2** IF_THEN_ELSE::=
 
       **Figure 2** IF_THEN_ELSE::=
 
    **IF-THEN-ELSE** statements add **ELSE** branches and can be executed if the condition is **false**.
 
-   **Example**
+   **Examples**
 
    ::
 
@@ -62,17 +62,17 @@ GaussDB(DWS) supports five usages of **IF**:
           END IF;
       END IF;
 
-   Actually, this is a way of an **IF** statement nesting in the **ELSE** part of another **IF** statement. Therefore, an **END IF** statement is required for each nesting IF statement and another **END IF** statement is required to end the parent **IF-ELSE** statement. Conditional statements are used to decide whether given conditions are met. Operations are executed based on the decisions made.
+   Actually, this is a way of an **IF** statement nesting in the **ELSE** part of another **IF** statement. Therefore, an **END IF** statement is required for each nesting IF statement and another **END IF** statement is required to end the parent **IF-ELSE** statement. To set multiple options, use the following form:
 
 -  IF_THEN_ELSIF_ELSE
 
 
-   .. figure:: /_static/images/en-us_image_0000001510283925.png
+   .. figure:: /_static/images/en-us_image_0000001811610493.png
       :alt: **Figure 3** IF_THEN_ELSIF_ELSE::=
 
       **Figure 3** IF_THEN_ELSIF_ELSE::=
 
-   **Example**
+   **Examples**
 
    ::
 
@@ -110,5 +110,5 @@ GaussDB(DWS) supports five usages of **IF**:
 
       CALL proc_control_structure(3);
 
-      -- Delete the stored procedure:
+      -- Delete the stored procedure.
       DROP PROCEDURE proc_control_structure;

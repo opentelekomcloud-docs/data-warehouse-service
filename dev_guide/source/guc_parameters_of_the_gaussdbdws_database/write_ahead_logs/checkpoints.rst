@@ -5,12 +5,10 @@
 Checkpoints
 ===========
 
-.. _en-us_topic_0000001460882244__sd7daa0171e7245968cf6a44d968e1ad5:
-
 checkpoint_segments
 -------------------
 
-**Parameter description**: minimum number of WAL segment files in the period specified by :ref:`checkpoint_timeout <en-us_topic_0000001460882244__s8acbdb7a59af4102bf229fcf4c889f37>`. The size of each log file is 16 MB.
+**Parameter description**: minimum number of WAL segment files in the period specified by **checkpoint_timeout**. The size of each log file is 16 MB.
 
 **Type**: SIGHUP
 
@@ -20,21 +18,4 @@ checkpoint_segments
 
 .. important::
 
-   Increasing the value of this parameter speeds up the export of big data. Set this parameter based on :ref:`checkpoint_timeout <en-us_topic_0000001460882244__s8acbdb7a59af4102bf229fcf4c889f37>` and :ref:`shared_buffers <en-us_topic_0000001460563104__s9292cfbf38fa4b17b93e9a47330da753>`. This parameter affects the number of WAL log segment files that can be reused. Generally, the maximum number of reused files in the **pg_xlog** folder is twice the number of checkpoint segments. The reused files are not deleted and are renamed to the WAL log segment files which will be later used.
-
-.. _en-us_topic_0000001460882244__s8acbdb7a59af4102bf229fcf4c889f37:
-
-checkpoint_timeout
-------------------
-
-**Parameter description**: Specifies the maximum time between automatic WAL checkpoints.
-
-**Type**: SIGHUP
-
-**Value range:** an integer ranging from 30 to 3600 (s)
-
-**Default value**: **15min**
-
-.. important::
-
-   If the value of :ref:`checkpoint_segments <en-us_topic_0000001460882244__sd7daa0171e7245968cf6a44d968e1ad5>` is increased, you need to increase the value of this parameter. The increase of them further requires the increase of :ref:`shared_buffers <en-us_topic_0000001460563104__s9292cfbf38fa4b17b93e9a47330da753>`. Consider all these parameters during setting.
+   Increasing the value of this parameter speeds up the import of big data. Set this parameter based on **checkpoint_timeout** and **shared_buffers**. This parameter affects the number of WAL log segment files that can be reused. Generally, the maximum number of reused files in the **pg_xlog** folder is twice the number of checkpoint segments. The reused files are not deleted and are renamed to the WAL log segment files which will be later used.

@@ -8,7 +8,7 @@ DBA_CONS_COLUMNS
 **DBA_CONS_COLUMNS** displays information about constraint columns in database tables. It is accessible only to users with system administrator rights.
 
 +-----------------+-----------------------+-------------------------------------+
-| Name            | Type                  | Description                         |
+| Column          | Type                  | Description                         |
 +=================+=======================+=====================================+
 | table_name      | character varying(64) | Name of constraint-related table    |
 +-----------------+-----------------------+-------------------------------------+
@@ -16,5 +16,5 @@ DBA_CONS_COLUMNS
 +-----------------+-----------------------+-------------------------------------+
 | constraint_name | character varying(64) | Constraint name                     |
 +-----------------+-----------------------+-------------------------------------+
-| position        | smallint              | Position of the column in the table |
+| position        | Smallint              | Position of the column in the table |
 +-----------------+-----------------------+-------------------------------------+

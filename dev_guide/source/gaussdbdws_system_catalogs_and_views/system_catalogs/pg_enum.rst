@@ -9,17 +9,17 @@ PG_ENUM
 
 .. table:: **Table 1** PG_ENUM columns
 
-   +---------------+------+----------------------------------+----------------------------------------------------------------+
-   | Name          | Type | Reference                        | Description                                                    |
-   +===============+======+==================================+================================================================+
-   | oid           | oid  | ``-``                            | Row identifier (hidden attribute; must be explicitly selected) |
-   +---------------+------+----------------------------------+----------------------------------------------------------------+
-   | enumtypid     | oid  | :ref:`PG_TYPE <dws_04_0629>`.oid | OID of the **pg_type** entry that contains this enum value     |
-   +---------------+------+----------------------------------+----------------------------------------------------------------+
-   | enumsortorder | real | ``-``                            | Sort position of this enum value within its enum type          |
-   +---------------+------+----------------------------------+----------------------------------------------------------------+
-   | enumlabel     | name | ``-``                            | Textual label for this enum value                              |
-   +---------------+------+----------------------------------+----------------------------------------------------------------+
+   +---------------+------+----------------------------------+----------------------------------------------------------------------------+
+   | Column        | Type | Reference                        | Description                                                                |
+   +===============+======+==================================+============================================================================+
+   | OID           | OID  | N/A                              | Row identifier (hidden attribute; displayed only when explicitly selected) |
+   +---------------+------+----------------------------------+----------------------------------------------------------------------------+
+   | enumtypid     | OID  | :ref:`PG_TYPE <dws_04_0629>`.oid | OID of **pg_type** that contains this enum value                           |
+   +---------------+------+----------------------------------+----------------------------------------------------------------------------+
+   | enumsortorder | Real | N/A                              | Sort position of this enum value within its enum type                      |
+   +---------------+------+----------------------------------+----------------------------------------------------------------------------+
+   | enumlabel     | Name | N/A                              | Textual label for this enum value                                          |
+   +---------------+------+----------------------------------+----------------------------------------------------------------------------+
 
 The OIDs for **PG_ENUM** rows follow a special rule: even-numbered OIDs are guaranteed to be ordered in the same way as the sort ordering of their enum type. That is, if two even OIDs belong to the same enum type, the smaller OID must have the smaller **enumsortorder** value. Odd-numbered OID values need bear no relationship to the sort order. This rule allows the enum comparison routines to avoid catalog lookups in many common cases. The routines that create and alter enum types attempt to assign even OIDs to enum values whenever possible.
 

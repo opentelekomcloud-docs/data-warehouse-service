@@ -12,7 +12,7 @@ Procedure
 
 #. Replace the GaussDB(DWS) client driver.
 
-   Decompress **GaussDB-8.2.1-Windows-Odbc.tar.gz** and install **psqlodbc.msi** (for 32-bit OS) or **psqlodbc_x64.msi** (for 64-bit OS).
+   Decompress **GaussDB-9.1.0-Windows-Odbc.tar.gz**. Double-click install **psqlodbc.msi** (for 32-bit OS) or **psqlodbc_x64.msi** (for 64-bit OS).
 
 #. Open Driver Manager.
 
@@ -60,7 +60,7 @@ Procedure
 
    Change the value of **SSL Mode** in step 2 to **verify-ca**.
 
-   .. _en-us_topic_0000001510522705__tbff3516afc1b4dd59cf87017f2af1d56:
+   .. _en-us_topic_0000001811490885__tbff3516afc1b4dd59cf87017f2af1d56:
 
    .. table:: **Table 1** sslmode options
 
@@ -134,7 +134,7 @@ Troubleshooting
 
    Possible causes:
 
-   **sslmode** is not configured for the data source. Set this configuration item to **allow** or a higher level to enable SSL connections. For details about **sslmode**, see :ref:`Table 1 <en-us_topic_0000001510522705__tbff3516afc1b4dd59cf87017f2af1d56>`.
+   **sslmode** is not configured for the data source. Set this configuration item to **allow** or a higher level to enable SSL connections. For details about **sslmode**, see :ref:`Table 1 <en-us_topic_0000001811490885__tbff3516afc1b4dd59cf87017f2af1d56>`.
 
 -  authentication method 10 not supported.
 
@@ -151,10 +151,9 @@ Troubleshooting
 
    To solve this problem, perform the following operations:
 
-   #. Set **password_encryption_type** to **1**. For details, see "Modifying Database Parameters" in *User Guide*.
-   #. Create a database user for connection or reset the password of the existing database user.
+   #. Create a new database user for connection or reset the password of the existing database user.
 
-      -  If you use an administrator account, reset the password. For details, see "Password Reset" in *User Guide*.
+      -  If you use an administrator account, reset the password. For details, see "Resetting a Password" in the *Data Warehouse Service (DWS) User Guide*.
       -  If you are a common user, use another client tool (such as Data Studio) to connect to the database and run the **ALTER USER** statement to change your password.
 
    #. Connect to the database.
@@ -171,5 +170,5 @@ Troubleshooting
 
    Note that cross-node connection to the database in the cluster is not supported. If the error is caused by cross-node connection to the CN in the cluster, connect the service program to the database from a node outside the cluster and try again.
 
-.. |image1| image:: /_static/images/en-us_image_0000001460882968.jpg
-.. |image2| image:: /_static/images/en-us_image_0000001510163345.jpg
+.. |image1| image:: /_static/images/en-us_image_0000001764651188.jpg
+.. |image2| image:: /_static/images/en-us_image_0000001811491513.jpg

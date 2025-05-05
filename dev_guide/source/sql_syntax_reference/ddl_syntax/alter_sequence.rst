@@ -70,7 +70,7 @@ Parameter Description
 
 -  new_owner
 
-   Specifies the user name of the new owner. To change the owner, you must also be a direct or indirect member of the new role, and this role must have the **CREATE** permission on the sequence's schema.
+   Specifies the user name of the new owner. To change the owner, you must also be a direct or indirect member of the new role, and this role must have **CREATE** permission on the sequence's schema.
 
 Examples
 --------

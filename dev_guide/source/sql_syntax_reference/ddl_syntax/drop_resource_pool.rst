@@ -8,11 +8,11 @@ DROP RESOURCE POOL
 Function
 --------
 
-Deletes a resource pool.
+**DROP RESOURCE POOL** deletes a resource pool.
 
 .. note::
 
-   If a role has been associated with a resource pool, this resource pool cannot be deleted.
+   If a role has been associated with a resource pool, the resource pool cannot be deleted.
 
 Precautions
 -----------
@@ -39,8 +39,8 @@ Parameter Description
 
    Value range: a string. It must comply with the naming convention.
 
-Examples
---------
+Example
+-------
 
 Delete the resource pool named **pool**:
 
@@ -48,7 +48,7 @@ Delete the resource pool named **pool**:
 
    DROP RESOURCE POOL pool;
 
-Helpful Links
--------------
+Links
+-----
 
 :ref:`ALTER RESOURCE POOL <dws_06_0133>`, :ref:`CREATE RESOURCE POOL <dws_06_0171>`

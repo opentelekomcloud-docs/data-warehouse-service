@@ -10,15 +10,15 @@ PG_VIEWS
 .. table:: **Table 1** PG_VIEWS columns
 
    +------------+------+-------------------------------------------+-------------------------------------------+
-   | Name       | Type | Reference                                 | Description                               |
+   | Column     | Type | Reference                                 | Description                               |
    +============+======+===========================================+===========================================+
-   | schemaname | name | :ref:`PG_NAMESPACE <dws_04_0600>`.nspname | Name of the schema that contains the view |
+   | schemaname | Name | :ref:`PG_NAMESPACE <dws_04_0600>`.nspname | Name of the schema that contains the view |
    +------------+------+-------------------------------------------+-------------------------------------------+
-   | viewname   | name | :ref:`PG_CLASS <dws_04_0578>`.relname     | View name                                 |
+   | viewname   | Name | :ref:`PG_CLASS <dws_04_0578>`.relname     | View name                                 |
    +------------+------+-------------------------------------------+-------------------------------------------+
-   | viewowner  | name | :ref:`PG_AUTHID <dws_04_0574>`.Erolname   | Owner of the view                         |
+   | viewowner  | Name | :ref:`PG_AUTHID <dws_04_0574>`.rolname    | Owner of the view                         |
    +------------+------+-------------------------------------------+-------------------------------------------+
-   | definition | text | ``-``                                     | Definition of the view                    |
+   | definition | Text | ``-``                                     | Definition of the view                    |
    +------------+------+-------------------------------------------+-------------------------------------------+
 
 Example

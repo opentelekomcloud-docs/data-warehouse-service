@@ -61,6 +61,7 @@ System Views
 -  :ref:`GLOBAL_WORKLOAD_TRANSACTION <dws_04_0687>`
 -  :ref:`GS_ALL_CONTROL_GROUP_INFO <dws_04_0688>`
 -  :ref:`GS_BLOCKLIST_QUERY <dws_04_1202>`
+-  :ref:`GS_BLOCKLIST_SQL <dws_04_1246>`
 -  :ref:`GS_CLUSTER_RESOURCE_INFO <dws_04_0689>`
 -  :ref:`GS_COLUMN_TABLE_IO_STAT <dws_04_0955>`
 -  :ref:`GS_OBS_READ_TRAFFIC <dws_04_1011>`
@@ -69,6 +70,7 @@ System Views
 -  :ref:`GS_NODE_STAT_RESET_TIME <dws_04_0692>`
 -  :ref:`GS_OBS_LATENCY <dws_04_1203>`
 -  :ref:`GS_QUERY_MONITOR <dws_04_1064>`
+-  :ref:`GS_QUERY_RESOURCE_INFO <dws_04_1409>`
 -  :ref:`GS_REL_IOSTAT <dws_04_0691>`
 -  :ref:`GS_RESPOOL_RUNTIME_INFO <dws_04_0976>`
 -  :ref:`GS_RESPOOL_RESOURCE_INFO <dws_04_0977>`
@@ -88,7 +90,7 @@ System Views
 -  :ref:`GS_VIEW_DEPENDENCY_PATH <dws_04_0948>`
 -  :ref:`GS_VIEW_INVALID <dws_04_0717>`
 -  :ref:`GS_WAIT_EVENTS <dws_04_0696>`
--  :ref:`GS_WLM_OPERAROR_INFO <dws_04_0701>`
+-  :ref:`GS_WLM_OPERATOR_INFO <dws_04_0701>`
 -  :ref:`GS_WLM_OPERATOR_HISTORY <dws_04_0702>`
 -  :ref:`GS_WLM_OPERATOR_STATISTICS <dws_04_0703>`
 -  :ref:`GS_WLM_SESSION_INFO <dws_04_0704>`
@@ -113,6 +115,7 @@ System Views
 -  :ref:`PG_EXT_STATS <dws_04_0728>`
 -  :ref:`PG_GET_INVALID_BACKENDS <dws_04_0729>`
 -  :ref:`PG_GET_SENDERS_CATCHUP_TIME <dws_04_0730>`
+-  :ref:`PG_GLOBAL_TEMP_ATTACHED_PIDS <dws_04_1055>`
 -  :ref:`PG_GROUP <dws_04_0731>`
 -  :ref:`PG_INDEXES <dws_04_0732>`
 -  :ref:`PG_JOB <dws_04_0733>`
@@ -120,6 +123,7 @@ System Views
 -  :ref:`PG_JOB_SINGLE <dws_04_0735>`
 -  :ref:`PG_LIFECYCLE_DATA_DISTRIBUTE <dws_04_0736>`
 -  :ref:`PG_LOCKS <dws_04_0737>`
+-  :ref:`PG_LWLOCKS <dws_04_1411>`
 -  :ref:`PG_NODE_ENV <dws_04_0738>`
 -  :ref:`PG_OS_THREADS <dws_04_0739>`
 -  :ref:`PG_POOLER_STATUS <dws_04_0740>`
@@ -132,6 +136,7 @@ System Views
 -  :ref:`PG_RULES <dws_04_0746>`
 -  :ref:`PG_RUNNING_XACTS <dws_04_0747>`
 -  :ref:`PG_SECLABELS <dws_04_0748>`
+-  :ref:`PG_SEQUENCES <dws_04_1109>`
 -  :ref:`PG_SESSION_WLMSTAT <dws_04_0749>`
 -  :ref:`PG_SESSION_IOSTAT <dws_04_0750>`
 -  :ref:`PG_SETTINGS <dws_04_0751>`
@@ -177,7 +182,9 @@ System Views
 -  :ref:`PG_USER_MAPPINGS <dws_04_0792>`
 -  :ref:`PG_VIEWS <dws_04_0793>`
 -  :ref:`PG_WLM_STATISTICS <dws_04_0794>`
+-  :ref:`PGXC_AIO_RESOURCE_POOL_STATS <dws_04_0017>`
 -  :ref:`PGXC_BULKLOAD_PROGRESS <dws_04_0795>`
+-  :ref:`PGXC_BULKLOAD_INFO <dws_04_1098>`
 -  :ref:`PGXC_BULKLOAD_STATISTICS <dws_04_0796>`
 -  :ref:`PGXC_COLUMN_TABLE_IO_STAT <dws_04_0960>`
 -  :ref:`PGXC_COMM_CLIENT_INFO <dws_04_0797>`
@@ -187,17 +194,24 @@ System Views
 -  :ref:`PGXC_COMM_STATUS <dws_04_0801>`
 -  :ref:`PGXC_COMM_QUERY_SPEED <dws_04_0979>`
 -  :ref:`PGXC_DEADLOCK <dws_04_0802>`
+-  :ref:`PGXC_DISK_CACHE_STATS <dws_04_1232>`
+-  :ref:`PGXC_DISK_CACHE_ALL_STATS <dws_04_1234>`
+-  :ref:`PGXC_DISK_CACHE_PATH_INFO <dws_04_1233>`
 -  :ref:`PGXC_GET_STAT_ALL_TABLES <dws_04_0803>`
 -  :ref:`PGXC_GET_STAT_ALL_PARTITIONS <dws_04_0804>`
 -  :ref:`PGXC_GET_TABLE_SKEWNESS <dws_04_0805>`
--  :ref:`PGXC_WLM_TABLE_DISTRIBUTION_SKEWNESS <dws_04_1008>`
+-  :ref:`PGXC_GLOBAL_TEMP_ATTACHED_PIDS <dws_04_1056>`
 -  :ref:`PGXC_GTM_SNAPSHOT_STATUS <dws_04_0806>`
 -  :ref:`PGXC_INSTANCE_TIME <dws_04_0807>`
 -  :ref:`PGXC_LOCKWAIT_DETAIL <dws_04_1004>`
 -  :ref:`PGXC_INSTR_UNIQUE_SQL <dws_04_0808>`
 -  :ref:`PGXC_LOCK_CONFLICTS <dws_04_0809>`
+-  :ref:`PGXC_LWLOCKS <dws_04_1412>`
+-  :ref:`PGXC_MEMORY_DEBUG_INFO <dws_04_1106>`
 -  :ref:`PGXC_NODE_ENV <dws_04_0810>`
 -  :ref:`PGXC_NODE_STAT_RESET_TIME <dws_04_0811>`
+-  :ref:`PGXC_OBS_IO_SCHEDULER_STATS <dws_04_1235>`
+-  :ref:`PGXC_OBS_IO_SCHEDULER_PERIODIC_STATS <dws_04_1236>`
 -  :ref:`PGXC_OS_RUN_INFO <dws_04_0812>`
 -  :ref:`PGXC_OS_THREADS <dws_04_0813>`
 -  :ref:`PGXC_POOLER_STATUS <dws_04_1077>`
@@ -238,6 +252,7 @@ System Views
 -  :ref:`PGXC_WLM_SESSION_INFO <dws_04_0839>`
 -  :ref:`PGXC_WLM_SESSION_HISTORY <dws_04_0840>`
 -  :ref:`PGXC_WLM_SESSION_STATISTICS <dws_04_0841>`
+-  :ref:`PGXC_WLM_TABLE_DISTRIBUTION_SKEWNESS <dws_04_1008>`
 -  :ref:`PGXC_WLM_USER_RESOURCE_HISTORY <dws_04_1021>`
 -  :ref:`PGXC_WLM_WORKLOAD_RECORDS <dws_04_0842>`
 -  :ref:`PGXC_WORKLOAD_SQL_COUNT <dws_04_0843>`
@@ -246,6 +261,7 @@ System Views
 -  :ref:`PLAN_TABLE <dws_04_0846>`
 -  :ref:`PV_FILE_STAT <dws_04_0848>`
 -  :ref:`PV_INSTANCE_TIME <dws_04_0849>`
+-  :ref:`PV_MATVIEW_DETAIL <dws_04_1123>`
 -  :ref:`PV_OS_RUN_INFO <dws_04_0850>`
 -  :ref:`PV_SESSION_MEMORY <dws_04_0851>`
 -  :ref:`PV_SESSION_MEMORY_DETAIL <dws_04_0852>`
@@ -344,6 +360,7 @@ System Views
    global_workload_transaction
    gs_all_control_group_info
    gs_blocklist_query
+   gs_blocklist_sql
    gs_cluster_resource_info
    gs_column_table_io_stat
    gs_obs_read_traffic
@@ -352,6 +369,7 @@ System Views
    gs_node_stat_reset_time
    gs_obs_latency
    gs_query_monitor
+   gs_query_resource_info
    gs_rel_iostat
    gs_respool_runtime_info
    gs_respool_resource_info
@@ -371,7 +389,7 @@ System Views
    gs_view_dependency_path
    gs_view_invalid
    gs_wait_events
-   gs_wlm_operaror_info
+   gs_wlm_operator_info
    gs_wlm_operator_history
    gs_wlm_operator_statistics
    gs_wlm_session_info
@@ -396,6 +414,7 @@ System Views
    pg_ext_stats
    pg_get_invalid_backends
    pg_get_senders_catchup_time
+   pg_global_temp_attached_pids
    pg_group
    pg_indexes
    pg_job
@@ -403,6 +422,7 @@ System Views
    pg_job_single
    pg_lifecycle_data_distribute
    pg_locks
+   pg_lwlocks
    pg_node_env
    pg_os_threads
    pg_pooler_status
@@ -415,6 +435,7 @@ System Views
    pg_rules
    pg_running_xacts
    pg_seclabels
+   pg_sequences
    pg_session_wlmstat
    pg_session_iostat
    pg_settings
@@ -460,7 +481,9 @@ System Views
    pg_user_mappings
    pg_views
    pg_wlm_statistics
+   pgxc_aio_resource_pool_stats
    pgxc_bulkload_progress
+   pgxc_bulkload_info
    pgxc_bulkload_statistics
    pgxc_column_table_io_stat
    pgxc_comm_client_info
@@ -470,17 +493,24 @@ System Views
    pgxc_comm_status
    pgxc_comm_query_speed
    pgxc_deadlock
+   pgxc_disk_cache_stats
+   pgxc_disk_cache_all_stats
+   pgxc_disk_cache_path_info
    pgxc_get_stat_all_tables
    pgxc_get_stat_all_partitions
    pgxc_get_table_skewness
-   pgxc_wlm_table_distribution_skewness
+   pgxc_global_temp_attached_pids
    pgxc_gtm_snapshot_status
    pgxc_instance_time
    pgxc_lockwait_detail
    pgxc_instr_unique_sql
    pgxc_lock_conflicts
+   pgxc_lwlocks
+   pgxc_memory_debug_info
    pgxc_node_env
    pgxc_node_stat_reset_time
+   pgxc_obs_io_scheduler_stats
+   pgxc_obs_io_scheduler_periodic_stats
    pgxc_os_run_info
    pgxc_os_threads
    pgxc_pooler_status
@@ -521,6 +551,7 @@ System Views
    pgxc_wlm_session_info
    pgxc_wlm_session_history
    pgxc_wlm_session_statistics
+   pgxc_wlm_table_distribution_skewness
    pgxc_wlm_user_resource_history
    pgxc_wlm_workload_records
    pgxc_workload_sql_count
@@ -529,6 +560,7 @@ System Views
    plan_table
    pv_file_stat
    pv_instance_time
+   pv_matview_detail
    pv_os_run_info
    pv_session_memory
    pv_session_memory_detail

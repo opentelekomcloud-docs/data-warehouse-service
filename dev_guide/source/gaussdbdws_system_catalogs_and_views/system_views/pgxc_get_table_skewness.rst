@@ -10,21 +10,21 @@ PGXC_GET_TABLE_SKEWNESS
 .. table:: **Table 1** PGXC_GET_TABLE_SKEWNESS columns
 
    +------------+-----------------+------------------------------------------------------------------------------------------------------------------------------+
-   | Name       | Type            | Description                                                                                                                  |
+   | Column     | Type            | Description                                                                                                                  |
    +============+=================+==============================================================================================================================+
-   | schemaname | name            | Schema name of a table                                                                                                       |
+   | schemaname | Name            | Schema name of a table                                                                                                       |
    +------------+-----------------+------------------------------------------------------------------------------------------------------------------------------+
-   | tablename  | name            | Name of a table                                                                                                              |
+   | tablename  | Name            | Name of a table                                                                                                              |
    +------------+-----------------+------------------------------------------------------------------------------------------------------------------------------+
-   | totalsize  | numeric         | Total size of a table, in bytes                                                                                              |
+   | totalsize  | Numeric         | Total size of a table, in bytes                                                                                              |
    +------------+-----------------+------------------------------------------------------------------------------------------------------------------------------+
    | avgsize    | numeric(1000,0) | Average table size (total table size divided by the number of DNs), which is the ideal size of tables distributed on each DN |
    +------------+-----------------+------------------------------------------------------------------------------------------------------------------------------+
-   | maxratio   | numeric(10,3)   | Ratio of the maximum table size on a single DN to to **avgsize**                                                             |
+   | maxratio   | numeric(10,3)   | Ratio of the maximum table size on a single DN to the value of **avgsize**.                                                  |
    +------------+-----------------+------------------------------------------------------------------------------------------------------------------------------+
    | minratio   | numeric(10,3)   | Ratio of the minimum table size on a single DN to **avgsize**                                                                |
    +------------+-----------------+------------------------------------------------------------------------------------------------------------------------------+
-   | skewsize   | bigint          | Table skew rate (the maximum table size on a single DN minus the minimum table size on a single DN)                          |
+   | skewsize   | Bigint          | Table skew rate (the maximum table size on a single DN minus the minimum table size on a single DN)                          |
    +------------+-----------------+------------------------------------------------------------------------------------------------------------------------------+
    | skewratio  | numeric(10,3)   | Table skew rate (skewsize/avgsize)                                                                                           |
    +------------+-----------------+------------------------------------------------------------------------------------------------------------------------------+

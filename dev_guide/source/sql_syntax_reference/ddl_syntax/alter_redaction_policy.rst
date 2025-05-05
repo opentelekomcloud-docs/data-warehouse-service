@@ -8,12 +8,12 @@ ALTER REDACTION POLICY
 Function
 --------
 
-Modifies a data redaction policy applied to a specified table.
+**ALTER REDACTION POLICY** modifies a data redaction policy applied to a specified table.
 
 Precautions
 -----------
 
-Only the owner of the table to which the redaction policy is applied has the permission to modify the redaction policy.
+Only the table object owner and users with the **gs_redaction_policy** preset role can modify the masking policy.
 
 Syntax
 ------

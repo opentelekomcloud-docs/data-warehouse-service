@@ -8,7 +8,7 @@ PREPARE
 Function
 --------
 
-Creates a prepared statement.
+**PREPARE** creates a prepared statement.
 
 A prepared statement is a performance optimizing object on the server. When the **PREPARE** statement is executed, the specified query is parsed, analyzed, and rewritten. When the **EXECUTE** is executed, the prepared statement is planned and executed. This avoids repetitive parsing and analysis. After the PREPARE statement is created, it exists throughout the database session. Once it is created (even if in a transaction block), it will not be deleted when a transaction is rolled back. It can only be deleted by explicitly invoking :ref:`DEALLOCATE <dws_06_0246>` or automatically deleted when the session ends.
 

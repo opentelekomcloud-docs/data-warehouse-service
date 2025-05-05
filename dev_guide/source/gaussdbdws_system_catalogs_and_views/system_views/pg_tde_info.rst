@@ -10,19 +10,18 @@ PG_TDE_INFO
 .. table:: **Table 1** PG_TDE_INFO columns
 
    +-----------------------+-----------------------+----------------------------------------------+
-   | Name                  | Type                  | Description                                  |
+   | Column                | Type                  | Description                                  |
    +=======================+=======================+==============================================+
-   | is_encrypt            | text                  | Whether the cluster is an encryption cluster |
+   | is_encrypt            | Text                  | Whether the cluster is an encryption cluster |
    |                       |                       |                                              |
    |                       |                       | -  **f**: Non-encryption cluster             |
    |                       |                       | -  **t**: Encryption cluster                 |
    +-----------------------+-----------------------+----------------------------------------------+
-   | g_tde_algo            | text                  | Encryption algorithm                         |
+   | g_tde_algo            | Text                  | Encryption algorithm                         |
    |                       |                       |                                              |
-   |                       |                       | -  SM4-CTR-128                               |
    |                       |                       | -  AES-CTR-128                               |
    +-----------------------+-----------------------+----------------------------------------------+
-   | remain                | text                  | Reserved field.                              |
+   | remain                | Text                  | Reserved columns                             |
    +-----------------------+-----------------------+----------------------------------------------+
 
 Examples

@@ -10,11 +10,11 @@ ALL_TABLES
 .. table:: **Table 1** ALL_TABLES columns
 
    +-----------------------+-----------------------+------------------------------------------------------+
-   | Name                  | Type                  | Description                                          |
+   | Column                | Type                  | Description                                          |
    +=======================+=======================+======================================================+
-   | owner                 | character varying(64) | Table owner                                          |
+   | owner                 | character varying(64) | Owner of the table                                   |
    +-----------------------+-----------------------+------------------------------------------------------+
-   | table_name            | character varying(64) | Table name                                           |
+   | table_name            | character varying(64) | Name of the table                                    |
    +-----------------------+-----------------------+------------------------------------------------------+
    | tablespace_name       | character varying(64) | Name of the tablespace that contains the table       |
    +-----------------------+-----------------------+------------------------------------------------------+
@@ -30,5 +30,5 @@ ALL_TABLES
    |                       |                       | -  **YES** indicates that it is deleted.             |
    |                       |                       | -  **NO** indicates that it is not deleted.          |
    +-----------------------+-----------------------+------------------------------------------------------+
-   | num_rows              | numeric               | The estimated number of rows in the table            |
+   | num_rows              | Numeric               | Estimated number of rows in the table                |
    +-----------------------+-----------------------+------------------------------------------------------+

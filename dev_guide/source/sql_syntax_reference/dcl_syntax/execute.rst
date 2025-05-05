@@ -8,7 +8,7 @@ EXECUTE
 Function
 --------
 
-**EXECUTE** executes a prepared statement. A prepared statement only exists in the lifecycle of a session. Therefore, only prepared statements created using **PREPARE** earlier in the session can be executed.
+**EXECUTE** executes a prepared statement. Because a prepared statement exists only in the lifetime of a session, the prepared statement must be created by an earlier **PREPARE** statement in the current session.
 
 Precautions
 -----------

@@ -10,21 +10,21 @@ PG_STAT_USER_INDEXES
 .. table:: **Table 1** PG_STAT_USER_INDEXES columns
 
    +---------------+--------+-----------------------------------------------------------+
-   | Name          | Type   | Description                                               |
+   | Column        | Type   | Description                                               |
    +===============+========+===========================================================+
-   | relid         | oid    | Table OID for the index                                   |
+   | relid         | OID    | Table OID for the index                                   |
    +---------------+--------+-----------------------------------------------------------+
-   | indexrelid    | oid    | OID of this index                                         |
+   | indexrelid    | OID    | OID of this index                                         |
    +---------------+--------+-----------------------------------------------------------+
-   | schemaname    | name   | Name of the schema this index is in                       |
+   | schemaname    | Name   | Name of the schema this index is in                       |
    +---------------+--------+-----------------------------------------------------------+
-   | relname       | name   | Name of the table for this index                          |
+   | relname       | Name   | Name of the table for this index                          |
    +---------------+--------+-----------------------------------------------------------+
-   | indexrelname  | name   | Name of this index                                        |
+   | indexrelname  | Name   | Name of this index                                        |
    +---------------+--------+-----------------------------------------------------------+
-   | idx_scan      | bigint | Number of index scans                                     |
+   | idx_scan      | Bigint | Number of index scans                                     |
    +---------------+--------+-----------------------------------------------------------+
-   | idx_tup_read  | bigint | Number of index entries returned by scans on this index   |
+   | idx_tup_read  | Bigint | Number of index entries returned by scans on this index   |
    +---------------+--------+-----------------------------------------------------------+
-   | idx_tup_fetch | bigint | Number of rows that have live data fetched by index scans |
+   | idx_tup_fetch | Bigint | Number of rows that have live data fetched by index scans |
    +---------------+--------+-----------------------------------------------------------+

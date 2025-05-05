@@ -8,7 +8,7 @@ ALTER ROLE
 Function
 --------
 
-Changes the attributes of a role.
+**ALTER ROLE** changes the attributes of a role.
 
 Important Notes
 ---------------
@@ -168,11 +168,11 @@ Parameters
 
    .. important::
 
-      To ensure the proper running of a cluster, the minimum value of **CONNECTION LIMIT** is the number of CNs in the cluster, because when a cluster runs ANALYZE on a CN, other CNs will connect with the running CN for metadata synchronization. For example, if there are three CNs in the cluster, set **CONNECTION LIMIT** to **3** or a larger value.
+      To ensure the proper running of a cluster, the minimum value of **CONNECTION LIMIT** is the number of CNs in the cluster, because when a cluster runs **ANALYZE** on a CN, other CNs will connect to the running CN for metadata synchronization. For example, if there are three CNs in the cluster, set **CONNECTION LIMIT** to **3** or a larger value.
 
 -  **ENCRYPTED \| UNENCRYPTED**
 
-   Determines whether the password stored in the system will be encrypted. (If neither is specified, the password status is determined by **password_encryption_type**.) According to product security requirements, the password must be stored encrypted. Therefore, **UNENCRYPTED** is forbidden in GaussDB(DWS). If the password is SHA256-encrypted, it will be stored as-is, regardless of whether **ENCRYPTED** or **UNENCRYPTED** is specified (since the system cannot decrypt the specified encrypted password). This allows reloading of the encrypted password during dump/restore.
+   Determines whether the password stored in the system will be encrypted. (If neither is specified, the password status is determined by **password_encryption_type**.) According to product security requirements, the password must be stored encrypted. Therefore, **UNENCRYPTED** is forbidden in GaussDB(DWS). If the password is encrypted using SHA256, it will be stored as it is, regardless of whether it is specified as **ENCRYPTED** or **UNENCRYPTED**. This is because the system cannot decrypt the specified encrypted password. This allows reloading of the encrypted password during dump/restore.
 
    -  password
 

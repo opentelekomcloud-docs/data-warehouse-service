@@ -10,16 +10,16 @@ PGXC_COMM_QUERY_SPEED
 .. table:: **Table 1** PGXC_COMM_QUERY_SPEED columns
 
    ========= ====== ====================================================
-   Name      Type   Description
+   Column    Type   Description
    ========= ====== ====================================================
-   node_name text   Node name
-   query_id  bigint **debug_query_id** corresponding to the stream
-   rxkB/s    bigint Receiving rate of the query stream (unit: byte/s)
-   txkB/s    bigint Sending rate of the query stream (unit: byte/s)
-   rxkB      bigint Total received data of the query stream (unit: byte)
-   txkB      bigint Total sent data of the query stream (unit: byte)
-   rxpck/s   bigint Packet receiving rate of the query (unit: packets/s)
-   txpck/s   bigint Packet sending rate of the query (Unit: packets/s)
-   rxpck     bigint Total number of received packets of the query
-   txpck     bigint Total number of sent packets of the query
+   node_name Text   Node name
+   query_id  Bigint **debug_query_id** corresponding to the stream
+   rxkB/s    Bigint Receiving rate of the query stream (unit: byte/s)
+   txkB/s    Bigint Sending rate of the query stream (unit: byte/s)
+   rxkB      Bigint Total received data of the query stream (unit: byte)
+   txkB      Bigint Total sent data of the query stream (unit: byte)
+   rxpck/s   Bigint Packet receiving rate of the query (unit: packets/s)
+   txpck/s   Bigint Packet sending rate of the query (Unit: packets/s)
+   rxpck     Bigint Total number of received packets of the query
+   txpck     Bigint Total number of sent packets of the query
    ========= ====== ====================================================

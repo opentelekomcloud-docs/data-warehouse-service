@@ -44,7 +44,7 @@ Parameter Description
 
    Valid value: templates (**Simple**, **Synonym**, **Thesaurus**, **Ispell**, and **Snowball**) defined in the **PG_TS_TEMPLATE** system catalog
 
--  .. _en-us_topic_0000001510161321__li1286812455448:
+-  .. _en-us_topic_0000001811634845__li1286812455448:
 
    *option*
 
@@ -62,7 +62,7 @@ Parameter Description
 
          If **ACCEPT=true** is set for a **Simple** dictionary, no token will be passed to subsequent dictionaries. In this case, you are advised to place the **Simple** dictionary at the end of the dictionary list. If **ACCEPT=false** is set, you are advised to place the **Simple** dictionary before at least one dictionary in the list.
 
-      -  .. _en-us_topic_0000001510161321__li13533193132616:
+      -  .. _en-us_topic_0000001811634845__li13533193132616:
 
          **FILEPATH**
 
@@ -102,7 +102,7 @@ Parameter Description
 
       -  **FILEPATH**
 
-         Specifies the directory for storing **Synonym** dictionary files. The directory can be a local directory or an OBS directory. The default value is the directory where predefined dictionary files are located. The directory format and the process of creating a **Synonym** dictionary using a file on the OBS server are the same as those of the :ref:`FILEPATH of the Simple dictionary <en-us_topic_0000001510161321__li13533193132616>`.
+         Specifies the directory for storing **Synonym** dictionary files. The directory can be a local directory or an OBS directory. The default value is the directory where predefined dictionary files are located. The directory format and the process of creating a **Synonym** dictionary using a file on the OBS server are the same as those of the :ref:`FILEPATH of the Simple dictionary <en-us_topic_0000001811634845__li13533193132616>`.
 
    -  Parameters for a **Thesaurus** dictionary
 
@@ -128,7 +128,7 @@ Parameter Description
 
       -  **FILEPATH**
 
-         Specifies the directory for storing dictionary definition files. The directory can be a local directory or an OBS directory. The default value is the directory where predefined dictionary files are located. The directory format and the process of creating a **Synonym** dictionary using a file on the OBS server are the same as those of the :ref:`FILEPATH of the Simple dictionary <en-us_topic_0000001510161321__li13533193132616>`.
+         Specifies the directory for storing dictionary definition files. The directory can be a local directory or an OBS directory. The default value is the directory where predefined dictionary files are located. The directory format and the process of creating a **Synonym** dictionary using a file on the OBS server are the same as those of the :ref:`FILEPATH of the Simple dictionary <en-us_topic_0000001811634845__li13533193132616>`.
 
    -  Parameters for an **Ispell** dictionary
 
@@ -146,7 +146,7 @@ Parameter Description
 
       -  **FILEPATH**
 
-         Specifies the directory for storing dictionary files. The directory can be a local directory or an OBS directory. The default value is the directory where predefined dictionary files are located. The directory format and the process of creating a **Synonym** dictionary using a file on the OBS server are the same as those of the :ref:`FILEPATH of the Simple dictionary <en-us_topic_0000001510161321__li13533193132616>`.
+         Specifies the directory for storing dictionary files. The directory can be a local directory or an OBS directory. The default value is the directory where predefined dictionary files are located. The directory format and the process of creating a **Synonym** dictionary using a file on the OBS server are the same as those of the :ref:`FILEPATH of the Simple dictionary <en-us_topic_0000001811634845__li13533193132616>`.
 
    -  Parameters for a **Snowball** dictionary
 
@@ -170,7 +170,7 @@ Parameter Description
 
 -  *value*
 
-   Specifies a parameter value. If the value is not an identifier or a number, enclose it with single quotation marks (''). You can also enclose identifiers and numbers.
+   Specifies a parameter value. If the value is not an identifier or a number, enclose it with single quotation marks (''). You can also enclose identifiers and numbers with single quotation marks.
 
 Examples
 --------

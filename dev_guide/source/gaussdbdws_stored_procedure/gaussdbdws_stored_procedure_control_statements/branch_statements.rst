@@ -8,20 +8,20 @@ Branch Statements
 Syntax
 ------
 
-:ref:`Figure 1 <en-us_topic_0000001510402237__f7a38f3a131b54724843604cf95de8f52>` shows the syntax diagram.
+:ref:`Figure 1 <en-us_topic_0000001811609917__ff24d5dd562a74f45a3fc293326312d45>` shows the syntax diagram.
 
-.. _en-us_topic_0000001510402237__f7a38f3a131b54724843604cf95de8f52:
+.. _en-us_topic_0000001811609917__ff24d5dd562a74f45a3fc293326312d45:
 
-.. figure:: /_static/images/en-us_image_0000001460563204.png
+.. figure:: /_static/images/en-us_image_0000001811491505.png
    :alt: **Figure 1** case_when::=
 
    **Figure 1** case_when::=
 
-:ref:`Figure 2 <en-us_topic_0000001510402237__fe0b7a1ea0e1c4c5aacde81ace8d16cc0>` shows the syntax diagram for **when_clause**.
+:ref:`Figure 2 <en-us_topic_0000001811609917__f5787784e89b34223ba6a14f07d74dcba>` shows the syntax diagram for **when_clause**.
 
-.. _en-us_topic_0000001510402237__fe0b7a1ea0e1c4c5aacde81ace8d16cc0:
+.. _en-us_topic_0000001811609917__f5787784e89b34223ba6a14f07d74dcba:
 
-.. figure:: /_static/images/en-us_image_0000001510402753.png
+.. figure:: /_static/images/en-us_image_0000001811610581.png
    :alt: **Figure 2** when_clause::=
 
    **Figure 2** when_clause::=
@@ -66,5 +66,5 @@ Examples
 
    CALL proc_case_branch(3,0);
 
-   -- Delete the stored procedure:
+   --Delete the stored procedure.
    DROP PROCEDURE proc_case_branch;

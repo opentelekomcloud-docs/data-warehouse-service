@@ -32,6 +32,13 @@ Syntax
       ALTER FOREIGN TABLE [ IF EXISTS ] tablename
           OWNER TO new_owner;
 
+-  Set the row-level access control switch (supported by cluster versions 9.1.0 and later).
+
+   .. code-block::
+
+      ALTER FOREIGN TABLE [ IF EXISTS ] tablename
+              ENABLE | DISABLE | FORCE | NO FORCE ROW LEVEL SECURITY
+
 Parameter Description
 ---------------------
 
@@ -45,7 +52,7 @@ Parameter Description
 
    Name of the option to be modified.
 
-   Value range: See :ref:`Parameter Description <en-us_topic_0000001460880904__s949bbfb7d67e4891ac3744b6ecf3bb2a>` in **CREATE FOREIGN TABLE**.
+   Value range: See :ref:`Parameter Description <en-us_topic_0000001811634553__s949bbfb7d67e4891ac3744b6ecf3bb2a>` in **CREATE FOREIGN TABLE**.
 
 -  **value**
 

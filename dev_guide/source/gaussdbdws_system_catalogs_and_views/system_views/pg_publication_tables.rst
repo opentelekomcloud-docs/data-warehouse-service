@@ -10,11 +10,11 @@ PG_PUBLICATION_TABLES
 .. table:: **Table 1** PG_PUBLICATION_TABLES columns
 
    ========== ==== =============================
-   Name       Type Description
+   Column     Type Description
    ========== ==== =============================
-   pubname    name Publication name
-   schemaname name Name of the schema of a table
-   tablename  name Table name
+   pubname    Name Publication name
+   schemaname Name Name of the schema of a table
+   tablename  Name Table name
    ========== ==== =============================
 
 Examples

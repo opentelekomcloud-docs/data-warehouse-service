@@ -10,21 +10,21 @@ PG_COMM_DELAY
 .. table:: **Table 1** PG_COMM_DELAY columns
 
    +-----------------------+-----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------+
-   | Name                  | Type                  | Description                                                                                                                                         |
+   | Column                | Type                  | Description                                                                                                                                         |
    +=======================+=======================+=====================================================================================================================================================+
-   | node_name             | text                  | Node name                                                                                                                                           |
+   | node_name             | Text                  | Node name                                                                                                                                           |
    +-----------------------+-----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------+
-   | remote_name           | text                  | Name of the node with the maximum latency in connecting to the peer end.                                                                            |
+   | remote_name           | Text                  | Name of the node with the maximum latency in connecting to the peer end.                                                                            |
    +-----------------------+-----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------+
-   | remote_host           | text                  | IP address of the peer.                                                                                                                             |
+   | remote_host           | Text                  | IP address of the peer.                                                                                                                             |
    +-----------------------+-----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------+
-   | stream_num            | integer               | Number of logical stream connections used by the current physical connection.                                                                       |
+   | stream_num            | Integer               | Number of logical stream connections used by the current physical connection.                                                                       |
    +-----------------------+-----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------+
-   | min_delay             | integer               | Minimum delay of the current physical connection. The unit is microsecond.                                                                          |
+   | min_delay             | Integer               | Minimum delay of the current physical connection. The unit is microsecond.                                                                          |
    +-----------------------+-----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------+
-   | average               | integer               | Average delay of the current physical connection. The unit is microsecond.                                                                          |
+   | average               | Integer               | Average delay of the current physical connection. The unit is microsecond.                                                                          |
    +-----------------------+-----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------+
-   | max_delay             | integer               | Maximum delay of the current physical connection. The unit is microsecond.                                                                          |
+   | max_delay             | Integer               | Maximum delay of the current physical connection. The unit is microsecond.                                                                          |
    |                       |                       |                                                                                                                                                     |
    |                       |                       | .. note::                                                                                                                                           |
    |                       |                       |                                                                                                                                                     |

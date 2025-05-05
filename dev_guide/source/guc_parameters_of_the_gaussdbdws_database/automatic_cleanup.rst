@@ -5,63 +5,34 @@
 Automatic Cleanup
 =================
 
-The automatic cleanup process (**autovacuum**) in the system automatically runs the **VACUUM** and **ANALYZE** statements to reclaim the record space marked as deleted and update statistics about the table.
+The automatic cleanup process in the system automatically runs the **VACUUM** and **ANALYZE** statements to reclaim the record space marked as deleted and update statistics in the table.
 
-.. note::
+autovacuum_compaction_rows_limit
+--------------------------------
 
-   **autovacuum** does not block service statements initiated by users. **autovacuum** and **autoanalyze** statements can be executed concurrently without conflicts. This function is supported only in version later than 8.2.1.300.
+**Parameter description**: Specifies the small CU threshold. A CU whose number of live tuples is less than the value of this parameter is considered as a small CU. This parameter is supported only by clusters of version 8.2.1.300 or later.
 
-.. _en-us_topic_0000001510283565__s8d6c38309e594a16a07f79ae412b63c6:
+**Type**: USERSET
 
-autovacuum
-----------
+**Value range**: an integer ranging from -1 to 5000
 
-**Parameter description**: Specifies whether to start the automatic cleanup process (**autovacuum**). Ensure that the :ref:`track_counts <en-us_topic_0000001510402293__s4682d08468f84845bfdc6ae9477126e8>` parameter is set to **on** before enabling the automatic cleanup process.
-
-**Type**: SIGHUP
-
-**Value range**: Boolean
-
--  **on** indicates the database automatic cleanup process is enabled.
--  **off** indicates that the database automatic cleanup process is disabled.
-
-**Default value**: **on**
-
-.. note::
-
-   Set **autovacuum** to **on** if you want to enable the function of automatically cleaning up two-phase transactions after the system recovers from faults.
-
-   -  If **autovacuum** is set to **on** and :ref:`autovacuum_max_workers <en-us_topic_0000001510283565__s502d4304994d4da5bd3cda661aab27ac>` to **0**, the **autovacuum** process will not be automatically performed and only abnormal two-phase transactions are cleaned up after the system recovers from faults.
-   -  If **autovacuum** is set to **on** and the value of :ref:`autovacuum_max_workers <en-us_topic_0000001510283565__s502d4304994d4da5bd3cda661aab27ac>` is greater than **0**, the system will automatically clean up two-phase transactions and processes after recovering from faults.
+**Default value**: **2500**
 
 .. important::
 
-   Even if this parameter is set to **off**, the database initiates a cleanup process when transaction ID wraparound needs to be prevented. When a **CREATE DATABASE** or **DROP DATABASE** operation fails, the transaction may have been committed or rolled back on some nodes whereas some nodes are still in the prepared state. In this case, perform the following operations to manually restore the nodes:
+   If the version is earlier than 9.1.0.100, do not set this parameter. Otherwise, duplicate primary key data may occur.
 
-   #. Use the gs_clean tool (setting the **option** parameter to **-N**) to query the xid of the abnormal two-phase transaction and nodes in the prepared status.
-   #. Log in to the nodes whose transactions are in the prepared status. Administrators connect to an available database such as gaussdb to run the **SET xc_maintenance_mode = on** statement.
-   #. Commit or roll back the two-phase transaction based on the global transaction status.
+.. note::
 
-autovacuum_mode
----------------
-
-**Parameter description**: Specifies whether the **autoanalyze** or **autovacuum** function is enabled. This parameter is valid only when **autovacuum** is set to **on**.
-
-**Type**: SIGHUP
-
-**Value range**: enumerated values
-
--  **analyze** indicates that only **autoanalyze** is performed.
--  **vacuum** indicates that only **autovacuum** is performed.
--  **mix** indicates that both **autoanalyze** and **autovacuum** are performed.
--  **none** indicates that neither of them is performed.
-
-**Default value**: **mix**
+   -  If the version is earlier than 9.1.0.100, value **-1** indicates that the 0 CU switch is disabled.
+   -  In version 9.1.0.100, the default value of this parameter is **0**.
+   -  In 9.1.0.200 and later versions, the default value of this parameter is **2500**.
+   -  **You are advised not to modify this parameter. If you need to modify this parameter, contact technical support.**
 
 autoanalyze_mode
 ----------------
 
-**Parameter description**: Specifies the autoanalyze mode. This parameter is supported by version 8.2.0 or later clusters.
+**Parameter description**: Specifies the autoanalyze mode. This parameter is supported by clusters of version 8.2.0 or later.
 
 **Type**: USERSET
 
@@ -75,17 +46,6 @@ autoanalyze_mode
 -  If the current cluster is upgraded from an earlier version to 8.2.0, the default value is **normal** to ensure forward compatibility.
 -  If the cluster version 8.2.0 is newly installed, the default value is **light**.
 
-autoanalyze_timeout
--------------------
-
-**Parameter description**: Specifies the timeout period of **autoanalyze**. If the duration of **analyze** on a table exceeds the value of **autoanalyze_timeout**, **analyze** is automatically canceled.
-
-**Type**: SIGHUP
-
-**Value range**: an integer ranging from 0 to 2147483. The unit is second.
-
-**Default value**: **5min**
-
 analyze_stats_mode
 ------------------
 
@@ -97,7 +57,7 @@ analyze_stats_mode
 
 -  **memory** indicates that the memory is forcibly used to calculate statistics. Multi-column statistics are not calculated.
 -  **sample_table** indicates that temporary sampling tables are forcibly used to calculate statistics. Temporary tables do not support this mode.
--  **dynamic** indicates that the statistics calculation mode is determined based on the size of **maintenance_work_mem**. If :ref:`maintenance_work_mem <en-us_topic_0000001460563104__sfbfa78b6871442cb85a84a425335ce38>` can store samples, the memory mode is used. Otherwise, the temporary sampling table mode is used.
+-  **dynamic** indicates that the statistics calculation mode is determined based on the size of **maintenance_work_mem**. If :ref:`maintenance_work_mem <en-us_topic_0000001811610373__sfbfa78b6871442cb85a84a425335ce38>` can store samples, the memory mode is used. Otherwise, the temporary sampling table mode is used.
 
 **Default value**:
 
@@ -119,18 +79,7 @@ analyze_sample_mode
 
 **Default value**: **0**
 
-autovacuum_io_limits
---------------------
-
-**Parameter description**: Specifies the upper limit of I/Os triggered by the **autovacuum** process per second. This parameter has been discarded in version 8.1.2 and is reserved for compatibility with earlier versions. This parameter is invalid in the current version.
-
-**Type**: SIGHUP
-
-**Value range**: an integer ranging from -1 to 1073741823. **-1** indicates that the default Cgroup is used.
-
-**Default value**: **-1**
-
-.. _en-us_topic_0000001510283565__s502d4304994d4da5bd3cda661aab27ac:
+.. _en-us_topic_0000001764650468__s502d4304994d4da5bd3cda661aab27ac:
 
 autovacuum_max_workers
 ----------------------
@@ -141,15 +90,32 @@ autovacuum_max_workers
 
 **Value range**: an integer ranging from 0 to 128. **0** indicates that **autovacuum** is disabled.
 
-**Default value**: **4**
+**Default value**: **6**
 
 .. note::
 
-   This parameter works with :ref:`autovacuum <en-us_topic_0000001510283565__s8d6c38309e594a16a07f79ae412b63c6>`. The rules for clearing system catalogs and user tables are as follows:
+   This parameter works with autovacuum. The rules for clearing system catalogs and user tables are as follows:
 
    -  When **autovacuum_max_workers** is set to **0**, **autovacuum** is disabled and no tables are cleared.
-   -  If **autovacuum_max_workers > 0** and **autovacuum = off** are configured, the system only clears the system catalogs and column-store tables with delta tables enabled (such as **vacuum delta tables**, **vacuum cudesc tables**, and **delta merge**).
-   -  When **autovacuum_max_workers** is set to a value greater than zero and **autovacuum** is enabled, all tables will be cleared.
+   -  When **autovacuum_max_workers** is set to a value greater than 0 and **autovacuum** is set to **off**, the system only clears the system catalogs and column-store tables with delta tables enabled (such as vacuum delta tables, vacuum cudesc tables, and delta merge).
+   -  When **autovacuum_max_workers** is set to a value greater than 0 and **autovacuum** is set to **on**, all tables will be cleared.
+
+autovacuum_max_workers_hstore
+-----------------------------
+
+**Parameter description**: Specifies the maximum number of concurrent automatic cleanup threads used for hstore tables in **autovacuum_max_workers**.
+
+**Type**: SIGHUP
+
+**Value range**: an integer ranging from 0 to 128. **0** indicates that the automatic cleanup function of HStore tables is disabled.
+
+**Default value**: **3**
+
+.. note::
+
+   To use HStore tables, set the following parameters, or the HStore performance will deteriorate severely. The recommended settings are as follows:
+
+   **autovacuum_max_workers_hstore=3, autovacuum_max_workers=6, autovacuum=true**
 
 autovacuum_naptime
 ------------------
@@ -162,71 +128,6 @@ autovacuum_naptime
 
 **Default value**: **60s**
 
-**autovacuum_vacuum_threshold**
--------------------------------
-
-**Parameter description**: Specifies the threshold for triggering the **VACUUM** operation. When the number of deleted or updated records in a table exceeds the specified threshold, the **VACUUM** operation is executed on this table.
-
-**Type**: SIGHUP
-
-**Value range**: an integer ranging from **0** to **INT_MAX**
-
-**Default value**: **50**
-
-autovacuum_analyze_threshold
-----------------------------
-
-**Parameter description**: Specifies the threshold for triggering the **ANALYZE** operation. When the number of deleted, inserted, or updated records in a table exceeds the specified threshold, the **ANALYZE** operation is executed on this table.
-
-**Type**: SIGHUP
-
-**Value range**: an integer ranging from **0** to **INT_MAX**
-
-**Default value**:
-
--  If the current cluster is upgraded from an earlier version to 8.1.3, the default value is **10000** to ensure forward compatibility.
--  If the current cluster version is 8.1.3, the default value is **50**.
-
-autovacuum_vacuum_scale_factor
-------------------------------
-
-**Parameter description**: Specifies the size scaling factor of a table added to the **autovacuum_vacuum_threshold** parameter when a **VACUUM** event is triggered.
-
-**Type**: SIGHUP
-
-**Value range**: a floating point number ranging from 0.0 to 100.0
-
-**Default value**: **0.2**
-
-autovacuum_analyze_scale_factor
--------------------------------
-
-**Parameter description**: Specifies the size scaling factor of a table added to the **autovacuum_analyze_threshold** parameter when an **ANALYZE** event is triggered.
-
-**Type**: SIGHUP
-
-**Value range**: a floating point number ranging from 0.0 to 100.0
-
-**Default value**:
-
--  If the current cluster is upgraded from an earlier version to 8.1.3, the default value is **0.25** to ensure forward compatibility.
--  If the current cluster version is 8.1.3, the default value is **0.1**.
-
-.. _en-us_topic_0000001510283565__s60e0fbc2967c44b3bb6c53c29e9c772e:
-
-autovacuum_freeze_max_age
--------------------------
-
-**Parameter description**: Specifies the maximum age (in transactions) that a table's **pg_class.relfrozenxid** column can attain before a VACUUM operation is forced to prevent transaction ID wraparound within the table.
-
-The old files under the subdirectory of **pg_clog/** can also be deleted by the VACUUM operation. Even if the automatic cleanup process is forbidden, the system will invoke the automatic cleanup process to prevent the cyclic repetition.
-
-**Type**: SIGHUP
-
-**Value range**: an integer ranging from 100000 to 576460752303423487
-
-**Default value**: **4000000000**
-
 autovacuum_vacuum_cost_delay
 ----------------------------
 
@@ -238,23 +139,26 @@ autovacuum_vacuum_cost_delay
 
 **Default value**: **2ms**
 
-autovacuum_vacuum_cost_limit
-----------------------------
+check_crossvw_write
+-------------------
 
-**Parameter description**: Specifies the value of the cost limit used in the **autovacuum** operation.
+**Parameter description**: Specifies whether to enable cross-VW write detection. This parameter is supported only by clusters of version 9.1.0.100 or later.
 
-**Type**: SIGHUP
+**Type**: USERSET
 
-**Value range**: an integer ranging from -1 to 10000. **-1** indicates that the normal vacuum cost limit is used.
+**Value range**: an integer, -1 or 1.
 
-**Default value**: **-1**
+-  The value **-1** indicates that it is compatible with the capabilities of version 9.0.3. For the v3 table vacuum, it only clears non-last files for all epochs.
+-  The value **1** indicates checking whether it is a cross-VW write scenario. For the v3 table vacuum, if it is determined to be a non-cross-VW write scenario, it clears non-last files for all epochs, clears the last file for the current epoch, and clears the last file for epochs that are less than the current epoch. If it is determined to be a cross-VW write scenario, CNs will obtain epoch information from all DNs and package it into an epochList to be sent to the metadata VW. The v3 table vacuum will clear non-last files for all epochs and clear the last file for epochs that are less than max{epochList} and not in epochList.
 
-.. _en-us_topic_0000001510283565__section4328534144311:
+**Default value**: **1**
+
+.. _en-us_topic_0000001764650468__section4328534144311:
 
 enable_pg_stat_object
 ---------------------
 
-**Parameter description**: Specifies whether **AUTO VACUUM** updates the :ref:`PG_STAT_OBJECT <dws_04_1062>` system catalog. This parameter is supported by version 8.2.1 or later clusters.
+**Parameter description**: Specifies whether **AUTO VACUUM** updates the :ref:`PG_STAT_OBJECT <dws_04_1062>` system catalog. This parameter is supported only by clusters of version 8.2.1 or later.
 
 **Type**: USERSET
 

@@ -10,13 +10,13 @@ PG_CONSTRAINT
 .. table:: **Table 1** PG_CONSTRAINT columns
 
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
-   | Name                  | Type                  | Description                                                                                                                                |
+   | Column                | Type                  | Description                                                                                                                                |
    +=======================+=======================+============================================================================================================================================+
-   | conname               | name                  | Constraint name (not necessarily unique)                                                                                                   |
+   | conname               | Name                  | Constraint name (not necessarily unique)                                                                                                   |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
-   | connamespace          | oid                   | OID of the namespace that contains the constraint                                                                                          |
+   | connamespace          | OID                   | OID of the namespace that contains the constraint                                                                                          |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
-   | contype               | "char"                | -  **c** indicates check constraints.                                                                                                      |
+   | contype               | Char                  | -  **c** indicates check constraints.                                                                                                      |
    |                       |                       | -  **f** indicates foreign key constraints.                                                                                                |
    |                       |                       | -  **p** indicates primary key constraints.                                                                                                |
    |                       |                       | -  **u** indicates unique constraints.                                                                                                     |
@@ -28,15 +28,15 @@ PG_CONSTRAINT
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
    | convalidated          | boolean               | Whether the constraint is valid Currently, only foreign key and check constraints can be set to false.                                     |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
-   | conrelid              | oid                   | Table containing this constraint. The value is **0** if it is not a table constraint.                                                      |
+   | conrelid              | OID                   | Table containing this constraint. The value is **0** if it is not a table constraint.                                                      |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
-   | contypid              | oid                   | Domain containing this constraint. The value is **0** if it is not a domain constraint.                                                    |
+   | contypid              | OID                   | Domain containing this constraint. The value is **0** if it is not a domain constraint.                                                    |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
-   | conindid              | oid                   | ID of the index associated with the constraint                                                                                             |
+   | conindid              | OID                   | ID of the index associated with the constraint                                                                                             |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
-   | confrelid             | oid                   | Referenced table if this constraint is a foreign key; otherwise, the value is **0**.                                                       |
+   | confrelid             | OID                   | Referenced table if this constraint is a foreign key; otherwise, the value is **0**.                                                       |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
-   | confupdtype           | "char"                | Foreign key update action code                                                                                                             |
+   | confupdtype           | Char                  | Foreign key update action code                                                                                                             |
    |                       |                       |                                                                                                                                            |
    |                       |                       | -  **a** indicates no action.                                                                                                              |
    |                       |                       | -  **r** indicates restriction.                                                                                                            |
@@ -44,7 +44,7 @@ PG_CONSTRAINT
    |                       |                       | -  **n** indicates that the parameter is set to null.                                                                                      |
    |                       |                       | -  **d** indicates that the default value is used.                                                                                         |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
-   | confdeltype           | "char"                | Foreign key deletion action code                                                                                                           |
+   | confdeltype           | Char                  | Foreign key deletion action code                                                                                                           |
    |                       |                       |                                                                                                                                            |
    |                       |                       | -  **a** indicates no action.                                                                                                              |
    |                       |                       | -  **r** indicates restriction.                                                                                                            |
@@ -52,7 +52,7 @@ PG_CONSTRAINT
    |                       |                       | -  **n** indicates that the parameter is set to null.                                                                                      |
    |                       |                       | -  **d** indicates that the default value is used.                                                                                         |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
-   | confmatchtype         | "char"                | Foreign key match type                                                                                                                     |
+   | confmatchtype         | Char                  | Foreign key match type                                                                                                                     |
    |                       |                       |                                                                                                                                            |
    |                       |                       | -  **f** indicates full match.                                                                                                             |
    |                       |                       | -  **p** indicates partial match.                                                                                                          |
@@ -60,7 +60,7 @@ PG_CONSTRAINT
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
    | conislocal            | boolean               | Whether the local constraint is defined for the relationship                                                                               |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
-   | coninhcount           | integer               | Number of direct inheritance parent tables this constraint has. When the number is not **0**, the constraint cannot be deleted or renamed. |
+   | coninhcount           | Integer               | Number of direct inheritance parent tables this constraint has. When the number is not **0**, the constraint cannot be deleted or renamed. |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
    | connoinherit          | boolean               | Whether the constraint can be inherited                                                                                                    |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
@@ -82,12 +82,12 @@ PG_CONSTRAINT
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
    | conbin                | pg_node_tree          | Internal representation of the expression if this column is a check constraint                                                             |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
-   | consrc                | text                  | Human-readable representation of the expression if this column is a check constraint                                                       |
+   | consrc                | Text                  | Human-readable representation of the expression if this column is a check constraint                                                       |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------+
 
 .. important::
 
-   -  **consrc** is not updated when referenced objects change; for example, it will not track renaming of columns. Rather than relying on this field, it's best to use **pg_get_constraintdef()** to extract the definition of a check constraint.
+   -  **consrc** is not updated when referenced objects change; for example, it will not track renaming of columns. You are advised to use **pg_get_constraintdef ()** to extract the definition of a check constraint instead of depending on this column.
    -  **pg_class.relchecks** must be consistent with the number of check-constraint entries in this table for each relationship.
 
 Example

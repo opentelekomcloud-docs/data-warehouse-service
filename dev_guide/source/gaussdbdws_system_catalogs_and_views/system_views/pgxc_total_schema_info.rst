@@ -9,15 +9,15 @@ PGXC_TOTAL_SCHEMA_INFO
 
 .. table:: **Table 1** PGXC_TOTAL_SCHEMA_INFO columns
 
-   ============ ====== ========================
-   Name         Type   Description
-   ============ ====== ========================
-   schemaname   text   Schema name
-   schemaid     oid    Schema OID
-   databasename text   Database name
-   databaseid   oid    Database OID
-   nodename     text   Instance name
-   nodegroup    text   Name of the node group
-   usedspace    bigint Size of used space
-   permspace    bigint Upper limit of the space
-   ============ ====== ========================
+   ============ ====== ==================
+   Column       Type   Description
+   ============ ====== ==================
+   schemaname   Text   Schema name.
+   schemaid     OID    Schema OID.
+   databasename Text   Database name.
+   databaseid   OID    Database OID.
+   nodename     Text   Instance name.
+   nodegroup    Text   Node group name.
+   usedspace    Bigint Used space size.
+   permspace    Bigint Space upper limit.
+   ============ ====== ==================

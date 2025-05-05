@@ -7,11 +7,11 @@ ODBC-Based Development
 
 Open Database Connectivity (ODBC) is a Microsoft API for accessing databases based on the X/OPEN CLI. The ODBC API alleviates applications from directly operating in databases, and enhances the database portability, extensibility, and maintainability.
 
-:ref:`Figure 1 <en-us_topic_0000001460882596__f08f2cb1be20447fc8206f122126d1ec3>` shows the system structure of ODBC.
+:ref:`Figure 1 <en-us_topic_0000001764650160__f08f2cb1be20447fc8206f122126d1ec3>` shows the system structure of ODBC.
 
-.. _en-us_topic_0000001460882596__f08f2cb1be20447fc8206f122126d1ec3:
+.. _en-us_topic_0000001764650160__f08f2cb1be20447fc8206f122126d1ec3:
 
-.. figure:: /_static/images/en-us_image_0000001510402905.jpg
+.. figure:: /_static/images/en-us_image_0000001764492136.jpg
    :alt: **Figure 1** ODBC system structure
 
    **Figure 1** ODBC system structure
@@ -76,4 +76,4 @@ Windows has a native ODBC Driver Manager. You can locate **Data Sources (ODBC)**
    configuring_a_data_source_in_the_linux_os
    configuring_a_data_source_in_the_windows_os
    odbc_development_example
-   odbc_interfaces/index
+   odbc_interfaces

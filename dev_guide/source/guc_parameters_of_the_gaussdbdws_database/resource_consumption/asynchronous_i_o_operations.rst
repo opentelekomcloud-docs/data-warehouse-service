@@ -8,7 +8,7 @@ Asynchronous I/O Operations
 enable_adio_debug
 -----------------
 
-**Parameter description**: Specifies whether O&M personnel are allowed to generate some ADIO logs to locate ADIO issues. This parameter is used only by developers. Common users are advised not to use it.
+**Parameter description**: Specifies whether to enable logging related to ADIO, which helps to locate ADIO-related issues. General users are not advised to set this O&M parameter.
 
 **Type**: SUSET
 
@@ -84,7 +84,7 @@ cstore_backwrite_max_threshold
 
 **Type**: USERSET
 
-**Value range**: An integer. The value range is from 4096 to INT_MAX/2 and the unit is KB.
+**Value range**: an integer ranging from 4096 to INT_MAX/2, in KB
 
 **Default value**: **2 GB**
 
@@ -109,3 +109,25 @@ effective_io_concurrency
 **Value range**: an integer ranging from 0 to 1000
 
 **Default value**: **1**
+
+cu_preload_max_distance
+-----------------------
+
+**Parameter description**: Specifies the maximum number of CU groups that can be prefetched. This is supported only by clusters of version 9.1.0.100 or later.
+
+**Type**: USERSET
+
+**Value range**: an integer ranging from 0 to 1024. The value **0** indicates that prefetching is disabled.
+
+**Default value**: **20**
+
+cu_preload_count
+----------------
+
+**Parameter description**: Specifies the maximum number of CUs to be prefetched. This parameter is supported only by clusters of version 9.1.0 or later.
+
+**Type**: USERSET
+
+**Value range**: an integer. The value ranges from 0 to 10000. The value **0** indicates that prefetching is disabled.
+
+**Default value**: **600**

@@ -10,13 +10,13 @@ PG_DEFAULT_ACL
 .. table:: **Table 1** PG_DEFAULT_ACL columns
 
    +-----------------------+-----------------------+-----------------------------------------------------------------------+
-   | Name                  | Type                  | Description                                                           |
+   | Column                | Type                  | Description                                                           |
    +=======================+=======================+=======================================================================+
-   | defaclrole            | oid                   | ID of the role associated with the permission                         |
+   | defaclrole            | OID                   | ID of the role associated with the permission                         |
    +-----------------------+-----------------------+-----------------------------------------------------------------------+
-   | defaclnamespace       | oid                   | Namespace associated with the permission; the value is **0** if no ID |
+   | defaclnamespace       | OID                   | Namespace associated with the permission; the value is **0** if no ID |
    +-----------------------+-----------------------+-----------------------------------------------------------------------+
-   | defaclobjtype         | "char"                | Object type of the permission:                                        |
+   | defaclobjtype         | Char                  | Object type of the permission:                                        |
    |                       |                       |                                                                       |
    |                       |                       | -  **r** indicates a table or view.                                   |
    |                       |                       | -  **S** indicates a sequence.                                        |

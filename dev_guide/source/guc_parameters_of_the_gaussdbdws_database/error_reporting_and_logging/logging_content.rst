@@ -5,53 +5,6 @@
 Logging Content
 ===============
 
-debug_print_parse
------------------
-
-**Parameter description**: Specifies whether to print parsing tree results.
-
-**Type**: SIGHUP
-
-**Value range**: Boolean
-
--  **on** indicates the printing result function is enabled.
--  **off** indicates the printing result function is disabled.
-
-**Default value**: **off**
-
-debug_print_rewritten
----------------------
-
-**Parameter description**: Specifies whether to print query rewriting results.
-
-**Type**: SIGHUP
-
-**Value range**: Boolean
-
--  **on** indicates the printing result function is enabled.
--  **off** indicates the printing result function is disabled.
-
-**Default value**: **off**
-
-debug_print_plan
-----------------
-
-**Parameter description**: Specifies whether to print query execution results.
-
-**Type**: SIGHUP
-
-**Value range**: Boolean
-
--  **on** indicates the printing result function is enabled.
--  **off** indicates the printing result function is disabled.
-
-**Default value**: **off**
-
-.. important::
-
-   -  Debugging information about **debug_print_parse**, **debug_print_rewritten**, and **debug_print_plan** are printed only when the log level is set to **log** or higher. When these parameters are set to **on**, their debugging information will be recorded in server logs and will not be sent to client logs. You can change the log level by setting :ref:`client_min_messages <en-us_topic_0000001460882160__sbd8ad9bb6b9b48ba97f998f060dc56f3>` and :ref:`log_min_messages <en-us_topic_0000001460882160__s1ffb0797361d413d875381200fed970b>`.
-   -  Do not invoke the **gs_encrypt_aes128** and **gs_decrypt_aes128** functions when **debug_print_plan** is set to **on**, preventing the risk of sensitive information disclosure. You are advised to filter parameter information of the **gs_encrypt_aes128** and **gs_decrypt_aes128** functions in the log files generated when **debug_print_plan** is set to **on**, and then provide the information to external maintenance engineers for fault locating. After you finish using the logs, delete them as soon as possible.
-
 debug_pretty_print
 ------------------
 
@@ -75,7 +28,7 @@ log_duration
 
 **Value range**: Boolean
 
--  If this parameter is set to **off**, the difference between setting this parameter and setting :ref:`log_min_duration_statement <en-us_topic_0000001460882160__s670cade0b3b84413bd2256e1fe1c8cdb>` is that exceeding **log_min_duration_statement** forces the text of the query to be logged, but this parameter does not.
+-  If this parameter is set to **off**, the difference between setting this parameter and setting :ref:`log_min_duration_statement <en-us_topic_0000001811490985__s670cade0b3b84413bd2256e1fe1c8cdb>` is that when **log_min_duration_statement** is exceeded, the query text is logged, but this parameter does not log it.
 -  If this parameter is set to **on** and **log_min_duration_statement** has a positive value, all durations are logged but the query text is included only for statements exceeding the threshold. This behavior can be used for gathering statistics in high-load situation.
 
 **Default value**: **on**
@@ -95,12 +48,12 @@ log_error_verbosity
 
 **Default value**: **default**
 
-.. _en-us_topic_0000001460882256__s80fbcd77ad5a4cdc879fe344d17b2c13:
+.. _en-us_topic_0000001811491197__s80fbcd77ad5a4cdc879fe344d17b2c13:
 
 log_lock_waits
 --------------
 
-**Parameter description**: If the time that a session used to wait a lock is longer than the value of :ref:`deadlock_timeout <en-us_topic_0000001510522321__s34083b462e2947b5a232d8b3a1465d3b>`, this parameter specifies whether to record this message in the database. This is useful in determining if lock waits are causing poor performance.
+**Parameter description**: If the time that a session used to wait a lock is longer than the value of :ref:`deadlock_timeout <en-us_topic_0000001811490993__s34083b462e2947b5a232d8b3a1465d3b>`, this parameter specifies whether to record this message in the database. This is useful in determining if lock waits are causing poor performance.
 
 **Type**: SUSET
 
@@ -111,7 +64,7 @@ log_lock_waits
 
 **Default value**: **off**
 
-.. _en-us_topic_0000001460882256__s3dd4368238fd47a2bb1de59c2142ede5:
+.. _en-us_topic_0000001811491197__s3dd4368238fd47a2bb1de59c2142ede5:
 
 log_statement
 -------------
@@ -224,7 +177,7 @@ After the setting is performed, the log function of the COMM_IPC module will not
    set logging_module='off(COMM_IPC)';
    SET
 
-**Dependency relationship**: The value of this parameter depends on the settings of :ref:`log_min_messages <en-us_topic_0000001460882160__s1ffb0797361d413d875381200fed970b>`.
+**Dependency relationship**: The value of this parameter depends on the settings of :ref:`log_min_messages <en-us_topic_0000001811490985__s1ffb0797361d413d875381200fed970b>`.
 
 enable_unshipping_log
 ---------------------
@@ -239,3 +192,14 @@ enable_unshipping_log
 -  **off**: Statements not pushed down will not be logged.
 
 **Default value**: **on**
+
+log_statement_filter_list
+-------------------------
+
+**Parameter description**: Specifies whether to record SQL statements. It sets a collection of error codes, with multiple error codes separated by commas, for example: **GS_001, GS_002**. No SQL statement is recorded in the error code log. This parameter is supported only by 9.1.0.200 and later versions.
+
+**Type**: SUSET
+
+**Value range**: a string
+
+**Default value**: an empty string

@@ -10,20 +10,20 @@ ALL_SEQUENCES
 .. table:: **Table 1** ALL_SEQUENCES columns
 
    +-----------------------+-----------------------+----------------------------------------------------------------------------+
-   | Name                  | Type                  | Description                                                                |
+   | Column                | Type                  | Description                                                                |
    +=======================+=======================+============================================================================+
-   | sequence_owner        | name                  | Owner of the sequence                                                      |
+   | sequence_owner        | Name                  | Owner of the sequence                                                      |
    +-----------------------+-----------------------+----------------------------------------------------------------------------+
-   | sequence_name         | name                  | Name of the sequence                                                       |
+   | sequence_name         | Name                  | Name of the sequence                                                       |
    +-----------------------+-----------------------+----------------------------------------------------------------------------+
-   | min_value             | bigint                | Minimum value of the sequence                                              |
+   | min_value             | Bigint                | Minimum value of the sequence                                              |
    +-----------------------+-----------------------+----------------------------------------------------------------------------+
-   | max_value             | bigint                | Maximum value of the sequence                                              |
+   | max_value             | Bigint                | Maximum value of the sequence                                              |
    +-----------------------+-----------------------+----------------------------------------------------------------------------+
-   | increment_by          | bigint                | Value by which the sequence is incremented                                 |
+   | increment_by          | Bigint                | Value by which the sequence is incremented                                 |
    +-----------------------+-----------------------+----------------------------------------------------------------------------+
    | cycle_flag            | character(1)          | Whether the sequence is a cycle sequence. The value can be **Y** or **N**. |
    |                       |                       |                                                                            |
-   |                       |                       | -  **Y** indicates that it is a cycle sequence.                            |
-   |                       |                       | -  **N** indicates that it is not a cycle sequence.                        |
+   |                       |                       | -  **Y**: It is a cycle sequence.                                          |
+   |                       |                       | -  **N**: It is not a cycle sequence.                                      |
    +-----------------------+-----------------------+----------------------------------------------------------------------------+

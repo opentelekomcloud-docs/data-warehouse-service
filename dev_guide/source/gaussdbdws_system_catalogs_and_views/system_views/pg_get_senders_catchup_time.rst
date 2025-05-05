@@ -10,33 +10,33 @@ PG_GET_SENDERS_CATCHUP_TIME
 .. table:: **Table 1** PG_GET_SENDERS_CATCHUP_TIME columns
 
    +------------------------+--------------------------+------------------------------------------------------------+
-   | Name                   | Type                     | Description                                                |
+   | Column                 | Type                     | Description                                                |
    +========================+==========================+============================================================+
-   | pid                    | bigint                   | Current sender thread ID                                   |
+   | pid                    | Bigint                   | Current sender thread ID                                   |
    +------------------------+--------------------------+------------------------------------------------------------+
-   | lwpid                  | integer                  | Current sender lwpid                                       |
+   | lwpid                  | Integer                  | Current sender lwpid                                       |
    +------------------------+--------------------------+------------------------------------------------------------+
-   | local_role             | text                     | Local role                                                 |
+   | local_role             | Text                     | Local role                                                 |
    +------------------------+--------------------------+------------------------------------------------------------+
-   | peer_role              | text                     | Peer role                                                  |
+   | peer_role              | Text                     | Peer role                                                  |
    +------------------------+--------------------------+------------------------------------------------------------+
-   | state                  | text                     | Current sender's replication status                        |
+   | state                  | Text                     | Current sender's replication status                        |
    +------------------------+--------------------------+------------------------------------------------------------+
-   | type                   | text                     | Current sender type                                        |
+   | type                   | Text                     | Current sender type                                        |
    +------------------------+--------------------------+------------------------------------------------------------+
-   | catchup_start          | timestamp with time zone | Startup time of a catchup task                             |
+   | catchup_start          | Timestamp with time zone | Startup time of a catchup task                             |
    +------------------------+--------------------------+------------------------------------------------------------+
-   | catchup_end            | timestamp with time zone | End time of a catchup task                                 |
+   | catchup_end            | Timestamp with time zone | End time of a catchup task                                 |
    +------------------------+--------------------------+------------------------------------------------------------+
-   | catchup_type           | text                     | Catchup task type, full or incremental                     |
+   | catchup_type           | Text                     | Catchup task type, full or incremental                     |
    +------------------------+--------------------------+------------------------------------------------------------+
-   | catchup_bcm_filename   | text                     | BCM file executed by the current catchup task              |
+   | catchup_bcm_filename   | Text                     | BCM file executed by the current catchup task              |
    +------------------------+--------------------------+------------------------------------------------------------+
-   | catchup_bcm_finished   | integer                  | Number of BCM files completed by a catchup task            |
+   | catchup_bcm_finished   | Integer                  | Number of BCM files completed by a catchup task            |
    +------------------------+--------------------------+------------------------------------------------------------+
-   | catchup_bcm_total      | integer                  | Total number of BCM files to be operated by a catchup task |
+   | catchup_bcm_total      | Integer                  | Total number of BCM files to be operated by a catchup task |
    +------------------------+--------------------------+------------------------------------------------------------+
-   | catchup_percent        | text                     | Completion percentage of a catchup task                    |
+   | catchup_percent        | Text                     | Completion percentage of a catchup task                    |
    +------------------------+--------------------------+------------------------------------------------------------+
-   | catchup_remaining_time | text                     | Estimated remaining time of a catchup task                 |
+   | catchup_remaining_time | Text                     | Estimated remaining time of a catchup task                 |
    +------------------------+--------------------------+------------------------------------------------------------+

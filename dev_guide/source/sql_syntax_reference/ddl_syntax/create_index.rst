@@ -24,15 +24,23 @@ Precautions
 -----------
 
 -  Indexes consume storage and computing resources. Creating too many indexes has negative impact on database performance (especially the performance of data import. Therefore, you are advised to import the data before creating indexes). Create indexes only when they are necessary.
--  All functions and operators used in an index definition must be immutable, that is, their results must depend only on their parameters and never on any outside influence (such as the contents of another table or the current time). This restriction ensures that the behavior of the index is well-defined. When using a user-defined function on an index or in a **WHERE** statement, mark it as an immutable function.
+-  All functions and operators used in an index definition must be immutable, that is, their results must depend only on their arguments and never on any outside influence (such as the contents of another table or the current time). This restriction ensures that the behavior of the index is well-defined. When using a user-defined function on an index or in a **WHERE** statement, mark it as an immutable function.
 -  A unique index created on a partitioned table must include a partition column and all the partition keys.
 -  GaussDB(DWS) can only create local indexes on partitioned tables.
 -  Column-store tables and HDFS tables support B-tree indexes. If the B-tree indexes are used, you cannot create expression and partial indexes.
 -  Column-store tables support creating unique indexes using B-tree indexes.
 -  Column-store and HDFS tables support psort indexes. If the psort indexes are used, you cannot create expression, partial, and unique indexes.
 -  Column-store tables support GIN indexes, rather than partial indexes and unique indexes. If GIN indexes are used, you can create expression indexes. However, an expression in this situation cannot contain empty splitters, empty columns, or multiple columns.
+-  Column-store indexes do not support **OR** query filter criteria and **inlist** operations.
 -  A primary key or unique index cannot be created for a round-robin table.
+-  Do not specify a tablespace when creating an unlogged table index.
 -  Performing **CREATE INDEX** or **REINDEX** operations on a table triggers index rebuilding. During this process, data is dumped to a new data file, and once rebuilding is complete, the original file is deleted. For large tables, index rebuilding can consume a significant amount of disk space. Exercise caution when disk space is insufficient to prevent the cluster from becoming read-only.
+
+.. warning::
+
+   -  For a table where a large amount of data needs to be added, deleted, or modified, it is recommended that the number of indexes be less than or equal to three. The maximum number of indexes is five.
+   -  Do not perform the **CREATE INDEX** and **REINDEX** operations on large tables during peak hours.
+   -  For more information about development and design specifications, see "GaussDB(DWS) Development and Design Proposal" in the *Data Warehouse Service (DWS) Developer Guide*.
 
 Syntax
 ------
@@ -41,7 +49,7 @@ Syntax
 
    ::
 
-      CREATE [ UNIQUE ] INDEX [ [ schema_name. ] index_name ] ON table_name [ USING method ]
+      CREATE [ UNIQUE ] INDEX [ [IF NOT EXISTS] [ schema_name. ] index_name ] ON table_name [ USING method ]
           ({ { column_name | ( expression ) } [ COLLATE collation ] [ opclass ] [ ASC | DESC ] [ NULLS { FIRST | LAST } ] }[, ...] )
           [ NULLS [ NOT ] DISTINCT | NULLS IGNORE ]
           [ COMMENT 'text' ]
@@ -53,7 +61,7 @@ Syntax
 
    ::
 
-      CREATE [ UNIQUE ] INDEX [ [ schema_name. ] index_name ] ON table_name [ USING method ]
+      CREATE [ UNIQUE ] INDEX [ [IF NOT EXISTS] [ schema_name. ] index_name ] ON table_name [ USING method ]
           ( {{ column_name | ( expression ) } [ COLLATE collation ] [ opclass ] [ ASC | DESC ] [ NULLS LAST ] }[, ...] )
           [ NULLS [ NOT ] DISTINCT | NULLS IGNORE ]
           [ COMMENT 'text' ]
@@ -69,6 +77,10 @@ Parameters
    Causes the system to check for duplicate values in the table when the index is created (if data exists) and each time data is added. Attempts to insert or update data which would result in duplicate entries will generate an error.
 
    Currently, only B-tree indexes of row-store tables and column-store tables support unique indexes.
+
+-  **IF NOT EXISTS**
+
+   If **IF NOT EXISTS** is specified and no index with the same name exists, the index can be created. If an index with the same name already exists, the system will simply display a message stating that the index already exists and will not perform any additional operations during creation. When **IF NOT EXISTS** is used, the index name must be specified. This parameter is supported only by clusters of version 9.1.0 or later.
 
 -  **schema_name**
 
@@ -244,7 +256,7 @@ Examples
 
       CREATE UNIQUE INDEX ds_ship_mode_t1_index1 ON tpcds.ship_mode_t1(SM_SHIP_MODE_SK);
 
-   Create a UNQIUE index on the **SM_SHIP_MODE_SK** column in the **tpcds.ship_mode_t1** table and specify how to process null values.
+   Create a UNIQUE index on the **SM_SHIP_MODE_SK** column in the **tpcds.ship_mode_t1** table and specify how to process null values.
 
    ::
 

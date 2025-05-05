@@ -9,9 +9,9 @@ Text search parsers are responsible for splitting raw document text into tokens 
 
 Currently, GaussDB(DWS) provides the following built-in parsers: pg_catalog.default for English configuration, and pg_catalog.ngram, pg_catalog.zhparser, and pg_catalog.pound for full text search in texts containing Chinese, or both Chinese and English.
 
-The built-in parser is named **pg_catalog.default**. It recognizes 23 token types, shown in :ref:`Table 1 <en-us_topic_0000001510282121__tfcaeb83ea7fb42de882258f647b03890>`.
+The built-in parser is named **pg_catalog.default**. It recognizes 23 token types, shown in :ref:`Table 1 <en-us_topic_0000001764516246__tfcaeb83ea7fb42de882258f647b03890>`.
 
-.. _en-us_topic_0000001510282121__tfcaeb83ea7fb42de882258f647b03890:
+.. _en-us_topic_0000001764516246__tfcaeb83ea7fb42de882258f647b03890:
 
 .. table:: **Table 1** Default parser's token types
 
@@ -95,9 +95,9 @@ This behavior is desirable since it allows searches to work for both the whole c
     host     | Host          | example.com
     url_path | URL path      | /stuff/index.html
 
-N-gram is a mechanical word segmentation method, and applies to no semantic Chinese segmentation scenarios. The N-gram segmentation method ensures the completeness of the segmentation. However, to cover all the possibilities, it but adds unnecessary words to the index, resulting in a large number of index items. N-gram supports Chinese coding, including GBK and UTF-8. Six built-in token types are shown in :ref:`Table 2 <en-us_topic_0000001510282121__t7682dee3b51a4bdbac3572a7d5621298>`.
+N-gram is a mechanical word segmentation method, and applies to no semantic Chinese segmentation scenarios. The N-gram segmentation method ensures the completeness of the segmentation. However, to cover all the possibilities, it but adds unnecessary words to the index, resulting in a large number of index items. N-gram supports Chinese coding, including GBK and UTF-8. Six built-in token types are shown in :ref:`Table 2 <en-us_topic_0000001764516246__t7682dee3b51a4bdbac3572a7d5621298>`.
 
-.. _en-us_topic_0000001510282121__t7682dee3b51a4bdbac3572a7d5621298:
+.. _en-us_topic_0000001764516246__t7682dee3b51a4bdbac3572a7d5621298:
 
 .. table:: **Table 2** Token types
 
@@ -112,9 +112,9 @@ N-gram is a mechanical word segmentation method, and applies to no semantic Chin
    multisymbol multiple symbol
    =========== ===============
 
-Zhparser is a dictionary-based semantic word segmentation method. The bottom-layer calls the Simple Chinese Word Segmentation (SCWS) algorithm (https://github.com/hightman/scws), which applies to Chinese segmentation scenarios. SCWS is a term frequency and dictionary-based mechanical Chinese words engine. It can split a whole paragraph Chinese text into words. The two Chinese coding formats, GBK and UTF-8, are supported. The 26 built-in token types are shown in :ref:`Table 3 <en-us_topic_0000001510282121__t2c6fd8cdf6bd48f3abda6e5b4273303f>`.
+Zhparser is a dictionary-based semantic word segmentation method. The bottom-layer calls the Simple Chinese Word Segmentation (SCWS) algorithm (https://github.com/hightman/scws), which applies to Chinese segmentation scenarios. SCWS is a term frequency and dictionary-based mechanical Chinese words engine. It can split a whole paragraph Chinese text into words. The two Chinese coding formats, GBK and UTF-8, are supported. The 26 built-in token types are shown in :ref:`Table 3 <en-us_topic_0000001764516246__t2c6fd8cdf6bd48f3abda6e5b4273303f>`.
 
-.. _en-us_topic_0000001510282121__t2c6fd8cdf6bd48f3abda6e5b4273303f:
+.. _en-us_topic_0000001764516246__t2c6fd8cdf6bd48f3abda6e5b4273303f:
 
 .. table:: **Table 3** Token types
 
@@ -149,9 +149,9 @@ Zhparser is a dictionary-based semantic word segmentation method. The bottom-lay
    Z     Status words
    ===== ==========================
 
-Pound segments words in a fixed format. It is used to segment to-be-parsed nonsense Chinese and English words that are separated by fixed separators. It supports Chinese encoding (including GBK and UTF8) and English encoding (including ASCII). Pound has six pre-configured token types (as listed in :ref:`Table 4 <en-us_topic_0000001510282121__table18356541133518>`) and supports five separators (as listed in :ref:`Table 5 <en-us_topic_0000001510282121__table14245115444310>`). The default, the separator is **#**. Pound The maximum length of a token is 256 characters.
+Pound segments words in a fixed format. It is used to segment to-be-parsed nonsense Chinese and English words that are separated by fixed separators. It supports Chinese encoding (including GBK and UTF8) and English encoding (including ASCII). Pound has six pre-configured token types (as listed in :ref:`Table 4 <en-us_topic_0000001764516246__table18356541133518>`) and supports five separators (as listed in :ref:`Table 5 <en-us_topic_0000001764516246__table14245115444310>`). The default, the separator is **#**. Pound The maximum length of a token is 256 characters.
 
-.. _en-us_topic_0000001510282121__table18356541133518:
+.. _en-us_topic_0000001764516246__table18356541133518:
 
 .. table:: **Table 4** Token types
 
@@ -166,7 +166,7 @@ Pound segments words in a fixed format. It is used to segment to-be-parsed nonse
    multisymbol multiple symbol
    =========== ===============
 
-.. _en-us_topic_0000001510282121__table14245115444310:
+.. _en-us_topic_0000001764516246__table14245115444310:
 
 .. table:: **Table 5** Separator types
 

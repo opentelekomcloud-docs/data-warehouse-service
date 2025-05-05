@@ -5,10 +5,6 @@
 Functions for Verifying Residual Files
 ======================================
 
-.. note::
-
-   The pgxc residual file management function only operates on the CN and the current primary DN, and does not verify or clear residual files on the standby DN. Therefore, after the primary DN is cleared, you need to clear residual files on the standby DN or build the standby DN in a timely manner. This prevents residual files on the standby DN from being copied back to the primary DN due to incremental build after a primary/standby switchover.
-
 pg_verify_residualfiles(filepath)
 ---------------------------------
 
@@ -22,17 +18,17 @@ The following table describes return columns.
 
 .. table:: **Table 1** pg_verify_residualfiles (filepath) return fields
 
-   ========== ==== =============================
+   ========== ==== =====================================
    Column     Type Description
-   ========== ==== =============================
-   isverified bool Verification completed or not
-   ========== ==== =============================
+   ========== ==== =====================================
+   isverified bool Whether the verification is complete.
+   ========== ==== =====================================
 
 Example:
 
 ::
 
-   SELECT * FROM pg_verify_residualfiles('pgrf_20200908160211441546');
+   postgres=#SELECT * FROM pg_verify_residualfiles('pgrf_20200908160211441546');
     isverified
    ------------
     t
@@ -55,19 +51,19 @@ The following table describes return columns.
 
 .. table:: **Table 2** pg_verify_residualfiles () return fields
 
-   ======== ==== =============================
+   ======== ==== =====================================
    Column   Type Description
-   ======== ==== =============================
-   result   bool Verification completed or not
-   filepath text Residual file path
-   notes    text Notes
-   ======== ==== =============================
+   ======== ==== =====================================
+   result   bool Whether the verification is complete.
+   filepath text Residual file path.
+   notes    text Notes.
+   ======== ==== =====================================
 
 Example:
 
 ::
 
-   SELECT * FROM pg_verify_residualfiles();
+   postgres=#SELECT * FROM pg_verify_residualfiles();
     result |         filepath          | notes
    --------+---------------------------+-------
     t      | pgrf_20200908160211441546 |
@@ -90,20 +86,20 @@ The following table describes return columns.
 
 .. table:: **Table 3** pgxc_verify_residualfiles () return fields
 
-   ======== ==== =============================
+   ======== ==== =====================================
    Column   Type Description
-   ======== ==== =============================
-   nodename text Node name
-   result   bool Verification completed or not
-   filepath text Residual file path
-   notes    text Notes
-   ======== ==== =============================
+   ======== ==== =====================================
+   nodename text Node name.
+   result   bool Whether the verification is complete.
+   filepath text Residual file path.
+   notes    text Notes.
+   ======== ==== =====================================
 
 Example:
 
 ::
 
-   SELECT * FROM pgxc_verify_residualfiles();
+   postgres=#SELECT * FROM pgxc_verify_residualfiles();
       nodename   | result |         filepath          | notes
    --------------+--------+---------------------------+-------
     cn_5001      | t      | pgrf_20200910170129360401 |
@@ -127,17 +123,17 @@ The following table describes return columns.
 
 .. table:: **Table 4** pg_is_residualfiles (residualfile) return fields
 
-   ====== ==== ====================
+   ====== ==== ==================================
    Column Type Description
-   ====== ==== ====================
-   result bool Residual file or not
-   ====== ==== ====================
+   ====== ==== ==================================
+   result bool Whether a file is a residual file.
+   ====== ==== ==================================
 
 Example:
 
 ::
 
-   SELECT * FROM pg_is_residualfiles('base/49155/114691');
+   postgres=#SELECT * FROM pg_is_residualfiles('base/49155/114691');
     result
    --------
     t
@@ -151,13 +147,13 @@ Example:
 
    .. code-block::
 
-      SELECT * FROM pg_is_residualfiles('base/15092/14790');
+      postgres=#SELECT * FROM pg_is_residualfiles('base/15092/14790');
       result
       --------
       f
       (1 row)
 
-      \c db2
+      postgres=#\c db2
       db2=# SELECT * FROM pg_is_residualfiles('base/15092/14790');
       result
       --------

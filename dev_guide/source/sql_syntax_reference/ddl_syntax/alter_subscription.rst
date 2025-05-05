@@ -8,12 +8,12 @@ ALTER SUBSCRIPTION
 Function
 --------
 
-Modifies subscription attributes.
+**ALTER SUBSCRIPTION** modifies subscription attributes.
 
 Precautions
 -----------
 
--  This statement is supported by clusters of version 8.2.0.100 or later.
+-  This statement is supported by version 8.2.0.100 or later clusters.
 -  Only the owner of a subscription can execute **ALTER SUBSCRIPTION**, and the new owner must be a system administrator.
 
 Syntax
@@ -74,7 +74,7 @@ Parameter Description
 
    Alters the connection attributes initially set by **CREATE SUBSCRIPTION**.
 
-   For details about the parameters, see :ref:`conninfo <en-us_topic_0000001510520997__li17392131613264>` in the parameter description.
+   For details about the parameters, see :ref:`conninfo <en-us_topic_0000001811634793__li17392131613264>` in the parameter description.
 
 -  **publication_name**
 
@@ -92,7 +92,7 @@ Parameter Description
 
 -  **SET ( publication_parameter [= value] [, ... ] )**
 
-   Modifies the publication parameters initially set by **CREATE PUBLICATION**. For details about the parameters, see :ref:`Parameter description <en-us_topic_0000001510520997__section1549681213574>` of CREATE SUBSCRIPTION.
+   Modifies the publication parameters initially set by **CREATE PUBLICATION**. For details about the parameters, see :ref:`Parameter description <en-us_topic_0000001811634793__section1549681213574>` of CREATE SUBSCRIPTION.
 
 -  **new_owner**
 

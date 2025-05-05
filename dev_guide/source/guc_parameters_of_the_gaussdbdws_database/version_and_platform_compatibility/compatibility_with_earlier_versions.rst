@@ -5,7 +5,7 @@
 Compatibility with Earlier Versions
 ===================================
 
-This section describes the parameter control of the downward compatibility and external compatibility features of GaussDB(DWS). Backward compatibility of the database system provides support for the application of databases of earlier versions. This section describes parameters used for controlling backward compatibility of a database.
+GaussDB(DWS) provides parameter controls for the downward compatibility and external compatibility features of the database. The backward compatibility of the database system can provide support for old versions of database applications. The parameters introduced in this section mainly control the backward compatibility of the database.
 
 array_nulls
 -----------

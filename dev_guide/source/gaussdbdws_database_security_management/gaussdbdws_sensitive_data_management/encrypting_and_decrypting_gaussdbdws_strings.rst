@@ -9,7 +9,7 @@ GaussDB(DWS) supports encryption and decryption of strings using the following f
 
 -  gs_encrypt(encryptstr, keystr, cryptotype, cryptomode, hashmethod)
 
-   Description: Encrypts an **encryptstr** string using the **keystr** key based on the encryption algorithm specified by **cryptotype** and **cryptomode** and the HMAC algorithm specified by **hashmethod**, and returns the encrypted string. **cryptotype** can be **aes128**, **aes192**, **aes256**, or **sm4**. **cryptomode** is **cbc**. **hashmethod** can be **sha256**, **sha384**, **sha512**, or **sm3**. Currently, the following types of data can be encrypted: numerals supported in the database; character type; RAW in binary type; and DATE, TIMESTAMP, and SMALLDATETIME in date/time type. The **keystr** length is related to the encryption algorithm and contains 1 to **KeyLen** bytes. If **cryptotype** is **aes128** or **sm4**, **KeyLen** is **16**; if **cryptotype** is **aes192**, **KeyLen** is **24**; if **cryptotype** is **aes256**, **KeyLen** is **32**.
+   Description: Encrypts an **encryptstr** string using the **keystr** key based on the encryption algorithm specified by **cryptotype** and **cryptomode** and the HMAC algorithm specified by **hashmethod**, and returns the encrypted string. **cryptotype** can be **aes128**, **aes192**, and **aes256**. **cryptomode** is **cbc**. **hashmethod** can be **sha256**, **sha384**, **sha512**, or **sm3**. Currently, the following types of data can be encrypted: numerals supported in the database; character type; RAW in binary type; and DATE, TIMESTAMP, and SMALLDATETIME in date/time type. The **keystr** length is related to the encryption algorithm and contains 1 to **KeyLen** bytes. If **cryptotype** is **aes128**, **KeyLen** is **16**; if **cryptotype** is **aes192**, **KeyLen** is **24**; if **cryptotype** is **aes256**, **KeyLen** is **32**.
 
    Return type: text
 
@@ -30,7 +30,7 @@ GaussDB(DWS) supports encryption and decryption of strings using the following f
       -  A decryption password is required during the execution of this function. For security purposes, the gsql tool does not record this function in the execution history. That is, the execution history of this function cannot be found in **gsql** by paging up and down.
       -  Do not use the **ge_encrypt** and **gs_encrypt_aes128** functions for the same data table.
 
--  gs_decrypt(decryptstr, keystr,cryptotype, cryptomode, hashmethod)
+-  gs_decrypt(decryptstr, keystr, cryptotype, cryptomode, hashmethod)
 
    Description: Decrypts a **decryptstr** string using the **keystr** key based on the encryption algorithm specified by **cryptotype** and **cryptomode** and the HMAC algorithm specified by **hashmethod**, and returns the decrypted string. The **keystr** used for decryption must be consistent with that used for encryption. **keystr** cannot be empty.
 
@@ -87,7 +87,7 @@ GaussDB(DWS) supports encryption and decryption of strings using the following f
       SELECT gs_decrypt_aes128('ZrCp794vO5I9qJ+jHFf/sQqRyMBy0lKIDGP5S8RJXzgmpXoa/e4EgmK82P5y5xe1bOXbJeoNxyHagK9OhPVVeJDbn/M=','1234');
        gs_decrypt_aes128
       -------------------
-       DWS
+      GaussDB(DWS)
       (1 row)
 
    .. note::

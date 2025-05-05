@@ -14,4 +14,4 @@ In separation of duty, non-administrators have no permission to view system cata
 .. important::
 
    -  Do not add, delete, or modify system catalogs or system views. Manual modification or damage to system catalogs or system views may cause system information inconsistency, system control exceptions, or even cluster unavailability.
-   -  System catalogs do not support toast and cannot be stored across pages. If the size of a page in a system catalog is 8 KB, the length of each field must be less than 8 KB.
+   -  System catalogs do not support toast and cannot be stored across pages. The size of a page is 8 KB, and the length of each field in the system catalog must be less than 8 KB.

@@ -8,7 +8,7 @@ CREATE FOREIGN TABLE (for OBS Import and Export)
 Function
 --------
 
-Creates a foreign table in the current database for parallel data import and export of OBS data. The server used is **gsmpp_server**, which is created by the database by default.
+**CREATE FOREIGN TABLE** creates a foreign table in the current database for parallel data import and export of OBS data. The server used is **gsmpp_server**, which is created by the database by default.
 
 .. note::
 
@@ -17,11 +17,11 @@ Creates a foreign table in the current database for parallel data import and exp
 Precautions
 -----------
 
--  Only the data in text and CSV formats is supported, and the OBS connection should be configured. ORC, CarbonData and Parquet data in OBS is not applicable. For details, see :ref:`CREATE FOREIGN TABLE (SQL on OBS or Hadoop) <dws_06_0161>`.
+-  Only the data in text and CSV formats is supported, and the OBS connection should be configured. ORC, CarbonData and PARQUET data in OBS is not applicable. For details, see :ref:`CREATE FOREIGN TABLE (SQL on OBS or Hadoop) <dws_06_0161>`.
 -  The foreign table can be **READ ONLY** or **WRITE ONLY**. The default value is **READ ONLY**. To import data to the cluster, use **READ ONLY** for the foreign table. To export data, use **WRITE ONLY**.
 -  The foreign table is owned by the user who runs the command.
 -  The distribution mode of an OBS foreign table does not need to be explicitly specified. The default mode is **ROUNDROBIN**.
--  Only constraints in :ref:`Informational Constraint <en-us_topic_0000001510401001__s0b7a85d0acff48e79ada2f91d1e79a0f>` take effect for the created foreign table.
+-  Only constraints in :ref:`Informational Constraints <en-us_topic_0000001811634745__s0b7a85d0acff48e79ada2f91d1e79a0f>` take effect for the created foreign table.
 -  Ensure no Chinese characters are contained in paths used for importing data to or exporting data from OBS.
 
 .. table:: **Table 1** Read and write formats supported by OBS foreign tables
@@ -75,49 +75,49 @@ Parameter Overview
 
 -  Mandatory parameters
 
-   -  :ref:`table_name <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l1e116805692646b8a2ca3d93aef5b958>`
-   -  :ref:`column_name <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l2518be16d19e4cafbe13a99ccaf99af0>`
-   -  :ref:`type_name <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l176fa84ebc0a4aa9a13d121a21f08851>`
-   -  :ref:`SERVER gsmpp_server <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l476b88f42a094b16bd42e78b93c6c5d3>`
-   -  :ref:`access_key <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l91fc6d1438d74165809df29852adb50d>`
+   -  :ref:`table_name <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l1e116805692646b8a2ca3d93aef5b958>`
+   -  :ref:`column_name <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l2518be16d19e4cafbe13a99ccaf99af0>`
+   -  :ref:`type_name <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l176fa84ebc0a4aa9a13d121a21f08851>`
+   -  :ref:`SERVER gsmpp_server <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l476b88f42a094b16bd42e78b93c6c5d3>`
+   -  :ref:`access_key <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l91fc6d1438d74165809df29852adb50d>`
    -  :ref:`secret_access_key <dws_06_0160>`
 
--  :ref:`OPTIONS <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l9e47719322234105b24a0882253c15fe>`
+-  :ref:`OPTIONS <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l9e47719322234105b24a0882253c15fe>`
 
    -  Foreign table data source location parameter
 
-      -  :ref:`location <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l2721bcdfcf8a4391ae5148dd06067e3b>`
+      -  :ref:`location <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l2721bcdfcf8a4391ae5148dd06067e3b>`
 
    -  Temporary security credential parameter (supported by cluster versions 8.2.0 and later)
 
-      -  :ref:`security_token <en-us_topic_0000001510282041__li25092054141113>`
+      -  :ref:`security_token <en-us_topic_0000001764516326__li25092054141113>`
 
    -  Data format parameters
 
-      -  :ref:`format <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l02cd20d09e064a269bf43102e1ca1437>`
-      -  :ref:`header <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l2e762d0f0291481b978b0acbd1521e3d>` (Only the CSV format is supported.)
-      -  :ref:`delimiter <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_lcc2eb777e6164c60a35d88181ac54d20>`
-      -  :ref:`quote <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l50b8f261d3c449e989662626550b7068>` (Only the CSV format is supported.)
-      -  :ref:`escape <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l89f3a864abe54befb9b98234f2bd34dc>` (Only the CSV format is supported.)
-      -  :ref:`null <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l2fd004690cb34662b0b07ed5493be39c>`
-      -  :ref:`noescaping <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_lc2550e9054ba426996765e851a0f555b>` (Only the TEXT format is supported.)
-      -  :ref:`encoding <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l5b46e2d544f84265a5116ad03d6cdcff>`
-      -  :ref:`eol <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l20b2364ce9924b6db7db9086de4da1c4>`
-      -  :ref:`bom (Only the CSV format is supported.) <en-us_topic_0000001510282041__li16738105863515>`
+      -  :ref:`format <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l02cd20d09e064a269bf43102e1ca1437>`
+      -  :ref:`header <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l2e762d0f0291481b978b0acbd1521e3d>` (Only the CSV format is supported.)
+      -  :ref:`delimiter <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_lcc2eb777e6164c60a35d88181ac54d20>`
+      -  :ref:`quote <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l50b8f261d3c449e989662626550b7068>` (Only the CSV format is supported.)
+      -  :ref:`escape <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l89f3a864abe54befb9b98234f2bd34dc>` (Only the CSV format is supported.)
+      -  :ref:`null <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l2fd004690cb34662b0b07ed5493be39c>`
+      -  :ref:`noescaping <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_lc2550e9054ba426996765e851a0f555b>` (Only the TEXT format is supported.)
+      -  :ref:`encoding <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l5b46e2d544f84265a5116ad03d6cdcff>`
+      -  :ref:`eol <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l20b2364ce9924b6db7db9086de4da1c4>`
+      -  :ref:`bom (Only the CSV format is supported.) <en-us_topic_0000001764516326__li16738105863515>`
 
    -  Error-tolerance parameters
 
-      -  :ref:`fill_missing_fields <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_lef2faac1a54446c59d3ff99a28cc7192>`
-      -  :ref:`ignore_extra_data <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_lf62d1cf82f1a4ee6bf1c497f19e0caef>`
-      -  :ref:`compatible_illegal_chars <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l89bb7bce1f364bbdba8116aabe0a818d>`
-      -  :ref:`obs_null_file <en-us_topic_0000001510282041__li20199161116519>`
-      -  :ref:`PER NODE REJECT LIMIT 'val... <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_lb3d7bb6ade724417b2a19bd41c30bc90>`
-      -  :ref:`LOG INTO error_table_name <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_ld7597049cd774e1b95cf9133139f6051>`
-      -  :ref:`WITH error_table_name <en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_lc83138913ec84fab81c7e1a0fe62218e>`
+      -  :ref:`fill_missing_fields <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_lef2faac1a54446c59d3ff99a28cc7192>`
+      -  :ref:`ignore_extra_data <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_lf62d1cf82f1a4ee6bf1c497f19e0caef>`
+      -  :ref:`compatible_illegal_chars <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l89bb7bce1f364bbdba8116aabe0a818d>`
+      -  :ref:`obs_null_file <en-us_topic_0000001764516326__li20199161116519>`
+      -  :ref:`PER NODE REJECT LIMIT 'val... <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_lb3d7bb6ade724417b2a19bd41c30bc90>`
+      -  :ref:`LOG INTO error_table_name <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_ld7597049cd774e1b95cf9133139f6051>`
+      -  :ref:`WITH error_table_name <en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_lc83138913ec84fab81c7e1a0fe62218e>`
 
    -  Performance optimization parameter
 
-      -  :ref:`file_split_threshold (Only the TEXT format is supported.) <en-us_topic_0000001510282041__li1839816591498>`
+      -  :ref:`file_split_threshold (Only the TEXT format is supported.) <en-us_topic_0000001764516326__li1839816591498>`
 
 Parameter Description
 ---------------------
@@ -126,7 +126,7 @@ Parameter Description
 
    Does not throw an error if a table with the same name exists. A notice is issued in this case.
 
--  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l1e116805692646b8a2ca3d93aef5b958:
+-  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l1e116805692646b8a2ca3d93aef5b958:
 
    **table_name**
 
@@ -134,7 +134,7 @@ Parameter Description
 
    Value range: a string. It must comply with the naming convention.
 
--  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l2518be16d19e4cafbe13a99ccaf99af0:
+-  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l2518be16d19e4cafbe13a99ccaf99af0:
 
    **column_name**
 
@@ -142,13 +142,13 @@ Parameter Description
 
    Value range: a string. It must comply with the naming convention.
 
--  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l176fa84ebc0a4aa9a13d121a21f08851:
+-  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l176fa84ebc0a4aa9a13d121a21f08851:
 
    **type_name**
 
    Specifies the data type of the column.
 
--  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l476b88f42a094b16bd42e78b93c6c5d3:
+-  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l476b88f42a094b16bd42e78b93c6c5d3:
 
    **SERVER server_name**
 
@@ -159,7 +159,7 @@ Parameter Description
       -  If a custom server is used, the foreign data wrapper should be **dist_fdw**.
       -  For clusters of 8.2.0 and later versions, you can specify the following OBS access parameters in the customized **dist_fdw** server: **access_key**, **secret_access_key**, and **security_token**. If the preceding parameters are specified in the server, you do not need to specify them again in the foreign table.
 
--  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l9e47719322234105b24a0882253c15fe:
+-  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l9e47719322234105b24a0882253c15fe:
 
    **OPTIONS ( { option_name ' value ' } [, ...] )**
 
@@ -169,7 +169,7 @@ Parameter Description
 
       Specifies whether HTTPS is enabled for data transfer. **on** enables HTTPS and **off** disables it (in this case, HTTP is used). The default value is **off**.
 
-   -  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l91fc6d1438d74165809df29852adb50d:
+   -  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l91fc6d1438d74165809df29852adb50d:
 
       access_key
 
@@ -179,7 +179,7 @@ Parameter Description
 
       Indicates the secret access key (SK, obtained from the user information on the console) used for the OBS access protocol. When you create a foreign table, its SK value is encrypted and saved to the metadata table of the database. The correctness of the parameter is not verified when a foreign table is created.
 
-   -  .. _en-us_topic_0000001510282041__li25092054141113:
+   -  .. _en-us_topic_0000001764516326__li25092054141113:
 
       security_token
 
@@ -194,7 +194,7 @@ Parameter Description
 
       Specifies the cache read by each OBS thread on a DN. Its value range is 8 to 512 in the unit of MB. Its default value is **64**.
 
-   -  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l2721bcdfcf8a4391ae5148dd06067e3b:
+   -  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l2721bcdfcf8a4391ae5148dd06067e3b:
 
       location
 
@@ -243,7 +243,7 @@ Parameter Description
          -  The **location** parameter is mandatory. The prefixes **gsobs** and **obs** indicate file locations on OBS. The **gsobs** prefix should be followed by *obs url*, *bucket*, and *prefix*. The **obs** prefix should be followed by *bucket* or *prefix*.
          -  The data sources of multiple buckets are separated by vertical bars (|), for example, **LOCATION 'obs://bucket1/folder/ \| obs://bucket2/'**. The database scans all objects in the specified folders.
 
-   -  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l02cd20d09e064a269bf43102e1ca1437:
+   -  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l02cd20d09e064a269bf43102e1ca1437:
 
       format
 
@@ -260,7 +260,7 @@ Parameter Description
 
          -  Records are separated as columns by linefeed. The TEXT file can process special characters efficiently, but cannot process linefeeds well.
 
-   -  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l2e762d0f0291481b978b0acbd1521e3d:
+   -  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l2e762d0f0291481b978b0acbd1521e3d:
 
       header
 
@@ -272,7 +272,7 @@ Parameter Description
 
       Valid value: **true**, **on**, **false**, and **off**. The default value is **false** or **off**.
 
-   -  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_lcc2eb777e6164c60a35d88181ac54d20:
+   -  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_lcc2eb777e6164c60a35d88181ac54d20:
 
       delimiter
 
@@ -290,7 +290,7 @@ Parameter Description
 
       The value of **delimiter** can be a multi-character delimiter whose length is less than or equal to 10 bytes.
 
-   -  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l50b8f261d3c449e989662626550b7068:
+   -  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l50b8f261d3c449e989662626550b7068:
 
       quote
 
@@ -302,7 +302,7 @@ Parameter Description
          -  The **quote** value must be a single-byte character.
          -  Invisible characters are recommended as **quote** values, such as 0x07, 0x08, and 0x1b.
 
-   -  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l89f3a864abe54befb9b98234f2bd34dc:
+   -  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l89f3a864abe54befb9b98234f2bd34dc:
 
       escape
 
@@ -310,11 +310,11 @@ Parameter Description
 
       The default value is a double quotation mark ("). If the value is the same as the **quote** value, it will be replaced with **\\0**.
 
-   -  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l2fd004690cb34662b0b07ed5493be39c:
+   -  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l2fd004690cb34662b0b07ed5493be39c:
 
       null
 
-      Specifies the string that represents a null value.
+      Specifies how to represent a null value.
 
       .. note::
 
@@ -326,7 +326,7 @@ Parameter Description
       -  The default value is **\\N** for the TEXT format.
       -  The default value for the CSV format is an empty string without quotation marks.
 
-   -  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_lc2550e9054ba426996765e851a0f555b:
+   -  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_lc2550e9054ba426996765e851a0f555b:
 
       noescaping
 
@@ -338,7 +338,7 @@ Parameter Description
 
       Valid value: **true**, **on**, **false**, and **off**. The default value is **false** or **off**.
 
-   -  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l5b46e2d544f84265a5116ad03d6cdcff:
+   -  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l5b46e2d544f84265a5116ad03d6cdcff:
 
       encoding
 
@@ -353,7 +353,7 @@ Parameter Description
          -  Currently, OBS cannot parse a file using multiple character sets during foreign table import.
          -  Currently, OBS cannot write a file using multiple character sets during foreign table export.
 
-   -  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_lef2faac1a54446c59d3ff99a28cc7192:
+   -  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_lef2faac1a54446c59d3ff99a28cc7192:
 
       fill_missing_fields
 
@@ -369,7 +369,7 @@ Parameter Description
 
             missing data for column "tt"
 
-   -  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_lf62d1cf82f1a4ee6bf1c497f19e0caef:
+   -  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_lf62d1cf82f1a4ee6bf1c497f19e0caef:
 
       ignore_extra_data
 
@@ -403,7 +403,20 @@ Parameter Description
 
       If this parameter is not specified, an error message is returned immediately.
 
-   -  .. _en-us_topic_0000001510282041__li20199161116519:
+   -  force_save_err
+
+      Indicates whether to save the error information to the error table after the import exits due to an error.
+
+      Valid value: **true**, **on**, **false**, and **off**. The default value is **false** or **off**.
+
+      .. note::
+
+         This parameter is used together with **reject_limit**. Once this parameter is enabled:
+
+         -  If **reject_limit** is not specified, an error record will be retained in the error table.
+         -  If **reject_limit** is set to *N*, *N+1* error records will be retained in the error table.
+
+   -  .. _en-us_topic_0000001764516326__li20199161116519:
 
       obs_null_file
 
@@ -427,7 +440,7 @@ Parameter Description
          -  If **obs_null_file** is set to **true** or **on** and the export directory contains only the **\_SUCCESS** empty file, the empty table can be exported repeatedly, while if **obs_null_file** is set to **false** or **off**, the empty table cannot be exported repeatedly.
          -  If **obs_null_file** is set to **true** or **on** and files are imported from multiple buckets, an error is reported for the first path that the file does not exist.
 
-   -  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l20b2364ce9924b6db7db9086de4da1c4:
+   -  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l20b2364ce9924b6db7db9086de4da1c4:
 
       eol
 
@@ -469,7 +482,7 @@ Parameter Description
 
       Value range: a valid SMALLDATETIME value.
 
-   -  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_l89bb7bce1f364bbdba8116aabe0a818d:
+   -  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_l89bb7bce1f364bbdba8116aabe0a818d:
 
       compatible_illegal_chars
 
@@ -494,7 +507,7 @@ Parameter Description
 
          (3) If **compatible_illegal_chars** is set to **true** or **on**, invalid characters are tolerated. If **NULL**, **DELIMITER**, **QUOTE**, and **ESCAPE** are set to a spaces or question marks, errors like "illegal chars conversion may confuse COPY escape 0x20" will be displayed to prompt users to change parameter values that cause confusion, preventing import errors.
 
-   -  .. _en-us_topic_0000001510282041__li16738105863515:
+   -  .. _en-us_topic_0000001764516326__li16738105863515:
 
       bom
 
@@ -508,7 +521,7 @@ Parameter Description
 
          This parameter is valid only when the foreign table is read-only and uses UTF8 code.
 
-   -  .. _en-us_topic_0000001510282041__li1839816591498:
+   -  .. _en-us_topic_0000001764516326__li1839816591498:
 
       file_split_threshold
 
@@ -524,7 +537,7 @@ Parameter Description
 
          -  This parameter specifies the lower limit of the logical block size of a file. It does not specify a block size.
 
-            For example, if the current file size is 1024 MB and the number of DNs is 4, If the value of **file_split_threshold** is less than **256**, the file is evenly divided into four blocks, and a 256 MB file import task is allocated to each DN. When **file_split_threshold** is set to **500**, the file is split into 500 MB and 524 MB and allocated to two DNs because the block size cannot be less than 500 MB. This parameter is also applicable to multiple files.
+            For example, if the current file size is 1,024 MB and the number of DNs is 4, If the value of **file_split_threshold** is less than **256**, the file is evenly divided into four blocks, and a 256 MB file import task is allocated to each DN. When **file_split_threshold** is set to **500**, the file is split into 500 MB and 524 MB and allocated to two DNs because the block size cannot be less than 500 MB. This parameter is also applicable to multiple files.
 
          -  Unless there are clear requirements for block sizes, you are advised to set this parameter to a small value, for example, 10. Otherwise, the concurrency may be affected.
 
@@ -536,7 +549,7 @@ Parameter Description
 
    Specifies whether a foreign table is write-only. This parameter is available only for data export.
 
--  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_lc83138913ec84fab81c7e1a0fe62218e:
+-  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_lc83138913ec84fab81c7e1a0fe62218e:
 
    **WITH error_table_name**
 
@@ -548,7 +561,7 @@ Parameter Description
 
    Value range: a string. It must comply with the naming convention.
 
--  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_ld7597049cd774e1b95cf9133139f6051:
+-  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_ld7597049cd774e1b95cf9133139f6051:
 
    **LOG INTO error_table_name**
 
@@ -561,7 +574,7 @@ Parameter Description
 
    Value range: a string. It must comply with the naming convention.
 
--  .. _en-us_topic_0000001510282041__en-us_topic_0000001098811114_en-us_topic_0117407717_lb3d7bb6ade724417b2a19bd41c30bc90:
+-  .. _en-us_topic_0000001764516326__en-us_topic_0000001098811114_en-us_topic_0117407717_lb3d7bb6ade724417b2a19bd41c30bc90:
 
    **PER NODE REJECT LIMIT 'value'**
 
@@ -604,7 +617,7 @@ Create a foreign table named **OBS_ft** to import data in the .txt format from O
 
 .. important::
 
-   Hard-coded or plaintext AK and SK are risky. For security purposes, encrypt your AK and SK and store them in the configuration file or environment variables.
+   // Hard-coded or plaintext AK and SK are risky. For security purposes, encrypt your AK and SK and store them in the configuration file or environment variables.
 
 ::
 
@@ -630,3 +643,29 @@ Helpful Links
 -------------
 
 :ref:`ALTER FOREIGN TABLE (for HDFS or OBS) <dws_06_0124>`, :ref:`DROP FOREIGN TABLE <dws_06_0192>`
+
+Optimization
+------------
+
+-  delimiter
+
+   -  A delimiter cannot be **\\r** or **\\n**, or the same as the **null** value. The delimiter of CSV cannot be same as the **quote** value.
+   -  The data length of a single row should be less than 1 GB. A row that has many columns using long delimiters cannot contain much valid data.
+   -  You are advised to use a multi-character string, such as the combination of the dollar sign ($), caret (^), and ampersand (&), or invisible characters, such as 0x07, 0x08, and 0x1b as the delimiter.
+
+-  quote
+
+   -  The value must be a single-byte character. The **quote** value cannot be the same as the delimiter or **null** value.
+   -  Invisible characters are recommended as **quote** values, such as 0x07, 0x08, and 0x1b.
+
+-  mode Normal
+
+   -  Supports all file types (including CSV, TEXT, and FIXED). To import data, you need to enable GDS on the data server.
+
+-  mode Shared
+
+   -  Supports the TEXT format. It does not require GDS, but all the user data has to be mounted to the same path of all the nodes through NFS.
+
+-  mode Private
+
+   -  Used in scenarios where user data has been stored under the same path as the local directory of DNs.

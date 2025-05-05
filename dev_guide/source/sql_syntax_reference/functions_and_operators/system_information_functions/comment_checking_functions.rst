@@ -14,7 +14,7 @@ Return type: text
 
 Note: **col_description** returns the comment for a table column, which is specified by the OID of its table and its column number.
 
-Example: Query the **pg_clas**\ s system catalog to obtain the table OID, and query the INFORMATION_SCHEMA.COLUMNS system view to obtain **column_number**.
+Example: Query the **pg_class** system catalog to obtain the table OID, and query the INFORMATION_SCHEMA.COLUMNS system view to obtain **column_number**.
 
 ::
 
@@ -61,4 +61,4 @@ Description: Gets comment for a shared database object.
 
 Return type: text
 
-Note: **shobj_description** is used just like **obj_description** except the former is used for retrieving comments on shared objects. Some system catalogs are global to all databases within each cluster, and the comments for objects in them are stored globally as well.
+Note: The functions of **shobj_description** and **obj_description** are similar. The only difference is that **shobj_description** is used for shared objects. Some system catalogs are global to all databases within each cluster, and the comments for objects in them are stored globally as well.

@@ -26,11 +26,11 @@ If the following error message is returned during the query, enable the memory m
 
 You can set **enable_memory_limit** and **max_process_memory** on the GaussDB(DWS) console to enable memory management. The procedure is as follows:
 
-#. Log in to the GaussDB(DWS) management console.
+#. Log in to the GaussDB(DWS) console.
 #. In the navigation pane on the left, click **Clusters**.
 #. In the cluster list, find the target cluster and click its name. The **Basic Information** page is displayed.
 #. Click the **Parameter Modification** tab, change the value of **enable_memory_limit** to **on**, and click **Save** to save the file.
-#. Change the value of **max_process_memory** to a proper one. For details about the modification suggestions, see :ref:`max_process_memory <en-us_topic_0000001460563104__sadc1e0e8c1c246a4a6cad3967deebaad>`. After it is done, click **Save**.
+#. Change the value of **max_process_memory** to a proper one. For details about the modification suggestions, see :ref:`max_process_memory <en-us_topic_0000001811610373__sadc1e0e8c1c246a4a6cad3967deebaad>`. After it is done, click **Save**.
 #. In the **Modification Preview** dialog box, confirm the modifications and click **Save**. After the modification, restart the cluster for the modification to take effect.
 
 Monitoring the Shared Memory
@@ -60,9 +60,9 @@ In the database, GUC parameter **memory_tracking_mode** is used to configure the
 
 -  **executor:** The statistics file is generated, containing the context information about all allocated memory used on the execution layer.
 
-   When the parameter is set to **executor**, cvs files are generated under the **pg_log** directory of the DN process. The file names are in the format of **memory_track\_**\ *<DN name>*\ **\_query\_**\ *<queryid>*\ **.csv**. The information about the operators executed by the postgres thread of the executor and all stream threads are input in this file during task execution.
+   When the parameter is set to **executor**, csv files are generated under the **pg_log** directory of the DN process. The file names are in the format of **memory_track\_**\ *<DN name>*\ **\_query\_**\ *<queryid>*\ **.csv**. The information about the operators executed by the postgres thread of the executor and all stream threads are input in this file during task execution.
 
-   The instance is built with a file content similar to the following:
+   The following is an example of the file content:
 
    .. code-block::
 

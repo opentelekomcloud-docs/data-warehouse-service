@@ -51,10 +51,10 @@ PL/SQL Block Classification
 
 PL/SQL blocks are classified into the following types:
 
--  Anonymous block: a dynamic block that can be executed only for once. For details about the syntax, see :ref:`Anonymous Block <en-us_topic_0000001510283497__section72513014435>`.
+-  Anonymous block: a dynamic block that can be executed only for once. For details about the syntax, see :ref:`Anonymous Block <en-us_topic_0000001811490433__section72513014435>`.
 -  Subprogram: a stored procedure, function, operator, or packages stored in a database. A subprogram created in a database can be called by other programs.
 
-.. _en-us_topic_0000001510283497__section72513014435:
+.. _en-us_topic_0000001811490433__section72513014435:
 
 Anonymous Block
 ---------------
@@ -63,11 +63,11 @@ An anonymous block applies to a script infrequently executed or a one-off activi
 
 **Syntax**
 
-:ref:`Figure 1 <en-us_topic_0000001510283497__fd6784c90027648dcbeb9d3c0e164d5db>` shows the syntax diagrams for an anonymous block.
+:ref:`Figure 1 <en-us_topic_0000001811490433__fd6784c90027648dcbeb9d3c0e164d5db>` shows the syntax diagrams for an anonymous block.
 
-.. _en-us_topic_0000001510283497__fd6784c90027648dcbeb9d3c0e164d5db:
+.. _en-us_topic_0000001811490433__fd6784c90027648dcbeb9d3c0e164d5db:
 
-.. figure:: /_static/images/en-us_image_0000002040138120.png
+.. figure:: /_static/images/en-us_image_0000002040296520.png
    :alt: **Figure 1** anonymous_block::=
 
    **Figure 1** anonymous_block::=

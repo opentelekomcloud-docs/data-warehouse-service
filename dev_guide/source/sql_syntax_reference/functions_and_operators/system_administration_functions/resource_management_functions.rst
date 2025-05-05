@@ -7,6 +7,53 @@ Resource Management Functions
 
 This section describes the functions of the resource management module.
 
+gs_switch_respool(query_id bigint, resource_pool_name name)
+-----------------------------------------------------------
+
+Description: Job resource pool switchover function is supported by cluster versions 9.1.0 and later.
+
+The value of **resource_pool_name** must contain less than 64 characters. Upon calling this function, the system will decide whether to start a job in the queuing phase when switching to the new resource pool. If a job is running, the system will switch to the new resource pool to start the queuing job from the original resource pool. Additionally, the CPU control of the new resource pool will limit the queuing job.
+
+This function supports resource pool switchover in both static and dynamic management and control modes, as well as resource pool switchover using short queries.
+
+Return type: bool
+
+.. caution::
+
+   -  Only administrators or users with administrator permissions can use this function. Common users are not authorized to use it. To use this function, the cluster's CPU control function, specifically the **Cgroup** function, must be functioning normally. You can use the **pgxc_cgroup_reload_conf()** function to check whether **Cgroup** is normal. If the command output contains non-success information, rectify the fault.
+
+   -  After the resource pool is switched, the function performs management and control based on the exception rules of the new resource pool.
+
+   -  If a job is in the global concurrent queue, which means it is waiting in the global queue, it will not take effect right away after the resource pool is switched. At this point, the job has not entered the resource pool queue yet.
+
+   -  1. Job CPU control switchover supports CNs and DNs. For example, if resource pool A uses 40 cores and resource pool B uses 5 cores, switching a job from pool A to pool B will execute the job on the 5 cores of pool B. This results in slower execution but isolates the job, ensuring that jobs in pool A are unaffected, thus degrading the statement.
+
+   -  When switching resource pools, use similar statements to perform batch switchovers. Ensure that the jobs being switched are in the same state, such as all queuing or all running. If switching between different types of statements, it is recommended to switch them twice. Switching them together may exceed the concurrent statement limit, causing abnormal job wake-ups.
+
+      ::
+
+         SELECT gs_switch_respool (queryid,'xxx') FROM xxx where xxx;
+
+   -  The restrictions on switching the statement resource pool are as follows:
+
+      -  If jobs from resource pool A are switched to pool B, jobs at the head of the queue in pool A will be woken up. If the concurrent job limit in pool B is reached, job A1 will not run immediately.
+      -  Switch job A2 from queuing in pool A to pool B. If the concurrent job limit in pool B is reached, job A2 will continue to queue. If not, job A2 will wake up and run immediately.
+      -  During resource pool switchover, only the same lane can be switched. For example, switching the fast lane of pool A will switch the fast lane of pool B. If the short query acceleration function is not enabled in pool B, the job runs directly regardless of its status in pool B.
+
+   -  This function can be used only when all nodes are normal. If a node is faulty, the function fails to be executed.
+
+The following is an example:
+
+While executing the statement with ID **74590868828368101**, the administrator successfully switches it to the **poolg1** resource pool.
+
+::
+
+   CALL gs_switch_respool(74590868828368101,'poolg1');
+    gs_switch_respool
+   -------------------
+    t
+   (1 row)
+
 gs_increase_except_num(unique_sql_id int8)
 ------------------------------------------
 
@@ -18,7 +65,7 @@ Example:
 
 ::
 
-   select gs_increase_except_num(111);
+   SELECT gs_increase_except_num(111);
    gs_increase_except_num
    ------------------------
    t
@@ -35,7 +82,7 @@ Example:
 
 ::
 
-   select gs_increase_except_num(111, 4);
+   SELECT gs_increase_except_num(111, 4);
    gs_increase_except_num
    -----------------------
    t
@@ -52,46 +99,9 @@ Example:
 
 ::
 
-   select gs_increase_except_num(111, 4, 714623414421256);
+   SELECT gs_increase_except_num(111, 4, 714623414421256);
    gs_increase_except_num
    -----------------------
-   t
-   (1 row)
-
-gs_update_blocklist_hash_info(unique_sql_id int8, is_remove boolean)
---------------------------------------------------------------------
-
-Description: Updates the blocklist corresponding to **unique_sql_id** in the memory.
-
--  If **is_remove** is set to **true**, the blocklist corresponding to **unique_sql_id** is removed from the **GS_BLOCKLIST_QUERY** system catalog.
--  If **is_remove** is set to **false**, the blocklist corresponding to **unique_sql_id** is added to the **GS_BLOCKLIST_QUERY** system catalog.
-
-Return type: bool
-
-Example:
-
-::
-
-   select gs_update_blocklist_hash_info(111, false);
-   gs_update_blocklist_hash_info
-   ------------------------------
-   t
-   (1 row)
-
-gs_update_blocklist_hash_info()
--------------------------------
-
-Description: Rebuilds blocklist information. This function reads the latest blocklist information from the **GS_BLOCKLIST_QUERY** system catalog and updates the blocklist information in the table.
-
-Return type: bool
-
-Example:
-
-::
-
-   select gs_update_blocklist_hash_info();
-   gs_update_blocklist_hash_info
-   ------------------------------
    t
    (1 row)
 
@@ -106,7 +116,7 @@ Example:
 
 ::
 
-   select gs_append_blocklist(111);
+   SELECT gs_append_blocklist(111);
    gs_append_blocklist
    --------------------
    t
@@ -123,8 +133,93 @@ Example:
 
 ::
 
-   select gs_remove_blocklist(111);
+   SELECT gs_remove_blocklist(111);
    gs_append_blocklist
+   --------------------
+   t
+   (1 row)
+
+gs_increase_sql_except_num(sql_hash text)
+-----------------------------------------
+
+Description: Records job exception information. If this function is invoked, the number of job exceptions will be increased by 1 and the latest job exception time will be updated to the current time. This function is supported only by 9.1.0.200 and later cluster versions and is used for internal calling.
+
+Return type: bool
+
+The following is an example:
+
+::
+
+   SELECT gs_increase_sql_except_num('sql_7bf6381d2a5a456a1936027198ad8b12');
+   gs_increase_sql_except_num
+   ------------------------
+   t
+   (1 row)
+
+gs_increase_sql_except_num(sql_hash text, except_num int4)
+----------------------------------------------------------
+
+Description: Records job exception information. If this function is invoked, the number of job exceptions will be increased by **except_num** and the latest job exception time will be updated to the current time. This function is supported only by 9.1.0.200 and later cluster versions and is used for internal calling.
+
+Return type: bool
+
+The following is an example:
+
+::
+
+   SELECT gs_increase_sql_except_num('sql_7bf6381d2a5a456a1936027198ad8b12', 4);
+   gs_increase_sql_except_num
+   -----------------------
+   t
+   (1 row)
+
+gs_increase_sql_except_num(sql_hash text, except_num int4, except_time int8)
+----------------------------------------------------------------------------
+
+Description: Records job exception information. If this function is invoked, the number of job exceptions will be increased by **except_num** and the latest job exception time will be updated to **except_time**. **except_time** functions as a timestamp here. This function is supported only by 9.1.0.200 and later cluster versions and is used for internal calling.
+
+Return type: bool
+
+The following is an example:
+
+::
+
+   SELECT gs_increase_sql_except_num('sql_7bf6381d2a5a456a1936027198ad8b12', 4, 714623414421256);
+   gs_increase_sql_except_num
+   -----------------------
+   t
+   (1 row)
+
+gs_append_blocklist(sql_hash text)
+----------------------------------
+
+Description: Adds a job to the blocklist and updates the blocklist information in **GS_BLOCKLIST_SQL**. This function is supported only by clusters of version 9.1.0.200 or later.
+
+Return type: bool
+
+The following is an example:
+
+::
+
+   SELECT gs_append_blocklist('sql_7bf6381d2a5a456a1936027198ad8b12');
+   gs_append_blocklist
+   --------------------
+   t
+   (1 row)
+
+gs_remove_blocklist(sql_hash text)
+----------------------------------
+
+Description: Removes a job from the blocklist and updates the blocklist information in **GS_BLOCKLIST_SQL**. This function is supported only by clusters of version 9.1.0.200 or later.
+
+Return type: bool
+
+The following is an example:
+
+::
+
+   SELECT gs_remove_blocklist('sql_7bf6381d2a5a456a1936027198ad8b12');
+   gs_remove_blocklist
    --------------------
    t
    (1 row)
@@ -140,7 +235,7 @@ Example:
 
 ::
 
-   select gs_wlm_rebuild_except_rule_hash();
+   SELECT gs_wlm_rebuild_except_rule_hash();
    gs_wlm_rebuild_except_rule_hash
    --------------------
    t
@@ -157,7 +252,7 @@ Example:
 
 ::
 
-   select gs_wlm_readjust_user_space(0);
+   SELECT gs_wlm_readjust_user_space(0);
    gs_wlm_readjust_user_space
    ----------------------------
    Exec Success
@@ -174,7 +269,7 @@ Example:
 
 ::
 
-   select pgxc_wlm_readjust_schema_space();
+   SELECT pgxc_wlm_readjust_schema_space();
    pgxc_wlm_readjust_schema_space
    --------------------------------
    Exec Success
@@ -195,7 +290,7 @@ Example:
 
 ::
 
-   select pgxc_wlm_readjust_schema_space();
+   SELECT pgxc_wlm_readjust_schema_space();
    pgxc_wlm_readjust_relfilenode_size_table
    -----------------------------------------
    Exec Success
@@ -256,7 +351,7 @@ Examples:
 
 ::
 
-   select * from pgxc_wlm_get_schema_space('group1');
+   SELECT * FROM pgxc_wlm_get_schema_space('group1');
         schemaname     | schemaid | databasename | databaseid |   nodename   |  nodegroup   | usedspace | permspace
    --------------------+----------+--------------+------------+--------------+--------------+-----------+-----------
     pg_catalog         |       11 | test1        |      16384 | datanode1    | installation |   9469952 |        -1
@@ -333,7 +428,7 @@ Examples:
 
 ::
 
-   select * from pgxc_wlm_analyze_schema_space('group1');
+   SELECT * FROM pgxc_wlm_analyze_schema_space('group1');
         schemaname     | databasename |  nodegroup   | total_value | avg_value | skew_percent |                  extend_info
    --------------------+--------------+--------------+-------------+-----------+--------------+-----------------------------------------------
     pg_catalog         | test1        | installation |    56819712 |   9469952 |            0 | min:9469952 datanode1,max:9469952 datanode1
@@ -392,12 +487,13 @@ Examples:
 
 ::
 
-   select * from gs_wlm_set_queryband_action('a=1','respool=p1');
+   SELECT * FROM gs_wlm_set_queryband_action('a=1','respool=p1');
     gs_wlm_set_queryband_action
    -----------------------------
     t
    (1 row)
-   select * from gs_wlm_set_queryband_action('a=3','respool=p1;priority=rush',1);
+
+   SELECT * FROM gs_wlm_set_queryband_action('a=3','respool=p1;priority=rush',1);
     gs_wlm_set_queryband_action
    -----------------------------
     t
@@ -412,18 +508,18 @@ Return type: boolean
 
 The following table describes the input parameters.
 
-===== ======= ========================================================
+===== ======= ====================================================
 Name  Type    Description
-===== ======= ========================================================
+===== ======= ====================================================
 qband cstring **query_band** key-value pairs
-order int4    **query_band** query order. The default value is **-1**.
-===== ======= ========================================================
+order int4    Query band query order. The default value is **-1**.
+===== ======= ====================================================
 
 Examples:
 
 ::
 
-   select * from gs_wlm_set_queryband_order('a=1',2);
+   SELECT * FROM gs_wlm_set_queryband_order('a=1',2);
     gs_wlm_set_queryband_action
    -----------------------------
     t
@@ -456,7 +552,7 @@ Examples:
 
 ::
 
-   select * from gs_wlm_get_queryband_action('a=1');
+   SELECT * FROM gs_wlm_get_queryband_action('a=1');
    qband | respool_id | respool | priority | qborder
    -------+------------+---------+----------+---------
     a=1   |      16388 | p1      | Medium   |      -1
@@ -483,7 +579,7 @@ Examples:
 
 ::
 
-   select * from gs_cgroup_reload_conf();
+   SELECT * FROM gs_cgroup_reload_conf();
     node_name |   node_host    | result
    -----------+----------------+---------
     cn_5001   | 192.168.178.35 | success
@@ -509,7 +605,7 @@ Examples:
 
 ::
 
-   select * from pgxc_cgroup_reload_conf();
+   SELECT * FROM pgxc_cgroup_reload_conf();
      node_name   |    node_host    | result
    --------------+-----------------+---------
     dn_6025_6026 | 192.168.178.177 | success
@@ -577,7 +673,7 @@ Examples:
 
 ::
 
-   select * from pgxc_cgroup_reload_conf('192.168.178.35');
+   SELECT * FROM pgxc_cgroup_reload_conf('192.168.178.35');
      node_name   |   node_host    | result
    --------------+----------------+---------
     cn_5001      | 192.168.178.35 | success
@@ -590,7 +686,7 @@ Examples:
 gs_wlm_node_recover(boolean isForce)
 ------------------------------------
 
-Description: Updates and restores job information and counts on the CCN in dynamic resource management mode. This function can be executed only by administrators, and is usually used to restore a faulty CN after it was restarted. This function is called by the Cluster Manager (CM). Its usage is as follows:
+Description: This function updates and restores job information and counts on the CCN in dynamic resource management mode. It can be executed only by administrators, and is usually used to restore a faulty CN after it was restarted. This function is called by the Cluster Manager (CM). Its usage is as follows:
 
 -  If this function is executed by CN, it instructs the CCN to clear job information and counts on the CN.
 -  If this function is executed by CCN, it resets job counts and obtains the latest slow lane job information from the CN.
@@ -607,7 +703,7 @@ Return type: bool
 pg_stat_get_wlm_node_resource_info(int4)
 ----------------------------------------
 
-Description: Displays the summary of all DN resources.
+Description: This function displays the summary of all DN resources.
 
 Return type: record
 
@@ -631,3 +727,56 @@ pg_stat_get_workload_struct_info()
 Description: Load management function for locating CCN queuing problems. This function is an internal function. To use this function, contact technical support.
 
 Return type: record
+
+pgxc_query_resource_info(query_id bigint)
+-----------------------------------------
+
+Description: This function displays resource monitoring information about the statement with a specified query ID on all DNs. It is supported only by clusters of version 9.1.0.100 or later.
+
+Return type: record
+
+The following table describes return columns.
+
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Column      | Type   | Description                                                                                                                                                    |
++=============+========+================================================================================================================================================================+
+| node_name   | text   | Instance name, which contains only DNs.                                                                                                                        |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| user_id     | oid    | User ID.                                                                                                                                                       |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| queryid     | bigint | Internal query ID used for statement execution.                                                                                                                |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| used_mem    | int    | Memory used by the statement on the current DN. The unit is MB.                                                                                                |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| cpu_time    | bigint | CPU time of a statement on the current DN. The unit is ms.                                                                                                     |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| used_cpu    | double | Number of CPUs used by the statement on the current DN.                                                                                                        |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| spill_size  | bigint | Amount of data spilled to disks on the current DN. The default value is 0. The unit is MB.                                                                     |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| read_bytes  | bigint | Number of logical read bytes used by the statement on the current DN. The unit is KB.                                                                          |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| write_bytes | bigint | Number of logical write bytes used by the statement on the current DN. The unit is KB.                                                                         |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| read_count  | bigint | Number of logical reads used by the statement on the current DN.                                                                                               |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| write_count | bigint | Number of logical writes used by the statement on the current DN.                                                                                              |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| read_speed  | int    | Logical read rate used by the statement on the current DN. The unit is KB/s.                                                                                   |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| write_speed | int    | Logical write rate used by the statement on the current DN. The unit is KB/s.                                                                                  |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| curr_iops   | int    | I/O operations per second of the statement on the current DN. It is recorded as a count in a column-store table and as a count of 10,000 in a row-store table. |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| send_pkg    | bigint | Total number of communication packages sent by a statement across all DNs.                                                                                     |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| recv_pkg    | bigint | Total number of communication packages received by a statement across all DNs.                                                                                 |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| send_bytes  | bigint | Total sent data of the statement stream, in byte.                                                                                                              |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| recv_bytes  | bigint | Total received data of the statement stream, in byte.                                                                                                          |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| send_speed  | int    | Network sending rate of the statement on the current DN. The unit is KB/s.                                                                                     |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| recv_speed  | int    | Network receiving rate of the statement on the current DN. The unit is KB/s.                                                                                   |
++-------------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+

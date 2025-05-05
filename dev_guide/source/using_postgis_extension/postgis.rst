@@ -29,3 +29,5 @@ In GaussDB(DWS), PostGIS Extension depends on the listed third-party open-source
    -  Json 0.12.1
    -  Libxml2 2.7.1
    -  Sqlite3
+   -  protobuf-c 1.4.1
+   -  protobuf 3.6.1

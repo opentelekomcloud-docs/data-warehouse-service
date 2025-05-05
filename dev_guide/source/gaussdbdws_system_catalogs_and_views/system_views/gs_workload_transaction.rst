@@ -9,14 +9,14 @@ GS_WORKLOAD_TRANSACTION provides transaction information about workload cgroups 
 
 .. table:: **Table 1** GS_WORKLOAD_TRANSACTION columns
 
-   ================ ====== ==========================
-   Name             Type   Description
-   ================ ====== ==========================
-   workload         name   Workload Cgroup name
-   commit_counter   bigint Number of the commit times
-   rollback_counter bigint Number of rollbacks
-   resp_min         bigint Minimum response time
-   resp_max         bigint Maximum response time
-   resp_avg         bigint Average response time
-   resp_total       bigint Total response time
-   ================ ====== ==========================
+   ================ ====== =====================
+   Column           Type   Description
+   ================ ====== =====================
+   workload         Name   Workload Cgroup name
+   commit_counter   Bigint Number of the commits
+   rollback_counter Bigint Number of rollbacks
+   resp_min         Bigint Minimum response time
+   resp_max         Bigint Maximum response time
+   resp_avg         Bigint Average response time
+   resp_total       Bigint Total response time
+   ================ ====== =====================

@@ -5,7 +5,7 @@
 Logging Time
 ============
 
-.. _en-us_topic_0000001460882160__sbd8ad9bb6b9b48ba97f998f060dc56f3:
+.. _en-us_topic_0000001811490985__sbd8ad9bb6b9b48ba97f998f060dc56f3:
 
 client_min_messages
 -------------------
@@ -16,13 +16,13 @@ client_min_messages
 
 .. important::
 
-   When the values of **client_min_messages** and :ref:`log_min_messages <en-us_topic_0000001460882160__s1ffb0797361d413d875381200fed970b>` are the same, the levels are different.
+   When the values of **client_min_messages** and :ref:`log_min_messages <en-us_topic_0000001811490985__s1ffb0797361d413d875381200fed970b>` are the same, the levels are different.
 
-**Valid values**: Enumerated values. Valid values: **debug5**, **debug4**, **debug3**, **debug2**, **debug1**, **info**, **log**, **notice**, **warning**, **error** For details about the parameters, see :ref:`Table 1 <en-us_topic_0000001460882160__ta1ceaf79532d439ead5e098dee6f7b7e>`.
+**Valid values**: Enumerated values. Valid values: **debug5**, **debug4**, **debug3**, **debug2**, **debug1**, **info**, **log**, **notice**, **warning**, **error** For details about the parameters, see :ref:`Table 1 <en-us_topic_0000001811490985__ta1ceaf79532d439ead5e098dee6f7b7e>`.
 
 **Default value:** **notice**
 
-.. _en-us_topic_0000001460882160__s1ffb0797361d413d875381200fed970b:
+.. _en-us_topic_0000001811490985__s1ffb0797361d413d875381200fed970b:
 
 log_min_messages
 ----------------
@@ -33,9 +33,9 @@ log_min_messages
 
 .. important::
 
-   When the values of :ref:`client_min_messages <en-us_topic_0000001460882160__sbd8ad9bb6b9b48ba97f998f060dc56f3>` and **log_min_messages** are the same, the levels are different.
+   When the values of :ref:`client_min_messages <en-us_topic_0000001811490985__sbd8ad9bb6b9b48ba97f998f060dc56f3>` and **log_min_messages** are the same, the levels are different.
 
-**Value range**: enumerated type. Valid values: **debug5**, **debug4**, **debug3**, **debug2**, **debug1**, **info**, **log**, **notice**, **warning**, **error**, **fatal**, **panic** For details about the parameters, see :ref:`Table 1 <en-us_topic_0000001460882160__ta1ceaf79532d439ead5e098dee6f7b7e>`.
+**Value range**: enumerated type. Valid values: **debug5**, **debug4**, **debug3**, **debug2**, **debug1**, **info**, **log**, **notice**, **warning**, **error**, **fatal**, **panic** For details about the parameters, see :ref:`Table 1 <en-us_topic_0000001811490985__ta1ceaf79532d439ead5e098dee6f7b7e>`.
 
 **Default value**: **warning**
 
@@ -46,7 +46,7 @@ log_min_error_statement
 
 **Type**: SUSET
 
-**Value range**: enumerated type. Valid values: **debug5**, **debug4**, **debug3**, **debug2**, **debug1**, **info**, **log**, **notice**, **warning**, **error**, **fatal**, **panic** For details about the parameters, see :ref:`Table 1 <en-us_topic_0000001460882160__ta1ceaf79532d439ead5e098dee6f7b7e>`.
+**Value range**: enumerated type. Valid values: **debug5**, **debug4**, **debug3**, **debug2**, **debug1**, **info**, **log**, **notice**, **warning**, **error**, **fatal**, **panic** For details about the parameters, see :ref:`Table 1 <en-us_topic_0000001811490985__ta1ceaf79532d439ead5e098dee6f7b7e>`.
 
 .. note::
 
@@ -55,7 +55,7 @@ log_min_error_statement
 
 **Default value**: **error**
 
-.. _en-us_topic_0000001460882160__s670cade0b3b84413bd2256e1fe1c8cdb:
+.. _en-us_topic_0000001811490985__s670cade0b3b84413bd2256e1fe1c8cdb:
 
 log_min_duration_statement
 --------------------------
@@ -68,7 +68,7 @@ This parameter helps track query statements that need to be optimized. For clien
 
 .. important::
 
-   If this parameter and :ref:`log_statement <en-us_topic_0000001460882256__s3dd4368238fd47a2bb1de59c2142ede5>` are used at the same time, statements recorded based on the value of **log_statement** will not be logged again after their execution duration exceeds the value of this parameter. If you are not using **syslog**, it is recommended that you log the process ID (PID) or session ID using log_line_prefix so that you can link the current statement message to the last logged duration.
+   If this parameter and :ref:`log_statement <en-us_topic_0000001811491197__s3dd4368238fd47a2bb1de59c2142ede5>` are used at the same time, statements recorded based on the value of **log_statement** will not be logged again after their execution duration exceeds the value of this parameter. If you are not using **syslog**, it is recommended that you log the process ID (PID) or session ID using log_line_prefix so that you can link the current statement message to the last logged duration.
 
 **Value range**: an integer ranging from -1 to INT_MAX. The unit is millisecond.
 
@@ -91,13 +91,13 @@ backtrace_min_messages
 
 **Value range**: enumerated values
 
-Valid values: **debug5**, **debug4**, **debug3**, **debug2**, **debug1**, **info**, **log**, **notice**, **warning**, **error**, **fatal**, **panic** For details about the parameters, see :ref:`Table 1 <en-us_topic_0000001460882160__ta1ceaf79532d439ead5e098dee6f7b7e>`.
+Valid values: **debug5**, **debug4**, **debug3**, **debug2**, **debug1**, **info**, **log**, **notice**, **warning**, **error**, **fatal**, **panic** For details about the parameters, see :ref:`Table 1 <en-us_topic_0000001811490985__ta1ceaf79532d439ead5e098dee6f7b7e>`.
 
 **Default value**: **panic**
 
-:ref:`Table 1 <en-us_topic_0000001460882160__ta1ceaf79532d439ead5e098dee6f7b7e>` explains the message security levels used in GaussDB(DWS). If logging output is sent to **syslog** or **eventlog**, severity is translated in GaussDB(DWS) as shown in the table.
+:ref:`Table 1 <en-us_topic_0000001811490985__ta1ceaf79532d439ead5e098dee6f7b7e>` explains the message security levels used in GaussDB(DWS). If logging output is sent to **syslog** or **eventlog**, severity is translated in GaussDB(DWS) as shown in the table.
 
-.. _en-us_topic_0000001460882160__ta1ceaf79532d439ead5e098dee6f7b7e:
+.. _en-us_topic_0000001811490985__ta1ceaf79532d439ead5e098dee6f7b7e:
 
 .. table:: **Table 1** Message Severity Levels
 
@@ -135,7 +135,7 @@ plog_merge_age
 **Value range**: an integer ranging from 0 to INT_MAX. The unit is millisecond (ms).
 
 -  **0** indicates that the current session will not output performance log data.
--  A value other than 0 indicates the output interval of performance log data. The smaller the value is, the more log data is output, resulting in more negative impact on the performance.
+-  A value other than 0 indicates the output interval of performance log data. As the value decreases, more log data is generated, which negatively impacts performance.
 
 **Default value**: **3s**
 

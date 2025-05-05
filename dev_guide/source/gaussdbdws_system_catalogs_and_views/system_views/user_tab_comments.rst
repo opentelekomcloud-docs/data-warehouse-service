@@ -7,10 +7,10 @@ USER_TAB_COMMENTS
 
 **USER_TAB_COMMENTS** displays comments about all tables and views accessible to the current user.
 
-========== ===================== ==============================
-Name       Type                  Description
-========== ===================== ==============================
-owner      character varying(64) Owner of the table or the view
-table_name character varying(64) Name of the table or the view
-comments   text                  Comments
-========== ===================== ==============================
+========== ===================== ==========================
+Column     Type                  Description
+========== ===================== ==========================
+owner      character varying(64) Owner of the table or view
+table_name character varying(64) Name of the table or view
+comments   Text                  Comments
+========== ===================== ==========================

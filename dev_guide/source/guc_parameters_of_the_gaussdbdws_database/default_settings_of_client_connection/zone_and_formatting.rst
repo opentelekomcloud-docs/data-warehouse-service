@@ -7,7 +7,7 @@ Zone and Formatting
 
 This section describes parameters related to the time format setting.
 
-.. _en-us_topic_0000001510402357__se661e54f98d0474a9cc9c79c8f2294c5:
+.. _en-us_topic_0000001811490389__se661e54f98d0474a9cc9c79c8f2294c5:
 
 DateStyle
 ---------
@@ -24,7 +24,7 @@ This variable contains two independent components: the output format specificati
 
 .. note::
 
-   **gs_initdb** will initialize this parameter so that its value is the same as that of :ref:`lc_time <en-us_topic_0000001510402357__s753451ed7f6048c3853c7328cc321818>`.
+   **gs_initdb** will initialize this parameter so that its value is the same as that of :ref:`lc_time <en-us_topic_0000001811490389__s753451ed7f6048c3853c7328cc321818>`.
 
 **Suggestion**: The ISO format is recommended. Postgres, SQL, and German use abbreviations for time zones, such as **EST**, **WST**, and **CST**.
 
@@ -38,8 +38,8 @@ IntervalStyle
 **Value range**: enumerated values
 
 -  **sql_standard** indicates that output matching SQL standards will be generated.
--  **postgres** indicates that output matching PostgreSQL 8.4 will be generated when the :ref:`DateStyle <en-us_topic_0000001510402357__se661e54f98d0474a9cc9c79c8f2294c5>` parameter is set to **ISO**.
--  **postgres_verbose** indicates that output matching PostgreSQL 8.4 will be generated when the :ref:`DateStyle <en-us_topic_0000001510402357__se661e54f98d0474a9cc9c79c8f2294c5>` parameter is set to **non_ISO**.
+-  **postgres** indicates that output matching PostgreSQL 8.4 will be generated when the :ref:`DateStyle <en-us_topic_0000001811490389__se661e54f98d0474a9cc9c79c8f2294c5>` parameter is set to **ISO**.
+-  **postgres_verbose** indicates that output matching PostgreSQL 8.4 will be generated when the :ref:`DateStyle <en-us_topic_0000001811490389__se661e54f98d0474a9cc9c79c8f2294c5>` parameter is set to **non_ISO**.
 -  **iso_8601** indicates that output matching the time interval "format with designators" defined in ISO 8601 will be generated.
 -  **oracle** indicates the output result that matches the numtodsinterval function in the Oracle database. For details, see numtodsinterval.
 
@@ -166,7 +166,7 @@ lc_numeric
 
 **Default value**: **C**
 
-.. _en-us_topic_0000001510402357__s753451ed7f6048c3853c7328cc321818:
+.. _en-us_topic_0000001811490389__s753451ed7f6048c3853c7328cc321818:
 
 lc_time
 -------

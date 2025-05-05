@@ -8,34 +8,34 @@ DBMS_OUTPUT
 Related Interfaces
 ------------------
 
-:ref:`Table 1 <en-us_topic_0000001510402549__table1347845844912>` provides all interfaces supported by the **DBMS_OUTPUT** package.
+:ref:`Table 1 <en-us_topic_0000001764491700__table1347845844912>` provides all interfaces supported by the **DBMS_OUTPUT** package.
 
-.. _en-us_topic_0000001510402549__table1347845844912:
+.. _en-us_topic_0000001764491700__table1347845844912:
 
 .. table:: **Table 1** DBMS_OUTPUT
 
-   +-----------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | API                                                                                           | Description                                                                                                                                                                                                                                         |
-   +===============================================================================================+=====================================================================================================================================================================================================================================================+
-   | :ref:`DBMS_OUTPUT.PUT_LINE <en-us_topic_0000001510402549__t0f2c22fccf6e46e887e8bcc67641cb45>` | Outputs the specified text. The text length cannot exceed 32,767 bytes.                                                                                                                                                                             |
-   +-----------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_OUTPUT.PUT <en-us_topic_0000001510402549__t710910bfc110480ba9325098ec57b4ad>`      | Outputs the specified text to the front of the specified text without adding a line break. The text length cannot exceed 32,767 bytes.                                                                                                              |
-   +-----------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | :ref:`DBMS_OUTPUT.ENABLE <en-us_topic_0000001510402549__t6f5db9a88c364c16a334176b641c714e>`   | Sets the buffer area size. If this interface is not specified, the maximum buffer size is 20,000 bytes and the minimum buffer size is 2000 bytes. If the specified buffer size is less than 2000 bytes, the default minimum buffer size is applied. |
-   +-----------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | API                                                                                           | Description                                                                                                                                                                                                                                           |
+   +===============================================================================================+=======================================================================================================================================================================================================================================================+
+   | :ref:`DBMS_OUTPUT.PUT_LINE <en-us_topic_0000001764491700__t959bb9f8e0a54b888b7a5192cc8bbc93>` | Outputs the specified text. The text length cannot exceed 32,767 bytes.                                                                                                                                                                               |
+   +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`DBMS_OUTPUT.PUT <en-us_topic_0000001764491700__td94dd0ce396b4c16a53432e1db6ab74c>`      | Outputs the specified text to the front of the specified text without adding a line break. The text length cannot exceed 32,767 bytes.                                                                                                                |
+   +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | :ref:`DBMS_OUTPUT.ENABLE <en-us_topic_0000001764491700__tcd7564a05a764cfd9cf5a54a0f5bdc86>`   | Sets the buffer area size. If this interface is not specified, the maximum buffer size is 20,000 bytes and the minimum buffer size is 2,000 bytes. If the specified buffer size is less than 2,000 bytes, the default minimum buffer size is applied. |
+   +-----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 -  DBMS_OUTPUT.PUT_LINE
 
-The PUT_LINE procedure writes a row of text carrying a line end symbol in the buffer. The DBMS_OUTPUT.PUT_LINE function prototype is:
+The **PUT_LINE** procedure writes a row of text carrying a line end symbol in the buffer. The **DBMS_OUTPUT.PUT_LINE** function prototype is:
 
 ::
 
    DBMS_OUTPUT.PUT_LINE (
    item IN VARCHAR2);
 
-.. _en-us_topic_0000001510402549__t0f2c22fccf6e46e887e8bcc67641cb45:
+.. _en-us_topic_0000001764491700__t959bb9f8e0a54b888b7a5192cc8bbc93:
 
-.. table:: **Table 2** DBMS_OUTPUT.PUT_LINE interface parameters
+.. table:: **Table 2** **DBMS_OUTPUT.PUT_LINE** interface parameters
 
    ========= ==================================================
    Parameter Description
@@ -45,16 +45,16 @@ The PUT_LINE procedure writes a row of text carrying a line end symbol in the bu
 
 -  DBMS_OUTPUT.PUT
 
-The stored procedure **PUT** outputs the specified text to the front of the specified text without adding a linefeed. The DBMS_OUTPUT.PUT function prototype is:
+The stored procedure **PUT** outputs the specified text to the front of the specified text without adding a linefeed. The **DBMS_OUTPUT.PUT** function prototype is:
 
 ::
 
    DBMS_OUTPUT.PUT (
    item IN VARCHAR2);
 
-.. _en-us_topic_0000001510402549__t710910bfc110480ba9325098ec57b4ad:
+.. _en-us_topic_0000001764491700__td94dd0ce396b4c16a53432e1db6ab74c:
 
-.. table:: **Table 3** DBMS_OUTPUT.PUT interface parameters
+.. table:: **Table 3** **DBMS_OUTPUT.PUT** interface parameters
 
    ========= ==========================================================
    Parameter Description
@@ -64,14 +64,14 @@ The stored procedure **PUT** outputs the specified text to the front of the spec
 
 -  DBMS_OUTPUT.ENABLE
 
-The stored procedure **ENABLE** sets the output buffer size. If the size is not specified, it contains a maximum of 20,000 bytes. The DBMS_OUTPUT.ENABLE function prototype is:
+The stored procedure **ENABLE** sets the output buffer size. If the size is not specified, it contains a maximum of 20,000 bytes. The **DBMS_OUTPUT.ENABLE** function prototype is:
 
 ::
 
    DBMS_OUTPUT.ENABLE (
    buf IN INTEGER);
 
-.. _en-us_topic_0000001510402549__t6f5db9a88c364c16a334176b641c714e:
+.. _en-us_topic_0000001764491700__tcd7564a05a764cfd9cf5a54a0f5bdc86:
 
 .. table:: **Table 4** DBMS_OUTPUT.ENABLE interface parameters
 

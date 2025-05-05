@@ -8,14 +8,14 @@ COPY
 Function
 --------
 
-Copies data between tables and files.
+**COPY** copies data between tables and files.
 
 **COPY FROM** copies data from a file to a table. **COPY TO** copies data from a table to a file.
 
-Precautions
------------
+Important Notes
+---------------
 
--  If CNs and DNs are enabled in security mode, the **COPY FROM FILENAME** or **COPY TO FILENAME** cannot be used. Use **\\copy** to avoid this problem, for details, see "FAQs > Data Import and Export > How Do I Use \\copy to Import and Export Data?" in the *Data Warehouse Service User Guide*.
+-  If CNs and DNs are enabled in security mode, the **COPY FROM FILENAME** or **COPY TO FILENAME** cannot be used. Use **\\copy** to avoid this problem, for details, see "FAQs" > "Data Import and Export" > "How Do I Use \\copy to Import and Export Data?" in the *Data Warehouse Service (DWS) User Guide*.
 -  **COPY** applies to only tables and does not apply to views.
 -  To insert data to a table, you must have the permission to insert data.
 -  If a list of columns is specified, **COPY** will only copy the data in the specified columns to or from the file. If there are any columns in the table that are not in the column list, **COPY FROM** will insert the default values for those columns.
@@ -32,7 +32,7 @@ Precautions
 Syntax
 ------
 
--  Copy data from a file to a table.
+-  Copy the data from a file to a table:
 
    ::
 
@@ -51,7 +51,7 @@ Syntax
 
       In the SQL syntax, **FIXED**, **FORMATTER ( { column_name( offset, length ) } [, ...] )**, and **[ ( option [, ...] ) \| copy_option [ ...] ]** can be in any sequence.
 
--  Copy data from a table to a file.
+-  Copy the data from a table to a file:
 
    ::
 
@@ -205,10 +205,10 @@ Parameter Description
       The restrictions of this error tolerance parameter are as follows:
 
       -  This error tolerance mechanism captures only the data type errors (DATA_EXCEPTION) that occur during data parsing of **COPY FROM** on a CN. Other errors, such as network errors between CNs and DNs or expression conversion errors on DNs, are not captured.
-      -  Before enabling error tolerance for **COPY FROM** for the first time in a database, check whether the **public.pgxc_copy_error_log** table exists. If it does not, call the copy_error_log_create() function to create it. If it does, copy its data elsewhere and call the copy_error_log_create() function to create the table. For details about columns in the **public.pgxc_copy_error_log** table, see :ref:`Table 3 <en-us_topic_0000001460561332__table63361925092>`.
+      -  Before enabling error tolerance for **COPY FROM** for the first time in a database, check whether the **public.pgxc_copy_error_log** table exists. If it does not, call the copy_error_log_create() function to create it. If it does, copy its data elsewhere and call the copy_error_log_create() function to create the table. For details about columns in the **public.pgxc_copy_error_log** table, see :ref:`Table 3 <en-us_topic_0000001811634829__table63361925092>`.
       -  While a **COPY FROM** statement with specified **LOG ERRORS** is being executed, if **public.pgxc_copy_error_log** does not exist or does not have the table definitions compliant with the predefined in copy_error_log_create(), an error will be reported. Ensure that the error table is created using the copy_error_log_create() function. Otherwise, **COPY FROM** statements with error tolerance may fail to be run.
       -  If existing error tolerance parameters (for example, **IGNORE_EXTRA_DATA**) of the **COPY** statement are enabled, the error of the corresponding type will be processed as specified by the parameters and no error will be reported. Therefore, the error table does not contain such error data.
-      -  The coverage scope of this error tolerance mechanism is the same as that of a GDS foreign table. You are advised to filter query results based on table names or the timestamp of marking the start of **COPY FROM** statement execution.
+      -  The coverage scope of this error tolerance mechanism is the same as that of a GDS foreign table. You are advised to filter query results based on table names or the timestamp of marking the start of **COPY FROM** statement execution. For details about how to process error data, see the section about handling error tables.
 
 -  **LOG ERRORS DATA**
 
@@ -350,7 +350,7 @@ Parameter Description
 
    -  FORCE_QUOTE { ( column_name [, ...] ) \| \* }
 
-      Forces quoting to be used for all non-null values in each specified column. This option is allowed only in **COPY TO**, and only when the CSV format is used. **NULL** values are not quoted.
+      Forces quotation marks to be used for all non-null values in each specified column in CSV COPY TO mode. **NULL** values are not quoted.
 
       Value range: an existing column
 
@@ -382,7 +382,7 @@ Parameter Description
 
             extra data after last expected column
 
-      Default value: **false** or **off**
+      Default value: **false**
 
       .. important::
 
@@ -669,7 +669,7 @@ Parameter Description
 
       .. note::
 
-         If ORACLE is specified as the compatible database, the DATE format is TIMESTAMP. For details, see the **timestamp_format** parameter.
+         If ORACLE is specified as the compatible database, the DATE format is TIMESTAMP. For details, see **timestamp_format** below.
 
    -  TIME_FORMAT 'time_format_string'
 
@@ -691,7 +691,7 @@ Parameter Description
 
    -  PRESERVE_BLANKS
 
-      Specifies whether to retain the blank characters (including spaces, \\t, \\v, and \\f) at the end of each column during fixed-length import. This parameter is supported by clusters of version 8.2.0.100 or later.
+      Specifies whether to retain the blank characters (including spaces, \\t, \\v, and \\f) at the end of each column during fixed-length import. This parameter is supported by version 8.2.0.100 or later clusters.
 
       Value range: **true**, **on**, **false**, and **off** The default value is **false** or **off**.
 
@@ -718,7 +718,7 @@ Copy data from the **tpcds.ship_mode** file to the **/home/omm/ds_ship_mode.dat*
 
    COPY tpcds.ship_mode TO '/home/omm/ds_ship_mode.dat';
 
-Write **tpcds.ship_mode** as output to **stdout**.
+Write **tpcds.ship_mode** as output to **stdout**:
 
 ::
 
@@ -740,13 +740,13 @@ Create the **tpcds.ship_mode_t1** table:
    WITH (ORIENTATION = COLUMN,COMPRESSION=MIDDLE)
    DISTRIBUTE BY HASH(SM_SHIP_MODE_SK );
 
-Copy data from **stdin** to the **tpcds.ship_mode_t1** table.
+Copy data from **stdin** to the **tpcds.ship_mode_t1** table:
 
 ::
 
    COPY tpcds.ship_mode_t1 FROM stdin;
 
-Copy data from the **/home/omm/ds_ship_mode.dat** file to the **tpcds.ship_mode_t1** table.
+Copy data from the **/home/omm/ds_ship_mode.dat** file to the **tpcds.ship_mode_t1** table:
 
 ::
 
@@ -782,7 +782,7 @@ Export **tpcds.ship_mode_t1** as a CSV file in the OBS directory **/bucket/path/
 
    COPY (select * from tpcds.ship_mode_t1 where SM_SHIP_MODE_SK=1060) TO '/bucket/path/' WITH (format 'csv', header 'on', encoding 'utf8', server 'obs_server', bom 'on', maxrow '1000', fileprefix 'justprefix');
 
-Delete the **tpcds.ship_mode_t1** table.
+Delete the **tpcds.ship_mode_t1** table:
 
 ::
 

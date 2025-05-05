@@ -10,13 +10,13 @@ GLOBAL_WORKLOAD_TRANSACTION
 .. table:: **Table 1** GLOBAL_WORKLOAD_TRANSACTION columns
 
    ================ ====== ===========================================
-   Name             Type   Description
+   Column           Type   Description
    ================ ====== ===========================================
-   workload         name   Workload Cgroup name
-   commit_counter   bigint Total number of submission times on each CN
-   rollback_counter bigint Total number of rollback times on each CN
-   resp_min         bigint Minimum response time of the cluster
-   resp_max         bigint Maximum response time of the cluster
-   resp_avg         bigint Average response time on each CN
-   resp_total       bigint Total response time on each CN
+   workload         Name   Workload Cgroup name
+   commit_counter   Bigint Total number of submission times on each CN
+   rollback_counter Bigint Total number of rollback times on each CN
+   resp_min         Bigint Minimum response time of the cluster
+   resp_max         Bigint Maximum response time of the cluster
+   resp_avg         Bigint Average response time on each CN
+   resp_total       Bigint Total response time on each CN
    ================ ====== ===========================================

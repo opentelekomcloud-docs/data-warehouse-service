@@ -8,12 +8,12 @@ ALTER FUNCTION
 Function
 --------
 
-Modifies the attributes of a customized function.
+**ALTER FUNCTION** modifies the attributes of a customized function.
 
 Precautions
 -----------
 
-Only the owner of a function or a system administrator can run this statement. The user who wants to change the owner of a function must be a direct or indirect member of the new owning role. If a function involves operations on temporary tables, the **ALTER FUNCTION** cannot be used.
+Only the owner of a function or a system administrator can run this statement. The user who wants to change the owner of a function must be a direct or indirect member of the newly owned role. If a function involves operations on temporary tables, the **ALTER FUNCTION** cannot be used.
 
 Syntax
 ------
@@ -33,7 +33,7 @@ Syntax
        | {IMMUTABLE | STABLE | VOLATILE}
        | {SHIPPABLE | NOT SHIPPABLE}
        | {NOT FENCED | FENCED}
-
+       | {MASKED | NOT MASKED}
        | [ NOT ] LEAKPROOF
        | { [ EXTERNAL ] SECURITY INVOKER | [ EXTERNAL ] SECURITY DEFINER }
        | AUTHID { DEFINER | CURRENT_USER }
@@ -100,7 +100,7 @@ Parameter Description
 
    **STRICT**
 
-   Indicates that the function always returns **NULL** whenever any of its arguments are **NULL**. If this parameter is specified, the function is not executed when there are null arguments; instead a null result is assumed automatically.
+   Indicates that the function always returns **NULL** whenever any of its arguments are **NULL**. If this parameter is specified, the function is not executed when there are null parameters; instead a null result is assumed automatically.
 
    The usage of **RETURNS NULL ON NULL INPUT** is the same as that of **STRICT**.
 
@@ -124,6 +124,10 @@ Parameter Description
 
    -  Functions of the IMMUTABLE type can always be pushed down to the DNs.
    -  Functions of the STABLE or VOLATILE type can be pushed down to DNs only if their attribute is **SHIPPABLE**.
+
+-  **MASKED \| NOT MASKED**
+
+   Specifies whether the function performs masking when the guc parameter **enable_redactcol_computable** is enabled. **MASKED** supports system function modification and cannot be used together with actions in other **ALTER** functions.
 
 -  **LEAKPROOF**
 

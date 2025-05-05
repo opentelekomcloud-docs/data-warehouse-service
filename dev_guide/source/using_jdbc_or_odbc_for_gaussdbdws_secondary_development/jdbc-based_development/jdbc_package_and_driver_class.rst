@@ -8,7 +8,7 @@ JDBC Package and Driver Class
 JDBC Package
 ------------
 
-Download the **dws_8.x.x_jdbc_driver.zip** package from the console.
+Download the **dws_8.x.x_jdbc_driver.zip** software package from the console.
 
 For details, see "Downloading the JDBC or ODBC Driver" in the *Data Warehouse Service (DWS) User Guide*.
 

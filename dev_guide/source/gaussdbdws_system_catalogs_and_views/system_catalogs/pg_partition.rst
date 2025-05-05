@@ -10,26 +10,26 @@ PG_PARTITION
 .. table:: **Table 1** PG_PARTITION columns
 
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | Name                  | Type                  | Description                                                                                                                                      |
+   | Column                | Type                  | Description                                                                                                                                      |
    +=======================+=======================+==================================================================================================================================================+
-   | relname               | name                  | Names of the partitioned tables, table partitions, TOAST tables on table partitions, and index partitions                                        |
+   | relname               | Name                  | Names of the partitioned tables, table partitions, TOAST tables on table partitions, and index partitions                                        |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | parttype              | "char"                | Object type                                                                                                                                      |
+   | parttype              | Char                  | Object type                                                                                                                                      |
    |                       |                       |                                                                                                                                                  |
    |                       |                       | -  **r** indicates a partitioned table.                                                                                                          |
    |                       |                       | -  **p** indicates a table partition.                                                                                                            |
    |                       |                       | -  **x** indicates an index partition.                                                                                                           |
    |                       |                       | -  **t** indicates a TOAST table.                                                                                                                |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | parentid              | oid                   | OID of the partitioned table in **PG_CLASS** when the object is a partitioned table or table partition                                           |
+   | parentid              | OID                   | OID of the partitioned table in **PG_CLASS** when the object is a partitioned table or table partition                                           |
    |                       |                       |                                                                                                                                                  |
    |                       |                       | OID of the partitioned index when the object is an index partition                                                                               |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | rangenum              | integer               | Reserved field.                                                                                                                                  |
+   | rangenum              | Integer               | Reserved field.                                                                                                                                  |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | intervalnum           | integer               | Reserved field.                                                                                                                                  |
+   | intervalnum           | Integer               | Reserved field.                                                                                                                                  |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | partstrategy          | "char"                | Partition policy of the partitioned table. The following policies are supported:                                                                 |
+   | partstrategy          | Char                  | Partition policy of the partitioned table. Only the following policies are supported:                                                            |
    |                       |                       |                                                                                                                                                  |
    |                       |                       | **r** indicates the range partition.                                                                                                             |
    |                       |                       |                                                                                                                                                  |
@@ -37,51 +37,51 @@ PG_PARTITION
    |                       |                       |                                                                                                                                                  |
    |                       |                       | **l**: indicates the list partition.                                                                                                             |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | relfilenode           | oid                   | Physical storage locations of the table partition, index partition, and TOAST table on the table partition.                                      |
+   | relfilenode           | OID                   | Physical storage locations of the table partition, index partition, and TOAST table on the table partition.                                      |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | reltablespace         | oid                   | OID of the tablespace containing the table partition, index partition, TOAST table on the table partition                                        |
+   | reltablespace         | OID                   | OID of the tablespace containing the table partition, index partition, TOAST table on the table partition                                        |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | relpages              | double precision      | Statistics: numbers of data pages of the table partition and index partition                                                                     |
+   | relpages              | Double precision      | Statistics: numbers of data pages of the table partition and index partition                                                                     |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | reltuples             | double precision      | Statistics: numbers of tuples of the table partition and index partition                                                                         |
+   | reltuples             | Double precision      | Statistics: numbers of tuples of the table partition and index partition                                                                         |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | relallvisible         | integer               | Statistics: number of visible data pages of the table partition and index partition                                                              |
+   | relallvisible         | Integer               | Statistics: number of visible data pages of the table partition and index partition                                                              |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | reltoastrelid         | oid                   | OID of the TOAST table corresponding to the table partition                                                                                      |
+   | reltoastrelid         | OID                   | OID of the TOAST table corresponding to the table partition                                                                                      |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | reltoastidxid         | oid                   | OID of the TOAST table index corresponding to the table partition                                                                                |
+   | reltoastidxid         | OID                   | OID of the TOAST table index corresponding to the table partition                                                                                |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | indextblid            | oid                   | OID of the table partition corresponding to the index partition                                                                                  |
+   | indextblid            | OID                   | OID of the table partition corresponding to the index partition                                                                                  |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
    | indisusable           | boolean               | Whether the index partition is available                                                                                                         |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | reldeltarelid         | oid                   | OID of a Delta table                                                                                                                             |
+   | reldeltarelid         | OID                   | OID of a Delta table                                                                                                                             |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | reldeltaidx           | oid                   | OID of the index for a Delta table                                                                                                               |
+   | reldeltaidx           | OID                   | OID of the index for a Delta table                                                                                                               |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | relcudescrelid        | oid                   | OID of a CU description table                                                                                                                    |
+   | relcudescrelid        | OID                   | OID of a CU description table                                                                                                                    |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | relcudescidx          | oid                   | OID of the index for a CU description table                                                                                                      |
+   | relcudescidx          | OID                   | OID of the index for a CU description table                                                                                                      |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
    | relfrozenxid          | xid32                 | Frozen transaction ID                                                                                                                            |
    |                       |                       |                                                                                                                                                  |
    |                       |                       | To ensure forward compatibility, this column is reserved. The **relfrozenxid64** column is added to record the information.                      |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | intspnum              | integer               | Number of tablespaces that the interval partition belongs to                                                                                     |
+   | intspnum              | Integer               | Number of tablespaces that the interval partition belongs to                                                                                     |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
    | partkey               | int2vector            | Column number of the partition key                                                                                                               |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
    | intervaltablespace    | oidvector             | Tablespace that the interval partition belongs to. Interval partitions fall in the tablespaces in the round-robin manner.                        |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | interval              | text[]                | Interval value of the interval partition                                                                                                         |
+   | interval              | Text[]                | Interval value of the interval partition                                                                                                         |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | boundaries            | text[]                | Upper boundary of the range partition and interval partition                                                                                     |
+   | boundaries            | Text[]                | Upper boundary of the range partition and interval partition                                                                                     |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | transit               | text[]                | Transit of the interval partition                                                                                                                |
+   | transit               | Text[]                | Transit of the interval partition                                                                                                                |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | reloptions            | text[]                | Storage property of a partition used for collecting online scale-out information. Same as **pg_class.reloptions**, it is a keyword=value string. |
+   | reloptions            | Text[]                | Storage property of a partition used for collecting online scale-out information. Same as **pg_class.reloptions**, it is a keyword=value string. |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
-   | relfrozenxid64        | xid                   | Frozen transaction ID                                                                                                                            |
+   | relfrozenxid64        | Xid                   | Frozen transaction ID                                                                                                                            |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
    | boundexprs            | pg_node_tree          | Partition boundary expression.                                                                                                                   |
    |                       |                       |                                                                                                                                                  |
@@ -98,6 +98,8 @@ PG_PARTITION
    |                       |                       |    ---------------------------------------------------------------                                                                               |
    |                       |                       |    ROW(202201, 'city1'::text), ROW(202201, 'city2'::text)                                                                                        |
    |                       |                       |    (1 row)                                                                                                                                       |
+   +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
+   | relmetaversion        | Xid                   | Metadata version information. This column is supported only by clusters of version 9.1.0 or later.                                               |
    +-----------------------+-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
 
 Example
@@ -123,7 +125,7 @@ Query the partition information of the partitioned table **web_returns_p2**.
    );
 
    SELECT oid FROM pg_class WHERE relname ='web_returns_p2';
-     oid
+   OID
    -------
     97628
 

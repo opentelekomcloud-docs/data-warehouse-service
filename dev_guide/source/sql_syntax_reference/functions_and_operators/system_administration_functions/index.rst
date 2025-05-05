@@ -12,6 +12,7 @@ System Administration Functions
 -  :ref:`Advisory Lock Functions <dws_06_0059>`
 -  :ref:`Replication Functions <dws_06_0061>`
 -  :ref:`Resource Management Functions <dws_06_0063>`
+-  :ref:`Memory Management Functions <dws_06_0379>`
 -  :ref:`Other Functions <dws_06_0062>`
 
 .. toctree::
@@ -25,4 +26,5 @@ System Administration Functions
    advisory_lock_functions
    replication_functions
    resource_management_functions
+   memory_management_functions
    other_functions

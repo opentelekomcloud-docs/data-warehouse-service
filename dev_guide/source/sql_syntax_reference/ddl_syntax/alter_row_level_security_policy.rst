@@ -8,7 +8,7 @@ ALTER ROW LEVEL SECURITY POLICY
 Function
 --------
 
-Modifies an existing row-level access control policy, including the policy name and the users and expressions affected by the policy.
+**ALTER ROW LEVEL SECURITY POLICY** modifies an existing row-level access control policy, including the policy name and the users and expressions affected by the policy.
 
 Precautions
 -----------

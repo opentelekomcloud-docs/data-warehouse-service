@@ -8,12 +8,12 @@ DROP SUBSCRIPTION
 Function
 --------
 
-Deletes a subscription.
+**DROP SUBSCRIPTION** deletes a subscription.
 
 Precautions
 -----------
 
--  This statement is supported by clusters of version 8.2.0.100 or later.
+-  This statement is supported by version 8.2.0.100 or later clusters.
 -  A subscription can be deleted by the system administrator only.
 
 Syntax

@@ -8,7 +8,7 @@ ALTER SCHEMA
 Function
 --------
 
-Changes the attributes of a schema.
+**ALTER SCHEMA** changes the attributes of a schema.
 
 Precautions
 -----------
