@@ -17,16 +17,16 @@ Service Data Security
 
 GaussDB(DWS) is built on public cloud software infrastructure, including ECS and OBS.
 
-Service data of GaussDB(DWS) users is stored in the ECSs in the cluster. Neither users nor public cloud O&M administrators can log in to the ECSs.
+Service data of GaussDB(DWS) users is stored in the ECSs in the cluster. Neither users nor public cloud O&M administrators can log in to these ECSs.
 
-The operating system of ECSs is hardened, including kernel hardening, installation of the latest patches, permission control, port management, and protocol and port anti-attack.
+ECSs have their operating systems hardened through various measures such as kernel hardening, patch updates, access controls, port management, and protocol and port attack defense.
 
 GaussDB(DWS) provides comprehensive security measures, such as password policies, authentication, session management, user permissions management, and database auditing.
 
 Snapshot Data Security
 ----------------------
 
-GaussDB(DWS) backups are snapshots stored in OBS. OBS supports access permission control, key access, and data encryption features. GaussDB(DWS) snapshots can be used for data backup and restoration only and cannot be accessed by any user. The GaussDB (DWS) system administrator can view the OBS storage space occupied by snapshots on the GaussDB(DWS) console and through and public cloud bills.
+GaussDB(DWS) stores its backup data in OBS as snapshots. OBS supports access permission control, key access, and data encryption features. GaussDB(DWS) snapshots can be used for data backup and restoration only and cannot be accessed by any user. The GaussDB (DWS) system administrator can view the OBS storage space occupied by snapshots on the GaussDB(DWS) console and through and public cloud bills.
 
 Network Access Security
 -----------------------

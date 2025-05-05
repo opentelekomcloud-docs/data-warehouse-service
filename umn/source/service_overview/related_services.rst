@@ -5,13 +5,6 @@
 Related Services
 ================
 
-IAM
----
-
-GaussDB(DWS) uses Identity and Access Management (IAM) for authentication and authorization.
-
-Users who have the **DWS Administrator** permissions can fully utilize GaussDB(DWS). To obtain the permissions, contact a user with the **Security Administrator** permissions or directly create a user with the **DWS Administrator** permissions. Users granted the **DWS Database Access** permissions can generate temporary database user credentials based on IAM users to connect to databases in the data warehouse clusters.
-
 ECS
 ---
 
@@ -31,11 +24,6 @@ MRS
 ---
 
 Data can be migrated from MRS to GaussDB(DWS) clusters for analysis after the data is processed by Hadoop.
-
-DRS
----
-
-You can use Data Replication Service (DRS) to synchronize stream data to GaussDB(DWS) in real time.
 
 Cloud Eye
 ---------

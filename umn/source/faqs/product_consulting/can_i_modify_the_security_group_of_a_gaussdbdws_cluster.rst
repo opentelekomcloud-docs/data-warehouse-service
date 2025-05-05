@@ -5,7 +5,7 @@
 Can I Modify the Security Group of a GaussDB(DWS) Cluster?
 ==========================================================
 
-After a GaussDB(DWS) cluster is created, you can add, delete, or modify security group rules in the current security group.
+After a GaussDB(DWS) cluster is created, you can add, delete, or modify rules in its current security group.
 
 **Modify an existing security group rule:**
 

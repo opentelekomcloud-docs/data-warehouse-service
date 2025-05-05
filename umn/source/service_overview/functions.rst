@@ -5,14 +5,14 @@
 Functions
 =========
 
-GaussDB(DWS) enables you to use this service through various methods, such as the GaussDB(DWS) management console, GaussDB(DWS) client, and REST APIs. This section describes the main functions of GaussDB(DWS).
+GaussDB(DWS) provides various methods to access the service, such as the console, client, and REST APIs. This section describes the main functions of GaussDB(DWS).
 
 Enterprise-Level Data Warehouses and Compatibility with Standard SQL
 --------------------------------------------------------------------
 
 After a data warehouse cluster is created, you can use the SQL client to connect to the cluster and perform operations such as creating a database, managing the database, importing and exporting data, and querying data.
 
-GaussDB(DWS) provides petabyte-level (PB-level) high-performance databases with the following features:
+GaussDB(DWS) provides high-performance databases that can handle petabytes of data, with the following features:
 
 -  MPP computing framework, hybrid row-column storage, and vectorized execution, enabling response to billion-level data correlation analysis within seconds
 -  Optimized in-memory computing based on Hash Join of Bloom Filter, improving the performance by 2 to 10 times
@@ -30,8 +30,8 @@ GaussDB(DWS) has comprehensive SQL capabilities:
 -  Read-only HDFS and OBS foreign tables in JSON file format are supported.
 -  Permissions on system catalogs can be granted to common users. The **VACUUM** permission can be granted separately. Roles with predefined, extensible permissions are supported, including:
 
-   -  **ALTER**, **DROP** and **VACUUM** permissions at table level
-   -  **ALTER** and **DROP** permissions at schema level
+   -  **ALTER**, **DROP**, and **VACUUM** permissions at the table level.
+   -  **ALTER** and **DROP** permissions at the schema level.
    -  Preset roles **role_signal_backend** and **role_read_all_stats**
 
 For details about the SQL syntax and database operation guidance, see the *Data Warehouse Service Database Development Guide*.
@@ -39,7 +39,7 @@ For details about the SQL syntax and database operation guidance, see the *Data 
 Cluster Management
 ------------------
 
-A data warehouse cluster contains nodes with the same flavor in the same subnet. These nodes jointly provide services. GaussDB(DWS) provides a professional, efficient, and centralized management console, allowing you to quickly apply for clusters, easily manage data warehouses, and focus on data and services.
+A GaussDB(DWS) cluster contains nodes of the same flavor in the same subnet. These nodes jointly provide services. GaussDB(DWS) offers a professional, efficient, and centralized management console that enables you to quickly request clusters, manage data warehouses with ease, and concentrate on data and services.
 
 Main functions of cluster management are described as follows:
 
@@ -57,15 +57,15 @@ Main functions of cluster management are described as follows:
 
 -  Managing nodes
 
-   You can check the nodes in a cluster, including the status, specifications, and usage of each node. To prepare for a large scale-out, you can add nodes in batches. To add 180 nodes, add them in three batches of 60 nodes each. If any nodes fail to be added, retry adding them. Once all 180 nodes are added, use them for scaling out. Adding nodes will not disrupt cluster services.
+   You can check the nodes in a cluster, including the status, specifications, and usage of each node. To prepare for a large scale-out, you can add nodes in batches. To add 180 nodes, add them in three batches of 60 nodes each. If any nodes fail to be added, retry adding them. Once all 180 nodes are added, use them for scaling out. Adding nodes will not interrupt cluster services.
 
 -  Scaling out clusters
 
-   As the service volume increases, the current scale of a cluster may not meet service requirements. In this case, you can scale out the cluster by adding compute nodes to it. Services are not interrupted during the scale-out. You can enable online scale-out and automatic redistribution if necessary.
+   As the service volume increases, the current scale of a cluster may not meet service requirements. In this case, you can scale out the cluster by adding compute nodes to it. Services are not interrupted during the scale-out. You can enable automatic redistribution if necessary.
 
 -  Managing redistribution
 
-   By default, redistribution is automatically started after cluster scale-out. For enhanced reliability, disable the automatic redistribution function and manually start a redistribution task after the scale-out is successful. Data redistribution can accelerate service response. Currently, offline redistribution, online redistribution, and offline scheduling are supported. The default mode is offline redistribution.
+   By default, redistribution is automatically started after cluster scale-out. For enhanced reliability, disable the automatic redistribution function and manually start a redistribution task after the scale-out is successful. Data redistribution can accelerate service response. Currently, GaussDB(DWS) supports offline redistribution (default mode).
 
 -  Resource management
 
@@ -100,7 +100,7 @@ GaussDB(DWS) allows you to manage clusters in either of the following ways:
 Diverse Data Import Modes
 -------------------------
 
-GaussDB(DWS) supports efficient data import from multiple data sources. The following lists typical data import modes. For details, see "Data Migration to GaussDB(DWS)" in *Data Warehouse Service (DWS) Developer Guide*.
+GaussDB(DWS) supports efficient data import from multiple data sources. The following lists typical data import modes. For details, see "Data Migration to GaussDB(DWS)" in the *Data Warehouse Service (DWS) Developer Guide*.
 
 -  Importing data from OBS in parallel
 -  Using GDS to import data from a remote server
@@ -141,43 +141,43 @@ Monitoring and Auditing
 
 -  Monitoring Clusters
 
-   GaussDB(DWS) integrates with Cloud Eye, allowing you to monitor compute nodes and databases in the cluster in real time. For details, see "Cluster Monitoring" in *Data Warehouse Service (DWS) User Guide*.
+   GaussDB(DWS) integrates with Cloud Eye, allowing you to monitor compute nodes and databases in the cluster in real time. For details, see "Monitoring Clusters Using Cloud Eye" in *Data Warehouse Service (DWS) User Guide*.
 
 -  Database Monitoring
 
-   DMS is provided by GaussDB(DWS) to ensure the fast and stable running of databases. It collects, monitors, and analyzes the disk, network, and OS metric data used by the service database, as well as key performance metric data of cluster running. It also diagnoses database hosts, instances, and service SQL statements based on the collected metrics to expose key faults and performance problems in a database in a timely manner, and guides customers to optimize and resolve the problems. For details, see "Database Monitoring" in *Data Warehouse Service (DWS) User Guide*.
+   DMS is provided by GaussDB(DWS) to ensure the fast and stable running of databases. It collects, monitors, and analyzes the disk, network, and OS metric data used by the service database, as well as key performance metric data of cluster running. It also diagnoses database hosts, instances, and service SQL statements based on the collected metrics to expose key faults and performance problems in a database in a timely manner, and guides customers to optimize and resolve the problems. For details, see "Database Monitoring (DMS) "in the *Data Warehouse Service (DWS) User Guide*.
 
 -  Alarms
 
-   Alarm management includes viewing and configuring alarm rules and subscribing to alarm information. Alarm rules display alarm statistics and details of the past week for users to view tenant alarms. In addition to providing a set of default GaussDB(DWS) alarm rules, this feature allows you to modify alarm thresholds based on your own services. For details, see "Alarms" in *Data Warehouse Service (DWS) User Guide*.
+   You can check and configure alarm rules and subscribe to alarm notifications. Alarm rules display alarm statistics and details of the past week for users to view tenant alarms. This feature monitors common GaussDB(DWS) alarms with pre-set rules and allows users to customize the alarm thresholds based on their service needs. For details, see "Alarms" in the *Data Warehouse Service (DWS) User Guide*.
 
 -  Audit Logs
 
-   -  GaussDB(DWS) integrates with Cloud Trace Service (CTS), allowing you to audit operations performed on the management console and API invocation operations. For details, see "Viewing Audit Logs of Key Operations on the Management Console".
-   -  GaussDB(DWS) records all SQL operations, including connection attempts, query attempts, and database changes. For details, see "Configuring the Database Audit Logs" in *Data Warehouse Service (DWS) User Guide*.
+   -  GaussDB(DWS) can be integrated with Cloud Trace Service (CTS) to audit management console operations and API calls. For details, see "Viewing Audit Logs of Key Operations on the Management Console".
+   -  GaussDB(DWS) records all SQL operations, including connection attempts, query attempts, and database changes. For details, see "Viewing Database Audit Logs" in the *Data Warehouse Service (DWS) User Guide*.
 
 Multiple Database Tools
 -----------------------
 
-GaussDB(DWS) provides the following self-developed tools. You can download the tool packages on the GaussDB(DWS) management console. For how to use the tools, see the *Data Warehouse Service (DWS) Tool Guide*.
+GaussDB(DWS) provides the following self-developed tools. You can download the tool packages on the GaussDB(DWS) console. For how to use the tools, see the *Data Warehouse Service (DWS) Tool Guide*.
 
 -  gsql
 
-   gsql is a command line SQL client tool running on the Linux operating system. It helps connect to, operate, and maintain the database in a data warehouse cluster.
+   gsql is a CLI SQL client tool running on the Linux OS. It helps connect to, operate, and maintain the database in a GaussDB(DWS) cluster.
 
 -  Data Studio
 
-   Data Studio is a Graphical User Interface (GUI) SQL client tool running on the Windows operating system. It is used to connect to the database in a data warehouse cluster, manage the database and database objects, edit, run, and debug SQL scripts, and view the execution plans.
+   Data Studio is a SQL client tool with a Graphical User Interface (GUI) that runs on Windows. It is utilized to connect to databases in a GaussDB(DWS) cluster, manage database objects, edit, run, and debug SQL scripts, and view execution plans.
 
 -  GDS
 
-   GDS is a data service tool provided by GaussDB(DWS). It works with the foreign table mechanism to implement high-speed data import and export.
+   GDS is a data service tool offered by GaussDB(DWS) that utilizes the foreign table mechanism to achieve fast data import and export.
 
    The GDS tool package needs to be installed on the server where the data source file is located. This server is called the data server or the GDS server.
 
 -  DSC SQL syntax migration tool
 
-   The DSC is a command-line tool running on the Linux or Windows OS. It is dedicated to providing customers with simple, fast, reliable application SQL script migration services. It parses SQL scripts of source database applications by using the built-in syntax migration logic, and migrates them to be applicable to GaussDB(DWS) databases.
+   The DSC is a CLI tool running on the Linux or Windows OS. It is dedicated to providing customers with simple, fast, and reliable application SQL script migration services. It parses the SQL scripts of source database applications using the built-in syntax migration logic, and converts them to SQL scripts applicable to GaussDB(DWS) databases.
 
    The DSC can migrate SQL scripts of Teradata, Oracle, Netezza, MySQL, and DB2 databases.
 

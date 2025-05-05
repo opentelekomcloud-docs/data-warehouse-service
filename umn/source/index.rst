@@ -7,21 +7,14 @@ Data Warehouse Service - User Guide
 
    service_overview/index
    getting_started/index
-   process_for_using_gaussdbdws
-   preparations
-   creating_or_deleting_a_cluster/index
-   cluster_connection/index
-   monitoring_and_alarms/index
-   specifications_change_and_scaling/index
-   backup_and_disaster_recovery/index
-   intelligent_o_and_m/index
-   cluster_management/index
-   cluster_log_management
-   database_user_management/index
-   audit_logs/index
-   cluster_security_management/index
-   resource_management/index
-   data_source_management/index
-   managing_logical_clusters/index
+   using_gaussdbdws
+   preparations/index
+   creating_a_gaussdbdws_cluster/index
+   connecting_to_a_gaussdbdws_cluster/index
+   creating_a_gaussdbdws_database_and_user
+   migrating_service_data_to_a_gaussdbdws_cluster/index
+   gaussdbdws_cluster_data_security_and_encryption/index
+   gaussdbdws_cluster_management/index
+   gaussdbdws_cluster_o_and_m/index
    faqs/index
    change_history

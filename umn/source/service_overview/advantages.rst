@@ -5,15 +5,15 @@
 Advantages
 ==========
 
-GaussDB(DWS) uses the GaussDB database kernel and is compatible with PostgreSQL 9.2.4. It transforms from a single OLTP database to an enterprise-level distributed OLAP database oriented to massive data analysis based on the massively parallel processing (MPP) architecture.
+GaussDB(DWS) supports ANSI/ISO SQL-92, SQL-99, and SQL-2003 syntax, as well as the PostgreSQL, Oracle, Teradata, and MySQL database ecosystems. It offers powerful solutions for analyzing massive amounts of data in different industries, even at the petabyte scale.
 
-Unlike conventional data warehouses, GaussDB(DWS) excels in massive data processing and general platform management with the following benefits:
+Unlike conventional data warehouses, GaussDB(DWS) excels in mass data processing and general platform management with the following features:
 
 **Ease of use**
 
 -  Visualized one-stop management
 
-   GaussDB(DWS) allows you to easily complete the entire process from project concept to production deployment. With the GaussDB(DWS) management console, you can obtain a high-performance and highly available enterprise-level data warehouse cluster within several minutes. Data warehouse software or data warehouse servers are not required.
+   GaussDB(DWS) simplifies the entire process from project conception to production deployment. The GaussDB(DWS) console allows you to quickly set up a high-performance and highly available enterprise-level data warehouse cluster in just a few minutes, without requiring any data warehouse software or servers.
 
    With just a few clicks, you can easily connect applications to the data warehouse, back up data, restore data, and monitor data warehouse resources and performance.
 
@@ -41,18 +41,28 @@ Unlike conventional data warehouses, GaussDB(DWS) excels in massive data process
 
    GDS is a tool that helps you with high-speed massively parallel data loading.
 
+-  Data Compression in Column Storage
+
+   To compress old and inactive data to save space and reduce procurement and O&M costs.
+
+   In GaussDB(DWS), data can be compressed using the Delta Value Encoding, Dictionary, RLE, LZ4, and ZLIB algorithms. The system automatically selects a compression algorithm based on data characteristics. The average compression ratio is 7:1. Compressed data can be directly accessed and is transparent to services, greatly reducing the preparation time before accessing historical data.
+
 **High scalability**
 
 -  On-demand scale-out: With the shared-nothing open architecture, nodes can be added at any time to enhance the data storage, query, and analysis capabilities of the system.
 -  Enhanced linear performance after scale-out: The capacity and performance increase linearly with the cluster scale. The linear rate is 0.8.
--  Service continuity: During scale-out, data can be added, deleted, modified, and queried, and DDL operations (**DROP**/**TRUNCATE**/**ALTER TABLE**) can be performed. Online table-level scale-out ensures service continuity.
+-  Service continuity: During scale-out, data can be added, deleted, modified, and queried, and DDL operations (**DROP**/**TRUNCATE**/**ALTER TABLE**) can be performed. Table-level scale-out ensures service continuity.
 -  Online upgrade: Upgrading major versions online from 8.1.1 and performing online patch upgrades from 8.1.3 and later versions is now possible without interrupting your services. Any interruptions will only last a few seconds.
 
 **Robust reliability**
 
--  ACID
+-  Transaction management
 
-   Support for the atomicity, consistency, isolation, and durability (ACID) feature, which ensures strong data consistency for distributed transactions.
+   -  Transaction blocks are supported. You can run **start transaction** to explicitly start a transaction block.
+   -  Single-statement transactions are supported. If you do not explicitly start a transaction, a single statement is processed as a transaction.
+   -  Distributed transaction management and global transaction information management are supported. This includes gxid, snapshot, timestamp management, distributed transaction status management, and gxid overflow processing.
+   -  The atomicity, consistency, isolation, and durability (ACID) feature is supported, which ensures strong data consistency for distributed transactions.
+   -  Deadlocks are prevented in the distributed system. A transaction will be unlocked immediately after a deadlock (if any).
 
 -  Comprehensive HA design
 
