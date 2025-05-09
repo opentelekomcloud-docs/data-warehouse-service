@@ -39,7 +39,9 @@ otcdocs_doc_type = ''
 otcdocs_service_category = 'big_data'
 otcdocs_service_title = 'Data Warehouse Service'
 otcdocs_service_type = 'dws'
+otcdocs_cloud_environment = 'eu_de'
 otcdocs_search_environment = 'hc_de'
+otcdocs_search_index = 'search_index_de'
 otcdocs_search_url = "https://opensearch.eco.tsi-dev.otc-service.com/"
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -90,6 +92,7 @@ html_theme = 'otcdocs'
 # further. For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
+    "logo_url": "https://docs.otc.t-systems.com",
 }
 
 # The name for this set of Sphinx documents.  If None, it defaults to
