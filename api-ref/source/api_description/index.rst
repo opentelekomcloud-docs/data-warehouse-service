@@ -5,14 +5,14 @@
 API Description
 ===============
 
--  :ref:`Managing Clusters <dws_02_0017>`
+-  :ref:`Cluster Management <dws_02_0017>`
 -  :ref:`Snapshot Management APIs <dws_02_0023>`
--  :ref:`Tag Management APIs <dws_02_0045>`
+-  :ref:`Tag Management <dws_02_0045>`
 
 .. toctree::
    :maxdepth: 1
    :hidden: 
 
-   managing_clusters/index
+   cluster_management/index
    snapshot_management_apis/index
-   tag_management_apis/index
+   tag_management/index
