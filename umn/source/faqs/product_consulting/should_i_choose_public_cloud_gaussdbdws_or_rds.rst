@@ -5,7 +5,7 @@
 Should I Choose Public Cloud GaussDB(DWS) or RDS?
 =================================================
 
-Both allow you to run traditional relational databases on the cloud and offload database management tasks. RDS databases are useful for OLTP, reporting, and analysis, but are less capable of handling read operations of a large amount of data (complex read-only queries). GaussDB(DWS) significantly reduces OLAP analysis and reporting workloads on large datasets by up to 10 times through its scalable architecture and optimized algorithms, including **column storage, vectorized executors, and distributed frameworks**.
+Both allow you to run traditional relational databases on the cloud and offload database management tasks. RDS databases are useful for OLTP, reporting, and analysis, but are less capable of handling read operations of a large amount of data (complex read-only queries). GaussDB(DWS) uses multiple nodes and optimization methods like column-based storage, vectorized executors, and distributed frameworks to handle OLAP tasks. This reduces the analysis and reporting workload for large data sets by a significant amount compared to traditional databases.
 
 You can scale out a GaussDB(DWS) cluster to address complex data and queries, or to handle overwhelming analysis and report workloads that affect OLTP performance.
 

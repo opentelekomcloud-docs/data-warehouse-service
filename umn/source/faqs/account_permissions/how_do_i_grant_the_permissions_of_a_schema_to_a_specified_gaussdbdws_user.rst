@@ -11,6 +11,10 @@ This section explains how to give query permission for schema-level permissions.
 -  Permission for all the tables in a schema
 -  Permission for tables to be created in the schema
 
+   .. caution::
+
+      The VACUUM, DROP, and ALTER permissions on foreign tables cannot be granted to users.
+
 Assume that there are users **jim** and **mike**, and two schemas named after them. User **mike** needs to access tables in schema **jim**, as shown in :ref:`Figure 1 <en-us_topic_0000001330808760__fig85201744134414>`.
 
 .. _en-us_topic_0000001330808760__fig85201744134414:

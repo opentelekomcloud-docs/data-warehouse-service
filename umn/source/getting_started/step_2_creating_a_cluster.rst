@@ -89,7 +89,7 @@ Creating a Cluster
       -  **CNs**: Three CNs are deployed by default.
       -  **Tag**: By default, no tag is added to the cluster.
 
-   -  **Custom**: Select this option to configure the following advanced parameters: **Automated Snapshot**, **CNs**, **Tag**
+   -  **Custom**: Select this option to configure advanced parameters **Automated Snapshot**, **Tag**, and **CNs**.
 
 #. Click **Create Now**. The **Confirm** page is displayed.
 

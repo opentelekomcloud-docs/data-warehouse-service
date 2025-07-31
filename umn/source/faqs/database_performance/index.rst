@@ -11,6 +11,7 @@ Database Performance
 -  :ref:`GaussDB(DWS) CPU Resource Isolation <dws_03_2111>`
 -  :ref:`Why Do Regular GaussDB(DWS) Users Run Statements Slower Than User dbadmin? <dws_03_2112>`
 -  :ref:`Which Factors Affect Single-Table Query Performance in GaussDB(DWS)? <dws_03_2114>`
+-  :ref:`How Do I Optimize a SQL Query with Many CASE WHEN Conditions? <dws_03_2116>`
 
 .. toctree::
    :maxdepth: 1
@@ -22,3 +23,4 @@ Database Performance
    gaussdbdws_cpu_resource_isolation
    why_do_regular_gaussdbdws_users_run_statements_slower_than_user_dbadmin
    which_factors_affect_single-table_query_performance_in_gaussdbdws
+   how_do_i_optimize_a_sql_query_with_many_case_when_conditions

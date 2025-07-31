@@ -26,7 +26,7 @@ GaussDB(DWS) provides comprehensive security measures, such as password policies
 Snapshot Data Security
 ----------------------
 
-GaussDB(DWS) stores its backup data in OBS as snapshots. OBS supports access permission control, key access, and data encryption features. GaussDB(DWS) snapshots can be used for data backup and restoration only and cannot be accessed by any user. The GaussDB (DWS) system administrator can view the OBS storage space occupied by snapshots on the GaussDB(DWS) console and through and public cloud bills.
+GaussDB(DWS) stores its backup data in OBS as snapshots. OBS supports access permission control, key access, and data encryption features. GaussDB(DWS) snapshots can be used for data backup and restoration only and cannot be accessed by any user. The GaussDB(DWS) system administrator can view the OBS storage space occupied by snapshots on the GaussDB(DWS) console and through public cloud bills.
 
 Network Access Security
 -----------------------
