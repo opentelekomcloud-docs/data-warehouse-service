@@ -2,8 +2,8 @@
 
 .. _dws_02_0017:
 
-Managing Clusters
-=================
+Cluster Management
+==================
 
 -  :ref:`Creating a Cluster <dws_02_0020>`
 -  :ref:`Querying the Cluster List <dws_02_0018>`
