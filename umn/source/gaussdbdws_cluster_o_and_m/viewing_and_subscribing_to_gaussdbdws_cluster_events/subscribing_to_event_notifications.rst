@@ -40,7 +40,7 @@ Creating a Subscription
       +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+
       | Event Severity                    | Select the alarm severity of the event. Possible values are **Normal** and **Warning**.                                                |
       +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+
-      | Event Source Category             | Select the event source category: cluster, snapshot,.                                                                                  |
+      | Event Source Category             | Select the event source category: cluster or snapshot.                                                                                 |
       +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------+
 
 #. Select a message notification topic from the **Message Notification Topic** drop-down list.

@@ -14,7 +14,7 @@ Preparations Before Connecting to a Cluster
 
 -  You have obtained the administrator username and password for logging in to the database in the GaussDB(DWS) cluster.
 
-   MD5 algorithms may by vulnerable to collision attacks and cannot be used for password verification. Currently, GaussDB(DWS) uses the default security design. By default, MD5 password verification is disabled, and this may cause failures of connections from open source clients. You are advised to contact the technical support to check whether the value of **password_encryption_type** is **1**. If the value is not **1**, change it by referring to :ref:`Modifying GUC Parameters of the GaussDB(DWS) Cluster <dws_01_0152>`. Then change the password of the database user to be used.
+   MD5 algorithms may by vulnerable to collision attacks and cannot be used for password verification. Currently, GaussDB(DWS) uses the default security design. By default, MD5 password verification is disabled, and this may cause failures of connections from open source clients. You are advised to contact the technical support to check whether the value of **password_encryption_type** is **1**. If the value is not **1**, change it. Then change the password of the database user to be used.
 
    .. note::
 

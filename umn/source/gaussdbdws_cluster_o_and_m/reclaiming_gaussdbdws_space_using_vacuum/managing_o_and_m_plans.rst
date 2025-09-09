@@ -5,18 +5,44 @@
 Managing O&M Plans
 ==================
 
+Prerequisites
+-------------
+
+-  Avoid setting the time window for automatic Vacuum O&M tasks during peak hours to prevent conflicts with user services.
+-  For user tables, the maximum concurrency for Vacuum Full O&M tasks is 24, and the minimum is 0. For system tables, the maximum concurrency is 1, and the minimum is 0. The concurrency value adjusts automatically based on **io_util**.
+
+   -  Two intervals for 0% to 60%
+
+      -  0% to 30%: The concurrency value increases by 2 each time the value of **io_util** decreases by 15%.
+      -  30% to 60%: The concurrency value is incremented by 1 each time the value of **io_util** decreases by 15%.
+
+   -  60% to 70%: The concurrency value remains unchanged.
+   -  Above 70%: The concurrency value decreases by 1 until it reaches 0.
+
+-  The scheduler scans the expansion of column-store compression units (CUs) within the time window. If the average number of CU records in a column-store table is less than 1000, the scheduler scans the table first. The scanning of column-store CUs is not limited by table bloat or table reclaimable space.
+-  A maximum of 100 tables can be added to the priority list.
+-  The scheduler autovacuum function depends on the statistics. If the statistics are inaccurate, the execution sequence and results may be affected.
+-  The scheduler does not support names containing spaces or single quotation marks, including database names, schema names, and table names. Otherwise, the tables will be skipped. Tables with spaces or single quotes in the priority list are skipped automatically.
+
 Setting the Common Configurations of O&M Tasks
 ----------------------------------------------
+
+**Precautions**
+
+-  The configuration applies to the VacuumFull O&M task for each user table. Running tasks are unaffected. The new periodic task settings take effect on the next run.
+
+**Procedure**
 
 #. Log in to the GaussDB(DWS) console.
 #. Click the name of the target cluster.
 #. In the navigation pane, choose **Intelligent O&M**.
-#. In the **Common O&M Task Configuration** area, configure **Maximum number of concurrent O&M tasks in the VacuumFull user table**.
+#. In the **Common O&M Task Configurations** area on the upper part of the page, modify the following common configuration items:
 
-   .. note::
+   -  **Maximum number of concurrent O&M tasks in the VacuumFull user table**: applies to VacuumFull O&M tasks for each user table. You are advised to set this parameter based on the available disk space and I/O load within a specific time window. The value range is 1 to 24. Configure it based on the remaining disk space and I/O load. You are advised to set it to 5. Running tasks are not affected. For periodic tasks, the new limit for concurrent tasks applies the next time the O&M task runs.
+   -  Small CU threshold: helps identify small CU tables. A table is classified as small if its CU value is lower than the threshold. When the CU value is at or below the threshold, it triggers Vacuum. A higher threshold value increases the trigger sensitivity. The recommended default value for this parameter is **1000**.
+   -  Small CU ratio: indicates the ratio of small CU tables to all CU tables. When the ratio is at or above the parameter value, Vacuum is triggered. A lower value increases the trigger sensitivity. The recommended default value for this parameter is **50%**.
 
-      -  This configuration takes effect for the VACUUM FULL O&M tasks of all user tables.
-      -  The concurrency value range is 1 to 24. Configure it based on the remaining disk space and I/O load. You are advised to set it to 5.
+#. Confirm the settings and click **Save**.
 
 .. _en-us_topic_0000002203312277__section12256103112263:
 
@@ -80,24 +106,6 @@ Adding an O&M Plan
    -  **One-off**: Set the start time and end time of the task.
    -  **Periodic**: Select a time window type, which includes **Daily**, **Weekly**, and **Monthly**, and select a time segment. Intelligent O&M will automatically analyze the time window and deliver O&M tasks accordingly.
 
-      .. caution::
-
-         -  Do not choose peak hours when configuring the time window for autovacuum O&M tasks. Otherwise, automatic Vacuum may cause a deadlock on user services.
-         -  The number of concurrent O&M tasks (vacuum/vacuum full) ranges from 0 to 24 for user tables, and from 0 to 1 for system catalogs. The concurrency value cannot be customized, but can be automatically adjusted based on system **io_util**.
-
-            -  Two intervals for 0% to 60%
-
-               -  0% to 30%: The concurrency value increases by 2 each time the value of **io_util** decreases by 15%.
-               -  30% to 60%: The concurrency value is incremented by 1 each time the value of **io_util** decreases by 15%.
-
-            -  60% to 70%: The concurrency value remains unchanged.
-            -  Above 70%: The concurrency value decreases by 1 until it reaches 0.
-
-         -  The scheduler scans the expansion of column-store compression units (CUs) within the time window. If the average number of CU records in a column-store table is less than 1000, the scheduler scans the table first. The scanning of column-store CUs is not limited by table bloat or table reclaimable space.
-         -  A maximum of 100 tables can be added to the priority list.
-         -  The scheduler autovacuum function depends on the statistics. If the statistics are inaccurate, the execution sequence and results may be affected.
-         -  The scheduler does not support names containing spaces or single quotation marks, including database names, schema names, and table names. Otherwise, the tables will be skipped. Priority tables whose name contains spaces or single quotation marks will also be skipped automatically.
-
 #. Click **Next: Finish**. After you confirm the information, click **Finish** to submit the request.
 
 Modifying an O&M Plan
@@ -113,7 +121,7 @@ Modifying an O&M Plan
 
    |image1|
 
-#. The **Modify O&M Task** panel is displayed. The configurations are similar to adding an O&M task (see :ref:`Adding an O&M Plan <en-us_topic_0000002203312277__section12256103112263>`).
+#. The **Modify O&M Task** page is displayed. The parameters for modifying an O&M task are identical to those for adding one. For details, see :ref:`Adding an O&M Plan <en-us_topic_0000002203312277__section12256103112263>`. The modification takes effect upon the next running.
 
 #. Confirm the modification and click **OK**.
 

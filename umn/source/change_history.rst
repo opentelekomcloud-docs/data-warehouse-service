@@ -8,6 +8,12 @@ Change History
 +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 | Release Date                      | What's New                                                                                                                                   |
 +===================================+==============================================================================================================================================+
+| 2025-07-01                        | This issue is the twentieth official release for cluster version 9.1.0.211.                                                                  |
+|                                   |                                                                                                                                              |
+|                                   | Modified the following content:                                                                                                              |
+|                                   |                                                                                                                                              |
+|                                   | -  Flavors for storage-compute coupled clusters are available. For details, see :ref:`Data Warehouse Flavors <dws_01_00079>`.                |
++-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 | 2025-04-03                        | This issue is the nineteenth official release for cluster version 9.1.0.211.                                                                 |
 |                                   |                                                                                                                                              |
 |                                   | Added the following functions:                                                                                                               |

@@ -5,7 +5,7 @@
 Configuring an Automated Snapshot Policy
 ========================================
 
-You can choose the type of snapshot you need and configure either one or three automated snapshot policies at the cluster level, as well as one or twenty snapshot policies at the schema level for a cluster.
+You can choose the type of snapshot you need and configure either one or three automated snapshot policies at the cluster level, as well as one or 20 snapshot policies at the schema level for a cluster.
 
 After an automated snapshot policy is enabled, the system automatically creates snapshots based on the time, period, and snapshot type you configured.
 
@@ -49,7 +49,7 @@ Procedure
 
    -  If you choose a cluster-level or schema-level full snapshot, you can either create a one-time snapshot or set up periodic snapshots. For schema-level full snapshots, you need to select the database associated with the schema. You can back up one or up to 20 schemas at a time.
 
-      -  To schedule periodic full snapshots, you can specify a day of the week or a specific date, and choose a specific time for the snapshot to be triggered.
+      -  Set a cluster-level or schema-level full periodic snapshot policy. You can specify a week or date and select a triggering time point.
 
          .. warning::
 

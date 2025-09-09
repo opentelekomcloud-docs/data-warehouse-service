@@ -6,6 +6,7 @@ Service Overview
 ================
 
 -  :ref:`What Is GaussDB(DWS)? <dws_01_0002>`
+-  :ref:`Data Warehouse Flavors <dws_01_00079>`
 -  :ref:`Advantages <dws_01_0007>`
 -  :ref:`Application Scenarios <dws_01_00013>`
 -  :ref:`Functions <dws_01_0091>`
@@ -21,6 +22,7 @@ Service Overview
    :hidden: 
 
    what_is_gaussdbdws
+   data_warehouse_flavors
    advantages
    application_scenarios
    functions

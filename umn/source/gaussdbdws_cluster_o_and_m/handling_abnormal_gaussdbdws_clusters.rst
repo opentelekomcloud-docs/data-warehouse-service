@@ -44,7 +44,7 @@ In the **Unbalanced** state, the number of primary instances on some nodes incre
 
 .. note::
 
-   -  Only and later versions support primary/standby cluster restoration.
+   -  Only 8.1.1.202 and later versions support primary/standby cluster restoration.
    -  Cluster restoration interrupts services for a short period of time. The interruption duration depends on the service volume. You are advised to perform this operation during off-peak hours.
 
 #. Log in to the GaussDB(DWS) console.
