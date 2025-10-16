@@ -10,7 +10,7 @@ You can query historical Top SQL in historical resource monitoring views. The hi
 The following table describes the external interfaces of the historical views.
 
 +------------------------+-----------------+-------------------------------------------------------------------------------------------------------------+------------------------------------------------+
-| Level                  | Monitored Node  | View                                                                                                        |                                                |
+| Level                  | Monitored Node  | View                                                                                                        | _                                              |
 +========================+=================+=============================================================================================================+================================================+
 | Query level/perf level | Current CN      | History (Internal dump interface. Only statements that have ended in the last three minutes are displayed.) | :ref:`GS_WLM_SESSION_HISTORY <dws_04_0705>`    |
 |                        |                 |                                                                                                             |                                                |

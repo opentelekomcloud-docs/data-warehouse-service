@@ -34,7 +34,7 @@ otcdocs_repo_name = 'opentelekomcloud-docs/data-warehouse-service'
 otcdocs_doc_environment = 'public'
 otcdocs_doc_link = '/data-warehouse-service/dev-guide/'
 otcdocs_doc_title = 'Developer Guide'
-otcdocs_doc_type = 'dev'
+otcdocs_doc_type = 'dev-guide'
 otcdocs_service_category = 'big_data'
 otcdocs_service_title = 'Data Warehouse Service'
 otcdocs_service_type = 'dws'
@@ -113,7 +113,8 @@ html_copy_source = False
 # -- Options for PDF output --------------------------------------------------
 latex_documents = [
     ('index',
-     'dws-dev-guide.tex',u'Data Warehouse Service - Developer Guide',
+     'dws-dev-guide.tex',
+    u'Data Warehouse Service - Developer Guide',
      u'OpenTelekomCloud', 'manual'),
 ]
 

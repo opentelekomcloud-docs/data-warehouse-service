@@ -27,7 +27,7 @@ Precautions
 .. table:: **Table 1** Read and write formats supported by OBS foreign tables
 
    ========== ========= ==========
-   Data Type  DIST_FDW
+   Data Type  DIST_FDW  _
    ========== ========= ==========
    ``-``      READ ONLY WRITE ONLY
    ORC        x         x

@@ -206,7 +206,7 @@ FAQs
    **Answer**: Following are the operations that do not run in background while the object is locked in another operation:
 
    ============================ =====================
-   Operations
+   Operations                   _
    ============================ =====================
    Renaming a table             Creating a constraint
    Setting schema on table      Creating an index
