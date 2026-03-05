@@ -10,6 +10,6 @@ Data Warehouse Service - API Reference
    calling_apis/index
    getting_started
    api_description/index
-   permissions_policies_and_supported_actions
+   permissions_and_supported_actions
    appendix/index
    change_history

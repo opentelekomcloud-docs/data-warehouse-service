@@ -5,50 +5,54 @@
 Response
 ========
 
+After sending a request, you will receive a response containing the status code, response header, and response body.
+
 Status Code
 -----------
 
-After sending a request, you will receive a response, including a status code, response header, and response body.
-
 A status code is a group of digits, ranging from 1xx to 5xx. It indicates the status of a request. For more information, see :ref:`Status Code <dws_02_0038>`.
-
-For example, if status code **201** is returned for calling the API used to obtain a user token, the request is successful.
 
 Response Header
 ---------------
 
 Similar to a request, a response also has a header, for example, **content-type**.
 
-:ref:`Figure 1 <en-us_topic_0000001185833138__f84b86cb0c7364361a19a908603852b51>` shows the response header fields for the API used to obtain a user token. The **x-subject-token** header field is the desired user token. You can use this token to authenticate the calling of other APIs.
 
-.. _en-us_topic_0000001185833138__f84b86cb0c7364361a19a908603852b51:
+.. figure:: /_static/images/en-us_image_0000002531894007.png
+   :alt: **Figure 1** Response headers
 
-.. figure:: /_static/images/en-us_image_0000001185833158.png
-   :alt: **Figure 1** Header fields of the response to the request for obtaining a user token
-
-   **Figure 1** Header fields of the response to the request for obtaining a user token
+   **Figure 1** Response headers
 
 Response Body
 -------------
 
 The body of a response is often returned in structured format (for example, JSON or XML) as specified in the **Content-type** header field. The response body transfers content except the response header.
 
-The following is part of the response body for the API used to obtain a user token.
-
 .. code-block::
 
    {
-       "token": {
-           "expires_at": "2019-02-13T06:52:13.855000Z",
-           "methods": [
-               "password"
-           ],
-           "catalog": [
-               {
-                   "endpoints": [
-                       {
-                           "region_id": "eu-de",
-   ......
+       "user": {
+           "id": "c131886aec...",
+           "name": "IAMUser",
+           "description": "IAM User Description",
+           "areacode": "",
+           "phone": "",
+           "email": "***@***.com",
+           "status": null,
+           "enabled": true,
+           "pwd_status": false,
+           "access_mode": "default",
+           "is_domain_owner": false,
+           "xuser_id": "",
+           "xuser_type": "",
+           "password_expires_at": null,
+           "create_time": "2024-05-21T09:03:41.000000",
+           "domain_id": "d78cbac1..........",
+           "xdomain_id": "30086000........",
+           "xdomain_type": "",
+           "default_project_id": null
+       }
+   }
 
 If an error occurs during API calling, an error code and a message will be displayed. The following shows an error response body.
 

@@ -1,6 +1,6 @@
-:original_name: dws_02_0054.html
+:original_name: ResetPassword.html
 
-.. _dws_02_0054:
+.. _ResetPassword:
 
 Resetting a Password
 ====================
@@ -79,6 +79,6 @@ Status Code Description
 401         Authentication failed.
 403         You do not have required permissions.
 404         No resources found.
-500         Internal service error.
+500         Internal server error.
 503         Service unavailable.
 =========== =====================================

@@ -1,6 +1,6 @@
-:original_name: dws_02_0018.html
+:original_name: ListClusters.html
 
-.. _dws_02_0018:
+.. _ListClusters:
 
 Querying the Cluster List
 =========================
@@ -8,22 +8,65 @@ Querying the Cluster List
 Function
 --------
 
-This API is used to query and display the cluster list.
+This API is used to query the cluster list.
+
+Calling Method
+--------------
+
+For details, see :ref:`Calling APIs <dws_02_0062>`.
 
 URI
 ---
 
-.. code-block:: text
+GET /v1.0/{project_id}/clusters
 
-   GET /v1.0/{project_id}/clusters
+.. table:: **Table 1** Path Parameters
 
-.. table:: **Table 1** URI parameters
+   +-----------------+-----------------+-----------------+-----------------------------------------------------------------------------------+
+   | Parameter       | Mandatory       | Type            | Description                                                                       |
+   +=================+=================+=================+===================================================================================+
+   | project_id      | Yes             | String          | **Definition**                                                                    |
+   |                 |                 |                 |                                                                                   |
+   |                 |                 |                 | Project ID. To obtain the value, see :ref:`Obtaining a Project ID <dws_02_0011>`. |
+   |                 |                 |                 |                                                                                   |
+   |                 |                 |                 | **Constraints**                                                                   |
+   |                 |                 |                 |                                                                                   |
+   |                 |                 |                 | N/A                                                                               |
+   |                 |                 |                 |                                                                                   |
+   |                 |                 |                 | **Range**                                                                         |
+   |                 |                 |                 |                                                                                   |
+   |                 |                 |                 | N/A                                                                               |
+   |                 |                 |                 |                                                                                   |
+   |                 |                 |                 | **Default Value**                                                                 |
+   |                 |                 |                 |                                                                                   |
+   |                 |                 |                 | N/A                                                                               |
+   +-----------------+-----------------+-----------------+-----------------------------------------------------------------------------------+
 
-   +------------+-----------+--------+--------------------------------------------------------------------------------------------------------------+
-   | Parameter  | Mandatory | Type   | Description                                                                                                  |
-   +============+===========+========+==============================================================================================================+
-   | project_id | Yes       | String | Project ID. For details about how to obtain the project ID, see :ref:`Obtaining a Project ID <dws_02_0011>`. |
-   +------------+-----------+--------+--------------------------------------------------------------------------------------------------------------+
+.. table:: **Table 2** Query Parameters
+
+   +-----------------------+-----------------+-----------------+--------------------------------------------------------------------------------------------------------------------+
+   | Parameter             | Mandatory       | Type            | Description                                                                                                        |
+   +=======================+=================+=================+====================================================================================================================+
+   | enterprise_project_id | No              | String          | **Definition**                                                                                                     |
+   |                       |                 |                 |                                                                                                                    |
+   |                       |                 |                 | Enterprise project ID. If all clusters bound to enterprise projects are queried, the value is **all_granted_eps**. |
+   |                       |                 |                 |                                                                                                                    |
+   |                       |                 |                 | **Constraints**                                                                                                    |
+   |                       |                 |                 |                                                                                                                    |
+   |                       |                 |                 | N/A                                                                                                                |
+   |                       |                 |                 |                                                                                                                    |
+   |                       |                 |                 | **Range**                                                                                                          |
+   |                       |                 |                 |                                                                                                                    |
+   |                       |                 |                 | **all_granted_eps**: all enterprise projects                                                                       |
+   |                       |                 |                 |                                                                                                                    |
+   |                       |                 |                 | **0**: default enterprise project                                                                                  |
+   |                       |                 |                 |                                                                                                                    |
+   |                       |                 |                 | Others: data of the corresponding enterprise project                                                               |
+   |                       |                 |                 |                                                                                                                    |
+   |                       |                 |                 | **Default Value**                                                                                                  |
+   |                       |                 |                 |                                                                                                                    |
+   |                       |                 |                 | N/A                                                                                                                |
+   +-----------------------+-----------------+-----------------+--------------------------------------------------------------------------------------------------------------------+
 
 Request Parameters
 ------------------

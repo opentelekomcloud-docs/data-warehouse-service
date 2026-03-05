@@ -1,22 +1,20 @@
-:original_name: dws_02_0045.html
+:original_name: dws_02_0563.html
 
-.. _dws_02_0045:
+.. _dws_02_0563:
 
 Tag Management
 ==============
 
--  :ref:`Tagging <dws_02_0055>`
--  :ref:`Querying Tags in a Project <dws_02_0050>`
--  :ref:`Querying Cluster Tags <dws_02_0049>`
--  :ref:`Adding Tags in Batches <dws_02_0047>`
--  :ref:`Deleting Tags in Batches <dws_02_0048>`
+-  :ref:`Querying Project Tags <listtags>`
+-  :ref:`Querying Cluster Tags <listclustertags>`
+-  :ref:`Adding Tags in Batches <batchcreateresourcetag>`
+-  :ref:`Delete Tags in Batches <batchdeleteresourcetag>`
 
 .. toctree::
    :maxdepth: 1
    :hidden: 
 
-   tagging
-   querying_tags_in_a_project
+   querying_project_tags
    querying_cluster_tags
    adding_tags_in_batches
-   deleting_tags_in_batches
+   delete_tags_in_batches

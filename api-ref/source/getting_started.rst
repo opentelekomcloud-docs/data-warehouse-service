@@ -5,25 +5,25 @@
 Getting Started
 ===============
 
-This section describes how to use GaussDB(DWS) APIs to manage clusters. The procedure of the management clusters is as follows:
+This section describes how to use DWS APIs to manage clusters. The procedure of the management clusters is as follows:
 
 #. Call the API in :ref:`Authentication <dws_02_0064>` to obtain the user token, which will be put into the request header for authentication in a subsequent request.
-#. Call the API in :ref:`Querying the Supported Node Types <dws_02_0022>` to obtain the supported node types.
-#. Call the API in :ref:`Creating a Cluster <dws_02_0020>` to create a cluster.
-#. Call the API in :ref:`Querying the Cluster List <dws_02_0018>` to obtain the cluster information.
-#. Call the API in :ref:`Querying Cluster Details <dws_02_0019>` to view cluster details.
-#. Call the API in :ref:`Creating a Snapshot <dws_02_0026>` to create a snapshot.
-#. Call the API in :ref:`Querying the Snapshot List <dws_02_0024>` to check whether the snapshot is successfully created.
-#. Call the API in :ref:`Restoring a Cluster <dws_02_0032>` to restore a cluster using its snapshot.
-#. Call the API in :ref:`Deleting a Manual Snapshot <dws_02_0027>` to delete an unwanted snapshot.
-#. Call the API in :ref:`Deleting a Cluster <dws_02_0021>` to delete a finished or unwanted cluster.
+#. Call the API in :ref:`Querying Flavor Information <listnodetypes>` to obtain the supported node types.
+#. Call the API in :ref:`Creating a Cluster <createcluster>` to create a cluster.
+#. Call the API in :ref:`Querying the Cluster List <listclusters>` to obtain the cluster information.
+#. Call the API in :ref:`Querying Cluster Details <listclusterdetails>` to view the cluster details.
+#. Call the API in :ref:`Creating a Snapshot <createsnapshot>` to create a snapshot.
+#. Call the API in :ref:`Querying the Snapshot List <listsnapshots>` to check whether the snapshot is created successfully.
+#. Call the API in :ref:`Restoring a Cluster <restorecluster>` to restore a cluster using its snapshot.
+#. Call the API in :ref:`Deleting a Snapshot <deletesnapshot>` to delete an unwanted snapshot.
+#. Call the API in :ref:`Deleting a Cluster <deletecluster>` to delete a finished or unwanted cluster.
 
 Prerequisites
 -------------
 
 -  You have created a VPC, subnet, and security group and obtained their IDs. For details, see :ref:`Creating a VPC <dws_02_0040>`.
--  You have obtained the endpoints of IAM and GaussDB(DWS). For details, see "Regions and Endpoints".
--  You have obtained the project ID. For details, see :ref:`Obtaining a Project ID <dws_02_0011>`.
+-  You have obtained the endpoints of IAM and DWS. For details, see "Regions and Endpoints".
+-  You have obtained the Project ID. For details, see :ref:`Obtaining Project ID <dws_02_0011>`.
 
 Managing a Cluster
 ------------------
@@ -31,7 +31,7 @@ Managing a Cluster
 The following values are examples (replace them based on the actual situation).
 
 -  IAM endpoint: **iam_endpoint**
--  GaussDB(DWS) endpoint: **dws\_endpoint**
+-  DWS endpoint: **dws\_endpoint**
 -  VPC ID: **219ab8a0-1272-4049-a383-8ad0b770fa11**
 -  Subnet ID: **d23ef2e9-8b90-49b3-bc4a-fd7d6bea6bec**
 -  Security group ID: **12e3c23a-8710-4b75-95e4-5c8d7f68ef3c**
@@ -83,7 +83,7 @@ Perform the following operations to manage the cluster.
 
          export Token=MIidkgYJKoZIhvcNAQcCoIidgzCCA38CAQExDTALBglghkgBZQMEAgEwgXXXXX...
 
-#. Call the API in :ref:`Querying the Supported Node Types <dws_02_0022>` to obtain the supported node types.
+#. Call the API in :ref:`Querying Flavor Information <listnodetypes>` to obtain the supported node types.
 
    .. code-block::
 
@@ -139,13 +139,13 @@ Perform the following operations to manage the cluster.
           ]
       }
 
-#. Call the API in :ref:`Creating a Cluster <dws_02_0020>` to create a cluster.
+#. Call the API in :ref:`Creating a Cluster <createcluster>` to create a cluster.
 
    The examples for configuring the cluster are as follows:
 
    -  Cluster name: **dws-demo**
    -  Administrator username: **dbadmin**
-   -  Administrator password: **Dws2017demo!**
+   -  Administrator password: **passw0rd**
    -  Port: **8000**
    -  Node type: **dws.d1.xlarge**
    -  Number of nodes: **3**
@@ -162,7 +162,7 @@ Perform the following operations to manage the cluster.
               "port": 8000,
               "name": "dws-demo",
               "user_name": "dbadmin",
-              "user_pwd": "Dws2017demo!",
+              "user_pwd": "passw0rd",
               "public_ip": {
                   "public_bind_type": "auto_assign"
               }
@@ -170,7 +170,7 @@ Perform the following operations to manage the cluster.
 
    If status code **200** is returned, the request for creating a cluster is successfully sent.
 
-#. Call the API in :ref:`Querying the Cluster List <dws_02_0018>` to obtain the cluster information.
+#. Call the API in :ref:`Querying the Cluster List <listclusters>` to obtain the cluster information.
 
    .. code-block::
 
@@ -228,7 +228,7 @@ Perform the following operations to manage the cluster.
    -  If **status** is **CREATING**, the cluster is being created. If **status** is **AVAILABLE**, the cluster is successfully created.
    -  The UUID of cluster **dws-demo** is **7ba031f6-81f4-4670-ad20-c490b91877e5**. Record the UUID for subsequent use.
 
-#. Call the API in :ref:`Querying Cluster Details <dws_02_0019>` to view cluster details.
+#. Call the API in :ref:`Querying Cluster Details <listclusterdetails>` to view the cluster details.
 
    .. code-block::
 
@@ -281,8 +281,8 @@ Perform the following operations to manage the cluster.
               "version": "1.1.0",
               "maintain_window": {
                   "day": "Wed",
-                  "start_time": "22:00",
-                  "end_time": "02:00"
+                  "start_time": "18:00",
+                  "end_time": "22:00"
               },
               "recent_event": 1,
               "tags": null,
@@ -294,7 +294,7 @@ Perform the following operations to manage the cluster.
 
    **public_endpoints** and **endpoints** can be queried from the response. After the cluster is successfully created, you can use **public_endpoints** or **endpoints** to access the cluster from an external source.
 
-#. Call the API in :ref:`Creating a Snapshot <dws_02_0026>` to create a snapshot.
+#. Call the API in :ref:`Creating a Snapshot <createsnapshot>` to create a snapshot.
 
    Create snapshot **snapshotForDemoCluster** for cluster **dws-demo**.
 
@@ -320,7 +320,7 @@ Perform the following operations to manage the cluster.
 
    If status code **200** is returned, the request for creating a snapshot is successfully sent. Record **id** so that the ID can be used when you query the snapshot details later.
 
-#. Call the API in :ref:`Querying the Snapshot List <dws_02_0024>` to check whether the snapshot is successfully created.
+#. Call the API in :ref:`Querying the Snapshot List <listsnapshots>` to check whether the snapshot is created successfully.
 
    .. code-block::
 
@@ -344,7 +344,7 @@ Perform the following operations to manage the cluster.
           }
       }
 
-#. Call the API in :ref:`Restoring a Cluster <dws_02_0032>` to restore a cluster using its snapshot.
+#. Call the API in :ref:`Restoring a Cluster <restorecluster>` to restore a cluster using its snapshot.
 
    Restore snapshot **snapshotForDemoCluster** to new cluster **dws-restore**.
 
@@ -356,9 +356,9 @@ Perform the following operations to manage the cluster.
           }
       }' https://{dws_endpoint}/v1.0/9bc552e6-19af-4326-800d-281a92984636/snapshots/2a4d0f86-67cd-408a-8b66-017454fb7793/actions -v -k
 
-   If status code **200** is returned, the cluster is successfully restored. You can check the cluster restoration status by performing operations in :ref:`Querying Snapshot Details <dws_02_0025>`.
+   If status code **200** is returned, the cluster is successfully restored. You can check the cluster restoration status by performing operations in :ref:`Querying Snapshot Details <listsnapshotdetails>`.
 
-#. Call the API in :ref:`Deleting a Manual Snapshot <dws_02_0027>` to delete an unwanted snapshot.
+#. Call the API in :ref:`Deleting a Snapshot <deletesnapshot>` to delete an unwanted snapshot.
 
    .. code-block::
 
@@ -366,7 +366,7 @@ Perform the following operations to manage the cluster.
 
    If status code **202** is returned, the snapshot is successfully deleted.
 
-#. Call the API in :ref:`Deleting a Cluster <dws_02_0021>` to delete an unwanted cluster.
+#. Call the API in :ref:`Deleting a Cluster <deletecluster>` to delete a finished or unwanted cluster.
 
    .. code-block::
 

@@ -1,6 +1,6 @@
-:original_name: dws_02_0021.html
+:original_name: DeleteCluster.html
 
-.. _dws_02_0021:
+.. _DeleteCluster:
 
 Deleting a Cluster
 ==================
@@ -8,43 +8,94 @@ Deleting a Cluster
 Function
 --------
 
-This API is used to delete clusters. All resources of the deleted cluster, including customer data, will be released. For data security, create a snapshot for the cluster that you want to delete before deleting the cluster.
+This API is used to delete a cluster. All resources of the deleted cluster, including customer data, will be released. For data security, you need to create a snapshot for a cluster before deleting it.
+
+Calling Method
+--------------
+
+For details, see :ref:`Calling APIs <dws_02_0062>`.
 
 URI
 ---
 
-.. code-block:: text
+DELETE /v1.0/{project_id}/clusters/{cluster_id}
 
-   DELETE /v1.0/{project_id}/clusters/{cluster_id}
+.. table:: **Table 1** Path Parameters
 
-.. table:: **Table 1** URI parameters
-
-   +------------+-----------+--------+------------------------------------------------------------------------------------------------------------------------------+
-   | Parameter  | Mandatory | Type   | Description                                                                                                                  |
-   +============+===========+========+==============================================================================================================================+
-   | project_id | Yes       | String | Project ID. For details about how to obtain the ID, see :ref:`Obtaining a Project ID <dws_02_0011>`.                         |
-   +------------+-----------+--------+------------------------------------------------------------------------------------------------------------------------------+
-   | cluster_id | Yes       | String | ID of the cluster to be deleted. For details about how to obtain the ID, see :ref:`Obtaining the Cluster ID <dws_02_00068>`. |
-   +------------+-----------+--------+------------------------------------------------------------------------------------------------------------------------------+
+   +-----------------+-----------------+-----------------+------------------------------------------------------------------------------------------------------------+
+   | Parameter       | Mandatory       | Type            | Description                                                                                                |
+   +=================+=================+=================+============================================================================================================+
+   | project_id      | Yes             | String          | **Definition**                                                                                             |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | Project ID. To obtain the value, see :ref:`Obtaining a Project ID <dws_02_0011>`.                          |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | **Constraints**                                                                                            |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | N/A                                                                                                        |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | **Range**                                                                                                  |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | N/A                                                                                                        |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | **Default Value**                                                                                          |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | N/A                                                                                                        |
+   +-----------------+-----------------+-----------------+------------------------------------------------------------------------------------------------------------+
+   | cluster_id      | Yes             | String          | **Definition**                                                                                             |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | Cluster ID. For details about how to obtain the value, see :ref:`Obtaining the Cluster ID <dws_02_00068>`. |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | **Constraints**                                                                                            |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | N/A                                                                                                        |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | **Range**                                                                                                  |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | N/A                                                                                                        |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | **Default Value**                                                                                          |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | N/A                                                                                                        |
+   +-----------------+-----------------+-----------------+------------------------------------------------------------------------------------------------------------+
 
 Request Parameters
 ------------------
 
 .. table:: **Table 2** Request body parameters
 
-   +---------------------------+-----------+---------+-----------------------------------+
-   | Parameter                 | Mandatory | Type    | Description                       |
-   +===========================+===========+=========+===================================+
-   | keep_last_manual_snapshot | Yes       | Integer | Keeps the latest manual snapshot. |
-   +---------------------------+-----------+---------+-----------------------------------+
+   +---------------------------+-----------------+-----------------+--------------------------------------------------+
+   | Parameter                 | Mandatory       | Type            | Description                                      |
+   +===========================+=================+=================+==================================================+
+   | keep_last_manual_snapshot | Yes             | Integer         | **Definition**                                   |
+   |                           |                 |                 |                                                  |
+   |                           |                 |                 | Number of snapshots to be retained in a cluster. |
+   |                           |                 |                 |                                                  |
+   |                           |                 |                 | **Constraints**                                  |
+   |                           |                 |                 |                                                  |
+   |                           |                 |                 | N/A                                              |
+   |                           |                 |                 |                                                  |
+   |                           |                 |                 | **Range**                                        |
+   |                           |                 |                 |                                                  |
+   |                           |                 |                 | N/A                                              |
+   |                           |                 |                 |                                                  |
+   |                           |                 |                 | **Default Value**                                |
+   |                           |                 |                 |                                                  |
+   |                           |                 |                 | N/A                                              |
+   +---------------------------+-----------------+-----------------+--------------------------------------------------+
 
 Response Parameters
 -------------------
 
+**Status code: 202**
+
+The cluster is deleted successfully.
+
 None
 
-Example Request
----------------
+Example Requests
+----------------
+
+Delete a cluster.
 
 .. code-block:: text
 
@@ -57,19 +108,25 @@ Example Request
 Example Responses
 -----------------
 
-None
+**Status code: 202**
 
-Status Code
------------
+The cluster is deleted successfully.
+
+.. code-block::
+
+   { }
+
+Status Codes
+------------
 
 =========== =====================================
 Status Code Description
 =========== =====================================
-202         The cluster has been terminated.
+202         The cluster is deleted successfully.
 400         Request error.
 401         Authentication failed.
 403         You do not have required permissions.
 404         No resources found.
-500         Internal service error.
+500         Internal server error.
 503         Service unavailable.
 =========== =====================================
