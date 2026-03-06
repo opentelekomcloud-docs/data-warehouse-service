@@ -536,8 +536,6 @@ Request Parameters
    |                 |                 |                 |                            |
    |                 |                 |                 | -  **SAS**: High I/O       |
    |                 |                 |                 |                            |
-   |                 |                 |                 | -  SATA: Common I/O        |
-   |                 |                 |                 |                            |
    |                 |                 |                 | **Default Value**          |
    |                 |                 |                 |                            |
    |                 |                 |                 | N/A                        |
