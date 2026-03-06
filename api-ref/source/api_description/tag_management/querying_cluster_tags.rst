@@ -1,6 +1,6 @@
-:original_name: dws_02_0049.html
+:original_name: ListClusterTags.html
 
-.. _dws_02_0049:
+.. _ListClusterTags:
 
 Querying Cluster Tags
 =====================
@@ -8,52 +8,55 @@ Querying Cluster Tags
 Function
 --------
 
-This API is used to query the tags of a cluster.
+This API is used to query tag information of a cluster.
+
+Calling Method
+--------------
+
+For details, see :ref:`Calling APIs <dws_02_0062>`.
 
 URI
 ---
 
-.. code-block:: text
+GET /v1.0/{project_id}/clusters/{cluster_id}/tags
 
-   GET /v1.0/{project_id}/clusters/{cluster_id}/tags
+.. table:: **Table 1** Path Parameters
 
-.. table:: **Table 1** URI parameters
-
-   +-----------------+-----------------+-----------------+--------------------------------------------------------------------------------------+
-   | Parameter       | Mandatory       | Type            | Description                                                                          |
-   +=================+=================+=================+======================================================================================+
-   | project_id      | Yes             | String          | **Definition**                                                                       |
-   |                 |                 |                 |                                                                                      |
-   |                 |                 |                 | Project ID. To obtain the value, see :ref:`Obtaining a Project ID <dws_02_0011>`.    |
-   |                 |                 |                 |                                                                                      |
-   |                 |                 |                 | **Constraints**                                                                      |
-   |                 |                 |                 |                                                                                      |
-   |                 |                 |                 | N/A                                                                                  |
-   |                 |                 |                 |                                                                                      |
-   |                 |                 |                 | **Range**                                                                            |
-   |                 |                 |                 |                                                                                      |
-   |                 |                 |                 | N/A                                                                                  |
-   |                 |                 |                 |                                                                                      |
-   |                 |                 |                 | **Default Value**                                                                    |
-   |                 |                 |                 |                                                                                      |
-   |                 |                 |                 | N/A                                                                                  |
-   +-----------------+-----------------+-----------------+--------------------------------------------------------------------------------------+
-   | cluster_id      | Yes             | String          | **Definition**                                                                       |
-   |                 |                 |                 |                                                                                      |
-   |                 |                 |                 | Cluster ID. To obtain the value, see :ref:`Obtaining the Cluster ID <dws_02_00068>`. |
-   |                 |                 |                 |                                                                                      |
-   |                 |                 |                 | **Constraints**                                                                      |
-   |                 |                 |                 |                                                                                      |
-   |                 |                 |                 | N/A                                                                                  |
-   |                 |                 |                 |                                                                                      |
-   |                 |                 |                 | **Range**                                                                            |
-   |                 |                 |                 |                                                                                      |
-   |                 |                 |                 | N/A                                                                                  |
-   |                 |                 |                 |                                                                                      |
-   |                 |                 |                 | **Default Value**                                                                    |
-   |                 |                 |                 |                                                                                      |
-   |                 |                 |                 | N/A                                                                                  |
-   +-----------------+-----------------+-----------------+--------------------------------------------------------------------------------------+
+   +-----------------+-----------------+-----------------+------------------------------------------------------------------------------------------------------------+
+   | Parameter       | Mandatory       | Type            | Description                                                                                                |
+   +=================+=================+=================+============================================================================================================+
+   | project_id      | Yes             | String          | **Definition**                                                                                             |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | Project ID. To obtain the value, see :ref:`Obtaining a Project ID <dws_02_0011>`.                          |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | **Constraints**                                                                                            |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | N/A                                                                                                        |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | **Range**                                                                                                  |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | N/A                                                                                                        |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | **Default Value**                                                                                          |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | N/A                                                                                                        |
+   +-----------------+-----------------+-----------------+------------------------------------------------------------------------------------------------------------+
+   | cluster_id      | Yes             | String          | **Definition**                                                                                             |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | Cluster ID. For details about how to obtain the value, see :ref:`Obtaining the Cluster ID <dws_02_00068>`. |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | **Constraints**                                                                                            |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | N/A                                                                                                        |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | **Range**                                                                                                  |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | N/A                                                                                                        |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | **Default Value**                                                                                          |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | N/A                                                                                                        |
+   +-----------------+-----------------+-----------------+------------------------------------------------------------------------------------------------------------+
 
 Request Parameters
 ------------------
@@ -67,19 +70,19 @@ Response Parameters
 
 .. table:: **Table 2** Response body parameters
 
-   +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
-   | Parameter             | Type                                                                                                                                               | Description           |
-   +=======================+====================================================================================================================================================+=======================+
-   | tags                  | Array of :ref:`ResourceTag <en-us_topic_0000002361491110__en-us_topic_0000002340987906_en-us_topic_0000002340726832_response_resourcetag>` objects | **Definition**        |
-   |                       |                                                                                                                                                    |                       |
-   |                       |                                                                                                                                                    | Tag list.             |
-   |                       |                                                                                                                                                    |                       |
-   |                       |                                                                                                                                                    | **Range**             |
-   |                       |                                                                                                                                                    |                       |
-   |                       |                                                                                                                                                    | N/A                   |
-   +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+   +-----------------------+-----------------------------------------------------------------------------------------------------------------------+-----------------------+
+   | Parameter             | Type                                                                                                                  | Description           |
+   +=======================+=======================================================================================================================+=======================+
+   | tags                  | Array of :ref:`ResourceTag <en-us_topic_0000002500014110__en-us_topic_0000002375015693_response_resourcetag>` objects | **Definition**        |
+   |                       |                                                                                                                       |                       |
+   |                       |                                                                                                                       | Tag list.             |
+   |                       |                                                                                                                       |                       |
+   |                       |                                                                                                                       | **Range**             |
+   |                       |                                                                                                                       |                       |
+   |                       |                                                                                                                       | N/A                   |
+   +-----------------------+-----------------------------------------------------------------------------------------------------------------------+-----------------------+
 
-.. _en-us_topic_0000002361491110__en-us_topic_0000002340987906_en-us_topic_0000002340726832_response_resourcetag:
+.. _en-us_topic_0000002500014110__en-us_topic_0000002375015693_response_resourcetag:
 
 .. table:: **Table 3** ResourceTag
 
@@ -103,8 +106,8 @@ Response Parameters
    |                       |                       | N/A                   |
    +-----------------------+-----------------------+-----------------------+
 
-Example Request
----------------
+Example Requests
+----------------
 
 .. code-block:: text
 
@@ -115,7 +118,7 @@ Example Responses
 
 **Status code: 200**
 
-The cluster tags are queried successfully.
+Tag information of the cluster queried.
 
 .. code-block::
 
@@ -126,17 +129,17 @@ The cluster tags are queried successfully.
      } ]
    }
 
-Status Code
------------
+Status Codes
+------------
 
-=========== ==========================================
+=========== =======================================
 Status Code Description
-=========== ==========================================
-200         The cluster tags are queried successfully.
+=========== =======================================
+200         Tag information of the cluster queried.
 400         Request error.
-401         Authorization failed.
-403         No operation permission.
+401         Authentication failed.
+403         You do not have required permissions.
 404         No resources found.
-500         Internal service error.
+500         Internal server error.
 503         Service unavailable.
-=========== ==========================================
+=========== =======================================

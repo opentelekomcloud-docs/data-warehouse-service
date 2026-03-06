@@ -1,6 +1,6 @@
-:original_name: dws_02_0019.html
+:original_name: ListClusterDetails.html
 
-.. _dws_02_0019:
+.. _ListClusterDetails:
 
 Querying Cluster Details
 ========================
@@ -10,22 +10,53 @@ Function
 
 This API is used to query cluster details.
 
+Calling Method
+--------------
+
+For details, see :ref:`Calling APIs <dws_02_0062>`.
+
 URI
 ---
 
-.. code-block:: text
+GET /v1.0/{project_id}/clusters/{cluster_id}
 
-   GET /v1.0/{project_id}/clusters/{cluster_id}
+.. table:: **Table 1** Path Parameters
 
-.. table:: **Table 1** URI parameters
-
-   +------------+-----------+--------+---------------------------------------------------------------------------------------------------------+
-   | Parameter  | Mandatory | Type   | Description                                                                                             |
-   +============+===========+========+=========================================================================================================+
-   | project_id | Yes       | String | Project ID. For details about how to obtain the ID, see :ref:`Obtaining a Project ID <dws_02_0011>`.    |
-   +------------+-----------+--------+---------------------------------------------------------------------------------------------------------+
-   | cluster_id | Yes       | String | Cluster ID. For details about how to obtain the ID, see :ref:`Obtaining the Cluster ID <dws_02_00068>`. |
-   +------------+-----------+--------+---------------------------------------------------------------------------------------------------------+
+   +-----------------+-----------------+-----------------+------------------------------------------------------------------------------------------------------------+
+   | Parameter       | Mandatory       | Type            | Description                                                                                                |
+   +=================+=================+=================+============================================================================================================+
+   | project_id      | Yes             | String          | **Definition**                                                                                             |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | Project ID. To obtain the value, see :ref:`Obtaining a Project ID <dws_02_0011>`.                          |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | **Constraints**                                                                                            |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | N/A                                                                                                        |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | **Range**                                                                                                  |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | N/A                                                                                                        |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | **Default Value**                                                                                          |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | N/A                                                                                                        |
+   +-----------------+-----------------+-----------------+------------------------------------------------------------------------------------------------------------+
+   | cluster_id      | Yes             | String          | **Definition**                                                                                             |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | Cluster ID. For details about how to obtain the value, see :ref:`Obtaining the Cluster ID <dws_02_00068>`. |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | **Constraints**                                                                                            |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | The value must be a valid DWS cluster ID.                                                                  |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | **Range**                                                                                                  |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | It is a 36-digit UUID.                                                                                     |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | **Default Value**                                                                                          |
+   |                 |                 |                 |                                                                                                            |
+   |                 |                 |                 | N/A                                                                                                        |
+   +-----------------+-----------------+-----------------+------------------------------------------------------------------------------------------------------------+
 
 Request Parameters
 ------------------

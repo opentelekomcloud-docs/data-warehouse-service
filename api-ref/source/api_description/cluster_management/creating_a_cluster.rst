@@ -1,6 +1,6 @@
-:original_name: dws_02_0020.html
+:original_name: CreateCluster.html
 
-.. _dws_02_0020:
+.. _CreateCluster:
 
 Creating a Cluster
 ==================
