@@ -18,7 +18,7 @@ In service queries, the **CASE WHEN** statement checks conditions. Too many unne
 
 In this example, the **CASE WHEN** statement must run for each branch, which increases the query time and affects performance.
 
-GaussDB(DWS) offers these optimization policies to address this issue:
+DWS offers these optimization policies to address this issue:
 
 Using a Temporary Result Set or Subquery
 ----------------------------------------
