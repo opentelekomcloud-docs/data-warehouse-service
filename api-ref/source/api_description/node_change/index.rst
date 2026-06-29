@@ -5,8 +5,6 @@
 Node Change
 ===========
 
--  :ref:`Expanding Disk Capacity <expandinstancestorage>`
--  :ref:`Querying the Disk Capacity Expansion Range <showclusterstorageexpandrange>`
 -  :ref:`Querying the List of Target Flavors That a Cluster Can Be Changed To <listtargetflavors>`
 -  :ref:`Querying CN Nodes of a Cluster <listclustercn>`
 -  :ref:`Adding CN Nodes in Batches <batchcreateclustercn>`
@@ -31,8 +29,6 @@ Node Change
    :maxdepth: 1
    :hidden: 
 
-   expanding_disk_capacity
-   querying_the_disk_capacity_expansion_range
    querying_the_list_of_target_flavors_that_a_cluster_can_be_changed_to
    querying_cn_nodes_of_a_cluster
    adding_cn_nodes_in_batches
