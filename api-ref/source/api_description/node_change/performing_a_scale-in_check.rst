@@ -131,19 +131,19 @@ Example Requests
 
    .. code-block:: text
 
-      POST https://{Endpoint} /v1/89cd04f168b84af6be287f71730fdb4b/clusters/4ca46bf1-5c61-48ff-b4f3-0ad4e5e3ba90/shrink-check?check_item=guc&shrink_count=3
+      GET https://{Endpoint} /v1/89cd04f168b84af6be287f71730fdb4b/clusters/4ca46bf1-5c61-48ff-b4f3-0ad4e5e3ba90/shrink-check?check_item=guc&shrink_count=3
 
 -  Scale in three nodes and set the check item to **schema**.
 
    .. code-block:: text
 
-      POST https://{Endpoint} /v1/89cd04f168b84af6be287f71730fdb4b/clusters/4ca46bf1-5c61-48ff-b4f3-0ad4e5e3ba90/shrink-check?check_item=schema&shrink_count=3
+      GET https://{Endpoint} /v1/89cd04f168b84af6be287f71730fdb4b/clusters/4ca46bf1-5c61-48ff-b4f3-0ad4e5e3ba90/shrink-check?check_item=schema&shrink_count=3
 
 -  Scale in three nodes and set the check item to **disk**.
 
    .. code-block:: text
 
-      POST https://{Endpoint} /v1/89cd04f168b84af6be287f71730fdb4b/clusters/4ca46bf1-5c61-48ff-b4f3-0ad4e5e3ba90/shrink-check?check_item=disk&shrink_count=3
+      GET https://{Endpoint} /v1/89cd04f168b84af6be287f71730fdb4b/clusters/4ca46bf1-5c61-48ff-b4f3-0ad4e5e3ba90/shrink-check?check_item=disk&shrink_count=3
 
 Example Responses
 -----------------
