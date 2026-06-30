@@ -15,16 +15,16 @@ The following uses Seq Scan and Index Scan on a row-store table as an example:
 -  Seq Scan: searches table records in sequence. All records are retrieved during each scan. This is the simplest and most basic table scanning method, and its cost is high.
 -  Index Scan: searches the index first, find the target location (pointer) in the index, and then retrieve data on the target page.
 
-Index scan is faster than sequence scan in most cases. However, if the obtained result sets account for a large proportion (more than 70%) of all data, Index Scan needs to scan indexes before reading table data. This makes it slower table scan.
+Index scan is faster than sequence scan in most cases. However, if the obtained result sets account for a large proportion (more than 70%) of all data, index scan is slower than full table scan because index scan needs to scan indexes before reading table data.
 
-Reason 2: ANALYZE Is Not Performed In a Timely Manner.
+Reason 2: ANALYZE Is Not Performed in a Timely Manner.
 ------------------------------------------------------
 
 **ANALYZE** is used to update table statistics. If **ANALYZE** is not executed on a table or a large amount of data is added to or deleted from a table after **ANALYZE** is executed, the statistics may be inaccurate, which may cause a query to skip the index.
 
 Optimization method: Run the **ANALYZE** statement on the table to update statistics.
 
-Reason 3: Filtering Conditions Contains Functions or Implicit Data Type Conversion
+Reason 3: Filtering Conditions Contain Functions or Implicit Data Type Conversion.
 ----------------------------------------------------------------------------------
 
 If calculation, function, or implicit data type conversion is contained in filter criteria, indexes may fail to be selected.
@@ -334,11 +334,11 @@ If the optimizer does not select such an execution plan, you can optimize it as 
 Reason 5: The Scan Method Is Incorrectly Specified by Hints.
 ------------------------------------------------------------
 
-DWS plan hints can specify three scan methods: tablescan, indexscan, and indexonlyscan.
+DWS plan hints can specify three scan methods: table scan, index scan, and index-only scan.
 
--  Table Scan: full table scan, such as Seq Scan of row-store tables and CStore Scan of column-store tables.
--  Index Scan: scans indexes and then obtains table records based on the indexes.
--  Index-Only Scan: scans indexes, which cover all required results. Compared with the index scan, the index-only scan covers all queried columns. In this way, only indexes are retrieved, and data records do not need to be retrieved.
+-  Table scan: scans full tables. There are seq scan of row-store tables and cstore scan of column-store tables.
+-  Index scan: scans indexes and then obtains table records based on the indexes.
+-  Index-only scan: scans indexes, which cover all required results. Compared with the index scan, the index-only scan covers all queried columns. In this way, only indexes are retrieved, and data records do not need to be retrieved.
 
 In Index-Only Scan scenarios, Index Scan specified by a hint will be invalid.
 
@@ -420,7 +420,7 @@ When creating the GIN index, you must use the 2-argument version of to_tsvector.
 
 .. note::
 
-   The to_tsvector() function accepts one or two augments. If the one-augment version of the index is used, the system will use the configuration specified by **default_text_search_config** by default. To create an index, the two-augment version must be used, or the index content may be inconsistent.
+   The to_tsvector() function accepts one or two arguments. If the one-augment version of the index is used, the system will use the configuration specified by **default_text_search_config** by default. To create an index, the two-augment version must be used, or the index content may be inconsistent.
 
 ::
 

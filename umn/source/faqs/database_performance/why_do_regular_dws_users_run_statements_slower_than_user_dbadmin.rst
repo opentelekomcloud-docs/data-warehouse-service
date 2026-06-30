@@ -60,6 +60,6 @@ Check whether the resource pools corresponding to the user are the same. If they
 
 ::
 
-   SELECt * FROM pg_user;
+   SELECT * FROM pg_user;
 
 .. |image1| image:: /_static/images/en-us_image_0000001533637710.png

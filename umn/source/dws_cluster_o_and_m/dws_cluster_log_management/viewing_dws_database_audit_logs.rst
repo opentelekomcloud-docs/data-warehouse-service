@@ -25,7 +25,7 @@ Configuring the Database Audit Logs
 
 #. Choose **Dedicated Clusters** > **Clusters**.
 
-#. In the cluster list, click the name of a cluster. On the page that is displayed, click **Security Settings**.
+#. In the cluster list, click the name of a cluster. In the navigation pane, choose **Security Settings**.
 
    By default, **Configuration Status** is **Synchronized**, which indicates that the latest database result is displayed.
 
@@ -33,7 +33,7 @@ Configuring the Database Audit Logs
 
    .. note::
 
-      The default audit log retention policy is space-first, which means audit logs will be automatically deleted when the size of audit logs on a single node exceeds 1 GB. This function prevents node faults or low performance caused by high disk space occupied by audit logs.
+      **Log Retention Policy** is **Space priority** by default. It means that when logs on a single node grow beyond 1 GB, they are automatically deleted to free up disk space and ensure stable performance.
 
    :ref:`Table 1 <en-us_topic_0000002235494384__en-us_topic_0000001098656870_table48954270153356>` describes the detailed information about the audit items.
 
@@ -44,27 +44,27 @@ Configuring the Database Audit Logs
       +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
       | Audit Item                        | Description                                                                                                                                                                                             |
       +===================================+=========================================================================================================================================================================================================+
-      | Unauthorized access               | Whether to record unauthorized operations. This parameter is disabled by default.                                                                                                                       |
+      | Unauthorized Access               | Whether to record unauthorized operations. This parameter is disabled by default.                                                                                                                       |
       +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | DQL operations                    | **SELECT** operations can be selected.                                                                                                                                                                  |
+      | DQL Operations                    | **SELECT** operations can be selected.                                                                                                                                                                  |
       |                                   |                                                                                                                                                                                                         |
       |                                   | .. note::                                                                                                                                                                                               |
       |                                   |                                                                                                                                                                                                         |
       |                                   |    Clusters of 8.1.1.100 and later versions support the **DQL operations** audit item.                                                                                                                  |
       +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | DML operations                    | Whether to record **INSERT**, **UPDATE**, and **DELETE** operations on tables. This parameter is disabled by default.                                                                                   |
+      | DML Operations                    | Whether to record **INSERT**, **UPDATE**, and **DELETE** operations on tables. No options are selected by default.                                                                                      |
       |                                   |                                                                                                                                                                                                         |
       |                                   | .. note::                                                                                                                                                                                               |
       |                                   |                                                                                                                                                                                                         |
       |                                   |    8.1.1.100 and later versions support fine-grained splitting of audit items, and the **COPY** and **MERGE** options are added.                                                                        |
       +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | DDL operations                    | Whether to record the **CREATE**, **DROP**, and **ALTER** operations of specified database objects. **DATABASE**, **SCHEMA**, and **USER** are selected by default.                                     |
+      | DDL Operations                    | Whether to record the **CREATE**, **DROP**, and **ALTER** operations of specified database objects. **DATABASE**, **SCHEMA**, and **USER** are selected by default.                                     |
       |                                   |                                                                                                                                                                                                         |
       |                                   | .. note::                                                                                                                                                                                               |
       |                                   |                                                                                                                                                                                                         |
-      |                                   |    8.1.1.100 and later versions support **TABLE**, **DATA SOURCE**, and **NODE GROUP** operations. These operations are enabled by default.                                                             |
+      |                                   |    8.1.1.100 and later versions support **TABLE**, **DATA SOURCE**, and **NODE GROUP** operations. These operations are selected by default.                                                            |
       +-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | Other operations                  | Whether to record other operations. Only the **TRANSACTION** and **CURSOR** operations are selected by default.                                                                                         |
+      | Other                             | Whether to record other operations. Only the **TRANSACTION** and **CURSOR** operations are selected by default.                                                                                         |
       |                                   |                                                                                                                                                                                                         |
       |                                   | .. note::                                                                                                                                                                                               |
       |                                   |                                                                                                                                                                                                         |
@@ -95,7 +95,7 @@ Configuring the Database Audit Logs
 
 #. Enable or disable audit log dumps.
 
-   For more information, see :ref:`Enabling Audit Log Dumps <en-us_topic_0000002270373701__en-us_topic_0000001145696613_section8182105814130>`.
+   For more information, see :ref:`Enabling Log Dumps <en-us_topic_0000002270373701__en-us_topic_0000001145696613_section8182105814130>`.
 
 #. Click **Apply**.
 
@@ -108,7 +108,7 @@ Configuring the Database Audit Logs
 Viewing Database Audit Logs
 ---------------------------
 
-Method 1: Audit logs will occupy disk space. To prevent excessive disk usage, DWS supports audit log dumping. You can enable the **Log Dump** function to dump audit logs to OBS (you need to create an OBS bucket for storing audit logs first). For details about how to view the dumped logs, see :ref:`Enabling Audit Log Dumps <en-us_topic_0000002270373701__en-us_topic_0000001145696613_section8182105814130>`.
+Method 1: Audit logs will occupy disk space. To prevent excessive disk usage, DWS supports audit log dumping. You can enable the **Log Dump** function to dump audit logs to OBS (you need to create an OBS bucket for storing audit logs first). For details about how to view the dumped logs, see :ref:`Enabling Log Dumps <en-us_topic_0000002270373701__en-us_topic_0000001145696613_section8182105814130>`.
 
 Method 2: Use the **Log** function of LTS to view or download the collected database audit logs. For details, see :ref:`Checking Cluster Logs <en-us_topic_0000002235494308__section1600157575>`.
 

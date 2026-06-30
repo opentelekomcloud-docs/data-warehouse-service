@@ -26,7 +26,7 @@ Assume there are users **u1**, **u2**, **u3**, **u4**, and **u5** and five schem
 
 -  User **u2** is a read-only user and requires the SELECT permission for the **u1.t1** table.
 -  User **u3** requires the INSERT permission for the **u1.t1** table.
--  User **u3** requires the UPDATE permission for the **u1.t1** table.
+-  User **u4** requires the UPDATE permission for the **u1.t1** table.
 -  User **u5** requires all permissions of table **u1.t1**.
 
 |image1|

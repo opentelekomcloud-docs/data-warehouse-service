@@ -22,6 +22,7 @@ Constraints and Limitations
 ---------------------------
 
 -  During resource provisioning, the default number of CNs is 3. You can adjust the number of CNs based on the number of provisioned nodes. The number of CNs ranges from 2 to 20.
+-  Before adding a CN, ensure that the cluster is in the **Available** or **Unbalanced** state.
 -  Do not perform other O&M operations when adding or deleting a CN.
 -  Adding CNs consumes lots of CPU and I/O resources, which will greatly impact job performance. You are advised to perform this operation during off-peak hours or after services are stopped.
 -  If a fault occurs when you add a CN node and the rollback fails, try adding the CN again. The deletion of a CN node cannot be rolled back.
@@ -37,16 +38,10 @@ Adding CNs
 #. Log in to the DWS console.
 #. Choose **Dedicated Clusters** > **Clusters** and locate the cluster to which you want to add a CN.
 #. In the **Operation** column of the specified cluster, choose **More** > **Manage CN** > **Add CN Node**.
-#. On the displayed page, determine whether to add a CN to a specified node.
+#. On the displayed page, determine whether to add a CN to a specified node. **You cannot add more CNs than the number of CNs that have already been deployed.**
 
-   -  If you select **No**, you can set the **CN quantity after adjustment**.
+   -  If you select **No**, you can set **Total CNs After Adjustment**. **The value cannot exceed the number of nodes.**
    -  If you select **Yes**, specify the node.
-
-   .. important::
-
-      -  Before adding a CN, ensure that the cluster is in the **Available** or **Unbalanced** state.
-      -  The number of CNs cannot exceed the total number of nodes after adjustment.
-      -  You cannot add more CNs than the number of CNs that have already been deployed.
 
 #. Click **OK**.
 
@@ -58,11 +53,11 @@ Deleting CNs
 #. Log in to the DWS console.
 #. Choose **Dedicated Clusters** > **Clusters** and locate the cluster to which you want to delete a CN.
 #. In the **Operation** column of the specified cluster, choose **More** > **Manage CN** > **Delete CN Node**.
-#. On the displayed page, select the CN node to be deleted. After confirming that the information is correct, enter **DELETE** or click **One-Click Input** and click **OK** to delete the CN node.
+#. On the displayed page, select the CN node to be deleted. After confirming that the information is correct, enter **DELETE** or click **Auto Enter** and click **OK**.
 
    .. important::
 
-      -  At least two CN must be retained.
+      -  At least two CNs must be retained.
       -  When deleting a CN from a multi-AZ cluster, reserve a normal CN node in each AZ. Faulty CN nodes (if any) can be deleted.
       -  When you delete a CN, the cluster must be in the **Available**, **Degraded**, or **Unbalanced** state.
       -  If an elastic IP address has been bound to a CN, the CN cannot be deleted.

@@ -2,8 +2,8 @@
 
 .. _dws_03_0080:
 
-How Do I Implement Fault Tolerance Import Between Different DWS Encoding Libraries
-==================================================================================
+How Do I Implement Fault Tolerance Import Between Different DWS Encoding Libraries?
+===================================================================================
 
 To import data from database A (UTF8) to database B (GBK), there may be a character set mismatch error which causes the data import to fail.
 

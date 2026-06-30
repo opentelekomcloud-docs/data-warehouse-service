@@ -44,7 +44,7 @@ Associating ELB
 #. Log in to the DWS console.
 #. Choose **Dedicated Clusters** > **Clusters**. All clusters are displayed by default.
 #. In the cluster list, click the name of the target cluster. The **Cluster Information** page is displayed.
-#. On the **Basic Information** page that is displayed, click **Associate ELB** and select the ELB name. If no load balancer exists, create one on the ELB management console. Then refresh the DWS page and associate ELB with the cluster.
+#. In the **Connection** area, click **Associate ELB** and select a load balancer. If there is no load balancer, create one on the ELB console. Then refresh the **Cluster Information** page and associate the load balancer with the cluster.
 #. After the request is delivered, go back to the **Clusters** page. Task information **Associating ELB** of the cluster is displayed. The process takes some time.
 #. Log in to the ELB management console, choose **Elastic Load Balance** > **Load Balancers**, click the name of the bound load balancer, switch to the **Backend Server Groups** tab, and check whether the cluster CNs are associated with the load balancer.
 
@@ -56,6 +56,6 @@ Disassociating ELB
 #. Log in to the DWS console.
 #. Choose **Dedicated Clusters** > **Clusters**. All clusters are displayed by default.
 #. In the cluster list, click the name of the target cluster. The **Cluster Information** page is displayed.
-#. On the **Basic Information** page that is displayed, click **Disassociate ELB**.
+#. In the **Connection** area, click **Dissociate ELB** to dissociate the load balancer from the cluster.
 #. After the request is delivered, go back to the **Clusters** page. Task information **Dissociating ELB** of the cluster is displayed. The process takes some time.
 #. Log in to the ELB management console, click the name of the dissociated ELB, switch to the **Backend Server Groups** tab, and check whether the cluster CNs are deleted.

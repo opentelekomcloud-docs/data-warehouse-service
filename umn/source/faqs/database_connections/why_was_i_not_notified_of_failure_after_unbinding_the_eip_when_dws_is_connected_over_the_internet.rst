@@ -14,7 +14,7 @@ Keepalive values affect network communication stability. Adjust them to service 
 On Linux, run the **sysctl** command to modify the following parameters:
 
 -  net.ipv4.tcp_keepalive_time
--  net.ipv4.tcp_keeaplive_probes
+-  net.ipv4.tcp_keepalive_probes
 -  net.ipv4.tcp_keepalive_intvl
 
 For example, if you want to change the value of **net.ipv4.tcp_keepalive_time**, run the following command to change it to **120**.

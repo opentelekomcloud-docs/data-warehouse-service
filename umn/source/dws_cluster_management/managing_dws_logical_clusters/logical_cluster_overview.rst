@@ -8,7 +8,7 @@ Logical Cluster Overview
 Concepts
 --------
 
-A physical cluster can be divided into Node Groups, which are logical clusters. All physical nodes in a physical cluster are divided into multiple logical clusters. A logical cluster is essentially a node group that contains one or more physical nodes. Each physical node belongs to only one logical cluster, and user data tables can only be distributed within the same logical cluster. The data of each logical cluster is isolated from the others. The physical resources allocated to a logical cluster are mainly used for operations on its own data tables, but also for interactive queries with other logical clusters. An enterprise can deploy services on different logical clusters to implement unified service management, and meanwhile isolate the data and resources of services.
+A physical cluster can be divided into node groups, which are logical clusters. All physical nodes in a physical cluster are divided into multiple logical clusters. A logical cluster is essentially a node group that contains one or more physical nodes. Each physical node belongs to only one logical cluster, and user data tables can only be distributed within the same logical cluster. The data of each logical cluster is isolated from the others. The physical resources allocated to a logical cluster are mainly used for operations on its own data tables, but also for interactive queries with other logical clusters. An enterprise can deploy services on different logical clusters for unified management, and meanwhile isolate the data and resources of services.
 
 Logical clusters are created by dividing nodes of a physical cluster. Tables in a database can be allocated to different physical nodes by logical cluster. A logical cluster can contain tables from multiple databases. :ref:`Figure 1 <en-us_topic_0000002270373925__fig41828596595>` shows the relationships between logical clusters, databases, and tables.
 
@@ -27,6 +27,7 @@ An elastic cluster is a cluster that always exists in logical cluster mode and c
    -  You are advised to allocate tables in a database to the same logical cluster.
    -  A logical cluster is not an independent sub-cluster. It can isolate data, resource, and permissions, but cannot be independently operated or maintained.
    -  The **Change all specifications** option does not support logical clusters.
+   -  If the original physical cluster contains data, it is not possible to switch the logical cluster of a cluster. Ensure the original physical cluster is empty during the switchover.
 
 Logical Cluster Architecture
 ----------------------------

@@ -46,7 +46,7 @@ If a cluster is no longer used, you can stop the cluster to bring services offli
 .. note::
 
    -  If the current console does not support this feature, contact technical support.
-   -  After the cluster is stopped, ECS basic resources (vCPUs and memory) are no longer reserved. When you start the service again, it may fail to be started due to insufficient resources. In this case, wait for a while and try again later.
+   -  After the cluster is stopped, ECS basic resources (vCPUs and memory) are no longer reserved. When you start the cluster again, it may fail to be started due to insufficient resources. In this case, wait for a while and try again later.
 
 **Procedure**
 
@@ -54,7 +54,7 @@ If a cluster is no longer used, you can stop the cluster to bring services offli
 
 #. Choose **Dedicated Clusters** > **Clusters** in the navigation pane.
 
-#. On the **Dedicated Clusters** page, locate the row that contains the target dedicated cluster, click **More** > **Stop** in the **Operation** column.
+#. Locate the target dedicated cluster, click **More** > **Stop** in the **Operation** column.
 
 #. In the dialog box that is displayed, click **Yes**.
 
@@ -75,7 +75,7 @@ You can start a stopped cluster to restore cluster services.
 
 #. Choose **Dedicated Clusters** > **Clusters** in the navigation pane.
 
-#. On the **Dedicated Clusters** page, locate the row that contains the target dedicated cluster, click **More** > **Start** in the **Operation** column.
+#. Locate the target dedicated cluster, click **More** > **Start** in the **Operation** column.
 
 #. In the dialog box that is displayed, click **Yes**.
 
@@ -84,42 +84,38 @@ You can start a stopped cluster to restore cluster services.
 Deleting a Cluster
 ------------------
 
-If you do not need to use a cluster, perform the following steps to delete it.
+If you do not need to use a cluster, you can delete it.
 
 **Impact on the System**
 
-Deleted clusters cannot be recovered. Additionally, you cannot access user data and automated snapshots in a deleted cluster because the data and snapshots are automatically deleted. If you delete a cluster, its manual snapshots will not be deleted.
+Deleted clusters cannot be recovered. After a cluster is deleted, its data and automated snapshots will be lost, but its manual snapshots are retained.
 
 **Procedure**
 
 #. Log in to the DWS console.
 
-#. Click |image1| in the upper left corner of the management console to select a region.
-
 #. Choose **Dedicated Clusters** > **Clusters** and locate the cluster to be deleted.
 
-#. In the row of a cluster, choose **More** > **Delete**.
+#. Choose **More** > **Delete** in the **Operation** column.
 
-#. In the displayed dialog box, confirm the deletion. You can determine whether to perform the following operations:
+#. In the displayed dialog box, confirm the deletion. You can determine whether to:
 
    -  Create a cluster snapshot immediately if no snapshot is available for the current cluster.
 
       If the cluster status is normal and no snapshot is available, click **Create Snapshot**. On the snapshot list page, click **Create Snapshot** to create a snapshot for the cluster to be deleted. For details, see :ref:`Creating and Managing a DWS Snapshot <dws_01_0028>`. In the row of a cluster, choose **More** > **Delete**.
 
-   -  Delete associated resources.
+   -  Delete associated resources, including:
 
-      -  Release the EIP bound to a cluster.
+      -  EIP bound to a cluster.
 
-         If an EIP is bound to the cluster, you are advised to select **EIP** to release the EIP of the cluster to be deleted.
+         You are advised to select **EIP** to release the EIP of the cluster to be deleted.
 
-      -  Delete automated snapshots.
+      -  Automated snapshots
 
-      -  Delete manual snapshots.
+      -  Manual snapshots
 
          If you have created a manual snapshot, you can select **Manual Snapshot** to delete it.
 
 #. After confirming that the information is correct, enter **DELETE** or click **Auto Enter** and click **OK** to delete the cluster. The cluster status in the cluster list will change to **Deleting** and the cluster deletion progress will be displayed.
 
-   If the cluster to be deleted uses an automatically created security group that is not used by other clusters, the security group is automatically deleted when the cluster is deleted.
-
-.. |image1| image:: /_static/images/en-us_image_0000002235495036.png
+   When you delete a cluster, its automatically created security group is also deleted, as long as other clusters are not using it.

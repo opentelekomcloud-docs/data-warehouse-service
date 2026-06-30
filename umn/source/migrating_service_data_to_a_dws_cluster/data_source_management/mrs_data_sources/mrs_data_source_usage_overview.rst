@@ -21,13 +21,9 @@ Perform the following operations to import data from MRS to a data warehouse clu
 
    a. Create an MRS cluster. For details, see "Buying a Custom Cluster" in *MapReduce User Guide*.
 
-   b. Create an HDFS foreign table for querying data from the MRS cluster over APIs of a foreign server.
+   b. Create an HDFS foreign table for querying data from the MRS cluster over APIs of a foreign server. Multiple MRS data sources can exist on the same network, but one DWS cluster **can connect to only one MRS cluster at a time**.
 
       For details, see "Migrating DWS Data" > "Data Import" > "Importing Data from MRS to a Cluster" in the *Data Warehouse Service (DWS) Development Guide*.
-
-      .. note::
-
-         -  Multiple MRS data sources can exist on the same network, but one DWS cluster can connect to only one MRS cluster at a time.
 
 #. In the DWS cluster, create an MRS data source connection according to :ref:`Creating an MRS Data Source Connection <dws_01_0059>`.
 #. Import data from an MRS data source to the cluster. For details, see "Migrating DWS Data" > "Data Import" > "Importing Data from MRS to a Cluster" in the *Data Warehouse Service (DWS) Development Guide*.

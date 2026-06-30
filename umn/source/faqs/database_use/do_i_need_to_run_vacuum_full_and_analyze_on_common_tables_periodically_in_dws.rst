@@ -7,7 +7,7 @@ Do I Need to Run VACUUM FULL and ANALYZE on Common Tables Periodically in DWS?
 
 Yes.
 
-For tables that are frequently added, deleted, or modified, you need to periodically perform **VACUUM FULL** and **ANALYZE** to reclaim the disk space occupied by updated or deleted data, preventing performance deterioration caused by data bloat and inaccurate statistics.
+For tables that are frequently added, deleted, or modified, you need to periodically perform **VACUUM FULL** and **ANALYZE** to reclaim the disk space occupied by updated or deleted data. This prevents performance deterioration caused by data bloat and inaccurate statistics.
 
 -  Generally, you are advised to perform **ANALYZE** after a large number of **adding or modification** operations are performed on a table.
 -  After a table is deleted, you are advised to run **VACUUM** rather than **VACUUM FULL**. However, you can run **VACUUM FULL** in some particular cases, such as when you want to physically narrow a table to decrease the occupied disk space after deleting most rows of the table. For details about the differences between **VACUUM** and **VACUUM FULL**, see :ref:`VACUUM and VACUUM FULL <en-us_topic_0000001330488844__section6930204215810>`.

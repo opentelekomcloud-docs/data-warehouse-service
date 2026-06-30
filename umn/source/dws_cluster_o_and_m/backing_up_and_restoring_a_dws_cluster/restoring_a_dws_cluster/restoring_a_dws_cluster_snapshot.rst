@@ -39,7 +39,7 @@ Restoring a Cluster Snapshot to a New Cluster
 
 #. On the **Restore Snapshot** page, select **New cluster** and **Cluster level**, and configure the parameters of the new cluster.
 
-   You can modify cluster parameters. For details, see :ref:`Table 1 <en-us_topic_0000002329649418__en-us_topic_0000001423159701_en-us_topic_0000001360289709_en-us_topic_0000001180320217_table2991343171911>`. The values of other parameters are the same as those of the original cluster by default. For details about the parameter settings, see :ref:`Creating a Dedicated DWS Cluster <dws_01_0221>`.
+   :ref:`Table 1 <en-us_topic_0000002329649418__en-us_topic_0000001423159701_en-us_topic_0000001360289709_en-us_topic_0000001180320217_table2991343171911>` list the parameters that you can set for the new cluster. Other parameters are the same as those of the original cluster by default. For details, see :ref:`Creating a Dedicated DWS Cluster <dws_01_0221>`.
 
    .. _en-us_topic_0000002329649418__en-us_topic_0000001423159701_en-us_topic_0000001360289709_en-us_topic_0000001180320217_table2991343171911:
 
@@ -52,8 +52,8 @@ Restoring a Cluster Snapshot to a New Cluster
       +-----------------------------------+--------------------------------------------------------------------------------------------------------------------------+
       | Advanced settings                 | If **Custom** is selected, configure the following parameters:                                                           |
       |                                   |                                                                                                                          |
-      |                                   | -  Backup devices: Select OBS or NFS from the drop-down list.                                                            |
-      |                                   | -  Tag: a key-value pair used to identify a cluster. For details about tags, see :ref:`Overview <dws_01_0104>`.          |
+      |                                   | -  **Backup Device**: Select OBS or NFS from the drop-down list.                                                         |
+      |                                   | -  **Tag**: a key-value pair used to identify a cluster. For details about tags, see :ref:`Overview <dws_01_0104>`.      |
       +-----------------------------------+--------------------------------------------------------------------------------------------------------------------------+
 
 #. Click **Next: Confirm Settings**.
@@ -72,7 +72,8 @@ Restoring a Cluster Snapshot to the Current Cluster
 #. Log in to the DWS console.
 #. In the navigation pane on the left, choose **Dedicated Clusters** > **Management** > **Snapshots**. Alternatively, in the cluster list, click the name of the target cluster to switch to the **Cluster Information** page, and then choose **Snapshots** from the navigation pane. All snapshots are displayed by default.
 #. In the **Operation** column of a snapshot, click **Restore**.
-#. On the **Restore Snapshot** page, select **Current cluster**. If you use a snapshot to restore data to the original cluster, the cluster will be unavailable during the restoration.
+#. On the **Restore Snapshot** page, select **Current Cluster**. If you use a snapshot to restore data to the original cluster, the cluster will be unavailable during the restoration.
+#. Click **Submit**. In the displayed dialog box, enter **RESTORE** or click **Auto Enter**, and click **OK**.
 
 Viewing Restoration Details
 ---------------------------
@@ -80,5 +81,5 @@ Viewing Restoration Details
 #. Log in to the DWS console.
 #. Choose **Dedicated Clusters** > **Clusters**. By default, all clusters of the user are displayed.
 #. In the cluster list, if the cluster status is **Restoring**, click **View Details**.
-#. You can view the snapshot restoration progress of the cluster on the task details page. The estimated duration in the task details is for reference only. The actual duration depends on the current data volume.
-#. In the restore phase, click **View** to view the kernel restoration process. Note that there may be a time gap between the task time displayed in the task details area and the actual kernel execution time due to task scheduling and restart.
+#. View the snapshot restoration progress of the cluster on the task details page. The estimated duration in the task details is for reference only. The actual duration depends on the current data volume.
+#. In the **Running** status, click **View** to view the kernel restoration process. Note that there may be a time gap between the task time displayed in the task details area and the actual kernel execution time due to task scheduling and restart.

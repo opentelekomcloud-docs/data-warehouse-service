@@ -20,20 +20,26 @@ The created ECS must meet the following requirements:
 
 -  ECS and DWS clusters must belong to the same region and AZ.
 
--  If you use the gsql client provided by DWS to connect to the DWS cluster, the ECS image must meet the following requirements:
+-  If you use the gsql client provided by DWS to connect to the DWS cluster, the ECS image must meet the requirements in :ref:`Table 1 <en-us_topic_0000002270373913__table867192214810>`.
 
-   The image's OS must be one of the following Linux OSs supported by the gsql client:
+   The image's OS must be one of the following Linux OSs supported by the gsql client. The client name containing **ARM** indicates the Arm architecture, and the client name containing **x86_64** indicates the x86 architecture. The architecture of the ECS OS must be the same as that of the client.
 
-   -  The **Redhat x86_64** client can be used on the following OSs:
+   .. _en-us_topic_0000002270373913__table867192214810:
 
-      -  RHEL 6.4~7.6
-      -  CentOS 6.4~7.4
-      -  EulerOS 2.3
+   .. table:: **Table 1** Supported client OSs
 
-   -  The **SUSE x86_64** client can be used on the following OSs:
-
-      -  SLES 11.1~11.4
-      -  SLES 12.0~12.3
+      +-----------------------------------+-----------------------------------+
+      | gsql Client                       | Supported OS                      |
+      +===================================+===================================+
+      | Redhat x86_64                     | RHEL 6.4~7.6                      |
+      +-----------------------------------+-----------------------------------+
+      | SUSE x86_64                       | -  SLES 11.1~11.4                 |
+      |                                   | -  SLES 12.0~12.3                 |
+      +-----------------------------------+-----------------------------------+
+      | Euler ARM                         | EulerOS 2.0 SP8                   |
+      +-----------------------------------+-----------------------------------+
+      | Redhat ARM                        | -  CentOS-7.6-aarch64             |
+      +-----------------------------------+-----------------------------------+
 
 -  If the client accesses the cluster using the private network address, ensure that the created ECS is in the same VPC as the DWS cluster.
 
@@ -51,7 +57,7 @@ The created ECS must meet the following requirements:
 
    -  **Transfer Direction**: **Outbound**
    -  Protocol: The protocol must contain TCP. For example, **TCP** or **All**.
-   -  **Port**: The value must contain the database port that provides services in the data warehouse cluster. For example, set this parameter to **1-65535** or a specific DWS database port.
+   -  Set the port number to the database port that provides services in the data warehouse cluster. For example, set this parameter to **1-65535** or a specific DWS database port.
    -  Destination: The IP address set here must contain the IP address of the DWS cluster to be connected. **0.0.0.0/0** indicates any IP address.
 
 -  The security group rules of the data warehouse cluster must ensure that DWS can receive network access requests from clients.
@@ -60,8 +66,8 @@ The created ECS must meet the following requirements:
 
    -  **Transfer Direction**: **Inbound**
    -  **Protocol**: The protocol must contain TCP. For example, **TCP** or **All**.
-   -  **Port**: Set this parameter to the servicing database port of the DWS cluster. Example: 8000.
-   -  **Source**: The IP address set here must contain the IP address of the DWS client server. Example: 192.168.0.10/32.
+   -  **Port**: Set this parameter to the servicing database port of the DWS cluster. Example: **8000**.
+   -  **Source**: The IP address set here must contain the IP address of the DWS client server. Example: **192.168.0.10/32**.
 
 Downloading the Linux gsql Client and Connecting to a Cluster
 -------------------------------------------------------------
@@ -82,11 +88,7 @@ Downloading the Linux gsql Client and Connecting to a Cluster
 
    For details about how to log in to an ECS, see "ECSs> Logging In to a Linux ECS > Login Using an SSH Password" in the *Elastic Cloud Server User Guide*.
 
-#. (Optional) To connect to the cluster in SSL mode, configure SSL authentication parameters on the host where the client is installed. For details, see :ref:`Establishing Secure TCP/IP Connections in SSL Mode <dws_01_0038>`.
-
-   .. note::
-
-      The SSL connection mode is more secure than the non-SSL mode. You are advised to connect the client to the cluster in SSL mode.
+#. (Optional) To connect to the cluster in SSL mode, configure SSL authentication parameters on the host where the client is installed. For details, see :ref:`Establishing Secure TCP/IP Connections in SSL Mode <dws_01_0038>`. The SSL connection mode is more secure than the non-SSL mode. You are advised to connect the client to the cluster in SSL mode.
 
 #. Run the following commands to decompress the client:
 
@@ -157,6 +159,8 @@ TPC-DS is the benchmark for testing the performance of decision support. With TP
 
 #. Switch to the specified directory and set the AK and SK for importing sample data and the OBS access address.
 
+   *<Access_Key_Id>* and *<Secret_Access_Key>*: indicate the AK and SK, respectively. For how to obtain the AK and SK, see "Importing Data" > "Importing Data from OBS in Parallel" > "Creating Access Keys (AK and SK)" in the *Data Warehouse Service (DWS) Developer Guide*. Replace the parameters in the statements with the obtained values.
+
    ::
 
       cd sample
@@ -167,10 +171,6 @@ TPC-DS is the benchmark for testing the performance of decision support. With TP
    .. code-block::
 
       setup successfully!
-
-   .. note::
-
-      *<Access_Key_Id>* and *<Secret_Access_Key>*: indicate the AK and SK, respectively. For how to obtain the AK and SK, see "Importing Data" > "Importing Data from OBS in Parallel" > "Creating Access Keys (AK and SK)" in the *Data Warehouse Service (DWS) Developer Guide*. Replace the parameters in the statements with the obtained values.
 
 #. Go back to previous directory and run the gsql environment variables.
 
@@ -194,11 +194,7 @@ TPC-DS is the benchmark for testing the performance of decision support. With TP
 
       gsql -d gaussdb -h 10.168.0.74 -U dbadmin -p 8000 -f /opt/sample/tpcds_load_data_from_obs.sql -r
 
-   .. note::
-
-      In the preceding command, sample data script **tpcds_load_data_from_obs.sql** is stored in the sample directory (for example, **/opt/sample/**) of the DWS client.
-
-   After you enter the administrator password and successfully connect to the database in the cluster, the system will automatically create a foreign table to associate the sample data outside the cluster. Then, the system creates a target table for saving the sample data and imports the data to the target table using the foreign table.
+   In the preceding command, sample data script **tpcds_load_data_from_obs.sql** is stored in the sample directory (for example, **/opt/sample/**) of the DWS client. After you enter the administrator password and successfully connect to the database in the cluster, the system will automatically create a foreign table to associate the sample data outside the cluster. Then, the system creates a target table for saving the sample data and imports the data to the target table using the foreign table.
 
    The time required for importing a large dataset depends on the current DWS cluster specifications. Generally, the import takes about 10 to 20 minutes. If information similar to the following is displayed, the import is successful.
 

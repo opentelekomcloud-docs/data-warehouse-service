@@ -2,8 +2,8 @@
 
 .. _dws_01_0118:
 
-Viewing Operation Logs on the DWS Console
-=========================================
+Viewing DWS Console's Operation Logs
+====================================
 
 Enabling CTS
 ------------
@@ -60,8 +60,6 @@ With CTS, you can record operations associated with DWS for later query, audit, 
    +-------------------------------------------+------------------+----------------------------------+
    | Performing cluster redistribution         | cluster          | redistributeCluster              |
    +-------------------------------------------+------------------+----------------------------------+
-   | Querying redistribution details           | cluster          | queryRedisInfo                   |
-   +-------------------------------------------+------------------+----------------------------------+
    | Adding disk capacity                      | cluster          | executeDiskExpand                |
    +-------------------------------------------+------------------+----------------------------------+
    | Changing cluster flavors                  | cluster          | flavorResize                     |
@@ -70,7 +68,7 @@ With CTS, you can record operations associated with DWS for later query, audit, 
    +-------------------------------------------+------------------+----------------------------------+
    | Performing a cluster switchover           | cluster          | activeStandySwitchover           |
    +-------------------------------------------+------------------+----------------------------------+
-   | Resetting passwords                       | cluster          | resetPassword                    |
+   | Resetting passwords                       | cluster          | resetClusterPassword             |
    +-------------------------------------------+------------------+----------------------------------+
    | Restoring a cluster                       | cluster          | repairCluster                    |
    +-------------------------------------------+------------------+----------------------------------+
@@ -80,13 +78,13 @@ With CTS, you can record operations associated with DWS for later query, audit, 
    +-------------------------------------------+------------------+----------------------------------+
    | Deleting a cluster connection             | cluster          | deleteClusterConnection          |
    +-------------------------------------------+------------------+----------------------------------+
-   | Resizing a cluster                        | cluster          | resizeCluster                    |
+   | Changing all specifications               | cluster          | resizeCluster                    |
    +-------------------------------------------+------------------+----------------------------------+
    | Binding or unbinding an EIP               | cluster          | bindOrUnbindEIP                  |
    +-------------------------------------------+------------------+----------------------------------+
-   | Creating or binding an ELB                | cluster          | createOrBindElb                  |
+   | Creating or binding a load balancer       | cluster          | createOrBindElb                  |
    +-------------------------------------------+------------------+----------------------------------+
-   | Unbinding an ELB                          | cluster          | unbindElb                        |
+   | Unbinding a load balancer                 | cluster          | unbindElb                        |
    +-------------------------------------------+------------------+----------------------------------+
    | Adding a CN                               | cluster          | addCN                            |
    +-------------------------------------------+------------------+----------------------------------+
@@ -186,22 +184,20 @@ Viewing Traces
 
 #. In the navigation pane on the left, choose **Trace List**.
 
-#. Click the search box above the trace list and set the search criteria.
+#. Click the search box above the trace list, set filter criteria, and view the trace.
 
    The following filters are available:
 
    -  **Trace Name**: If you select this option, you also need to select a specific trace name.
-   -  **Cloud Service**: Select **DWS**.
+   -  **Trace Source**: Select **DWS**.
    -  **Resource Type**: Select **All resource types** or specify a resource type.
    -  **Resource Name**: If you select this option, you also need to select or enter a specific resource name.
    -  **Resource ID**: If you select this option, you also need to select or enter a specific resource ID.
    -  **Operator**: Select a specific operator (at user level rather than tenant level).
-   -  **Event ID**: If you select this option, you also need to select or enter an event ID.
+   -  **Trace ID**: If you select this option, you also need to select or enter an event ID.
    -  **Trace Status**: Available options include **All trace statuses**, **normal**, **warning**, and **incident**. You can only select one of them.
    -  **Enterprise Project ID**: If you select this option, you also need to select or enter a specific enterprise project ID.
    -  **Access Key ID**: If you select this option, you also need to select or enter a specific access key ID.
-
-#. Click **Query**.
 
 #. Click the name of the trace to be viewed. A window is displayed, showing the trace details.
 

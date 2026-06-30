@@ -22,6 +22,7 @@ Notes and Constraints
 -  You can restore fine-grained snapshots of clusters from an earlier version to a new cluster of version 9.1.0, even if the versions are different.
 -  You can restore the fine-grained snapshot of the 9.1.0 cluster to a new heterogeneous cluster of version 9.1.0, even if the number of nodes and specifications of the old and new clusters are different.
 -  Only fine-grained single-table or multi-table snapshots can be restored to a new cluster.
+-  Currently, comments and permissions of tables cannot be restored.
 
 Prerequisites for Creating a Schema Snapshot
 --------------------------------------------

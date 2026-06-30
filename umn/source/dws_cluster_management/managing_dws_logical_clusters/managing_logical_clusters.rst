@@ -8,16 +8,16 @@ Managing Logical Clusters
 Binding Users to Logical Clusters
 ---------------------------------
 
-Assume that logical clusters lc1 and lc2 are available. Use the following syntax to bind **new** and **existing** users to the logical clusters.
+Assume that logical clusters **lc1** and **lc2** are available. Use the following syntax to bind **new** and **existing** users to the logical clusters.
 
--  Connect to the DWS database and run the following statements to bind new users u1 and u2 to logical clusters lc1 and lc2, respectively:
+-  Connect to the DWS database and run the following statements to bind new users **u1** and **u2** to logical clusters **lc1** and **lc2**, respectively:
 
    ::
 
       CREATE USER u1 NODE GROUP "lc1" PASSWORD '{password}';
       CREATE USER u2 NODE GROUP "lc2" PASSWORD '{password}';
 
--  Connect to the DWS database and run the following statement to bind existing user u1 to logical cluster lc1:
+-  Connect to the DWS database and run the following statement to bind existing user **u1** to logical cluster **lc1**:
 
    ::
 
@@ -76,13 +76,17 @@ Scaling Out a Logical Cluster
 
 #. In the navigation pane on the left, choose **Dedicated Clusters** > **Clusters**.
 
-#. In the cluster list, locate the row that contains the target cluster, click **More** in the **Operation** column, and choose **Scale Node** > **Scale Out**. Alternatively, click **Edit** in the **Operation** column and select the offline scale-out option (see :ref:`Editing a Logical Cluster <en-us_topic_0000002235334768__section195538591424>` for details).
+#. In the cluster list, locate the target cluster, click **More** in the **Operation** column, and choose **Scale Node** > **Scale Out**. When :ref:`editing a logical cluster <en-us_topic_0000002235334768__section195538591424>`, select the offline scale-out option.
 
    Before scaling out the cluster, it is crucial to verify if it meets the inspection conditions. Click **Immediate Inspection** to complete the inspection and proceed to the next step only if it passes. For more information, see :ref:`Viewing Inspection Results <dws_01_01755>`.
 
 #. On the scale-out page, select a logical or elastic cluster.
 
    -  Before a scale-out, you need to enable the logical cluster mode and add a logical cluster.
+
+#. Confirm the settings, select **I agree**, and click **Next: Confirm**. On the displayed page, you can view the node specifications, scale-out mode, and the number of nodes before and after the scale-out.
+
+#. Confirm all configurations and click **Submit**. In the displayed dialog box, click **OK** to start the scale-out.
 
 Querying the Logical Cluster List
 ---------------------------------

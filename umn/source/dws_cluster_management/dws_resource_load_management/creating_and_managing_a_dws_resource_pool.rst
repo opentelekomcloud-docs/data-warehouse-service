@@ -71,6 +71,8 @@ Creating a resource pool
       +-------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
       | CPU Resource (%)              | -  CPU share: Percentage of CPU time that can be used by users associated with the current resource pool to execute jobs. The value is an integer ranging from 1 to 99.            | ``-``                 |
       |                               | -  CPU limit: Maximum percentage of CPU cores used by a database user in a resource pool. The value is an integer ranging from 0 to 100. **0** indicates no limit.                 |                       |
+      |                               |                                                                                                                                                                                    |                       |
+      |                               | For more information about CPU resources, see :ref:`CPU Management <en-us_topic_0000002344412841__section8129175313310>`.                                                          |                       |
       +-------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
       | Memory Resource (%)           | Percentage of the memory that can be used by a resource pool.                                                                                                                      | 0 (not limited)       |
       |                               |                                                                                                                                                                                    |                       |
@@ -112,13 +114,13 @@ You can modify the parameters of a resource pool on the resource management page
 
       .. table:: **Table 2** Short query configuration parameters
 
-         +------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
-         | Parameter                    | Description                                                                                                                                             | Value   |
-         +==============================+=========================================================================================================================================================+=========+
-         | Short Query Acceleration     | Whether to enable short query acceleration. This function is enabled by default.                                                                        | Enabled |
-         +------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
-         | Simple Statement Concurrency | A short query is a job whose estimated memory used for execution is less than 32 MB. The default value **-1** indicates that the job is not controlled. | 10      |
-         +------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+         +------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+         | Parameter                    | Description                                                                                                                                                                                                                                                                                                                                              | Value   |
+         +==============================+==========================================================================================================================================================================================================================================================================================================================================================+=========+
+         | Short Query Acceleration     | Whether to enable short query acceleration. This function is enabled by default.                                                                                                                                                                                                                                                                         | Enabled |
+         +------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+         | Simple Statement Concurrency | Number of concurrent short query jobs that occupy no more than 32 MB of memory. The default value **-1** indicates that there is no limit on this number. This parameter takes effect for a single CN. The number of concurrent simple statements for the cluster is the **value of this parameter** multiplied by the **number of CNs in the cluster**. | 10      |
+         +------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
 
    b. Ensure that the settings are correct and click **Save**.
 
@@ -126,7 +128,7 @@ You can modify the parameters of a resource pool on the resource management page
 
    **Modify the resource configuration.**
 
-   a. Click **Edit** on the right of **Resource Configuration** to modify the parameters. For details, see :ref:`Table 3 <en-us_topic_0000002344532677__en-us_topic_0000001372520138_table1872071185219>`.
+   a. Click **Edit** on the right of **Resource Configuration** to modify the parameters. For details, see :ref:`Table 3 <en-us_topic_0000002344532677__en-us_topic_0000001372520138_table1872071185219>`. **You are advised not to use the CPU time limit and CPU usage limit at the same time.**
 
       .. _en-us_topic_0000002344532677__en-us_topic_0000001372520138_table1872071185219:
 
@@ -173,7 +175,7 @@ You can modify the parameters of a resource pool on the resource management page
 
    a. Click **User Association** on the left.
 
-   b. In the current user list, select the users to be associated. You can select multiple users at a time.
+   b. In the current user list, select the users to be associated. You can select multiple users at a time. To create a user, see :ref:`Creating a Database User <en-us_topic_0000002235494476__section33942019436>`.
 
       In the user binding list, the lock status can be **Unlocked**, **Locked**, or **Unknown**. In versions before 8.5.0.100, only **Unknown** is shown for user lock status. A locked user cannot be chosen for association as the selection button is disabled. An unknown user can be selected, but successful binding depends on the user's actual lock status.
 

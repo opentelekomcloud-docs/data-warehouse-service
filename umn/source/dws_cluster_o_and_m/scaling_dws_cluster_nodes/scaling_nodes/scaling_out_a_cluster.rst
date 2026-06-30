@@ -9,10 +9,8 @@ When you need more compute and storage resources, add more nodes for cluster sca
 
 After the data in a DWS data warehouse is deleted, the occupied disk space may not be released, resulting in dirty data and disk waste. Therefore, if you need to scale out your cluster due to insufficient storage capacity, run the **VACUUM** command to reclaim the storage space first. If the used storage capacity is still high after you run the **VACUUM** command, you can scale out your cluster. For details about the VACUUM syntax, see "SQL Syntax Reference" > "DDL Syntax" > "VACUUM" in the *Data Warehouse Service (DWS) SQL Syntax Reference*.
 
-.. note::
-
-   -  When you scale out a storage-compute coupled data warehouse cluster, use the same storage specifications as the cluster.
-   -  If the number of subnet IP addresses is insufficient, cross-subnet scale-out is allowed.
+-  When you scale out a storage-compute coupled data warehouse cluster, use the same storage specifications as the cluster.
+-  If the number of subnet IP addresses is insufficient, cross-subnet scale-out is allowed.
 
 Impact on the System
 --------------------
@@ -27,11 +25,14 @@ Impact on the System
    -  If the rollback is successful and the cluster can be normally used, you can perform **Scale Out** again. If the scale-out still fails, contact the technical support.
    -  If the rollback fails due to some exceptions, the cluster may become **Unavailable**. In this case, you cannot perform **Scale Out** or restart the cluster. Contact the technical support.
 
-Prerequisites
--------------
+Notes and Constraints
+---------------------
 
 -  The cluster to be scaled out is in the **Available**, **Read-only**, or **Unbalanced** state.
 -  The number of nodes to be added must be less than or equal to the available nodes. Otherwise, system scale-out is not allowed.
+-  A cluster becomes read-only during scale-out. Exercise caution when performing this operation.
+-  The cluster will be intermittently disconnected during scale-out. Exercise caution when performing this operation.
+-  To ensure data security, you are advised to create a snapshot before the scale-out. For details about how to create a snapshot, see :ref:`Creating and Managing a DWS Snapshot <dws_01_0028>`.
 
 .. _en-us_topic_0000002270373757__section31992607155626:
 
@@ -39,35 +40,25 @@ Prerequisites
 Scaling Out a Cluster
 ---------------------
 
-.. note::
-
-   -  A cluster becomes read-only during scale-out. Exercise caution when performing this operation.
-   -  The cluster will be intermittently disconnected during scale-out. Exercise caution when performing this operation.
-   -  To ensure data security, you are advised to create a snapshot before the scale-out. For details about how to create a snapshot, see :ref:`Creating and Managing a DWS Snapshot <dws_01_0028>`.
-
 #. Log in to the DWS console.
 
 #. Choose **Dedicated Clusters** > **Clusters**.
 
    All clusters are displayed by default.
 
-#. On the displayed **Clusters** page, locate the row that contains the target cluster and choose **More** > **Scale Node** > **Scale Out**. The scale-out page is displayed.
+#. On the displayed **Clusters** page, locate the target cluster and choose **More** > **Scale Node** > **Scale Out**. The scale-out page is displayed.
 
    Before scaling out the cluster, it is crucial to verify if it meets the inspection conditions. Click **Immediate Inspection** to complete the inspection and proceed to the next step only if it passes. For more information, see :ref:`Viewing Inspection Results <dws_01_01755>`.
 
-   -  If the IP addresses of the original subnet are insufficient, you can expand the capacity across subnets.
+   -  If the IP addresses of the original subnet are insufficient, you can scale out the cluster across subnets.
 
 #. Specify the number of nodes to be added.
 
    -  DNs are added during scale-out. For details about how to add CNs, see :ref:`Adding or Deleting a CN in a DWS Cluster <dws_01_7115>`.
 
-   -  The number of nodes after scale-out must be at least three nodes more than the original number. The maximum number of nodes that can be added depends on the available quota. In addition, the number of nodes after the scale-out cannot exceed 256.
+   -  You need to add at least three nodes at a time. A cluster supports up to 256 nodes, but you need to consider the available quota.
 
       If the node quota is insufficient, click **Increase quota** to submit a service ticket and apply for higher node quota.
-
-   -  Flavor of the new nodes must be the same as that of existing nodes in the cluster.
-
-   -  The VPC and security group of the cluster with new nodes added are the same as those of the original cluster.
 
 #. .. _en-us_topic_0000002270373757__li85162515474:
 
@@ -95,23 +86,21 @@ Scaling Out with Idle Nodes
 
 To ensure reliability, prepare ECS first by referring to :ref:`Adding Nodes <en-us_topic_0000002235494332__section1755822564916>` for a large-scale cluster, and scale out the cluster using idle nodes.
 
-.. note::
-
-   -  Disable automatic redistribution when you scale out a large-scale cluster to facilitate retries upon failures for improved reliability.
-   -  After the scale-out is complete, manually perform the operations in :ref:`Cluster Redistribution <dws_01_8201>` to ensure that multiple retries can be performed in this phase.
-   -  A number of available nodes must be added to the cluster in advance so that idle nodes can be created and added for scale-out.
-   -  The anti-affinity rule dictates that the number of idle nodes to be added must be an integer multiple of the cluster ring size.
-   -  Make sure to configure the scale-out task before submitting it. This involves completing the scale-out preparation. Once done, wait for a moment.
-
 #. Log in to the DWS console.
 
 #. Choose **Dedicated Clusters** > **Clusters**. All clusters are displayed by default.
 
-#. On the displayed **Clusters** page, locate the row that contains the target cluster and choose **More** > **Scale Node** > **Scale Out**.
+#. On the displayed **Clusters** page, locate the target cluster and choose **More** > **Scale Node** > **Scale Out**.
 
    Before scaling out the cluster, it is crucial to verify if it meets the inspection conditions. Click **Immediate Inspection** to complete the inspection and proceed to the next step only if it passes. For more information, see :ref:`Viewing Inspection Results <dws_01_01755>`.
 
    If there are idle nodes in the cluster, the system displays a message asking you whether to add nodes.
+
+   -  Disable automatic redistribution when you scale out a large-scale cluster to facilitate retries upon failures for improved reliability.
+   -  After the scale-out is complete, manually perform the operations in :ref:`Performing Cluster Redistribution <dws_01_8201>` to ensure that multiple retries can be performed in this phase.
+   -  A number of available nodes must be added to the cluster in advance so that idle nodes can be created and added for scale-out.
+   -  The anti-affinity rule dictates that the number of idle nodes to be added must be an integer multiple of the cluster ring size.
+   -  Make sure to configure the scale-out task before submitting it. This involves completing the scale-out preparation. Once done, wait for a moment.
 
 #. Click the corresponding button to make scale-out preparations and wait until the preparation is complete.
 

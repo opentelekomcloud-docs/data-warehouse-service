@@ -14,7 +14,7 @@ Viewing Snapshot Information
 
 #. In the navigation pane on the left, choose **Dedicated Clusters** > **Management** > **Snapshots**. In the snapshot list, all snapshots are displayed by default.
 
-#. You can view the **Snapshot Name**, **Snapshot Status**, **Cluster Name**, **Backup Mode**, **Snapshot Type**, **Storage Media**, **Snapshot Level**, and creation time of snapshots.
+#. You can view the **Snapshot Name**, **Snapshot Status**, **Cluster Name**, **Backup Mode**, **Snapshot Type**, **Storage Media**, and creation time of snapshots.
 
    You can also enter a snapshot name or cluster name in the upper right corner of the snapshot list and click |image1| to search for the specified snapshot. DWS supports fuzzy search.
 
@@ -39,13 +39,13 @@ Viewing Snapshot Information
 
    .. table:: **Table 2** Backup modes
 
-      +-----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | Type      | Description                                                                                                                                                                                                                                                      |
-      +===========+==================================================================================================================================================================================================================================================================+
-      | Manual    | Snapshot that you manually create through the DWS console or using APIs. You can delete the snapshot.                                                                                                                                                            |
-      +-----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | Automated | The snapshot was automatically created by the system when automated snapshot backup is enabled for the cluster. You cannot delete the snapshots that are automatically created. The system automatically deletes the snapshots whose retention duration expires. |
-      +-----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+      +-----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+      | Type      | Description                                                                                                                                                                                                                          |
+      +===========+======================================================================================================================================================================================================================================+
+      | Manual    | Snapshot that you manually create through the DWS console or using APIs. You can delete the snapshot.                                                                                                                                |
+      +-----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+      | Automated | The snapshot was automatically created by the system when automated snapshot backup is enabled for the cluster. The system automatically deletes the automated snapshots after the retention period expires. You cannot delete them. |
+      +-----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
    :ref:`Table 3 <en-us_topic_0000002329489594__en-us_topic_0000001422959269_en-us_topic_0000001307409978_table5780051267>` lists the snapshot types.
 

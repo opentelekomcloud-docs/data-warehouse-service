@@ -18,9 +18,9 @@ Create a six-node cluster. For details, see :ref:`Creating a DWS Storage-Compute
 Dividing a Cluster into Logical Clusters
 ----------------------------------------
 
-#. On the **Cluster Management** page, click the name of a cluster to go to the cluster details page. In the navigation pane, choose **Logical Clusters**.
+#. On the **Clusters** page, click the name of a cluster to go to the cluster details page. In the navigation pane, choose **Logical Clusters**.
 
-#. Click **Add Logical Cluster** in the upper right corner, select a host ring (three nodes) on the right, add it to the list on the left, enter the logical cluster name **lc1**, and click **OK**.
+#. Click **Add Logical Cluster** in the upper right corner, select a host ring (three nodes) on the right, move it to the list on the left, enter the logical cluster name **lc1**, and click **OK**.
 
    After about 2 minutes, the logical cluster is added.
 

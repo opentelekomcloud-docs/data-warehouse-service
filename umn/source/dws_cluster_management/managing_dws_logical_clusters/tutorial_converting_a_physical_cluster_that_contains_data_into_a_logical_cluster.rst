@@ -31,7 +31,7 @@ Creating a Cluster and Preparing Table Data
 
 #. Create a cluster. For details, see :ref:`Creating a Dedicated DWS Cluster <dws_01_0221>`.
 
-#. After connecting to the database, create table **name** as the system administrator **dbadmin** and insert two data records into the table.
+#. After connecting to the cluster database, create table **name** as the system administrator **dbadmin** and insert two data records into the table.
 
    ::
 
@@ -51,20 +51,20 @@ Converting to Logical Cluster lc1
 
 #. Toggle on the **Logical Cluster** switch.
 
-#. In the navigation pane on the left, choose **Logical Clusters**.
+#. In the navigation pane, choose **Logical Clusters**.
 
 #. Click **Add Logical Cluster** in the upper right corner, enter the logical cluster name **lc1**, and click **OK**.
 
-   During the switchover, the current cluster is unavailable. Wait for about 2 minutes (the conversion time varies depending on the service data volume). If **lc1** is displayed on the logical cluster page, the conversion is successful.
+   During the switchover, the current cluster is unavailable. Wait for about 2 minutes (the conversion time varies depending on the service data volume). If **lc1** is displayed on the **Logical Clusters** page, the conversion is successful.
 
 Adding Nodes to the elastic_group Cluster
 -----------------------------------------
 
-#. Return to the **Cluster Management** page. In the **Operation** column of the cluster, choose **More** > **Scale Node** > **Scale Out**.
+#. Return to the **Clusters** page. In the **Operation** column of the cluster, choose **More** > **Scale Node** > **Scale Out**.
 
    Before scaling out the cluster, it is crucial to verify if it meets the inspection conditions. Click **Immediate Inspection** to complete the inspection and proceed to the next step only if it passes. For more information, see :ref:`Viewing Inspection Results <dws_01_01755>`.
 
-#. Set **New Nodes** to **3**. Set **elastic_group** as the target logical cluster. Confirm the settings, select the confirmation check box, and click **Next: Confirm**.
+#. Set **New Nodes** to **3**. Set **Scale to Logical Cluster** to **elastic_group**. Confirm the settings, select the confirmation check box, and click **Next: Confirm**.
 
 #. Click **Next: Confirm**, and then click **OK**.
 
@@ -73,7 +73,7 @@ Adding Nodes to the elastic_group Cluster
 Adding Logical Cluster lc2
 --------------------------
 
-#. On the **Cluster Management** page, click the name of a cluster to go to the cluster details page. In the navigation pane, choose **Logical Clusters**.
+#. On the **Clusters** page, click the name of a cluster to go to the **Cluster Information** page. In the navigation pane, choose **Logical Clusters**.
 
 #. Click **Add Logical Cluster** in the upper right corner, select three nodes from the right pane to add to the left pane, enter the logical cluster name **lc2**, and click **OK**.
 

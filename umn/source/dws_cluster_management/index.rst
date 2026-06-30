@@ -13,7 +13,7 @@ DWS Cluster Management
 -  :ref:`Managing DWS Logical Clusters <dws_01_0724>`
 -  :ref:`Modifying GUC Parameters of the DWS Cluster <dws_01_0152>`
 -  :ref:`Managing DWS Tags <dws_01_0103>`
--  :ref:`Resetting the Password the DWS Database Administrator <dws_01_0026>`
+-  :ref:`Resetting the Password of the DWS Database Administrator <dws_01_0026>`
 -  :ref:`Starting, Stopping, and Deleting a DWS Cluster <dws_01_0024>`
 -  :ref:`Managing Enterprise Projects <dws_01_0113>`
 
@@ -29,6 +29,6 @@ DWS Cluster Management
    managing_dws_logical_clusters/index
    modifying_guc_parameters_of_the_dws_cluster
    managing_dws_tags/index
-   resetting_the_password_the_dws_database_administrator
+   resetting_the_password_of_the_dws_database_administrator
    starting_stopping_and_deleting_a_dws_cluster
    managing_enterprise_projects

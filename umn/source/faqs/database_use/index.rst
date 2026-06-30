@@ -10,7 +10,7 @@ Database Use
 -  :ref:`How Do I Do If a Field of the Date Type Is Automatically Converted to a Timestamp Type During Table Creation in DWS? <dws_03_0186>`
 -  :ref:`Do I Need to Run VACUUM FULL and ANALYZE on Common Tables Periodically in DWS? <dws_03_0089>`
 -  :ref:`How Do I Export a DWS Table Schema? <dws_03_0078>`
--  :ref:`How Do I Delete Table Data Efficiently in DWS? <dws_03_0088>`
+-  :ref:`Does DWS Provide an Efficient Way to Delete Table Data? <dws_03_0088>`
 -  :ref:`How Do I View DWS Foreign Table Information? <dws_03_2124>`
 -  :ref:`How Will Data Be Stored in a DWS Table If No Distribution Column Is Specified During Its Creation? <dws_03_2127>`
 -  :ref:`How Do I Replace the Null Results with 0 in a DWS Join Query? <dws_03_2102>`
@@ -21,7 +21,7 @@ Database Use
 -  :ref:`What Is a DWS Schema Starting with pg_toast_temp* or pg_temp*? <dws_03_2106>`
 -  :ref:`Solutions to Inconsistent DWS Query Results <dws_03_2107>`
 -  :ref:`Which System Catalogs in DWS Cannot Undergo the VACUUM FULL Operation? <dws_03_2108>`
--  :ref:`In Which Scenarios Will a DWS Statement Be in the idle in transaction State? <dws_03_2109>`
+-  :ref:`In Which Scenarios Will a DWS Statement Be in the "idle in transaction" State? <dws_03_2109>`
 -  :ref:`How Does DWS Implement Row-to-Column and Column-to-Row Conversion? <dws_03_2110>`
 -  :ref:`What Are the Differences Between DWS Unique Constraints and Unique Indexes? <dws_03_1002>`
 -  :ref:`What Are the Differences Between DWS Functions and Stored Procedures? <dws_03_0002>`
@@ -36,7 +36,7 @@ Database Use
    how_do_i_do_if_a_field_of_the_date_type_is_automatically_converted_to_a_timestamp_type_during_table_creation_in_dws
    do_i_need_to_run_vacuum_full_and_analyze_on_common_tables_periodically_in_dws
    how_do_i_export_a_dws_table_schema
-   how_do_i_delete_table_data_efficiently_in_dws
+   does_dws_provide_an_efficient_way_to_delete_table_data
    how_do_i_view_dws_foreign_table_information
    how_will_data_be_stored_in_a_dws_table_if_no_distribution_column_is_specified_during_its_creation
    how_do_i_replace_the_null_results_with_0_in_a_dws_join_query

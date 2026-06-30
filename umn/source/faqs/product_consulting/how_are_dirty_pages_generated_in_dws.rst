@@ -22,7 +22,7 @@ Solution:
 
 With DWS, you can easily query the dirty page rate through a system view. For details, see "PGXC_STAT_TABLE_DIRTY" in *Data Warehouse Service (DWS) Development Guide*.
 
-DWS offers the **VACUUM** function to address disk space bloat resulting from high dirty page rates. This function clears data marked for deletion. For details, see "VACUUM" in the *Data Warehouse Service (DWS) SQL Syntax Reference*.
+DWS offers the **VACUUM** function to address disk space bloat resulting from high dirty page rates. This function clears data marked for DELETE and UPDATE. For details, see "VACUUM" in the *Data Warehouse Service (DWS) SQL Syntax Reference*.
 
 **VACUUM** does not release the allocated space. To completely reclaim the cleared space, run **VACUUM FULL**.
 

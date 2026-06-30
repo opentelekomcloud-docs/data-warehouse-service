@@ -23,13 +23,9 @@ Preparations Before Connecting to a Cluster
 Connecting to the Cluster Database Using Data Studio
 ----------------------------------------------------
 
-#. DWS provides a Windows-based Data Studio client and the tool depends on the JDK. You need to install the JDK on the client host first.
+#. DWS provides a Windows-based Data Studio GUI client. The tool depends on JDK, so you must install the JDK using Java 1.8 (only this version is supported) on the client host.
 
-   .. important::
-
-      Only JDK 1.8 is supported.
-
-   In the Windows operating system, you can download the required JDK version from the official website of SDK, and install it by following the installation guidance.
+   In the Windows operating system, you can download the required JDK version from the official website of JDK, and install it by following the installation guidance.
 
 #. Log in to the DWS console.
 
@@ -43,7 +39,7 @@ Connecting to the Cluster Database Using Data Studio
 
 #. Decompress the downloaded client software package (32-bit or 64-bit) to the installation directory.
 
-#. Open the installation directory and double-click **Data Studio.exe** to start the Data Studio client. See :ref:`Figure 1 <en-us_topic_0000002270493825__febe974d888e24ddd8948572b362f7ef2>`.
+#. Open the installation directory and double-click **Data Studio.exe** to start the Data Studio client. See :ref:`Figure 1 <en-us_topic_0000002270493825__febe974d888e24ddd8948572b362f7ef2>`. If your computer blocks the running of the application, you can unlock the **Data Studio.exe** file to start the application.
 
    .. _en-us_topic_0000002270493825__febe974d888e24ddd8948572b362f7ef2:
 
@@ -51,10 +47,6 @@ Connecting to the Cluster Database Using Data Studio
       :alt: **Figure 1** Starting the client
 
       **Figure 1** Starting the client
-
-   .. note::
-
-      If your computer blocks the running of the application, you can unlock the **Data Studio.exe** file to start the application.
 
 #. Choose **File** > **New Connection** from the main menu. See :ref:`Figure 2 <en-us_topic_0000002270493825__f5e30eb5f20c9434e971d8b2786b02dbf>`.
 
@@ -65,7 +57,7 @@ Connecting to the Cluster Database Using Data Studio
 
       **Figure 2** New connection
 
-#. In the displayed **New Database Connection** window, enter the connection parameters.
+#. In the displayed **New Database Connection** window, set the connection parameters.
 
    .. table:: **Table 1** Connection parameters
 
@@ -94,7 +86,7 @@ Connecting to the Cluster Database Using Data Studio
       | Enable SSL            | If **Enable SSL** is selected, the client can use SSL to encrypt connections. The SSL connection mode is more secure than common modes, so you are advised to enable SSL connection. | ``-``                 |
       +-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
 
-   If **Enable SSL** is selected, :ref:`download the SSL certificate <en-us_topic_0000002235494444__li13478842115911>` and decompress it. Click the **SSL** tab and configure the following parameters:
+   If **Enable SSL** is selected, :ref:`download the SSL certificate <en-us_topic_0000002235494444__li13478842115911>` and decompress it. Click the **SSL** tab and configure the following parameters.
 
    .. table:: **Table 2** Configuring SSL parameters
 
@@ -107,7 +99,7 @@ Connecting to the Cluster Database Using Data Studio
       +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
       | Root Certificate                  | When **SSL Mode** is set to **verify-ca**, the root certificate must be configured. Select the **sslcert\\cacert.pem** file in the decompressed SSL certificate directory. |
       +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | SSL Cipher                        | Set the password for the client SSL key in PK8 format.                                                                                                                     |
+      | SSL Cipher                        | Set the password for the client SSL key in PK8 format. The default password is **Gauss@MppDB**.                                                                            |
       +-----------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
       | SSL Mode                          | Supported SSL modes include:                                                                                                                                               |
       |                                   |                                                                                                                                                                            |
@@ -131,16 +123,14 @@ Connecting to the Cluster Database Using Data Studio
 
    For details about how to use other functions of Data Studio, press **F1** to view the Data Studio user manual.
 
-   .. note::
+   -  Data cannot be rolled back after being added, deleted, modified, or queried in Data Studio.
+   -  Data Studio can save connection information, excluding passwords.
+   -  DDL/DDL and data cannot be exported in batches for the following objects:
 
-      -  Data cannot be rolled back after being added, deleted, modified, or queried in Data Studio.
-      -  Data Studio can save connection information, excluding passwords.
-      -  DDL/DDL and data cannot be exported in batches for the following objects:
+      -  **Export DDL:**
 
-         -  **Export DDL:**
+         Connection, database, foreign table, sequence, column, index, constraint, partition, function/procedure group, regular tables group, views group, schemas group, and system catalog group.
 
-            Connection, database, foreign table, sequence, column, index, constraint, partition, function/procedure group, regular tables group, views group, schemas group, and system catalog group.
+      -  **Export DDL and Data:**
 
-         -  **Export DDL and Data:**
-
-            Connection, database, namespace, foreign table, sequence, column, index, constraint, partition, function/procedure, view, regular tables group, schemas group, and system catalog group.
+         Connection, database, namespace, foreign table, sequence, column, index, constraint, partition, function/procedure, view, regular tables group, schemas group, and system catalog group.

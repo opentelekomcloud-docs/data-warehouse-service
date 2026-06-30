@@ -20,7 +20,7 @@ Viewing the Cluster Topology
 
 #. Log in to the DWS console.
 #. In the cluster list, click the name of a cluster.
-#. On the **Cluster Details** page, click the **Cluster Topology** tab.
+#. On the cluster details page, choose **Cluster Topology** in the navigation pane.
 #. In the pper right corner of the page, you can select **IP Address** or **Node Name**. After entering the IP address or node name in the search box, you can view the location of the IP address or node name in the cluster topology.
 
 Topology Overview
@@ -68,7 +68,7 @@ Terms in the Topology View
    +=================+============================================================================================+================================================================================================================================+
    | Manage IP       | IP address used by a data warehouse node to communicate with the management plane          | It is used by the management plane to deliver commands, and used by the node to report node status and monitoring information. |
    +-----------------+--------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+
-   | Traffic IP      | IP address of a data warehouse node for external access.                                   | This IP address can be bound to an EIP or ELB, or directly connect to a VPC.                                                   |
+   | Traffic IP      | IP address of a data warehouse node for external access.                                   | This IP address can be bound to an EIP or ELB, or directly connected to a VPC.                                                 |
    +-----------------+--------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+
    | Internal IP     | IP address used for communication inside a data warehouse cluster.                         | ``-``                                                                                                                          |
    +-----------------+--------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------+

@@ -10,8 +10,8 @@ DWS records information (audit logs) about connections and user activities in yo
 .. note::
 
    -  This function cannot be used if OBS is not available.
-   -  Only 9.1.0.100 and later versions support kernel log dump.
-   -  Data may during cluster specifications change, CN addition, or CN deletion. You are advised to disable audit log dump during these operations.
+   -  Kernel audit log dump is supported only by clusters running version 9.1.1.200 or later.
+   -  Data may be lost during cluster specifications change, CN addition, or CN deletion. You are advised to disable audit log dump during these operations.
    -  If a CN node is faulty, data on the CN node may be lost.
    -  After audit log dumping is enabled, audit logs will be dumped if the size of saved audit logs exceeds 1 GB. This may cause abnormal query results. Exercise caution when performing this operation.
    -  Version support for the audit log dump directory partition is as follows:
@@ -28,24 +28,24 @@ After a DWS cluster is created, you can enable log dump for it to dump audit log
 
 .. _en-us_topic_0000002270373701__en-us_topic_0000001145696613_section8182105814130:
 
-Enabling Audit Log Dumps
-------------------------
+Enabling Log Dumps
+------------------
 
 #. Log in to the DWS console.
 
 #. Choose **Dedicated Clusters** > **Clusters** in the navigation pane.
 
-#. In the cluster list, click the name of the cluster for which you want to enable audit log dump. In the navigation pane, choose **Security Settings**.
+#. In the cluster list, click the name of the cluster for which you want to enable log dump. In the navigation pane, choose **Security Settings**.
 
-#. In the **Audit Settings** area, enable **Audit Log Dump**.
+#. In the **Audit Settings** area, enable **Log Dump**.
 
-   When you enable audit log dump for a project in a region for the first time, the system prompts you to create an agency named **DWSAccessOBS**. After the agency is created, DWS can dump audit logs to OBS.
+   When you enable log dump for a project in a region for the first time, the system prompts you to create an agency named **DWSAccessOBS**. After the agency is created, DWS can dump audit logs to OBS.
 
    By default, only cloud accounts or users with **Security Administrator** permissions can query and create agencies. IAM users under an account do not have the permission to query or create agencies by default. Contact a user with that permission and complete the authorization on the current page.
 
-   -  **OBS Foreign Table**: Audit logs can be read using OBS foreign tables during dumping. Audit logs are stored in CSV format and compressed in GZ format.
+   -  **OBS Foreign Table**: Logs can be read using OBS foreign tables during dumping. Audit logs are stored in CSV format and compressed in GZ format.
 
-   -  **Create Agency**: Select an OBS bucket to store audit data. If no OBS bucket is available, click **View OBS Bucket** to access the OBS console and create one. For details, see "Console Operation Guide" > "Managing Buckets" > "Creating a Bucket" in the *Object Storage Service User Guide*.
+   -  **OBS Bucket**: Name of the OBS bucket used to store the audit data. If no OBS bucket is available, click **View OBS Bucket** to access the OBS console and create one. For details, see "Console Operation Guide" > "Managing Buckets" > "Creating a Bucket" in the *Object Storage Service User Guide*.
 
       Additionally, you can specify a bucket authorized by another user. However, to dump audit logs to that bucket, you must manually enter its name. Enter at least three characters. For details, see :ref:`Dumping Audit Logs/Kernel Audit Logs to Another User-Authorized OBS Bucket <en-us_topic_0000002270373701__section6998132014496>`.
 
@@ -74,7 +74,7 @@ Enabling Kernel Audit Log Dump
 
    By default, only cloud accounts or users with **Security Administrator** permissions can query and create agencies. IAM users under an account do not have the permission to query or create agencies by default. Contact a user with that permission and complete the authorization on the current page.
 
-   -  **Create Agency**: Select an OBS bucket to store kernel audit data. If no OBS bucket is available, click **View OBS Bucket** to access the OBS console and create one. For details, see "Console Operation Guide" > "Managing Buckets" > "Creating a Bucket" in the *Object Storage Service User Guide*.
+   -  **OBS Bucket**: Select an OBS bucket to store kernel audit data. If no OBS bucket is available, click **View OBS Bucket** to access the OBS console and create one. For details, see "Console Operation Guide" > "Managing Buckets" > "Creating a Bucket" in the *Object Storage Service User Guide*.
 
       Additionally, you can specify a bucket authorized by another user. However, to dump kernel audit logs to that bucket, you must manually enter its name. Enter at least three characters. For details, see :ref:`Dumping Audit Logs/Kernel Audit Logs to Another User-Authorized OBS Bucket <en-us_topic_0000002270373701__section6998132014496>`.
 
@@ -86,7 +86,7 @@ Enabling Kernel Audit Log Dump
 
    When the status changes to **Synchronized**, the configurations are saved and take effect.
 
-#. After the kernel audit log dump function is enabled, you can use the **pg_query_audit** function to view the dumped logs. For details, see :ref:`Using Functions to View Database Audit Logs <en-us_topic_0000002235494384__en-us_topic_0000001405788485_en-us_topic_0000001233761719_s0aec83296dc54e8f92966415aaaa3a6f>`.
+#. After the kernel audit log dump function is enabled, use the **pg_query_audit** function to view the dumped logs. For details, see :ref:`Using Functions to View Database Audit Logs <en-us_topic_0000002235494384__en-us_topic_0000001405788485_en-us_topic_0000001233761719_s0aec83296dc54e8f92966415aaaa3a6f>`.
 
    Alternatively, select the OBS bucket and folder where logs are stored to view the log files. For details, see :ref:`6 <en-us_topic_0000002270373701__li66482618816>`.
 
@@ -122,7 +122,7 @@ When you (dumping user) dump audit logs or kernel audit logs, you can specify an
          | Actions     | Select **Customize** and configure at least the following four actions for **Select Action**: **ListBucket**, **HeadBucket**, **GetObject**, and **PutObject**.                                                                                   |
          +-------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-#. Return to the **Security Settings** page as the dumping user and manually enter the OBS bucket name in **Create Agency**.
+#. Return to the **Security Settings** page as the dumping user and manually enter the OBS bucket name.
 
    After the dumping user uses the cluster to dump audit logs/kernel audit logs to the OBS bucket, the authorizing user can view the audit log files in the corresponding path within the OBS bucket.
 
@@ -130,8 +130,6 @@ Modifying Audit Log Dump Configurations
 ---------------------------------------
 
 After audit log dump is enabled, you can modify the dump configuration. For example, you can modify the OBS bucket and path for storing logs and the dump period.
-
-The procedure is as follows:
 
 #. Log in to the DWS console.
 
@@ -152,8 +150,6 @@ Viewing Dumped Audit Logs
 
 After audit log dump is enabled, you can view the dumped audit logs on OBS.
 
-To view dumped audit logs, perform the following steps:
-
 #. Log in to the DWS console.
 
 #. Choose **Dedicated Clusters** > **Clusters** in the navigation pane.
@@ -168,7 +164,7 @@ To view dumped audit logs, perform the following steps:
 
    Select the OBS bucket and folder where the logs are stored to view the log files.
 
-   You can download and decompress the files to view. The fields of audit log files are described as follows:
+   You can download and decompress the files for analysis. The fields of audit log files are described as follows:
 
    .. table:: **Table 2** Log file fields
 
@@ -307,7 +303,7 @@ To view dumped audit logs, perform the following steps:
       +---------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
       | lock_user/unlock_user                                                                                                                             | Indicates that the audit type is successful user locking and unlocking.                                                                                                                                                                                                                                                                                        |
       +---------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | grant_role/revoke__role                                                                                                                           | Indicates that the audit type is user permission granting and revoking.                                                                                                                                                                                                                                                                                        |
+      | grant_role/revoke_role                                                                                                                            | Indicates that the audit type is user permission granting and revoking.                                                                                                                                                                                                                                                                                        |
       +---------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
       | user_violation                                                                                                                                    | Indicates that the audit type is unauthorized user access operations.                                                                                                                                                                                                                                                                                          |
       +---------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -375,7 +371,7 @@ After the audit log dump or kernel audit log dump is enabled, you can disable it
 
 #. Click the name of the cluster for which you want to disable **Audit Log Dump** or **Kernel Audit Log Dump**. In the navigation pane, choose **Security Settings**.
 
-#. In the audit configuration area, toggle the audit log dump/kernel audit log dump function off.
+#. In the **Audit Settings** area, toggle audit log dump/kernel audit log dump off.
 
 #. Click **Apply**.
 

@@ -19,9 +19,9 @@ You can modify the CPU and memory configurations of the VM nodes in the target c
 
 
 .. figure:: /_static/images/en-us_image_0000002235494904.png
-   :alt: **Figure 1** Principle of elastic flavor change
+   :alt: **Figure 1** Elastic specification change
 
-   **Figure 1** Principle of elastic flavor change
+   **Figure 1** Elastic specification change
 
 .. note::
 
@@ -44,8 +44,8 @@ Procedure
 
 #. Log in to the DWS console.
 #. Choose **Dedicated Clusters** > **Clusters**. All clusters are displayed by default.
-#. In the row of a cluster, choose **More** > **Change Flavor** in the **Operation** column and click **Change Node Flavor**.
-#. Configure the flavor. Enable automatic backup as needed.
+#. Locate a cluster, choose **More** > **Change Specifications** > **Change node flavor** in the **Operation** column. Click **OK**.
+#. On the **Change node flavor** page, select the target specifications.
 #. Confirm the settings, select the confirmation check box, and click **Next: Confirm**.
 #. Click **Submit**.
 #. Return to the cluster list. The cluster status will change to **Changing node flavor**. Wait for about 5 to 10 minutes.

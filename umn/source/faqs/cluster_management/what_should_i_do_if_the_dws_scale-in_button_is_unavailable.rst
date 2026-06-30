@@ -2,8 +2,8 @@
 
 .. _dws_03_2149:
 
-How Do I Do If the DWS Scale-In Button Is Unavailable?
-======================================================
+What Should I Do If the DWS Scale-In Button Is Unavailable?
+===========================================================
 
 Symptom
 -------

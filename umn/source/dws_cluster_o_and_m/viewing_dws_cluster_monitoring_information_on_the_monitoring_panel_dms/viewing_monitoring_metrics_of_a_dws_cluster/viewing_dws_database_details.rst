@@ -5,7 +5,7 @@
 Viewing DWS Database Details
 ============================
 
-The **Database Monitoring** page displays the real-time and historical resource consumption a database.
+The **Database Monitoring** page displays the real-time and historical resource consumption of a database.
 
 Database Monitoring
 -------------------

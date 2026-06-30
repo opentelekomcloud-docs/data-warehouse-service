@@ -12,7 +12,7 @@ DWS snapshots are used to restore all the configurations and service data of a c
 DWS Snapshot
 ------------
 
-A DWS snapshot is a full backup and an incremental backup of a data warehouse cluster at a point in time. It records the data in the current database and cluster information, including the number of nodes, node specifications, and database administrator usernafme. Snapshots can be created manually or automatically.
+A DWS snapshot is a full backup and an incremental backup of a cluster at a point in time. It records the data in the current database and cluster information, including the number of nodes, node specifications, and database administrator username. Snapshots can be created manually or automatically.
 
 When restoring data from a snapshot to a cluster, DWS creates a cluster based on the cluster information recorded in the snapshot and restores database information from the snapshot data.
 

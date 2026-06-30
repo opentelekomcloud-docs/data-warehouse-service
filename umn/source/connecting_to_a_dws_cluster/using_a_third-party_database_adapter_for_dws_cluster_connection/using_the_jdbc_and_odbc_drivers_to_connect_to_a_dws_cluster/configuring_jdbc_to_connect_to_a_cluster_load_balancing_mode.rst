@@ -54,11 +54,7 @@ Method 2: Using JDBC Load Balancing to Connect to a Cluster (Recommended)
 
 #. Obtain the private IP address. Open the specified cluster topology page on the console and obtain the private IP address of the CN. For details, see :ref:`Obtaining the Connection Address of a DWS Cluster <dws_01_0033>`.
 
-#. Configure the driver. For details, see :ref:`Downloading the JDBC or ODBC Driver <dws_01_0032>`.
-
-   .. note::
-
-      Starting from version 8.3.1.200, the JDBC load balancing mode now allows for the driver to connect to the cluster. If you intend to utilize this mode, ensure that your JDBC driver version is 8.3.1.200 or later.
+#. Configure the driver. For details, see :ref:`Downloading the JDBC or ODBC Driver <dws_01_0032>`. Starting from version 8.3.1.200, the JDBC load balancing mode now allows for the driver to connect to the cluster. If you intend to utilize this mode, ensure that your JDBC driver version is 8.3.1.200 or later.
 
 #. Obtain the database connection. For how to set URL parameters, see :ref:`Using JDBC to Connect to a Cluster <dws_01_0077>`.
 

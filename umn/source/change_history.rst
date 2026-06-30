@@ -8,6 +8,20 @@ Change History
 +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+
 | Release Date                      | What's New                                                                                                                                     |
 +===================================+================================================================================================================================================+
+| 2026-04-03                        | This issue is the twenty-third official release for cluster version 9.1.0.211.                                                                 |
+|                                   |                                                                                                                                                |
+|                                   | Added the following functions:                                                                                                                 |
+|                                   |                                                                                                                                                |
+|                                   | -  The KMS key of an encrypted DWS cluster can be replaced with that of another tenant.                                                        |
+|                                   | -  The layout of the cluster details page has changed. The navigation pane has been moved from left to top of the page.                        |
++-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+
+| 2025-12-19                        | This issue is the twenty-second official release for cluster version 9.1.0.211.                                                                |
+|                                   |                                                                                                                                                |
+|                                   | Added the following functions:                                                                                                                 |
+|                                   |                                                                                                                                                |
+|                                   | -  Enabling encryption when creating a cluster. For details, see :ref:`Creating a DWS Storage-Compute Coupled Cluster <dws_01_0019>`.          |
+|                                   | -  Encrypting an existing cluster. For details, see :ref:`Using KMS to Encrypt DWS Clusters <dws_01_0115>`.                                    |
++-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+
 | 2025-09-18                        | This issue is the twenty-first official release for cluster version 9.1.0.211.                                                                 |
 |                                   |                                                                                                                                                |
 |                                   | Added the following functions:                                                                                                                 |

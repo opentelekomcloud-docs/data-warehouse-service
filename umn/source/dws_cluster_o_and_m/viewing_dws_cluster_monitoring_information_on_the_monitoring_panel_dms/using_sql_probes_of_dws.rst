@@ -14,7 +14,7 @@ Notes and Constraints
 -  Only **SELECT** statements can be used as SQL probes.
 -  Up to 20 SQL probes can be configured.
 -  To create an SQL probe, you must have the DWS FullAccess permission.
--  To enable the SQL probe function, choose **Monitoring Settings**. On the **Monitoring Collection** page, enable\ **SQL Probe**. For details, see :ref:`Monitoring Collection <en-us_topic_0000002329489546__en-us_topic_0000001423119253_en-us_topic_0000001076708691_section149871230683>`. The default collection frequency is 30s.
+-  To enable the SQL probe function, choose **Monitoring Settings**. On the **Monitoring Collection** page, enable **SQL Probe**. For details, see :ref:`Monitoring Collection <en-us_topic_0000002329489546__en-us_topic_0000001423119253_en-us_topic_0000001076708691_section149871230683>`. The default collection frequency is 30s.
 
 Adding a SQL Probe
 ------------------

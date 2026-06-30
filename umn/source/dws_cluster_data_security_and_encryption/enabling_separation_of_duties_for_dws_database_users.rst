@@ -34,7 +34,7 @@ Procedure
 
 #. Choose **Dedicated Clusters** > **Clusters** in the navigation pane.
 
-#. In the cluster list, click the name of a cluster. On the page that is displayed, click **Security Settings**.
+#. In the cluster list, click the name of a cluster. In the navigation pane, choose **Security Settings**.
 
    By default, **Configuration Status** is **Synchronized**, which indicates that the latest database result is displayed.
 
@@ -82,7 +82,7 @@ Procedure
 
 #. Click **Apply**.
 
-#. In the displayed **Save Configuration** dialog box, select or deselect **Restart the cluster** and click **Yes**.
+#. In the displayed **Save Configuration** dialog box, select or deselect **Restart the cluster** and click **Save**.
 
    -  If you select **Restart the cluster**, the system saves the settings on the **Security Settings** page and restarts the cluster immediately. After the cluster is restarted, the security settings take effect immediately.
    -  If you do not select **Restart the cluster**, the system only saves the settings on the **Security Settings** page. Later, you need to manually restart the cluster for the security settings to take effect.
