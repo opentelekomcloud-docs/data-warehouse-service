@@ -33,8 +33,8 @@ Network Access Security
 
 The L2 and L3 networks of DWS can be fully isolated to meet the security requirements of government and financial customers.
 
--  DWS is deployed in a dedicated ECS environment, which is not shared with any other tenant. This eliminates the possibility of data leakage caused by computing resource sharing.
--  ECSs in a DWS cluster are isolated through VPCs, preventing the ECSs from being discovered and accessed by other tenants.
+-  DWS is deployed in a dedicated ECS environment, which is not shared with any other tenant. This eliminates the possibility of data leakage caused by compute resource sharing.
+-  The VMs of DWS clusters are isolated using VPCs, preventing other tenants from discovering and intruding the VMs.
 -  The network is divided into the service plane and management plane. The two planes are physically isolated, ensuring network security.
 -  The tenants can flexibly customize the security group and access rules.
 

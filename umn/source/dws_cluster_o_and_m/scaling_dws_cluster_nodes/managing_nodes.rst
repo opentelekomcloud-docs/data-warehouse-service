@@ -8,7 +8,7 @@ Managing Nodes
 Overview
 --------
 
-On the **Nodes** tab page, you can view the node list of the current cluster, add new nodes to or remove nodes from it, and view the node usage, status, flavor, and AZ. In addition, you can click the |image1| icon next to the text in the **Node Alias Name** column of a specified node to modify the alias of the node. If the node does not have an alias, you can add an alias for the node.
+On the **Node Management** page, you can view the node list of the current cluster, add new nodes to or remove nodes from it, and view the node usage, status, flavor, and AZ. In addition, you can click |image1| in the **Node Alias Name** column of a specified node to add or modify the node alias.
 
 Notes and Constraints
 ---------------------
@@ -34,8 +34,8 @@ This function is more suited for large-scale scale-out. Nodes can be added in ba
 #. Log in to the DWS console.
 #. Choose **Dedicated Clusters** > **Clusters**. All clusters are displayed by default.
 #. Click the name of the target cluster. On the displayed **Cluster Information** page, choose **Node Management**.
-#. Click **Add Node**, enter the number of idle nodes to be added, and click **Next: Confirm**. If there are not enough IP addresses in the original subnet, you can add idle nodes from other subnets.
-#. After confirming that the information is correct, click **Submit**. The **Nodes** page is displayed. On this page, you can start adding nodes. Nodes that fail to be added are automatically rolled back and recorded in the failure list.
+#. Click **Add Node**, enter the number of idle nodes to be added, and click **Next: Confirm**. If there are not enough IP addresses in the original subnet, you can add idle nodes across subnets.
+#. Click **Submit**. In the displayed dialog box, click **OK**. The node management page is displayed. Nodes that fail to be added are automatically rolled back and recorded in the failure list.
 
 Removing Nodes
 --------------
@@ -43,7 +43,7 @@ Removing Nodes
 #. Log in to the DWS console.
 #. Choose **Dedicated Clusters** > **Clusters**. All clusters are displayed by default.
 #. Click the name of the target cluster. On the displayed **Cluster Information** page, choose **Node Management**.
-#. On the **Nodes** page, select the node to be deleted and click **Delete**.
-#. Confirm the information and click **OK**. After the deletion is successful, the node is no longer displayed on the **Nodes** page.
+#. Select the node to be deleted and click **Delete Node**.
+#. Enter **DELETE** or click **Auto Enter** in the displayed dialog box, and click **OK**. The node is no longer displayed on the **Node Management** page.
 
 .. |image1| image:: /_static/images/en-us_image_0000002235334844.png

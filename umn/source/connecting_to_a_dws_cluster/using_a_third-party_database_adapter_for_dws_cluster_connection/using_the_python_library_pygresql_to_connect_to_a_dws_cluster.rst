@@ -16,40 +16,32 @@ Preparations Before Connecting to a Cluster
 
    MD5 algorithms may by vulnerable to collision attacks and cannot be used for password verification. Currently, DWS uses the default security design. By default, MD5 password verification is disabled, and this may cause failures of connections from open source clients. You are advised to contact the technical support to check whether the value of **password_encryption_type** is **1**. If the value is not **1**, change it. Then change the password of the database user to be used.
 
-   .. note::
-
-      -  For security purposes, DWS no longer uses MD5 to store password digests by default. As a result, the open-source drives and clients may fail to connect to the database. To use the MD5 algorithm used in an open-source protocol, you must modify your password policy and create a new user, or change the password of an existing user.
-      -  The database stores the hash digest of passwords instead of password text. During password verification, the system compares the hash digest with the password digest sent from the client (salt operations are involved). If you change your cryptographic algorithm policy, the database cannot generate a new hash digest for your existing password. For connectivity purposes, you must manually change your password or create a new user. The new password will be encrypted using the hash algorithm and stored for authentication in the next connection.
+   -  For security purposes, DWS no longer uses MD5 to store password digests by default. As a result, the open-source drives and clients may fail to connect to the database. To use the MD5 algorithm used in an open-source protocol, you must modify your password policy and create a new user, or change the password of an existing user.
+   -  The database stores the hash digest of passwords instead of password text. During password verification, the system compares the hash digest with the password digest sent from the client (salt operations are involved). If you change your cryptographic algorithm policy, the database cannot generate a new hash digest for your existing password. For connectivity purposes, you must manually change your password or create a new user. The new password will be encrypted using the hash algorithm and stored for authentication in the next connection.
 
 -  You have obtained the public network address, including the IP address and port number in the DWS cluster. For details, see :ref:`Obtaining the Connection Address of a DWS Cluster <dws_01_0033>`.
 
 -  You have installed the third-party function library PyGreSQL.
 
-   Download address: http://www.pygresql.org/download/index.html
+   Download address: https://pygresql.org/download/index.html
 
--  For details about the installation and deployment operations, see http://www.pygresql.org/contents/install.html
+-  For details about the installation and deployment operations, see https://pygresql.org/contents/install.html.
 
-   .. note::
+   -  In CentOS and Red Hat OS, run the following **yum** command:
 
-      -  In CentOS and Red Hat OS, run the following **yum** command:
+      ::
 
-         ::
+         yum install PyGreSQL
 
-            yum install PyGreSQL
+   -  PyGreSQL depends on the libpq dynamic library of PostgreSQL (32-bit or 64-bit version, whichever matches the PyGreSQL bit version). In Linux, you can run the **yum** command and do not need to install the library. Before using PyGreSQL in Windows, you need to install libpq in either of the following ways:
 
-      -  PyGreSQL depends on the libpq dynamic library of PostgreSQL (32-bit or 64-bit version, whichever matches the PyGreSQL bit version). In Linux, you can run the **yum** command and do not need to install the library. Before using PyGreSQL in Windows, you need to install libpq in either of the following ways:
-
-         -  Install PostgreSQL and configure the libpq, ssl, and crypto dynamic libraries in the environment variable **PATH**.
-         -  Install **psqlodbc** and use the **libpq**, **ssl**, and **crypto** dynamic libraries carried by the PostgreSQL ODBC driver.
+      -  Install PostgreSQL and configure the libpq, ssl, and crypto dynamic libraries in the environment variable **PATH**.
+      -  Install **psqlodbc** and use the **libpq**, **ssl**, and **crypto** dynamic libraries carried by the PostgreSQL ODBC driver.
 
 Constraints
 -----------
 
-PyGreSQL is a PostgreSQL-based client interface, and its functions are not fully supported by DWS. For details, see :ref:`Table 1 <en-us_topic_0000002235334640__table12568181118545>`.
-
-.. note::
-
-   The following APIs are supported based on Python 3.8.5 and PyGreSQL 5.2.4.
+PyGreSQL is a PostgreSQL-based client interface, and its functions are not fully supported by DWS. For details, see :ref:`Table 1 <en-us_topic_0000002235334640__table12568181118545>`. The following APIs are supported based on Python 3.8.5 and PyGreSQL 5.2.4.
 
 .. _en-us_topic_0000002235334640__table12568181118545:
 
@@ -60,7 +52,7 @@ PyGreSQL is a PostgreSQL-based client interface, and its functions are not fully
    +======================================+===========================================================================+=====+===========================================================================+
    | Module functions and constants       | connect - Open a PostgreSQL connection                                    | Y   | ``-``                                                                     |
    +--------------------------------------+---------------------------------------------------------------------------+-----+---------------------------------------------------------------------------+
-   |                                      | get_pqlib_version - get the version of libpq                              | Y   | ``-``                                                                     |
+   |                                      | get_pqlib_version - get the version of pqlib                              | Y   | ``-``                                                                     |
    +--------------------------------------+---------------------------------------------------------------------------+-----+---------------------------------------------------------------------------+
    |                                      | get/set_defhost - default server host [DV]                                | Y   | ``-``                                                                     |
    +--------------------------------------+---------------------------------------------------------------------------+-----+---------------------------------------------------------------------------+
@@ -353,7 +345,7 @@ Using the Third-Party Function Library PyGreSQL to Connect to a Cluster (Linux)
           print("Begin to update data")
           try:
               result = connection.query("update test set name = 'numberupdated' where id=1;")
-              print("Total number of rows updated :", result)
+              print("Total number of rows updated:", result)
               result = connection.query("select * from test order by 1;")
               rows = result.getresult()
               for row in rows:
@@ -369,7 +361,7 @@ Using the Third-Party Function Library PyGreSQL to Connect to a Cluster (Linux)
           print("Begin to delete data")
           try:
               result = connection.query("delete from test where id=3;")
-              print("Total number of rows deleted :", result)
+              print("Total number of rows deleted:", result)
               result = connection.query("select * from test order by 1;")
               rows = result.getresult()
               for row in rows:
@@ -529,11 +521,7 @@ Using the Third-Party Function Library PyGreSQL to Connect to a Cluster (Linux)
               delete_data(conn)
               conn.close()
 
-#. Change the public network address, cluster port number, database name, database username, and database password in the **python_dws.py** file based on the actual cluster information.
-
-   .. note::
-
-      The PyGreSQL API does not provide the connection retry capability. You need to implement the retry processing in the service code.
+#. Change the public network address, cluster port number, database name, database username, and database password in the **python_dws.py** file based on the actual cluster information. The PyGreSQL API does not provide the connection retry capability. You need to implement the retry processing in the service code.
 
    ::
 
@@ -552,7 +540,7 @@ Using the Third-Party Function Library PyGreSQL to Connect to a Cluster (Linux)
 Using the Third-Party Function Library PyGreSQL to Connect to a Cluster (Windows)
 ---------------------------------------------------------------------------------
 
-#. In the Windows operating system, click the **Start** button, enter **cmd** in the search box, and click **cmd.exe** in the result list to open the command-line interface (CLI).
+#. In the Windows operating system, click **Start**, enter **cmd** in the search box, and click **cmd.exe** in the result list to open the command-line interface (CLI).
 
 #. In the CLI, run the following command to create the **python_dws.py** file:
 
@@ -599,7 +587,7 @@ Using the Third-Party Function Library PyGreSQL to Connect to a Cluster (Windows
           print("Begin to update data")
           try:
               result = connection.query("update test set name = 'numberupdated' where id=1;")
-              print("Total number of rows updated :", result)
+              print("Total number of rows updated:", result)
               result = connection.query("select * from test order by 1;")
               rows = result.getresult()
               for row in rows:
@@ -615,7 +603,7 @@ Using the Third-Party Function Library PyGreSQL to Connect to a Cluster (Windows
           print("Begin to delete data")
           try:
               result = connection.query("delete from test where id=3;")
-              print("Total number of rows deleted :", result)
+              print("Total number of rows deleted:", result)
               result = connection.query("select * from test order by 1;")
               rows = result.getresult()
               for row in rows:

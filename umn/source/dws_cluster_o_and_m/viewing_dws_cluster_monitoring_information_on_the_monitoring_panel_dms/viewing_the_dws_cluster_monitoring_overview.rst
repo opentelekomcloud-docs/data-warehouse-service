@@ -40,6 +40,42 @@ Data Volume
 
 In the **Data Volume** area, you can view the used capacity of the current database and schema. You can click a capacity metric to view the database or schema capacity trend in the last 24 hours and the top five databases or schemas ranked by capacity usage in the current cluster. You can click **More** in the upper right corner of the area to go to the **Database Monitoring** page. Databases are sorted by used capacity. For details, see :ref:`Viewing DWS Database Details <dws_01_1332>`.
 
+-  **Database Capacity**: used capacity of the cluster databases (unit: GB). The calculation formula is as follows: Database capacity = Total used capacity of each database (unit: B)/1024/1024/1024. The total database capacity is the used capacity of each database in the cluster collected on the CCN node. The capacity is obtained from the fields in the **GLOBAL_STAT_DATABASE** and **PG_DATABASE** views. The query statements are as follows:
+
+   .. code-block::
+
+      SELECT
+        A.datname as name,
+        tup_returned,
+        tup_fetched,
+        tup_inserted,
+        tup_updated,
+        tup_deleted,
+        xact_commit,
+        xact_rollback,
+        deadlocks,
+        blks_read,
+        blks_hit,
+        blk_read_time,
+        blk_write_time,
+        conflicts,
+        temp_files,
+        temp_bytes
+        FROM global_stat_database A, pg_database B
+        where A.datname = B.datname AND B.datallowconn = 't';
+
+-  **Schema Capacity**: used capacity of schemas in the cluster databases, in GB. The calculation formula is as follows: Schema capacity = Total used schema capacity (in bytes) of each database/1024/1024/1024. The total schema capacity is the used schema capacity of each database in the cluster collected on the CCN node. The capacity is obtained from the fields in the **PGXC_TOTAL_SCHEMA_INFO** view. The query statements are as follows:
+
+   .. code-block::
+
+      SELECT
+        databasename,
+        schemaname,
+        sum(usedspace) as usedspace,
+        trunc(avg(permspace), 0) as permspace
+        from pgxc_total_schema_info
+        group by databasename, schemaname;
+
 .. note::
 
    The database capacity data is collected once a day. Therefore, the data volume fluctuates greatly. To view real-time capacity monitoring information, choose **Node Monitoring** > **Disks**.

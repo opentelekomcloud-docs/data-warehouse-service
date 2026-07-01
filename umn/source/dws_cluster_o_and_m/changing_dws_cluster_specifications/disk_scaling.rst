@@ -12,7 +12,7 @@ As customer services evolve, disk space often becomes the initial bottleneck. In
 
 .. note::
 
-   -  Disk capacity can be expanded only if the cluster is in **Available**, **To be restarted**, **Read-only**, or **Node fault**, **Unbalanced** state.
+   -  Disk capacity can be expanded only if the cluster is in **Available**, **To be restarted**, **Read-only**, **Unbalanced**, **Node fault**, or **Unavailable** state.
 
 Precautions
 -----------
@@ -26,7 +26,7 @@ Procedure
 
 #. Log in to the DWS console.
 #. Choose **Dedicated Clusters** > **Clusters**. All clusters are displayed by default.
-#. In the **Operation** column of the target cluster, choose **More** > **Change Specifications** and click **Change disk capacity**. The **Change Disk Capacity** page is displayed.
+#. In the **Operation** column of the target cluster, choose **More** > **Change Specifications** > **Change disk capacity** and click **OK**.
 #. Select the appropriate storage space based on the storage step of the corresponding flavor. The step refers to the interval for increasing or decreasing storage space. Click **Resize Cluster Now**.
 #. Confirm the settings and click **Submit**.
 #. Return to the cluster list and check the disk capacity expansion progress.

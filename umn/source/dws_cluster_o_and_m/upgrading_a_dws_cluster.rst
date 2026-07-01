@@ -48,28 +48,26 @@ The following figure shows the cluster version.
 Upgrading a Cluster
 -------------------
 
-Cluster 8.1.1 and later versions allow users to deliver cluster upgrade operations on the console.
+You can upgrade the version of a cluster 8.1.1 or later on the console.
 
 #. Log in to the DWS console.
 #. In the cluster list, click the name of a cluster.
 #. In the navigation pane, choose **Upgrade Management**.
 #. Choose either **Upgrade** or **Hot patch** from the **Type** drop-down list depending on the type of upgrade you want to perform.
-#. On the **Upgrade Management** page, select a version from the **Target Version** drop-down list.
+#. Select a version from the **Target Version** drop-down list.
 
    .. note::
 
       -  Before the upgrade, it is crucial to verify if it meets the inspection conditions. Click **Immediate Inspection** to complete the inspection and proceed to the next step only if it passes. For more information, see :ref:`Viewing Inspection Results <dws_01_01755>`.
-      -  DR cannot be established after a hot patch is installed in a cluster.
+      -  A hot patch installation prevents DR setup in the cluster.
 
 #. Click **Upgrade**. Click **OK** in the displayed dialog box.
 #. Check whether the cluster is successfully upgraded.
 
-   -  If the cluster version is 8.1.3 or later, the cluster enters the service observation period after the upgrade is complete. If you have verified your services, click **Submit** on the **Upgrade Management** page to complete the cluster upgrade. If you find your cluster performance affected by the upgrade, you can click **Rollback** to roll back the upgrade.
+   -  If the cluster version is 8.1.3 or later, the cluster enters the service observation period after the upgrade is complete. If you have verified your services, click **Submit** on the **Upgrade Management** page to complete the cluster upgrade. If you find your cluster performance is affected by the upgrade, you can click **Rollback** to roll back the upgrade. If you use a version earlier than 8.1.3, you cannot roll back or submit upgrade tasks until the cluster upgrade completes.
 
       .. note::
 
-         -  If you are using a version of 8.1.3 or earlier, you will not be able to roll back or submit upgrade tasks until the cluster upgrade is finished.
-
-         -  After an upgrade task is successfully delivered, if the upgrade task is not submitted, the **wlm** thread occupies the system storage space and affects the system performance.
+         If you do not submit the upgrade task after the upgrade task is successfully delivered, the **wlm** thread occupies the system storage space and affects the performance.
 
    -  If the cluster upgrade fails, click **Rollback** to roll back to the original cluster version, or click **Retry** to deliver the upgrade again.

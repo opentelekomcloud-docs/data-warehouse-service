@@ -7,7 +7,7 @@ Who Is the Ruby User in the DWS Database?
 
 When you run the **SELECT \* FROM pg_user** statement to view the users in the system, you will find the **Ruby** user with extensive permissions.
 
-User **Ruby** is an official O&M Account. After creating a DWS database, a **Ruby** account is automatically generated, involving no security risks; feel free to use it.
+**Ruby** is an official O&M Account. After creating a DWS database, a **Ruby** account is automatically generated, involving no security risks; feel free to use it.
 
 |image1|
 

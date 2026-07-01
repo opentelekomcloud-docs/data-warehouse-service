@@ -27,7 +27,7 @@ The resource management function consists of the following parts:
 
 -  Resource management configuration: you can configure whether to enable resource management and the maximum number of global concurrent requests. The system allows a limited number of simultaneous tasks per CN. Disabling the resource manager turns off all its features.
 -  :ref:`Resource pools <dws_01_07231>`: Compute resources are isolated and restricted to prevent cluster-level exceptions caused by abnormal SQL queries.
--  :ref:`Resource management plan <dws_01_72365>`: Resources are managed automatically based on a preconfigured plan, which can flexibly cope with complex scenarios.
+-  :ref:`Resource management plan <dws_01_72363>`: Resources are managed automatically based on a preconfigured plan, which can flexibly cope with complex scenarios.
 -  :ref:`Schema space management <dws_01_72366>`: Set the maximum storage space of a schema to prevent the disk space from being used up and the database from being read-only.
 -  **User space management**: When creating a resource pool, you can set the storage space size and associate the resource pool with a user. For details, see :ref:`Creating a resource pool <en-us_topic_0000002344532677__en-us_topic_0000001372520138_section1239585215495>`.
 -  :ref:`Exception rules <dws_01_72367>`: To avoid query blocking or performance deterioration, you can configure exception rules to let the service automatically identify and handle abnormal queries, preventing slow SQL statements from occupying too many resources for a long time.
@@ -84,14 +84,43 @@ Memory management aims to prevent out of memory (OOM) in a database, isolate the
 
    The sum of memory percentages allocated to all resource pools cannot exceed 100. Resource pool memory management is performed only before a query in the slow queue starts. It works in a way similar to the global memory management before a query. Before a query in the slow queue in a resource pool is executed, its memory usage is estimated. If the estimation is greater than the resource pool memory, the query needs to be queued and can be executed only after earlier queries in the pool are complete and resources released.
 
+.. _en-us_topic_0000002344412841__section8129175313310:
+
 CPU Management
 --------------
 
-CPU share and CPU limit can be managed.
+DWS primarily utilizes Cgroups to manage CPU resources, which involves the CPU, cpuacct, and cpuset subsystems. The CPU share is implemented based on the **cpu.shares** of the CPU subsystem. The CPU control is triggered only when the OS CPU is fully occupied. CPU limit is implemented based on the **cpuset**. The **cpuacct** subsystem is used to monitor the CPU resource usage. CPU sharing and CPU limit can be managed. In the **Resource Configuration** area, you can modify **CPU Sharing** and **CPU Limit** of the current resource pool.
 
--  CPU share: If the system is heavily loaded, CPU resources are allocated to resource pools based on the specific CPU shares. If the system not busy, this configuration does not take effect.
--  CPU limit: It specifies the maximum number of CPU cores used by a resource pool. The resource usage of jobs in the resource pool cannot exceed this limit no matter whether the system is busy or not.
+-  **CPU Sharing**: If the system is heavily loaded, CPU resources are allocated to resource pools based on the specific CPU shares. If the system not busy, this configuration does not take effect.
 
-In the resource configuration area, you can modify the CPU time limit and CPU usage limit.
+   -  **Sharing**: The CPU is shared by all Cgroups, and other Cgroups can use idle CPU resources.
+   -  **Limit**: When the CPU is fully loaded during peak hours, Cgroups preempt CPU resources based on their limits.
 
-Choose either of the preceding management methods as needed. In CPU share management, CPUs can be shared and fully utilized, but resource pools are not isolated and may affect the query performance of each other. In CPU limit management, the CPUs of different resource pools are isolated, but this may result in the waste of idle resources.
+   CPU share is implemented based on **cpu.shares** and takes effect only when the CPU is fully loaded. When the CPU is idle, there is no guarantee that a Cgroup will preempt CPU resources appropriate to its quota. There can still be resource contention when the CPU is idle. Tasks in a Cgroup can use CPU resources without restriction. Although the average CPU usage may not be high, CPU resource contention may still occur at a specific time.
+
+   For example, 10 jobs are running on 10 CPUs, and one job is running on each CPU. In this case, any job request for CPU resources will be responded to instantly, and there is no contention. If 20 jobs are running on 10 CPUs, the CPU usage may still not be high because the jobs do not always occupy the CPU and may wait for I/O and network resources. The CPU resources seem idle. However, if 2 or more jobs request one CPU at the same time, CPU resource contention occurs, affecting job performance.
+
+-  **CPU Limit**: It specifies the maximum number of CPU cores used by a resource pool. The resource usage of jobs in the resource pool cannot exceed this limit no matter whether the system is busy or not.
+
+   -  **Dedicated**: The CPU is dedicated to a Cgroup. Other Cgroups with quotas cannot use idle CPU resources.
+   -  **Quota**: Only the CPU resources in the allocated quota can be used. Idle CPU resources of other Cgroups cannot be preempted.
+
+   CPU limit is implemented based on **cpuset.cpu**. You can set a proper quota to implement absolute isolation of CPU resources between Cgroups. In this way, tasks of different Cgroups will not affect each other. However, the absolute CPU isolation will cause idle CPU resources in a Cgroup to be wasted. Therefore, the limit cannot be too large. A larger limit may not bring a better performance.
+
+   For example, in one case, 10 jobs are running on 10 CPUs and the average CPU usage is about 5%. In another case, 10 jobs are running on 5 CPUs and the average CPU usage is about 10%. According to the preceding analysis, although the CPU usage is low when 10 jobs run on five CPUs. However, CPU resource contention still exists. Therefore, the performance of running 10 jobs on 10 CPUs is better than that of running 10 jobs on 5 CPUs. However, it is not the more CPUs, the better. If ten jobs run on 20 CPUs, at any time point, at least 10 CPUs are idle. Therefore, theoretically, running 10 jobs on 20 CPUs does not have better performance than running 10 CPUs. For a Cgroup with a concurrency of N, if the number of allocated CPUs is less than N, the job performance is better with more CPUs. However, if the number of allocated CPUs is greater than N, the job performance will not be improved with more CPUs.
+
+Choose either of the preceding management methods as needed. In CPU share management, CPUs can be shared and fully utilized, but resource pools are not isolated and may affect the query performance of each other. In CPU limit management, the CPUs of different resource pools are isolated, but this may result in the waste of idle resources. Compared with CPU limit, CPU share has higher CPU usage and overall job throughput. Compared with CPU share, CPU limit has complete CPU isolation, which can better meet the requirements of performance-sensitive users.
+
+If CPU contention occurs when multiple types of jobs are running in the database system, you can select different CPU resource control modes based on different scenarios.
+
+-  Scenario 1: Fully utilize CPU resources. Focus on the overall CPU throughput instead of the performance of a single type of jobs.
+
+   Suggestion: You are advised not to isolate CPUs for individual users as any CPU management can impact overall CPU usage.
+
+-  Scenario 2: A certain degree of CPU resource contention and performance loss are allowed. When the CPU is idle, the CPU resources are fully utilized. When the CPU is fully loaded, each service type needs to use the CPU proportionally.
+
+   Suggestion: You can use CPU share to improve the overall CPU usage while implementing CPU isolation and control when the CPUs are fully loaded.
+
+-  Scenario 3: Some jobs are sensitive to performance and CPU resource waste is allowed.
+
+   Suggestion: You can use CPU limit to implement absolute CPU isolation between different types of jobs.

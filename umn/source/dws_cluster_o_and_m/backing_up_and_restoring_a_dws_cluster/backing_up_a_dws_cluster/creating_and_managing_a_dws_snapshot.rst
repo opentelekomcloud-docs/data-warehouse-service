@@ -18,6 +18,7 @@ Notes and Constraints
 -  To create a schema snapshot, ensure that the cluster is in **Available** or **Unbalanced** state.
 -  If a snapshot is being created for a cluster, the cluster cannot be restarted, scaled, its password cannot be reset, and its configurations cannot be modified. To ensure the integrity of snapshot data, do not write data during snapshot creation.
 -  If the snapshot size is much greater than that of the data stored in the cluster, the data is possibly labeled with a deletion tag, but is not cleared and reclaimed. In this case, clear the data and recreate a snapshot. For details, see :ref:`How Can I Clear and Reclaim the DWS Storage Space? <dws_03_0033>`
+-  Schema-level fine-grained snapshots cannot back up comments and permissions of tables.
 
 .. _en-us_topic_0000002329489586__en-us_topic_0000001422799449_section151481400504:
 

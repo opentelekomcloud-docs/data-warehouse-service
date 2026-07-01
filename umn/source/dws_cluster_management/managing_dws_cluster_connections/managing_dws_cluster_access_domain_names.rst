@@ -69,11 +69,11 @@ To create a public network domain name, perform the following steps:
 
 #. In the cluster list, find the target cluster and click the cluster name. The **Cluster Information** page is displayed.
 
-#. In the **Connection** area, **Public Network Domain Name** and **Public Network IP Address** are empty. Click **Edit** to bind the cluster with an EIP.
+#. In the **Connection** area, **Public Network Domain Name** and **Public Network IP Address** are empty. Click **Edit** beside **Public Network IP Address** to bind an EIP to the cluster.
 
-#. In the **Edit Elastic IP** dialog box, select an EIP from the drop-down list to bind it to a specified CN.
+#. In the **Bind/Unbind EIP** dialog box, select an EIP from the list to bind it to a specified CN.
 
-   If no available EIPs are displayed, click **View EIP** to go to the **Elastic IP** page and create an EIP that satisfies your needs. After the new EIP is created, click the refresh icon next to the drop-down list. The newly created EIP will be displayed in the **EIP** drop-down list.
+   If no available EIPs are displayed, click **View EIP** to go to the **EIPs** page and create an EIP that satisfies your needs. After the new EIP is created, click the refresh icon next to the drop-down list. The newly created EIP will be displayed in the **EIP** drop-down list.
 
    After the EIP is bound successfully, the specific public network IP address is displayed in the **Connection** area.
 
@@ -83,7 +83,7 @@ To create a public network domain name, perform the following steps:
 
    The public network domain name contains 4 to 63 characters, which consists of letters, digits, and hyphens (-) and must start with a letter.
 
-   The specific public network domain name is displayed in the **Connection** area after being created. Click copy button |image1| to copy the public network domain name.
+   The specific public network domain name is displayed in the **Connection** area after being created. Click |image1| to copy the public network domain name.
 
 .. _en-us_topic_0000002235494368__section220113419330:
 

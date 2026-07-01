@@ -16,27 +16,23 @@ Preparations Before Connecting to a Cluster
 
    MD5 algorithms may by vulnerable to collision attacks and cannot be used for password verification. Currently, DWS uses the default security design. By default, MD5 password verification is disabled, and this may cause failures of connections from open source clients. You are advised to contact the technical support to check whether the value of **password_encryption_type** is **1**. If the value is not **1**, change it. Then change the password of the database user to be used.
 
-   .. note::
-
-      -  For security purposes, DWS no longer uses MD5 to store password digests by default. As a result, the open-source drives and clients may fail to connect to the database. To use the MD5 algorithm used in an open-source protocol, you must modify your password policy and create a new user, or change the password of an existing user.
-      -  The database stores the hash digest of passwords instead of password text. During password verification, the system compares the hash digest with the password digest sent from the client (salt operations are involved). If you change your cryptographic algorithm policy, the database cannot generate a new hash digest for your existing password. For connectivity purposes, you must manually change your password or create a new user. The new password will be encrypted using the hash algorithm and stored for authentication in the next connection.
+   -  For security purposes, DWS no longer uses MD5 to store password digests by default. As a result, the open-source drives and clients may fail to connect to the database. To use the MD5 algorithm used in an open-source protocol, you must modify your password policy and create a new user, or change the password of an existing user.
+   -  The database stores the hash digest of passwords instead of password text. During password verification, the system compares the hash digest with the password digest sent from the client (salt operations are involved). If you change your cryptographic algorithm policy, the database cannot generate a new hash digest for your existing password. For connectivity purposes, you must manually change your password or create a new user. The new password will be encrypted using the hash algorithm and stored for authentication in the next connection.
 
 -  You have obtained the public network address, including the IP address and port number in the DWS cluster. For details, see :ref:`Obtaining the Connection Address of a DWS Cluster <dws_01_0033>`.
 
 -  You have installed the third-party database adapter Psycopg2. Download address: https://pypi.org/project/psycopg2/. For details about installation and deployment, see https://www.psycopg.org/install/.
 
-   .. note::
+   -  In CentOS and Red Hat OS, run the following **yum** command:
 
-      -  In CentOS and Red Hat OS, run the following **yum** command:
+      ::
 
-         ::
+         yum install python-psycopg2
 
-            yum install python-psycopg2
+   -  Psycopg2 depends on the libpq dynamic library of PostgreSQL (32-bit or 64-bit version, whichever matches the psycopg2 bit version). In Linux, you can run the **yum** command and do not need to install the library. Before using Psycopg2 in Windows, install libpq in either of the following ways:
 
-      -  Psycopg2 depends on the libpq dynamic library of PostgreSQL (32-bit or 64-bit version, whichever matches the psycopg2 bit version). In Linux, you can run the **yum** command and do not need to install the library. Before using Psycopg2 in Windows, install libpq in either of the following ways:
-
-         -  Install PostgreSQL and configure the libpq, ssl, and crypto dynamic libraries in the environment variable **PATH**.
-         -  Install psqlodbc and use the libpq, ssl, and crypto dynamic libraries carried by the PostgreSQL ODBC driver.
+      -  Install PostgreSQL and configure the libpq, ssl, and crypto dynamic libraries in the environment variable **PATH**.
+      -  Install psqlodbc and use the libpq, ssl, and crypto dynamic libraries carried by the PostgreSQL ODBC driver.
 
 Version
 -------
@@ -59,11 +55,7 @@ There are many versions of DWS clusters, Python, and Psycopg2. The following tab
 Constraints
 -----------
 
-psycopg2 is a PostgreSQL-based client interface, and its functions are not fully supported by DWS. For details, see :ref:`Table 2 <en-us_topic_0000002270373929__table147698595445>`.
-
-.. note::
-
-   The following APIs are supported based on Python 3.8.5 and Psycopg 2.9.1.
+psycopg2 is a PostgreSQL-based client interface, and its functions are not fully supported by DWS. For details, see :ref:`Table 2 <en-us_topic_0000002270373929__table147698595445>`. The following APIs are supported based on Python 3.8.5 and Psycopg 2.9.1.
 
 .. _en-us_topic_0000002270373929__table147698595445:
 
@@ -498,7 +490,7 @@ Using the Third-Party Function Library psycopg2 to Connect to a Cluster (Windows
 Why CN Retry Is Not Supported When Psycopg2 Is Connected to a Cluster?
 ----------------------------------------------------------------------
 
-With the CN retry feature, DWS retries a statement that failed to be executed and identifies the failure type. However, in a session connected using Psycopg2, a failed SQL statement will report an error and stop to be executed. In a primary/standby switchover, if a failed SQL statement is not retried, the following error will be reported. If the switchover is complete during an automatic retry, the correct result will be returned.
+With the **CN retry** feature, DWS retries a statement that failed to be executed and identifies the failure type. However, in a session connected using Psycopg2, a failed SQL statement will report an error and stop to be executed. In a primary/standby switchover, if a failed SQL statement is not retried, the following error will be reported. If the switchover is complete during an automatic retry, the correct result will be returned.
 
 ::
 

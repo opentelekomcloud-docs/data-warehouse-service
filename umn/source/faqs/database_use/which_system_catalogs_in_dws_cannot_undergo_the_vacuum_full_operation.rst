@@ -5,7 +5,9 @@
 Which System Catalogs in DWS Cannot Undergo the VACUUM FULL Operation?
 ======================================================================
 
-From a functional perspective, **VACUUM FULL** can be performed on all DWS system catalogs, which however involves using eight levels of locks, thereby blocking services related to these system catalogs.
+In clusters earlier than 9.1.1.100, **VACUUM FULL** can be performed on all DWS system catalogs. This operation needs a level-8 lock and blocks services using those catalogs.
+
+In clusters of version 9.1.1.100 or later, you can set **allow_system_table_vacuum_full** to determine whether to execute VACUUM FULL on system catalogs.
 
 The suggestions are based on database versions:
 
@@ -15,7 +17,7 @@ Version 8.1.3 or Later
 -  For clusters of version 8.1.3 or later, **AUTO VACUUM** is enabled by default (controlled by the **autovacuum** parameter). After you set the parameter, the system automatically performs **VACUUM FULL** on all system catalogs and row-store tables.
 
    -  If the value of **autovacuum_max_workers** is **0**, neither on the system catalogs nor on ordinary tables will **VACUUM FULL** be automatically performed.
-   -  If **autovacuum** is set to **off**, **VACUUM FULL** will be automatically performed on ordinary tables, but not system catalogs.
+   -  If **autovacuum** is set to **off**, **VACUUM FULL** will be automatically performed only on the system catalogs.
 
 -  This applies only to row-store tables. To automatically trigger **VACUUM** for column-store tables, you need to configure intelligent scheduling tasks on the management console.
 

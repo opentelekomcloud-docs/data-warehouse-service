@@ -46,7 +46,7 @@ To connect to a DWS cluster, perform the following steps:
       -  Use the Windows gsql client to connect to a cluster.
       -  Use Data Studio to connect to a cluster.
 
-   -  Use a JDBC, psycopg2, or PyGreSQL driver to connect to a cluster.
+   -  Use the JDBC, ODBC, psycopg2, or PyGreSQL third-party driver to connect to a cluster.
 
 Multiple Database Tools
 -----------------------
@@ -70,12 +70,6 @@ DWS provides the following self-developed tools. You can download the tool packa
    GDS is a data service tool offered by DWS that utilizes the foreign table mechanism to achieve fast data import and export.
 
    The GDS tool package needs to be installed on the server where the data source file is located. This server is called the data server or the GDS server.
-
--  **DSC**
-
-   Database Schema Convertor (DSC) is a CLI tool running on the Linux or Windows OS. It is dedicated to providing customers with simple, fast, and reliable application SQL script migration services. It parses the SQL scripts of source database applications using the built-in syntax migration logic, and converts them to SQL scripts applicable to DWS databases.
-
-   DSC can migrate SQL scripts of Teradata, Oracle, Netezza, MySQL, and DB2 databases.
 
 -  **gs_dump and gs_dumpall**
 
@@ -116,13 +110,11 @@ Diverse Data Import Modes
 
 DWS allows you to import data from diverse sources using various methods. For details, see "Data Migration to DWS" in the *Data Warehouse Service Developer Guide*.
 
--  Importing data from OBS in parallel: You can import data in TXT, CSV, ORC, or CarbonData format from OBS to GaussDB(DWS) for query, and can remotely read data from OBS. This import method is recommended by DWS.
+-  Importing data from OBS in parallel: You can import data in TXT, CSV, ORC, or CarbonData format from OBS to DWS for query, and can remotely read data from OBS. This import method is recommended by DWS.
 -  Using GDS to import data from a remote server: Use the GDS tool provided by DWS to import data from the remote server to DWS in parallel. Multiple DNs are used for the import. This method is efficient and suitable for importing a large amount of data to the database.
 -  Importing data from MRS to a DWS cluster: You can configure a DWS cluster to connect to an MRS cluster, and read data from the HDFS of MRS to DWS.
 -  Using the gsql meta-command **\\COPY** to import data: The gsql tool of DWS provides the **\\copy** meta-command to import data.
 -  Using COPY FROM STDIN to import data: This method is applicable to low-concurrency scenarios where a small volume of data is to be imported.
--  Migrating data to DWS using CDM: CDM can migrate various types of data in batches between homogeneous and heterogeneous data sources. CDM migrates data to DWS using the copy method or the GDS parallel import method.
--  Using DSC to migrate SQL scripts: DSC is a CLI tool running on the Linux or Windows OS. It is dedicated to providing customers with simple, fast, and reliable application SQL script migration services. It parses the SQL scripts of source database applications using the built-in syntax migration logic, and converts them to SQL scripts applicable to DWS databases.
 -  Using **gs_dump** and **gs_dumpall** to export metadata: Export required database objects or related information using the two tools provided by DWS.
 -  Using **gs_restore** to import data: During database migration, you can export files using **gs_dump** and import them to DWS using **gs_restore**. In this way, metadata, such as table definitions and database object definitions, can be imported. The following definitions need to be imported:
 
@@ -341,7 +333,7 @@ DWS supports top SQL query, including real-time top SQL query and historical top
 SQL Tuning
 ----------
 
-The aim of SQL tuning is to maximize the utilization of resources, including CPU, memory, disk I/O, and network I/O. All tuning methods aim to improve resource usage, To maximize resource utilization is to run SQL statements as efficiently as possible to achieve the highest performance at a lower cost. For example, when performing a typical point query, you can use the seqscan and filter (that is, read every tuple and query conditions for match). You can also use an index scan, which can be implemented at a lower cost but achieve the same effect. For details, see "SQL Tuning" in *Data Warehouse Service Developer Guide*.
+The aim of SQL tuning is to maximize the utilization of resources, including CPU, memory, disk I/O, and network I/O. To maximize resources, you need to run SQL statements efficiently for high performance at a lower cost. For example, when performing a typical point query, you can use the seqscan and filter (that is, read every tuple and query conditions for match). You can also use an index scan, which can be implemented at a lower cost but achieve the same effect. For details, see "SQL Tuning" in *Data Warehouse Service Developer Guide*.
 
 PostGIS Extension
 -----------------
@@ -371,3 +363,27 @@ List Partitioning
 List partitioning (**PARTITION BY LIST** *(partition_key,[...])*) and range partitioning are supported.
 
 In list partitioning, partition keys support the following data types: TINYINT, SMALLINT, INTEGER, BIGINT, NUMERIC/DECIMAL, TEXT, NVARCHAR2, VARCHAR(n), CHAR, BPCHAR, TIME, TIME WITH TIMEZONE, TIMESTAMP, TIMESTAMP WITH TIME ZONE, DATE, INTERVAL and SMALLDATETIME. For details, see "CREATE TABLE PARTITION" in *Data Warehouse Service Developer Guide*.
+
+Materialized Views
+------------------
+
+A materialized view is a special database object. Materialized views calculate complex query results in advance and store the results to storage media. During service query, the pre-calculated data is directly queried to accelerate the query. Materialized views have advantages over common views in performance and storage persistence.
+
+-  **Higher query performance**
+
+   Materialized views pre-calculate and store query results. When a query is initiated, materialized views can be queried and directly return results, improving query performance.
+
+-  **Lower compute resource consumption**
+
+   Executing complex queries multiple times requires significant CPU and memory resources. Materialized views help reduce the load of database resources by avoiding these repeated calculations.
+
+-  **Data warehouse modeling**
+
+   Materialized views can be used as the data access layer to support complex service logic and allow users to access preprocessed data without considering the complex SQL logic at the bottom layer.
+
+For details, see "DWS Materialized Views" in *Data Warehouse Service Developer Guide*.
+
+SQL on Hudi
+-----------
+
+DWS clusters of 9.1.0.100 and later versions access Hudi data on OBS. Hadoop Upserts Deletes and Incrementals (Hudi) is an open-source data lake table format and data processing framework. It is designed for large data lakes and supports efficient upserts, deletion, and incremental processing. It is not merely a data format or data access method, but a combination of the two that provides a comprehensive solution for managing data in data lakes. DWS provides a series of system functions to obtain Hudi foreign table information and create Hudi automatic synchronization tasks. For details, see "SQL on Hudi" in *Data Warehouse Service Developer Guide*.

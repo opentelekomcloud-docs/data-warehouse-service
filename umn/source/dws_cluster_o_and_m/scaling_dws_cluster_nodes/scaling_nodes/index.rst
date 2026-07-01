@@ -6,11 +6,11 @@ Scaling Nodes
 =============
 
 -  :ref:`Scaling Out a Cluster <dws_01_0023>`
--  :ref:`Cluster Redistribution <dws_01_8201>`
+-  :ref:`Performing Cluster Redistribution <dws_01_8201>`
 
 .. toctree::
    :maxdepth: 1
    :hidden: 
 
    scaling_out_a_cluster
-   cluster_redistribution
+   performing_cluster_redistribution

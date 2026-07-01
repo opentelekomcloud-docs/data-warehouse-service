@@ -82,7 +82,7 @@ Permission management in DWS falls into three categories:
 
    System permissions are also called user attributes, including **SYSADMIN**, **CREATEDB**, **CREATEROLE**, **AUDITADMIN**, and **LOGIN**.
 
-   They can be specified only by the **CREATE ROLE** or **ALTER ROLE** syntax. The **SYSADMIN** permission can be granted and revoked using **GRANT ALL PRIVILEGE** and **REVOKE ALL PRIVILEGE**, respectively. System permissions cannot be inherited by a user from a role, and cannot be granted using **PUBLIC**.
+   They can be specified only by the **CREATE ROLE** or **ALTER ROLE** syntax. The **SYSADMIN** permission can be granted and revoked using **GRANT ALL PRIVILEGES** and **REVOKE ALL PRIVILEGES**, respectively. System permissions cannot be inherited by a user from a role, and cannot be granted using **PUBLIC**.
 
 -  Permissions
 

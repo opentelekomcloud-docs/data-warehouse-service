@@ -2,8 +2,8 @@
 
 .. _dws_01_8201:
 
-Cluster Redistribution
-======================
+Performing Cluster Redistribution
+=================================
 
 Data redistribution, where data in existing nodes is evenly allocated to the new nodes after you scale out a cluster, is a time-consuming yet crucial task that accelerates service response.
 
@@ -37,7 +37,7 @@ Offline Redistribution
 
 #. Choose **Dedicated Clusters** > **Clusters**. All clusters are displayed by default.
 
-#. In the **Operation** column of the target cluster, choose **More** > **Scale Node** > **Redistribute**, as shown in the following figure.
+#. In the **Operation** column of the target cluster, choose **More** > **Scale Node** > **Redistribute**.
 
    The **Redistribution** page is displayed.
 

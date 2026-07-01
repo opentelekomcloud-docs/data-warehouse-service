@@ -14,7 +14,7 @@ Adding a Tag to a Cluster
 
 #. Choose **Dedicated Clusters** > **Clusters**, click the name of the cluster to which a tag is to be added, and click **Tag**.
 #. Click **Add Tag**.
-#. Configure tag information in the **Add Tag** dialog box. The value of a key cannot be left blank.
+#. Configure tag information in the **Add Tag** dialog box. The tag key cannot be left blank.
 
    .. table:: **Table 1** Tag parameters
 
@@ -41,7 +41,7 @@ Adding a Tag to a Cluster
       |                       |                                                                                                                                                                                                                                                                                                                                                                                                                |                       |
       |                       | -  Select a predefined tag value or resource tag value from the drop-down list of the text box.                                                                                                                                                                                                                                                                                                                |                       |
       |                       |                                                                                                                                                                                                                                                                                                                                                                                                                |                       |
-      |                       | -  Enter a tag value in the text box. A tag value can contain a maximum of 255 characters, which can be an empty string. It cannot start or end with a space.                                                                                                                                                                                                                                                  |                       |
+      |                       | -  Enter a tag value in the text box. A tag value can contain a maximum of 255 characters. It cannot start or end with a space, but can be an empty string.                                                                                                                                                                                                                                                    |                       |
       |                       |                                                                                                                                                                                                                                                                                                                                                                                                                |                       |
       |                       |    Only letters, digits, spaces, and the following characters are allowed: \_ . : = + - @                                                                                                                                                                                                                                                                                                                      |                       |
       +-----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
@@ -61,17 +61,15 @@ You can quickly locate a tagged cluster using tags.
 
 #. Click the search box above the cluster list and select the **Resource Tag** filter.
 
-#. Click the tag key to be searched for and select the corresponding tag value. Click the search box again to add more tag filters.
+#. Click the tag key to be searched and then select the corresponding tag value. The clusters that meet the search criteria are displayed in the cluster list. Click the search box again to add more tag filters.
 
    Search by tag supports only the keys and values that exist in the drop-down list. If no tag key or value is available, create a tag for the cluster. For details, see :ref:`Adding a Tag to a Cluster <en-us_topic_0000002270373885__section77515910494>`.
-
-#. Click **Search**. The target cluster will be displayed in the cluster list.
 
 Modifying a Tag
 ---------------
 
-#. Choose **Dedicated Clusters** > **Clusters**, click the name of the cluster to which a tag is to be added, and click **Tag**.
-#. Locate the row that contains the tag to be modified, and click **Edit** in the **Operation** column. The **Edit Tag** dialog box is displayed.
+#. Choose **Dedicated Clusters** > **Clusters**, click the name of the cluster to which a tag is to be modified, and click **Tag**.
+#. Locate the tag to be modified, and click **Edit** in the **Operation** column. The **Edit Tag** dialog box is displayed.
 #. Enter the new key value in the **Value** text box.
 #. Click **OK**.
 
@@ -79,5 +77,5 @@ Deleting a Tag
 --------------
 
 #. Choose **Dedicated Clusters** > **Clusters**, click the name of the cluster from which a tag is to be deleted, and click **Tag**.
-#. Locate the row that contains the tag to be deleted, click **Delete** in the **Operation** column. The **Delete Tag** dialog box is displayed.
+#. Locate the tag to be deleted, click **Delete** in the **Operation** column. The **Delete Tag** dialog box is displayed.
 #. After confirming that the information is correct, enter **DELETE** or click **Auto Enter** and click **OK** to delete the tag.

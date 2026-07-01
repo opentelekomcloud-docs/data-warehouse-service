@@ -5,7 +5,7 @@
 Overview
 ========
 
-A tag is a key-value pair customized by users and used to identify cloud resources. It helps users to classify and search for cloud resources.
+You can use tags to classify and search for cloud resources.
 
 Tags are composed of key-value pairs.
 

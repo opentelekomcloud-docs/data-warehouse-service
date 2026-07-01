@@ -10,7 +10,7 @@ Overview
 
 Cluster logs are collected and sent to Log Tank Service (LTS). You can check or dump the collected cluster logs on LTS.
 
-The following log types are supported: CN logs, DN logs, OS messages logs, audit logs, cms logs, gtm logs, Roach client logs, Roach server logs, upgrade logs, and scale-out logs.
+The following log types are supported: CN logs, DN logs, OS messages logs, audit logs, CMS logs, GTM logs, Roach client logs, Roach server logs, upgrade logs, and scale-out logs.
 
 .. note::
 

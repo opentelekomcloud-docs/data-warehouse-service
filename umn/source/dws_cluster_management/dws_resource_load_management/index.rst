@@ -7,7 +7,7 @@ DWS Resource Load Management
 
 -  :ref:`DWS Resource Management Overview <dws_01_1510>`
 -  :ref:`Creating and Managing a DWS Resource Pool <dws_01_07231>`
--  :ref:`Creating and Managing a DWS Resource Management Plan <dws_01_72365>`
+-  :ref:`Creating and Managing a DWS Resource Management Plan <dws_01_72363>`
 -  :ref:`Configuring the Schema Storage Space of the DWS Database <dws_01_72366>`
 -  :ref:`Configuring DWS Exception Rules <dws_01_72367>`
 -  :ref:`Using DWS Query Filters to Intercept Slow SQL Statements <dws_01_72368>`

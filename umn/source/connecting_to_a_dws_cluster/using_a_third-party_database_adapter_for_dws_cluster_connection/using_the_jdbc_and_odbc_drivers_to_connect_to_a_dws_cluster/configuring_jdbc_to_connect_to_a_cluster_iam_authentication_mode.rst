@@ -8,11 +8,7 @@ Configuring JDBC to Connect to a Cluster (IAM Authentication Mode)
 Overview
 --------
 
-DWS allows you to access databases using IAM authentication. When you use the JDBC application program to connect to a cluster, set the IAM username, credential, and other information as you configure the JDBC URL. After doing this, when you try to access a database, the system will automatically generate a temporary credential and a connection will be set up.
-
-.. note::
-
-   -  Currently, only clusters 1.3.1 and later versions and their corresponding JDBC drivers can access the databases in IAM authentication mode. Download the JDBC driver. For details, see :ref:`Downloading the JDBC or ODBC Driver <dws_01_0032>`.
+DWS allows you to access databases using IAM authentication. When you use the JDBC application program to connect to a cluster, set the IAM username, credential, and other information as you configure the JDBC URL. After doing this, when you try to access a database, the system will automatically generate a temporary credential and a connection will be set up. Currently, only clusters 1.3.1 and later versions and their corresponding JDBC drivers can access the databases in IAM authentication mode. Download the JDBC driver. For details, see :ref:`Downloading the JDBC or ODBC Driver <dws_01_0032>`.
 
 IAM supports two types of user credential: password and Access Key ID/Secret Access Key (AK/SK). JDBC connection requires the latter.
 
@@ -56,11 +52,7 @@ You can log in to the management console to create an AK/SK pair or use an exist
 
 #. Choose **Access Keys** to view the existing access keys. You can also click **Create Access Key** to create a new one.
 
-   The AK/SK pair is so important that you can download the private key file containing the AK/SK information only when you create the pair. On the management console, you can only view the AKs. If you have not downloaded the file, obtain it from your administrator or create an AK/SK pair again.
-
-   .. note::
-
-      Each user can create a maximum of two AK/SK pairs, which are valid permanently. To ensure account security, change your AK/SK pairs periodically and keep them safe.
+   The AK/SK pair is so important that you can download the private key file containing the AK/SK information only when you create the pair. On the management console, you can only view the AKs. If you have not downloaded the file, obtain it from your administrator or create an AK/SK pair again. Each user can create a maximum of two AK/SK pairs, which are valid permanently. To ensure account security, change your AK/SK pairs periodically and keep them safe.
 
 .. _en-us_topic_0000002270493885__section289114226329:
 
@@ -124,7 +116,7 @@ Configuring the JDBC Connection to Connect to a Cluster Using IAM Authentication
 
    //The following uses gsjdbc4.jar as an example.
    // The following code encapsulates the database connection obtaining operations into an API. You can connect to the database by specifying the region where the cluster is located, cluster name, access key ID, secret access key, and the corresponding IAM username.
-   public static Connection GetConnection(String clustername, String regionname, String AK, String SK,
+   public static Connection getConnection(String clustername, String regionname, String AK, String SK,
        String username) {
        // Driver class.
        String driver = "org.postgresql.Driver";

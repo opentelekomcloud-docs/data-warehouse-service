@@ -32,11 +32,7 @@ Procedure
 
       **Figure 1** Configuring Windows environment variables
 
-#. (Optional) To connect to the cluster in SSL mode, configure SSL authentication parameters on the server where the client is installed. For details, see :ref:`Establishing Secure TCP/IP Connections in SSL Mode <dws_01_0038>`.
-
-   .. note::
-
-      The SSL connection mode is more secure than the non-SSL mode. You are advised to connect the client to the cluster in SSL mode.
+#. (Optional) To connect to the cluster in SSL mode, configure SSL authentication parameters on the server where the client is installed. For details, see :ref:`Establishing Secure TCP/IP Connections in SSL Mode <dws_01_0038>`. The SSL connection mode is more secure than the non-SSL mode. You are advised to connect the client to the cluster in SSL mode.
 
 #. In the Windows CLI, run the following command to connect to the database in the DWS cluster using the gsql client:
 
@@ -70,7 +66,7 @@ Precautions
 
    Suggestion: Ensure the file specified using **-f** uses UTF-8 encoding, and set the default encoding format to **UTF-8** (**set client_encoding='utf-8';**).
 
-#. Paths in Windows gsql must be separated by slashes (/), or an error will be reported. In a meta-command, the backslash (\\) indicates the start of a meta-command. If the backslash is enclosed in single quotation marks ('\\'), it is used for escape.
+#. Paths in Windows gsql must be separated by slashes (**/**), or an error will be reported. In a meta-command, the backslash (**\\**) indicates the start of a meta-command. If the backslash is enclosed in single quotation marks (**'\\'**), it is used for escape.
 
    ::
 
@@ -82,7 +78,7 @@ Precautions
         1
       (1 row)
 
-#. To use the **\\!** metacommand to run a system command in Windows gsql, be sure to use the path separator required by the system command. Generally, the path separator is a backslash (\\).
+#. To use the **\\!** meta-command to run a system command in Windows gsql, be sure to use the path separator required by the system command. Generally, the path separator is a backslash (**\\**).
 
    ::
 
@@ -91,7 +87,7 @@ Precautions
       gaussdb=> \! type D:\test.sql
       select 1 as id;
 
-#. Windows gsql does not support the **\\parallel** meta-command.
+#. Windows gsql **does not support the** **\\parallel** **meta-command**.
 
    ::
 

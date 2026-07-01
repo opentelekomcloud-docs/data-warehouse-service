@@ -7,24 +7,21 @@ Managing OBS Data Sources
 
 DWS allows you to access data on OBS by using an agency. You can create a DWS agency, grant the OBS OperateAccess or OBS Administrator permission to the agency, and bind the agency to an OBS data source you created. In this way, you can access data on OBS by using OBS foreign tables.
 
-.. note::
+Notes and Constraints
+---------------------
 
-   -  This feature is supported only in 8.2.0 or later.
-   -  For the OBS data source of a cluster, only one of the creation, modification, and deletion operations can be performed at a time.
+-  The OBS data source is supported only in 8.2.0 or later cluster versions.
+-  For the OBS data source of a cluster, only one of the creation, modification, and deletion operations can be performed at a time.
 
 Creating an OBS Agency
 ----------------------
 
-**Scenario**
-
 Before creating an OBS data source, create an agency that grants DWS the OBS OperateAccess or OBS Administrator permission.
 
-**Procedure**
-
 #. Click your account in the upper right corner of the page and choose **Identity and Access Management**.
-#. In the navigation pane on the left, choose **Agency**. In the upper right corner, click **Create Agency**.
+#. In the navigation pane on the left, choose **Agencies**. In the upper right corner, click **Create Agency**.
 #. Select **Cloud Service** and set **Cloud Service** to **DWS**.
-#. Click **Next** to grant the OBS OperateAccess or OBS Administrator permission to the agency.
+#. Click **Next** to grant the **OBS OperateAccess** or **OBS Administrator** permission to the agency.
 #. Click **Next**. Select **All resources** or specific resources, confirm the information, and click **Submit**.
 
 Creating an OBS Data Source
@@ -36,7 +33,7 @@ An agency has been created to grant DWS the OBS OperateAccess permission.
 #. Choose **Dedicated Clusters** > **Clusters**.
 #. In the cluster list, click the name of the target cluster. The **Cluster Information** page is displayed.
 #. In the navigation pane, choose **Data Source** > **OBS Data Sources**.
-#. Click **Create OBS Cluster Connection** and configure parameters.
+#. Click **Create OBS Data Source Connection** and configure parameters.
 
    .. table:: **Table 1** OBS data source connection parameters
 
@@ -151,4 +148,4 @@ The following example shows how common user **jim** reads data from OBS through 
       count
       -------
       20
-      (1row)
+      (1 row)

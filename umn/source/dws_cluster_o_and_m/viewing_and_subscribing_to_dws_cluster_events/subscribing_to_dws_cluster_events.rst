@@ -73,12 +73,12 @@ Modifying the Subscription
 --------------------------
 
 #. On the DWS console, choose **Dedicated Clusters** > **Management**. On the displayed page, click the **Subscriptions** tab.
-#. Locate the row that contains a specified subscription and click **Edit** in the **Operation** column.
+#. Locate a specified subscription and click **Edit** in the **Operation** column.
 #. On the **Edit Subscription** page, modify parameters by referring to :ref:`4 <en-us_topic_0000002356808521__en-us_topic_0000001423119165_li18772435125416>` to :ref:`6 <en-us_topic_0000002356808521__en-us_topic_0000001423119165_li164751612342>`.
 
 Deleting the Subscription
 -------------------------
 
 #. On the DWS console, choose **Dedicated Clusters** > **Management**. On the displayed page, click the **Subscriptions** tab.
-#. Locate the row that contains a specified subscription and click **Delete** in the **Operation** column.
+#. Locate a specified subscription and click **Delete** in the **Operation** column.
 #. In the displayed dialog box, click **Yes** to delete the subscription.

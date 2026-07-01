@@ -96,7 +96,7 @@ Creating a Cluster
       -  **Tag**: By default, no tag is added to the cluster.
       -  **Encrypt DataStore**: This parameter is disabled by default, indicating that the database is not encrypted.
 
-   -  **Custom**: Select this option to configure the following advanced parameters: **Automated Snapshot**, **CNs**, **Tag**
+   -  **Custom**: Select this option to configure the following advanced parameters: **Automated Snapshot**, **CNs**, **Tag**, **Encrypt DataStore**
 
 #. Click **Create Now**. The **Confirm** page is displayed.
 

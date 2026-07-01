@@ -2,8 +2,8 @@
 
 .. _dws_03_0054:
 
-Why Does the Used Storage Capacity of DWS Decrease Significantly After Scale-Out?
-=================================================================================
+Why Does the Used Storage of DWS Decrease Significantly After Scale-Out?
+========================================================================
 
 Cause Analysis
 --------------
@@ -17,4 +17,4 @@ Handling Procedure
 
 You are advised to periodically clear and reclaim the storage space by running **VACUUM FULL** to prevent data expansion.
 
-If the used storage space is still large after you run **VACUUM FULL**, analyze whether the existing cluster flavor meets service requirements. If no, scale out the cluster.
+If the used storage space is still large after you run **VACUUM**, analyze whether the existing cluster flavor meets service requirements. If no, scale out the cluster.

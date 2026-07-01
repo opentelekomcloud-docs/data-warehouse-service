@@ -18,7 +18,7 @@ CN concurrency is determined by the following parameters:
 Add CNs or Scale out a Cluster?
 -------------------------------
 
--  Insufficient connections: When a cluster is created for the first time, the default number of CNs in the cluster is 3, which can meet the customer's basic connection requirements. If the cluster has a large number of concurrent requests and the number of connections to each CN is large, or the CPU usage of a CN exceeds its capacity, you are advised to add CNs. For details, see "CNs".
+-  Insufficient connections: When a cluster is created for the first time, the default number of CNs in the cluster is 3, which can meet the customer's basic connection requirements. If the cluster has a large number of concurrent requests and the number of connections to each CN is large, or the CPU usage of CNs is much higher than that of DNs, you are advised to add CNs. For details, see "CNs".
 -  Insufficient storage capacity and performance: If your business grows and you have higher requirements on storage capacity and performance, or the CPU of your cluster is insufficient, you are advised to scale out your cluster. For details, see "Scaling Out a Cluster".
 
-With the expansion of cluster nodes, more CNs are needed to meet the distribution requirements of DWS. In short, adding CNs does not necessarily require cluster scale-out. However, after cluster scale-out, CNs may need to be added.
+More CNs are needed to meet the distribution requirements of DWS. In short, adding CNs does not necessarily require cluster scale-out. However, after cluster scale-out, CNs may need to be added.

@@ -21,7 +21,7 @@ Adding a Logical Cluster
 #. Switch to the **Logical Clusters** page and click **Add Logical Cluster**. (If the current cluster has service data, you can only convert the cluster into a logical cluster.) In the displayed dialog box, click **OK** to convert the cluster to a logical cluster. Then, you can add nodes to the elastic cluster and add a new logical cluster.
 
    -  If you access the **Logical Clusters** page for the first time, the metadata of the logical cluster created at the backend is synchronized to the frontend. After the synchronization is complete, you can view information about the logical clusters at the frontend. The logical cluster name is case sensitive. For example, metadata of **lc1** and **LC1** cannot be synchronized.
-   -  The original resource pool configuration is cleared when the cluster is converted from physical to logical. The resource pool information configured after the cluster is converted to a logical cluster will be bound to the logical cluster.
+   -  Converting a cluster from physical to logical clears the original resource pool configuration. Any new pools you create are then bound to the new logical cluster.
 
 #. Move the ring you want to add from the right to the left panel, enter the logical cluster name, and click **OK**.
 

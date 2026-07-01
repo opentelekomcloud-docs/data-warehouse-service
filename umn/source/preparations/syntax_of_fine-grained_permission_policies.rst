@@ -73,7 +73,7 @@ In the navigation pane on the IAM console, click **Policies** and then click the
 List of Supported Actions
 -------------------------
 
-When creating a custom policy on IAM, you can add the operations on DWS resources or the permissions corresponding to RESTful APIs to the action list of the policy authorization statement so that the policy contains the operation permissions. The following table lists the DWS permissions.
+When creating a custom policy on IAM, you can add the operations on DWS resources or the **actions** corresponding to RESTful APIs to the action list of the policy authorization statement so that the policy contains the operation permissions. The following table lists the DWS permissions.
 
 -  **REST API**
 
@@ -83,10 +83,8 @@ When creating a custom policy on IAM, you can add the operations on DWS resource
 
    :ref:`Table 1 <en-us_topic_0000002235334744__table42061239124614>` describes the DWS operations on resources and corresponding permissions.
 
-   .. note::
-
-      -  Some DWS permissions depend on the actions of ECS, VPC, EVS, ELB, MRS, and OBS. Grant DWS the required service admin permissions.
-      -  The table shows frequently used DWS APIs, but some only allow project-based authentication (IAM authentication) and not enterprise project authentication. To use these APIs, they must be configured on the IAM authentication page.
+   -  Some DWS permissions depend on the actions of ECS, VPC, EVS, ELB, MRS, and OBS. Grant DWS the required service admin permissions.
+   -  The table shows frequently used DWS APIs, but some only allow project-based authentication (IAM authentication) and not enterprise project authentication. To use these APIs, they must be configured on the IAM authentication page.
 
 .. _en-us_topic_0000002235334744__table42061239124614:
 
@@ -1320,13 +1318,13 @@ Authorization Using the Fine-Grained Permission Policy
       -  **DWS Admin**: has all execution permissions on DWS.
       -  **DWS Viewer**: has the read-only permission on DWS.
 
-   -  You can add permissions corresponding to DWS operations or RESTful APIs listed in :ref:`List of Supported Actions <en-us_topic_0000002235334744__section89181381475>` to the action list in the policy authorization statement, so that the policy can obtain the permissions.
+   -  You can add **actions** corresponding to DWS operations or RESTful APIs listed in :ref:`List of Supported Actions <en-us_topic_0000002235334744__section89181381475>` to the action list in the policy authorization statement, so that the policy can obtain the permissions.
 
       For example, if **dws:cluster:create** is added to the action list of a policy statement, the policy has the permission to create clusters.
 
    -  If you want to use other services, grant related operation permissions on these services. For details, see the help documents of related services.
 
-      For example, when creating a DWS cluster, you need to configure the VPC to which the cluster belongs. To obtain the VPC list, add permission **vpc:*:get\*** to the policy statement.
+      For example, when creating a DWS cluster, you need to configure the VPC to which the cluster belongs. To obtain the VPC list, add action **vpc:*:get\*** to the policy statement.
 
 #. Create a user group.
 
@@ -1339,17 +1337,13 @@ Authorization Using the Fine-Grained Permission Policy
 Authentication Logic
 --------------------
 
-If a user is granted permissions of multiple policies or of only one policy containing both Allow and Deny statements, then authentication starts from the Deny statements. The following figure shows the authentication logic for resource access.
+If a user is granted permissions of multiple policies or of only one policy containing both Allow and Deny statements, then authentication starts from the Deny statements. The actions in each policy bear the **OR** relationship. The following figure shows the authentication logic for resource access.
 
 
 .. figure:: /_static/images/en-us_image_0000002235495224.jpg
    :alt: **Figure 2** Authentication logic
 
    **Figure 2** Authentication logic
-
-.. note::
-
-   The actions in each policy bear the OR relationship.
 
 #. A user accesses the system and makes an operation request.
 #. The system evaluates all the permissions policies assigned to the user.

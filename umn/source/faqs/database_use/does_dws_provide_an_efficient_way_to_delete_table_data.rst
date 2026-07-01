@@ -2,8 +2,8 @@
 
 .. _dws_03_0088:
 
-How Do I Delete Table Data Efficiently in DWS?
-==============================================
+Does DWS Provide an Efficient Way to Delete Table Data?
+=======================================================
 
 Yes. **TRUNCATE** is more efficient than **DELETE** for deleting massive data.
 

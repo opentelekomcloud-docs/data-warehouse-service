@@ -5,7 +5,7 @@
 DWS Snapshot Overview
 =====================
 
-A snapshot is a full or incremental backup of a DWS cluster at a specific point in time. It records the current database data and cluster information, including the number of nodes, node specifications, and database administrator name. You can back up and restore clusters using snapshots. Snapshots can be created manually or automatically. For details, see :ref:`Creating and Managing a DWS Snapshot <dws_01_0028>` and :ref:`Configuring and Managing DWS Automated Snapshots <dws_01_0089>`. For details about how to restore a snapshot, see :ref:`Restoring a DWS Cluster <dws_01_1015>`.
+A snapshot is a full or incremental backup of a DWS cluster at a specific point in time. It records the current database data and cluster information, including the number of nodes, node specifications, and database administrator name. You can back up and restore clusters using snapshots. Snapshots can be created manually or automatically. For details, see :ref:`Creating and Managing a DWS Snapshot <dws_01_0028>` and :ref:`Configuring and Managing DWS Automated Snapshots <dws_01_0089>`. For details about how to restore a snapshot, see :ref:`Restoring a DWS Cluster <dws_01_1015>`. **Backing up the cluster is essential for maintaining data reliability, especially when the service provider cannot restore data through upstream re-import. This helps prevent data loss caused by human or other factors.**
 
 The snapshot backup and restoration rates are listed below. The rates are obtained from the test environment with local SSDs as the backup media. The rates are for reference only. The actual rate depends on your disk, network, and bandwidth resources.
 
@@ -15,7 +15,6 @@ The snapshot backup and restoration rates are listed below. The rates are obtain
 Notes and Constraints
 ---------------------
 
--  **Backing up the cluster is essential for maintaining data reliability, especially when the service provider cannot restore data through upstream re-import. This helps prevent data loss caused by human or other factors.**
 -  The cluster versions that support schema-level snapshots are listed below. If the current console interface does not support this feature, contact technical support.
 
    -  9.1.0.100 or later

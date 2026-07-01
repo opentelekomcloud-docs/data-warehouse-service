@@ -1,6 +1,6 @@
-:original_name: dws_01_72365.html
+:original_name: dws_01_72363.html
 
-.. _dws_01_72365:
+.. _dws_01_72363:
 
 Creating and Managing a DWS Resource Management Plan
 ====================================================
@@ -39,15 +39,15 @@ Adding a Resource Management Plan Stage
       +=========================+========================================================================================================================================================+=======================+
       | Stage                   | Stage name. The name must start with a lowercase letter and contain 3 to 28 characters, including only lowercase letters, digits, and underscores (_). | dws_demo              |
       +-------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
-      | Month                   | Select the execution months of the stage. You can select **All**.                                                                                      | All                   |
+      | Month                   | Month                                                                                                                                                  | All                   |
       +-------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
-      | Day                     | Select a date or dates. You can select **All**.                                                                                                        | All                   |
+      | Day                     | Date                                                                                                                                                   | All                   |
       |                         |                                                                                                                                                        |                       |
       |                         | Exercise caution when you select dates 29th, 30th, and 31st, because they do not occur in all months.                                                  |                       |
       +-------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
       | Start Time              | Start time of the plan phase. The UTC time is used by default. Set the policy based on the time zone.                                                  | ``-``                 |
       +-------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
-      | Selected Resource Pools | You can select the resource pool for implementing the plan stage.                                                                                      | ``-``                 |
+      | Selected Resource Pools | Resource pools selected for implementing the plan stage.                                                                                               | ``-``                 |
       +-------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
 
 #. Click **OK**.
@@ -56,32 +56,27 @@ Managing Stages of a Resource Management Plan
 ---------------------------------------------
 
 #. Log in to the DWS console.
-
 #. In the cluster list, click the name of the target cluster to go to the **Cluster Information** page.
-
 #. In the navigation pane, choose **Resource Management**.
-
-#. Click the **Resource Management Plan** tab, and you can modify, switch, view, import, export, and delete the stages of a resource management plan. :ref:`Table 2 Operations on the stages of a resource management plan <en-us_topic_0000002310493842__en-us_topic_0000001372679718_table1241553816363>` lists the operations.
-
-   .. _en-us_topic_0000002310493842__en-us_topic_0000001372679718_table1241553816363:
+#. Click the **Resource Management Plan** tab and perform the following operations on the stages of a resource management plan.
 
    .. table:: **Table 2** Operations on the stages of a resource management plan
 
-      +-----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | Operation | Description                                                                                                                                                                                                                                                     |
-      +===========+=================================================================================================================================================================================================================================================================+
-      | Modify    | Click **Modify** in the **Operation** column of the plan stage. Modify parameters, such as the stage changing time and resource configurations. For details, see :ref:`Table 1 <en-us_topic_0000002310493842__en-us_topic_0000001372679718_table129717370819>`. |
-      +-----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | Switch    | Click the switch button in the plan overview area, and select the target stage. The switchover time of all stages in a plan cannot be the same.                                                                                                                 |
-      +-----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | View      | Click **View** in the **Operation** column of the plan stage to view the switchover time of the current stage.                                                                                                                                                  |
-      +-----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | Import    | In the plan stages area, click **Import** to import a stage of the resource management plan.                                                                                                                                                                    |
-      +-----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | Export    | In the plan stages area, click **Export** to export a stage of the resource management plan.                                                                                                                                                                    |
-      +-----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-      | Delete    | Click **Delete** in the **Operation** column of the plan stage to delete the stage.                                                                                                                                                                             |
-      +-----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+      +-----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+      | Operation | Description                                                                                                                                                                                                                                                    |
+      +===========+================================================================================================================================================================================================================================================================+
+      | Modify    | Click **Modify** in the **Operation** column of the plan stage. Modify parameters, such as the stage running time and resource configurations. For details, see :ref:`Table 1 <en-us_topic_0000002310493842__en-us_topic_0000001372679718_table129717370819>`. |
+      +-----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+      | Switch    | Click the switch button in the plan overview area, and select the target stage. The running time of all stages in a plan cannot be the same.                                                                                                                   |
+      +-----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+      | View      | Click **View** in the **Operation** column of the plan stage to view the running time of the current stage.                                                                                                                                                    |
+      +-----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+      | Import    | In the plan stages area, click **Import** to import a stage of the resource management plan.                                                                                                                                                                   |
+      +-----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+      | Export    | In the plan stages area, click **Export** to export a stage of the resource management plan.                                                                                                                                                                   |
+      +-----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+      | Delete    | Click **Delete** in the **Operation** column of the plan stage to delete the stage.                                                                                                                                                                            |
+      +-----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 #. Click **OK**.
 
@@ -96,7 +91,7 @@ Creating a Resource Management Plan
 
 #. Click the **Resource Management Plans** tab and click **Add**.
 
-   Enter the name of the resource management plan. Stage name. The name must start with a lowercase letter and contain 3 to 28 characters, including only lowercase letters, digits, and underscores (_).
+   Enter the name of the resource management plan. The name must start with a lowercase letter and contain 3 to 28 characters, including only lowercase letters, digits, and underscores (_).
 
 #. Click **OK**.
 
@@ -104,14 +99,9 @@ Managing a Resource Management Plan
 -----------------------------------
 
 #. Log in to the DWS console.
-
 #. In the cluster list, click the name of the target cluster to go to the **Cluster Information** page.
-
 #. In the navigation pane, choose **Resource Management**.
-
-#. Click the **Resource Management Plans** tab. Then you can start, stop, delete, and view execution logs of a resource management plan. :ref:`Table 3 Operations on a resource management plan <en-us_topic_0000002310493842__en-us_topic_0000001372679718_table95484112376>` lists the operations.
-
-   .. _en-us_topic_0000002310493842__en-us_topic_0000001372679718_table95484112376:
+#. Click the **Resource Management Plan** tab and perform the following operations on the resource management plan.
 
    .. table:: **Table 3** Operations on a resource management plan
 

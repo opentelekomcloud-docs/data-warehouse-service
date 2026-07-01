@@ -21,7 +21,7 @@ When you delete a DWS cluster, the association between the cluster and its enter
 Viewing Enterprise Projects
 ---------------------------
 
-After a cluster is created, you can view the associated enterprise project in the cluster list and **Cluster Information** page. You can query only the cluster resources of the project on which you have the access permission.
+After a cluster is created, you can view the enterprise project associated with the cluster. You can query only the cluster resources of the project on which you have the access permission.
 
 -  In the cluster list on the **Clusters** page, view the enterprise project to which the cluster belongs.
 -  In the cluster list, find the target cluster and click the cluster name. The **Cluster Information** page is displayed, on which you can view the enterprise project associated with the cluster. Click the enterprise project name to view and edit it on the Enterprise Management console.
@@ -41,11 +41,11 @@ A DWS cluster can be associated with only one enterprise project. After a cluste
 Enterprise Project-Level Authorization
 --------------------------------------
 
-If permissions preset in the system cannot meet requirements, you can customize policies and grant the policies to user groups for refined access control. As an independent managed object, the enterprise project can be bound to a user group, and the customized policy can be granted to the user group. This implements refined authorization at the enterprise project level.
+If permissions preset in the system cannot meet requirements, you can customize policies and grant the policies to user groups for refined access control. As an independent managed object, the enterprise project can be bound to a user group, and the customized policy can be granted to the user group. This enables refined authorization at the enterprise project level.
 
 #. Log in to the IAM console.
 
-#. Create a custom policy.
+#. In the navigation pane on the left, choose **Agencies**. On the displayed page, click **Create Agency** in the upper right corner to create a custom policy.
 
    For details, see "Permissions Management" > "Custom Policies" > "Creating a Custom Policy" in the *Identity and Access Management User Guide*.
 

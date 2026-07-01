@@ -23,7 +23,7 @@ Setting the Database Character Encoding
 
 .. note::
 
-   DWS does not support the modification of the character encoding format of a created database.
+   Once a database is created, its encoding format cannot be modified on DWS.
 
 If you need to specify the character encoding format of a database, use **template0** and the **CREATE DATABASE** syntax to create a database. To make your database compatible with most characters, you are advised to use the UTF8 encoding when creating a database.
 

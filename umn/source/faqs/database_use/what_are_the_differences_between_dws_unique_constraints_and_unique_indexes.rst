@@ -19,7 +19,7 @@ What Are the Differences Between DWS Unique Constraints and Unique Indexes?
 
    #. Both unique constraints and unique indexes can be used to ensure the uniqueness of column values which can be NULL.
    #. When a unique constraint is created, a unique index with the same name is automatically created. The index cannot be deleted separately. When the constraint is deleted, the index is automatically deleted. A unique constraint uses a unique index to ensure data uniqueness. DWS row-store tables support unique constraints, but column-store tables do not.
-   #. A created unique index is independent and can be deleted separately. Currently in DWS, unique indexes can only be created using B-Tree.
+   #. A created unique index is independent and can be deleted separately. Currently in DWS, unique indexes can only be created using B-tree indexes.
    #. If you want to have both a unique constraint and a unique index on a column, and they can be deleted separately, you can create a unique index and then a unique constraint with the same name.
    #. If a field in a table is to be used as a foreign key of another table, the field must have a unique constraint (or it is a primary key). If the field has only a unique index, an error is reported.
 

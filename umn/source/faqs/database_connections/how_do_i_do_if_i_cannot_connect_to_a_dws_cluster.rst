@@ -11,9 +11,9 @@ Possible Causes
 Check the following:
 
 -  Whether the cluster status is normal.
--  Whether the connection command, username, password, IP address, and port number are incorrect.
+-  Whether the connection command, username, password, IP address, and port number are correct.
 -  Whether the operating system type and version of the client are correct.
--  Whether the client is incorrectly installed.
+-  Whether the client is correctly installed.
 
 If cluster connection failed on the public cloud, check for the following as well:
 

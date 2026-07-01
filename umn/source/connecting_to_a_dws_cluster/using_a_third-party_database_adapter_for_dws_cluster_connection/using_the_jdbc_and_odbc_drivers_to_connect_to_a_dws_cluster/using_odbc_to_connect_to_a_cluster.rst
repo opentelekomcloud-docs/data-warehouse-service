@@ -12,11 +12,11 @@ For details about how to use the ODBC API, see the official document.
 Prerequisites
 -------------
 
--  You have downloaded ODBC driver packages **dws_x.x.x_odbc_driver_for_xxx.zip** (for Linux) and **dws_odbc_driver_for_windows.zip** (for Windows). For details, see :ref:`Downloading the JDBC or ODBC Driver <dws_01_0032>`.
+-  You have downloaded ODBC driver packages **dws\_**\ *x.x.x*\ **\_odbc_driver_for\_**\ *xxx*\ **.zip** (for Linux) and **dws_odbc_driver_for_windows.zip** (for Windows). For details, see :ref:`Downloading the JDBC or ODBC Driver <dws_01_0032>`.
 
    DWS also supports open source ODBC driver: PostgreSQL ODBC 09.01.0200 or later.
 
--  You have downloaded the open-source unixODBC code file 2.3.0 from https://sourceforge.net/projects/unixodbc/files/unixODBC/2.3.0/unixODBC-2.3.0.tar.gz/download.
+-  You have downloaded the open-source unixODBC code file **2.3.0** from https://sourceforge.net/projects/unixodbc/files/unixODBC/2.3.0/unixODBC-2.3.0.tar.gz/download.
 
 -  You have downloaded the SSL certificate file. For details, see :ref:`Downloading an SSL Certificate <en-us_topic_0000002235494444__li13478842115911>`.
 
@@ -44,19 +44,17 @@ Using an ODBC Driver to Connect to a Database (Linux)
          make
          make install
 
-      .. note::
+      -  In the command, **[your_path]** indicates the installation path, which can be specified as required. The path must be an absolute path.
 
-         -  In the command, **[your_path]** indicates the installation path, which can be specified as required. The path must be an absolute path.
+      -  After the unixODBC is compiled and installed, the **\*.so.2** library file will be in the installation directory. To create the **\*.so.1** library file, change **LIB_VERSION** in the configure file to **1:0:0**.
 
-         -  After the unixODBC is compiled and installed, the **\*.so.2** library file will be in the installation directory. To create the **\*.so.1** library file, change **LIB_VERSION** in the configure file to **1:0:0**.
+         ::
 
-            ::
+            LIB_VERSION="1:0:0"
 
-               LIB_VERSION="1:0:0"
+      -  This driver dynamically loads the **libodbcinst.so.**\ \* library files. If one of the library files is successfully loaded, the library file is loaded. The loading priority is **libodbcinst.so** > **libodbcinst.so.1** > **libodbcinst.so.1.0.0** > **libodbcinst.so.2** > **libodbcinst.so.2.0.0**.
 
-         -  This driver dynamically loads the **libodbcinst.so.**\ \* library files. If one of the library files is successfully loaded, the library file is loaded. The loading priority is **libodbcinst.so** > **libodbcinst.so.1** > **libodbcinst.so.1.0.0** > **libodbcinst.so.2** > **libodbcinst.so.2.0.0**.
-
-            For example, a directory can be dynamically linked to **libodbcinst.so.1**, **libodbcinst.so.1.0.0**, and **libodbcinst.so.2**. The driver file loads **libodbcinst.so** first. If **libodbcinst.so** cannot be found in the current environment, the driver file searches for **libodbcinst.so.1**, which has a lower priority. After **libodbcinst.so.1** is loaded, the loading is complete.
+         For example, a directory can be dynamically linked to **libodbcinst.so.1**, **libodbcinst.so.1.0.0**, and **libodbcinst.so.2**. The driver file loads **libodbcinst.so** first. If **libodbcinst.so** cannot be found in the current environment, the driver file searches for **libodbcinst.so.1**, which has a lower priority. After **libodbcinst.so.1** is loaded, the loading is complete.
 
 #. Replace the driver file. (This document uses the **dws_8.1.x_odbc_driver_for_x86_redhat.zip** package of Red Hat as an example.)
 
@@ -107,42 +105,36 @@ Using an ODBC Driver to Connect to a Database (Linux)
       Port=8000
       Sslmode=allow
 
-   +-----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
-   | Parameter             | Description                                                                                                                                                                                                                                               | Example Value         |
-   +=======================+===========================================================================================================================================================================================================================================================+=======================+
-   | [DSN]                 | Data source name.                                                                                                                                                                                                                                         | [DWSODBC]             |
-   +-----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
-   | Driver                | Driver name, corresponding to **DriverName** in **odbcinst.ini**.                                                                                                                                                                                         | Driver=DWS            |
-   +-----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
-   | Servername            | IP address of the server. When the cluster is bound to an ELB, set this parameter to the IP address of the ELB.                                                                                                                                           | Servername=10.10.0.13 |
-   +-----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
-   | Database              | Name of the database to be connected to.                                                                                                                                                                                                                  | Database=gaussdb      |
-   +-----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
-   | Username              | Database username.                                                                                                                                                                                                                                        | Username=dbadmin      |
-   +-----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
-   | Password              | Database user password.                                                                                                                                                                                                                                   | Password=\ *password* |
-   +-----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
-   | Port                  | Port number of the server.                                                                                                                                                                                                                                | Port=8000             |
-   +-----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
-   | Sslmode               | SSL certification mode. This parameter is enabled for the cluster by default.                                                                                                                                                                             | Sslmode=allow         |
-   |                       |                                                                                                                                                                                                                                                           |                       |
-   |                       | Values and meanings:                                                                                                                                                                                                                                      |                       |
-   |                       |                                                                                                                                                                                                                                                           |                       |
-   |                       | -  **disable**: only tries to establish a non-SSL connection.                                                                                                                                                                                             |                       |
-   |                       | -  **allow**: tries establishing a non-SSL connection first, and then an SSL connection if the attempt fails.                                                                                                                                             |                       |
-   |                       | -  **prefer**: tries establishing an SSL connection first, and then a non-SSL connection if the attempt fails.                                                                                                                                            |                       |
-   |                       | -  **require**: only tries establishing an SSL connection. If there is a CA file, perform the verification according to the scenario in which the parameter is set to **verify-ca**.                                                                      |                       |
-   |                       | -  **verify-ca**: tries establishing an SSL connection and checks whether the server certificate is issued by a trusted CA.                                                                                                                               |                       |
-   |                       | -  **verify-full**: not supported by DWS                                                                                                                                                                                                                  |                       |
-   |                       |                                                                                                                                                                                                                                                           |                       |
-   |                       | .. note::                                                                                                                                                                                                                                                 |                       |
-   |                       |                                                                                                                                                                                                                                                           |                       |
-   |                       |    The SSL mode delivers higher security than the common mode. By default, the SSL function is enabled in a cluster to allow SSL or non-SSL connections from the client. You are advised to use the SSL mode when using ODBC to connect to a DWS cluster. |                       |
-   +-----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+   +-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+   | Parameter             | Description                                                                                                                                                                                                                                                                                                                          | Example Value         |
+   +=======================+======================================================================================================================================================================================================================================================================================================================================+=======================+
+   | [DSN]                 | Data source name.                                                                                                                                                                                                                                                                                                                    | [DWSODBC]             |
+   +-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+   | Driver                | Driver name, corresponding to **DriverName** in **odbcinst.ini**.                                                                                                                                                                                                                                                                    | Driver=DWS            |
+   +-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+   | Servername            | IP address of the server. When the cluster is bound to an ELB, set this parameter to the IP address of the ELB.                                                                                                                                                                                                                      | Servername=10.10.0.13 |
+   +-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+   | Database              | Name of the database to be connected to.                                                                                                                                                                                                                                                                                             | Database=gaussdb      |
+   +-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+   | Username              | Database username.                                                                                                                                                                                                                                                                                                                   | Username=dbadmin      |
+   +-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+   | Password              | Database user password.                                                                                                                                                                                                                                                                                                              | Password=\ *password* |
+   +-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+   | Port                  | Port number of the server.                                                                                                                                                                                                                                                                                                           | Port=8000             |
+   +-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
+   | Sslmode               | SSL certification mode. This parameter is enabled for the cluster by default. The SSL mode delivers higher security than the common mode. By default, the SSL function is enabled in a cluster to allow SSL or non-SSL connections from the client. You are advised to use the SSL mode when using ODBC to connect to a DWS cluster. | Sslmode=allow         |
+   |                       |                                                                                                                                                                                                                                                                                                                                      |                       |
+   |                       | Values and meanings:                                                                                                                                                                                                                                                                                                                 |                       |
+   |                       |                                                                                                                                                                                                                                                                                                                                      |                       |
+   |                       | -  **disable**: only tries to establish a non-SSL connection.                                                                                                                                                                                                                                                                        |                       |
+   |                       | -  **allow**: tries establishing a non-SSL connection first, and then an SSL connection if the attempt fails.                                                                                                                                                                                                                        |                       |
+   |                       | -  **prefer**: tries establishing an SSL connection first, and then a non-SSL connection if the attempt fails.                                                                                                                                                                                                                       |                       |
+   |                       | -  **require**: only tries establishing an SSL connection. If there is a CA file, perform the verification according to the scenario in which the parameter is set to **verify-ca**.                                                                                                                                                 |                       |
+   |                       | -  **verify-ca**: tries establishing an SSL connection and checks whether the server certificate is issued by a trusted CA.                                                                                                                                                                                                          |                       |
+   |                       | -  **verify-full**: not supported by DWS                                                                                                                                                                                                                                                                                             |                       |
+   +-----------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+
 
-   .. note::
-
-      -  You can view the values of **Servername** and **Port** on the DWS console. Log in to the DWS management console and choose **Client Connections** from the navigation pane on the left. In the **Data Warehouse Connection Information** area, select a cluster and obtain its **Private Network IP Address** or **Public Network IP Address**. For details, see :ref:`Obtaining the Connection Address of a DWS Cluster <dws_01_0033>`.
+   -  You can view the values of **Servername** and **Port** on the DWS console. Log in to the DWS management console and choose **Client Connections** from the navigation pane on the left. In the **Data Warehouse Connection Information** area, select a cluster and obtain its **Private Network IP Address** or **Public Network IP Address**. For details, see :ref:`Obtaining the Connection Address of a DWS Cluster <dws_01_0033>`.
 
 #. Configure environment variables.
 
@@ -150,17 +142,13 @@ Using an ODBC Driver to Connect to a Database (Linux)
 
       vi ~/.bashrc
 
-   Add the following information to the configuration file:
+   Add the following information to the configuration file: It is not recommended to add **LD_LIBRARY_PATH** in the Kylin OS, as it may cause conflicts with the **libssl.so** library. The latest cluster versions 8.2.1 and 9.1.0 now include the **rpath** mechanism, which allows the dependency to be located without using **LD_LIBRARY_PATH**.
 
    .. code-block::
 
       export LD_LIBRARY_PATH=[your_path]/lib/:$LD_LIBRARY_PATH
       export ODBCSYSINI=[your_path]/etc
       export ODBCINI=[your_path]/etc/odbc.ini
-
-   .. note::
-
-      It is not recommended to add **LD_LIBRARY_PATH** in the Kylin OS, as it may cause conflicts with the **libssl.so** library. The latest cluster versions 8.2.1 and 9.1.0 now include the **rpath** mechanism, which allows the dependency to be located without using **LD_LIBRARY_PATH**.
 
 #. Import environment variables.
 
@@ -199,11 +187,7 @@ Using an ODBC Driver to Connect to a Database (Windows)
 
    -  Automatic deployment:
 
-      Double-click the **sslcert_env.bat** file to trigger automatic deployment of the certificate to a default location.
-
-      .. note::
-
-         The **sslcert_env.bat** file ensures the purity of the certificate environment. When the **%APPDATA%\\postgresql** directory exists, a message will be prompted asking you whether you want to remove related directories. If you want to remove related directories, back up files in the directory.
+      Double-click the **sslcert_env.bat** file to trigger automatic deployment of the certificate to a default location. The **sslcert_env.bat** file ensures the purity of the certificate environment. When the **%APPDATA%\\postgresql** directory exists, a message will be prompted asking you whether you want to remove related directories. If you want to remove related directories, back up files in the directory.
 
    -  Manual deployment:
 
@@ -215,21 +199,13 @@ Using an ODBC Driver to Connect to a Database (Windows)
 
    DWS provides 32-bit and 64-bit ODBC drivers. Choose the version suitable for your system when configuring the data source. (Assume the Windows system drive is drive C. If another disk drive is used, modify the path accordingly.)
 
-   -  If you want to develop 32-bit programs in the 64-bit OS and have installed the 32-bit driver, open the 32-bit Driver Manager at **C:\\Windows\\SysWOW64\\odbcad32.exe**.
+   -  If you want to develop 32-bit programs in the 64-bit OS and have installed the 32-bit driver, Open the 32-bit Driver Manager at **C:\\Windows\\SysWOW64\\odbcad32.exe**. (WoW64 is the acronym for "Windows 32-bit on Windows 64-bit". **C:\\Windows\\SysWOW64\\** stores the 32-bit environment on a 64-bit system.)
 
       Do not choose **Control Panel** > **System and Security** > **Administrative Tools** > **Data Sources (ODBC)** directly.
 
-      .. note::
-
-         WOW64 is the acronym for Windows 32-bit on Windows 64-bit. **C:\\Windows\\SysWOW64\\** stores the 32-bit environment on a 64-bit system.
-
-   -  If you want to develop 64-bit programs in the 64-bit OS and have installed the 64-bit driver, open the 64-bit Driver Manager at **C:\\Windows\\System32\\odbcad32.exe**.
+   -  If you want to develop 64-bit programs in the 64-bit OS and have installed the 64-bit driver, open the 64-bit Driver Manager at **C:\\Windows\\System32\\odbcad32.exe**. (**C:\\Windows\\System32\\** stores the environment consistent with the current OS. For technical details, see Windows technical documents.)
 
       Do not choose **Control Panel** > **System and Security** > **Administrative Tools** > **Data Sources (ODBC)** directly.
-
-      .. note::
-
-         **C:\\Windows\\System32\\** stores the environment consistent with the current OS. For technical details, see Windows technical documents.
 
    -  In a 32-bit OS, open **C:\\Windows\\System32\\odbcad32.exe**.
 
