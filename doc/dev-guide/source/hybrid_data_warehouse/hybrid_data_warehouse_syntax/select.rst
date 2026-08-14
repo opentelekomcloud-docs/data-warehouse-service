@@ -8,20 +8,20 @@ SELECT
 Function
 --------
 
-Read data from an HStore table.
+Reads data from an HStore Opt table.
 
 Precautions
 -----------
 
--  Currently, neither column-store tables and HStore tables support the **SELECT FOR UPDATE** syntax.
+-  Currently, neither column-store tables and HStore Opt tables support the **SELECT FOR UPDATE** syntax.
 
--  When a SELECT query is performed on an HStore table, the system will scan the data in column-store primary table CUs, the delta table, and the update information in each row in the memory. The three types of information will be combined before returned.
+-  When a SELECT query is performed on an HStore Opt table, the system will scan the data in column-store primary table CUs, the delta table, and the update information in each row in the memory. The three types of information will be combined before returned.
 
 -  In the scenario where data is queried using the primary key index or unique index:
 
    For traditional column-store tables, the unique index stores both the data location information (blocknum, offset) of the row-store Delta table and the data location information (cuid, offset) of the column-store primary table. After the data is merged to the primary table, a new index tuple will be inserted, and the index will keep bloating.
 
-   For HStore tables, global CUIDs are allocated in a unified manner. Therefore, only cuid and offset are stored in index tuples. After data is merged, no new index tuples will be generated.
+   For HStore Opt tables, global CUIDs are allocated in a unified manner. Therefore, only cuid and offset are stored in index tuples. After data is merged, no new index tuples will be generated.
 
 Syntax
 ------
@@ -72,7 +72,7 @@ Parameters
 
 -  **HAVING clause**
 
-   Selects special groups by working with the **GROUP BY** clause. The **HAVING** clause compares some attributes of groups with a constant. Only groups that matching the logical expression in the **HAVING** clause are extracted.
+   Selects special groups by working with the **GROUP BY** clause. The **HAVING** clause compares some attributes of groups with a constant. Only groups that match the logical expression in the **HAVING** clause are extracted.
 
 -  **ORDER BY** clause
 
@@ -90,7 +90,7 @@ Create the **reason_select** table and insert data into the table.
      r_reason_sk integer,
      r_reason_id integer,
      r_reason_desc character(100)
-   )WITH(ORIENTATION = COLUMN, ENABLE_HSTORE=ON);
+   )WITH(ORIENTATION = COLUMN, ENABLE_HSTORE_OPT=ON);
    INSERT INTO reason_select values(3, 1,'reason 1'),(10, 2,'reason 2'),(4, 3,'reason 3'),(10, 4,'reason 4');
 
 Perform the GROUP BY operation.

@@ -5,7 +5,7 @@
 Full-Text Retrieval
 ===================
 
-Textual search operators have been used in databases for years. The GaussDB(DWS) has **~**, **~\***, **LIKE**, and **ILIKE** operators for textual data types, but they lack many essential properties required by modern information systems. This problem can be solved by using indexes and dictionaries.
+Textual search operators have been used in databases for years. The DWS has **~**, **~\***, **LIKE**, and **ILIKE** operators for textual data types, but they lack many essential properties required by modern information systems. This problem can be solved by using indexes and dictionaries.
 
 Text search lacks the following essential properties required by information systems:
 
@@ -25,7 +25,7 @@ Full text indexing allows documents to be preprocessed and an index is saved for
 
 -  Converting tokens into lexemes
 
-   A lexeme is a string, just like a token, but it has been normalized so that different forms of the same word are made alike. For example, normalization almost always includes folding upper-case letters to lower-case, and often involves removal of suffixes (such as **s** or **es** in English) This allows searches to find variant forms of the same word, without tediously entering all the possible variants. Also, this step typically eliminates stop words, which are words that are so common that they are useless for searching. (In short, tokens are raw fragments of the document text, while lexemes are words that are believed useful for indexing and searching.) GaussDB(DWS) uses dictionaries to perform this step and provides various standard dictionaries.
+   A lexeme is a string, just like a token, but it has been normalized so that different forms of the same word are made alike. For example, normalization almost always includes folding upper-case letters to lower-case, and often involves removal of suffixes (such as **s** or **es** in English) This allows searches to find variant forms of the same word, without tediously entering all the possible variants. Also, this step typically eliminates stop words, which are words that are so common that they are useless for searching. (In short, tokens are raw fragments of the document text, while lexemes are words that are believed useful for indexing and searching.) DWS uses dictionaries to perform this step and provides various standard dictionaries.
 
 -  Storing preprocessed documents optimized for searching
 

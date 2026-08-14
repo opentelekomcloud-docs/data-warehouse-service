@@ -5,14 +5,14 @@
 Window Functions
 ================
 
-Regular aggregate functions return a single value calculated from values in a row, or group all rows into a single output row. Window functions perform a calculation across a set of rows and return a value for each row.
+A common aggregate function aggregates multiple rows of data into a single row of result, whereas a window function can perform calculations across rows and populate the result in each row.
 
-A window function call represents the application of an aggregate-like function over some portion of the rows selected by a query. Therefore, aggregate functions (:ref:`Aggregate Functions <dws_06_0046>`) can also be used as window functions. A window function can scan all rows and display the raw data and aggregation analysis results at the same time.
+Window functions perform calculations based on a subset of the query result set (that is, the "window") and enable aggregation similar to aggregate functions. Aggregate functions can also be used as window functions. Window functions can scan all rows and simultaneously output both raw data and aggregated calculation results.
 
 Precautions
 -----------
 
--  Column-store tables support only the window functions **rank (expression)** and **row_number (expression)** and the aggregate functions **sum**, **count**, **avg**, **min**, and **max**. Row-store tables do not have such restrictions.
+-  Column-store tables currently only support the window functions **rank(expression)** and **row_number(expression)**, and the aggregate functions **sum**, **count**, **avg**, **min**, and **max**. There are no such restrictions for row-store tables.
 
 -  A single query can contain one or more window function expressions.
 
@@ -31,7 +31,7 @@ Precautions
 Syntax
 ------
 
-A window function uses the **OVER** clause to define a window. The **OVER** clause is used for grouping data and sorting the elements in a group. Window functions are used for generating sequence numbers for the values in the group.
+A window functions uses the **OVER** clause to define a window. The OVER clause can partition data (**PARTITION BY**) and sort data within each partition (**ORDER BY**), thereby determining the calculation scope of the window function.
 
 ::
 
@@ -77,15 +77,13 @@ The values of **frame_start** and **frame_end** are as follows:
 RANK()
 ------
 
-Description: The **RANK** function is used for generating non-consecutive sequence numbers for the values in each group. The same values have the same rank value but with sequence numbers.
+Description: Sorts values in a group. The same value will get the same rank, and subsequent ranks will skip the tied ranks (for example, 1, 2, 3, 3, 5). Therefore, the ranks may not be consecutive.
 
 Return type: bigint
 
 Example:
 
-In the **score(id, classid, score)** table, the rows are student ID, class ID, and exam score.
-
-Use the **RANK** function to sort student scores.
+In the example table **score**, the columns indicate the student ID, class ID, and exam score, respectively. Use the **RANK** function to sort student scores.
 
 ::
 
@@ -106,7 +104,7 @@ Use the **RANK** function to sort student scores.
 ROW_NUMBER()
 ------------
 
-Description: The **ROW_NUMBER** function is used for generating consecutive sequence numbers for the values in each group. The same values have different sequence numbers.
+Description: Generates consecutive sequence numbers for the values in each group. The same values have different sequence numbers, that is, the sequence numbers are unique.
 
 Return type: bigint
 
@@ -260,7 +258,7 @@ Example:
 FIRST_VALUE(value any)
 ----------------------
 
-Description: The **FIRST_VALUE** function is used for returning the first value of each group.
+Description: Returns the first data value in each group.
 
 Return type: same as the parameter type
 
@@ -312,11 +310,11 @@ Example:
 NTH_VALUE(value any, nth integer)
 ---------------------------------
 
-Description: The *n*\ th row for a group is the returned value. If the row does not exist, **NULL** is returned by default.
+Description: Returns the n\ *th* row in the group as the result. If the row does not exist, **NULL** is returned by default.
 
 Return type: same as the parameter type
 
-Example:
+Example: Returns the **id** value in the third row of the result set sorted by score in descending order.
 
 ::
 

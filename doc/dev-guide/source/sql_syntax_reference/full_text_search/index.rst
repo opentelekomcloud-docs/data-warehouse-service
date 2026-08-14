@@ -5,12 +5,8 @@
 Full Text Search
 ================
 
-.. note::
-
-   The hybrid data warehouse (standalone) does not support full-text search.
-
 -  :ref:`Introduction <dws_06_0082>`
--  :ref:`Table and index <dws_06_0087>`
+-  :ref:`Tables and Indexes <dws_06_0087>`
 -  :ref:`Controlling Text Search <dws_06_0091>`
 -  :ref:`Additional Features <dws_06_0096>`
 -  :ref:`Parsers <dws_06_0101>`
@@ -24,7 +20,7 @@ Full Text Search
    :hidden: 
 
    introduction/index
-   table_and_index/index
+   tables_and_indexes/index
    controlling_text_search/index
    additional_features/index
    parsers

@@ -5,7 +5,7 @@
 Hudi System Functions
 =====================
 
-Hudi system functions are supported only by 8.2.1.100 and later versions.
+Hudi system functions are supported only by 9.1.0.100 and later cluster versions.
 
 pg_show_custom_settings()
 -------------------------
@@ -92,7 +92,7 @@ Example:
 hudi_get_commit(regclass, cstring, int)
 ---------------------------------------
 
-Description: This function retrieves the timestamp and write time of the commit data for the current Hudi foreign table, starting from the specified commit and up to the *N*\ th commit. If the *N*\ th commit does not exist, the latest commit and the corresponding data write time are returned. This function is supported only by 9.1.0.100 and later versions.
+Description: This function retrieves the timestamp and write time of the commit data for the current Hudi foreign table, starting from the specified commit and up to the *N*\ th commit. If the *N*\ th commit does not exist, the latest commit and the corresponding data write time are returned.
 
 Return type: record
 
@@ -133,7 +133,7 @@ Example:
 hudi_sync_task_submit(regclass, regclass, interval)
 ---------------------------------------------------
 
-Description: The function is the same as that of **hudi_sync_task_submit(regclass, regclass)**. The difference is that, in this function, you can specify an input parameter of the interval type to specify the task scheduling period. The value ranges from 5 seconds to 24 hours. If the task is submitted successfully, the task ID is returned. This function is supported only by 8.3.0 and later versions.
+Description: The function is the same as that of **hudi_sync_task_submit(regclass, regclass)**. The difference is that, in this function, you can specify an input parameter of the interval type to specify the task scheduling period. The value ranges from 5 seconds to 24 hours. If the task is submitted successfully, the task ID is returned.
 
 Return type: text
 
@@ -181,7 +181,7 @@ Example:
 hudi_sync_task_submit(regclass, regclass, text, text, interval)
 ---------------------------------------------------------------
 
-Description: The function is the same as that of **hudi_sync_task_submit(regclass, regclass, text, text)**. The difference is that you can specify an additional input parameter of the interval type to specify the task scheduling period. The value ranges from 5 seconds to 24 hours. This function is supported only by 8.3.0 and later versions.
+Description: The function is the same as that of **hudi_sync_task_submit(regclass, regclass, text, text)**. The difference is that you can specify an additional input parameter of the interval type to specify the task scheduling period. The value ranges from 5 seconds to 24 hours.
 
 Return type: text
 
@@ -235,7 +235,7 @@ Example:
    CONTEXT:  PL/pgSQL function hudi_sync(regclass,regclass) line 11 at RETURN
                  hudi_sync
    --------------------------------------
-    sync 1 rows up to 20230511114021573.
+    sync 1 row up to 20230511114021573.
    (1 row)
 
 hudi_sync_custom(regclass, regclass, text)
@@ -254,13 +254,13 @@ Example:
    CONTEXT:  PL/pgSQL function hudi_sync_custom(regclass,regclass,text) line 14 at RETURN
               hudi_sync_custom
    --------------------------------------
-    sync 1 rows up to 20230511114021573.
+    sync 1 row up to 20230511114021573.
    (1 row)
 
 hudi_set_sync_commit(regclass, regclass, text)
 ----------------------------------------------
 
-Description: Sets the start timestamp of the first synchronization of the Hudi automatic synchronization task to prevent resynchronization. The first parameter is the synchronization target table, the second parameter is the Hudi foreign table, and the third parameter is the expected synchronization start point. This function must be used before a synchronization task is submitted. This function is supported only by 8.2.1.210 and later versions.
+Description: Sets the start timestamp of the first synchronization of the Hudi automatic synchronization task to prevent resynchronization. The first parameter is the synchronization target table, the second parameter is the Hudi foreign table, and the third parameter is the expected synchronization start point. This function must be used before a synchronization task is submitted.
 
 Return type: text
 
@@ -283,7 +283,7 @@ Example:
 hudi_set_sync_commit(text, text)
 --------------------------------
 
-Description: Sets the start timestamp of the next synchronization of a Hudi automatic synchronization task. You can use it to sync historical data again or to skip some data. The first parameter is the task ID, and the second parameter is the expected start time of the next synchronization. This function can be used only after a synchronization task is submitted. Before using this function, you need to pause the task. This function is supported only by 8.2.1.210 and later versions.
+Description: Sets the start timestamp of the next synchronization of a Hudi automatic synchronization task. You can use it to sync historical data again or to skip some data. The first parameter is the task ID, and the second parameter is the expected start time of the next synchronization. This function can be used only after a synchronization task is submitted. Before using this function, you need to pause the task.
 
 Return type: text
 
@@ -326,7 +326,7 @@ Example:
    The **last_log** and **failure_times** fields are used to record the status of the last task.
 
    -  The value of **last_log** is updated when the task is complete. If the task is successful, the content is cleared. If the task fails, the task failure log is recorded.
-   -  The value of **failure_times** is updated at the end of the time window. If the task is successful, the value of **failure_times** is set to 0. If the task fails, the value of **failure_times** increases by 1. The value of **failure_times** can be used to infer the time when the first failure occurs.
+   -  The value of **failure_times** is updated at the end of each time window. It is set to **0** if the task is successful, incremented by 1 if the task fails, and unchanged if the task is not started in that round. This value helps identify when the first failure happens.
 
 pg_task_remove(text)
 --------------------
@@ -365,7 +365,7 @@ Example:
 pg_task_resume(text)
 --------------------
 
-Description: Resumes an automatic scheduling task. The input parameter is the ID of a suspended task. The function returns the number of resumed tasks. This function is supported only by 8.3.0 and later versions.
+Description: Resumes an automatic scheduling task. The input parameter is the ID of a suspended task. The function returns the number of resumed tasks.
 
 Return type: integer
 
@@ -382,7 +382,7 @@ Example:
 pg_task_reset_interval(text, interval)
 --------------------------------------
 
-Description: Modifies the scheduling period of a synchronization task. The first input parameter is **task_id**, and the second input parameter the scheduling period, of which the value ranges from 5 seconds to 24 hours. The function returns the number of tasks whose periods are modified. This function is supported only by 8.3.0 and later versions.
+Description: Modifies the scheduling period of a synchronization task. The first input parameter is **task_id**, and the second input parameter the scheduling period, of which the value ranges from 5 seconds to 24 hours. The function returns the number of tasks whose periods are modified.
 
 Return type: integer
 

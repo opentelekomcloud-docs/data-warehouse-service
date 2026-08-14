@@ -25,13 +25,15 @@ Syntax
 Parameter Description
 ---------------------
 
--  **COMMIT \| END**
+.. table:: **Table 1** COMMIT \| END parameters
 
-   Commits the current transaction and makes all changes made by the transaction become visible to others.
-
--  **WORK \| TRANSACTION**
-
-   Optional keyword has no effect except increasing readability.
+   +---------------------+--------------------------------------------------------------------------------------------------------+
+   | Parameter           | Description                                                                                            |
+   +=====================+========================================================================================================+
+   | COMMIT \| END       | Commits the current transaction and make all changes made by the transaction become visible to others. |
+   +---------------------+--------------------------------------------------------------------------------------------------------+
+   | WORK \| TRANSACTION | The keyword is optional and only improves readability, with no effect on transaction commitment.       |
+   +---------------------+--------------------------------------------------------------------------------------------------------+
 
 Examples
 --------

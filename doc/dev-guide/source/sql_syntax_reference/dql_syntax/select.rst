@@ -15,25 +15,22 @@ Serving as an overlaid filter for a database table, **SELECT** using SQL keyword
 Precautions
 -----------
 
+-  For details about how to use SELECT, see "SELECT Operation" in *Data Warehouse Service (DWS) Developer Guide*.
 -  Using **SELECT** can join HDFS and ordinary tables, but cannot join ordinary and GDS foreign tables. That is, a **SELECT** statement cannot contain both ordinary and GDS foreign tables.
--  The user must have the SELECT permission on every column used in the **SELECT** command.
-
--  UPDATE permission is required when using **FOR UPDATE** or **FOR SHARE**.
-
-.. warning::
-
-   -  Avoid SQL statements that cannot be pushed down (indicated by **REMOTE_XXX_QUERY** in the **EXPLAIN** output).
-   -  Refrain from frequent **COUNT** queries on large row-store tables (over 10 million rows).
-   -  Limit the number of **UNION**/**UNION ALL** branches in a single SQL statement to 50, and associate no more than 25 non-replicated tables.
-   -  Prevent Cartesian products by ensuring proper association conditions during large table joins.
-   -  In multi-table association queries, keep the number of streams in a single statement below 100.
-   -  Use the **WITH RECURSIVE** statement cautiously. Define data repetition limits and termination conditions to ensure recursion ends as expected.
-   -  For more information about development and design specifications, see "GaussDB(DWS) Development and Design Proposal" in the *Data Warehouse Service (DWS) Developer Guide*.
+-  You must have the SELECT permission on each column used in the **SELECT** command. If **FOR UPDATE** or **FOR SHARE** is used, the UPDATE permission is also required.
 
 Syntax
 ------
 
--  Querying data
+The syntax format of the main clause is shown below. The syntax formats of the FROM and GROUP BY clauses are defined separately. For details about the FROM and GROUP BY clauses, see :ref:`FROM Clause Parameters <en-us_topic_0000001811515533__section1111135675219>` and :ref:`GROUP BY Parameters <en-us_topic_0000001811515533__section18897122165513>`.
+
+.. note::
+
+   SELECT supports the simplified query syntax, which is equivalent to **select \* from table_name**.
+
+   ::
+
+      TABLE { ONLY {(table_name)| table_name} | table_name [ * ]};
 
 ::
 
@@ -51,257 +48,437 @@ Syntax
    [ FETCH { FIRST | NEXT } [ count ] { ROW | ROWS } ONLY ]
    [ {FOR { UPDATE | SHARE } [ OF table_name [, ...] ] [ NOWAIT ]} [...] ];
 
-.. note::
+.. important::
 
    In **condition** and **expression**, you can use the aliases of expressions in the output column in compliance with the following rules:
 
-   -  Reference only in the same level.
-   -  Only reference aliases in the output column.
-   -  Reference a prior expression in a subsequent expression.
+   -  Only aliases at the same level can be referenced.
+   -  Only aliases in the output column can be referenced.
+   -  A prior expression is referenced only in a subsequent expression.
    -  The **volatile** function cannot be used.
    -  The **Window** function cannot be used.
    -  Do not reference an alias in the **join on** condition.
    -  An error is reported if the output column contains multiple referenced aliases.
 
--  The subquery **with_query** is as follows:
-
-   ::
-
-      with_query_name [ ( column_name [, ...] ) ]
-          AS [ [ NOT ] MATERIALIZED ] ( {select | values | insert | update | delete} )
-
--  The specified query source **from_item** is as follows:
-
-   ::
-
-      {[ ONLY ] table_name [ * ] [ partition_clause ] [ [ AS ] alias [ ( column_alias [, ...] ) ] ]
-      |( select ) [ AS ] alias [ ( column_alias [, ...] ) ]
-      |with_query_name [ [ AS ] alias [ ( column_alias [, ...] ) ] ]
-      |function_name ( [ argument [, ...] ] ) [ AS ] alias [ ( column_alias [, ...] | column_definition [, ...] ) ]
-      |function_name ( [ argument [, ...] ] ) AS ( column_definition [, ...] )
-      |from_item [ NATURAL ] join_type from_item [ ON join_condition | USING ( join_column [, ...] ) ]}
-
--  The **group** clause is as follows:
-
-   ::
-
-      ( )
-      | expression
-      | ( expression [, ...] )
-      | ROLLUP ( { expression | ( expression [, ...] ) } [, ...] )
-      | CUBE ( { expression | ( expression [, ...] ) } [, ...] )
-      | GROUPING SETS ( grouping_element [, ...] )
-
--  The specified partition **partition_clause** is as follows:
-
-   ::
-
-      PARTITION { ( partition_name ) |
-              FOR (  partition_value [, ...] ) }
-
-   .. note::
-
-      Partitions can be specified only for ordinary tables.
-
--  The sorting order **nlssort_expression_clause** is as follows:
-
-   ::
-
-      NLSSORT ( column_name, ' NLS_SORT = { SCHINESE_PINYIN_M | generic_m_ci } ' )
-
--  Simplified query syntax, equivalent to **select \* from table_name**.
-
-   ::
-
-      TABLE { ONLY {(table_name)| table_name} | table_name [ * ]};
-
 .. _en-us_topic_0000001811515533__s3d562432879c4244bcdbfdf9f30bcc5e:
 
-Parameter Description
----------------------
-
--  **WITH [ RECURSIVE ] with_query [, ...]**
-
-   The **WITH** clause allows you to specify one or more subqueries that can be referenced by name in the primary query, equal to temporary table.
-
-   If **RECURSIVE** is specified, it allows a **SELECT** subquery to reference itself by name.
-
-   The syntax of **with_query** is: **with_query_name [ ( column_name [, ...] ) ] AS [ [ NOT ] MATERIALIZED ] ( {select \| values \| insert \| update \| delete} )**
-
-   -  **with_query_name** specifies the name of the result set generated by a subquery. Such names can be used to access the result sets of subqueries in a query.
-   -  By default, the **with_query** that is referenced multiple times by the primary query is executed only once. Its result set is materialized so that the primary query can query its result set multiple times. The **with_query** referenced once by the primary query will not be executed independently. Instead, its subquery takes the place where the primary query can directly reference it and is executed with the primary query. If **[NOT] MATERIALIZED** is specified, the default action is changed.
-
-      -  If **MATERIALIZED** is specified, the subquery is executed once and its result set is materialized.
-      -  If **NOT MATERIALIZED** is specified, its subquery takes the place where the primary query can directly reference it. **NOT MATERIALIZED** is ignored in the following cases:
-
-         -  The subquery contains volatile functions.
-
-         -  The subquery is a **SELECT** or **VALUES** statement containing **FOR UPDATE** or **FOR SHARE**.
-
-         -  The subquery is an **INSERT**, **UPDATE**, or **DELETE** statement.
-
-         -  **RECURSIVE** is specified for **with_query**.
-
-         -  If **with_query2** is referenced more than once and it references **with_query1**, which referenced itself in the outer layer, **with_query2** cannot take the place where it can be referenced.
-
-            For example, in the following example, **tmp2** is referenced twice. Because **tmp2** references **tmp1** which referenced itself in the outer layer, **tmp2** will be materialized even if **NOT MATERIALIZED** is specified.
-
-            ::
-
-               with recursive tmp1(b) as (values(1)
-               union all
-               (with tmp2 as not materialized (select * from tmp1)
-                select tt1.b + tt2.b from tmp2 tt1, tmp2 tt2))
-                select * from tmp1;
-
-   -  **column_name** specifies a column name displayed in the subquery result set.
-   -  Each subquery can be a **SELECT**, **VALUES**, **INSERT**, **UPDATE** or **DELETE** statement.
-
--  **plan_hint** clause
-
-   Follows the **SELECT** keyword in the /``*+``\ <*Plan hint*> \*/ format. It is used to optimize the plan of a **SELECT** statement block. For details, see section "Hint-based Tuning."
-
--  **ALL**
-
-   Specifies that all rows meeting the requirements are returned. This is the default behavior, so you can omit this keyword.
-
--  **DISTINCT [ ON ( expression [, ...] ) ]**
-
-   Removes all duplicate rows from the **SELECT** result so one row is kept from each group of duplicates.
-
-   **ON ( expression [, ...] )** is only reserved for the first row among all the rows with the same result calculated using given expressions.
-
-   .. important::
-
-      **DISTINCT ON** expression is explained with the same rule of **ORDER BY**. Unless you use **ORDER BY** to guarantee that the required row appears first, you cannot know what the first row is.
-
--  **SELECT list**
-
-   Indicates columns to be queried. Some or all columns (using wildcard character \*) can be queried.
-
-   You may use the **AS output_name** clause to give an alias for an output column. The alias is used for the displaying of the output column.
-
-   Column names may be either of:
-
-   -  Manually input column names which are spaced using commas (,).
-   -  Fields computed in the **FROM** clause.
-
--  **FROM** clause
-
-   Indicates one or more source tables for **SELECT**.
-
-   The **FROM** clause can contain the following elements:
-
-   -  table_name
-
-      Indicates the name (optionally schema-qualified) of an existing table or view, for example, **schema_name.table_name**.
-
-   -  alias
-
-      Gives a temporary alias to a table to facilitate the quotation by other queries.
-
-      An alias is used for brevity or to eliminate ambiguity for self-joins. When an alias is provided, it completely hides the actual name of the table or function.
-
-   -  column_alias
-
-      Specifies the column alias.
-
-   -  PARTITION
-
-      Queries data in the specified partition in a partition table.
-
-   -  partition_name
-
-      Specifies the name of a partition.
-
-   -  partition_value
-
-      Specifies the value of the specified partition key. If there are many partition keys, use the **PARTITION FOR** clause to specify the value of the only partition key you want to use.
-
-   -  subquery
-
-      Performs a subquery in the **FROM** clause. A temporary table is created to save subquery results.
-
-   -  with_query_name
-
-      **WITH** clause can also be the source of **FROM** clause and can be referenced with the name queried by executing **WITH**.
-
-   -  function_name
-
-      Function name. Function calls can appear in the **FROM** clause.
-
-   -  join_type
-
-      There are five types below:
-
-      -  [ INNER ] JOIN
-
-         A **JOIN** clause combines two **FROM** items. Use parentheses if necessary to determine the order of nesting. In the absence of parentheses, **JOIN** nests left-to-right.
-
-         In any case, **JOIN** binds more tightly than the commas separating **FROM** items.
-
-      -  LEFT [ OUTER ] JOIN
-
-         Returns all rows in the qualified Cartesian product (all combined rows that pass its join condition), and pluses one copy of each row in the left-hand table for which there was no right-hand row that passed the join condition. This left-hand row is extended to the full width of the joined table by inserting **NULL** values for the right-hand columns. Note that only the **JOIN** clause's own condition is considered while deciding which rows have matches. Outer conditions are applied afterwards.
-
-      -  RIGHT [ OUTER ] JOIN
-
-         Returns all the joined rows, plus one row for each unmatched right-hand row (extended with **NULL** on the left).
-
-         This is just a notational convenience, since you could convert it to a **LEFT OUTER JOIN** by switching the left and right inputs.
-
-      -  FULL [ OUTER ] JOIN
-
-         Returns all the joined rows, pluses one row for each unmatched left-hand row (extended with **NULL** on the right), and pluses one row for each unmatched right-hand row (extended with **NULL** on the left).
-
-      -  CROSS JOIN
-
-         **CROSS JOIN** is equivalent to **INNER JOIN ON (TRUE)**, which means no rows are removed by qualification. These join types are just a notational convenience, since they do nothing you could not do with plain **FROM** and **WHERE**.
-
-         .. note::
-
-            For the **INNER** and **OUTER** join types, a join condition must be specified, namely exactly one of **NATURAL ON**, **join_condition**, or **USING (join_column [, ...])**. For **CROSS JOIN**, none of these clauses can appear.
-
-      **CROSS JOIN** and **INNER JOIN** produce a simple Cartesian product, the same result as you get from listing the two items at the top level of **FROM**.
-
-   -  ON join_condition
-
-      A join condition to define which rows have matches in joins. Example: ON left_table.a = right_table.a
-
-   -  USING(join_column[, ...])
-
-      ON left_table.a = right_table.a AND left_table.b = right_table.b ... abbreviation. Corresponding columns must have the same name.
-
-   -  NATURAL
-
-      **NATURAL** is a shorthand for a **USING** list that mentions all columns in the two tables that have the same names.
-
-   -  from item
-
-      Specifies the name of the query source object connected.
-
--  **WHERE clause**
-
-   The **WHERE** clause forms an expression for row selection to narrow down the query range of **SELECT**. The condition is any expression that evaluates to a result of Boolean type. Rows that do not satisfy this condition will be eliminated from the output.
-
-   In the **WHERE** clause, you can use the operator (+) to convert a table join to an outer join. However, this method is not recommended because it is not the standard SQL syntax and may raise syntax compatibility issues during platform migration. There are many restrictions on using the operator (+):
-
-   #. It can appear only in the **WHERE** clause.
-   #. If a table join has been specified in the **FROM** clause, the operator (+) cannot be used in the **WHERE** clause.
-   #. The operator (+) can work only on columns of tables or views, instead of on expressions.
-   #. If table A and table B have multiple join conditions, the operator (+) must be specified in all the conditions. Otherwise, the operator (+) will not take effect, and the table join will be converted into an inner join without any prompt information.
-   #. Tables specified in a join condition where the operator (+) works cannot cross queries or subqueries. If tables where the operator (+) works are not in the **FROM** clause of the current query or subquery, an error will be reported. If a peer table for the operator (+) does not exist, no error will be reported and the table join will be converted into an inner join.
-   #. Expressions where the operator (+) is used cannot be directly connected through **OR**.
-   #. If a column where the operator (+) works is compared with a constant, the expression becomes a part of the join condition.
-   #. A table cannot have multiple foreign tables.
-   #. The operator (+) can appear only in the following expressions: comparison, NOT, ANY, ALL, IN, NULLIF, IS DISTINCT FROM, and IS OF expressions. It is not allowed in other types of expressions. In addition, these expressions cannot be connected through **AND** or **OR**.
-   #. The operator (+) can be used to convert a table join only to a left or right outer join, instead of a full join. That is, the operator (+) cannot be specified on both tables of an expression.
-
-   .. important::
-
-      For the **WHERE** clause, if a special character % \_ or \\ is queried in **LIKE**, add the slash (\\) before each character.
-
-   Examples:
+SELECT Main Clause Parameters
+-----------------------------
+
+.. table:: **Table 1** SELECT parameters
+
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Parameter                                                                                                | Description                                                                                                                                                                                                                                                                                                                                                                                      | Value Range or Example                                                                                                                                                                                                                            |
+   +==========================================================================================================+==================================================================================================================================================================================================================================================================================================================================================================================================+===================================================================================================================================================================================================================================================+
+   | WITH [ RECURSIVE ] with_query [, ...]                                                                    | Specifies one or more subqueries (CTE) that can be referenced by name in the primary query. The subqueries act as temporary tables. If a given subquery result needs to be referenced multiple times, use WITH to simplify the code logic and improve the coding efficiency.                                                                                                                     | -  **with_query_name** specifies the name of the result set generated by the subquery. You can use this name to access the result set of the subquery.                                                                                            |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  | -  **[ NOT] MATERIALIZED** specifies this parameter to change the default behavior.                                                                                                                                                               |
+   |                                                                                                          | If **RECURSIVE** is specified, it allows a **SELECT** subquery to reference itself by name.                                                                                                                                                                                                                                                                                                      |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |    -  If MATERIALIZED is specified, the subquery is executed once, and the result set is materialized for the primary query to query the result set for multiple times.                                                                           |
+   |                                                                                                          | The format of **with_query**:                                                                                                                                                                                                                                                                                                                                                                    |    -  If **NOT MATERIALIZED** is specified, **with_query** is referenced only once by the primary query and is not executed separately. Instead, **with_query** is substituted with its reference in the primary query and executed alongside it. |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | ::                                                                                                                                                                                                                                                                                                                                                                                               |    -  **NOT MATERIALIZED** is ignored in the following cases:                                                                                                                                                                                     |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    with_query_name [ ( column_name [, ...] ) ] AS [ [ NOT ] MATERIALIZED ] ( {select | values | insert | update | delete} )                                                                                                                                                                                                                                                                      |       -  The subquery contains volatile functions.                                                                                                                                                                                                |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |       -  The subquery is a **SELECT** or **VALUES** statement containing **FOR UPDATE** or **FOR SHARE**.                                                                                                                                         |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |       -  The subquery is an **INSERT**, **UPDATE**, or **DELETE** statement.                                                                                                                                                                      |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |       -  **RECURSIVE** is specified for **with_query**.                                                                                                                                                                                           |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |       -  If **with_query2** is referenced more than once and it references **with_query1**, which referenced itself in the outer layer, **with_query2** cannot take the place where it can be referenced.                                         |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |          For example, in the following example, **tmp2** is referenced twice. Because **tmp2** references **tmp1** which referenced itself in the outer layer, **tmp2** will be materialized even if **NOT MATERIALIZED** is specified.           |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |          ::                                                                                                                                                                                                                                       |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |             with recursive tmp1(b) as (values(1)                                                                                                                                                                                                  |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |             union all                                                                                                                                                                                                                             |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |             (with tmp2 as not materialized (select * from tmp1)                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |              select tt1.b + tt2.b from tmp2 tt1, tmp2 tt2))                                                                                                                                                                                       |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |              select * from tmp1;                                                                                                                                                                                                                  |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  | -  **column_name** specifies a column name displayed in the subquery result set.                                                                                                                                                                  |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  | -  Each subquery can be a **SELECT**, **VALUES**, **INSERT**, **UPDATE** or **DELETE** statement.                                                                                                                                                 |
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | **plan_hint** clause                                                                                     | This clause, in the format **/*+ \*/**, comes after the **SELECT** keyword. It is used to enhance the plan of a **SELECT** statement block.                                                                                                                                                                                                                                                      | ``-``                                                                                                                                                                                                                                             |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | For details, see "DWS Performance Tuning" > "SQL Tuning" > "Hint-based Tuning" in the *Data Warehouse Service (DWS) Developer Guide*.                                                                                                                                                                                                                                                            |                                                                                                                                                                                                                                                   |
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | ALL                                                                                                      | Specifies that all rows that meet the conditions are returned. This is the default behavior and can be omitted.                                                                                                                                                                                                                                                                                  | ``-``                                                                                                                                                                                                                                             |
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | DISTINCT [ ON ( expression [, ...] ) ]                                                                   | Removes all duplicate rows from the **SELECT** result to ensure that each row is unique.                                                                                                                                                                                                                                                                                                         | ``-``                                                                                                                                                                                                                                             |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | **ON ( expression [, ...] )** is only reserved for the first row among all the rows with the same result calculated using given expressions.                                                                                                                                                                                                                                                     |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | .. important::                                                                                                                                                                                                                                                                                                                                                                                   |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    NOTICE:                                                                                                                                                                                                                                                                                                                                                                                       |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    **DISTINCT ON** expression is explained with the same rule of **ORDER BY**. Unless you use **ORDER BY** to guarantee that the required row appears first, you cannot know what the first row is.                                                                                                                                                                                              |                                                                                                                                                                                                                                                   |
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | **SELECT** list                                                                                          | Indicates columns to be queried. Some or all columns (using wildcard character \*) can be queried.                                                                                                                                                                                                                                                                                               | Column names may be either of:                                                                                                                                                                                                                    |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | You may use the **AS output_name** clause to give an alias for an output column. The alias is used for the displaying of the output column.                                                                                                                                                                                                                                                      | -  Manually input column names which are spaced using commas (,).                                                                                                                                                                                 |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  | -  Fields computed in the **FROM** clause.                                                                                                                                                                                                        |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  | -  Generally, the keyword **AS** can be omitted. For example, **select 2a** is implicitly converted to **select 2 as a**.                                                                                                                         |
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | **FROM** clause                                                                                          | Indicates one or more source tables for **SELECT**. For details, see :ref:`Table 2 <en-us_topic_0000001811515533__table6109656185214>`.                                                                                                                                                                                                                                                          | ``-``                                                                                                                                                                                                                                             |
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | **WHERE** clause                                                                                         | The **WHERE** clause forms an expression for row selection to narrow down the query range of **SELECT**.                                                                                                                                                                                                                                                                                         | -  **LIKE** operator                                                                                                                                                                                                                              |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  | -  The **(+)** operator is not recommended.                                                                                                                                                                                                       |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  | For details, see :ref:`Restrictions on the WHERE Clause <en-us_topic_0000001811515533__section17762155514494>`.                                                                                                                                   |
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | **GROUP BY** clause                                                                                      | Condenses query results into a single row or selected rows that share the same values for the grouped expressions.                                                                                                                                                                                                                                                                               | For details, see :ref:`Table 4 <en-us_topic_0000001811515533__table589772212559>`.                                                                                                                                                                |
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | **HAVING** clause                                                                                        | Filters group rows created by GROUP BY. It is similar to WHERE, but is usually used with GROUP BY to filter out special groups. The **HAVING** clause compares some attributes of groups with a constant. Only groups that match the logical expression in the **HAVING** clause are extracted.                                                                                                  | ``-``                                                                                                                                                                                                                                             |
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | **WINDOW** clause                                                                                        | Defines a window function. The format is **WINDOW** *window_name* **AS** ( *window_definition* **) [, ...]**. *window_name* indicates a name that can be referenced from subsequent window definitions. *window_definition* indicates the window rule, which can be expressed in the following format:                                                                                           | ``-``                                                                                                                                                                                                                                             |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | ::                                                                                                                                                                                                                                                                                                                                                                                               |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    [ existing_window_name ]                                                                                                                                                                                                                                                                                                                                                                      |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    [ PARTITION BY expression [, ...] ]                                                                                                                                                                                                                                                                                                                                                           |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    [ ORDER BY expression [ ASC | DESC | USING operator ] [ NULLS { FIRST | LAST } ] [, ...] ]                                                                                                                                                                                                                                                                                                    |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    [ frame_clause ]                                                                                                                                                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | **frame_clause** defines a **window frame** for the window function. The window function (not all window functions) depends on **window frame** and **window frame** is a set of relevant rows of the current query row. **frame_clause** can be expressed in the following forms:                                                                                                               |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | ::                                                                                                                                                                                                                                                                                                                                                                                               |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    [ RANGE | ROWS ] frame_start                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    [ RANGE | ROWS ] BETWEEN frame_start AND frame_end                                                                                                                                                                                                                                                                                                                                            |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | **frame_start** and **frame_end** can be expressed in the following forms:                                                                                                                                                                                                                                                                                                                       |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | ::                                                                                                                                                                                                                                                                                                                                                                                               |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    UNBOUNDED PRECEDING                                                                                                                                                                                                                                                                                                                                                                           |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    value PRECEDING (not supported for RANGE)                                                                                                                                                                                                                                                                                                                                                     |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    CURRENT ROW                                                                                                                                                                                                                                                                                                                                                                                   |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    value FOLLOWING (not supported for RANGE)                                                                                                                                                                                                                                                                                                                                                     |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    UNBOUNDED FOLLOWING                                                                                                                                                                                                                                                                                                                                                                           |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | .. important::                                                                                                                                                                                                                                                                                                                                                                                   |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    NOTICE:                                                                                                                                                                                                                                                                                                                                                                                       |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    For the query of column storage table, only **row_number** window function is supported, **frame_clause** is not supported.                                                                                                                                                                                                                                                                   |                                                                                                                                                                                                                                                   |
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | **UNION** clause                                                                                         | Computes the set union of the rows returned by the involved **SELECT** statements.                                                                                                                                                                                                                                                                                                               | ``-``                                                                                                                                                                                                                                             |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | The **UNION** clause has the following constraints:                                                                                                                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  By default, the result of **UNION** does not contain any duplicate rows unless the **ALL** option is specified.                                                                                                                                                                                                                                                                               |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  Multiple **UNION** operators in the same **SELECT** statement are evaluated from left to right, unless parentheses are used to specify the order.                                                                                                                                                                                                                                             |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  **FOR UPDATE** cannot be specified either for a **UNION** result or for any input of a **UNION**.                                                                                                                                                                                                                                                                                             |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | General expression:                                                                                                                                                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | ::                                                                                                                                                                                                                                                                                                                                                                                               |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    select_statement UNION [ALL] select_statement                                                                                                                                                                                                                                                                                                                                                 |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  **select_statement** can be any **SELECT** statement without an **ORDER BY**, **LIMIT**, or **FOR UPDATE** clause.                                                                                                                                                                                                                                                                            |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  If enclosed in parentheses, **ORDER BY** and **LIMIT** can be attached to sub-expressions.                                                                                                                                                                                                                                                                                                    |                                                                                                                                                                                                                                                   |
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | **INTERSECT** clause                                                                                     | Computes the set intersection of rows returned by the involved **SELECT** statements. The result of **INTERSECT** does not contain any duplicate rows.                                                                                                                                                                                                                                           | ``-``                                                                                                                                                                                                                                             |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | The **INTERSECT** clause has the following constraints:                                                                                                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  Multiple **INTERSECT** operators in the same **SELECT** statement are evaluated from left to right, unless parentheses are used to specify the order.                                                                                                                                                                                                                                         |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  Processing **INTERSECT** preferentially when **UNION** and **INTERSECT** operations are executed for results of multiple **SELECT** statements.                                                                                                                                                                                                                                               |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | General format:                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | ::                                                                                                                                                                                                                                                                                                                                                                                               |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    select_statement INTERSECT select_statement                                                                                                                                                                                                                                                                                                                                                   |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | **select_statement** can be any **SELECT** statement without a **FOR UPDATE** clause.                                                                                                                                                                                                                                                                                                            |                                                                                                                                                                                                                                                   |
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | **EXCEPT** clause                                                                                        | The **EXCEPT** operator computes the set of rows that are in the result of the left **SELECT** statement but not in the result of the right one.                                                                                                                                                                                                                                                 | ``-``                                                                                                                                                                                                                                             |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | **EXCEPT** clause has the following common form:                                                                                                                                                                                                                                                                                                                                                 |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | ::                                                                                                                                                                                                                                                                                                                                                                                               |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    select_statement EXCEPT [ ALL ] select_statement                                                                                                                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  **select_statement** can be any **SELECT** statement without a **FOR UPDATE** clause.                                                                                                                                                                                                                                                                                                         |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  The result of **EXCEPT** does not contain any duplicate rows unless the **ALL** option is specified. To execute **ALL**, a row that has *m* duplicates in the left table and *n* duplicates in the right table will appear MAX(*m*\ ``-``\ *n*, 0) times in the result set.                                                                                                                   |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  Multiple **EXCEPT** operators in the same **SELECT** statement are evaluated from left to right, unless parentheses dictate otherwise. **EXCEPT** binds at the same level as **UNION**.                                                                                                                                                                                                       |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  Currently, **FOR UPDATE** cannot be specified either for an **EXCEPT** result or for any input of an **EXCEPT**.                                                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                   |
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | **MINUS** clause                                                                                         | Has the same function and syntax as **EXCEPT** clause.                                                                                                                                                                                                                                                                                                                                           | ``-``                                                                                                                                                                                                                                             |
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | **ORDER BY** clause                                                                                      | Sorts data retrieved by **SELECT** in descending or ascending order. If the **ORDER BY** expression contains multiple columns:                                                                                                                                                                                                                                                                   | ``-``                                                                                                                                                                                                                                             |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  If two columns are equal according to the leftmost expression, they are compared according to the next expression and so on.                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  If they are equal according to all specified expressions, they are returned in an implementation-dependent order.                                                                                                                                                                                                                                                                             |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  Columns sorted by **ORDER BY** must be contained in the result retrieved by **SELECT**.                                                                                                                                                                                                                                                                                                       |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | .. important::                                                                                                                                                                                                                                                                                                                                                                                   |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    NOTICE:                                                                                                                                                                                                                                                                                                                                                                                       |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    -  If **ORDER BY** is not specified, the query results are returned following the generation sequence in the database system.                                                                                                                                                                                                                                                                 |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    -  You can add the keyword **ASC** (in ascending order) or **DESC** (in descending order) next to any expression in the **ORDER BY** clause. If the keyword is not specified, **ASC** is used by default.                                                                                                                                                                                     |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    -  To sort query results by case-insensitive Chinese pinyin, set the encoding mode to **UTF-8** or **GBK** during database creation.                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                   |
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | nlssort_expression_clause                                                                                | Sets the sorting mode. The format is as follows:                                                                                                                                                                                                                                                                                                                                                 | -  :ref:`Example: Use NLSSORT to Sort Query Results Without Case Sensitivity <en-us_topic_0000001811515533__section652482122416>`                                                                                                                 |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | ::                                                                                                                                                                                                                                                                                                                                                                                               |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    NLSSORT ( column_name, ' NLS_SORT = { SCHINESE_PINYIN_M | generic_m_ci } ' )                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | **NLS_SORT**: indicates a field to be ordered in a special mode. Currently, only the Chinese Pinyin order and case insensitive order are supported. Values:                                                                                                                                                                                                                                      |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  **SCHINESE_PINYIN_M**: Chinese characters are sorted by pinyin. Currently, only level-1 Chinese characters in the GBK character set can be sorted. To use this sort method, specify **GBK** as the encoding format when you create the database. If you do not do so, this value is invalid.                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  **generic_m_ci**, case-insensitive order.                                                                                                                                                                                                                                                                                                                                                     |                                                                                                                                                                                                                                                   |
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | [ { [ LIMIT { count \| ALL } ] [ OFFSET start [ ROW \| ROWS ] ] } \| { LIMIT start, { count \| ALL } } ] | The **LIMIT** clause consists of two independent **LIMIT** clauses, an **OFFSET** clause, and a **LIMIT** clause with multiple parameters.                                                                                                                                                                                                                                                       | ``-``                                                                                                                                                                                                                                             |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | ::                                                                                                                                                                                                                                                                                                                                                                                               |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    LIMIT { count | ALL }                                                                                                                                                                                                                                                                                                                                                                         |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    OFFSET start [ ROW | ROWS ]                                                                                                                                                                                                                                                                                                                                                                   |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    LIMIT start, { count | ALL }                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | **count** in the clauses specifies the maximum number of rows to return, while **start** specifies the number of rows to skip before starting to return rows. When both are specified, **start** rows are skipped before starting to count the **count** rows to be returned. A multi-parameter **LIMIT** clause cannot be used together with a single-parameter **LIMIT** or **OFFSET** clause. |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | Example:                                                                                                                                                                                                                                                                                                                                                                                         |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | ::                                                                                                                                                                                                                                                                                                                                                                                               |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    LIMIT 10 OFFSET 20; -- Skip the first 20 rows and return the next 10 rows, that is, return rows 21 to 30.                                                                                                                                                                                                                                                                                     |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    LIMIT 5, 10; -- Skip the first five lines and returns the last 10 rows, that is, returns the rows 6 to 16.                                                                                                                                                                                                                                                                                    |                                                                                                                                                                                                                                                   |
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | FETCH { FIRST \| NEXT } [ count ] { ROW \| ROWS } ONLY                                                   | The **FETCH** clause restricts the total number of rows starting from the first row of the return query result.                                                                                                                                                                                                                                                                                  | If **count** is not specified, the default value **1** is used.                                                                                                                                                                                   |
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | FOR UPDATE \| SHARE clause                                                                               | The **FOR UPDATE** clause locks the selected rows in a **SELECT** query to prevent other transactions from modifying or deleting them until the current transaction is completed. This means that any transactions attempting to execute **UPDATE**, **DELETE**, or **SELECT FOR UPDATE** on these rows will be blocked until the current transaction is finished.                               | ``-``                                                                                                                                                                                                                                             |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | **NOWAIT** option: prevents an operation from waiting for other transactions to commit. If the selected row cannot be locked immediately, an error is reported when **SELECT FOR UPDATE NOWAIT** is executed.                                                                                                                                                                                    |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  If specified tables are named in **FOR UPDATE/SHARE**, then only rows coming from those tables are locked; any other tables used in **SELECT** are simply read as usual. Otherwise, locking all tables in the command.                                                                                                                                                                        |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  If **FOR UPDATE** or **FOR SHARE** is applied to a view or sub-query, it affects all tables used in the view or sub-query.                                                                                                                                                                                                                                                                    |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  Multiple **FOR UPDATE** and **FOR SHARE** clauses can be written if it is necessary to specify different locking behaviors for different tables.                                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  If the same table is mentioned (or implicitly affected) by both **FOR UPDATE** and **FOR SHARE** clauses, it is processed as **FOR UPDATE**. Similarly, a table is processed as **NOWAIT** if that is specified in any of the clauses affecting it.                                                                                                                                           |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | -  **FOR SHARE** or **FOR UPDATE**: requires a shared lock instead of an exclusive lock for each retrieved row. A share lock blocks other transaction from performing **UPDATE**, **DELETE**, or **SELECT FOR UPDATE** on these rows, but it does not prevent them from performing **SELECT FOR SHARE**.                                                                                         |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          | .. important::                                                                                                                                                                                                                                                                                                                                                                                   |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    NOTICE:                                                                                                                                                                                                                                                                                                                                                                                       |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                  |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    -  For SQL statements containing **FOR UPDATE** or **FOR SHARE**, their execution plans will be pushed down to DNs. If the pushdown fails, an error will be reported.                                                                                                                                                                                                                         |                                                                                                                                                                                                                                                   |
+   |                                                                                                          |    -  The query of column storage table does not support **FOR UPDATE** or **FOR SHARE**.                                                                                                                                                                                                                                                                                                        |                                                                                                                                                                                                                                                   |
+   +----------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+.. _en-us_topic_0000001811515533__section1111135675219:
+
+FROM Clause Parameters
+----------------------
+
+FROM from_item clause format:
+
+::
+
+   {[ ONLY ] table_name [ * ] [ partition_clause ] [ [ AS ] alias [ ( column_alias [, ...] ) ] ]
+   |( select ) [ AS ] alias [ ( column_alias [, ...] ) ]
+   |with_query_name [ [ AS ] alias [ ( column_alias [, ...] ) ] ]
+   |function_name ( [ argument [, ...] ] ) [ AS ] alias [ ( column_alias [, ...] | column_definition [, ...] ) ]
+   |function_name ( [ argument [, ...] ] ) AS ( column_definition [, ...] )
+   |from_item [ NATURAL ] join_type from_item [ ON join_condition | USING ( join_column [, ...] ) ]}
+
+.. _en-us_topic_0000001811515533__table6109656185214:
+
+.. table:: **Table 2** FROM clause parameters
+
+   +---------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+   | Parameter                 | Description                                                                                                                                                                                   | Value Range or Example                                                                                      |
+   +===========================+===============================================================================================================================================================================================+=============================================================================================================+
+   | table_name                | Indicates the name (optionally schema-qualified) of an existing table or view, for example, **schema_name.table_name**.                                                                       | A string, which must comply with the naming convention.                                                     |
+   |                           |                                                                                                                                                                                               |                                                                                                             |
+   |                           |                                                                                                                                                                                               | For details, see :ref:`Identifier Naming Conventions <en-us_topic_0000001811634529__section1475018612353>`. |
+   +---------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+   | alias                     | Gives a temporary alias to a table to facilitate the quotation by other queries.                                                                                                              | A string, which must comply with the naming convention.                                                     |
+   |                           |                                                                                                                                                                                               |                                                                                                             |
+   |                           | An alias is used for brevity or to eliminate ambiguity for self-joins. When an alias is provided, it completely hides the actual name of the table or function.                               | For details, see :ref:`Identifier Naming Conventions <en-us_topic_0000001811634529__section1475018612353>`. |
+   +---------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+   | column_alias              | Specifies the column alias.                                                                                                                                                                   | A string, which must comply with the naming convention.                                                     |
+   |                           |                                                                                                                                                                                               |                                                                                                             |
+   |                           |                                                                                                                                                                                               | For details, see :ref:`Identifier Naming Conventions <en-us_topic_0000001811634529__section1475018612353>`. |
+   +---------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+   | partition_clause          | Queries data in the specified partition of a partitioned table. The format is as follows:                                                                                                     | Examples:                                                                                                   |
+   |                           |                                                                                                                                                                                               |                                                                                                             |
+   |                           | ::                                                                                                                                                                                            | .. code-block::                                                                                             |
+   |                           |                                                                                                                                                                                               |                                                                                                             |
+   |                           |    PARTITION { ( partition_name ) |                                                                                                                                                           |    SELECT * FROM tpcds.reason_p PARTITION (P_05_BEFORE);                                                    |
+   |                           |            FOR (  partition_value [, ...] ) }                                                                                                                                                 |                                                                                                             |
+   |                           |                                                                                                                                                                                               |                                                                                                             |
+   |                           | -  **partition_name**: indicates the partition name.                                                                                                                                          |                                                                                                             |
+   |                           | -  **partition_value**: indicates the partition key value. If there are many partition keys, use the **PARTITION FOR** clause to specify the value of the only partition key you want to use. |                                                                                                             |
+   |                           |                                                                                                                                                                                               |                                                                                                             |
+   |                           | .. important::                                                                                                                                                                                |                                                                                                             |
+   |                           |                                                                                                                                                                                               |                                                                                                             |
+   |                           |    NOTICE:                                                                                                                                                                                    |                                                                                                             |
+   |                           |    Partitions can be specified only for ordinary tables.                                                                                                                                      |                                                                                                             |
+   +---------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+   | subquery                  | Performs a subquery in the **FROM** clause. A temporary table is created to save subquery results.                                                                                            | For example, assign an alias **e** to a subquery result and use it as a FROM data source.                   |
+   |                           |                                                                                                                                                                                               |                                                                                                             |
+   |                           |                                                                                                                                                                                               | ::                                                                                                          |
+   |                           |                                                                                                                                                                                               |                                                                                                             |
+   |                           |                                                                                                                                                                                               |    SELECT d.department_name, e.avg_salary FROM                                                              |
+   |                           |                                                                                                                                                                                               |                                                                                                             |
+   |                           |                                                                                                                                                                                               |    ( SELECT department_id, AVG(salary) AS avg_salary     FROM employees     GROUP BY department_id) AS e    |
+   |                           |                                                                                                                                                                                               |                                                                                                             |
+   |                           |                                                                                                                                                                                               |    JOIN departments d ON e.department_id = d.id;                                                            |
+   +---------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+   | with_query_name           | **WITH** clause can also be the source of **FROM** clause and can be referenced with the name queried by executing **WITH**.                                                                  | A string, which must comply with the naming convention.                                                     |
+   |                           |                                                                                                                                                                                               |                                                                                                             |
+   |                           |                                                                                                                                                                                               | For details, see :ref:`Identifier Naming Conventions <en-us_topic_0000001811634529__section1475018612353>`. |
+   |                           |                                                                                                                                                                                               |                                                                                                             |
+   |                           |                                                                                                                                                                                               | For example, use **WITH cte** and reference **cte** in a FROM clause.                                       |
+   |                           |                                                                                                                                                                                               |                                                                                                             |
+   |                           |                                                                                                                                                                                               | ::                                                                                                          |
+   |                           |                                                                                                                                                                                               |                                                                                                             |
+   |                           |                                                                                                                                                                                               |    WITH cte AS (SELECT id, name FROM users)                                                                 |
+   |                           |                                                                                                                                                                                               |    SELECT * FROM cte AS user_info;                                                                          |
+   +---------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+   | function_name             | Specifies the function name. Function calls can appear in the **FROM** clause.                                                                                                                | A string, which must comply with the naming convention.                                                     |
+   |                           |                                                                                                                                                                                               |                                                                                                             |
+   |                           |                                                                                                                                                                                               | For details, see :ref:`Identifier Naming Conventions <en-us_topic_0000001811634529__section1475018612353>`. |
+   +---------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+   | join_type                 | Specifies the JOIN type.                                                                                                                                                                      | Supported JOIN types:                                                                                       |
+   |                           |                                                                                                                                                                                               |                                                                                                             |
+   |                           |                                                                                                                                                                                               | -  [ INNER ] JOIN                                                                                           |
+   |                           |                                                                                                                                                                                               | -  LEFT [ OUTER ] JOIN                                                                                      |
+   |                           |                                                                                                                                                                                               | -  RIGHT [ OUTER ] JOIN                                                                                     |
+   |                           |                                                                                                                                                                                               | -  FULL [ OUTER ] JOIN                                                                                      |
+   |                           |                                                                                                                                                                                               | -  CROSS JOIN                                                                                               |
+   |                           |                                                                                                                                                                                               |                                                                                                             |
+   |                           |                                                                                                                                                                                               | For details, see :ref:`Table 3 <en-us_topic_0000001811515533__table20110135645219>`.                        |
+   +---------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+   | ON join_condition         | A join condition to define which rows have matches in joins. Example: ON left_table.a = right_table.a                                                                                         | ``-``                                                                                                       |
+   +---------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+   | USING(join_column[, ...]) | ON left_table.a = right_table.a AND left_table.b = right_table.b ... abbreviation. Corresponding columns must have the same name.                                                             | ``-``                                                                                                       |
+   +---------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+   | NATURAL                   | **NATURAL** is a shorthand for a **USING** list that mentions all columns in the two tables that have the same names.                                                                         | ``-``                                                                                                       |
+   +---------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+   | from item                 | Specifies the name of the query source object connected.                                                                                                                                      | ``-``                                                                                                       |
+   +---------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------+
+
+.. _en-us_topic_0000001811515533__table20110135645219:
+
+.. table:: **Table 3** Five types of join_type
+
+   +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Parameter                         | Description                                                                                                                                                                                                                                                                                                                                                      |
+   +===================================+==================================================================================================================================================================================================================================================================================================================================================================+
+   | [ INNER ] JOIN                    | A **JOIN** clause consists of two **FROM** items. Use parentheses if necessary to determine the order of nesting. Without parentheses, **JOIN** is nested from left to right. In any case, **JOIN** binds more tightly than the commas separating **FROM** items.                                                                                                |
+   +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | LEFT [ OUTER ] JOIN               | Returns all rows in the qualified Cartesian product (all combined rows that pass its join condition), and pluses one copy of each row in the left-hand table for which there was no right-hand row that passed the join condition. This left-hand row is extended to the full width of the joined table by inserting **NULL** values for the right-hand columns. |
+   |                                   |                                                                                                                                                                                                                                                                                                                                                                  |
+   |                                   | Note that only the **JOIN** clause's own condition is considered while deciding which rows have matches. Outer conditions are applied afterwards.                                                                                                                                                                                                                |
+   +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | RIGHT [ OUTER ] JOIN              | Returns all the result rows of the inner join, plus the unmatched rows from the right table (with NULLs inserted for columns of the left table). A right outer join is equivalent to a left outer join with the left and right tables swapped.                                                                                                                   |
+   +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | FULL [ OUTER ] JOIN               | Returns all the joined rows, pluses one row for each unmatched left-hand row (extended with **NULL** on the right), and pluses one row for each unmatched right-hand row (extended with **NULL** on the left).                                                                                                                                                   |
+   +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | CROSS JOIN                        | **CROSS JOIN** is equivalent to **INNER JOIN ON (TRUE)**, which means no rows are removed by qualification. The effect is the same as that of simple **FROM** and **WHERE**.                                                                                                                                                                                     |
+   |                                   |                                                                                                                                                                                                                                                                                                                                                                  |
+   |                                   | .. note::                                                                                                                                                                                                                                                                                                                                                        |
+   |                                   |                                                                                                                                                                                                                                                                                                                                                                  |
+   |                                   |    -  For the **INNER** and **OUTER** join types, a join condition must be specified, namely exactly one of **NATURAL ON**, **join_condition**, or **USING (join_column [, ...])**. For **CROSS JOIN**, none of these clauses can appear.                                                                                                                        |
+   |                                   |    -  **CROSS JOIN** and **INNER JOIN** produce a simple Cartesian product, the same result as you get from listing the two items at the top level of **FROM**.                                                                                                                                                                                                  |
+   +-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+.. _en-us_topic_0000001811515533__section18897122165513:
+
+GROUP BY Parameters
+-------------------
+
+The **group** clause is as follows:
+
+::
+
+   ( )
+   | expression
+   | ( expression [, ...] )
+   | ROLLUP ( { expression | ( expression [, ...] ) } [, ...] )
+   | CUBE ( { expression | ( expression [, ...] ) } [, ...] )
+   | GROUPING SETS ( grouping_element [, ...] )
+
+.. _en-us_topic_0000001811515533__table589772212559:
+
+.. table:: **Table 4** GROUP By parameters
+
+   +-------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------+
+   | Parameter                                                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                          | Examples                                                            |
+   +=============================================================+======================================================================================================================================================================================================================================================================================================================================================================================================================================+=====================================================================+
+   | ROLLUP ( { expression \| ( expression [, ...] ) } [, ...] ) | ROLLUP calculates the standard aggregation value specified by an ordered grouping column in GROUP BY, creates a high-level partial sum from right to left, and finally creates a cumulative sum. A group can be regarded as a series of grouping sets. Example:                                                                                                                                                                      | :ref:`Examples <en-us_topic_0000001811515533__section139732718235>` |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             | ::                                                                                                                                                                                                                                                                                                                                                                                                                                   |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             |    GROUP BY ROLLUP (a,b,c)                                                                                                                                                                                                                                                                                                                                                                                                           |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             | The preceding condition expression is equivalent to:                                                                                                                                                                                                                                                                                                                                                                                 |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             | ::                                                                                                                                                                                                                                                                                                                                                                                                                                   |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             |    GROUP BY GROUPING SETS((a,b,c), (a,b), (a), ( ))                                                                                                                                                                                                                                                                                                                                                                                  |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             | The elements in the **ROLLUP** clause can be independent fields or expressions, or a list contained in parentheses. If it is a list in parentheses, they must be a whole when the grouping set is generated. Example:                                                                                                                                                                                                                |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             | ::                                                                                                                                                                                                                                                                                                                                                                                                                                   |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             |    GROUP BY ROLLUP ((a,b), (c,d))                                                                                                                                                                                                                                                                                                                                                                                                    |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             | The preceding condition expression is equivalent to:                                                                                                                                                                                                                                                                                                                                                                                 |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             | ::                                                                                                                                                                                                                                                                                                                                                                                                                                   |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             |    GROUPING SETS ((a,b,c,d), (a,b), (c,d ), ( ))                                                                                                                                                                                                                                                                                                                                                                                     |                                                                     |
+   +-------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------+
+   | CUBE ( { expression \| ( expression [, ...] ) } [, ...] )   | A CUBE grouping is an extension to the GROUP BY clause that creates subtotals for all of the possible combinations of the given list of grouping columns (or expressions). CUBE can be understood as all dimensions, that is, all combinations of columns in the aggregation key.                                                                                                                                                    | :ref:`Examples <en-us_topic_0000001811515533__section139732718235>` |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             | In terms of multidimensional analysis, CUBE generates all the subtotals that could be calculated for a data cube with the specified dimensions. For example, given three expressions (n=3) in the CUBE clause, the operation results in 2\ :sup:`n` = 2\ :sup:`3` = 8 groupings. Rows grouped on the values of *n* expressions are called regular rows, and the rest are called superaggregate rows. Example:                        |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             | ::                                                                                                                                                                                                                                                                                                                                                                                                                                   |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             |    GROUP BY CUBE (a,b,c)                                                                                                                                                                                                                                                                                                                                                                                                             |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             | The preceding condition expression is equivalent to:                                                                                                                                                                                                                                                                                                                                                                                 |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             | ::                                                                                                                                                                                                                                                                                                                                                                                                                                   |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             |    GROUP BY GROUPING SETS((a,b,c), (a,b), (a,c), (b,c), (a), (b), (c), ( ))                                                                                                                                                                                                                                                                                                                                                          |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             | The elements in the **CUBE** clause can be independent fields or expressions, or a list contained in parentheses. If it is a list in parentheses, they must be a whole when the grouping set is generated. Example:                                                                                                                                                                                                                  |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             | ::                                                                                                                                                                                                                                                                                                                                                                                                                                   |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             |    GROUP BY CUBE (a, (b, c), d)                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             | The preceding condition expression is equivalent to:                                                                                                                                                                                                                                                                                                                                                                                 |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             | .. code-block::                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             |    GROUP BY GROUPING SETS ((a,b,c,d), (a,b,c), (a), ( ))                                                                                                                                                                                                                                                                                                                                                                             |                                                                     |
+   +-------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------+
+   | GROUPING SETS ( grouping_element [, ...] )                  | **GROUPING SETS** is another extension to the **GROUP BY** clause. It allows users to specify multiple **GROUP BY** clauses. The option is used to define a grouping set. Each grouping set needs to be included in a separate parenthesis. A blank parenthesis (()) indicates that all data is processed as a group. This improves efficiency by trimming away unnecessary data. You can specify the required data group for query. | :ref:`Examples <en-us_topic_0000001811515533__section139732718235>` |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             | .. important::                                                                                                                                                                                                                                                                                                                                                                                                                       |                                                                     |
+   |                                                             |                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                     |
+   |                                                             |    NOTICE:                                                                                                                                                                                                                                                                                                                                                                                                                           |                                                                     |
+   |                                                             |    If the **SELECT** list expression quotes some ungrouped fields and no aggregate function is used, an error is displayed. This is because multiple values may be returned for ungrouped fields.                                                                                                                                                                                                                                    |                                                                     |
+   +-------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------+
+
+.. _en-us_topic_0000001811515533__section17762155514494:
+
+Restrictions on the WHERE Clause
+--------------------------------
+
+#. For the **WHERE** clause, if a special character %, \_, or \\ is queried in the **LIKE** operator, use the backslash (\\) for escape.
 
    ::
 
@@ -333,244 +510,39 @@ Parameter Description
         2 | Rose do 50%
       (1 row)
 
--  **GROUP BY clause**
-
-   Condenses query results into a single row or selected rows that share the same values for the grouped expressions.
-
-   -  ROLLUP ( { expression \| ( expression [, ...] ) } [, ...] )
-
-      ROLLUP calculates the standard aggregation value specified by an ordered grouping column in GROUP BY, creates a high-level partial sum from right to left, and finally creates a cumulative sum. A group can be regarded as a series of grouping sets. Example:
-
-      ::
-
-         GROUP BY ROLLUP (a,b,c)
-
-      The preceding condition expression is equivalent to:
-
-      ::
-
-         GROUP BY GROUPING SETS((a,b,c), (a,b), (a), ( ))
-
-      The elements in the **ROLLUP** clause can be independent fields or expressions, or a list contained in parentheses. If it is a list in parentheses, they must be a whole when the grouping set is generated. Example:
-
-      ::
-
-         GROUP BY ROLLUP ((a,b), (c,d))
-
-      The preceding condition expression is equivalent to:
-
-      ::
-
-         GROUPING SETS ((a,b,c,d), (a,b), (c,d ), ( ))
-
-   -  CUBE ( { expression \| ( expression [, ...] ) } [, ...] )
-
-      A CUBE grouping is an extension to the GROUP BY clause that creates subtotals for all of the possible combinations of the given list of grouping columns (or expressions). In terms of multidimensional analysis, CUBE generates all the subtotals that could be calculated for a data cube with the specified dimensions. For example, given three expressions (n=3) in the CUBE clause, the operation results in 2\ :sup:`n` = 2\ :sup:`3` = 8 groupings. Rows grouped on the values of *n* expressions are called regular rows, and the rest are called superaggregate rows. Example:
-
-      ::
-
-         GROUP BY CUBE (a,b,c)
-
-      The preceding condition expression is equivalent to:
-
-      ::
-
-         GROUP BY GROUPING SETS((a,b,c), (a,b), (a,c), (b,c), (a), (b), (c), ( ))
-
-      The elements in the **CUBE** clause can be independent fields or expressions, or a list contained in parentheses. If it is a list in parentheses, they must be a whole when the grouping set is generated. Example:
-
-      ::
-
-         GROUP BY CUBE (a, (b, c), d)
-
-      The preceding condition expression is equivalent to:
-
-      .. code-block::
-
-         GROUP BY GROUPING SETS ((a,b,c,d), (a,b,c), (a), ( ))
-
-   -  GROUPING SETS ( grouping_element [, ...] )
-
-      **GROUPING SETS** is another extension to the **GROUP BY** clause. It allows you to specify multiple **GROUP BY** clauses. The option is used to define a grouping set. Each grouping set needs to be included in a separate parenthesis. A blank parenthesis (()) indicates that all data is processed as a group. This improves efficiency by trimming away unnecessary data. You can specify the required data group for query.
-
-   .. important::
-
-      If the **SELECT** list expression quotes some ungrouped fields and no aggregate function is used, an error is displayed. This is because multiple values may be returned for ungrouped fields.
-
--  **HAVING clause**
-
-   Selects special groups by working with the **GROUP BY** clause. The **HAVING** clause compares some attributes of groups with a constant. Only groups that matching the logical expression in the **HAVING** clause are extracted.
-
--  **WINDOW clause**
-
-   The general format is **WINDOW window_name AS ( window_definition ) [, ...]**. **window_name** is a name can be referenced by **window_definition**. **window_definition** can be expressed in the following forms:
-
-   [ existing_window_name ]
-
-   [ PARTITION BY expression [, ...] ]
-
-   [ ORDER BY expression [ ASC \| DESC \| USING operator ] [ NULLS { FIRST \| LAST } ] [, ...] ]
-
-   [ frame_clause ]
-
-   **frame_clause** defines a **window frame** for the window function. The window function (not all window functions) depends on **window frame** and **window frame** is a set of relevant rows of the current query row. **frame_clause** can be expressed in the following forms:
-
-   [ RANGE \| ROWS ] frame_start
-
-   [ RANGE \| ROWS ] BETWEEN frame_start AND frame_end
-
-   **frame_start** and **frame_end** can be expressed in the following forms:
-
-   UNBOUNDED PRECEDING
-
-   value PRECEDING (not supported for **RANGE**)
-
-   CURRENT ROW
-
-   value FOLLOWING (not supported for **RANGE**)
-
-   UNBOUNDED FOLLOWING
-
-   .. important::
-
-      For the query of column storage table, only **row_number** window function is supported, **frame_clause** is not supported.
-
--  **UNION clause**
-
-   Computes the set union of the rows returned by the involved **SELECT** statements.
-
-   The **UNION** clause has the following constraints:
-
-   -  By default, the result of **UNION** does not contain any duplicate rows unless the **ALL** option is specified.
-   -  Multiple **UNION** operators in the same **SELECT** statement are evaluated left to right, unless otherwise specified by parentheses.
-   -  **FOR UPDATE** cannot be specified either for a **UNION** result or for any input of a **UNION**.
-
-   General expression:
-
-   select_statement UNION [ALL] select_statement
-
-   -  **select_statement** can be any **SELECT** statement without an **ORDER BY**, **LIMIT**, or **FOR UPDATE** clause.
-   -  **ORDER BY** and **LIMIT** in parentheses can be attached in a sub-expression.
-
--  **INTERSECT clause**
-
-   Computes the set intersection of rows returned by the involved **SELECT** statements. The result of **INTERSECT** does not contain any duplicate rows.
-
-   The **INTERSECT** clause has the following constraints:
-
-   -  Multiple **INTERSECT** operators in the same **SELECT** statement are evaluated left to right, unless otherwise specified by parentheses.
-   -  Processing **INTERSECT** preferentially when **UNION** and **INTERSECT** operations are executed for results of multiple **SELECT** statements.
-
-   General format:
-
-   select_statement INTERSECT select_statement
-
-   **select_statement** can be any **SELECT** statement without a **FOR UPDATE** clause.
-
--  **EXCEPT clause**
-
-   **EXCEPT** clause has the following common form:
-
-   select_statement EXCEPT [ ALL ] select_statement
-
-   **select_statement** can be any **SELECT** statement without a **FOR UPDATE** clause.
-
-   The **EXCEPT** operator computes the set of rows that are in the result of the left **SELECT** statement but not in the result of the right one.
-
-   The result of **EXCEPT** does not contain any duplicate rows unless the **ALL** option is specified. To execute **ALL**, a row that has *m* duplicates in the left table and *n* duplicates in the right table will appear MAX(*m*\ ``-``\ *n*, 0) times in the result set.
-
-   Multiple **EXCEPT** operators in the same **SELECT** statement are evaluated left to right, unless parentheses dictate otherwise. **EXCEPT** binds at the same level as **UNION**.
-
-   Currently, **FOR UPDATE** cannot be specified either for an **EXCEPT** result or for any input of an **EXCEPT**.
-
--  **MINUS clause**
-
-   Has the same function and syntax as **EXCEPT** clause.
-
--  **ORDER BY** clause
-
-   Sorts data retrieved by **SELECT** in descending or ascending order. If the **ORDER BY** expression contains multiple columns:
-
-   -  If two columns are equal according to the leftmost expression, they are compared according to the next expression and so on.
-   -  If they are equal according to all specified expressions, they are returned in an implementation-dependent order.
-   -  Columns sorted by **ORDER BY** must be contained in the result retrieved by **SELECT**.
-
-   .. important::
-
-      -  If **ORDER BY** is not specified, the query results are returned following the generation sequence in the database system.
-
-      -  You can add the keyword **ASC** (in ascending order) or **DESC** (in descending order) next to any expression in the **ORDER BY** clause. If the keyword is not specified, **ASC** is used by default.
-
-      -  To sort query results by case-insensitive Chinese pinyin, set the encoding mode to **UTF-8** or **GBK** during database initialization. The commands are as follows:
-
-         **initdb -E UTF8 -D ../data -locale=zh_CN.UTF-8** or **initdb -E GBK -D ../data -locale=zh_CN.GBK**
-
--  **[ { [ LIMIT { count \| ALL } ] [ OFFSET start [ ROW \| ROWS ] ] } \| { LIMIT start, { count \| ALL } } ]**
-
-   The **LIMIT** clause consists of two independent **LIMIT** clauses, an **OFFSET** clause, and a **LIMIT** clause with multiple parameters.
-
-   LIMIT { count \| ALL }
-
-   OFFSET start [ ROW \| ROWS ]
-
-   LIMIT start, { count \| ALL }
-
-   **count** in the clauses specifies the maximum number of rows to return, while **start** specifies the number of rows to skip before starting to return rows. When both are specified, **start** rows are skipped before starting to count the **count** rows to be returned. A multi-parameter **LIMIT** clause cannot be used together with a single-parameter **LIMIT** or **OFFSET** clause.
-
--  **FETCH { FIRST \| NEXT } [ count ] { ROW \| ROWS } ONLY**
-
-   If **count** is omitted in a **FETCH** clause, it defaults to **1**.
-
--  **FOR UPDATE** clause
-
-   Locks rows retrieved by **SELECT**. This ensures that the rows cannot be modified or deleted by other transactions until the current transaction ends. That is, other transactions that attempt **UPDATE**, **DELETE**, or **SELECT FOR UPDATE** of these rows will be blocked until the current transaction ends.
-
-   To avoid waiting for the committing of other transactions, you can apply **NOWAIT**. Rows to which **NOWAIT** applies cannot be immediately locked. After **SELECT FOR UPDATE NOWAIT** is executed, an error is reported.
-
-   **FOR SHARE** behaves similarly, except that it acquires a shared rather than exclusive lock on each retrieved row. A share lock blocks other transaction from performing **UPDATE**, **DELETE**, or **SELECT FOR UPDATE** on these rows, but it does not prevent them from performing **SELECT FOR SHARE**.
-
-   If specified tables are named in **FOR UPDATE** or FOR SHARE, then only rows coming from those tables are locked; any other tables used in **SELECT** are simply read as usual. Otherwise, locking all tables in the command.
-
-   If **FOR UPDATE** or FOR SHARE is applied to a view or sub-query, it affects all tables used in the view or sub-query.
-
-   Multiple **FOR UPDATE** and **FOR SHARE** clauses can be written if it is necessary to specify different locking behaviors for different tables.
-
-   If the same table is mentioned (or implicitly affected) by both **FOR UPDATE** and **FOR SHARE** clauses, it is processed as **FOR UPDATE**. Similarly, a table is processed as **NOWAIT** if that is specified in any of the clauses affecting it.
-
-   .. important::
-
-      -  For SQL statements containing **FOR UPDATE** or **FOR SHARE**, their execution plans will be pushed down to DNs. If the pushdown fails, an error will be reported.
-      -  The query of column storage table does not support **for update/share**.
-
--  **NLS_SORT**
-
-   Indicates a field to be ordered in a special mode. Currently, only the Chinese Pinyin order and case insensitive order are supported.
-
-   Valid value:
-
-   -  **SCHINESE_PINYIN_M**: Chinese characters are sorted by pinyin. Currently, only level-1 Chinese characters in the GBK character set can be sorted. To use this sort method, specify **GBK** as the encoding format when you create the database. If you do not do so, this value is invalid.
-   -  **generic_m_ci**, case-insensitive order.
-
--  **PARTITION clause**
-
-   Queries data in the specified partition of a partitioned table.
-
-Examples
---------
-
-Obtain the **temp_t** temporary table by a subquery and query all records in this table.
+#. In the **WHERE** clause, you can use the operator (+) to convert a table join to an outer join. However, this method is not recommended because it is not the standard SQL syntax and may raise syntax compatibility issues during platform migration. The restrictions on using the plus sign (+) are as follows:
+
+   a. It can appear only in the **WHERE** clause.
+   b. If a table join has been specified in the **FROM** clause, the operator (+) cannot be used in the **WHERE** clause.
+   c. The operator (+) can work only on columns of tables or views, instead of on expressions.
+   d. If table A and table B have multiple join conditions, the operator (+) must be specified in all the conditions. Otherwise, the operator (+) will not take effect, and the table join will be converted into an inner join without any prompt information.
+   e. Tables specified in a join condition where the operator (+) works cannot cross queries or subqueries. If tables where the operator (+) works are not in the **FROM** clause of the current query or subquery, an error will be reported. If a peer table for the operator (+) does not exist, no error will be reported and the table join will be converted into an inner join.
+   f. Expressions where the operator (+) is used cannot be directly connected through **OR**.
+   g. If a column where the operator (+) works is compared with a constant, the expression becomes a part of the join condition.
+   h. A table cannot have multiple foreign tables.
+   i. The operator (+) can appear only in the following expressions: comparison, **NOT**, **ANY**, **ALL**, **IN**, **NULLIF**, **IS DISTINCT FROM**, and **IS OF** expressions. It is not allowed in other types of expressions. In addition, **AND** and **OR** are not allowed in these expressions.
+   j. The operator (+) can be used to convert a table join only to a left or right outer join, instead of a full join. That is, the operator (+) cannot be specified on both tables of an expression.
+
+Example: Use WITH to Implement Subqueries
+-----------------------------------------
+
+First, obtain a temporary table **temp_t** through a subquery (the temporary table is not forcibly materialized and whether the temporary table is materialized is determined by the system's internal optimization results), and then query all data in the temporary table **temp_t**.
 
 ::
 
    WITH temp_t(name,isdba) AS (SELECT usename,usesuper FROM pg_user) SELECT * FROM temp_t;
 
-Explicitly specify **MATERIALIZED** for the **with_query** named **temp_t**, and then query all data in the **temp_t** table.
+|image1|
+
+Obtain a temporary table **temp_t** through a subquery, and explicitly specify **MATERIALIZED** (i.e., force materialization — the CTE result is stored as a temporary table, executed once, and can be reused), and then query all data in the temporary table **temp_t**.
 
 ::
 
    WITH temp_t(name,isdba) AS MATERIALIZED (SELECT usename,usesuper FROM pg_user) SELECT * FROM temp_t;
 
-Explicitly specify **NOT MATERIALIZED** for the **with_query** named **temp_t**, and then query all data in the **temp_t** table.
+|image2|
+
+Obtain a temporary table **temp_t** through a subquery, and explicitly specify **NOT MATERIALIZED** (i.e., do not materialize — no temporary table is generated; the subquery logic is directly "inlined" into the main query), and then query all data in the temporary table **temp_t**.
 
 ::
 
@@ -578,6 +550,21 @@ Explicitly specify **NOT MATERIALIZED** for the **with_query** named **temp_t**,
     SELECT * FROM temp_t t1 WHERE name LIKE 'A%'
     UNION ALL
     SELECT * FROM temp_t t2 WHERE name LIKE 'B%';
+
+Example: Other Common SELECT Scenarios
+--------------------------------------
+
+Prepare data.
+
+::
+
+   DROP SCHEMA IF EXISTS tpcds CASCADE;
+   CREATE SCHEMA tpcds;
+   CREATE TABLE tpcds.reason ( r_reason_sk integer not null, r_reason_id char(16) not null, r_reason_desc char(100) ) ;
+   INSERT INTO tpcds.reason (r_reason_sk, r_reason_id, r_reason_desc)  VALUES
+     (1, 'RTRN001', 'Product quality problem or defective item'),
+     (2, 'RTRN002', 'Size does not fit or incorrect size'),
+     (3, 'RTRN003', 'Customer changed mind or did not like the product');
 
 Query all the **r_reason_sk** records in the **tpcds.reason** table and de-duplicate them.
 
@@ -633,19 +620,7 @@ Example of the **GROUP BY** clause: Group the results by alias.
 
    SELECT r_reason_id AS id FROM tpcds.reason GROUP BY id;
 
-Example of the **GROUP BY CUBE** clause: Filter data based on query conditions, and group the results.
-
-::
-
-   SELECT r_reason_id,AVG(r_reason_sk) FROM tpcds.reason GROUP BY CUBE(r_reason_id,r_reason_sk);
-
-Example of the **GROUP BY GROUPING SETS** clause: Filter data based on query conditions, and group the results.
-
-::
-
-   SELECT r_reason_id,AVG(r_reason_sk) FROM tpcds.reason GROUP BY GROUPING SETS((r_reason_id,r_reason_sk),r_reason_sk);
-
-Example of the **UNION** clause: Merge the names started with W and N in the **r_reason_desc** column in the **tpcds.reason** table.
+Example of the **UNION** clause: Merge the names starting with W and N in the **r_reason_desc** column in the **tpcds.reason** table.
 
 ::
 
@@ -657,23 +632,115 @@ Example of the **UNION** clause: Merge the names started with W and N in the **r
        FROM tpcds.reason
        WHERE tpcds.reason.r_reason_desc LIKE 'N%';
 
+Example: Use WITH RECURSIVE to Query the Hierarchical Relationship of a Three-Level Department in a Company
+-----------------------------------------------------------------------------------------------------------
+
+Take the recursion of three levels of departments in a company as an example. In a table that contains level-1, level-2, and level-3 departments, use the keyword **RECURSIVE** to query all level-2 and level-3 departments of a department (for example, the technology department).
+
+Prepare data:
+
+::
+
+   DROP TABLE IF EXISTS departments;
+   CREATE TABLE departments
+   (id varchar(10),
+   pid varchar(10),
+   dept_name varchar(50));
+   INSERT INTO  departments VALUES('0',null,'Head office');
+   INSERT INTO  departments VALUES('1','0','Technology');     -- Level-1 department
+   INSERT INTO  departments VALUES('2','0','Marketing');
+   INSERT INTO  departments VALUES('3','0','HR');
+   INSERT INTO  departments VALUES('4','0','Business');
+   INSERT INTO  departments VALUES('5','0','Maintenance');
+   INSERT INTO  departments VALUES('1-1','1','R&D Center');   -- Level-2 department
+   INSERT INTO  departments VALUES('1-2','1','Pre-Research');
+   INSERT INTO  departments VALUES('1-3','1','Network');
+   INSERT INTO  departments VALUES('1-4','1','Test');
+   INSERT INTO  departments VALUES('1-5','1','Architecture');
+   INSERT INTO  departments VALUES('1-1-1','1-1','Frontend');   -- Level-3 department
+   INSERT INTO  departments VALUES('1-1-2','1-1','Backend');
+   INSERT INTO  departments VALUES('1-1-3','1-1','Design');
+   INSERT INTO  departments VALUES('2-1','2','Branding');
+   INSERT INTO  departments VALUES('2-2','2','Pricing');
+   INSERT INTO  departments VALUES('2-3','2','Training');
+
+Query the original data of the table. In the command output, it is difficult to determine the relationship of the three levels of departments.
+
+::
+
+   SELECT * FROM departments;
+
+|image3|
+
+In this case, use the keyword **WITH RECURSIVE** to query all level-2 and level-3 departments under the technology department.
+
+::
+
+   WITH RECURSIVE  t1 AS (         -- Define a common expression named t1.
+   SELECT id,pid,dept_name FROM departments WHERE id='1'   -- Initialize the recursive root node: Query the record whose ID is 1, that is, the technology department.
+   UNION ALL         --Recursively combine results (duplicate items are retained).
+   SELECT            --Recursive part: query data layer by layer.
+   t2.id,            --Subnode ID, that is, the name of each level-1 department.
+   t2.pid,            --Parent node ID, that is, the head office.
+   t2.dept_name          --Subnode name.
+   FROM departments t2
+   INNER JOIN t1 ON t2.pid = t1.id          --Connect the recursive result through the parent node ID.
+   )
+   SELECT id,dept_name FROM t1 ORDER BY id;       --(Final query) All level-2 and level-3 departments are displayed by ID.
+
+|image4|
+
+View that the preceding query results are not intuitive. To display the department of each level, run the following command:
+
+::
+
+   WITH RECURSIVE  t1 AS (
+
+   SELECT    --Initialize the root node of recursion: Query the record whose ID is 1, that is, the technology department, and convert data type from record to text.
+    id,
+    pid,
+   dept_name::text -- Explicitly convert the data type to text (prepared for subsequent path concatenation).
+   FROM departments
+   WHERE id='1'
+
+   UNION ALL
+
+   SELECT    --Recursive part: concatenate the level path.
+   t2.id,
+   t2.pid,
+   (t1.dept_name||'->'||t2.dept_name)::text AS dept_name   --Concatenate the parent path and the current node name, for example, Technology -> R&D Center.
+   FROM departments t2
+   INNER JOIN t1 ON t2.pid = t1.id )
+
+   SELECT id,dept_name FROM t1 ORDER BY id;   --(Final query) Display the result with the level path
+
+|image5|
+
+.. _en-us_topic_0000001811515533__section652482122416:
+
+Example: Use NLSSORT to Sort Query Results Without Case Sensitivity
+-------------------------------------------------------------------
+
 Case-insensitive order:
 
 ::
 
+   DROP TABLE IF EXISTS stu_icase_info;
    CREATE TABLE stu_icase_info (id bigint, name text) DISTRIBUTE BY REPLICATION;
    INSERT INTO stu_icase_info VALUES (1, 'aaaa'),(2, 'AAAA');
    SELECT * FROM stu_icase_info ORDER BY NLSSORT (name, 'NLS_SORT = generic_m_ci');
-    id | name
-   ----+------
-     1 | aaaa
-     2 | AAAA
-   (2 rows)
 
-Create partitioned table **tpcds.reason_p**, insert data, and obtain data from the **P_05_BEFORE** partition of the table.
+|image6|
+
+Example: Query Data in a Partitioned Table
+------------------------------------------
+
+Create the partitioned table **tpcds.reason_p**, insert data, and obtain data from the **P_05_BEFORE** partition of the table.
 
 ::
 
+   DROP SCHEMA IF EXISTS tpcds CASCADE;
+   CREATE SCHEMA tpcds;
    CREATE TABLE tpcds.reason_p
    (
      r_reason_sk integer,
@@ -692,136 +759,280 @@ Create partitioned table **tpcds.reason_p**, insert data, and obtain data from t
    INSERT INTO tpcds.reason_p values(3,'AAAAAAAABAAAAAAA','reason 1'),(10,'AAAAAAAABAAAAAAA','reason 2'),(4,'AAAAAAAABAAAAAAA','reason 3'),(10,'AAAAAAAABAAAAAAA','reason 4'),(10,'AAAAAAAABAAAAAAA','reason 5'),(20,'AAAAAAAACAAAAAAA','reason 6'),(30,'AAAAAAAACAAAAAAA','reason 7');
 
    SELECT * FROM tpcds.reason_p PARTITION (P_05_BEFORE);
-    r_reason_sk |   r_reason_id    |   r_reason_desc
-   -------------+------------------+------------------------------------
-              4 | AAAAAAAABAAAAAAA | reason 3
-              3 | AAAAAAAABAAAAAAA | reason 1
-   (2 rows)
+
+|image7|
+
+::
+
    ——Query the number of rows in partition P_15:
    SELECT count(*) FROM tpcds.reason_p PARTITION (P_15);
-    count
-   --------
-        3
-   (1 row)
+
+|image8|
 
 Example of the **GROUP BY** clause: Group records in the **tpcds.reason_p** table by **r_reason_id**, and count the number of records in each group.
 
 ::
 
    SELECT COUNT(*),r_reason_id FROM tpcds.reason_p GROUP BY r_reason_id;
-    count |   r_reason_id
-   -------+------------------
-        2 | AAAAAAAACAAAAAAA
-        5 | AAAAAAAABAAAAAAA
-   (2 rows)
 
-Example of the **GROUP BY CUBE** clause: Filter data based on query conditions, and group the results.
-
-::
-
-   SELECT * FROM tpcds.reason GROUP BY CUBE (r_reason_id,r_reason_sk,r_reason_desc);
-
-Example of the **GROUP BY GROUPING SETS** clause: Filter data based on query conditions, and group the results.
-
-::
-
-   SELECT * FROM tpcds.reason GROUP BY GROUPING SETS ((r_reason_id,r_reason_sk),r_reason_desc);
+|image9|
 
 Example of the **HAVING** clause: Group records in the **tpcds.reason_p** table by **r_reason_id**, count the number of records in each group, and display only values whose number of **r_reason_id** is greater than **2**.
 
 ::
 
    SELECT COUNT(*) c,r_reason_id FROM tpcds.reason_p GROUP BY r_reason_id HAVING c>2;
-    c |   r_reason_id
-   ---+------------------
-    5 | AAAAAAAABAAAAAAA
-   (1 row)
+
+|image10|
 
 Example of the **IN** clause: Group records in the **tpcds.reason_p** table by **r_reason_id**, count the number of records in each group, and display only the numbers of records whose **r_reason_id** is **AAAAAAAABAAAAAAA** or **AAAAAAAADAAAAAAA**.
 
 ::
 
-   SELECT COUNT(*),r_reason_id FROM tpcds.reason_p GROUP BY r_reason_id HAVING r_reason_id IN('AAAAAAAABAAAAAAA','AAAAAAAADAAAAAAA');
-   count |   r_reason_id
-   -------+------------------
-        5 | AAAAAAAABAAAAAAA
-   (1 row)
+   SELECT COUNT(*),r_reason_id FROM tpcds.reason_p GROUP BY r_reason_id HAVING r_reason_id in ('AAAAAAAABAAAAAAA','AAAAAAAADAAAAAAA');
+
+|image11|
 
 Example of the **INTERSECT** clause: Query records whose **r_reason_id** is **AAAAAAAABAAAAAAA** and whose **r_reason_sk** is smaller than **5**.
 
 ::
 
    SELECT * FROM tpcds.reason_p WHERE r_reason_id='AAAAAAAABAAAAAAA' INTERSECT SELECT * FROM tpcds.reason_p WHERE r_reason_sk<5;
-    r_reason_sk |   r_reason_id    |     r_reason_desc
-   -------------+------------------+------------------------------------
-              4 | AAAAAAAABAAAAAAA | reason 3
-              3 | AAAAAAAABAAAAAAA | reason 1
-   (2 rows)
+
+|image12|
 
 Example of the **EXCEPT** clause: Query records whose **r_reason_id** is **AAAAAAAABAAAAAAA** and whose **r_reason_sk** is greater than or equal to **4**.
 
 ::
 
    SELECT * FROM tpcds.reason_p WHERE r_reason_id='AAAAAAAABAAAAAAA' EXCEPT SELECT * FROM tpcds.reason_p WHERE r_reason_sk<4;
-   r_reason_sk |   r_reason_id    |      r_reason_desc
-   -------------+------------------+------------------------------------
-             10 | AAAAAAAABAAAAAAA | reason 2
-             10 | AAAAAAAABAAAAAAA | reason 5
-             10 | AAAAAAAABAAAAAAA | reason 4
-              4 | AAAAAAAABAAAAAAA | reason 3
-   (4 rows)
 
-Specify the operator (+) in the **WHERE** clause to indicate a left join.
+|image13|
 
-::
+Specifying (+) in the WHERE Clause to Enable Left and Right Joins
+-----------------------------------------------------------------
 
-   select t1.sr_item_sk ,t2.c_customer_id from store_returns t1, customer t2 where t1.sr_customer_sk  = t2.c_customer_sk(+)
-   order by 1 desc limit 1;
-    sr_item_sk | c_customer_id
-   ------------+---------------
-         18000 |
-   (1 row)
+This example demonstrates using the old-style (+) syntax in the **WHERE** clause to enable left and right joins. Note that this old-style syntax is no longer recommended. The standard LEFT JOIN/RIGHT JOIN ANSI syntax is recommended instead. This example is for reference only.
 
-Specify the operator (+) in the **WHERE** clause to indicate a right join.
+Prepare data.
 
 ::
 
-   select t1.sr_item_sk ,t2.c_customer_id from store_returns t1, customer t2 where t1.sr_customer_sk(+)  = t2.c_customer_sk
-   order by 1 desc limit 1;
-    sr_item_sk |  c_customer_id
-   ------------+------------------
-               | AAAAAAAAJNGEBAAA
-   (1 row)
+   DROP TABLE IF EXISTS customer;
+   DROP TABLE IF EXISTS store_returns;
+   CREATE TABLE customer (
+       c_customer_sk integer PRIMARY KEY,
+       c_customer_id char(16)
+   );
+   CREATE TABLE store_returns (
+       sr_item_sk integer,
+       sr_customer_sk integer
+   );
 
-Specify the operator (+) in the **WHERE** clause to indicate a left join and add a join condition.
+   INSERT INTO customer (c_customer_sk, c_customer_id) VALUES (1, 'AAAAAAAAJNGEBAAA');
+   INSERT INTO store_returns (sr_item_sk, sr_customer_sk)  VALUES  (1, 0), (18000, 99);
 
-::
-
-   select t1.sr_item_sk ,t2.c_customer_id from store_returns t1, customer t2 where t1.sr_customer_sk  = t2.c_customer_sk(+) and t2.c_customer_sk(+) < 1 order by 1  limit 1;
-    sr_item_sk | c_customer_id
-   ------------+---------------
-             1 |
-   (1 row)
-
-If the operator (+) is specified in the **WHERE** clause, do not use expressions connected through **AND**/**OR**.
+Specify the operator (+) in the **WHERE** clause to indicate a left join. Query all return orders. If a customer can be associated, the customer ID is displayed. If no customer can be associated, the customer ID is empty.
 
 ::
 
-   select t1.sr_item_sk ,t2.c_customer_id from store_returns t1, customer t2 where not(t1.sr_customer_sk  = t2.c_customer_sk(+) and t2.c_customer_sk(+) < 1);
-   ERROR:  Operator "(+)" can not be used in nesting expression.
-   LINE 1: ...tomer_id from store_returns t1, customer t2 where not(t1.sr_...
+   SELECT t1.sr_item_sk ,t2.c_customer_id FROM store_returns t1, customer t2 WHERE t1.sr_customer_sk  = t2.c_customer_sk(+)
+   ORDER BY 1 DESC LIMIT 1;
 
-If the operator (+) is specified in the **WHERE** clause which does not support expression macros, an error will be reported.
+|image14|
 
-::
-
-   select t1.sr_item_sk ,t2.c_customer_id from store_returns t1, customer t2 where (t1.sr_customer_sk  = t2.c_customer_sk(+))::bool;
-   ERROR:  Operator "(+)" can only be used in common expression.
-
-If the operator (+) is specified on both sides of an expression in the **WHERE** clause, an error will be reported.
+Specify the operator (+) in the **WHERE** clause to indicate a right join. Query all customers. If there is a corresponding return order, the product SKU is displayed. If there is no return order, the SKU is empty.
 
 ::
 
-   select t1.sr_item_sk ,t2.c_customer_id from store_returns t1, customer t2 where t1.sr_customer_sk(+)  = t2.c_customer_sk(+);
-   ERROR:  Operator "(+)" can't be specified on more than one relation in one join condition
-   HINT:  "t1", "t2"...are specified Operator "(+)" in one condition.
+   SELECT t1.sr_item_sk ,t2.c_customer_id FROM store_returns t1, customer t2 WHERE t1.sr_customer_sk(+)  = t2.c_customer_sk
+   ORDER BY 1 DESC LIMIT 1;
+
+|image15|
+
+Specify the operator (+) in the **WHERE** clause to indicate a left join and add a join condition. Query return orders and associate them with customers whose SKU is less than 1. If no customer meets the criteria, the customer ID is empty.
+
+::
+
+   SELECT t1.sr_item_sk ,t2.c_customer_id FROM store_returns t1, customer t2 WHERE t1.sr_customer_sk  = t2.c_customer_sk(+) AND t2.c_customer_sk(+) < 1 ORDER BY 1  LIMIT 1;
+
+|image16|
+
+Specifying **(+)** in the **WHERE** clause and using nested **AND**/**OR** expressions are not supported.
+
+::
+
+   SELECT t1.sr_item_sk ,t2.c_customer_id FROM store_returns t1, customer t2 WHERE NOT(t1.sr_customer_sk  = t2.c_customer_sk(+) AND t2.c_customer_sk(+) < 1);
+
+|image17|
+
+Specifying **(+)** in an expression macro in the **WHERE** clause will result in an error.
+
+::
+
+   SELECT t1.sr_item_sk ,t2.c_customer_id FROM store_returns t1, customer t2 WHERE (t1.sr_customer_sk  = t2.c_customer_sk(+))::bool;
+
+|image18|
+
+Specifying **(+)** on both sides of an expression in the **WHERE** clause will result in an error.
+
+::
+
+   SELECT t1.sr_item_sk ,t2.c_customer_id FROM store_returns t1, customer t2 WHERE t1.sr_customer_sk(+)  = t2.c_customer_sk(+);
+
+|image19|
+
+.. _en-us_topic_0000001811515533__section139732718235:
+
+Example: Use GROUP BY for a Query (ROLLUP, CUBE, and GROUPING SETS as Part of GROUP BY)
+---------------------------------------------------------------------------------------
+
+In some report scenarios, data is often grouped using GROUP BY. In the following example, obtain the number of employees in level-2 departments under a level-1 department.
+
+::
+
+   DROP TABLE IF EXISTS emp;
+   CREATE TABLE emp(
+   id int primary key,    --Employee ID
+   name text,             --Employee name
+   dep_1 text,            --Level-1 department
+   dep_2 text             --Level-2 department
+   );
+
+   INSERT INTO emp VALUES
+   (01, 'liwei', 'Product', 'SRE'),
+   (02, 'liming', 'Product', 'U1'),
+   (03, 'hanlei', 'Product', 'U1'),
+   (04, 'hanmeimei', 'Product', 'SRE'),
+   (05, 'dingjun', 'Product', 'SRE'),
+   (06, 'huxue', 'Product', 'E1'),
+   (07, 'liuyi', 'Product', 'E1'),
+   (08, 'luhua', 'Product', 'E1'),
+   (09, 'yangjing', 'Product', 'U1'),
+   (10, 'binbin', 'Product', 'U1'),
+   (11, 'jim', 'Product', 'SRE'),
+   (12, 'leo', 'Product', 'SER');
+
+
+   SELECT COUNT(*), dep_2 FROM emp GROUP BY dep_2;   --Count the number of employees in level-2 departments.
+
+|image20|
+
+In common statistical report services, the total number of employees in a level-1 department (that is, the sum of employees in level-2 departments) needs to be calculated. In this case, **ROLLUP** can be used to ensure that there is an additional row of total data in the result, as shown in the following command output. In the following figure, **count** is **12** and **dep_2** is **Null**, which indicate that the total number of employees in the level-1 department is 12.
+
+::
+
+   SELECT COUNT(*), dep_2 FROM emp GROUP BY ROLLUP(dep_2) ORDER BY 1;
+
+|image21|
+
+The following describes how to use ROLLUP, CUBE, and GROUPING SETS.
+
+-  **ROLLUP**:
+
+   Create **customer** table.
+
+   ::
+
+      DROP TABLE IF EXISTS customer;
+      CREATE TABLE customer
+      (
+      c_id char(16) not null,         --Customer ID
+      c_name char(20),               --Customer name
+      c_age integer,                 --Age
+      c_country varchar(20),         --Country
+      c_class char(10),               --Customer level
+      c_gender text,                  --Gender
+      c_balance numeric );            --Balance
+
+      INSERT INTO customer VALUES(1, 'tom', '20', 'Region A', '1', 'male', 300);
+      INSERT INTO customer VALUES(2, 'jack', '30', 'Region B', '1', 'male', 100);
+      INSERT INTO customer VALUES(3, 'rose', '40', 'Region C', '1', 'female', 200);
+      INSERT INTO customer VALUES(4, 'Frank', '60', 'Region D', '1', 'male', 100);
+      INSERT INTO customer VALUES(5, 'Leon', '20', 'Region A', '2', 'male', 200);
+      INSERT INTO customer VALUES(6, 'Lucy', '20', 'Region A', '1', 'female', 500);
+
+   **ROLLUP** generates subtotals and grand totals across multiple levels of aggregation within a single query. It starts from the most detailed level of aggregation and progressively rolls up to less detailed levels, ultimately producing a grand total.
+
+   ::
+
+      -- Group by c_country and c_class, then group by c_country, and finally group by the entire table.
+      SELECT c_country, c_class, sum(c_balance) FROM customer GROUP BY ROLLUP(c_country, c_class) ORDER BY 1,2,3;
+
+   |image22|
+
+   The preceding statement is equivalent to:
+
+   ::
+
+      SELECT c_country, c_class, SUM(c_balance) FROM customer GROUP BY c_country, c_class UNION ALL
+      SELECT c_country, null, SUM(c_balance) FROM customer GROUP BY c_country
+      UNION ALL
+      SELECT null, null, SUM(c_balance) FROM customer ORDER BY 1,2,3;
+
+-  **CUBE**:
+
+   CUBE can be understood as all dimensions, that is, all combinations of columns in the aggregation key.
+
+   ::
+
+      -- Perform GROUP BY on (c_country,c_class), (c_country), and (c_class) in sequence, and on the entire table.
+      SELECT c_country, c_class, SUM(c_balance) FROM customer GROUP BY CUBE(c_country, c_class) ORDER BY 1,2,3;
+
+   |image23|
+
+   The preceding statement is equivalent to:
+
+   ::
+
+      SELECT c_country, c_class, SUM(c_balance) FROM customer GROUP BY c_country, c_class
+      union all
+      SELECT c_country, null, SUM(c_balance) FROM customer GROUP BY c_country
+      union all
+      SELECT null, null, SUM(c_balance) FROM customer
+      union all
+      SELECT NULL, c_class, SUM(c_balance) FROM customer GROUP BY c_class order by 1,2,3;
+
+-  **GROUPING SETS**:
+
+   **GROUPING SETS** is different from **ROLLUP** and **CUBE**. It extracts some records from the results of **ROLLUP** and **CUBE**.
+
+   ::
+
+      -- Perform GROUP BY on (c_class) and (c_country) separately.
+      SELECT c_country, c_class, SUM(c_balance) FROM customer GROUP BY GROUPING SETS(c_country, c_class) ORDER BY 1,2,3;
+
+   |image24|
+
+   The preceding statement is equivalent to:
+
+   ::
+
+      SELECT c_country, null, SUM(c_balance) FROM customer GROUP BY c_country
+      UNION ALL
+      SELECT null, c_class, sum(c_balance) FROM customer GROUP BY c_class ORDER BY 1,2,3;
+
+.. |image1| image:: /_static/images/en-us_image_0000002620554803.png
+.. |image2| image:: /_static/images/en-us_image_0000002620474871.png
+.. |image3| image:: /_static/images/en-us_image_0000002328042830.png
+.. |image4| image:: /_static/images/en-us_image_0000002361887473.png
+.. |image5| image:: /_static/images/en-us_image_0000002328057584.png
+.. |image6| image:: /_static/images/en-us_image_0000002590145640.png
+.. |image7| image:: /_static/images/en-us_image_0000002590145738.png
+.. |image8| image:: /_static/images/en-us_image_0000002620505331.png
+.. |image9| image:: /_static/images/en-us_image_0000002620505369.png
+.. |image10| image:: /_static/images/en-us_image_0000002590145872.png
+.. |image11| image:: /_static/images/en-us_image_0000002589986150.png
+.. |image12| image:: /_static/images/en-us_image_0000002620585799.png
+.. |image13| image:: /_static/images/en-us_image_0000002589986184.png
+.. |image14| image:: /_static/images/en-us_image_0000002589987838.png
+.. |image15| image:: /_static/images/en-us_image_0000002620507515.png
+.. |image16| image:: /_static/images/en-us_image_0000002620507581.png
+.. |image17| image:: /_static/images/en-us_image_0000002589988334.png
+.. |image18| image:: /_static/images/en-us_image_0000002620600599.png
+.. |image19| image:: /_static/images/en-us_image_0000002620521283.png
+.. |image20| image:: /_static/images/en-us_image_0000002324210449.png
+.. |image21| image:: /_static/images/en-us_image_0000002324098581.png
+.. |image22| image:: /_static/images/en-us_image_0000002324111077.png
+.. |image23| image:: /_static/images/en-us_image_0000002324253169.png
+.. |image24| image:: /_static/images/en-us_image_0000002324379433.png

@@ -8,14 +8,14 @@ UPSERT
 Function
 --------
 
-HStore is compatible with the **UPSERT** syntax. You can add one or more rows to a table. When a row duplicates an existing primary key or unique key value, the row will be ignored or updated.
+HStore Opt is compatible with the **UPSERT** syntax. You can add one or more rows to a table. When a row duplicates an existing primary key or unique key value, the row will be ignored or updated.
 
 Precautions
 -----------
 
 -  The **UPSERT** statement of updating data upon conflict can be executed only when the target table contains a primary key or unique index.
--  Similar to column storage, an update operation performed using **UPSERT** on an HStore table in the current version involves DELETE and INSERT.
--  In concurrent UPSERT scenarios, operations on the same CU will cause lock conflicts in traditional column-store tables and result in low performance. For HStore tables, the operations can be concurrently performed, and the upsert performance can be more than 100 times that of column-store tables.
+-  Similar to column storage, an update operation performed using **UPSERT** on an HStore Opt table in the current version involves DELETE and INSERT.
+-  In concurrent **UPSERT** scenarios, operations on the same CU will cause lock conflicts in traditional column-store tables and result in low performance. For HStore Opt tables, the operations can be concurrently performed, and the upsert performance can be more than 100 times that of column-store tables.
 
 Syntax
 ------
@@ -68,7 +68,7 @@ Create table **reason_upsert** and insert data into it.
      a    int primary key,
      b    int,
      c    int
-   )WITH(ORIENTATION=COLUMN, ENABLE_HSTORE=ON);
+   )WITH(ORIENTATION=COLUMN, ENABLE_HSTORE_OPT=ON);
    INSERT INTO reason_upsert VALUES (1, 2, 3);
 
 Ignore conflicting data.

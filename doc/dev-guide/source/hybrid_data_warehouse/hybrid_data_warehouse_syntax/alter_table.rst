@@ -8,7 +8,7 @@ ALTER TABLE
 Function
 --------
 
-Modify a table, including modifying the definition of a table, renaming a table, renaming a specified column in a table, adding or updating multiple columns, and changing a column-store table to an HStore table.
+Modify a table, including modifying the definition of a table, renaming a table, renaming a specified column in a table, adding or updating multiple columns, and changing a column-store table to an HStore Opt table.
 
 Precautions
 -----------
@@ -55,7 +55,7 @@ Create the **alter_test2** table and add a column to it.
 
 ::
 
-   CREATE TABLE alter_test2(a int, b int) WITH(ORIENTATION = COLUMN,ENABLE_HSTORE = ON);
+   CREATE TABLE alter_test2(a int, b int) WITH(ORIENTATION = COLUMN,ENABLE_HSTORE_OPT = ON);
    ALTER TABLE alter_test ADD COLUMN c int;
 
 .. note::
@@ -77,5 +77,5 @@ Create table **alter_test3** and rename it as **alter_new**.
 
 ::
 
-   CREATE TABLE alter_test3(a int, b int) WITH(ORIENTATION = COLUMN,ENABLE_HSTORE = ON);
+   CREATE TABLE alter_test3(a int, b int) WITH(ORIENTATION = COLUMN,ENABLE_HSTORE_OPT = ON);
    ALTER TABLE alter_test3 RENAME TO alter_new;

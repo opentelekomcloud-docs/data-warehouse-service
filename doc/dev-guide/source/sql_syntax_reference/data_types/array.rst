@@ -81,14 +81,14 @@ Insert data into the **books** table and query the **books** table.
 ::
 
    INSERT INTO books
-     VALUES (1, 'One Hundred years of Solitude','{25,25,25,25}','{{"fiction"}, {"adventure"}}'),
+     VALUES (1, 'One Hundred Years of Solitude','{25,25,25,25}','{{"fiction"}, {"adventure"}}'),
             (2, 'Robinson Crusoe', '{30,32,32,32}', '{{"adventure"}, {"fiction"}}'),
             (3, 'Gone with the Wind', '{27,27,29,28}', '{{"romance"}, {"fantasy"}}');
 
    SELECT * FROM books;
     id |             title             | price_by_quarter |          tags
    ----+-------------------------------+------------------+-------------------------
-     1 | One Hundred years of Solitude | {25,25,25,25}    | {{fiction},{adventure}}
+     1 | One Hundred Years of Solitude | {25,25,25,25}    | {{fiction},{adventure}}
      2 | Robinson Crusoe               | {30,32,32,32}    | {{adventure},{fiction}}
      3 | Gone with the Wind            | {27,27,29,28}    | {{romance},{fantasy}}
    (3 rows)
@@ -102,7 +102,7 @@ Use the **ARRAY** keyword to insert data.
 .. code-block::
 
    INSERT INTO books
-     VALUES (1, 'One Hundred years of Solitude',ARRAY[25,25,25,25],ARRAY['fiction', 'adventure']),
+     VALUES (1, 'One Hundred Years of Solitude', ARRAY[25,25,25,25], ARRAY['fiction', 'adventure']),
             (2, 'Robinson Crusoe', ARRAY[30,32,32,32], ARRAY['adventure', 'fiction']),
             (3, 'Gone with the Wind', ARRAY[27,27,29,28], ARRAY['romance', 'fantasy']);
 

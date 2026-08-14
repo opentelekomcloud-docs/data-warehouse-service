@@ -8,13 +8,13 @@ UPDATE
 Function
 --------
 
-Update specified data in an HStore table.
+Update specified data in an HStore Opt table.
 
 Precautions
 -----------
 
--  Similar to column storage, the UPDATE operation on an HStore table in the current version involves DELETE and INSERT. You can configure a global GUC parameter to control the lightweight UPDATE of HStore. In the current version, the lightweight UPDATE is disabled by default.
--  In concurrent update scenarios, operations on the same CU will cause lock conflicts in traditional column-store tables and result in low performance. For HStore tables, the operations can be concurrently performed, and the update performance can be more than 100 times that of column-store tables.
+-  Similar to column storage, the UPDATE operation on an HStore Opt table in the current version involves DELETE and INSERT. You can configure a global GUC parameter to control the lightweight UPDATE of HStore Opt. In the current version, the lightweight UPDATE is disabled by default.
+-  In concurrent update scenarios, operations on the same CU will cause lock conflicts in traditional column-store tables and result in low performance. For HStore Opt tables, the operations can be concurrently performed, and the update performance can be more than 100 times that of column-store tables.
 
 Syntax
 ------
@@ -79,7 +79,7 @@ Create the **reason_update** table.
        TABLE_SK          INTEGER               ,
        TABLE_ID          VARCHAR(20)           ,
        TABLE_NA          VARCHAR(20)
-   )WITH(ORIENTATION=COLUMN, ENABLE_HSTORE=ON);
+   )WITH(ORIENTATION=COLUMN, ENABLE_HSTORE_OPT=ON);
 
 Insert data to the **reason_update** table.
 

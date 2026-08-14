@@ -25,7 +25,7 @@ Example:
 hll_hash_boolean(bool, int32)
 -----------------------------
 
-Description: Configures a hash seed (that is, change the hash policy) and hashes data of the bool type.
+Description: Configures a hash seed (that is, changes the hash policy) and hashes data of the bool type.
 
 Return type: hll_hashval
 
@@ -63,7 +63,7 @@ Example:
 hll_hash_smallint(smallint, int32)
 ----------------------------------
 
-Description: Configures a hash seed (that is, change the hash policy) and hashes data of the smallint type.
+Description: Configures a hash seed (that is, changes the hash policy) and hashes data of the smallint type.
 
 Return type: hll_hashval
 
@@ -97,7 +97,7 @@ Example:
 hll_hash_integer(integer, int32)
 --------------------------------
 
-Description: Hashes data of the integer type and configures a hash seed (that is, change the hash policy).
+Description: Hashes data of the integer type and configures a hash seed (that is, changes the hash policy).
 
 Return type: hll_hashval
 
@@ -131,7 +131,7 @@ Example:
 hll_hash_bigint(bigint, int32)
 ------------------------------
 
-Description: Hashes data of the bigint type and configures a hash seed (that is, change the hash policy).
+Description: Hashes data of the bigint type and configures a hash seed (that is, changes the hash policy).
 
 Return type: hll_hashval
 
@@ -165,7 +165,7 @@ Example:
 hll_hash_bytea(bytea, int32)
 ----------------------------
 
-Description: Hashes data of the bytea type and configures a hash seed (that is, change the hash policy).
+Description: Hashes data of the bytea type and configures a hash seed (that is, changes the hash policy).
 
 Return type: hll_hashval
 
@@ -199,7 +199,7 @@ Example:
 hll_hash_text(text, int32)
 --------------------------
 
-Description: Hashes data of the text type and configures a hash seed (that is, change the hash policy).
+Description: Hashes data of the text type and configures a hash seed (that is, changes the hash policy).
 
 Return type: hll_hashval
 
@@ -239,7 +239,7 @@ Example:
 hll_hash_any(anytype, int32)
 ----------------------------
 
-Description: Hashes data of any type and configures a hash seed (that is, change the hash policy).
+Description: Hashes data of any type and configures a hash seed (that is, changes the hash policy).
 
 Return type: hll_hashval
 

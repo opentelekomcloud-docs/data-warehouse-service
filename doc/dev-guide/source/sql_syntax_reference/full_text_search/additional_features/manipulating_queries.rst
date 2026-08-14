@@ -5,7 +5,7 @@
 Manipulating Queries
 ====================
 
-GaussDB(DWS) provides functions and operators that can be used to manipulate queries that are already in tsquery type.
+DWS provides functions and operators that can be used to manipulate queries that are already in tsquery type.
 
 -  tsquery && tsquery
 

@@ -7,7 +7,7 @@ Testing a Dictionary
 
 The **ts_lexize** function facilitates dictionary testing.
 
-**ts_lexize(dict regdictionary, token text) returns text[]** **ts_lexize** returns an array of lexemes if the input **token** is known to the dictionary, or an empty array if the token is known to the dictionary but it is a stop word, or **NULL** if it is an unknown word.
+**ts_lexize(dict regdictionary, token text) returns text[]**: **ts_lexize** returns an array of lexemes if the input **token** is known to the dictionary, or an empty array if the token is known to the dictionary but it is a stop word, or **NULL** if it is an unknown word.
 
 For example:
 

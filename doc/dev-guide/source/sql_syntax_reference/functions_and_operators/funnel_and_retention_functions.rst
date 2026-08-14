@@ -20,7 +20,7 @@ WINDOW_FUNNEL
 
 The **WINDOW_FUNNEL** function searches for an event chain in the sliding time window and counts the maximum number of consecutive events in the event chain.
 
-Given a list of user-defined events, GaussDB(DWS) finds the longest sequential match starting from the first event and returns the length of the match. Once the matching fails, the entire matching ends. Example:
+Given a list of user-defined events, DWS finds the longest sequential match starting from the first event and returns the length of the match. Once the matching fails, the entire matching ends. Example:
 
 Assume that the window is large enough:
 
@@ -39,7 +39,7 @@ Assume that the window is large enough:
 -  **window**: bigint type. It indicates the size of the sliding time window. The unit is second.
 -  **mode**: text type. Currently, only the **Default** mode is supported. For other modes, an error is reported. In the **Default** mode, it matches as many events as possible, starting from the first event in the window.
 -  **timestamp**: time range when an event occurs. The **timestamp without time zone**, **timestamp with time zone**, **date**, **int** and **bigint** types are supported.
--  **cond**: variable-length Boolean array. It indicates the condition. GaussDB(DWS) supports only 1 to 32 conditions. If the number of conditions is not within the range, an error is reported.
+-  **cond**: variable-length Boolean array. It indicates the condition. DWS supports only 1 to 32 conditions. If the number of conditions is not within the range, an error is reported.
 
 **Return values**
 
@@ -58,7 +58,7 @@ The retention function evaluates if an event meets each condition, starting from
 
 **Input parameters**
 
-**cond**: variable-length Boolean array with a maximum length of 32 characters, indicating whether an event meets specific conditions. GaussDB(DWS) supports only 1 to 32 conditions. If the number of conditions is not within the range, an error is reported.
+**cond**: variable-length Boolean array with a maximum length of 32 characters, indicating whether an event meets specific conditions. DWS supports only 1 to 32 conditions. If the number of conditions is not within the range, an error is reported.
 
 **Return values**
 
@@ -67,7 +67,7 @@ The retention function evaluates if an event meets each condition, starting from
 Other Retention-Related Functions
 ---------------------------------
 
-GaussDB(DWS) supports functions **range_retention_count** and **range_retention_sum** as supplements to the retention function for better customer retention analysis.
+DWS supports functions **range_retention_count** and **range_retention_sum** as supplements to the retention function for better customer retention analysis.
 
 -  **range_retention_count**
 

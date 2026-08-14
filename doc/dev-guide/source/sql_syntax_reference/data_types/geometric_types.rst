@@ -5,7 +5,7 @@
 Geometric Types
 ===============
 
-:ref:`Table 1 <en-us_topic_0000001764675366__t6242ed1ede044daab7e8e566a9568667>` lists the geometric types that can be used in GaussDB(DWS). The most fundamental type, the point, forms the basis for all of the other types.
+:ref:`Table 1 <en-us_topic_0000001764675366__t6242ed1ede044daab7e8e566a9568667>` lists the geometric types that can be used in DWS. The most fundamental type, the point, forms the basis for all of the other types.
 
 .. _en-us_topic_0000001764675366__t6242ed1ede044daab7e8e566a9568667:
 
@@ -29,7 +29,7 @@ Geometric Types
    | circle  | 24 bytes      | Circle                           | <(x,y),r> (center point and radius) |
    +---------+---------------+----------------------------------+-------------------------------------+
 
-A rich set of functions and operators is available in GaussDB(DWS) to perform various geometric operations, such as scaling, translation, rotation, and determining intersections. For details, see :ref:`Geometric Functions and Operators <dws_06_0037>`.
+A rich set of functions and operators is available in DWS to perform various geometric operations, such as scaling, translation, rotation, and determining intersections. For details, see :ref:`Geometric Functions and Operators <dws_06_0037>`.
 
 **Points**
 ----------
@@ -93,9 +93,11 @@ Values of the **path** type are specified using any of the following syntaxes:
    ( x1 , y1   , ... ,   xn , yn )
    x1 , y1   , ... ,   xn , yn
 
-where the points are the end points of the line segments comprising the path. Square brackets ([]) indicate an open path, while parentheses (()) indicate a closed path. When the outermost parentheses are omitted, as in the third through fifth syntaxes, a closed path is assumed.
+-  Points indicate the endpoints of the line segments that make up the path.
+-  Square brackets [] indicate an open path.
+-  Parentheses (()): indicate a closed path.
 
-Paths are output using the first or second syntax.
+If the outermost parentheses are omitted (for example, in the simplified syntax scenario), the path is considered as a closed path by default. When the system outputs a path, it uses the syntax with parentheses (that is, square brackets or parentheses).
 
 **Polygons**
 ------------

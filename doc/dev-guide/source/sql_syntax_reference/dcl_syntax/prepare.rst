@@ -27,26 +27,37 @@ Syntax
 Parameter Description
 ---------------------
 
--  **name**
+.. table:: **Table 1** PREPARE parameters
 
-   Specifies the name of a prepared statement. It must be unique in the current session.
-
--  **data_type**
-
-   Specifies the type of a parameter.
-
--  **statement**
-
-   Specifies a SELECT, INSERT, UPDATE, DELETE, or VALUES statement.
+   +-----------+-----------------------------------------------------------------+-------------------------------------------------------------------------+
+   | Parameter | Description                                                     | Value Range                                                             |
+   +===========+=================================================================+=========================================================================+
+   | name      | Name of a prepared statement. It must be unique in the session. | A string                                                                |
+   +-----------+-----------------------------------------------------------------+-------------------------------------------------------------------------+
+   | data_type | Data type of the parameter.                                     | ``-``                                                                   |
+   +-----------+-----------------------------------------------------------------+-------------------------------------------------------------------------+
+   | statement | SQL statement that can be executed.                             | Any **SELECT INSERT**, **UPDATE**, **DELETE**, or **VALUES** statement. |
+   +-----------+-----------------------------------------------------------------+-------------------------------------------------------------------------+
 
 Examples
 --------
+
+Prepare data.
+
+::
+
+   DROP TABLE IF EXISTS reason_t1;
+   CREATE TABLE reason_t1 (
+       r_reason_sk    integer,
+       r_reason_id    character(16),
+       r_reason_desc  character(100)
+   );
 
 Create and run a prepared statement for the **INSERT** statement:
 
 ::
 
-   PREPARE insert_reason(integer,character(16),character(100)) AS INSERT INTO tpcds.reason_t1 VALUES($1,$2,$3);
+   PREPARE insert_reason(integer,character(16),character(100)) AS INSERT INTO reason_t1 VALUES($1,$2,$3);
    EXECUTE insert_reason(52, 'AAAAAAAADDAAAAAA', 'reason 52');
 
 Helpful Links

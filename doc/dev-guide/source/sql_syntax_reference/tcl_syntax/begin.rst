@@ -45,15 +45,15 @@ Syntax
 Parameter Description
 ---------------------
 
--  **declare_statements**
+.. table:: **Table 1** BEGIN parameters
 
-   Declares a variable, including its name and type, for example, **sales_cnt int**.
-
--  **execution_statements**
-
-   Specifies the statement to be executed in an anonymous block.
-
-   Value range: an existing function name
+   +----------------------+-----------------------------------------------------------------------------------+--------------------------------+
+   | Parameter            | Description                                                                       | Value Range                    |
+   +======================+===================================================================================+================================+
+   | declare_statements   | Declares a variable, including its name and type, for example, **sales_cnt int**. | ``-``                          |
+   +----------------------+-----------------------------------------------------------------------------------+--------------------------------+
+   | execution_statements | Specifies the statement to be executed in an anonymous block.                     | Use an existing function name. |
+   +----------------------+-----------------------------------------------------------------------------------+--------------------------------+
 
 Examples
 --------

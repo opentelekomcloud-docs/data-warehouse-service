@@ -19,7 +19,7 @@ Precautions
 -  Savepoints can only be established when inside a transaction block. There can be multiple savepoints defined within a transaction.
 -  **SAVEPOINT** cannot be used for functions, anonymous blocks, or stored procedures.
 -  In the case of an unexpected termination of a distributed thread or process caused by a node or connection failure, or of an error caused by the inconsistency between source and destination table structures in a COPY FROM operation, the transaction cannot be rolled back to the established savepoint. Instead, the entire transaction will be rolled back.
--  According to the SQL standard, a savepoint is destroyed automatically when another savepoint with the same name is established. In GaussDB(DWS), old savepoints are kept, though only the most recent one will be used for rollback or release. Releasing the newer savepoint with **RELEASE SAVEPOINT** will cause the older one to again become accessible to **ROLLBACK TO SAVEPOINT** and **RELEASE SAVEPOINT**. Except for this, **SAVEPOINT** is fully SQL conforming.
+-  According to the SQL standard, a savepoint is destroyed automatically when another savepoint with the same name is established. In DWS, old savepoints are kept, though only the most recent one will be used for rollback or release. Releasing the newer savepoint with **RELEASE SAVEPOINT** will cause the older one to again become accessible to **ROLLBACK TO SAVEPOINT** and **RELEASE SAVEPOINT**. Except for this, **SAVEPOINT** is fully SQL conforming.
 
 Syntax
 ------
@@ -31,7 +31,7 @@ Syntax
 Parameter Description
 ---------------------
 
-savepoint_name
+**savepoint_name**
 
 Specifies the name of a new savepoint.
 
@@ -42,6 +42,9 @@ Examples
 
    ::
 
+      DROP TABLE IF EXISTS table1;
+      CREATE TABLE table1 (a int);
+
       START TRANSACTION;
       INSERT INTO table1 VALUES (1);
       SAVEPOINT my_savepoint;
@@ -51,6 +54,12 @@ Examples
       COMMIT;
 
    Query the table content, which should contain 1 and 3 but not 2, because 2 has been rolled back.
+
+   ::
+
+      SELECT * FROM table1;
+
+   |image1|
 
 -  Create and then destroy a savepoint.
 
@@ -65,7 +74,16 @@ Examples
 
    Query the table content, which should contain both 3 and 4.
 
+   ::
+
+      SELECT * FROM table1;
+
+   |image2|
+
 Helpful Links
 -------------
 
 :ref:`RELEASE SAVEPOINT <dws_06_0267>`, :ref:`ROLLBACK TO SAVEPOINT <dws_06_0269>`
+
+.. |image1| image:: /_static/images/en-us_image_0000002618054283.png
+.. |image2| image:: /_static/images/en-us_image_0000002618054745.png

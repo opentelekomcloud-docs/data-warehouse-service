@@ -28,7 +28,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM pg_verify_residualfiles('pgrf_20200908160211441546');
+   SELECT * FROM pg_verify_residualfiles('pgrf_20200908160211441546');
     isverified
    ------------
     t
@@ -63,7 +63,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM pg_verify_residualfiles();
+   SELECT * FROM pg_verify_residualfiles();
     result |         filepath          | notes
    --------+---------------------------+-------
     t      | pgrf_20200908160211441546 |
@@ -99,7 +99,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM pgxc_verify_residualfiles();
+   SELECT * FROM pgxc_verify_residualfiles();
       nodename   | result |         filepath          | notes
    --------------+--------+---------------------------+-------
     cn_5001      | t      | pgrf_20200910170129360401 |
@@ -133,7 +133,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM pg_is_residualfiles('base/49155/114691');
+   SELECT * FROM pg_is_residualfiles('base/49155/114691');
     result
    --------
     t
@@ -147,13 +147,13 @@ Example:
 
    .. code-block::
 
-      postgres=#SELECT * FROM pg_is_residualfiles('base/15092/14790');
+      SELECT * FROM pg_is_residualfiles('base/15092/14790');
       result
       --------
       f
       (1 row)
 
-      postgres=#\c db2
+      \c db2
       db2=# SELECT * FROM pg_is_residualfiles('base/15092/14790');
       result
       --------

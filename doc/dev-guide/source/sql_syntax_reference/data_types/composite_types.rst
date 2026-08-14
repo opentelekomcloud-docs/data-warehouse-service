@@ -5,12 +5,12 @@
 Composite Types
 ===============
 
-A composite type represents the structure of a row or record, which is essentially a list of field names and their data types. GaussDB(DWS) allows table columns to be declared as composite types. A composite type is essentially the same as the row type of a table. However, using :ref:`CREATE TYPE <dws_06_0185>` avoids the need to create an actual table when only a type needs to be defined. A stand-alone composite type is useful as the parameter or return type of a function.
+A composite type represents the structure of a row or record, which is essentially a list of field names and their data types. DWS allows table columns to be declared as composite types. A composite type is essentially the same as the row type of a table. However, using :ref:`CREATE TYPE <dws_06_0185>` avoids the need to create an actual table when only a type needs to be defined. A stand-alone composite type is useful as the parameter or return type of a function.
 
 Declaration of Composite Types
 ------------------------------
 
-GaussDB (DWS) allows users to use :ref:`CREATE TYPE <dws_06_0185>` to define composite types.
+DWS allows users to use :ref:`CREATE TYPE <dws_06_0185>` to define composite types.
 
 ::
 
@@ -54,7 +54,7 @@ To write a composite value as a literal constant, enclose the field value in par
 
 **'("fuzzy dice",42,1.99)'** is a valid value of the **inventory_item** type.
 
-To set a field to NULL, left the position empty. If you want a field to be an empty string, use quotation marks. In the following example, the first column is a non-null empty string, and the third column is NULL.
+To set a field to NULL, leave the position empty. If you want a field to be an empty string, use quotation marks. In the following example, the first column is a non-null empty string, and the third column is NULL.
 
 ::
 

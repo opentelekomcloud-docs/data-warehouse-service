@@ -75,11 +75,11 @@ ANY/SOME (array)
 The parentheses on the right contain an array expression, which must generate an array value. The result of the expression on the left uses operators to compute and compare the results in each row of the array expression. The comparison result must be a Boolean value.
 
 -  If at least one comparison result is true, the result of **ANY** is **true**.
--  If no comparison result is true, the result of ANY is false.
+-  If no comparison result is true, the result of **ANY** is false.
 
 .. note::
 
-   If no comparison result is true and the array expression generates at least one null value, the value of ANY is NULL, rather than false. This method is consistent with the Boolean rules used when SQL statements return empty values.
+   If no comparison result is true and the array expression generates at least one null value, the value of **ANY** is NULL, rather than false. This method is consistent with the Boolean rules used when SQL statements return empty values.
 
 **SOME** is a synonym of **ANY**.
 

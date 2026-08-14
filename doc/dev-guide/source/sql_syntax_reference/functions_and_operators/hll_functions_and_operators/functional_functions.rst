@@ -19,7 +19,7 @@ Example:
    SELECT hll_print(hll_empty());
                             hll_print
    -----------------------------------------------------------
-    EMPTY, nregs=2048, nbits=5, expthresh=-1(160), sparseon=1gongne
+    EMPTY, nregs=2048, nbits=5, expthresh=-1(160), sparseon=1
    (1 row)
 
 hll_empty()

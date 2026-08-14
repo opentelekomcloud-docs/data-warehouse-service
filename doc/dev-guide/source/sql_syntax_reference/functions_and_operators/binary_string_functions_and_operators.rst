@@ -5,7 +5,7 @@
 Binary String Functions and Operators
 =====================================
 
-SQL defines some binary string functions that use keywords, rather than commas, to separate arguments. GaussDB(DWS) also provides the common syntax used for invoking functions.
+SQL defines some binary string functions that use keywords, rather than commas, to separate arguments. DWS also provides the common syntax used for invoking functions.
 
 octet_length(string)
 --------------------
@@ -14,7 +14,7 @@ Description: Returns the number of bytes in the given binary string.
 
 Return type: integer
 
-Examples:
+Example:
 
 ::
 
@@ -31,7 +31,7 @@ Description: Replaces the given substring.
 
 Return type: bytea
 
-Examples:
+Example:
 
 ::
 
@@ -48,7 +48,7 @@ Description: Returns the location of the given substring.
 
 Return type: integer
 
-Examples:
+Example:
 
 ::
 
@@ -65,7 +65,7 @@ Description: Truncates the given substring.
 
 Return type: bytea
 
-Examples:
+Example:
 
 ::
 
@@ -79,10 +79,10 @@ Truncate the time and obtain the number of hours.
 
 ::
 
-   SELECT substring('2022-07-18 24:38:15',12,2)AS RESULT;
+   SELECT substring('2022-07-18 14:38:15',12,2)AS RESULT;
     result
    -----------
-    24
+    14
    (1 row)
 
 trim([both] bytes from string)
@@ -92,7 +92,7 @@ Description: Removes the longest string containing only bytes from **bytes** fro
 
 Return type: bytea
 
-Examples:
+Example:
 
 ::
 
@@ -126,7 +126,7 @@ Description: Removes the longest string containing only bytes from **bytes** fro
 
 Return type: bytea
 
-Examples:
+Example:
 
 ::
 
@@ -143,7 +143,7 @@ Description: Returns the number of bits in the given string.
 
 Return type: integer
 
-Examples:
+Example:
 
 ::
 
@@ -160,7 +160,7 @@ Description: Returns the number of bytes in the given string.
 
 Return type: integer
 
-Examples:
+Example:
 
 ::
 
@@ -177,7 +177,7 @@ Description: Sets bits in the given string.
 
 Return type: bytea
 
-Examples:
+Example:
 
 ::
 
@@ -194,7 +194,7 @@ Description: Sets bytes in the given string.
 
 Return type: bytea
 
-Examples:
+Example:
 
 ::
 

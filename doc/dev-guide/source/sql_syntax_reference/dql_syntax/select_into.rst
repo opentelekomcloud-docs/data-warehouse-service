@@ -8,7 +8,7 @@ SELECT INTO
 Function
 --------
 
-**SELECT INTO** defines a new table based on a query result and insert data obtained by query to the new table.
+**SELECT INTO** defines a new table based on a query result and inserts data obtained by query to the new table.
 
 Different from **SELECT**, data found by **SELECT INTO** is not returned to the client. The table columns have the same names and data types as the output columns of the **SELECT**.
 
@@ -42,7 +42,7 @@ Parameter Description
 
 **INTO [ [ GLOBAL \| LOCAL \| VOLATILE ] { TEMPORARY \| TEMP } \| UNLOGGED ] [ TABLE ] new_table**
 
-**[ GLOBAL \| LOCAL \| VOLATILE ] { TEMPORARY \| TEMP }** specifies the type of a temporary table. For details, see the description in "CREATE TABLE".
+**[ GLOBAL \| LOCAL \| VOLATILE ] { TEMPORARY \| TEMP }** specifies the type of a temporary table. For details, see the description of GLOBAL \| LOCAL \| VOLATILE in :ref:`Parameter Description <en-us_topic_0000001764675138__s1a0c1ce222bb46dfb68a016610aea3a5>`.
 
 **UNLOGGED** indicates that the table is created as an unlogged table. Data written to unlogged tables is not written to the write-ahead log, which makes them considerably faster than ordinary tables. However, they are not crash-safe: an unlogged table is automatically truncated after a crash or unclean shutdown. The contents of an unlogged table are also not replicated to standby servers. Any indexes created on an unlogged table are automatically unlogged as well.
 
@@ -50,15 +50,16 @@ Parameter Description
 
 .. note::
 
-   For details about other **SELECT INTO** parameters, see :ref:`Parameter Description <en-us_topic_0000001811515533__s3d562432879c4244bcdbfdf9f30bcc5e>` in **SELECT**.
+   For details about other **SELECT INTO** parameters, see :ref:`SELECT Main Clause Parameters <en-us_topic_0000001811515533__s3d562432879c4244bcdbfdf9f30bcc5e>` in **SELECT**.
 
-Example
--------
+Examples
+--------
 
 Add values whose **TABLE_SK** is less than 3 in the **reason_t** table to the new table.
 
 ::
 
+   DROP TABLE IF EXISTS reason_t;
    CREATE TABLE reason_t
    (
        TABLE_SK          INTEGER               ,
@@ -68,9 +69,14 @@ Add values whose **TABLE_SK** is less than 3 in the **reason_t** table to the ne
    INSERT INTO reason_t VALUES (1, 'S01', 'StudentA'),(2, 'T01', 'TeacherA'),(3, 'T02', 'TeacherB'),(3, 'S02', 'StudentB');
 
    SELECT * INTO reason_t_bck FROM reason_t WHERE TABLE_SK < 3;
-   INSERT 0 2
+
+   SELECT * FROM reason_t_bck;
+
+|image1|
 
 Helpful Links
 -------------
 
 :ref:`SELECT <dws_06_0238>`
+
+.. |image1| image:: /_static/images/en-us_image_0000002618097461.png

@@ -5,7 +5,7 @@
 Roaring Bitmap Operators
 ========================
 
-Starting from GaussDB(DWS) 8.1.3, user profiling and precision marketing scenarios benefit from the utilization of efficient bitmap processing operators. This enhancement significantly enhances query performance.
+Starting from DWS 8.1.3, user profiling and precision marketing scenarios benefit from the utilization of efficient bitmap processing operators. This enhancement significantly enhances query performance.
 
 ``=``
 -----

@@ -5,10 +5,10 @@
 Functions
 =========
 
-**Function Type Resolution**
-----------------------------
+Function Type Resolution
+------------------------
 
-#. Select the functions to be considered from the **pg_proc** system catalog. If a non-schema-qualified function name was used, the functions in the current search path are considered. If a qualified function name was given, only functions in the specified schema are considered.
+#. Select the functions to be considered from the **pg_proc** system catalog. If a function name without schema qualification is used, the function is considered to be among those in the current search path. If a qualified function name was given, only functions in the specified schema are considered.
 
    If the search path finds multiple functions of different argument types, a proper function in the path is considered.
 

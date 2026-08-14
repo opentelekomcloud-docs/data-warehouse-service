@@ -35,6 +35,10 @@ Syntax
           FROM { [ GROUP ] role_name | PUBLIC } [, ...]
           [ CASCADE | RESTRICT ];
 
+   .. caution::
+
+      Do not perform concurrent GRANT or REVOKE operations (including **ON TABLE** and **ON ALL TABLES IN SCHEMA**) on a given table or view, or do not perform both GRANT or REVOKE and DDL operations on a given table or view. Otherwise, an error similar to "tuple concurrently updated." is reported.
+
 -  Revoke the permission of specified fields on the table.
 
    ::
@@ -116,7 +120,7 @@ Syntax
           role_name [, ...] FROM role_name [, ...]
           [ CASCADE | RESTRICT ];
 
--  Revoke the sysadmin permission of roles.
+-  Revoke the sysadmin permission of a specified role.
 
    ::
 
@@ -125,30 +129,25 @@ Syntax
 Parameter Description
 ---------------------
 
-The keyword **PUBLIC** indicates an implicitly defined group that contains all roles.
+The keyword **PUBLIC** indicates an implicitly defined group that has all roles. For details about the **REVOKE** permission and related parameters, see :ref:`Parameter Description <en-us_topic_0000001811515601__s226158f44a8f4b908e69a283aeb813cd>` in "GRANT".
 
-See :ref:`Parameter Description <en-us_topic_0000001811515601__s226158f44a8f4b908e69a283aeb813cd>` of the **GRANT** command for the meaning of the privileges and related parameters.
+.. note::
 
-Permissions of a role include the permissions directly granted to the role, permissions inherited from the parent role, and permissions granted to **PUBLIC**. Therefore, revoking the **SELECT** permission for an object from **PUBLIC** does not necessarily mean that the **SELECT** permission for the object has been revoked from all roles, because the **SELECT** permission directly granted to roles and inherited from parent roles still remains. Similarly, if the **SELECT** permission is revoked from a user but is not revoked from **PUBLIC**, the user can still run the **SELECT** statement.
-
-If **GRANT OPTION FOR** is specified, only the grant option for the right is revoked, not the right itself.
-
-If user A holds the **UPDATE** rights on a table and the **WITH GRANT OPTION** and has granted them to user B, the rights that user B holds are called dependent rights. If the rights or the grant option held by user A is revoked, the dependent rights still exist. Those dependent rights are also revoked if **CASCADE** is specified.
-
-A user can only revoke rights that were granted directly by that user. If, for example, user A has granted a right with grant option (**WITH ADMIN OPTION**) to user B, and user B has in turned granted it to user C, then user A cannot revoke the right directly from C. However, user A can revoke the grant option held by user B and use **CASCADE**. In this manner, the rights held by user C are automatically revoked. For another example, if both user A and user B have granted the same right to C, A can revoke his own grant but not B's grant, so C will still effectively have the right.
-
-If the role executing **REVOKE** holds rights indirectly via more than one role membership path, it is unspecified which containing role will be used to execute the command. In such cases, it is best practice to use **SET ROLE** to become the specific role you want to do the **REVOKE** as, and then execute REVOKE. Failure to do so may lead to deleting rights not intended to delete, or not deleting any rights at all.
+   -  Permissions of a role include the permissions directly granted to the role, permissions inherited from the parent role, and permissions granted to **PUBLIC**. Therefore, revoking the **SELECT** permission for an object from **PUBLIC** does not necessarily mean that the **SELECT** permission for the object has been revoked from all roles, because the **SELECT** permission directly granted to roles and inherited from parent roles still remains. Similarly, if the **SELECT** permission is revoked from a user and the **PUBLIC** user still has the **SELECT** permission, the user can still use the **SELECT** permission.
+   -  If user A holds the **UPDATE** rights on a table and the **WITH GRANT OPTION** and has granted them to user B, the rights that user B holds are called dependent rights. If the rights or the grant option held by user A is revoked, the dependent rights still exist. Those dependent rights are also revoked if **CASCADE** is specified.
+   -  A user can only revoke rights that were granted directly by that user. If, for example, user A has granted a right with grant option (**WITH ADMIN OPTION**) to user B, and user B has in turned granted it to user C, then user A cannot revoke the right directly from C. However, user A can revoke the grant option held by user B and use **CASCADE**. In this manner, the rights held by user C are automatically revoked. For another example, if both user A and user B have granted the same right to C, A can revoke his own grant but not B's grant, so C will still effectively have the right.
+   -  If the role executing **REVOKE** holds rights indirectly via more than one role membership path, it is unspecified which containing role will be used to execute the command. In such cases, it is best practice to use **SET ROLE** to become the specific role you want to do the **REVOKE** as, and then execute REVOKE. Failure to do so may lead to deleting rights not intended to delete, or not deleting any rights at all.
 
 Examples
 --------
 
-Revoke all permissions of user **joe**:
+Revoke the sysadmin permission of user **joe**:
 
 ::
 
    REVOKE ALL PRIVILEGES FROM joe;
 
-Revoke the permissions granted in a specified schema:
+Revoke the permissions granted in a specified schema.
 
 ::
 
@@ -184,7 +183,7 @@ Revoke user **joe**'s permission for the **tpcds** schema.
 
    REVOKE USAGE ON SCHEMA tpcds FROM joe;
 
-Revoke the query permissions for **r_reason_sk** and **r_reason_id** in the **tpcds.reason table** from user **joe**.
+Revoke the query permissions for **r_reason_sk** and **r_reason_id** in the **tpcds.reason** table from user **joe**.
 
 ::
 

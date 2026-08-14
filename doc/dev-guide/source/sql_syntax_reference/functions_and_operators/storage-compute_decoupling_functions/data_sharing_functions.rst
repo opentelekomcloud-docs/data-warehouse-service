@@ -8,7 +8,7 @@ Data Sharing Functions
 pgxc_group_add_subscription(src_vw_name, target_vw_name)
 --------------------------------------------------------
 
-Description: In a storage-compute decoupling architecture, a KV subscription relationship is established between logical clusters (Virtual Warehouses, VWs). Once established, the KV cache of the consumer VW periodically synchronizes the SST file incrementally from the OBS cudesc snapshot directory of the producer to the local host. This allows tables in the producer VW to be queried across VWs in the consumer VM. The created subscription relationship can be found in the **pgxc_group_subscription** table. This function is supported only by clusters of version 9.0.3 or later.
+Description: In a storage-compute decoupling design, logical clusters (Virtual Warehouses or VWs) create a KV subscription link. After setup, the consumer VW's KV cache regularly updates by syncing incremental SST files from the producer's OBS cudesc snapshot folder to its local system. This enables cross-VW queries on tables stored in the producer VW. The created subscription relationship can be found in the **pgxc_group_subscription** table. This function is supported only by clusters of version 9.0.3 or later.
 
 Return type: void
 
@@ -24,7 +24,7 @@ The following information is displayed:
    | target_vw_name | text | Consumer VW name, which is usually used as the VW for reading data.         |
    +----------------+------+-----------------------------------------------------------------------------+
 
-The following is an example:
+Example:
 
 ::
 
@@ -53,7 +53,7 @@ The following information is displayed:
    | target_vw_name | text | Consumer VW name, which is usually used as the VW for reading data.         |
    +----------------+------+-----------------------------------------------------------------------------+
 
-The following is an example:
+Example:
 
 .. code-block::
 

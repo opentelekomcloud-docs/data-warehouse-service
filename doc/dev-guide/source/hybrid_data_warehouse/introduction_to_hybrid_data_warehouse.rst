@@ -7,31 +7,31 @@ Introduction to Hybrid Data Warehouse
 
 A hybrid data warehouse needs to work with data sources, such as upstream databases or applications, to insert, upsert, and update data in real time. The data warehouse should also be able to query data shortly after it was imported.
 
-Currently, the existing row-store and column-store tables in a conventional GaussDB(DWS) data warehouse cannot meet real-time data import and query requirements. Row-store tables have strong real-time import capabilities and support highly concurrent updates, but their disk usage is high and query efficiency is low. Column-store tables have high data compression ratio and good OLAP query performance, but do not support concurrent updates. Concurrent import will cause severe lock conflicts.
+Currently, the existing row-store and column-store tables in a conventional DWS data warehouse cannot meet real-time data import and query requirements. Row-store tables have strong real-time import capabilities and support highly concurrent updates, but their disk usage is high and query efficiency is low. Column-store tables have high data compression ratio and good OLAP query performance, but do not support concurrent updates. Concurrent import will cause severe lock conflicts.
 
-To solve these problems, we use column storage to reduce the disk usage, support highly concurrency updates, and improve query speed. GaussDB(DWS) hybrid data warehouses use HStore tables to achieve high performance during real-time data import and query, and have the transaction processing capabilities required for traditional OLTP scenarios.
+To solve these problems, we use column storage to reduce the disk usage, support highly concurrency updates, and improve query speed. DWS hybrid data warehouses use HStore tables to achieve high performance during real-time data import and query, and have the transaction processing capabilities required for traditional OLTP scenarios.
 
 The HStore tables uniquely support single and small-batch real-time IUD operations, as well as regular large-batch import. Data can be queried immediately after being imported. You can deduplicate traditional indexes (such as primary keys) and accelerate point queries. You can further accelerate OLAP queries through partitioning, multi-dimensional dictionaries, and partial sorting. Strong data consistency can be ensured for transactions with heavy workloads, such as TPC-C.
 
 .. note::
 
-   -  Only clusters 8.2.0.100 and later support the HStore tables of the hybrid data warehouse.
-   -  HStore Opt tables are recommended for 9.1.0 and later versions. HStore tables can be replaced by **HStore_opt** tables for better performance, except in scenarios requiring high performance without micro-batch updates.
-   -  The hybrid data warehouse is used for both production and analysis. It is applicable to hybrid transaction and analysis scenarios. It can be deployed in single-node or cluster mode. For how to create a hybrid data warehouse, see "Creating a DWS 2.0 Cluster" in the *Data Warehouse Service (DWS) User Guide*.
-   -  Hot and cold data management is supported for HStore tables. For details, see :ref:`GaussDB(DWS) Hot and Cold Data Management <dws_04_0996>`. This function is supported only by cluster versions 8.2.0.101 and later.
+   -  Only clusters of version 8.2.0.100 or later support the HStore tables of the hybrid data warehouse.
+   -  HStore Opt tables are recommended for clusters 9.1.0 and later. HStore tables can be replaced by **HStore_opt** tables for better performance, except in scenarios requiring high performance without micro-batch updates.
+   -  The hybrid data warehouse is used for both production and analysis. It is suitable for hybrid transaction and analysis workloads. For details about how to create a hybrid data warehouse, see "Creating a DWS Storage-Compute Coupled 2.0 Cluster" in the *Data Warehouse Service (DWS) User Guide*.
+   -  Hot and cold data management is supported for HStore tables. For details, see :ref:`DWS Hot and Cold Data Management <dws_04_0996>`. This function is supported only by clusters of version 8.2.0.101 or later.
    -  HStore is a table type designed for the hybrid data warehouse and is irrelevant to the SQL parameter **hstore**.
 
 Differences from Standard Data Warehouses
 -----------------------------------------
 
-Hybrid data warehouses and standard data warehouses are two types of GaussDB(DWS) data warehouses with different specifications and usage. For details, see :ref:`Table 1 <en-us_topic_0000001764650860__en-us_topic_0000001254011985_table36452001993>`.
+Hybrid data warehouses and standard data warehouses are two types of DWS data warehouses with different specifications and usage. For details, see :ref:`Table 1 <en-us_topic_0000001764650860__en-us_topic_0000001254011985_table36452001993>`.
 
 .. _en-us_topic_0000001764650860__en-us_topic_0000001254011985_table36452001993:
 
 .. table:: **Table 1** Comparison between hybrid and standard data warehouses
 
    +----------------------+-------------------------------------------------------------------------------------------------------------------------------+-------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------+
-   | Type                 | Standard Data Warehouse                                                                                                       | _           | Hybrid Data Warehouse                                                                                                                                                                                                                                          | _           |
+   | Type                 | Standard Data Warehouse                                                                                                       |             | Hybrid Data Warehouse                                                                                                                                                                                                                                          |             |
    +======================+===============================================================================================================================+=============+================================================================================================================================================================================================================================================================+=============+
    | Application scenario | Converged data analysis using OLAP. It is used in sectors such as finance, government and enterprise, e-commerce, and energy. |             | Real-time data import + Hybrid analysis. Real-time upstream data import + Real-time query after data import. It is mainly used in scenarios that have high requirements on real-time data import, such as e-commerce and finance.                              |             |
    +----------------------+-------------------------------------------------------------------------------------------------------------------------------+-------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------+

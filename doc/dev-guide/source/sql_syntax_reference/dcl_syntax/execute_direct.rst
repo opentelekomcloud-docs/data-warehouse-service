@@ -29,15 +29,15 @@ Syntax
 Parameter Description
 ---------------------
 
--  **nodename**
+.. table:: **Table 1** EXECUTE DIRECT parameters
 
-   Specifies the node name.
-
-   Value range: An existing node.
-
--  **query**
-
-   Specifies the query SQL statement that you want to execute.
+   +-----------+--------------------------+---------------------------------------------------------------+
+   | Parameter | Description              | Value Range                                                   |
+   +===========+==========================+===============================================================+
+   | nodename  | Node name                | A string that indicates the name of an existing node.         |
+   +-----------+--------------------------+---------------------------------------------------------------+
+   | query     | Statement to be executed | A string that indicates a SQL statement that can be executed. |
+   +-----------+--------------------------+---------------------------------------------------------------+
 
 Examples
 --------
@@ -47,7 +47,7 @@ Query records in table **tpcds.customer_address** on the dn_6001_6002 node:
 ::
 
    EXECUTE DIRECT ON(dn_6001_6002) 'select count(*) from tpcds.customer_address';
-    count
-   -------
-    16922
-   (1 row)
+
+|image1|
+
+.. |image1| image:: /_static/images/en-us_image_0000002611738189.png

@@ -5,7 +5,7 @@
 Highlighting Results
 ====================
 
-To present search results it is ideal to show a part of each document and how it is related to the query. Usually, search engines show fragments of the document with marked search terms. GaussDB(DWS) provides function **ts_headline** that implements this functionality.
+To present search results it is ideal to show a part of each document and how it is related to the query. Usually, search engines show fragments of the document with marked search terms. DWS provides function **ts_headline** that implements this functionality.
 
 ::
 

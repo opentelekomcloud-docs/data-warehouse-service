@@ -5,7 +5,7 @@
 Parsing Documents
 =================
 
-GaussDB(DWS) provides function **to_tsvector** for converting a document to the **tsvector** data type.
+DWS provides function **to_tsvector** for converting a document to the **tsvector** data type.
 
 ::
 

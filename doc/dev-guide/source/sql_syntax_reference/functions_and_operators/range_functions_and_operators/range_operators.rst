@@ -2,300 +2,207 @@
 
 .. _dws_06_0334:
 
-.. _en-us_topic_0000001764516502:
-
 Range Operators
 ===============
 
-``=``
------
-
-Description: Equals
-
-Example:
-
-::
-
-   SELECT int4range(1,5) = '[1,4]'::int4range AS RESULT;
-    result
-   --------
-    t
-   (1 row)
-
-
-<>
---
-
-Description: Does not equal to
-
-Example:
-
-::
-
-   SELECT numrange(1.1,2.2) <> numrange(1.1,2.3) AS RESULT;
-    result
-   --------
-    t
-   (1 row)
-
-
-``<``
------
-
-Description: Is less than
-
-Example:
-
-::
-
-   SELECT int4range(1,10) < int4range(2,3) AS RESULT;
-    result
-   --------
-    t
-   (1 row)
-
-
-``>``
------
-
-Description: Is greater than
-
-Example:
-
-::
-
-   SELECT int4range(1,10) > int4range(1,5) AS RESULT;
-    result
-   --------
-    t
-   (1 row)
-
-
-<=
---
-
-Description: Is less than or equals
-
-Example:
-
-::
-
-   SELECT numrange(1.1,2.2) <= numrange(1.1,2.2) AS RESULT;
-    result
-   --------
-    t
-   (1 row)
-
-
->=
---
-
-Description: Is greater than or equals
-
-Example:
-
-::
-
-   SELECT numrange(1.1,2.2) >= numrange(1.1,2.0) AS RESULT;
-    result
-   --------
-    t
-   (1 row)
-
-
-@>
---
-
-Description: The object on the left includes the object on the right.
-
-Example:
-
-::
-
-   SELECT int4range(2,4) @> int4range(2,3) AS RESULT;
-    result
-   --------
-    t
-   (1 row)
-
-::
-
-   SELECT '[2011-01-01,2011-03-01)'::tsrange @> '2011-01-10'::timestamp AS RESULT;
-    result
-   --------
-    t
-   (1 row)
-
-
-<@
---
-
-Description: The object on the right includes the object on the left.
-
-Example:
-
-::
-
-   SELECT int4range(2,4) <@ int4range(1,7) AS RESULT;
-    result
-   --------
-    t
-   (1 row)
-
-::
-
-   SELECT 42 <@ int4range(1,7) AS RESULT;
-    result
-   --------
-    f
-   (1 row)
-
-
-&&
---
-
-Description: Overlap (have points in common)
-
-Example:
-
-::
-
-   SELECT int8range(3,7) && int8range(4,12) AS RESULT;
-    result
-   --------
-    t
-   (1 row)
-
-
-<<
---
-
-Description: Strictly left of
-
-Example:
-
-::
-
-   SELECT int8range(1,10) << int8range(100,110) AS RESULT;
-    result
-   --------
-    t
-   (1 row)
-
-
->>
---
-
-Description: Strictly right of
-
-Example:
-
-::
-
-   SELECT int8range(50,60) >> int8range(20,30) AS RESULT;
-    result
-   --------
-    t
-   (1 row)
-
-
-&<
---
-
-Description: Does not extend to the right of
-
-Example:
-
-::
-
-   SELECT int8range(1,20) &< int8range(18,20) AS RESULT;
-    result
-   --------
-    t
-   (1 row)
-
-
-&>
---
-
-Description: Does not extend to the left of
-
-Example:
-
-::
-
-   SELECT int8range(7,20) &> int8range(5,10) AS RESULT;
-    result
-   --------
-    t
-   (1 row)
-
-
-``-|-``
--------
-
-Description: Is adjacent to
-
-Example:
-
-::
-
-   SELECT numrange(1.1,2.2) -|- numrange(2.2,3.3) AS RESULT;
-    result
-   --------
-    t
-   (1 row)
-
-
-``+``
------
-
-Description: Union
-
-Example:
-
-::
-
-   SELECT numrange(5,15) + numrange(10,20) AS RESULT;
-    result
-   --------
-    [5,20)
-   (1 row)
-
-
-``*``
------
-
-Description: Intersection
-
-Example:
-
-::
-
-   SELECT int8range(5,15) * int8range(10,20) AS RESULT;
-    result
-   ---------
-    [10,15)
-   (1 row)
-
-
-``-``
------
-
-Description: Difference
-
-Example:
-
-::
-
-   SELECT int8range(5,15) - int8range(10,20) AS RESULT;
-    result
-   --------
-    [5,10)
-   (1 row
+Range operators are used to perform operations on range-type data (such as @> and &&). Range operators can be directly applied to query expressions to quickly filter data within a specific range. They are commonly used for range comparison, query restriction, and range definition.
 
 .. note::
 
-   -  The simple comparison operators **<**, **>**, **<=**, and **>=** compare the lower bounds first, and only if those are equal, compare the upper bounds.
-   -  The **<<**, **>>**, and **-|-** operators always return false when an empty range is involved; that is, an empty range is not considered to be either before or after any other range.
+   -  The comparison operators **<**, **>**, **<=**, and **>=** compare the lower bounds first, and only if those are equal, compare the upper bounds.
+   -  The **<<**, **>>**, and **-|-** operators always return **false** when an empty range is involved. That is, an empty range is not considered to be either before or after any other range.
    -  The union and difference operators will fail if the resulting range would need to contain two disjoint sub-ranges.
+
++-----------------------+--------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Operator              | Description                          | Example                                                                                                                                                           |
++=======================+======================================+===================================================================================================================================================================+
+| =                     | Equal                                | Check whether two ranges are equal. If **t** is returned, the two ranges are equal.                                                                               |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | ::                                                                                                                                                                |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      |    SELECT int4range(1,5) = '[1,4]'::int4range AS RESULT;                                                                                                          |
+|                       |                                      |     result                                                                                                                                                        |
+|                       |                                      |    --------                                                                                                                                                       |
+|                       |                                      |     t                                                                                                                                                             |
+|                       |                                      |    (1 row)                                                                                                                                                        |
++-----------------------+--------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| <>                    | Not equal                            | Check whether two ranges are not equal. If **t** is returned, the two ranges are not equal.                                                                       |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | ::                                                                                                                                                                |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      |    SELECT numrange(1.1,2.2) <> numrange(1.1,2.3) AS RESULT;                                                                                                       |
+|                       |                                      |     result                                                                                                                                                        |
+|                       |                                      |    --------                                                                                                                                                       |
+|                       |                                      |     t                                                                                                                                                             |
+|                       |                                      |    (1 row)                                                                                                                                                        |
++-----------------------+--------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| <                     | Less than                            | Check whether (1,10) is less than (2,3). Compare the lower bounds first, and compare the upper bounds only when the lower bounds are equal.                       |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | ::                                                                                                                                                                |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      |    SELECT int4range(1,10) < int4range(2,3) AS RESULT;                                                                                                             |
+|                       |                                      |     result                                                                                                                                                        |
+|                       |                                      |    --------                                                                                                                                                       |
+|                       |                                      |     t                                                                                                                                                             |
+|                       |                                      |    (1 row)                                                                                                                                                        |
++-----------------------+--------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| >                     | Greater than                         | Check whether (1,10) is greater than (1,5). Compare the lower bounds first, and compare the upper bounds only when the lower bounds are equal.                    |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | ::                                                                                                                                                                |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      |    SELECT int4range(1,10) > int4range(1,5) AS RESULT;                                                                                                             |
+|                       |                                      |     result                                                                                                                                                        |
+|                       |                                      |    --------                                                                                                                                                       |
+|                       |                                      |     t                                                                                                                                                             |
+|                       |                                      |    (1 row)                                                                                                                                                        |
++-----------------------+--------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| <=                    | Less than or equal                   | Check whether (1.1,2.2) is less than or equal to (1.1,2.2).                                                                                                       |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | ::                                                                                                                                                                |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      |    SELECT numrange(1.1,2.2) <= numrange(1.1,2.2) AS RESULT;                                                                                                       |
+|                       |                                      |     result                                                                                                                                                        |
+|                       |                                      |    --------                                                                                                                                                       |
+|                       |                                      |     t                                                                                                                                                             |
+|                       |                                      |    (1 row)                                                                                                                                                        |
++-----------------------+--------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| >=                    | Greater than or equal                | Check whether (1.1,2.2) is greater than or equal to (1.1,2.0). Compare the lower bounds first, and compare the upper bounds only when the lower bounds are equal. |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | ::                                                                                                                                                                |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      |    SELECT numrange(1.1,2.2) >= numrange(1.1,2.0) AS RESULT;                                                                                                       |
+|                       |                                      |     result                                                                                                                                                        |
+|                       |                                      |    --------                                                                                                                                                       |
+|                       |                                      |     t                                                                                                                                                             |
+|                       |                                      |    (1 row)                                                                                                                                                        |
++-----------------------+--------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| @>                    | Contains the range or element        | Check whether (2,4) contains (2,3). The result is **t**, indicating that it is contained.                                                                         |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | ::                                                                                                                                                                |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      |    SELECT int4range(2,4) @> int4range(2,3) AS RESULT;                                                                                                             |
+|                       |                                      |     result                                                                                                                                                        |
+|                       |                                      |    --------                                                                                                                                                       |
+|                       |                                      |     t                                                                                                                                                             |
+|                       |                                      |    (1 row)                                                                                                                                                        |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | Check whether [2011-01-01,2011-03-01) contains 2011-01-10. If **t** is returned, it is contained.                                                                 |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | ::                                                                                                                                                                |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      |    SELECT '[2011-01-01,2011-03-01)'::tsrange @> '2011-01-10'::timestamp AS RESULT;                                                                                |
+|                       |                                      |     result                                                                                                                                                        |
+|                       |                                      |    --------                                                                                                                                                       |
+|                       |                                      |     t                                                                                                                                                             |
+|                       |                                      |    (1 row)                                                                                                                                                        |
++-----------------------+--------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| <@                    | The range or element is contained by | Check whether (2,4) is contained by (1,7). If **t** is returned, it is contained.                                                                                 |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | ::                                                                                                                                                                |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      |    SELECT int4range(2,4) <@ int4range(1,7) AS RESULT;                                                                                                             |
+|                       |                                      |     result                                                                                                                                                        |
+|                       |                                      |    --------                                                                                                                                                       |
+|                       |                                      |     t                                                                                                                                                             |
+|                       |                                      |    (1 row)                                                                                                                                                        |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | Check whether the element 42 is contained by (1,7). If **f** is returned, it is not contained.                                                                    |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | ::                                                                                                                                                                |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      |    SELECT 42 <@ int4range(1,7) AS RESULT;                                                                                                                         |
+|                       |                                      |     result                                                                                                                                                        |
+|                       |                                      |    --------                                                                                                                                                       |
+|                       |                                      |     f                                                                                                                                                             |
+|                       |                                      |    (1 row)                                                                                                                                                        |
++-----------------------+--------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| &&                    | Overlap (have points in common)      | Check whether the ranges of (3,7) and (4,12) overlap. If **t** is returned, they overlap.                                                                         |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | ::                                                                                                                                                                |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      |    SELECT int8range(3,7) && int8range(4,12) AS RESULT;                                                                                                            |
+|                       |                                      |     result                                                                                                                                                        |
+|                       |                                      |    --------                                                                                                                                                       |
+|                       |                                      |     t                                                                                                                                                             |
+|                       |                                      |    (1 row)                                                                                                                                                        |
++-----------------------+--------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| <<                    | Strictly left of                     | Check whether the left range value is strictly less than the minimum value of the right range value and whether the two ranges do not overlap.                    |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | ::                                                                                                                                                                |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      |    SELECT int8range(1,10) << int8range(100,110) AS RESULT;                                                                                                        |
+|                       |                                      |     result                                                                                                                                                        |
+|                       |                                      |    --------                                                                                                                                                       |
+|                       |                                      |     t                                                                                                                                                             |
+|                       |                                      |    (1 row)                                                                                                                                                        |
++-----------------------+--------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| >>                    | Strictly right of                    | Check whether the left range value is strictly greater than the maximum value of the right range value and whether the two ranges do not overlap.                 |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | ::                                                                                                                                                                |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      |    SELECT int8range(50,60) >> int8range(20,30) AS RESULT;                                                                                                         |
+|                       |                                      |     result                                                                                                                                                        |
+|                       |                                      |    --------                                                                                                                                                       |
+|                       |                                      |     t                                                                                                                                                             |
+|                       |                                      |    (1 row)                                                                                                                                                        |
++-----------------------+--------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| &<                    | Does not extend to the right of      | Check whether the left range value does not exceed the upper bound of the right range value.                                                                      |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | ::                                                                                                                                                                |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      |    SELECT int8range(1,20) &< int8range(18,20) AS RESULT;                                                                                                          |
+|                       |                                      |     result                                                                                                                                                        |
+|                       |                                      |    --------                                                                                                                                                       |
+|                       |                                      |     t                                                                                                                                                             |
+|                       |                                      |    (1 row)                                                                                                                                                        |
++-----------------------+--------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| &>                    | Does not extend to the left of       | Check whether the right range value does not exceed the upper bound of the left range value.                                                                      |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | ::                                                                                                                                                                |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      |    SELECT int8range(7,20) &> int8range(5,10) AS RESULT;                                                                                                           |
+|                       |                                      |     result                                                                                                                                                        |
+|                       |                                      |    --------                                                                                                                                                       |
+|                       |                                      |     t                                                                                                                                                             |
+|                       |                                      |    (1 row)                                                                                                                                                        |
++-----------------------+--------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| ``-|-``               | Is adjacent to                       | Check whether the ranges are adjacent. If yes, **t** is returned.                                                                                                 |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | ::                                                                                                                                                                |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      |    SELECT numrange(1.1,2.2) -|- numrange(2.2,3.3) AS RESULT;                                                                                                      |
+|                       |                                      |     result                                                                                                                                                        |
+|                       |                                      |    --------                                                                                                                                                       |
+|                       |                                      |     t                                                                                                                                                             |
+|                       |                                      |    (1 row)                                                                                                                                                        |
++-----------------------+--------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| +                     | Union                                | Calculate the union of two ranges. The result is a new range [5, 20).                                                                                             |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | ::                                                                                                                                                                |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      |    SELECT numrange(5,15) + numrange(10,20) AS RESULT;                                                                                                             |
+|                       |                                      |     result                                                                                                                                                        |
+|                       |                                      |    --------                                                                                                                                                       |
+|                       |                                      |     [5,20)                                                                                                                                                        |
+|                       |                                      |    (1 row)                                                                                                                                                        |
++-----------------------+--------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| \*                    | Intersection                         | Calculate the intersection of two ranges. The result is a new range [10, 15).                                                                                     |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | ::                                                                                                                                                                |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      |    SELECT int8range(5,15) * int8range(10,20) AS RESULT;                                                                                                           |
+|                       |                                      |     result                                                                                                                                                        |
+|                       |                                      |    ---------                                                                                                                                                      |
+|                       |                                      |     [10,15)                                                                                                                                                       |
+|                       |                                      |    (1 row)                                                                                                                                                        |
++-----------------------+--------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| ``-``                 | Difference                           | Calculate the difference between two ranges. The result is a new range [5, 10).                                                                                   |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      | ::                                                                                                                                                                |
+|                       |                                      |                                                                                                                                                                   |
+|                       |                                      |    SELECT int8range(5,15) - int8range(10,20) AS RESULT;                                                                                                           |
+|                       |                                      |     result                                                                                                                                                        |
+|                       |                                      |    --------                                                                                                                                                       |
+|                       |                                      |     [5,10)                                                                                                                                                        |
+|                       |                                      |    (1 row)                                                                                                                                                        |
++-----------------------+--------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+

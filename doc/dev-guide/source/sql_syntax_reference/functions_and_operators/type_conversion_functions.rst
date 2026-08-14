@@ -10,7 +10,7 @@ cast(x as y)
 
 Description: Converts x into the type specified by y.
 
-Examples:
+Example:
 
 ::
 
@@ -38,7 +38,7 @@ Example:
 try_cast(x as type)
 -------------------
 
-Description: Converts **x** to a value of certain type. If the conversion fails and the conversion is allowed by GaussDB(DWS), **NULL** is returned. Otherwise, an error is reported. This function is supported by version 8.2.0 or later clusters.
+Description: Converts *x* to a value of the given type. If the conversion fails and the current type is converted to a value allowed by DWS, NULL is returned. Otherwise, an error is raised. This function is supported by version 8.2.0 or later clusters.
 
 Example:
 
@@ -62,7 +62,7 @@ Description: Converts a string in hexadecimal format into binary format.
 
 Return type: raw
 
-Examples:
+Example:
 
 ::
 
@@ -79,7 +79,7 @@ Description: Converts values of the number type into the timestamp of the specif
 
 Return type: timestamp
 
-Examples:
+Example:
 
 ::
 
@@ -96,7 +96,7 @@ Description: Obtains the system timestamp.
 
 Return type: timestamp with time zone
 
-Examples:
+Example:
 
 ::
 
@@ -111,11 +111,11 @@ rawtohex(string)
 
 Description: Converts a string in binary format into hexadecimal format.
 
-The result is the ACSII code of the input characters in hexadecimal format.
+The result represents the ASCII codes of the input characters in hexadecimal format.
 
 Return type: varchar
 
-Examples:
+Example:
 
 ::
 
@@ -135,7 +135,7 @@ Description: Converts a DATETIME or INTERVAL value of the DATE/TIMESTAMP/TIMESTA
 
 Return type: varchar
 
-Examples:
+Example:
 
 ::
 
@@ -160,7 +160,7 @@ Description: Converts the values of the double-precision type into the strings i
 
 Return type: text
 
-Examples:
+Example:
 
 ::
 
@@ -181,7 +181,7 @@ Descriptions: Converts an integer or a value in floating point format into a str
 
 Return type: varchar
 
-Examples:
+Example:
 
 ::
 
@@ -222,7 +222,7 @@ Description: Converts the values of the time interval type into the strings in t
 
 Return type: text
 
-Examples:
+Example:
 
 ::
 
@@ -239,7 +239,7 @@ Description: Converts the values of the integer type into the strings in the spe
 
 Return type: text
 
-Examples:
+Example:
 
 ::
 
@@ -256,7 +256,7 @@ Description: Converts the values of the numeric type into the strings in the spe
 
 Return type: text
 
-Examples:
+Example:
 
 ::
 
@@ -275,7 +275,7 @@ If this function is used to convert data of the CLOB type, and the value to be c
 
 Return type: varchar
 
-Examples:
+Example:
 
 ::
 
@@ -292,7 +292,7 @@ Description: Converts the values of the timestamp type into the strings in the s
 
 Return type: text
 
-Examples:
+Example:
 
 ::
 
@@ -309,7 +309,7 @@ Description: Convert the RAW type or text character set type CHAR/NCHAR/VARCHAR/
 
 Return type: clob
 
-Examples:
+Example:
 
 ::
 
@@ -374,7 +374,7 @@ Description: Converts values of the text type into the timestamp in the specifie
 
 Return type: timestamp
 
-Examples:
+Example:
 
 ::
 
@@ -391,7 +391,7 @@ Description: Converts the values of the string type into the dates in the specif
 
 Return type: timestamp
 
-Examples:
+Example:
 
 ::
 
@@ -410,7 +410,7 @@ This function cannot support the CLOB type directly. However, a parameter of the
 
 Return type: date
 
-Examples:
+Example:
 
 ::
 
@@ -433,7 +433,7 @@ During the conversion from a hexadecimal string to a decimal digit, the format s
 
 Return type: number
 
-Examples:
+Example:
 
 ::
 
@@ -450,7 +450,7 @@ Description: Converts the values of the string type into the numbers in the spec
 
 Return type: numeric
 
-Examples:
+Example:
 
 ::
 
@@ -467,7 +467,7 @@ Description: Converts a UNIX century into a timestamp.
 
 Return type: timestamp with time zone
 
-Examples:
+Example:
 
 ::
 
@@ -482,7 +482,7 @@ to_timestamp(string [,fmt])
 
 Description: Converts a string into a value of the timestamp type according to the format specified by **fmt**. When **fmt** is not specified, perform the conversion according to the format specified by **nls_timestamp_format**. For details about the fmt format, see :ref:`Table 2 <en-us_topic_0000001764675186__tecb001c170ee45b38a3522119b2c5aae>`.
 
-In **to_timestamp** in GaussDB(DWS):
+In **to_timestamp** in DWS:
 
 -  If the input year *YYYY* is 0, an error will be reported.
 -  If the input year YYYY<0 to specify SYYYY in fmt, the year with the value of n (an absolute value) BC is output correctly.
@@ -491,7 +491,7 @@ Characters in the fmt must match the schema for formatting the data and time. Ot
 
 Return type: timestamp without time zone
 
-Examples:
+Example:
 
 ::
 
@@ -546,7 +546,7 @@ Description: Converts values of the string type into the timestamp of the specif
 
 Return type: timestamp
 
-Examples:
+Example:
 
 ::
 
@@ -556,7 +556,7 @@ Examples:
     2000-12-05 00:00:00
    (1 row)
 
-The following table describes the value formats of the **to_number** function.
+:ref:`Table 1 <en-us_topic_0000001764675186__t351061e37e45427ead6ddec4cd1ad376>` shows the template patterns that can be used to format numeric value for the function **to_number**.
 
 .. _en-us_topic_0000001764675186__t351061e37e45427ead6ddec4cd1ad376:
 

@@ -21,7 +21,7 @@ A dictionary is a program that receives a token as input and returns:
 
 -  **NULL** if the dictionary does not recognize the token.
 
-GaussDB(DWS) provides predefined dictionaries for many languages and also provides five predefined dictionary templates, **Simple**, **Synonym**, **Thesaurus**, **Ispell**, and **Snowball**. These templates can be used to create new dictionaries with custom parameters.
+DWS provides predefined dictionaries for many languages and also provides five predefined dictionary templates, **Simple**, **Synonym**, **Thesaurus**, **Ispell**, and **Snowball**. These templates can be used to create new dictionaries with custom parameters.
 
 When using full-text retrieval, you are advised to:
 

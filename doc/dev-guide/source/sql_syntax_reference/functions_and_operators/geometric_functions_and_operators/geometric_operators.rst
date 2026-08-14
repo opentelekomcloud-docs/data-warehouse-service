@@ -88,7 +88,7 @@ Example:
 ``#``
 -----
 
-Description: Number of paths or polygon vertexs
+Description: Number of paths in the graph or number of vertices in the polygon.
 
 Example:
 

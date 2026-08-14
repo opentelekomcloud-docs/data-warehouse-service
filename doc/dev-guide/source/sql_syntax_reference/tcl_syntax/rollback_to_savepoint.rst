@@ -29,18 +29,34 @@ Syntax
 Parameter Description
 ---------------------
 
-savepoint_name
+**savepoint_name**
 
-Rolls back to a savepoint.
+Rolls back the name of the specified savepoint.
 
 Examples
 --------
 
-Undo the effects of the commands executed after my_savepoint was established.
+Undo the effects of commands executed after creating **my_savepoint** (such as the command inserting data 2 below):
 
 ::
 
-   ROLLBACK TO SAVEPOINT my_savepoint;
+   DROP SCHEMA IF EXISTS tpcds CASCADE;
+   CREATE SCHEMA tpcds;
+   CREATE TABLE tpcds.table1 (
+       id integer
+   );
+
+   BEGIN;  -- Start a transaction.
+       INSERT INTO tpcds.table1 VALUES (1);  -- Insert data 1.
+       SAVEPOINT my_savepoint;              -- Create a savepoint.
+       INSERT INTO tpcds.table1 VALUES (2);  -- Insert data 2.
+       ROLLBACK TO SAVEPOINT my_savepoint;   -- Roll back to the savepoint (delete data 2).
+       INSERT INTO tpcds.table1 VALUES (3);  -- Continue inserting data 3.
+   COMMIT;  -- Commit the transaction.
+
+   SELECT * FROM tpcds.table1;  -- Verify the data. The command inserting data 2 has been undone.
+
+|image1|
 
 Cursor positions are not affected by savepoint rollback:
 
@@ -50,17 +66,25 @@ Cursor positions are not affected by savepoint rollback:
    DECLARE foo CURSOR FOR SELECT 1 UNION SELECT 2;
    SAVEPOINT foo;
    FETCH 1 FROM foo;
-    ?column?
-   ----------
-           1
+
+|image2|
+
+::
+
    ROLLBACK TO SAVEPOINT foo;
    FETCH 1 FROM foo;
-    ?column?
-   ----------
-           2
+
+|image3|
+
+::
+
    COMMIT;
 
 Helpful Links
 -------------
 
 :ref:`SAVEPOINT <dws_06_0263>`, :ref:`RELEASE SAVEPOINT <dws_06_0267>`
+
+.. |image1| image:: /_static/images/en-us_image_0000002587595598.png
+.. |image2| image:: /_static/images/en-us_image_0000002587446474.png
+.. |image3| image:: /_static/images/en-us_image_0000002587606436.png

@@ -5,7 +5,7 @@
 RoaringBitmap
 =============
 
-In GaussDB(DWS) 8.1.3 and later, you can use the RoaringBitmap data type to store bitmap datasets.
+In DWS 8.1.3 and later, you can use the RoaringBitmap data type to store bitmap datasets.
 
 The RoaringBitmap data type supports row-store and column-store tables.
 

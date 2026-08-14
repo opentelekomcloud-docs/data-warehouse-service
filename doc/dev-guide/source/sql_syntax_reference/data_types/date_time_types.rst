@@ -5,11 +5,11 @@
 Date/Time Types
 ===============
 
-:ref:`Table 1 <en-us_topic_0000001811634725__te36aedd5ecb747abb055a0d329a83c75>` lists date and time types supported by GaussDB(DWS). For the operators and built-in functions of the types, see :ref:`Date and Time Processing Functions and Operators <dws_06_0035>`.
+:ref:`Table 1 <en-us_topic_0000001811634725__te36aedd5ecb747abb055a0d329a83c75>` lists date and time types supported by DWS. For the operators and built-in functions of the types, see :ref:`Time and Date Functions and Operators <dws_06_0035>`.
 
 .. note::
 
-   If the time format of another database is different from that of GaussDB(DWS), modify the value of the DateStyle parameter to keep them consistent.
+   If the time format of another database is different from that described in DWS, modify the value of the **DateStyle** parameter to keep them consistent.
 
 .. _en-us_topic_0000001811634725__te36aedd5ecb747abb055a0d329a83c75:
 
@@ -24,19 +24,19 @@ Date/Time Types
    +------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------+
    | TIME [(p)] [WITHOUT TIME ZONE]     | Specifies time within one day.                                                                                                                                                                                                                                                                                                                                              | 8 bytes                                            |
    |                                    |                                                                                                                                                                                                                                                                                                                                                                             |                                                    |
-   |                                    | **p** indicates the precision after the decimal point. The value ranges from 0 to 6.                                                                                                                                                                                                                                                                                        |                                                    |
+   |                                    | **p** indicates the precision after the decimal point. The value ranges from 0 to 6. The default precision is 6, meaning accurate to the microsecond.                                                                                                                                                                                                                       |                                                    |
    +------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------+
    | TIME [(p)] [WITH TIME ZONE]        | Specifies time within one day (with time zone).                                                                                                                                                                                                                                                                                                                             | 12 bytes                                           |
    |                                    |                                                                                                                                                                                                                                                                                                                                                                             |                                                    |
-   |                                    | **p** indicates the precision after the decimal point. The value ranges from 0 to 6.                                                                                                                                                                                                                                                                                        |                                                    |
+   |                                    | **p** indicates the precision after the decimal point. The value ranges from 0 to 6. The default precision is 6, meaning accurate to the microsecond.                                                                                                                                                                                                                       |                                                    |
    +------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------+
    | TIMESTAMP[(p)] [WITHOUT TIME ZONE] | Specifies the date and time.                                                                                                                                                                                                                                                                                                                                                | 8 bytes                                            |
    |                                    |                                                                                                                                                                                                                                                                                                                                                                             |                                                    |
-   |                                    | **p** indicates the precision after the decimal point. The value ranges from 0 to 6.                                                                                                                                                                                                                                                                                        |                                                    |
+   |                                    | **p** indicates the precision after the decimal point. The value ranges from 0 to 6. The default precision is 6, meaning accurate to the microsecond.                                                                                                                                                                                                                       |                                                    |
    +------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------+
    | TIMESTAMP[(p)][WITH TIME ZONE]     | Specifies the date and time (with time zone). TIMESTAMP is also called TIMESTAMPTZ.                                                                                                                                                                                                                                                                                         | 8 bytes                                            |
    |                                    |                                                                                                                                                                                                                                                                                                                                                                             |                                                    |
-   |                                    | **p** indicates the precision after the decimal point. The value ranges from 0 to 6.                                                                                                                                                                                                                                                                                        |                                                    |
+   |                                    | **p** indicates the precision after the decimal point. The value ranges from 0 to 6. The default precision is 6, meaning accurate to the microsecond.                                                                                                                                                                                                                       |                                                    |
    +------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------+
    | SMALLDATETIME                      | Specifies the date and time (without time zone).                                                                                                                                                                                                                                                                                                                            | 8 bytes                                            |
    |                                    |                                                                                                                                                                                                                                                                                                                                                                             |                                                    |
@@ -64,7 +64,7 @@ Date/Time Types
    |                                    | -  The Julian calendar is used. It specifies that a year has 365.25 days and a month has 30 days. The relative time interval needs to be calculated based on the input value. The output format is POSTGRES.                                                                                                                                                                |                                                    |
    +------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------+
 
-For example:
+Example:
 
 ::
 
@@ -185,7 +185,7 @@ The **p** that can be selected in the precision statement is an integer, indicat
    | January 8, 99 BC                  | Year 99 BC                                                 |
    +-----------------------------------+------------------------------------------------------------+
 
-For example:
+Example:
 
 ::
 
@@ -269,7 +269,7 @@ For details about the time input types, see :ref:`Table 3 <en-us_topic_000000181
    -8      ISO-8601 offset for PST
    ======= ========================================
 
-For example:
+Example:
 
 ::
 
@@ -294,7 +294,7 @@ For example:
 Special Values
 --------------
 
-The special values supported by GaussDB(DWS) are converted to common date/time values when being read. For details, see :ref:`Table 5 <en-us_topic_0000001811634725__t5e86ad23ea5649969935ea26bf746e0f>`.
+The special values supported by DWS are converted to common date/time values when being read. For details, see :ref:`Table 5 <en-us_topic_0000001811634725__t5e86ad23ea5649969935ea26bf746e0f>`.
 
 .. _en-us_topic_0000001811634725__t5e86ad23ea5649969935ea26bf746e0f:
 
@@ -351,7 +351,7 @@ For details, see :ref:`Table 6 <en-us_topic_0000001811634725__table1747116463276
    | -12H                           | -12:00:00                           |                                                                                                                                                                                         |
    +--------------------------------+-------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-For example:
+Example:
 
 ::
 

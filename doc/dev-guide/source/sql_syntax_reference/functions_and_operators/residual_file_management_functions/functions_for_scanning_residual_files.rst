@@ -13,7 +13,7 @@ pg_scan_residualfiles()
 Description: This function scans all residual file records in the database connected to the current node. It is an instance-level function and is related to the current database, and it can run on any instance.
 
 -  When it is executed on a CN, it scans the database of the CN and OBS for residual files.
--  When it is executed on a CN, it scans the database of the DN for residual files.
+-  When it is executed on a DN, it scans the database of the DN for residual files.
 
 Return type: record
 
@@ -47,7 +47,7 @@ Example:
    -  Only hot partitions in cold-hot-partition-separated tables are supported. Cold partitions are not supported.
    -  Do not use this function during the upgrade observation period.
    -  Residual files in the deleted database cannot be scanned.
-   -  Inconsistent cluster metadata information can cause this function incorrectly scan valid data files.
+   -  Inconsistent cluster metadata information can cause this function to incorrectly scan valid data files.
 
 pgxc_scan_residualfiles(query_flag)
 -----------------------------------

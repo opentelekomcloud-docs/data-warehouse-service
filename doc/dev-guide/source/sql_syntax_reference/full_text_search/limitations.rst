@@ -5,7 +5,7 @@
 Limitations
 ===========
 
-The current limitations of GaussDB(DWS)'s full text search are:
+The current limitations of DWS's full text search are:
 
 -  The length of each lexeme must be less than 2 KB.
 -  The length of a **tsvector** (lexemes + positions) must be less than 1 megabyte.

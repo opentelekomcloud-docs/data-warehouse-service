@@ -5,10 +5,12 @@
 Range Functions
 ===============
 
+Range functions are used to define the upper and lower bounds of a range and determine whether a value is within the range.
+
 lower(anyrange)
 ---------------
 
-Description: Lower bound of range
+Description: Obtains the lower bound of a range. The function returns **null** if the range is empty or the lower bound is infinite.
 
 Return type: Range's element type
 
@@ -25,7 +27,7 @@ Example:
 upper(anyrange)
 ---------------
 
-Description: Upper bound of range
+Description: Obtains the upper bound of a range. The function returns **null** if the range is empty or the upper bound is infinite.
 
 Return type: Range's element type
 
@@ -42,9 +44,9 @@ Example:
 isempty(anyrange)
 -----------------
 
-Description: Is the range empty?
+Description: Determines whether a range is empty.
 
-Return type: boolean
+Return type: Boolean
 
 Example:
 
@@ -61,9 +63,9 @@ Example:
 lower_inc(anyrange)
 -------------------
 
-Description: Is the lower bound inclusive?
+Description: Determines whether the lower bound of a range is included.
 
-Return type: boolean
+Return type: Boolean
 
 Example:
 
@@ -75,14 +77,18 @@ Example:
     t
    (1 row)
 
+.. _en-us_topic_0000001811515649__en-us_topic_0000001495702129_section1084113120348:
+
 upper_inc(anyrange)
 -------------------
 
-Description: Is the upper bound inclusive?
+Description: Determines whether the upper bound of a range is included.
 
-Return type: boolean
+Return type: Boolean
 
 Example:
+
+**numrange(1.1, 2.2)** uses the [1.1, 2.2) format by default. The upper bound (2.2) is not included by default. Therefore, **false** is returned.
 
 ::
 
@@ -97,9 +103,9 @@ Example:
 lower_inf(anyrange)
 -------------------
 
-Description: Is the lower bound infinite?
+Description: Determines whether the lower bound of a range is infinite.
 
-Return type: boolean
+Return type: Boolean
 
 Example:
 
@@ -116,9 +122,9 @@ Example:
 upper_inf(anyrange)
 -------------------
 
-Description: Is the upper bound infinite?
+Description: Determines whether the upper bound of a range is infinite.
 
-Return type: boolean
+Return type: Boolean
 
 Example:
 
@@ -132,4 +138,4 @@ Example:
 
 .. note::
 
-   The **lower** and **upper** functions return null if the range is empty or the requested bound is infinite. The **lower_inc**, **upper_inc**, **lower_inf**, and **upper_inf** functions all return false for an empty range.
+   The **lower_inc**, **upper_inc**, **lower_inf**, and **upper_inf** functions all return false for an empty range.

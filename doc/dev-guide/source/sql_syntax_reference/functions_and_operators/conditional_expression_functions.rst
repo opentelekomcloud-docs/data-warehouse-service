@@ -172,7 +172,7 @@ sys_context( 'namespace' , 'parameter')
 
 Description: Obtains and returns the parameter values of a specified **namespace**.
 
-Return type: VARCHAR
+Return type: text
 
 Examples:
 

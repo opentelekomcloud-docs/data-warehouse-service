@@ -22,10 +22,10 @@ These use cases have the following characteristics in common:
 -  High performance is required because real-time marketing requires response in seconds.
 -  Data update has high requirements on timeliness, and user profiles need to be updated in real time.
 
-Roaring bitmaps in GaussDB(DWS) can efficiently generate, compress, and parse bitmap data, and supports the most common bitmap aggregation operations (AND, OR, NOT, and XOR). This feature meets the requirements of real-time precision marketing and quick user selection in the case of a large amount of data with hundreds of millions of users and tens of millions of labels.
+Roaring bitmaps in DWS can efficiently generate, compress, and parse bitmap data, and supports the most common bitmap aggregation operations (AND, OR, NOT, and XOR). This feature meets the requirements of real-time precision marketing and quick user selection in the case of a large amount of data with hundreds of millions of users and tens of millions of labels.
 
-**Example of Using roaringbitmap**
-----------------------------------
+Using roaringbitmap
+-------------------
 
 Assume that there is a web page browsing information table **userinfo**. The fields in the table are as follows:
 

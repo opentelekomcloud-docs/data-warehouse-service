@@ -28,13 +28,15 @@ Syntax
 Parameter Description
 ---------------------
 
--  **lang_name**
+.. table:: **Table 1** DO parameters
 
-   Parses the programming language used by the code. If not specified, the default value **plpgsql** is used.
-
--  **code**
-
-   Specifies executable programming language code. The language is specified as a string.
+   +-----------+------------------------------------------------------+-------------------------------------------------------------------------------------------+
+   | Parameter | Description                                          | Value Range                                                                               |
+   +===========+======================================================+===========================================================================================+
+   | lang_name | Name of the programming language used to parse code. | Program language that complies with the specifications. The default language is PL/pgSQL. |
+   +-----------+------------------------------------------------------+-------------------------------------------------------------------------------------------+
+   | code      | Programming language code that can be executed.      | A string.                                                                                 |
+   +-----------+------------------------------------------------------+-------------------------------------------------------------------------------------------+
 
 Examples
 --------
@@ -45,7 +47,7 @@ Grant user **webuser** all the operation permissions on views in the **tpcds** s
 
    DO $$DECLARE r record;
    BEGIN
-       FOR r IN SELECT c.relname,n.nspname FROM pg_class c,pg_namespace n
+       FOR r IN SELECT c.relname  AS table_name ,n.nspname AS table_schema FROM pg_class c,pg_namespace n
                 WHERE c.relnamespace = n.oid AND n.nspname = 'tpcds' AND relkind IN ('r','v')
        LOOP
            EXECUTE 'GRANT ALL ON ' || quote_ident(r.table_schema) || '.' || quote_ident(r.table_name) || ' TO webuser';

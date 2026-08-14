@@ -5,7 +5,7 @@
 Object Identifier Types
 =======================
 
-Object identifiers (OIDs) are used internally by GaussDB(DWS) as primary keys for various system catalogs. OIDs are not added to user-created tables by the system. The **OID** type represents an object identifier.
+Object identifiers (OIDs) are used internally by DWS as primary keys for various system catalogs. OIDs are not added to user-created tables by the system. The **OID** type represents an object identifier.
 
 The **OID** type is currently implemented as an unsigned four-byte integer. So, using a user-created table's **OID** column as a primary key is discouraged.
 
@@ -30,7 +30,7 @@ The **OID** type is currently implemented as an unsigned four-byte integer. So, 
    +---------------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------+
    | REGOPERATOR   | pg_operator  | Operator with argument types                                                                                                                                                                          | \*(integer,integer) or -(NONE,integer) |
    +---------------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------+
-   | REGPROC       | pg_proc      | Indicates the name of the function.                                                                                                                                                                   | sum                                    |
+   | REGPROC       | pg_proc      | Function name                                                                                                                                                                                         | sum                                    |
    +---------------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------+
    | REGPROCEDURE  | pg_proc      | Function with argument types                                                                                                                                                                          | sum(int4)                              |
    +---------------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------+
@@ -41,7 +41,7 @@ The **OID** type is currently implemented as an unsigned four-byte integer. So, 
 
 The **OID** type is used for a column in the database system catalog.
 
-For example:
+Example:
 
 ::
 
@@ -53,7 +53,7 @@ For example:
 
 The alias type for **OID** is **REGCLASS** which allows simplified search for **OID** values.
 
-For example:
+Example:
 
 ::
 

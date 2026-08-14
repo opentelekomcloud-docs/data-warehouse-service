@@ -29,13 +29,15 @@ Syntax
 Parameter Description
 ---------------------
 
--  **old_role**
+.. table:: **Table 1** REASSIGN OWNED parameters
 
-   Specifies the role name of the old owner.
-
--  **new_role**
-
-   Specifies the role name of the new owner.
+   +-----------+---------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Parameter | Description                                             | Value Range                                                                                                                                                            |
+   +===========+=========================================================+========================================================================================================================================================================+
+   | old_role  | Role name of the old owner.                             | A string of no more than 63 characters. Enter a string starting with a letter or underscore (_) and containing letters, digits, underscores (_), and dollar signs ($). |
+   +-----------+---------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | new_role  | Name of the new role that will become the object owner. | A string of no more than 63 characters. Enter a string starting with a letter or underscore (_) and containing letters, digits, underscores (_), and dollar signs ($). |
+   +-----------+---------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 Examples
 --------

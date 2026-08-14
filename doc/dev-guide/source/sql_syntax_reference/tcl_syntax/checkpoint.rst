@@ -10,7 +10,7 @@ Function
 
 A checkpoint is a point in the transaction log sequence at which all data files have been updated to reflect the information in the log. All data files will be flushed to a disk.
 
-**CHECKPOINT** forces a transaction log checkpoint. By default, WALs periodically specify checkpoints in a transaction log. You may use **gs_guc** to specify run-time parameters **checkpoint_segments** and **checkpoint_timeout** to adjust the atomized checkpoint intervals.
+**CHECKPOINT** forces a transaction log checkpoint. By default, WALs periodically specify checkpoints in a transaction log. You can specify parameters **checkpoint_segments** and **checkpoint_timeout** to adjust the atomized checkpoint intervals.
 
 Precautions
 -----------
