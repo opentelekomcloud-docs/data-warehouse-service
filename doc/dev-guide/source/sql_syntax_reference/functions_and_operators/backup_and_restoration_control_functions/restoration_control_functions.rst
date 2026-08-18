@@ -27,7 +27,7 @@ Example:
 pg_last_xlog_receive_location()
 -------------------------------
 
-Description: This function gets the last transaction log location received and synchronized to disk by streaming replication. While streaming replication is in progress, this will increase monotonically. If restoration has completed, then this value will remain static at the value of the last WAL record received and synchronized to disk during restoration. If streaming replication is disabled or if not yet started, the function return will return **NULL**.
+Description: This function gets the last transaction log location received and synchronized to disk by streaming replication. While streaming replication is in progress, this will increase monotonically. If restoration has completed, then this value will remain static at the value of the last WAL record received and synchronized to disk during restoration. If streaming replication is disabled or has not been started, the function return will return **NULL**.
 
 Return type: text
 
@@ -172,14 +172,14 @@ Return type: text
 gs_roach_enable_delay_ddl_recycle(backupid name)
 ------------------------------------------------
 
-Description: Enables DDL delay and returns the log position of the enabling point. This function is similar to **pg_enable_delay_ddl_recycle**, but is more lightweight. In addition, this function allows you to enable DDL delay for multiple backups.
+Description: Enables DDL delay and returns the log position of the enabling point. This function is similar to **pg_enable_delay_ddl_recycle**, but is more lightweight. In addition, different **backupid** values can be used to concurrently enable DDL statements with delay.
 
 Return type: text
 
 gs_roach_disable_delay_ddl_recycle(backupid text)
 -------------------------------------------------
 
-Description: Disables DDL delay, returns the logs for which DDL delay takes effect, and deletes the physical files of the column-store tables that have been deleted by the user. This function is similar to **pg_enable_delay_ddl_recycle**, but is more lightweight. In addition, this function allows you to disable DDL delay for multiple backups.
+Description: Disables DDL delay, returns the logs for which DDL delay takes effect, and deletes the physical files of the column-store tables that have been deleted by the user. This function is similar to **pg_enable_delay_ddl_recycle**, but is more lightweight. In addition, different **backupid** values can be used to concurrently disable DDL statements with delay.
 
 Return type: record
 

@@ -7,7 +7,7 @@ Series Generating Functions
 
 **generate_series()** returns a series-based set based on the specified start value (**start**), end value (**stop**), and step (**step**).
 
-If **step** is a positive number and **start** is greater than **stop**, zero row is returned. If **step** is a negative number and **start** is less than **stop**, zero row is returned. If any input is NULL, zero rows are returned. If the value of **step** is **0**, an error is reported.
+If **step** is a positive number and **start** is greater than **stop**, zero row is returned. If **step** is a negative number and **start** is less than **stop**, zero rows are returned. If any input is NULL, zero rows are returned. If the value of **step** is **0**, an error is reported.
 
 generate_series(start, stop)
 ----------------------------

@@ -5,7 +5,14 @@
 Transaction Management
 ======================
 
-GaussDB(DWS) supports the ACID properties of database transactions. It provides the **READ COMMITTED** and **REPEATABLE READ** isolation levels of transactions.
+DWS supports the ACID properties of database transactions. It provides the **READ COMMITTED** and **REPEATABLE READ** isolation levels of transactions.
+
+.. warning::
+
+   -  In scenarios where the client explicitly starts a transaction or manually disables "autocommit", you must manually execute a commit command to commit the transaction.
+   -  You are advised to optimize the statements that take longer than 30 minutes to execute.
+   -  Avoid business operations that take longer than 2 hours to execute to prevent issues such as long transactions and long locks.
+   -  For more information about development design proposal, see "DWS Development Design Proposal" in the *Data Warehouse Service Developer Guide*.
 
 Concepts
 --------
@@ -34,7 +41,7 @@ A transaction has atomicity, consistency, isolation, and durability (ACID) prope
 
 -  Atomicity: All the operations in a transaction are inseparable. They are either fully completed or not executed at all.
 
-   For example, if account A transfers an amount of money to account B, $500 are deducted from account A and $500 added to account B. If the amount fails to be added to account B, it cannot be deducted from account A. If atomicity is not guaranteed, the account balances will be consistent.
+   For example, if account A transfers an amount of money to account B, $500 are deducted from account A and $500 added to account B. If the amount fails to be added to account B, it cannot be deducted from account A. If atomicity is not guaranteed, the account balances will be inconsistent.
 
 -  Consistency: A transaction can only bring the database from one valid state to another, maintaining database invariants. Any data written to the database must be valid according to all defined rules, including data accuracy, concatenation, and spontaneous execution of scheduled tasks.
 
@@ -60,34 +67,38 @@ A transaction has atomicity, consistency, isolation, and durability (ACID) prope
    | Durability  | Fault recovery                                                      |
    +-------------+---------------------------------------------------------------------+
 
-Common concurrency control technologies include lock-based and timestamp-based concurrency control. GaussDB(DWS) uses the two-phase lock technology for DDL statements and uses multi-version concurrency control (MVCC) for DML statements. GaussDB(DWS) databases fault recovery is based on WAL logs. MVCC mainly uses redo logs to ensure transaction read/write consistency.
+Common concurrency control technologies include lock-based and timestamp-based concurrency control. DWS uses the two-phase lock technology for DDL statements and uses multi-version concurrency control (MVCC) for DML statements. DWS databases fault recovery is based on WAL logs. MVCC mainly uses redo logs to ensure transaction read/write consistency.
+
+Redo logs are critical components in database systems that ensure data durability and enable fault recovery. These logs record the modification operations—not the data before or after—performed by transactions. In the event of a failure, such as a system breakdown or crash, the database can replay these operations to restore data to a consistent state before the fault occurred.
+
+**Redo log recovery process**: After a crash and subsequent restart, the database performs recovery using the redo log, which is known as Write-Ahead Log (WAL). It scans log entries from the last checkpoint—representing committed transactions that were not yet written to disk—and re-executes these operations to restore lost in-memory changes. Simultaneously, uncommitted transactions are rolled back using undo operations to reverse partial modifications. This ensures data is restored to a consistent and complete state, preserving durability of committed transactions and atomicity of incomplete ones. This mechanism is the core basis for databases to enable high reliability.
 
 Isolation Levels
 ----------------
 
 Isolation prevents data inconsistency during the execution of concurrent transactions. A transaction isolation level specifies how concurrent transactions process the same object.
 
-In GaussDB(DWS), transaction isolation levels are controlled by the GUC parameter **transaction_isolation** or the :ref:`SET TRANSACTION <dws_06_0264>` syntax. The following isolation levels are supported. The default isolation level is **READ COMMITTED**.
+In DWS, transaction isolation levels are controlled by the GUC parameter **transaction_isolation** or the :ref:`SET TRANSACTION <dws_06_0264>` syntax. The following isolation levels are supported. The default isolation level is **READ COMMITTED**.
 
 -  **READ COMMITTED**: Only committed data is read.
--  **READ UNCOMMITTED**: GaussDB(DWS) does not support **READ UNCOMMITTED**. If **READ UNCOMMITTED** is set, **READ COMMITTED** is used instead.
+-  **READ UNCOMMITTED**: DWS does not support **READ UNCOMMITTED**. If **READ UNCOMMITTED** is set, **READ COMMITTED** is used instead.
 -  **REPEATABLE READ**: Only the data committed before transaction start is read. Uncommitted data or data committed in other concurrent transactions cannot be read.
--  **SERIALIZABLE**: GaussDB(DWS) does not support **SERIALIZABLE**. If **SERIALIZABLE** is set, **REPEATABLE READ** is used instead.
+-  **SERIALIZABLE**: DWS does not support **SERIALIZABLE**. If **SERIALIZABLE** is set, **REPEATABLE READ** is used instead.
 
 Transaction Control Syntax
 --------------------------
 
 -  Starting a transaction
 
-   GaussDB(DWS) starts a transaction using **START TRANSACTION** and **BEGIN**. For details, see :ref:`START TRANSACTION <dws_06_0265>` and :ref:`BEGIN <dws_06_0257>`.
+   DWS starts a transaction using **START TRANSACTION** and **BEGIN**. For details, see :ref:`START TRANSACTION <dws_06_0265>` and :ref:`BEGIN <dws_06_0257>`.
 
 -  Setting a transaction
 
-   GaussDB(DWS) sets a transaction using **SET TRANSACTION** or **SET LOCAL TRANSACTION**. For details, see :ref:`SET TRANSACTION <dws_06_0264>`.
+   DWS sets a transaction using **SET TRANSACTION** or **SET LOCAL TRANSACTION**. For details, see :ref:`SET TRANSACTION <dws_06_0264>`.
 
 -  Committing a transaction
 
-   GaussDB(DWS) commits all operations of a transaction using **COMMIT** or **END**. For details, see :ref:`COMMIT | END <dws_06_0259>`.
+   DWS commits all operations of a transaction using **COMMIT** or **END**. For details, see :ref:`COMMIT | END <dws_06_0259>`.
 
 -  Rolling back a transaction
 
@@ -115,8 +126,8 @@ A customer buys a $100 item in a store using an e-payment account. At least two 
    ::
 
       CREATE TABLE customer_info (
-          NAME VARCHAR(32) PRIMARY KEY,
-          MONEY INTEGER
+       NAME VARCHAR(32) PRIMARY KEY,
+       MONEY INTEGER
       );
       INSERT INTO customer_info (name, money) VALUES ('buyer', 500), ('shop', 500);
 
@@ -217,7 +228,7 @@ Without ACID properties, the account balances will be incorrect once an error oc
 Two-Phase Transaction
 ---------------------
 
-GaussDB(DWS) uses the distributed shared nothing architecture. Table data is distributed on different nodes. One or more statements on the client may modify data on multiple nodes at the same time. In this case, a distributed transaction is generated. GaussDB(DWS) uses two-phase commit transactions to ensure data consistency and atomicity in distributed transactions. Two-phase commit divides transaction commit into two phases, usually for transactions that contain write operations. When data is written to different nodes, the atomicity requirement of the transaction must be met, that is, either all data is committed or all data is rolled back.
+DWS uses the distributed shared nothing architecture. Table data is distributed on different nodes. One or more statements on the client may modify data on multiple nodes at the same time. In this case, a distributed transaction is generated. DWS uses two-phase commit transactions to ensure data consistency and atomicity in distributed transactions. Two-phase commit divides transaction commit into two phases, usually for transactions that contain write operations. When data is written to different nodes, the atomicity requirement of the transaction must be met, that is, either all data is committed or all data is rolled back.
 
 Two-phase commit is not supported in the following scenarios:
 

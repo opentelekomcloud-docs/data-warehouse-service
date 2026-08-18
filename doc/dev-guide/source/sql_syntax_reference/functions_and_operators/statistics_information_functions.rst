@@ -268,49 +268,49 @@ Return type: record
 
 The following table describes return columns.
 
-+-------------------+--------------------------+--------------------------------------------+
-| Column            | Type                     | Description                                |
-+===================+==========================+============================================+
-| nodename          | text                     | Node name                                  |
-+-------------------+--------------------------+--------------------------------------------+
-| tableid           | oid                      | Table OID                                  |
-+-------------------+--------------------------+--------------------------------------------+
-| partid            | oid                      | Partition OID of the partitioned table     |
-+-------------------+--------------------------+--------------------------------------------+
-| last_vacuum       | timestamp with time zone | Time of the last manual **VACUUM**         |
-+-------------------+--------------------------+--------------------------------------------+
-| last_autovacuum   | timestamp with time zone | Time of the last **AUTOVACUUM**            |
-+-------------------+--------------------------+--------------------------------------------+
-| last_analyze      | timestamp with time zone | Time of the last manual **ANALYZE**        |
-+-------------------+--------------------------+--------------------------------------------+
-| last_autoanalyze  | timestamp with time zone | Time of the last **AUTOANALYZE**           |
-+-------------------+--------------------------+--------------------------------------------+
-| vacuum_count      | bigint                   | Number of **VACUUM** operations            |
-+-------------------+--------------------------+--------------------------------------------+
-| autovacuum_count  | bigint                   | Number of **AUTOVACUUM** operations        |
-+-------------------+--------------------------+--------------------------------------------+
-| analyze_count     | bigint                   | Number of **ANALYZE** operations           |
-+-------------------+--------------------------+--------------------------------------------+
-| autoanalyze_count | bigint                   | Number of **AUTOANALYZE_COUNT** operations |
-+-------------------+--------------------------+--------------------------------------------+
-| n_tup_ins         | bigint                   | Number of rows inserted                    |
-+-------------------+--------------------------+--------------------------------------------+
-| n_tup_upd         | bigint                   | Number of rows updated                     |
-+-------------------+--------------------------+--------------------------------------------+
-| n_tup_del         | bigint                   | Number of rows deleted                     |
-+-------------------+--------------------------+--------------------------------------------+
-| n_tup_hot_upd     | bigint                   | Number of rows with HOT updates            |
-+-------------------+--------------------------+--------------------------------------------+
-| n_tup_change      | bigint                   | Number of changed rows after **ANALYZE**   |
-+-------------------+--------------------------+--------------------------------------------+
-| n_live_tup        | bigint                   | Estimated number of live rows              |
-+-------------------+--------------------------+--------------------------------------------+
-| n_dead_tup        | bigint                   | Estimated number of dead rows              |
-+-------------------+--------------------------+--------------------------------------------+
-| dirty_rate        | bigint                   | Dirty page rate of a single CN or DN       |
-+-------------------+--------------------------+--------------------------------------------+
-| last_data_changed | timestamp with time zone | Time when a table was last modified        |
-+-------------------+--------------------------+--------------------------------------------+
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Column            | Type                     | Description                                                                                                                                                                                                                                |
++===================+==========================+============================================================================================================================================================================================================================================+
+| nodename          | text                     | Node name                                                                                                                                                                                                                                  |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| tableid           | oid                      | Table OID                                                                                                                                                                                                                                  |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| partid            | oid                      | Partition OID of the partitioned table                                                                                                                                                                                                     |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| last_vacuum       | timestamp with time zone | Time of the last manual **VACUUM**                                                                                                                                                                                                         |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| last_autovacuum   | timestamp with time zone | Time of the last **AUTOVACUUM**                                                                                                                                                                                                            |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| last_analyze      | timestamp with time zone | Time of the last manual **ANALYZE**                                                                                                                                                                                                        |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| last_autoanalyze  | timestamp with time zone | Time of the last **AUTOANALYZE**                                                                                                                                                                                                           |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| vacuum_count      | bigint                   | Number of **VACUUM** operations                                                                                                                                                                                                            |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| autovacuum_count  | bigint                   | Number of **AUTOVACUUM** operations                                                                                                                                                                                                        |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| analyze_count     | bigint                   | Number of **ANALYZE** operations                                                                                                                                                                                                           |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| autoanalyze_count | bigint                   | Number of times of automatically performing the **ANALYZE** operation                                                                                                                                                                      |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| n_tup_ins         | bigint                   | Number of rows inserted                                                                                                                                                                                                                    |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| n_tup_upd         | bigint                   | Number of rows updated                                                                                                                                                                                                                     |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| n_tup_del         | bigint                   | Number of rows deleted                                                                                                                                                                                                                     |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| n_tup_hot_upd     | bigint                   | Number of rows with HOT updates                                                                                                                                                                                                            |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| n_tup_change      | bigint                   | Number of changed rows after **ANALYZE**                                                                                                                                                                                                   |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| n_live_tup        | bigint                   | Estimated number of live rows                                                                                                                                                                                                              |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| n_dead_tup        | bigint                   | Estimated number of dead rows                                                                                                                                                                                                              |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| dirty_rate        | bigint                   | Dirty page rate of a single CN or DN                                                                                                                                                                                                       |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| last_data_changed | timestamp with time zone | Time when a table was last modified. This column is left empty in 8.2.0 and later versions. You are advised to query the value using :ref:`pg_stat_get_last_data_changed_time(oid) <en-us_topic_0000001811634641__section15788135361010>`. |
++-------------------+--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 pg_stat_get_tuples_returned(oid)
 --------------------------------
@@ -389,14 +389,14 @@ Return type: bigint
 pg_stat_get_tuples_hot_updated(oid)
 -----------------------------------
 
-Description: Number of rows HOT-updated in table
+Description: Number of rows hot updated in a table.
 
 Return type: bigint
 
 pg_stat_get_local_tuples_hot_updated(oid)
 -----------------------------------------
 
-Description: Number of rows with HOT updates in the table on the current node. This function is supported only in 8.1.2 or later.
+Description: Number of rows hot updated in the table on the current node. This function is supported only in clusters of version 8.1.2 or later.
 
 Return type: bigint
 
@@ -410,7 +410,7 @@ Return type: bigint
 pg_stat_get_local_live_tuples(oid)
 ----------------------------------
 
-Description: Number of live tuples in the table on the current node. This function is supported only in 8.1.2 or later.
+Description: Number of live tuples in the table on the current node. This function is supported only in clusters of version 8.1.2 or later.
 
 Return type: bigint
 
@@ -424,7 +424,7 @@ Return type: bigint
 pg_stat_get_local_dead_tuples(oid)
 ----------------------------------
 
-Description: Number of dead tuples in the table on the current node. This function is supported only in 8.1.2 or later.
+Description: Number of dead tuples in the table on the current node. This function is supported only in clusters of version 8.1.2 or later.
 
 Return type: bigint
 
@@ -473,21 +473,21 @@ Return type: bigint
 pg_stat_get_partition_live_tuples(oid)
 --------------------------------------
 
-Description: Number of live rows in a table partition
+Description: Number of live rows in a table partition.
 
 Return type: bigint
 
 pg_stat_get_partition_dead_tuples(oid)
 --------------------------------------
 
-Description: Number of dead rows in a table partition
+Description: Number of dead rows in a table partition.
 
 Return type: bigint
 
 pg_stat_get_xact_tuples_inserted(oid)
 -------------------------------------
 
-Description: Number of tuple inserted into the active subtransactions related to the table.
+Description: Number of tuples inserted into the active subtransactions related to the table.
 
 Return type: bigint
 
@@ -648,6 +648,27 @@ Description: Returns memory table- and column- level statistics generated by lig
 
 Return type: SETOF record
 
+pg_stat_get_runtime_partstats(oid)
+----------------------------------
+
+Description: Returns memory partition level statistics generated by lightweight autoanalyze. Only 8.2.1.200 and later cluster versions support this function.
+
+Return type: SETOF record
+
+pg_stat_get_runtime_part_attstats(oid)
+--------------------------------------
+
+Description: Returns memory partition-column level statistics generated by lightweight autoanalyze. Only 8.2.1.200 and later cluster versions support this function.
+
+Return type: SETOF record
+
+pg_stat_get_runtime_exprstats(oid)
+----------------------------------
+
+Description: Returns memory expression statistics generated by lightweight autoanalyze. Only 8.2.1.200 and later cluster versions support this function.
+
+Return type: SETOF record
+
 pg_stat_get_predicate_columns(oid)
 ----------------------------------
 
@@ -693,7 +714,7 @@ Return type: text
 pg_stat_get_all(regclass)
 -------------------------
 
-Description: This function retrieves a tuple record from the **pg_stat_object** table on the current CN. The record includes 29 columns, ranging from **databaseid** to **autovac_vacuum_count**. The input parameter is the table OID. This parameter is supported by 8.3.0 and later cluster versions.
+Description: Returns the tuple record of the table in **pg_stat_object** on the current CN. The input parameter is the table OID. Only 8.2.1.210 and later cluster versions support this function.
 
 Return type: SETOF record
 
@@ -710,7 +731,7 @@ Example: Query the last access time of the **t1** table in the public schema on 
 pgxc_stat_get_all(relnamespace text, relname text)
 --------------------------------------------------
 
-Description: This function retrieves tuple records from the **pg_stat_object** table on all CNs. The record includes 29 columns, ranging from **databaseid** to **autovac_vacuum_count**. This parameter is supported by 8.3.0 and later cluster versions.
+Description: Returns the tuple record of the table in **pg_stat_object** on all CNs. This parameter is supported by clusters of version 8.2.1.210 or later.
 
 Return type: SETOF record
 
@@ -784,6 +805,8 @@ pgxc_get_wlm_history_instance_info(text, TIMESTAMP, TIMESTAMP, int default null)
 Description: Queries the historical resource usage of each cluster node on the CN node and reads data from the **GS_WLM_INSTANCE_HISTORY** system catalog. The input parameters are as follows: node name (**ALL**, **C**, **D**, or *instance name*), start time, end time, and maximum number of records returned for each instance. The returned value is **GS_WLM_INSTANCE_HISTORY**.
 
 Return type: SETOF record
+
+.. _en-us_topic_0000001811634641__section15788135361010:
 
 pg_stat_get_last_data_changed_time(oid)
 ---------------------------------------
@@ -1128,7 +1151,7 @@ Return type: record
 pgxc_terminate_all_fenced_udf_process()
 ---------------------------------------
 
-Description: Kills all UDF Work processes.
+Description: Terminates all UDF Work processes.
 
 Return type: bool
 
@@ -1553,7 +1576,7 @@ The **gs_stack()** function can be used in the following four ways:
                        |       | SendDataWait() + 0x58                                                                                                 +
                        |       | SendDataThreadMain(void*) + 0xe4                                                                                      +
 
--  Method 4: If the **gs_stack()** function is set to **gs_stack('nodename', tid)**, stack information of the **tid** thread in the process specified by **nodename** are printed.
+-  Method 4: If the **gs_stack()** function is set to **gs_stack('nodename', tid)**, stack information of the **tid** thread in the process specified by **nodename** is printed.
 
    .. note::
 
@@ -1721,7 +1744,7 @@ combined_pct  text   Percentage of the total Xlog size.
 pgxc_get_wal_speed()
 --------------------
 
-Description: Obtains the WAL generation rate of each DN and the receive, write, flush, and redo rates of standby DNs. This function is supported only by clusters of version 8.3.0 or later.
+Description: Obtains the WAL generation rate of each DN and the receive, write, flush, and redo rates of standby DNs. This function is executed on CNs. This function is supported only by clusters of version 8.3.0 or later.
 
 Return type: record
 

@@ -5,11 +5,11 @@
 Functions and Operators
 =======================
 
--  :ref:`Character Processing Functions and Operators <dws_06_0030>`
+-  :ref:`String Processing Functions and Operators <dws_06_0030>`
 -  :ref:`Binary String Functions and Operators <dws_06_0031>`
 -  :ref:`Bit String Functions and Operators <dws_06_0032>`
--  :ref:`Numeric Functions and Operators <dws_06_0034>`
--  :ref:`Date and Time Processing Functions and Operators <dws_06_0035>`
+-  :ref:`Mathematical Functions and Operators <dws_06_0034>`
+-  :ref:`Time and Date Functions and Operators <dws_06_0035>`
 -  :ref:`SEQUENCE Functions <dws_06_0043>`
 -  :ref:`Array Functions and Operators <dws_06_0044>`
 -  :ref:`Logical Operators <dws_06_0028>`
@@ -31,7 +31,7 @@ Functions and Operators
 -  :ref:`Geometric Functions and Operators <dws_06_0037>`
 -  :ref:`Network Address Functions and Operators <dws_06_0038>`
 -  :ref:`System Information Functions <dws_06_0051>`
--  :ref:`System Administration Functions <dws_06_0052>`
+-  :ref:`System Management Functions <dws_06_0052>`
 -  :ref:`Backup and Restoration Control Functions <dws_06_0056>`
 -  :ref:`Database Object Functions <dws_06_0058>`
 -  :ref:`Residual File Management Functions <dws_06_0060>`
@@ -43,16 +43,17 @@ Functions and Operators
 -  :ref:`Funnel and Retention Functions <dws_06_0372>`
 -  :ref:`EXTERNAL SCHEMA System Functions <dws_06_0374>`
 -  :ref:`Storage-Compute Decoupling Functions <dws_06_0382>`
+-  :ref:`Time Series Functions <dws_06_0294>`
 
 .. toctree::
    :maxdepth: 1
    :hidden: 
 
-   character_processing_functions_and_operators
+   string_processing_functions_and_operators/index
    binary_string_functions_and_operators
    bit_string_functions_and_operators
-   numeric_functions_and_operators/index
-   date_and_time_processing_functions_and_operators/index
+   mathematical_functions_and_operators/index
+   time_and_date_functions_and_operators/index
    sequence_functions
    array_functions_and_operators/index
    logical_operators
@@ -74,7 +75,7 @@ Functions and Operators
    geometric_functions_and_operators/index
    network_address_functions_and_operators/index
    system_information_functions/index
-   system_administration_functions/index
+   system_management_functions/index
    backup_and_restoration_control_functions/index
    database_object_functions/index
    residual_file_management_functions/index
@@ -86,3 +87,4 @@ Functions and Operators
    funnel_and_retention_functions
    external_schema_system_functions
    storage-compute_decoupling_functions/index
+   time_series_functions

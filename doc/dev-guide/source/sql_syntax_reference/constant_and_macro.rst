@@ -5,7 +5,7 @@
 Constant and Macro
 ==================
 
-:ref:`Table 1 <en-us_topic_0000001764675306__t556b0d4fd31645a3aaaa95c4dfe3c89c>` lists the constants and macros that can be used in GaussDB(DWS).
+:ref:`Table 1 <en-us_topic_0000001764675306__t556b0d4fd31645a3aaaa95c4dfe3c89c>` lists the constants and macros that can be used in DWS.
 
 .. _en-us_topic_0000001764675306__t556b0d4fd31645a3aaaa95c4dfe3c89c:
 

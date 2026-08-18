@@ -29,7 +29,7 @@ Parameter Description
 
 **WORK \| TRANSACTION**
 
-Optional keyword that more clearly illustrates the syntax.
+This keyword is optional and only improves readability, with no effect on the **ROLLBACK** operation.
 
 Examples
 --------

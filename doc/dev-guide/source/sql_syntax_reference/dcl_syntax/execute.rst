@@ -25,16 +25,30 @@ Syntax
 Parameter Description
 ---------------------
 
--  **name**
+.. table:: **Table 1** EXECUTE parameters
 
-   Specifies the name of the statement to be executed.
-
--  **parameter**
-
-   Specifies a parameter of the prepared statement. It must be an expression that generates a value compatible with the data type specified when the prepared statement is created.
+   +-----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------+
+   | Parameter | Description                                                                                                                                                                      | Value Range                                                                                                   |
+   +===========+==================================================================================================================================================================================+===============================================================================================================+
+   | name      | Specifies the name of the statement to be executed.                                                                                                                              | A string, which must comply with the naming rules of prepared statements.                                     |
+   +-----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------+
+   | parameter | Specifies a parameter of the prepared statement. It must be an expression that generates a value compatible with the data type specified when the prepared statement is created. | A string, which is an expression of a value that is compatible with the data type of the specified parameter. |
+   +-----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------+
 
 Examples
 --------
+
+Prepare data.
+
+::
+
+   CREATE SCHEMA IF NOT EXISTS tpcds;
+   DROP TABLE IF EXISTS  tpcds.reason_t1;
+   CREATE TABLE tpcds.reason_t1 (
+       r_reason_sk    integer,
+       r_reason_id    character(16),
+       r_reason_desc  character(100)
+   );
 
 Create and run a prepared statement for the **INSERT** statement:
 

@@ -22,7 +22,7 @@ Subquery expressions include the following types:
 
    The subquery will generally only be executed long enough to determine whether at least one row is returned, not all the way to completion.
 
-   For example:
+   Example:
 
    ::
 
@@ -61,7 +61,7 @@ Subquery expressions include the following types:
 
    This is in accordance with SQL's normal rules for Boolean combinations of null values. If the columns corresponding to two rows equal and are not empty, the two rows are equal to each other. If any columns corresponding to the two rows do not equal and are not empty, the two rows are not equal to each other. Otherwise, the result is **NULL**. If there are no equal right-hand values and at least one right-hand row yields null, the result of **IN** will be null, not false.
 
-   For example:
+   Example:
 
    ::
 
@@ -102,7 +102,7 @@ Subquery expressions include the following types:
 
    The right-hand side is a parenthesized subquery, which must return exactly one column. The left-hand expression is evaluated and compared to each row of the subquery result using the given operator, which must yield a Boolean result. The result of **ANY** is "true" if any true result is obtained. The result is "false" if no true result is found (including the case where the subquery returns no rows). **SOME** is a synonym of **ANY**. **IN** can be equivalently replaced with **ANY**.
 
-   For example:
+   Example:
 
    ::
 

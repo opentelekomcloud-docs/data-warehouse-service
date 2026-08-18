@@ -5,11 +5,7 @@
 SEQUENCE Functions
 ==================
 
-The sequence functions provide a simple method to ensure security of multiple users for users to obtain sequence values from sequence objects.
-
-.. note::
-
-   The hybrid data warehouse (standalone) does not support **SEQUENCE** and related functions.
+The sequence functions provide a simple method to ensure security of multiple users to obtain sequence values from sequence objects.
 
 nextval(regclass)
 -----------------
@@ -18,7 +14,7 @@ Specifies an increasing sequence and returns a new value.
 
 .. note::
 
-   -  In order to avoid blocking concurrent transactions that retrieve values from the same sequence, the **nextval** operation does not undo its action. This means that once a value is obtained, it is considered as used and will not be given again. This applies even if the operation is part of a transaction that gets interrupted or if the calling query does not end up using the value. This means that aborted transactions may leave unused "holes" in the sequence of assigned values. Therefore, sequences in GaussDB(DWS) cannot be used to obtain sequence without gaps.
+   -  In order to avoid blocking concurrent transactions that retrieve values from the same sequence, the **nextval** operation does not undo its action. This means that once a value is obtained, it is considered as used and will not be given again. This applies even if the operation is part of a transaction that gets interrupted or if the calling query does not end up using the value. This means that aborted transactions may leave unused "holes" in the sequence of assigned values. Therefore, sequences in DWS cannot be used to obtain sequence without gaps.
    -  If the **nextval** function is pushed to DNs, each DN will automatically connect to the GTM and requests the next value. For example, in the **INSERT INTO t1 SELECT**\ *xxx* statement, a column in table **t1** needs to invoke the **nextval** function. If maximum number of connections on the GTM is 8,192, this type of pushed statements occupies too many GTM connections. Therefore, the number of concurrent connections for these statements is limited to 7,000 divided by the number of cluster DNs. The other 1,192 connections are reserved for other statements.
 
 Return type: bigint

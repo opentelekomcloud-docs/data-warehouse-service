@@ -28,7 +28,12 @@ Conditional expressions include the following types:
    -  If the result is false, the following **WHEN** or **ELSE** clauses are processed in the same way.
    -  If every **WHEN condition** is false, the result of the expression is the result of the **ELSE** clause. If the **ELSE** clause is omitted and has no match condition, the result is NULL.
 
-   Examples:
+   .. caution::
+
+      -  Keep the number of nested **case when** layers at 3 or fewer. The parser must expand all related fields during parsing. Deep recursion can lead to high memory usage.
+      -  For complex **case when** statements, use a subquery instead. For details, see :ref:`Subquery Expressions <dws_06_0072>`.
+
+   Example:
 
    ::
 
@@ -90,7 +95,7 @@ Conditional expressions include the following types:
 
    **COALESCE** returns its first non-NULL value. If all the arguments are NULL, return **NULL**. This value is replaced by the default value when data is displayed. Like a **CASE** expression, **COALESCE** only evaluates the parameters that are needed to determine the result. That is, parameters to the right of the first non-null parameter are not evaluated.
 
-   The following is an example:
+   Example:
 
    ::
 
@@ -135,7 +140,7 @@ Conditional expressions include the following types:
 
    Only if **value1** is equal to **value2** can **NULLIF** return the **NULL** value. Otherwise, **value1** is returned.
 
-   The following is an example:
+   Example:
 
    ::
 
@@ -225,7 +230,7 @@ Conditional expressions include the following types:
 
    If the value of **value1** is **NULL**, **value2** is returned. Otherwise, **value1** is returned.
 
-   For example:
+   Example:
 
    ::
 
@@ -260,7 +265,7 @@ Conditional expressions include the following types:
 
 -  IFNULL
 
-   :ref:`Figure 9 <en-us_topic_0000001764516522__fig294554533118>` shows the syntax of a **NULLIF** expression.
+   :ref:`Figure 9 <en-us_topic_0000001764516522__fig294554533118>` shows the syntax of an **IFNULL** expression.
 
    .. _en-us_topic_0000001764516522__fig294554533118:
 

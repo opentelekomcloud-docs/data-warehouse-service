@@ -8,9 +8,9 @@ Overview
 Context
 -------
 
-SQL is a typed language. That is, every data item has an associated data type which determines its behavior and allowed usage. GaussDB(DWS) has an extensible type system that is more general and flexible than other SQL implementations. Hence, most type conversion behavior in GaussDB(DWS) is governed by general rules. This allows the use of mixed-type expressions.
+SQL is a typed language. That is, every data item has an associated data type which determines its behavior and allowed usage. DWS has an extensible type system that is more general and flexible than other SQL implementations. Hence, most type conversion behavior in DWS is governed by general rules. This allows the use of mixed-type expressions.
 
-The GaussDB(DWS) scanner/parser divides lexical elements into five fundamental categories: integers, floating-point numbers, strings, identifiers, and keywords. Constants of most non-numeric types are first classified as strings. The SQL language definition allows specifying type names with constant strings. For example, the query:
+The DWS scanner/parser divides lexical elements into five fundamental categories: integers, floating-point numbers, strings, identifiers, and keywords. Constants of most non-numeric types are first classified as strings. The SQL language definition allows specifying type names with constant strings. For example, the query:
 
 ::
 
@@ -22,7 +22,7 @@ The GaussDB(DWS) scanner/parser divides lexical elements into five fundamental c
 
 has two literal constants, of type **text** and **point**. If a type is not specified for a string literal, then the placeholder type **unknown** is assigned initially.
 
-There are four fundamental SQL constructs requiring distinct type conversion rules in the GaussDB(DWS) parser:
+There are four fundamental SQL constructs requiring distinct type conversion rules in the DWS parser:
 
 -  Function calls
 
@@ -40,7 +40,7 @@ There are four fundamental SQL constructs requiring distinct type conversion rul
 
    Since all query results from a unionized **SELECT** statement must appear in a single set of columns, the types of the results of each **SELECT** clause must be matched up and converted to a uniform set. Similarly, the result expressions of a **CASE** construct must be converted to a common type so that the **CASE** expression as a whole has a known output type. The same holds for **ARRAY** constructs, and for the **GREATEST** and **LEAST** functions.
 
-The system catalog pg_cast stores information about which conversions, or casts, exist between which data types, and how to perform those conversions. For details, see PG_CAST.
+The system catalog **PG_CAST** stores information about the conversion between data types and how to perform the conversion. For details, see section "PG_CAST" in the *Data Warehouse Service (DWS) Developer Guide*.
 
 The return type and conversion behavior of an expression are determined during semantic analysis. Data types are divided into several basic type categories, including **boolean**, **numeric**, **string**, **bitstring**, **datetime**, **timespan**, **geometric**, and **network**. Within each category there can be one or more preferred types, which are preferred when there is a choice of possible types. With careful selection of preferred types and available implicit casts, it is possible to ensure that ambiguous expressions (those with multiple candidate parsing solutions) can be resolved in a useful way.
 

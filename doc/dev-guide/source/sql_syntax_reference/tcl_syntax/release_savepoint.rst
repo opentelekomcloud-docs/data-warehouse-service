@@ -38,6 +38,14 @@ Specifies the name of the savepoint you want to destroy.
 Examples
 --------
 
+Prepare data.
+
+::
+
+   DROP SCHEMA IF EXISTS tpcds CASCADE;
+   CREATE SCHEMA tpcds;
+   CREATE TABLE tpcds.table1 (a int);
+
 Create and then destroy a savepoint:
 
 ::

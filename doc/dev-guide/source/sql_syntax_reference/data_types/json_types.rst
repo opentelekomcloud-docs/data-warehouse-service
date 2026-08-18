@@ -13,7 +13,7 @@ It can be an independent scalar, an array, or a key-value object. An array and a
 #. Array: defined in a pair of square brackets ([]), in which elements can be of any JSON data type, and are not necessarily of the same type.
 #. Object: defined in a pair of braces ({}), in which objects are stored in the format of **key:value**. Each key must be a string enclosed in double quotation marks (""), and its value can be of any JSON data type. In case of duplicate keys, the last key-value pair will be used.
 
-GaussDB(DWS) supports the json and jsonb data types to store JSON data. Where:
+DWS supports the JSON and JSONB data types to store JSON data. Where:
 
 -  json copies all entered strings and parses them when they are used. During this process, the entered spaces, duplicate keys, and sequence are retained.
 -  jsonb parses the binary data of the input. During parsing, jsonb deletes semantic-irrelevant details and duplicate keys, and sorts key values, so that the data does not to be parsed again during use.
@@ -132,9 +132,9 @@ Format normalization ensures that only one form of JSONB data exists in the same
 
 **Creates an index**
 
-The JSONB type in row-store supports both B-tree and GIN indexes, while the JSONB type in column-store only supports CB-tree indexes.
+The JSONB type in row-store tables supports both B-tree and GIN indexes, while the JSONB type in column-store tables only supports B-tree indexes.
 
-If the entire JSONB column uses a Btree index, the following operators can be used: =, <, <=, >, and >=.
+If the entire JSONB column uses a B-tree index, the following operators can be used: =, <, <=, >, and >=.
 
 Example: Create the table **test** and insert data into it.
 

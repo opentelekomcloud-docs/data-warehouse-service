@@ -30,33 +30,43 @@ Examples
 
 Data type **boolean** is displayed with letters **t** and **f**.
 
-::
+#. Create a table.
 
-   -- Create a table:
-   CREATE TABLE bool_type_t1
-   (
-       BT_COL1 BOOLEAN,
-       BT_COL2 TEXT
-   ) DISTRIBUTE BY HASH(BT_COL2);
+   ::
 
-   --Insert data:
-   INSERT INTO bool_type_t1 VALUES (TRUE, 'sic est');
+      DROP TABLE IF EXISTS bool_type_t1;
+      CREATE TABLE bool_type_t1
+      (
+          BT_COL1 BOOLEAN,
+          BT_COL2 TEXT
+      ) DISTRIBUTE BY HASH(BT_COL2);
 
-   INSERT INTO bool_type_t1 VALUES (FALSE, 'non est');
+#. Insert data.
 
-   -- View data:
-   SELECT * FROM bool_type_t1;
-    bt_col1 | bt_col2
-   ---------+---------
-    t       | sic est
-    f       | non est
-   (2 rows)
+   ::
 
-   SELECT * FROM bool_type_t1 WHERE bt_col1 = 't';
-    bt_col1 | bt_col2
-   ---------+---------
-    t       | sic est
-   (1 row)
+      INSERT INTO bool_type_t1 VALUES (TRUE, 'sic est');
+      INSERT INTO bool_type_t1 VALUES (FALSE, 'non est');
 
-   -- Delete the tables:
-   DROP TABLE bool_type_t1;
+#. Query data.
+
+   ::
+
+      SELECT * FROM bool_type_t1;
+
+   |image1|
+
+   ::
+
+      SELECT * FROM bool_type_t1 WHERE bt_col1 = 't';
+
+   |image2|
+
+#. Drop the table.
+
+   ::
+
+      DROP TABLE bool_type_t1;
+
+.. |image1| image:: /_static/images/en-us_image_0000002568800157.png
+.. |image2| image:: /_static/images/en-us_image_0000002537960450.png

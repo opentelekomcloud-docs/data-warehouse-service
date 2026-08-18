@@ -5,7 +5,7 @@
 Database Object Size Functions
 ==============================
 
-Database object size functions calculate the actual disk space used by database objects.
+Database object size functions calculate and return the actual disk space used by database objects in bytes.
 
 pg_column_size(any)
 -------------------
@@ -18,7 +18,7 @@ Note: **pg_column_size** displays the space for storing an independent data valu
 
 ::
 
-   postgres=#SELECT pg_column_size(1);
+   SELECT pg_column_size(1);
     pg_column_size
    ----------------
                  4
@@ -44,7 +44,7 @@ Example:
 
 ::
 
-   postgres=#SELECT pg_database_size('gaussdb');
+   SELECT pg_database_size('gaussdb');
     pg_database_size
    ------------------
             51590112
@@ -70,9 +70,9 @@ Example:
 
 ::
 
-   postgres=#analyze;
+   analyze;
    ANALYZE
-   postgres=#SELECT get_db_source_datasize();
+   SELECT get_db_source_datasize();
     get_db_source_datasize
    ------------------------
                35384925667

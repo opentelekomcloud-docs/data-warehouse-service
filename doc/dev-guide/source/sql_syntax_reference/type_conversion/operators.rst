@@ -32,10 +32,7 @@ Example 1: factorial operator type resolution. There is only one factorial opera
 
    SELECT 40 ! AS "40 factorial";
 
-                      40 factorial
-   --------------------------------------------------
-    815915283247897734345611269596115894272000000000
-   (1 row)
+|image1|
 
 So the parser does a type conversion on the operand and the query is equivalent to:
 
@@ -48,10 +45,8 @@ Example 2: string concatenation operator type resolution. A string-like syntax i
 ::
 
    SELECT text 'abc' || 'def' AS "text and unknown";
-    text and unknown
-   ------------------
-    abcdef
-   (1 row)
+
+|image2|
 
 In this example, the parser looks for an operator whose parameters are of the text type. Such an operator is found.
 
@@ -60,24 +55,20 @@ Here is a concatenation of two values of unspecified types:
 ::
 
    SELECT 'abc' || 'def' AS "unspecified";
-    unspecified
-   -------------
-    abcdef
-   (1 row)
+
+|image3|
 
 .. note::
 
    In this case there is no initial hint for which type to use, since no types are specified in the query. So, the parser looks for all candidate operators and finds that there are candidates accepting both string-category and bit-string-category inputs. Since string category is preferred when available, that category is selected, and then the preferred type for strings, **text**, is used as the specific type to resolve the unknown-type literals.
 
-Example 3: absolute-value and negation operator type resolution. The GaussDB(DWS) operator catalog has several entries for the prefix operator @. All the entries implement absolute-value operations for various numeric data types. One of these entries is for type **float8**, which is the preferred type in the numeric category. Therefore, GaussDB(DWS) will use that entry when faced with an **unknown** input:
+Example 3: absolute-value and negation operator type resolution. The DWS operator catalog has several entries for the prefix operator @. All the entries implement absolute-value operations for various numeric data types. One of these entries is for type **float8**, which is the preferred type in the numeric category. Therefore, DWS will use that entry when faced with an **unknown** input:
 
 ::
 
    SELECT @ '-4.5' AS "abs";
-    abs
-   -----
-    4.5
-   (1 row)
+
+|image4|
 
 Here the system has implicitly resolved the unknown-type literal as type **float8** before applying the chosen operator.
 
@@ -86,11 +77,15 @@ Example 4: array inclusion operator type resolution. The following is an example
 ::
 
    SELECT array[1,2] <@ '{1,2,3}' as "is subset";
-    is subset
-   -----------
-    t
-   (1 row)
+
+|image5|
 
 .. note::
 
-   In the **pg_operator** table of GaussDB(DWS), several entries correspond to the infix operator <@, but the only two that may accept an integer array on the left-hand side are array inclusion (**anyarray <@ anyarray**) and range inclusion (**anyelement <@ anyrange**). Because none of these polymorphic pseudo-types (see :ref:`Pseudo-Types <dws_06_0023>`) is considered preferred, the parser cannot resolve the ambiguity on that basis. However, :ref:`2.e <en-us_topic_0000001811515625__li14011242172516>` tells it to assume that the unknown-type literal is of the same type as the other input, that is, integer array. Now only one of the two operators can match, so array inclusion is selected. (If you select range inclusion, an error will be reported because the string does not have the right format to be a range literal.)
+   In the **pg_operator** table of DWS, several entries correspond to the infix operator <@, but the only two that may accept an integer array on the left-hand side are array inclusion (**anyarray <@ anyarray**) and range inclusion (**anyelement <@ anyrange**). Because none of these polymorphic pseudo-types (see :ref:`Pseudo-Types <dws_06_0023>`) is considered preferred, the parser cannot resolve the ambiguity on that basis. However, :ref:`2.e <en-us_topic_0000001811515625__li14011242172516>` tells it to assume that the unknown-type literal is of the same type as the other input, that is, integer array. Now only one of the two operators can match, so array inclusion is selected. (If you select range inclusion, an error will be reported because the string does not have the right format to be a range literal.)
+
+.. |image1| image:: /_static/images/en-us_image_0000002537967664.png
+.. |image2| image:: /_static/images/en-us_image_0000002537967836.png
+.. |image3| image:: /_static/images/en-us_image_0000002568847625.png
+.. |image4| image:: /_static/images/en-us_image_0000002568847735.png
+.. |image5| image:: /_static/images/en-us_image_0000002568809105.png

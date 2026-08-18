@@ -5,7 +5,7 @@
 Call Stack Recording Functions
 ==============================
 
-The **pv_memory_profiling(type int)** and environment variable **MALLOC_CONF** are used by GaussDB(DWS) to control the enabling and disabling of the memory allocation call stack recording module and the output of the process-level memory call stack. The following figure illustrates the process.
+The **pv_memory_profiling(type int)** and environment variable **MALLOC_CONF** are used by DWS to control the enabling and disabling of the memory allocation call stack recording module and the output of the process-level memory call stack. The following figure illustrates the process.
 
 |image1|
 
@@ -39,7 +39,7 @@ Parameter description: Controls the backtrace recording and output of memory all
 
 Value range: a positive integer from 0 to 3.
 
-.. table:: **Table 1** Values and descriptions of **pv_memory_profile**
+.. table:: **Table 1** Values and descriptions of pv_memory_profiling
 
    +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | pv_memory_profiling               | Description                                                                                                                                                                                                                                     |
@@ -113,7 +113,7 @@ Disable the memory trace recording function when the database is running.
 
 ::
 
-   postgres=#SELECT pv_memory_profiling(0);
+   SELECT pv_memory_profiling(0);
    pv_memory_profiling
    ----------------------------
    t
@@ -123,7 +123,7 @@ Enable the memory trace recording function when the database is running.
 
 ::
 
-   postgres=#SELECT pv_memory_profiling(1);
+   SELECT pv_memory_profiling(1);
    pv_memory_profiling
    ----------------------------
    t
@@ -133,7 +133,7 @@ Output memory trace records.
 
 ::
 
-   postgres=#SELECT pv_memory_profiling(2);
+   SELECT pv_memory_profiling(2);
    pv_memory_profiling
    ----------------------------
    t
@@ -151,7 +151,7 @@ Outputs memory statistics. Execute the following statement to generate the memor
 
 ::
 
-   postgres=#SELECT pv_memory_profiling(3);
+   SELECT pv_memory_profiling(3);
    pv_memory_profiling
    ----------------------------
    t

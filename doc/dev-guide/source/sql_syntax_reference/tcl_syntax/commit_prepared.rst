@@ -15,7 +15,7 @@ Precautions
 
 -  The function is only available in maintenance mode (when GUC parameter **xc_maintenance_mode** is **on**). Exercise caution when enabling the mode. It is used by maintenance engineers for troubleshooting. Common users should not use the mode.
 -  Only the transaction creators or system administrators can run the **COMMIT** command. The creation and commit operations must be in different sessions.
--  The transaction function is maintained automatically by the database, and should be not visible to users.
+-  The transaction function is maintained automatically by the database, and should not be visible to users.
 
 Syntax
 ------
@@ -28,13 +28,15 @@ Syntax
 Parameter Description
 ---------------------
 
--  **transaction_id**
+.. table:: **Table 1** COMMIT PREPARED parameters
 
-   Specifies the identifier of the transaction to be submitted. The identifier must be different from those for current prepared transactions.
-
--  **CSN(commit sequence number)**
-
-   Specifies the sequence number of the transaction to be committed. It is a 64-bit, incremental, unsigned number.
+   +-----------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
+   | Parameter                   | Description                                                                                                                                  |
+   +=============================+==============================================================================================================================================+
+   | transaction_id              | Identifier of the transaction to be committed. The identifier cannot be the same as any identifier used by the current prepared transaction. |
+   +-----------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
+   | CSN(commit sequence number) | Sequence number of the transaction to be committed. The value is a 64-bit ascending unsigned number.                                         |
+   +-----------------------------+----------------------------------------------------------------------------------------------------------------------------------------------+
 
 Helpful Links
 -------------

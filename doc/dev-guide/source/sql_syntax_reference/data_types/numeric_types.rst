@@ -7,9 +7,9 @@ Numeric Types
 
 Numeric types consist of two-, four-, and eight-byte integers, four- and eight-byte floating-point numbers, and selectable-precision decimals.
 
-For details about numeric operators and functions, see :ref:`Numeric Functions and Operators <dws_06_0034>`.
+For details about numeric operators and functions, see :ref:`Mathematical Functions and Operators <dws_06_0034>`.
 
-GaussDB(DWS) supports integers, arbitrary precision numbers, floating point types, and serial integers.
+DWS supports integers, arbitrary precision numbers, floating point types, and serial integers.
 
 Integer Types
 -------------

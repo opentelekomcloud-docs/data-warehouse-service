@@ -5,7 +5,7 @@
 Bitmap Functions
 ================
 
-Since 8.1.3, GaussDB(DWS) supports efficient bitmap processing functions and operators, which can be used in user profiling and precision marketing, greatly improving query performance.
+Since 8.1.3, DWS supports efficient bitmap processing functions and operators, which can be used in user profiling and precision marketing, greatly improving query performance.
 
 rb_build(array)
 ---------------
@@ -61,7 +61,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_iterate(c) FROM r_row;
+   SELECT rb_iterate(c) FROM r_row;
    rb_iterate
    ------------
    1
@@ -80,12 +80,12 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_to_array(c) FROM r_row;
+   SELECT rb_to_array(c) FROM r_row;
    rb_to_array
    -------------
    {1,2,3}
    (1 row)
-   postgres=#SELECT rb_to_array('\x3a300000010000000000020010000000010002000300');
+   SELECT rb_to_array('\x3a300000010000000000020010000000010002000300');
    rb_to_array
    -------------
    {1,2,3}
@@ -102,7 +102,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_to_array(rb_and(rb_build('{1,2,3}'), rb_build('{2,3,4}')));
+   SELECT rb_to_array(rb_and(rb_build('{1,2,3}'), rb_build('{2,3,4}')));
    rb_to_array
    -------------
    {2,3}
@@ -119,7 +119,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_to_array(rb_or(rb_build('{1,2,3}'), rb_build('{2,3,4}')));
+   SELECT rb_to_array(rb_or(rb_build('{1,2,3}'), rb_build('{2,3,4}')));
    rb_to_array
    -------------
    {1,2,3,4}
@@ -136,7 +136,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_to_array(rb_xor(rb_build('{1,2,3}'), rb_build('{2,3,4}')));
+   SELECT rb_to_array(rb_xor(rb_build('{1,2,3}'), rb_build('{2,3,4}')));
    rb_to_array
    -------------
    {1,4}
@@ -153,7 +153,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_to_array(rb_andnot(rb_build('{1,2,3}'), rb_build('{2,3,4}')));
+   SELECT rb_to_array(rb_andnot(rb_build('{1,2,3}'), rb_build('{2,3,4}')));
    rb_to_array
    -------------
    {1}
@@ -170,7 +170,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_cardinality(rb_build('{1,2,3}'));
+   SELECT rb_cardinality(rb_build('{1,2,3}'));
    rb_cardinality
    ----------------
    3
@@ -187,7 +187,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_and_cardinality(rb_build('{1,2,3}'), rb_build('{2,3,4}'));
+   SELECT rb_and_cardinality(rb_build('{1,2,3}'), rb_build('{2,3,4}'));
    rb_and_cardinality
    --------------------
    2
@@ -204,7 +204,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_or_cardinality(rb_build('{1,2,3}'), rb_build('{2,3,4}'));
+   SELECT rb_or_cardinality(rb_build('{1,2,3}'), rb_build('{2,3,4}'));
    rb_or_cardinality
    -------------------
    4
@@ -221,7 +221,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_xor_cardinality(rb_build('{1,2,3}'), rb_build('{2,3,4}'));
+   SELECT rb_xor_cardinality(rb_build('{1,2,3}'), rb_build('{2,3,4}'));
    rb_xor_cardinality
    --------------------
    2
@@ -238,7 +238,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_andnot_cardinality(rb_build('{1,2,3}'), rb_build('{2,3,4}'));
+   SELECT rb_andnot_cardinality(rb_build('{1,2,3}'), rb_build('{2,3,4}'));
    rb_andnot_cardinality
    -----------------------
    1
@@ -255,7 +255,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_is_empty(rb_build('{1,2,3}'));
+   SELECT rb_is_empty(rb_build('{1,2,3}'));
    rb_is_empty
    -------------
    f
@@ -272,7 +272,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_equals(rb_build('{1,2,3}'), rb_build('{2,3,4}'));
+   SELECT rb_equals(rb_build('{1,2,3}'), rb_build('{2,3,4}'));
    rb_equals
    -----------
    f
@@ -289,7 +289,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_intersect(rb_build('{1,2,3}'), rb_build('{2,3,4}'));
+   SELECT rb_intersect(rb_build('{1,2,3}'), rb_build('{2,3,4}'));
    rb_intersect
    --------------
    t
@@ -306,7 +306,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_min(rb_build('{1,2,3}'));
+   SELECT rb_min(rb_build('{1,2,3}'));
    rb_min
    --------
    1
@@ -323,7 +323,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_max(rb_build('{1,2,3}'));
+   SELECT rb_max(rb_build('{1,2,3}'));
    rb_max
    --------
    3
@@ -340,7 +340,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_to_array(rb_add(rb_build('{1,3}'), 2));
+   SELECT rb_to_array(rb_add(rb_build('{1,3}'), 2));
    rb_to_array
    -------------
    {1,2,3}
@@ -357,7 +357,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_to_array(rb_added(2, rb_build('{1,3}')));
+   SELECT rb_to_array(rb_added(2, rb_build('{1,3}')));
    rb_to_array
    -------------
    {1,2,3}
@@ -374,7 +374,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_contain(rb_build('{1,3}'), 2);
+   SELECT rb_contain(rb_build('{1,3}'), 2);
    rb_contain
    ------------
    f
@@ -389,7 +389,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_containedby(2,rb_build('{1,3}'));
+   SELECT rb_containedby(2,rb_build('{1,3}'));
    rb_containedby
    ----------------
    f
@@ -406,7 +406,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_contain_rb(rb_build('{1,3}'), rb_build('{2,3}'));
+   SELECT rb_contain_rb(rb_build('{1,3}'), rb_build('{2,3}'));
    rb_contain_rb
    ---------------
    f
@@ -423,7 +423,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_containedby_rb(rb_build('{1,3}'), rb_build('{2,3}'));
+   SELECT rb_containedby_rb(rb_build('{1,3}'), rb_build('{2,3}'));
    rb_containedby_rb
    ---------------
    f
@@ -440,7 +440,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_to_array(rb_remove(rb_build('{1,3}'),1));
+   SELECT rb_to_array(rb_remove(rb_build('{1,3}'),1));
    rb_to_array
    -------------
    {3}
@@ -457,7 +457,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_to_array(rb_clear(rb_build('{1,2,3}'),1,2));                                                                                                                                                                                                                        rb_to_array                                                                                                                                                                                                                                                                            -------------                                                                                                                                                                                                                                                                            {2,3}                                                                                                                                                                                                                                                                                  (1 row)
+   SELECT rb_to_array(rb_clear(rb_build('{1,2,3}'),1,2));                                                                                                                                                                                                                        rb_to_array                                                                                                                                                                                                                                                                            -------------                                                                                                                                                                                                                                                                            {2,3}                                                                                                                                                                                                                                                                                  (1 row)
 
 rb_flip(roaringbitmap,int,int)
 ------------------------------
@@ -468,7 +468,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_to_array(rb_flip(rb_build('{1,2,3,7,9}'), 1,10));
+   SELECT rb_to_array(rb_flip(rb_build('{1,2,3,7,9}'), 1,10));
    rb_to_array
    --------------
    {4,5,6,8,10}
@@ -485,7 +485,7 @@ Example:
 
 ::
 
-   postgres=#SELECT rb_rank(rb_build('{1,10,100}'),99);
+   SELECT rb_rank(rb_build('{1,10,100}'),99);
    rb_rank
    ---------
    2

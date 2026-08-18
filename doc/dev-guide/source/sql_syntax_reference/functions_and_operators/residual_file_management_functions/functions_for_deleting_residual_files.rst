@@ -28,7 +28,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM pg_rm_residualfiles('pgrf_20200908160211441599');
+   SELECT * FROM pg_rm_residualfiles('pgrf_20200908160211441599');
     result
    --------
     t
@@ -36,8 +36,8 @@ Example:
 
 .. note::
 
-   -  Residual files can be deleted only after verification using the pg_verify_residualfiles() function.
-   -  All verified files, regardless which database they are in, will be deleted.
+   -  Residual files can be deleted only after pg_verify_residualfiles () is called for verification.
+   -  All verified files, regardless of which database they are in, will be deleted.
    -  If all files recorded in the specified file have been deleted, the specified file will be removed and backed up in the **$PGDATA/pg_residualfile/backup** directory.
 
 pg_rm_residualfiles()
@@ -65,7 +65,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM pg_rm_residualfiles();
+   SELECT * FROM pg_rm_residualfiles();
     result |         filepath          | notes
    --------+---------------------------+-------
     t      | pgrf_20200908160211441546 |
@@ -74,7 +74,7 @@ Example:
 .. note::
 
    -  Residual files can be deleted only after verification using the pg_verify_residualfiles() function.
-   -  All verified files, regardless which database they are in, will be deleted.
+   -  All verified files, regardless of which database they are in, will be deleted.
    -  If all files recorded in the specified file have been deleted, the specified file will be removed and backed up in the **$PGDATA/pg_residualfile/backup** directory.
 
 pgxc_rm_residualfiles()
@@ -103,7 +103,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM pgxc_rm_residualfiles();
+   SELECT * FROM pgxc_rm_residualfiles();
       nodename   | result |         filepath          | notes
    --------------+--------+---------------------------+-------
     cn_5001      | t      | pgrf_20200910170129360401 |

@@ -5,7 +5,7 @@
 Manipulating tsvector
 =====================
 
-GaussDB(DWS) provides functions and operators that can be used to manipulate documents that are already in tsvector type.
+DWS provides functions and operators that can be used to manipulate documents that are already in tsvector type.
 
 -  tsvector \|\| tsvector
 

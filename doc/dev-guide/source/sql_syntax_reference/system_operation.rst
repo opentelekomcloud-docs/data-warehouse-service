@@ -5,7 +5,7 @@
 System Operation
 ================
 
-GaussDB(DWS) runs SQL statements to perform different system operations, such as setting variables, displaying the execution plan, and collecting garbage data.
+DWS runs SQL statements to perform different system operations, such as setting variables, displaying the execution plan, and collecting garbage data.
 
 Setting Variables
 -----------------
@@ -15,7 +15,7 @@ For details about how to set various parameters for a session or transaction, se
 Displaying the Execution Plan
 -----------------------------
 
-For details about how to display the execution plan that GaussDB(DWS) makes for SQL statements, see :ref:`EXPLAIN <dws_06_0232>`.
+For details about how to display the execution plan that DWS makes for SQL statements, see :ref:`EXPLAIN <dws_06_0232>`.
 
 Specifying a Checkpoint in Transaction Logs
 -------------------------------------------
@@ -25,7 +25,7 @@ By default, WALs periodically specify checkpoints in a transaction log. **CHECKP
 Collecting Unnecessary Data
 ---------------------------
 
-For details about how to collect garbage data and analyze a database as required, For details, see :ref:`VACUUM <dws_06_0226>`.
+For details about how to collect garbage data and analyze a database as required, see :ref:`VACUUM <dws_06_0226>`.
 
 Collecting statistics
 ---------------------

@@ -12,7 +12,7 @@ Description: Displays the time before the password of the current account expire
 
 Return type: interval
 
-Examples:
+Example:
 
 ::
 
@@ -29,7 +29,7 @@ Description: Displays the time before the password of the current account expire
 
 Return type: interval
 
-Examples:
+Example:
 
 ::
 
@@ -46,7 +46,7 @@ Description: Queries login information about a login user.
 
 Return type: tuple
 
-Examples:
+Example:
 
 -  Checks the date, time, and IP address successfully authenticated during the last login.
 
@@ -83,7 +83,7 @@ Description: Queries login information about a login user. Different from **logi
 
 Return type: tuple
 
-Examples:
+Example:
 
 -  Checks the date, time, and IP address successfully authenticated during the last login.
 
@@ -265,7 +265,7 @@ The following table describes return columns.
    +---------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | lock_user/unlock_user                                                                                                                             | Indicates that the audit type is successful user locking and unlocking.                                                                                                                                                                                                                                                                                        |
    +---------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-   | grant_role/revoke__role                                                                                                                           | Indicates that the audit type is user permission granting and revoking.                                                                                                                                                                                                                                                                                        |
+   | grant_role/revoke_role                                                                                                                            | Indicates that the audit type is user permission granting and revoking.                                                                                                                                                                                                                                                                                        |
    +---------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | user_violation                                                                                                                                    | Indicates that the audit type is unauthorized user access operations.                                                                                                                                                                                                                                                                                          |
    +---------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -420,7 +420,7 @@ The following table describes return columns.
    | command_text          | text                     | Command used to perform the operation                                                                  |
    +-----------------------+--------------------------+--------------------------------------------------------------------------------------------------------+
 
-Examples:
+Example:
 
 #. Query the column names of all objects and object types used in the statement.
 
@@ -493,7 +493,7 @@ Input parameter:
 
 Return type: record
 
-Examples:
+Example:
 
 .. code-block::
 

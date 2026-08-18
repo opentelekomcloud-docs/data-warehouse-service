@@ -10,14 +10,14 @@ Data control language (DCL) is used to set or modify database users or role righ
 Authorization
 -------------
 
-GaussDB(DWS) provides a statement for granting rights to data objects and roles. For details, see :ref:`GRANT <dws_06_0250>`.
+DWS provides a statement for granting rights to data objects and roles. For details, see :ref:`GRANT <dws_06_0250>`.
 
 Revoking Rights
 ---------------
 
-GaussDB(DWS) provides a statement for revoking rights. For details, see :ref:`REVOKE <dws_06_0253>`.
+DWS provides a statement for revoking rights. For details, see :ref:`REVOKE <dws_06_0253>`.
 
 Setting Default Rights
 ----------------------
 
-GaussDB(DWS) allows users to set rights for objects that will be created. For details, see :ref:`ALTER DEFAULT PRIVILEGES <dws_06_0244>`.
+DWS allows users to set rights for objects that will be created. For details, see :ref:`ALTER DEFAULT PRIVILEGES <dws_06_0244>`.

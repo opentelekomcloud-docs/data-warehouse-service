@@ -5,7 +5,7 @@
 Processing XML
 ==============
 
-To process values of the XML data type, GaussDB (DWS) provides the **xpath** and **xpath_exists** functions, as well as the **XMLTABLE** table function.
+To process values of the XML data type, DWS provides the **xpath** and **xpath_exists** functions, as well as the **XMLTABLE** table function.
 
 xpath(xpath, xml [, nsarray])
 -----------------------------

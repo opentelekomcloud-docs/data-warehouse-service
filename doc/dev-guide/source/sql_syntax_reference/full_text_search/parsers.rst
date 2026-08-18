@@ -7,7 +7,7 @@
 
 Text search parsers are responsible for splitting raw document text into tokens and identifying each token's type, where the set of types is defined by the parser itself. Note that a parser does not modify the text at all — it simply identifies plausible word boundaries. Because of this limited scope, there is less need for application-specific custom parsers than there is for custom dictionaries.
 
-Currently, GaussDB(DWS) provides the following built-in parsers: pg_catalog.default for English configuration, and pg_catalog.ngram, pg_catalog.zhparser, and pg_catalog.pound for full text search in texts containing Chinese, or both Chinese and English.
+Currently, DWS provides the following built-in parsers: pg_catalog.default for English configuration, and pg_catalog.ngram, pg_catalog.zhparser, and pg_catalog.pound for full text search in texts containing Chinese, or both Chinese and English.
 
 The built-in parser is named **pg_catalog.default**. It recognizes 23 token types, shown in :ref:`Table 1 <en-us_topic_0000001764516246__tfcaeb83ea7fb42de882258f647b03890>`.
 
@@ -95,7 +95,7 @@ This behavior is desirable since it allows searches to work for both the whole c
     host     | Host          | example.com
     url_path | URL path      | /stuff/index.html
 
-N-gram is a mechanical word segmentation method, and applies to no semantic Chinese segmentation scenarios. The N-gram segmentation method ensures the completeness of the segmentation. However, to cover all the possibilities, it but adds unnecessary words to the index, resulting in a large number of index items. N-gram supports Chinese coding, including GBK and UTF-8. Six built-in token types are shown in :ref:`Table 2 <en-us_topic_0000001764516246__t7682dee3b51a4bdbac3572a7d5621298>`.
+N-gram is a mechanical word segmentation method, and applies to no semantic Chinese segmentation scenarios. The N-gram segmentation method ensures the completeness of the segmentation. However, to cover all the possibilities, it adds unnecessary words to the index, resulting in a large number of index items. N-gram supports Chinese coding, including GBK and UTF-8. Six built-in token types are shown in :ref:`Table 2 <en-us_topic_0000001764516246__t7682dee3b51a4bdbac3572a7d5621298>`.
 
 .. _en-us_topic_0000001764516246__t7682dee3b51a4bdbac3572a7d5621298:
 
@@ -149,7 +149,7 @@ Zhparser is a dictionary-based semantic word segmentation method. The bottom-lay
    Z     Status words
    ===== ==========================
 
-Pound segments words in a fixed format. It is used to segment to-be-parsed nonsense Chinese and English words that are separated by fixed separators. It supports Chinese encoding (including GBK and UTF8) and English encoding (including ASCII). Pound has six pre-configured token types (as listed in :ref:`Table 4 <en-us_topic_0000001764516246__table18356541133518>`) and supports five separators (as listed in :ref:`Table 5 <en-us_topic_0000001764516246__table14245115444310>`). The default, the separator is **#**. Pound The maximum length of a token is 256 characters.
+Pound is a fixed-format word segmentation method suitable for Chinese and English word segmentation scenarios where the text to be parsed has no semantic meaning but is separated by fixed delimiters. It supports Chinese encodings including GBK and UTF-8, and English encodings including ASCII. Pound has six pre-configured token types (as listed in :ref:`Table 4 <en-us_topic_0000001764516246__table18356541133518>`) and supports five separators (as listed in :ref:`Table 5 <en-us_topic_0000001764516246__table14245115444310>`). By default, the separator is **#**. Pound The maximum length of a token is 256 characters.
 
 .. _en-us_topic_0000001764516246__table18356541133518:
 

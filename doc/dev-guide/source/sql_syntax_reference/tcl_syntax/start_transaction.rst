@@ -45,31 +45,32 @@ Format 2: BEGIN
 Parameter Description
 ---------------------
 
--  **WORK \| TRANSACTION**
+.. table:: **Table 1** START TRANSACTION parameters
 
-   Optional keyword in BEGIN format without functions.
-
--  **ISOLATION LEVEL**
-
-   Specifies the transaction isolation level that determines the data that a transaction can view if other concurrent transactions exist.
-
-   .. note::
-
-      The isolation level of a transaction cannot be reset after the first clause (**INSERT**, **DELETE**, **UPDATE**, **FETCH**, **COPY**) for modifying data is executed in the transaction.
-
-   Valid value:
-
-   -  **READ COMMITTED**: Only committed data is read. This is the default.
-   -  **READ UNCOMMITTED**: GaussDB(DWS) does not support **READ UNCOMMITTED**. If **READ UNCOMMITTED** is set, **READ COMMITTED** is executed instead.
-   -  **REPEATABLE READ**: Only the data committed before transaction start is read. Uncommitted data or data committed in other concurrent transactions cannot be read.
-   -  **SERIALIZABLE**: GaussDB(DWS) does not support **SERIALIZABLE**. If **SERIALIZABLE** is set, **REPEATABLE READ** is executed instead.
-
--  **READ WRITE \| READ ONLY**
-
-   Specifies the transaction access mode (read/write or read only).
+   +-------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Parameter               | Description                                                                                                                                                                                 | Value Range                                                                                                                                                           |
+   +=========================+=============================================================================================================================================================================================+=======================================================================================================================================================================+
+   | WORK \| TRANSACTION     | Optional keyword in the **BEGIN** format, which does not affect the operation.                                                                                                              | ``-``                                                                                                                                                                 |
+   +-------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | ISOLATION LEVEL         | Transaction isolation level. This parameter determines the data that a transaction can view if other concurrent transactions exist.                                                         | -  **READ COMMITTED**: Only committed data is read. The default value is **READ COMMITTED**.                                                                          |
+   |                         |                                                                                                                                                                                             | -  **READ UNCOMMITTED**: DWS does not support **READ UNCOMMITTED**. If **READ UNCOMMITTED** is set, **READ COMMITTED** is executed instead.                           |
+   |                         | .. note::                                                                                                                                                                                   | -  **REPEATABLE READ**: Only the data committed before transaction start is read. Uncommitted data or data committed in other concurrent transactions cannot be read. |
+   |                         |                                                                                                                                                                                             | -  **SERIALIZABLE**: DWS does not support **SERIALIZABLE**. If **SERIALIZABLE** is set, **REPEATABLE READ** is executed instead.                                      |
+   |                         |    The isolation level of a transaction cannot be reset after the first clause (**INSERT**, **DELETE**, **UPDATE**, **FETCH**, **COPY**) for modifying data is executed in the transaction. |                                                                                                                                                                       |
+   +-------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | READ WRITE \| READ ONLY | Transaction access mode.                                                                                                                                                                    | Read-write mode or read-only mode.                                                                                                                                    |
+   +-------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 Examples
 --------
+
+-  Prepare data.
+
+   .. code-block::
+
+      DROP SCHEMA IF EXISTS tpcds CASCADE;
+      CREATE SCHEMA tpcds;
+      CREATE TABLE tpcds.reason (a int, b int);
 
 -  Start a transaction in default mode.
 

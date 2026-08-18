@@ -5,40 +5,43 @@
 Character Types
 ===============
 
-:ref:`Table 1 <en-us_topic_0000001811634865__en-us_topic_0000001145830639_t0c62e4928aa34bdbb99c6b9fe3c6996b>` lists the character types that can be used in GaussDB(DWS). For string operators and related built-in functions, see :ref:`Character Processing Functions and Operators <dws_06_0030>`.
+:ref:`Table 1 <en-us_topic_0000001811634865__en-us_topic_0000001145830639_t0c62e4928aa34bdbb99c6b9fe3c6996b>` lists the character types that can be used in DWS. For string operators and related built-in functions, see :ref:`String Processing Functions and Operators <dws_06_0030>`.
 
 .. _en-us_topic_0000001811634865__en-us_topic_0000001145830639_t0c62e4928aa34bdbb99c6b9fe3c6996b:
 
 .. table:: **Table 1** Character types
 
-   +----------------------+--------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------+
-   | Name                 | Description                                                                                      | Length                                                                                                                                        | Storage Space                                                |
-   +======================+==================================================================================================+===============================================================================================================================================+==============================================================+
-   | CHAR(n)              | Fixed-length character string. If the length is not reached, fill in spaces.                     | **n** indicates the string length. If it is not specified, the default precision **1** is used. The value of **n** is less than **10485761**. | The maximum size is 10 MB.                                   |
-   |                      |                                                                                                  |                                                                                                                                               |                                                              |
-   | CHARACTER(n)         |                                                                                                  |                                                                                                                                               |                                                              |
-   |                      |                                                                                                  |                                                                                                                                               |                                                              |
-   | NCHAR(n)             |                                                                                                  |                                                                                                                                               |                                                              |
-   +----------------------+--------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------+
-   | VARCHAR(n)           | Variable-length string.                                                                          | **n** indicates the byte length. The value of **n** is less than **10485761**.                                                                | The maximum size is 10 MB.                                   |
-   |                      |                                                                                                  |                                                                                                                                               |                                                              |
-   | CHARACTER VARYING(n) |                                                                                                  |                                                                                                                                               |                                                              |
-   +----------------------+--------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------+
-   | VARCHAR2(n)          | Variable-length string. It is an alias for VARCHAR(n) type, compatible with Oracle.              | **n** indicates the byte length. The value of **n** is less than **10485761**.                                                                | The maximum size is 10 MB.                                   |
-   +----------------------+--------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------+
-   | NVARCHAR2(n)         | Variable-length string.                                                                          | **n** indicates the string length. The value of **n** is less than **10485761**.                                                              | The maximum size is 10 MB.                                   |
-   +----------------------+--------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------+
-   | CLOB                 | Variable-length string. A big text object. It is an alias for TEXT type, compatible with Oracle. | ``-``                                                                                                                                         | The maximum size is 1,073,733,621 bytes (1 GB - 8203 bytes). |
-   +----------------------+--------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------+
-   | TEXT                 | Variable-length string.                                                                          | ``-``                                                                                                                                         | The maximum size is 1,073,733,621 bytes (1 GB - 8203 bytes). |
-   +----------------------+--------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------+
+   +----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------+
+   | Name                 | Description                                                                                                                                                    | Length                                                                                                                                      | Storage Space                                                 |
+   +======================+================================================================================================================================================================+=============================================================================================================================================+===============================================================+
+   | CHAR (n) or BPCHAR   | Fixed-length string. If the length exceeds the value of **n**, the excess part is truncated. If the length is less than the value of **n**, spaces are padded. | **n** indicates the byte length. If it is not specified, the default precision **1** is used. The value of **n** is less than **10485761**. | The maximum size is 10 MB.                                    |
+   |                      |                                                                                                                                                                |                                                                                                                                             |                                                               |
+   | CHARACTER(n)         |                                                                                                                                                                |                                                                                                                                             |                                                               |
+   |                      |                                                                                                                                                                |                                                                                                                                             |                                                               |
+   | NCHAR(n)             |                                                                                                                                                                |                                                                                                                                             |                                                               |
+   +----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------+
+   | VARCHAR(n)           | Variable-length string.                                                                                                                                        | **n** indicates the byte length. The value of **n** is less than **10485761**.                                                              | The maximum size is 10 MB.                                    |
+   |                      |                                                                                                                                                                |                                                                                                                                             |                                                               |
+   | CHARACTER VARYING(n) |                                                                                                                                                                |                                                                                                                                             |                                                               |
+   +----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------+
+   | VARCHAR2(n)          | Variable-length string. It is an alias for VARCHAR(n) type, compatible with Oracle.                                                                            | **n** indicates the byte length. The value of **n** is less than **10485761**.                                                              | The maximum size is 10 MB.                                    |
+   +----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------+
+   | NVARCHAR2(n)         | Variable-length string.                                                                                                                                        | **n** indicates the string length. The value of **n** is less than **10485761**.                                                            | The maximum size is 10 MB.                                    |
+   +----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------+
+   | CLOB                 | Variable-length string. A big text object. It is an alias for TEXT type, compatible with Oracle.                                                               | ``-``                                                                                                                                       | The maximum size is 1,073,733,621 bytes (1 GB - 8,203 bytes). |
+   +----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------+
+   | TEXT                 | Variable-length string.                                                                                                                                        | ``-``                                                                                                                                       | The maximum size is 1,073,733,621 bytes (1 GB - 8,203 bytes). |
+   +----------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------+
 
 .. note::
 
-   -  In addition to the size limitation on each column, the total size of each tuple is 1,073,733,621 bytes (1 GB - 8023 bytes).
-   -  For string data, you are advised to use variable-length strings and specify the maximum length. To avoid truncation, ensure that the specified maximum length is greater than the maximum number of characters to be stored. You are not advised to use fixed-length character types such as CHAR(n), NCHAR(n), and CHARACTER(n) unless you know that the data type is a fixed-length character string.
+   -  In addition to the size limitation on each column, the total size of each tuple is 1,073,733,621 bytes (1 GB - 8,203 bytes).
 
-GaussDB(DWS) has two other fixed-length character types, as listed in :ref:`Table 2 <en-us_topic_0000001811634865__en-us_topic_0000001145830639_ta7a9f8927f4b419e9d1c0a01d2dac911>`.
+   -  For string data, you are advised to use variable-length strings and specify the maximum length. To avoid truncation, ensure that the specified maximum length is greater than the maximum number of characters to be stored. You are not advised to use fixed-length character types such as CHAR(n), NCHAR(n), and CHARACTER(n) unless you know that the data type is a fixed-length character string. In DWS, operations of the fixed-length character type will use extra storage and memory resources.
+
+   -  Generally, if the data contains Chinese characters, use NCHAR/NVARCHAR2. If the data contains only English characters and digits, use CHAR/VARCHAR.
+
+DWS has two other fixed-length character types, as listed in :ref:`Table 2 <en-us_topic_0000001811634865__en-us_topic_0000001145830639_ta7a9f8927f4b419e9d1c0a01d2dac911>`.
 
 The name type is used only in the internal system catalog as the storage identifier. The length of this type is 64 bytes (63 characters plus the terminator). This data type is not recommended for common users. When the name type is aligned with other data types (for example, in multiple branches of **case when**, one branch returns the name type and other branches return the text type), the name type may be aligned but characters may be truncated. If you do not want to have 64-bit truncated characters, you need to forcibly convert the name type to the text type.
 
@@ -58,7 +61,7 @@ The type **"char"** only uses one byte of storage. It is internally used in the 
 Length
 ------
 
-If a field is defined as **char(n)** or **varchar(n)**. **n** indicates the maximum length. Regardless of the type, the length cannot exceed 10485760 bytes (10 MB).
+If a field is defined as **char(n)** or **varchar(n)**. **n** indicates the maximum length. No matter which type is used, the maximum length that can be set cannot exceed 10,485,760 bytes (that is, 10 MB).
 
 When the data length exceeds the specified length **n**, the error "value too long" is reported. Of course, you can also specify to automatically truncate the data that exceeds the length.
 
@@ -70,7 +73,7 @@ Example:
 
       CREATE TABLE t1 (a char(5),b varchar(5));
 
-#. An error is reported when the length of data inserted into the table **t1** exceeds the specified length.
+#. An error is reported when the length of data inserted into the table **t1** exceeds the specified byte length.
 
    ::
 
@@ -96,7 +99,7 @@ Fixed Length and Variable Length
 
 All character types can be classified into fixed-length strings and variable-length strings.
 
--  For a fixed-length string, the length must be specified. If the length is not specified, the default length **1** is used. If the data length does not reach the specified length, spaces are automatically added to the end of the string. However, the added spaces are meaningless and will be ignored in actual use, such as comparison, sorting, and type conversion.
+-  For a fixed-length string, the length must be specified. If the length is not specified, the default length **1** is used. If the data length does not reach the specified length, spaces are automatically added to the end of the string. However, the added spaces are meaningless and will be ignored in actual operations, such as comparison, sorting, and type conversion.
 -  For a variable-length string, if the length is specified, the specified length indicates the maximum length of the data that can be stored. If the length is not specified, it means any length is available.
 
 Example:
@@ -107,7 +110,7 @@ Example:
 
       CREATE TABLE t2 (a char(5),b varchar(5));
 
-#. Insert data into table **t2** and query the byte length of column **a**. During table creation, the character type of column **a** is specified as **char(5)** and fixed-length. If the data length does not reach 5 bytes, spaces are added. Therefore, the queried data length is **5**.
+#. Insert data into table **t2** and query the byte length of column **a**. During table creation, the character type of column **a** is specified as **char(5)** and fixed-length. If the data length does not reach 5 bytes, spaces are added. Therefore, the queried byte length is **5**.
 
    ::
 
@@ -188,3 +191,25 @@ Example:
          | t
          | t
       (2 rows)
+
+In Teradata and MySQL compatibility mode, empty strings are distinguished from null.
+
+-  Example in Teradata compatibility mode:
+
+   ::
+
+      SELECT  '' is null , null is null;
+       isnull |  isnull
+      --------+----------
+       f      | t
+      (1 row)
+
+-  Example in MySQL compatibility mode:
+
+   ::
+
+      SELECT  '' is null , null is null;
+       isnull |  isnull
+      --------+----------
+       f      | t
+      (1 row)

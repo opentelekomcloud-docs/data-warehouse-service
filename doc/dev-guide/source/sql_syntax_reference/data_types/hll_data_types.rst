@@ -24,9 +24,9 @@ HyperLoglog (HLL) is an approximation algorithm for efficiently counting the num
 
 HLL has advantages over others in the computing speed and storage space requirement. In terms of time complexity, the sorting algorithm needs O(nlogn) time for sorting, and the hash algorithm and HLL need O(n) time for full table scanning. In terms of storage space requirements, the sorting algorithm and hash algorithm need to store raw data before collecting statistics, whereas the HLL algorithm needs to store only the HLL data structures rather than the raw data, and thereby occupying a fixed space of only 1280 bytes.
 
-.. important::
+.. note::
 
-   -  In default specifications, the maximum number of distinct values is 1.6e plus 12, and the maximum error rate is only 2.3%. If a calculation result exceeds the maximum number, the error rate of the calculation result will increase, or the calculation will fail and an error will be reported.
+   -  In default specifications, the maximum number of distinct values is 1.6e plus 12, and the maximum error rate is only 2.3%. If the calculation result exceeds the maximum number of distinct values allowed by the current specifications, the error rate of the calculation result will increase, or the calculation will fail and an error will be reported.
    -  When using this feature for the first time, you need to evaluate the distinct values of the service, properly select configuration parameters, and perform verification to ensure that the accuracy meets requirements.
 
       -  When default parameter configuration is used, the calculated number of distinct values is 1.6e plus 12. If the calculated result is **NaN**, you need to adjust **log2m** and **regwidth** to accommodate more distinct values.
@@ -53,26 +53,26 @@ Application Scenarios of HLL
 
       ::
 
-         CREATE TABLE helloworld (id integer, set hll);
-         INSERT INTO helloworld(id, set) VALUES (1, hll_empty());
+         CREATE TABLE helloworld (id integer, col hll);
+         INSERT INTO helloworld(id, col) VALUES (1, hll_empty());
 
-   #. Add an integer that has gone through hash calculation into to the HLL.
-
-      ::
-
-         UPDATE helloworld SET set = hll_add(set, hll_hash_integer(12345)) WHERE id = 1;
-
-   #. Add a string that has gone through hash calculation into to the HLL.
+   #. Add an integer that has gone through hash calculation to the HLL.
 
       ::
 
-         UPDATE helloworld SET set = hll_add(set, hll_hash_text('hello world')) WHERE id = 1;
+         UPDATE helloworld SET col = hll_add(col, hll_hash_integer(12345)) WHERE id = 1;
+
+   #. Add a string that has gone through hash calculation to the HLL.
+
+      ::
+
+         UPDATE helloworld SET col = hll_add(col, hll_hash_text('hello world')) WHERE id = 1;
 
    #. Obtain the number of distinct values of the HLL.
 
       ::
 
-         SELECT hll_cardinality(set) FROM helloworld WHERE id = 1;
+         SELECT hll_cardinality(col) FROM helloworld WHERE id = 1;
           hll_cardinality
          -----------------
                         2
@@ -116,7 +116,7 @@ Application Scenarios of HLL
              FROM facts
              GROUP BY 1;
 
-   #. Calculate the numbers of users visiting the website every day:
+   #. Calculate the number of users visiting the website every day:
 
       ::
 
@@ -168,6 +168,6 @@ Application Scenarios of HLL
 
    ::
 
-      CREATE TABLE test(id integer, set hll);
+      CREATE TABLE test(id integer, col hll);
       INSERT INTO test VALUES(1, 'E\\1234');
       ERROR:  invalid input syntax for integer: "E\\1234"

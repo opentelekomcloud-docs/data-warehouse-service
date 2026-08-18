@@ -22,17 +22,19 @@ Syntax
 Parameter Description
 ---------------------
 
--  **PLAN**
+.. table:: **Table 1** EXPLAIN PLAN parameters
 
-   Stores plan information in **PLAN_TABLE**. If the storing is successful, **EXPLAIN SUCCESS** is returned.
-
--  **STATEMENT_ID**
-
-   Tags a query. The tag information will be stored in **PLAN_TABLE**.
-
-   .. note::
-
-      If the **EXPLAIN PLAN** statement does not contain **SET STATEMENT_ID**, the value of **STATEMENT_ID** is empty by default. In addition, the value of **STATEMENT_ID** cannot exceed 30 bytes. Otherwise, an error will be reported.
+   +-----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Parameter                         | Description                                                                                                                                                                                                                             |
+   +===================================+=========================================================================================================================================================================================================================================+
+   | PLAN                              | Stores plan information in **PLAN_TABLE**. If the storing is successful, **EXPLAIN SUCCESS** is returned.                                                                                                                               |
+   +-----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | STATEMENT_ID                      | Tags a query. The tag information will be stored in **PLAN_TABLE**.                                                                                                                                                                     |
+   |                                   |                                                                                                                                                                                                                                         |
+   |                                   | .. note::                                                                                                                                                                                                                               |
+   |                                   |                                                                                                                                                                                                                                         |
+   |                                   |    If the **EXPLAIN PLAN** statement does not contain **SET STATEMENT_ID**, the value of **STATEMENT_ID** is empty by default. In addition, the value of **STATEMENT_ID** cannot exceed 30 bytes. Otherwise, an error will be reported. |
+   +-----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 Precautions
 -----------
@@ -50,7 +52,7 @@ You can perform the following steps to collect execution plans of SQL statements
 
 #. Import TPC-H sample data.
 
-#. Run the **EXPLAN PLAN** statement.
+#. Run the **EXPLAIN PLAN** statement.
 
    .. note::
 

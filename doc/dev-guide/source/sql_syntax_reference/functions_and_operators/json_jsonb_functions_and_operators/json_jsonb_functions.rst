@@ -9,7 +9,7 @@ JSON/JSONB functions are used to generate JSON data (see :ref:`JSON Types <dws_0
 
 .. note::
 
-   Except the **array_to_json** and **row_to_json** functions, other JSON/JSONB functions and operators are supported only in 8.1.2 or later.
+   JSON/JSONB functions provide only basic functions. For scenarios requiring complex or special performance capabilities, contact a technical engineer for evaluation.
 
 array_to_json(anyarray [, pretty_bool])
 ---------------------------------------
@@ -22,7 +22,7 @@ Example:
 
 ::
 
-   postgres=#SELECT array_to_json('{{1,5},{99,100}}'::int[]);
+   SELECT array_to_json('{{1,5},{99,100}}'::int[]);
    array_to_json
    ------------------
    [[1,5],[99,100]]
@@ -39,7 +39,7 @@ Example:
 
 ::
 
-   postgres=#SELECT row_to_json(row(1,'foo'));
+   SELECT row_to_json(row(1,'foo'));
         row_to_json
    ---------------------
     {"f1":1,"f2":"foo"}
@@ -56,7 +56,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM classes;
+   SELECT * FROM classes;
     name | score
     -----+-------
     A    |     2
@@ -64,7 +64,7 @@ Example:
     D    |     5
     D    |
    (4 rows)
-   postgres=#SELECT name, json_agg(score) score FROM classes group by name order by name;
+   SELECT name, json_agg(score) score FROM classes group by name order by name;
     name |      score
     -----+-----------------
     A    | [2, 3]
@@ -83,7 +83,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM classes;
+   SELECT * FROM classes;
     name | score
     -----+-------
     A    |     2
@@ -92,7 +92,7 @@ Example:
     D    |
    (4 rows)
 
-   postgres=#SELECT json_object_agg(name, score) FROM classes group by name order by name;
+   SELECT json_object_agg(name, score) FROM classes group by name order by name;
         json_object_agg
    -------------------------
     { "A" : 2, "A" : 3 }
@@ -110,7 +110,7 @@ Example:
 
 ::
 
-   postgres=#SELECT json_build_array(1,2,'3',4,5);
+   SELECT json_build_array(1,2,'3',4,5);
     json_build_array
    -------------------
     [1, 2, "3", 4, 5]
@@ -127,7 +127,7 @@ Example:
 
 ::
 
-   postgres=#SELECT json_build_object('foo',1,'bar',2);
+   SELECT json_build_object('foo',1,'bar',2);
       json_build_object
    ------------------------
     {"foo" : 1, "bar" : 2}
@@ -146,19 +146,19 @@ Example:
 
 ::
 
-   postgres=#SELECT json_object('{a, 1, b, "def", c, 3.5}');
+   SELECT json_object('{a, 1, b, "def", c, 3.5}');
                  json_object
    ---------------------------------------
     {"a" : "1", "b" : "def", "c" : "3.5"}
    (1 row)
 
-   postgres=#SELECT json_object('{{a, 1},{b, "def"},{c, 3.5}}');
+   SELECT json_object('{{a, 1},{b, "def"},{c, 3.5}}');
                  json_object
    ---------------------------------------
     {"a" : "1", "b" : "def", "c" : "3.5"}
    (1 row)
 
-   postgres=#SELECT json_object('{a,b,"a b c"}', '{a,1,1}');
+   SELECT json_object('{a,b,"a b c"}', '{a,1,1}');
                    json_object
     ---------------------------------------
     {"a" : "a", "b" : "1", "a b c" : "1"}
@@ -175,7 +175,7 @@ Example:
 
 ::
 
-   postgres=#SELECT to_json('Fred said "Hi."'::text);
+   SELECT to_json('Fred said "Hi."'::text);
           to_json
    ---------------------
     "Fred said \"Hi.\""
@@ -209,7 +209,7 @@ Example:
 
 ::
 
-   postgres=#SELECT json_strip_nulls('[{"f1":1,"f2":null},2,null,3]');
+   SELECT json_strip_nulls('[{"f1":1,"f2":null},2,null,3]');
      json_strip_nulls
    ---------------------
     [{"f1":1},2,null,3]
@@ -226,7 +226,7 @@ Example:
 
 ::
 
-   postgres=#SELECT json_object_field('{"a": {"b":"foo"}}','a');
+   SELECT json_object_field('{"a": {"b":"foo"}}','a');
     json_object_field
    -------------------
     {"b":"foo"}
@@ -243,7 +243,7 @@ Example:
 
 ::
 
-   postgres=#SELECT json_object_field_text('{"a": {"b":"foo"}}','a');
+   SELECT json_object_field_text('{"a": {"b":"foo"}}','a');
     json_object_field_text
    ------------------------
     {"b":"foo"}
@@ -260,7 +260,7 @@ Example:
 
 ::
 
-   postgres=#SELECT json_array_element('[1,true,[1,[2,3]],null]',2);
+   SELECT json_array_element('[1,true,[1,[2,3]],null]',2);
     json_array_element
    --------------------
     [1,[2,3]]
@@ -277,7 +277,7 @@ Example:
 
 ::
 
-   postgres=#SELECT json_array_element_text('[1,true,[1,[2,3]],null]',2);
+   SELECT json_array_element_text('[1,true,[1,[2,3]],null]',2);
     json_array_element_text
    -------------------------
     [1,[2,3]]
@@ -294,7 +294,7 @@ Example:
 
 ::
 
-   postgres=#SELECT json_extract_path('{"f2":{"f3":1},"f4":{"f5":99,"f6":"stringy"}}', 'f4','f6');
+   SELECT json_extract_path('{"f2":{"f3":1},"f4":{"f5":99,"f6":"stringy"}}', 'f4','f6');
     json_extract_path
    -------------------
     "stringy"
@@ -311,7 +311,7 @@ Example:
 
 ::
 
-   postgres=#SELECT json_extract_path_text('{"f2":{"f3":1},"f4":{"f5":99,"f6":"stringy"}}', 'f4','f6');
+   SELECT json_extract_path_text('{"f2":{"f3":1},"f4":{"f5":99,"f6":"stringy"}}', 'f4','f6');
     json_extract_path_text
    ------------------------
     stringy
@@ -328,7 +328,7 @@ Example:
 
 ::
 
-   postgres=#SELECT json_array_elements('[1,true,[1,[2,3]],null]');
+   SELECT json_array_elements('[1,true,[1,[2,3]],null]');
     json_array_elements
    ---------------------
     1
@@ -348,7 +348,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM json_array_elements_text('[1,true,[1,[2,3]],null]');
+   SELECT * FROM json_array_elements_text('[1,true,[1,[2,3]],null]');
       value
    -----------
     1
@@ -368,7 +368,7 @@ Example:
 
 ::
 
-   postgres=#SELECT json_array_length('[1,2,3,{"f1":1,"f2":[5,6]},4,null]');
+   SELECT json_array_length('[1,2,3,{"f1":1,"f2":[5,6]},4,null]');
     json_array_length
    -------------------
            6
@@ -385,7 +385,7 @@ Example:
 
 ::
 
-   postgres=#SELECT json_object_keys('{"f1":"abc","f2":{"f3":"a", "f4":"b"}, "f1":"abcd"}');
+   SELECT json_object_keys('{"f1":"abc","f2":{"f3":"a", "f4":"b"}, "f1":"abcd"}');
     json_object_keys
    ------------------
     f1
@@ -404,7 +404,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM json_each('{"f1":[1,2,3],"f2":{"f3":1},"f4":null}');
+   SELECT * FROM json_each('{"f1":[1,2,3],"f2":{"f3":1},"f4":null}');
     key |  value
    -----+----------
     f1  | [1,2,3]
@@ -423,7 +423,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM json_each_text('{"f1":[1,2,3],"f2":{"f3":1},"f4":null}');
+   SELECT * FROM json_each_text('{"f1":[1,2,3],"f2":{"f3":1},"f4":null}');
     key |  value
    -----+----------
     f1  | [1,2,3]
@@ -451,8 +451,8 @@ Example:
 
 ::
 
-   postgres=#CREATE TYPE jpop AS (a text, b INT, c timestamp);
-   postgres=#SELECT * FROM json_populate_record(null::jpop,'{"a":"blurfl","x":43.2}');
+   CREATE TYPE jpop AS (a text, b INT, c timestamp);
+   SELECT * FROM json_populate_record(null::jpop,'{"a":"blurfl","x":43.2}');
       a    | b | c
    --------+---+---
     blurfl |   |
@@ -469,8 +469,8 @@ Example:
 
 ::
 
-   postgres=#CREATE TYPE jpop AS (a text, b INT, c timestamp);
-   postgres=#SELECT * FROM json_populate_recordset(null::jpop, '[{"a":1,"b":2},{"a":3,"b":4}]');
+   CREATE TYPE jpop AS (a text, b INT, c timestamp);
+   SELECT * FROM json_populate_recordset(null::jpop, '[{"a":1,"b":2},{"a":3,"b":4}]');
     a | b | c
    ---+---+---
     1 | 2 |
@@ -488,7 +488,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM json_to_record('{"a":1,"b":"foo","c":"bar"}'::json) as x(a int, b text, d text);
+   SELECT * FROM json_to_record('{"a":1,"b":"foo","c":"bar"}'::json) as x(a int, b text, d text);
     a |  b  | d
    ---+-----+---
     1 | foo |
@@ -505,14 +505,14 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM json_to_recordset('[{"a":1,"b":{"d":"foo"},"c":true},{"a":2,"c":false,"b":{"d":"bar"}}]') AS x(a INT, b json, c BOOLEAN);
+   SELECT * FROM json_to_recordset('[{"a":1,"b":{"d":"foo"},"c":true},{"a":2,"c":false,"b":{"d":"bar"}}]') AS x(a INT, b json, c BOOLEAN);
     a |      b      | c
    ---+-------------+---
     1 | {"d":"foo"} | t
     2 | {"d":"bar"} | f
    (2 rows)
 
-   postgres=#SELECT * FROM json_to_recordset('[{"a":1,"b":"foo","d":false},{"a":2,"b":"bar","c":true}]') AS x(a INT, b text, c BOOLEAN);
+   SELECT * FROM json_to_recordset('[{"a":1,"b":"foo","d":false},{"a":2,"b":"bar","c":true}]') AS x(a INT, b text, c BOOLEAN);
     a |  b  | c
    ---+-----+---
     1 | foo |
@@ -530,7 +530,7 @@ Example:
 
 ::
 
-   postgres=#SELECT value, json_typeof(value) from (values (json '123.4'), (json '"foo"'), (json 'true'), (json 'null'), (json '[1, 2, 3]'), (json '{"x":"foo", "y":123}'), (NULL::json)) as data(value);
+   SELECT value, json_typeof(value) from (values (json '123.4'), (json '"foo"'), (json 'true'), (json 'null'), (json '[1, 2, 3]'), (json '{"x":"foo", "y":123}'), (NULL::json)) as data(value);
            value         | json_typeof
    ----------------------+-------------
     123.4                | number
@@ -553,7 +553,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_object('{a,1,b,2,3,NULL,"d e f","a b c"}');
+   SELECT jsonb_object('{a,1,b,2,3,NULL,"d e f","a b c"}');
                       jsonb_object
    ---------------------------------------------------
     {"3": null, "a": "1", "b": "2", "d e f": "a b c"}
@@ -570,7 +570,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_object('{a,b,"a b c"}', '{a,1,1}');
+   SELECT jsonb_object('{a,b,"a b c"}', '{a,1,1}');
                jsonb_object
    ------------------------------------
     {"a": "a", "b": "1", "a b c": "1"}
@@ -587,7 +587,7 @@ Example:
 
 ::
 
-   postgres=#SELECT to_jsonb(1.1);
+   SELECT to_jsonb(1.1);
     to_jsonb
    ----------
     1.1
@@ -604,7 +604,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM json_tbl_2;
+   SELECT * FROM json_tbl_2;
     a |  b
    ---+-----
     1 | aaa
@@ -613,7 +613,7 @@ Example:
     2 | ddd
    (4 rows)
 
-   postgres=#SELECT a, jsonb_agg(b) FROM json_tbl_2 GROUP BY a ORDER BY a;
+   SELECT a, jsonb_agg(b) FROM json_tbl_2 GROUP BY a ORDER BY a;
     a |   jsonb_agg
    ---+----------------
     1 | ["aaa", "bbb"]
@@ -631,7 +631,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM json_tbl_3;
+   SELECT * FROM json_tbl_3;
     a |  b  | c
    ---+-----+----
     1 | aaa | 10
@@ -639,7 +639,7 @@ Example:
     2 | ccc | 30
     2 | ddd | 40
    (4 rows)
-   postgres=#SELECT a, jsonb_object_agg(b, c) FROM json_tbl_3 GROUP BY a ORDER BY a;
+   SELECT a, jsonb_object_agg(b, c) FROM json_tbl_3 GROUP BY a ORDER BY a;
     a |    jsonb_object_agg
    ---+------------------------
     1 | {"aaa": 10, "bbb": 20}
@@ -657,7 +657,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_build_array('a',1,'b',1.2,'c',true,'d',null,'e',json '{"x": 3, "y": [1,2,3]}','');
+   SELECT jsonb_build_array('a',1,'b',1.2,'c',true,'d',null,'e',json '{"x": 3, "y": [1,2,3]}','');
                                   jsonb_build_array
    -------------------------------------------------------------------------------
     ["a", 1, "b", 1.2, "c", true, "d", null, "e", {"x": 3, "y": [1, 2, 3]}, null]
@@ -674,7 +674,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_build_object(1,2);
+   SELECT jsonb_build_object(1,2);
     jsonb_build_object
    --------------------
     {"1": 2}
@@ -691,7 +691,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_strip_nulls('[{"f1":1,"f2":null},2,null,3]');
+   SELECT jsonb_strip_nulls('[{"f1":1,"f2":null},2,null,3]');
        jsonb_strip_nulls
    -------------------------
     [{"f1": 1}, 2, null, 3]
@@ -708,7 +708,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_object_field('{"a": {"b":"foo"}}','a');
+   SELECT jsonb_object_field('{"a": {"b":"foo"}}','a');
     jsonb_object_field
    --------------------
     {"b": "foo"}
@@ -725,7 +725,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_object_field_text('{"a": {"b":"foo"}}','a');
+   SELECT jsonb_object_field_text('{"a": {"b":"foo"}}','a');
     jsonb_object_field_text
    -------------------------
     {"b": "foo"}
@@ -742,7 +742,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_array_element('[1,true,[1,[2,3]],null]',2);
+   SELECT jsonb_array_element('[1,true,[1,[2,3]],null]',2);
     jsonb_array_element
    ---------------------
     [1, [2, 3]]
@@ -759,14 +759,14 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_array_element_text('[1,true,[1,[2,3]],null]',2);
+   SELECT jsonb_array_element_text('[1,true,[1,[2,3]],null]',2);
     jsonb_array_element_text
    --------------------------
     [1, [2, 3]]
    (1 row)
 
-jsonb_extract_path((jsonb, VARIADIC text[])
--------------------------------------------
+jsonb_extract_path(jsonb, VARIADIC text[])
+------------------------------------------
 
 Description: Same as the operator **#>**, which returns the value of the path specified by *$2*.
 
@@ -776,14 +776,14 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_extract_path('{"f2":{"f3":1},"f4":{"f5":99,"f6":"stringy"}}', 'f4','f6');
+   SELECT jsonb_extract_path('{"f2":{"f3":1},"f4":{"f5":99,"f6":"stringy"}}', 'f4','f6');
     jsonb_extract_path
    --------------------
     "stringy"
    (1 row)
 
-jsonb_extract_path_text((jsonb, VARIADIC text[])
-------------------------------------------------
+jsonb_extract_path_text(jsonb, VARIADIC text[])
+-----------------------------------------------
 
 Description: Same as the operator **#>>**, which returns the value of the path specified by *$2*.
 
@@ -793,14 +793,14 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_extract_path_text('{"f2":{"f3":1},"f4":{"f5":99,"f6":"stringy"}}', 'f4','f6');
+   SELECT jsonb_extract_path_text('{"f2":{"f3":1},"f4":{"f5":99,"f6":"stringy"}}', 'f4','f6');
     jsonb_extract_path_text
    -------------------------
     stringy
    (1 row)
 
-jsonb_extract((jsonb, VARIADIC text[])
---------------------------------------
+jsonb_extract(jsonb, VARIADIC text[])
+-------------------------------------
 
 Description: If you enter any object-jsonb or array-jsonb type, the value of the path specified by **$2** is returned. This function is supported only by clusters of version 9.1.0 or later.
 
@@ -823,8 +823,8 @@ Example:
     "stringy"
    (2 rows)
 
-jsonb_extract_text((jsonb, VARIADIC text[])
--------------------------------------------
+jsonb_extract_text(jsonb, VARIADIC text[])
+------------------------------------------
 
 Description: If you enter any object-jsonb or array-jsonb type, the value of the path specified by **$2** is returned. This function is supported only by clusters of version 9.1.0 or later.
 
@@ -858,7 +858,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_array_elements('[1,true,[1,[2,3]],null]');
+   SELECT jsonb_array_elements('[1,true,[1,[2,3]],null]');
     jsonb_array_elements
    ----------------------
     1
@@ -878,7 +878,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM jsonb_array_elements_text('[1,true,[1,[2,3]],null]');
+   SELECT * FROM jsonb_array_elements_text('[1,true,[1,[2,3]],null]');
        value
    -------------
     1
@@ -898,7 +898,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_array_length('[1,2,3,{"f1":1,"f2":[5,6]},4,null]');
+   SELECT jsonb_array_length('[1,2,3,{"f1":1,"f2":[5,6]},4,null]');
     jsonb_array_length
    --------------------
              6
@@ -915,7 +915,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_object_keys('{"f1":"abc","f2":{"f3":"a", "f4":"b"}, "f1":"abcd"}');
+   SELECT jsonb_object_keys('{"f1":"abc","f2":{"f3":"a", "f4":"b"}, "f1":"abcd"}');
     jsonb_object_keys
    -------------------
     f1
@@ -933,7 +933,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM jsonb_each('{"f1":[1,2,3],"f2":{"f3":1},"f4":null}');
+   SELECT * FROM jsonb_each('{"f1":[1,2,3],"f2":{"f3":1},"f4":null}');
     key |   value
    -----+-----------
     f1  | [1, 2, 3]
@@ -952,7 +952,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM jsonb_each_text('{"f1":[1,2,3],"f2":{"f3":1},"f4":null}');
+   SELECT * FROM jsonb_each_text('{"f1":[1,2,3],"f2":{"f3":1},"f4":null}');
     key |   value
    -----+-----------
     f1  | [1, 2, 3]
@@ -971,7 +971,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM jsonb_populate_record(null::jpop,'{"a":"blurfl","x":43.2}');
+   SELECT * FROM jsonb_populate_record(null::jpop,'{"a":"blurfl","x":43.2}');
       a    | b | c
    --------+---+---
     blurfl |   |
@@ -988,7 +988,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM jsonb_populate_recordset(null::jpop, '[{"a":1,"b":2},{"a":3,"b":4}]');
+   SELECT * FROM jsonb_populate_recordset(null::jpop, '[{"a":1,"b":2},{"a":3,"b":4}]');
     a | b | c
    ---+---+---
     1 | 2 |
@@ -1006,7 +1006,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM jsonb_to_record('{"a":1,"b":"foo","c":"bar"}'::jsonb) as x(a int, b text, d text);
+   SELECT * FROM jsonb_to_record('{"a":1,"b":"foo","c":"bar"}'::jsonb) as x(a int, b text, d text);
     a |  b  | d
    ---+-----+---
     1 | foo |
@@ -1015,7 +1015,7 @@ Example:
 jsonb_to_recordset(array-json)
 ------------------------------
 
-Description: Executes the preceding function on each element in the array by referring to the **jsonb_to_record** function. Therefore, each element in the array must be **object-jsonb**.
+Description: Executes the preceding operation on each element in the array by referring to the **jsonb_to_record** function. Each element in the array must be **object-jsonb**.
 
 Return type: SETOF record
 
@@ -1023,7 +1023,7 @@ Example:
 
 ::
 
-   postgres=#SELECT * FROM jsonb_to_recordset('[{"a":1,"b":"foo","d":false},{"a":2,"b":"bar","c":true}]') AS x(a INT, b text, c boolean);
+   SELECT * FROM jsonb_to_recordset('[{"a":1,"b":"foo","d":false},{"a":2,"b":"bar","c":true}]') AS x(a INT, b text, c boolean);
     a |  b  | c
    ---+-----+---
     1 | foo |
@@ -1041,7 +1041,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_typeof(to_jsonb(1.1));
+   SELECT jsonb_typeof(to_jsonb(1.1));
     jsonb_typeof
    --------------
     number
@@ -1058,7 +1058,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_ne('{"a":1, "b":2}'::jsonb, '{"a":1, "b":3}'::jsonb);
+   SELECT jsonb_ne('{"a":1, "b":2}'::jsonb, '{"a":1, "b":3}'::jsonb);
     jsonb_ne
    ----------
     t
@@ -1075,7 +1075,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_lt('{"a":1, "b":2}'::jsonb, '{"a":1, "b":3}'::jsonb);
+   SELECT jsonb_lt('{"a":1, "b":2}'::jsonb, '{"a":1, "b":3}'::jsonb);
     jsonb_lt
    ----------
     t
@@ -1092,7 +1092,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_gt('{"a":1, "b":2}'::jsonb, '{"a":1, "b":3}'::jsonb);
+   SELECT jsonb_gt('{"a":1, "b":2}'::jsonb, '{"a":1, "b":3}'::jsonb);
     jsonb_gt
    ----------
     f
@@ -1109,7 +1109,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_le('["a", "b"]', '{"a":1, "b":2}');
+   SELECT jsonb_le('["a", "b"]', '{"a":1, "b":2}');
     jsonb_le
    ----------
     t
@@ -1126,7 +1126,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_ge('["a", "b"]', '{"a":1, "b":2}');
+   SELECT jsonb_ge('["a", "b"]', '{"a":1, "b":2}');
     jsonb_ge
    ----------
     f
@@ -1143,7 +1143,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_eq('["a", "b"]', '{"a":1, "b":2}');
+   SELECT jsonb_eq('["a", "b"]', '{"a":1, "b":2}');
     jsonb_eq
    ----------
     f
@@ -1160,7 +1160,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_cmp('["a", "b"]', '{"a":1, "b":2}');
+   SELECT jsonb_cmp('["a", "b"]', '{"a":1, "b":2}');
     jsonb_cmp
    -----------
     -1
@@ -1177,7 +1177,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_exists('["1",2,3]', '1');
+   SELECT jsonb_exists('["1",2,3]', '1');
     jsonb_exists
    --------------
     t
@@ -1194,7 +1194,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_exists_any('["1","2",3]', '{1, 2, 4}');
+   SELECT jsonb_exists_any('["1","2",3]', '{1, 2, 4}');
     jsonb_exists_any
    ------------------
     t
@@ -1213,7 +1213,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_exists_all('["1","2",3]', '{1, 2}');
+   SELECT jsonb_exists_all('["1","2",3]', '{1, 2}');
     jsonb_exists_all
    ------------------
     t
@@ -1230,7 +1230,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_contained('[1,2,3]', '[1,2,3,4]');
+   SELECT jsonb_contained('[1,2,3]', '[1,2,3,4]');
     jsonb_contained
    -----------------
     t
@@ -1247,7 +1247,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_contains('{"a":1, "b":2, "c":3}'::jsonb, '{"a":1}');
+   SELECT jsonb_contains('{"a":1, "b":2, "c":3}'::jsonb, '{"a":1}');
     jsonb_contains
    -----------------
     t
@@ -1264,7 +1264,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_concat('{"a":1, "b":2}'::jsonb, '{"c":3, "d":4}'::jsonb);
+   SELECT jsonb_concat('{"a":1, "b":2}'::jsonb, '{"c":3, "d":4}'::jsonb);
               jsonb_concat
    ----------------------------------
     {"a": 1, "b": 2, "c": 3, "d": 4}
@@ -1281,7 +1281,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_delete('{"a":1, "b":2}'::jsonb, 'a');
+   SELECT jsonb_delete('{"a":1, "b":2}'::jsonb, 'a');
     jsonb_delete
    --------------
     {"b": 2}
@@ -1298,7 +1298,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_delete_idx('[0,1,2,3,4]'::jsonb, 2);
+   SELECT jsonb_delete_idx('[0,1,2,3,4]'::jsonb, 2);
     jsonb_delete_idx
    ------------------
     [0, 1, 3, 4]
@@ -1315,7 +1315,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_delete_array('["a", "b", "c"]'::jsonb , 'a', 'b');
+   SELECT jsonb_delete_array('["a", "b", "c"]'::jsonb , 'a', 'b');
     jsonb_delete_array
    --------------------
     ["c"]
@@ -1332,7 +1332,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_delete_path('{"a":{"b":{"c":1, "d":2}}, "e":3}'::jsonb , array['a', 'b']);
+   SELECT jsonb_delete_path('{"a":{"b":{"c":1, "d":2}}, "e":3}'::jsonb , array['a', 'b']);
     jsonb_delete_path
    -------------------
     {"a": {}, "e": 3}
@@ -1349,7 +1349,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_set('[{"f1":1,"f2":null},2,null,3]', '{0,f1}','[2,3,4]', false);
+   SELECT jsonb_set('[{"f1":1,"f2":null},2,null,3]', '{0,f1}','[2,3,4]', false);
                      jsonb_set
    ---------------------------------------------
     [{"f1": [2, 3, 4], "f2": null}, 2, null, 3]
@@ -1366,7 +1366,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_pretty('{"a":{"b":{"c":1, "d":2}}, "e":3}'::jsonb);
+   SELECT jsonb_pretty('{"a":{"b":{"c":1, "d":2}}, "e":3}'::jsonb);
        jsonb_pretty
    ---------------------
     {                  +
@@ -1391,7 +1391,7 @@ Example:
 
 ::
 
-   postgres=#SELECT jsonb_insert('{"a": [0,1,2]}', '{a, 1}', '"new_value"');
+   SELECT jsonb_insert('{"a": [0,1,2]}', '{a, 1}', '"new_value"');
             jsonb_insert
    -------------------------------
     {"a": [0, "new_value", 1, 2]}
@@ -1408,15 +1408,15 @@ Example:
 
 ::
 
-   postgres=#SELECT ts_headline('english', '[{"id":9928,"user_id":4562,"user_name":"9LOHR4","create_time":"2021-06-22T16:28:16.504518+08:00"}, {"id":9959,"user_id":5524,"user_name":"YID07D","create_time":"2021-06-22T16:28:16.557228+08:00"}, {"id":9962,"user_id":7991,"user_name":"7C6QOM","create_time":"2021-06-22T16:28:16.56234+08:00"}]'::jsonb,
+   SELECT ts_headline('english', '[{"id":9928,"user_id":4562,"user_name":"9LOHR4","create_time":"2021-06-22T16:28:16.504518+08:00"}, {"id":9959,"user_id":5524,"user_name":"YID07D","create_time":"2021-06-22T16:28:16.557228+08:00"}, {"id":9962,"user_id":7991,"user_name":"7C6QOM","create_time":"2021-06-22T16:28:16.56234+08:00"}]'::jsonb,
     to_tsquery('english', '9LOHR4'), 'StartSel = <, StopSel = >');
                                                                                                                                                             ts_headline
    ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     [{"id": 9928, "user_id": 4562, "user_name": "<9LOHR4>", "create_time": "2021-06-22T16:28:16.504518+08:00"}, {"id": 9959, "user_id": 5524, "user_name": "YID07D", "create_time": "2021-06-22T16:28:16.557228+08:00"}, {"id": 9962, "user_id": 7991, "user_name": "7C6QOM", "create_time": "2021-06-22T16:28:16.56234+08:00"}]
    (1 row)
 
-json_to_tsvector(config regconfig, ] json, jsonb)
--------------------------------------------------
+json_to_tsvector([ config regconfig, ] json, jsonb)
+---------------------------------------------------
 
 Description: Converts the json format to the tsvector file format that supports full-text search.
 
@@ -1426,7 +1426,7 @@ Example:
 
 ::
 
-   postgres=#SELECT json_to_tsvector('{"a":1, "b":2, "c":3}'::json, to_jsonb('key'::text));
+   SELECT json_to_tsvector('{"a":1, "b":2, "c":3}'::json, to_jsonb('key'::text));
     json_to_tsvector
    ------------------
     'b':2 'c':4

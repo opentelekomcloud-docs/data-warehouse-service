@@ -177,7 +177,7 @@ Return type: text
 pg_get_tabledef(table_oid)
 --------------------------
 
-Description: Obtains a table definition based on **table_oid**.
+Description: Obtains the table definition based on the table OID.
 
 Return type: text
 
@@ -208,7 +208,7 @@ Example: Obtain the OID of the table **customer_t2** from the system catalog **p
 pg_get_tabledef(table_name)
 ---------------------------
 
-Description: Obtains a table definition based on **table_name**.
+Description: Obtains the table definition based on the table name.
 
 Return type: text
 
@@ -217,7 +217,7 @@ Remarks: **pg_get_tabledef** reconstructs the **CREATE** statement of the table 
 pg_get_tabledef(table_name/table_oid, forCreate boolean)
 --------------------------------------------------------
 
-Description: Obtains a table definition based on **table_name**. It is supported only by clusters of version 9.1.0.100 or later.
+Description: Obtains the table definition based on the table name or OID. It is supported only by clusters of version 9.1.0.100 or later.
 
 Return type: text
 
@@ -227,14 +227,14 @@ Return type: text
 pg_get_tabledef(table_name/table_oid, forCreate boolean,withColComm boolean)
 ----------------------------------------------------------------------------
 
-Description: Obtains a table definition based on **table_name**. This function is supported only by clusters of version 9.1.0.200 or later.
+Description: Obtains the table definition based on the table name or OID. This function is supported only by clusters of version 9.1.0.200 or later.
 
 Return type: text
 
 -  If **withColComment** is **true**, the comment for a column field is displayed next to it,
 -  If **withColComment** is **false**, the comment for a column is shown at the end of the table definition.
 
-Examples:
+Example:
 
 .. code-block::
 
@@ -269,6 +269,13 @@ Examples:
     COMMENT ON COLUMN person.address IS 'Address';
    (1 row)
 
+pg_get_stat_expressions(oid)
+----------------------------
+
+Description: Obtains the expressions in the extended statistics objects. Only clusters of version 8.2.1.200 or later support this function.
+
+Return type: text[]
+
 pg_options_to_table(reloptions)
 -------------------------------
 
@@ -278,7 +285,7 @@ Return type: SETOF record
 
 Note: **pg_options_to_table** returns the set of storage option name/value pairs (**option_name**/**option_value**) when passing **pg_class.reloptions** or **pg_attribute.attoptions**.
 
-The following is an example:
+Example:
 
 ::
 

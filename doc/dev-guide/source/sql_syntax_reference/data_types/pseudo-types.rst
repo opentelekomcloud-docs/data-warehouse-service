@@ -5,7 +5,7 @@
 Pseudo-Types
 ============
 
-GaussDB(DWS) has a number of special-purpose entries that are collectively called pseudo-types. A pseudo-type cannot be used as a column data type, but it can be used to declare a function's argument or result type.
+DWS has a number of special-purpose entries that are collectively called pseudo-types. A pseudo-type cannot be used as a column data type, but it can be used to declare a function's argument or result type.
 
 Pseudotypes are highly beneficial in functions that require more complex input and output than standard SQL data types. :ref:`Table 1 <en-us_topic_0000001811634709__t6c556c1e17d64480875dad682fb109b4>` lists all pseudo-types.
 
@@ -51,7 +51,7 @@ Functions coded in procedural languages can use pseudo-types only as allowed by 
 
 The **internal** pseudo-type is used to declare functions that are meant only to be called internally by the database system, and not by direct call in an SQL query. If a function has at least one **internal**-type argument, it cannot be called from SQL. You are not advised to create any function that is declared to return **internal** unless the function has at least one **internal** argument.
 
-For example:
+Example:
 
 Create or replace the showall() function:
 

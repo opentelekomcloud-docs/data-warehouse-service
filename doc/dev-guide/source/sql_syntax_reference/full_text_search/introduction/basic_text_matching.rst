@@ -5,7 +5,7 @@
 Basic Text Matching
 ===================
 
-Full text search in GaussDB(DWS) is based on the match operator **@@**, which returns **true** if a **tsvector** (document) matches a **tsquery** (query). It does not matter which data type is written first:
+Full text search in DWS is based on the match operator **@@**, which returns **true** if a **tsvector** (document) matches a **tsquery** (query). It does not matter which data type is written first:
 
 ::
 

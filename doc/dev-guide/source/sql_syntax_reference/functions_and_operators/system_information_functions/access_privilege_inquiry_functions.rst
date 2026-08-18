@@ -8,14 +8,14 @@ Access Privilege Inquiry Functions
 has_any_column_privilege(user, table, privilege)
 ------------------------------------------------
 
-Description: Queries whether a specified user has permission for any column of table.
+Description: Queries whether a specified user has permissions for any column of table.
 
 Return type: boolean
 
 has_any_column_privilege(table, privilege)
 ------------------------------------------
 
-Description: Queries whether the current user has permission for any column of table.
+Description: Queries whether the current user has permissions for any column of table.
 
 Return type: boolean
 
@@ -28,14 +28,14 @@ Return type: boolean
 has_column_privilege(user, table, column, privilege)
 ----------------------------------------------------
 
-Description: Queries whether a specified user has permission for column.
+Description: Queries whether a specified user has permissions for columns.
 
 Return type: boolean
 
 has_column_privilege(table, column, privilege)
 ----------------------------------------------
 
-Description: Queries whether the current user has permission for column.
+Description: Queries whether the current user has permissions for columns.
 
 Return type: boolean
 
@@ -48,14 +48,14 @@ Return type: boolean
 has_database_privilege(user, database, privilege)
 -------------------------------------------------
 
-Description: Queries whether a specified user has permission for database.
+Description: Queries whether a specified user has permissions for the database.
 
 Return type: boolean
 
 has_database_privilege(database, privilege)
 -------------------------------------------
 
-Description: Queries whether the current user has permission for database.
+Description: Queries whether the current user has permissions for the database.
 
 Return type: boolean
 
@@ -64,7 +64,7 @@ Note: **has_database_privilege** checks whether a user can access a database in 
 has_foreign_data_wrapper_privilege(user, fdw, privilege)
 --------------------------------------------------------
 
-Description: Queries whether a specified user has permission for foreign-data wrapper.
+Description: Queries whether a specified user has permissions for the foreign-data wrapper.
 
 The **fdw** parameter indicates the name or ID of the foreign data wrapper.
 
@@ -73,7 +73,7 @@ Return type: boolean
 has_foreign_data_wrapper_privilege(fdw, privilege)
 --------------------------------------------------
 
-Description: Queries whether the current user has permission for foreign-data wrapper.
+Description: Queries whether the current user has permissions for the foreign-data wrapper.
 
 Return type: boolean
 
@@ -82,14 +82,14 @@ Note: **has_foreign_data_wrapper_privilege** checks whether a user can access a 
 has_function_privilege(user, function, privilege)
 -------------------------------------------------
 
-Description: Queries whether a specified user has permission for function.
+Description: Queries whether a specified user has permissions for the function.
 
 Return type: boolean
 
 has_function_privilege(function, privilege)
 -------------------------------------------
 
-Description: Queries whether the current user has permission for function.
+Description: Queries whether the current user has permissions for the function.
 
 Return type: boolean
 
@@ -98,14 +98,14 @@ Note: **has_function_privilege** checks whether a user can access a function in 
 has_language_privilege(user, language, privilege)
 -------------------------------------------------
 
-Description: Queries whether a specified user has permission for language.
+Description: Queries whether a specified user has permissions for the language.
 
 Return type: boolean
 
 has_language_privilege(language, privilege)
 -------------------------------------------
 
-Description: Queries whether the current user has permission for language.
+Description: Queries whether the current user has permissions for the language.
 
 Return type: boolean
 
@@ -114,14 +114,14 @@ Note: **has_language_privilege** checks whether a user can access a procedural l
 has_schema_privilege(user, schema, privilege)
 ---------------------------------------------
 
-Description: Queries whether a specified user has permission for schema.
+Description: Queries whether a specified user has permissions for the schema.
 
 Return type: boolean
 
 has_schema_privilege(schema, privilege)
 ---------------------------------------
 
-Description: Queries whether the current user has permission for schema.
+Description: Queries whether the current user has permissions for the schema.
 
 Return type: boolean
 
@@ -130,14 +130,14 @@ Note: **has_schema_privilege** checks whether a user can access a schema in a pa
 has_server_privilege(user, server, privilege)
 ---------------------------------------------
 
-Description: Queries whether a specified user has permission for foreign server.
+Description: Queries whether a specified user has permissions for the foreign server.
 
 Return type: boolean
 
 has_server_privilege(server, privilege)
 ---------------------------------------
 
-Description: Queries whether the current user has permission for foreign server.
+Description: Queries whether the current user has permissions for the foreign server.
 
 Return type: boolean
 
@@ -146,14 +146,14 @@ Note: **has_server_privilege** checks whether a user can access a foreign server
 has_table_privilege(user, table, privilege)
 -------------------------------------------
 
-Description: Queries whether a specified user has permission for table.
+Description: Queries whether a specified user has permissions for the table.
 
 Return type: boolean
 
 has_table_privilege(table, privilege)
 -------------------------------------
 
-Description: Queries whether the current user has permission for table.
+Description: Queries whether the current user has permissions for the table.
 
 Return type: boolean
 
@@ -180,14 +180,14 @@ Example:
 pg_has_role(user, role, privilege)
 ----------------------------------
 
-Description: Queries whether a specified user has permission for role.
+Description: Queries whether a specified user has permissions for the role.
 
 Return type: boolean
 
 pg_has_role(role, privilege)
 ----------------------------
 
-Description: Specifies whether the current user has permission for role.
+Description: Specifies whether the current user has permissions for the role.
 
 Return type: boolean
 

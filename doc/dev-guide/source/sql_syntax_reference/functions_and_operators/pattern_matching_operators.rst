@@ -103,7 +103,7 @@ The **SIMILAR TO** operator determines whether to match a given string based on 
 
 -  Regular expression functions
 
-   The :ref:`substring(string from pattern for escape) <en-us_topic_0000001811634661__section12598113333>` function can be used to intercept a substring that matches an SQL regular expression.
+   The :ref:`substring(string from pattern for escape) <en-us_topic_0000002483790638__section12598113333>` function can be used to intercept a substring that matches an SQL regular expression.
 
 -  Examples
 
@@ -155,9 +155,9 @@ A regular expression is a character sequence that is an abbreviated definition o
    +----------+---------------------------------------------------------------+---------------------------+
    | ~\*      | Matches regular expression, which is case-insensitive.        | 'thomas' ~\* '.*Thomas.*' |
    +----------+---------------------------------------------------------------+---------------------------+
-   | ! ~      | Does not match regular expression, which is case-sensitive.   | 'thomas' !~ '.*Thomas.*'  |
+   | !~       | Does not match regular expression, which is case-sensitive.   | 'thomas' !~ '.*Thomas.*'  |
    +----------+---------------------------------------------------------------+---------------------------+
-   | ! ~\*    | Does not match regular expression, which is case-insensitive. | 'thomas' !~\* '.*vadim.*' |
+   | !~\*     | Does not match regular expression, which is case-insensitive. | 'thomas' !~\* '.*vadim.*' |
    +----------+---------------------------------------------------------------+---------------------------+
 
 -  Matching rule
@@ -179,11 +179,11 @@ A regular expression is a character sequence that is an abbreviated definition o
 
    POSIX regular expressions support the following functions:
 
-   -  The :ref:`substring(string from pattern) <en-us_topic_0000001811634661__section13931191583319>` function provides a method for extracting a substring that matches the POSIX regular expression pattern.
-   -  The :ref:`regexp_replace(string, pattern, replacement [,flags ]) <en-us_topic_0000001811634661__section1287153982819>` function provides the function of replacing the substring matching the POSIX regular expression pattern with the new text.
-   -  The :ref:`regexp_matches(string text, pattern text [, flags text]) <en-us_topic_0000001811634661__section1740918406323>` function returns a text array consisting of all captured substrings that match a POSIX regular expression pattern.
-   -  The :ref:`regexp_split_to_table(string text, pattern text [, flags text]) <en-us_topic_0000001811634661__section9656102314320>` function splits a string using a POSIX regular expression pattern as a delimiter.
-   -  The :ref:`regexp_split_to_array(string text, pattern text [, flags text ]) <en-us_topic_0000001811634661__section17325142812322>` function behaves the same as **regexp_split_to_table**, except that **regexp_split_to_array** returns its result as an array of text.
+   -  The :ref:`substring(string from pattern) <en-us_topic_0000002483790638__section13931191583319>` function provides a method for extracting a substring that matches the POSIX regular expression pattern.
+   -  The :ref:`regexp_replace(string, pattern, replacement [,flags ]) <en-us_topic_0000002515797145__section1287153982819>` function provides the function of replacing the substring matching the POSIX regular expression pattern with the new text.
+   -  The :ref:`regexp_matches(string text, pattern text [, flags text]) <en-us_topic_0000002483790638__section1740918406323>` function returns a text array consisting of all captured substrings that match a POSIX regular expression pattern.
+   -  The :ref:`regexp_split_to_table(string text, pattern text [, flags text]) <en-us_topic_0000002515796863__section9656102314320>` function splits a string using a POSIX regular expression pattern as a delimiter.
+   -  The :ref:`regexp_split_to_array(string text, pattern text [, flags text ]) <en-us_topic_0000002515796863__section17325142812322>` function behaves the same as **regexp_split_to_table**, except that **regexp_split_to_array** returns its result as an array of text.
 
       .. note::
 
@@ -247,4 +247,4 @@ A regular expression is a character sequence that is an abbreviated definition o
        f
       (1 row)
 
-   Although most regular expression searches can be executed quickly, the time and memory for regular expression processing can still be manually controlled. It is not recommended that you accept the regular expression search mode from the non-security mode source. If you must do this, you are advised to add the statement timeout limit. The search with the SIMILAR TO mode has the same security risks as the SIMILAR TO provides many capabilities that are the same as those of the POSIX- style regular expression. The LIKE search is much simpler than the other two options. Therefore, it is more secure to accept the non-secure mode source search.
+   Although most regular expression searches can be executed quickly, the time and memory for regular expression processing can still be manually controlled. Avoid using regular expression search patterns from untrusted sources. If required, set a statement timeout limit. The search with the SIMILAR TO mode has the same security risks as the SIMILAR TO provides many capabilities that are the same as those of the POSIX- style regular expression. For better security with unreliable inputs, prefer the simpler LIKE search over complex alternatives.

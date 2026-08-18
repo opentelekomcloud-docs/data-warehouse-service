@@ -1,0 +1,177 @@
+:original_name: dws_06_0216.html
+
+.. _dws_06_0216:
+
+FETCH
+=====
+
+Function
+--------
+
+**FETCH** retrieves data using a previously-created cursor.
+
+A cursor has an associated position, which is used by **FETCH**. The cursor position can be before the first row of the query result, on any particular row of the result, or after the last row of the result.
+
+-  When created, a cursor is positioned before the first row.
+-  After fetching some rows, the cursor is positioned on the row most recently retrieved.
+-  If **FETCH** runs off the end of the available rows then the cursor is left positioned after the last row, or before the first row if fetching backward.
+-  **FETCH ALL** or **FETCH BACKWARD ALL** will always leave the cursor positioned after the last row or before the first row.
+
+Precautions
+-----------
+
+-  If **NO SCROLL** is defined for the cursor, a backward fetch like **FETCH BACKWARD** is not allowed.
+-  The forms **NEXT**, **PRIOR**, **FIRST**, **LAST**, **ABSOLUTE**, and **RELATIVE** appropriately fetch a record after moving the cursor. If the cursor is already after the last row before being moved, an empty result is returned, and the cursor is left positioned before the first row (backward fetch) or after the last row (forward fetch) as appropriate.
+-  The forms using **FORWARD** and **BACKWARD** retrieve the indicated number of rows moving in the forward or backward direction, leaving the cursor positioned on the last-returned row (or after (backward fetch)/before (forward fetch) all rows, if the count exceeds the number of rows available).
+-  **RELATIVE 0**, **FORWARD 0**, and **BACKWARD 0** all request fetching the current row without moving the cursor, that is, re-fetching the most recently fetched row. This will succeed unless the cursor is positioned before the first row or after the last row, in which case, no row is returned.
+-  If the cursor of **FETCH** involves a column-store table, backward fetches like **BACKWARD**, **PRIOR**, and **FIRST** are not supported.
+
+Syntax
+------
+
+::
+
+   FETCH [ direction { FROM | IN } ] cursor_name;
+
+The **direction** clause specifies optional parameters.
+
+::
+
+   NEXT
+      | PRIOR
+      | FIRST
+      | LAST
+      | ABSOLUTE count
+      | RELATIVE count
+      | count
+      | ALL
+      | FORWARD
+      | FORWARD count
+      | FORWARD ALL
+      | BACKWARD
+      | BACKWARD count
+      | BACKWARD ALL
+
+.. _en-us_topic_0000001764675150__s680662240a104ac7a51873c7c888bdd1:
+
+Parameter Description
+---------------------
+
+.. table:: **Table 1** FETCH parameters
+
+   +----------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
+   | Parameter                  | Description                                                     | Value Range                                                                         |
+   +============================+=================================================================+=====================================================================================+
+   | direction_clause           | Defines the fetch direction.                                    | For details, see :ref:`Table 2 <en-us_topic_0000001764675150__table2024419810249>`. |
+   +----------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
+   | { FROM \| IN } cursor_name | Specifies the cursor name using the keyword **FROM** or **IN**. | Name of the cursor                                                                  |
+   +----------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------+
+
+.. _en-us_topic_0000001764675150__table2024419810249:
+
+.. table:: **Table 2** Value range of direction_clause
+
+   +--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | Value Range              | Description                                                                                                                                                                    | Remarks                                                                                                                                                                                                                                   |
+   +==========================+================================================================================================================================================================================+===========================================================================================================================================================================================================================================+
+   | **NEXT** (default value) | Fetches the next row.                                                                                                                                                          | ``-``                                                                                                                                                                                                                                     |
+   +--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | PRIOR                    | Fetches the prior row.                                                                                                                                                         | ``-``                                                                                                                                                                                                                                     |
+   +--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | FIRST                    | Fetches the first row of the query (same as **ABSOLUTE 1**).                                                                                                                   | ``-``                                                                                                                                                                                                                                     |
+   +--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | LAST                     | Fetches the last row of the query (same as **ABSOLUTE -1**).                                                                                                                   | ``-``                                                                                                                                                                                                                                     |
+   +--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | ABSOLUTE count           | Fetches the (**count**)'th row of the query.                                                                                                                                   | **count** is a possibly-signed integer constant:                                                                                                                                                                                          |
+   |                          |                                                                                                                                                                                |                                                                                                                                                                                                                                           |
+   |                          | **ABSOLUTE** fetches are not any faster than navigating to the desired row with a relative move: the underlying implementation must traverse all the intermediate rows anyway. | -  If **count** is a positive integer, fetches the (count)'th row of the query, starting from the first row. If **count** is less than the current cursor position, a **rewind** operation is required, which is currently not supported. |
+   |                          |                                                                                                                                                                                | -  If **count** is a negative value or 0, a backward scanning is required, which is currently not supported.                                                                                                                              |
+   +--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | RELATIVE count           | Fetches the (count)'th succeeding row, or the abs(count)'th prior row if count is negative.                                                                                    | **count** is a possibly-signed integer constant:                                                                                                                                                                                          |
+   |                          |                                                                                                                                                                                |                                                                                                                                                                                                                                           |
+   |                          |                                                                                                                                                                                | -  If **count** is a positive integer, fetches the (count)'th succeeding row.                                                                                                                                                             |
+   |                          |                                                                                                                                                                                | -  If **count** is a negative value, a backward scanning is required, which is currently not supported.                                                                                                                                   |
+   |                          |                                                                                                                                                                                | -  **RELATIVE 0** fetches the current row.                                                                                                                                                                                                |
+   +--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | count                    | Fetches the next **count** rows (same as **FORWARD count**).                                                                                                                   | ``-``                                                                                                                                                                                                                                     |
+   +--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | ALL                      | Fetches all remaining rows (same as **FORWARD ALL**).                                                                                                                          | ``-``                                                                                                                                                                                                                                     |
+   +--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | FORWARD                  | Fetches the next row (same as **NEXT**).                                                                                                                                       | ``-``                                                                                                                                                                                                                                     |
+   +--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | FORWARD count            | Fetches the next or prior **count** rows (same as **RELATIVE count**).                                                                                                         | ``-``                                                                                                                                                                                                                                     |
+   +--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | FORWARD ALL              | Fetches all remaining rows.                                                                                                                                                    | ``-``                                                                                                                                                                                                                                     |
+   +--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | BACKWARD                 | Fetches the prior row (same as **PRIOR**).                                                                                                                                     | ``-``                                                                                                                                                                                                                                     |
+   +--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | BACKWARD count           | Fetches the prior **count** rows (scanning backwards).                                                                                                                         | **count** is a possibly-signed integer constant:                                                                                                                                                                                          |
+   |                          |                                                                                                                                                                                |                                                                                                                                                                                                                                           |
+   |                          |                                                                                                                                                                                | -  If **count** is a positive integer, fetches the (count)'th prior row.                                                                                                                                                                  |
+   |                          |                                                                                                                                                                                | -  If **count** is a negative integer, fetches the abs(count)'th succeeding row.                                                                                                                                                          |
+   |                          |                                                                                                                                                                                | -  **BACKWARD 0** re-fetches the current row.                                                                                                                                                                                             |
+   +--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+   | BACKWARD ALL             | Fetches all prior rows (scanning backwards).                                                                                                                                   | ``-``                                                                                                                                                                                                                                     |
+   +--------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+Examples
+--------
+
+Example 1: Run the **SELECT** statement to read a table using a cursor.
+
+Prepare table data.
+
+::
+
+   DROP TABLE IF EXISTS customer_address;
+   CREATE TABLE customer_address
+   (ca_address_sk INT,
+   ca_address_id VARCHAR(16),
+   ca_street_number VARCHAR(10),
+   ca_street_name VARCHAR(60),
+   ca_street_type VARCHAR(15),
+   ca_suite_number VARCHAR(10));
+
+   INSERT INTO customer_address VALUES
+   (1, 'ID1', '100', 'Main', 'St', 'A1'),
+   (2, 'ID2', '200', 'Oak', 'Ave', 'B2'),
+   (3, 'ID3', '300', 'Pine', 'Blvd', 'C3');
+
+Set up the **cursor1** cursor.
+
+::
+
+   START TRANSACTION;
+   CURSOR cursor1 FOR SELECT * FROM customer_address ORDER BY 1;
+
+Fetch the first three rows from **cursor1**.
+
+::
+
+   FETCH FORWARD 3 FROM cursor1;
+
+|image1|
+
+Example 2: Use a cursor to read the content in the **VALUES** clause.
+
+Set up the cursor **cursor2**.
+
+::
+
+   CURSOR cursor2 FOR VALUES(1,2),(0,3) ORDER BY 1;
+
+Fetch the first two rows from **cursor2**.
+
+::
+
+   FETCH FORWARD 2 FROM cursor2;
+
+|image2|
+
+Helpful Links
+-------------
+
+:ref:`CLOSE <dws_06_0152>`, :ref:`MOVE <dws_06_0217>`
+
+.. |image1| image:: /_static/images/en-us_image_0000002630493616.png
+.. |image2| image:: /_static/images/en-us_image_0000002660733077.png

@@ -13,11 +13,11 @@ The function **ts_stat** is useful for checking your configuration and for findi
            OUT word text, OUT ndoc integer,
            OUT nentry integer) returns setof record
 
-**sqlquery** is a text value containing an SQL query which must return a single **tsvector** column. **ts_stat** executes the query and returns statistics about each distinct lexeme (word) contained in the **tsvector** data. The columns returned are
+**sqlquery** is a text value containing an SQL query which must return a single **tsvector** column. **ts_stat** executes the query and returns statistics about each distinct lexeme (word) contained in the **tsvector** data. The columns returned are:
 
--  **word text**: the value of a lexeme
--  **ndoc integer**: number of documents (**tsvector**\ s) the word occurred in
--  **nentry integer**: total number of occurrences of the word
+-  **word text**: the value of a lexeme.
+-  **ndoc integer**: number of documents (**tsvector**\ s) the word occurred in.
+-  **nentry integer**: total number of occurrences of the word.
 
 If **weights** are supplied, only occurrences having one of those weights are counted. For example, to find the ten most frequent words in a document collection:
 

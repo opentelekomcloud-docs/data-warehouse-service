@@ -13,7 +13,7 @@ The **MERGE INTO** statement is used to conditionally match data in a target tab
 Precautions
 -----------
 
-In concurrent **MERGE INTO** scenarios, the update operations triggered on the same CU will cause lock conflicts in traditional column-store tables and result in low performance. For HStore tables, the operations can be concurrently performed, and the **MERGE INTO** performance can be more than 100 times that of column-store tables.
+In concurrent **MERGE INTO** scenarios, the update operations triggered on the same CU will cause lock conflicts in traditional column-store tables and result in low performance. For HStore Opt tables, the operations can be concurrently performed, and the **MERGE INTO** performance can be more than 100 times that of column-store tables.
 
 Syntax
 ------
@@ -85,14 +85,14 @@ Create a target for **MERGE INTO**.
 
 ::
 
-   CREATE TABLE target(a int, b int)WITH(ORIENTATION = COLUMN, ENABLE_HSTORE = ON);
+   CREATE TABLE target(a int, b int)WITH(ORIENTATION = COLUMN, ENABLE_HSTORE_OPT = ON);
    INSERT INTO target VALUES(1, 1),(2, 2);
 
 Create a data source table.
 
 ::
 
-   CREATE TABLE source(a int, b int)WITH(ORIENTATION = COLUMN, ENABLE_HSTORE = ON);
+   CREATE TABLE source(a int, b int)WITH(ORIENTATION = COLUMN, ENABLE_HSTORE_OPT = ON);
    INSERT INTO source VALUES(1, 1),(2, 2),(3, 3),(4, 4),(5, 5);
 
 Run the **MERGE INTO** command.

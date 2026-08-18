@@ -5,7 +5,7 @@
 Text Search Types
 =================
 
-GaussDB(DWS) offers tsvector and tsquery data types to support full text search. The **tsvector** type represents a document in a form optimized for text search. The **tsquery** type similarly represents a text query.
+DWS offers tsvector and tsquery data types to support full text search. The **tsvector** type represents a document in a form optimized for text search. The **tsquery** type similarly represents a text query.
 
 tsvector
 --------

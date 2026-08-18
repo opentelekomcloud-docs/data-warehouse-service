@@ -58,6 +58,10 @@ Return type: boolean
 
 The internal transaction ID type (**xid**) is 32 bits wide and wraps around every 4 billion transactions. **txid_snapshot**, the data type used by these functions, stores information about transaction ID visibility at a particular moment in time. :ref:`Table 1 <en-us_topic_0000001811634813__table2238448131119>` describes its components.
 
+**txid_snapshot**'s textual representation is **xmin:xmax:xip_list**.
+
+For example: **10:20:10,14,15** means **xmin=10, xmax=20, xip_list=10, 14, 15**.
+
 .. _en-us_topic_0000001811634813__table2238448131119:
 
 .. table:: **Table 1** Snapshot components
@@ -71,7 +75,3 @@ The internal transaction ID type (**xid**) is 32 bits wide and wraps around ever
    +-----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
    | xip_list  | Active txids at the time of the snapshot. The list includes only those active txids between **xmin** and **xmax**; there might be active txids higher than **xmax**. A txid that is **xmin <= txid < xmax** and not in this list was already completed at the time of the snapshot, and is either visible or dead according to its commit status. The list does not include txids of subtransactions. |
    +-----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-
-**txid_snapshot**'s textual representation is **xmin:xmax:xip_list**.
-
-For example: **10:20:10,14,15** means **xmin=10, xmax=20, xip_list=10, 14, 15**.

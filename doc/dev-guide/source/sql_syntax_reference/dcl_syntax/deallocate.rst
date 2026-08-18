@@ -27,17 +27,17 @@ Syntax
 Parameter Description
 ---------------------
 
--  **PREPARE**
+.. table:: **Table 1** DEALLOCATE parameters
 
-   This keyword is optional and is often ignored.
-
--  **name**
-
-   Specifies the name of the prepared statement to deallocate.
-
--  **ALL**
-
-   Deallocates all prepared statements.
+   +-----------+----------------------------------------------------------------------------------------+---------------------------------------------------------------------------+
+   | Parameter | Description                                                                            | Value Range                                                               |
+   +===========+========================================================================================+===========================================================================+
+   | PREPARE   | Creates a prepared statement. This keyword is optional and does not affect operations. | ``-``                                                                     |
+   +-----------+----------------------------------------------------------------------------------------+---------------------------------------------------------------------------+
+   | name      | Specifies the name of the prepared statement to be deleted.                            | A string, which must comply with the naming rules of prepared statements. |
+   +-----------+----------------------------------------------------------------------------------------+---------------------------------------------------------------------------+
+   | ALL       | Deallocates all prepared statements.                                                   | A string, which must comply with the prepared statement format.           |
+   +-----------+----------------------------------------------------------------------------------------+---------------------------------------------------------------------------+
 
 Examples
 --------

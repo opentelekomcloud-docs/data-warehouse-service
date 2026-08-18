@@ -5,7 +5,7 @@
 Roaring Bitmap Aggregation Functions
 ====================================
 
-Since 8.1.3, GaussDB(DWS) supports efficient bitmap processing functions and operators, which can be used in user profiling and precision marketing, greatly improving query performance.
+Since 8.1.3, DWS supports efficient bitmap processing functions and operators, which can be used in user profiling and precision marketing, greatly improving query performance.
 
 rb_build_agg(int)
 -----------------

@@ -5,7 +5,7 @@
 Network Address Types
 =====================
 
-GaussDB(DWS) offers data types to store IPv4, IPv6, and MAC addresses.
+DWS offers data types to store IPv4, IPv6, and MAC addresses.
 
 It is better to use network address types instead of plaintext types to store IPv4, IPv6, and MAC addresses, because these types offer input error checking and specialized operators and functions. For details, see :ref:`Network Address Functions and Operators <dws_06_0038>`.
 

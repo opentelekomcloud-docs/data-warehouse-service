@@ -20,7 +20,7 @@ Modifying data refers to modifying one or multiple records in a database table. 
 Querying Data
 -------------
 
-The database query statement **SELECT** is used to search required information in a database. For details, see :ref:`SELECT <dws_06_0238>`.
+The database **SELECT** statement is used to retrieve data that meets specified conditions from a database. For details, see :ref:`SELECT <dws_06_0238>`.
 
 Deleting Data
 -------------
@@ -30,14 +30,14 @@ For details about how to delete data that meets specified conditions from a tabl
 Copying Data
 ------------
 
-GaussDB(DWS) provides a statement for copying data between tables and files. For details, see :ref:`COPY <dws_06_0230>`.
+DWS provides a statement for copying data between tables and files. For details, see :ref:`COPY <dws_06_0230>`.
 
 Locking a Table
 ---------------
 
-GaussDB(DWS) provides multiple lock modes to control concurrent accesses to table data. For details, see :ref:`LOCK <dws_06_0234>`.
+DWS provides multiple lock modes to control concurrent accesses to table data. For details, see :ref:`LOCK <dws_06_0234>`.
 
 Run the following statement to invoke the function:
 ---------------------------------------------------
 
-GaussDB(DWS) provides three statements for invoking functions. These statements are the same in the syntax structure. For details, see :ref:`CALL <dws_06_0229>`.
+DWS provides three statements for invoking functions. These statements are the same in the syntax structure. For details, see :ref:`CALL <dws_06_0229>`.

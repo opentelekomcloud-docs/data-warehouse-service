@@ -70,9 +70,7 @@ Return type: same as **column_name**
 
    Redaction functions are recommended if you want to create redaction policies.
 
-   For how to use data redaction functions, see .
-
-   For details about how to use data redaction functions, see the examples in "Database Security Management > Managing Users and Their Permissions > Data Redaction" in the *Developer Guide*.
+   For how to use data masking functions, see the examples in "Database Security Management" > "Sensitive Data Management" > "Data Masking" in the *Data Warehouse Service (DWS) Developer Guide*.
 
 User-Defined Redaction Functions
 --------------------------------

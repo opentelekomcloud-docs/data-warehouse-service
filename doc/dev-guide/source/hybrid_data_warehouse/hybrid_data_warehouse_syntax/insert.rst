@@ -16,7 +16,7 @@ Precautions
 -  If the data to be inserted at a time is greater than or equal to the value of the table-level parameter **DELTAROW_THRESHOLD**, the data is directly inserted into the primary table to generate a compression unit (CU).
 -  If the data to be inserted is smaller than **DELTAROW_THRESHOLD**, a record of the type **I** will be inserted into the delta table. The data will be serialized and stored in the **values** field of the record.
 -  CUIDs are allocated to the data in the delta table and the primary table in a unified manner.
--  The data inserted into the delta table depends on AUTOVACUUM to merge to primary table CUs.
+-  The data inserted into the delta table depends on **AUTOVACUUM** to merge to primary table CUs.
 
 Syntax
 ------
@@ -61,7 +61,7 @@ Create the **reason_t1** table.
        TABLE_SK          INTEGER               ,
        TABLE_ID          VARCHAR(20)           ,
        TABLE_NA          VARCHAR(20)
-   )WITH(ORIENTATION=COLUMN, ENABLE_HSTORE=ON);
+   )WITH(ORIENTATION=COLUMN, ENABLE_HSTORE_OPT=ON);
 
 Insert a record into a table.
 

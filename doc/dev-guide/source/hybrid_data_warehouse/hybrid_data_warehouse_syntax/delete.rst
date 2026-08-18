@@ -8,16 +8,15 @@ DELETE
 Function
 --------
 
-Delete data from an HStore table.
+Delete data from an HStore Opt table.
 
 Precautions
 -----------
 
 -  To delete all the data from a table, you are advised to use the **TRUNCATE** syntax to improve performance and reduce table bloating.
--  If a single record is deleted from an HStore table, a record of the type **D** will be inserted into the delta table. The memory update chain will also be updated to manage concurrency.
--  If multiple records are deleted from an HStore table at a time, a record of the type **D** will be inserted for the consecutive deleted records in each CU.
--  In concurrent deletion scenarios, operations on the same CU will get queued in traditional column-store tables and result in low performance. For HStore tables, the operations can be concurrently performed, and the deletion performance can be more than 100 times that of column-store tables.
--  The syntax is fully compatible with column storage. For more information, see the **UPDATE** syntax.
+-  If a single record is deleted from an HStore Opt table, a record of the type **D** will be inserted into the delta table. The memory update chain will also be updated to manage concurrency.
+-  If multiple records are deleted from an HStore Opt table at a time, a record of the type **MD** will be inserted for the consecutive deleted records in each CU.
+-  In concurrent deletion scenarios, operations on the same CU will get queued in traditional column-store tables and result in low performance. For HStore Opt tables, the operations can be concurrently performed, and the DELETE performance can be more than 100 times that of column-store tables.
 
 Syntax
 ------
@@ -67,7 +66,7 @@ Create the **reason_t2** table.
        TABLE_SK          INTEGER               ,
        TABLE_ID          VARCHAR(20)           ,
        TABLE_NA          VARCHAR(20)
-   )WITH(ORIENTATION=COLUMN, ENABLE_HSTORE=ON);
+   )WITH(ORIENTATION=COLUMN, ENABLE_HSTORE_OPT=ON);
    INSERT INTO reason_t2 VALUES (1, 'S01', 'StudentA'),(2, 'T01', 'TeacherA'),(3, 'T02', 'TeacherB');
 
 Use the **WHERE** condition for deletion.

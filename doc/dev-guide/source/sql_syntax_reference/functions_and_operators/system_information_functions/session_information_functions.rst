@@ -39,6 +39,23 @@ Example:
     gaussdb
    (1 row)
 
+pg_client_encoding()
+--------------------
+
+Description: Obtains the character encoding mode of the current client. When characters are displayed incorrectly, you can check the client encoding to quickly locate the fault.
+
+Return type: name
+
+Example:
+
+::
+
+   SELECT pg_client_encoding();
+    pg_client_encoding
+   --------------------
+    UTF8
+   (1 row)
+
 current_query()
 ---------------
 
@@ -76,7 +93,7 @@ Example:
 current_schemas(boolean)
 ------------------------
 
-Description: **current_schemas(boolean)** returns an array of the names of all schemas presently in the search path. The Boolean option determines whether implicitly included system schemas such as **pg_catalog** are included in the returned search path.
+Description: **current_schemas(boolean)** returns an array of the names of all schemas presently in the search path. The boolean option determines whether implicitly included system schemas such as **pg_catalog** are included in the returned search path.
 
 Return type: name[]
 

@@ -9,7 +9,7 @@ Data definition language (DDL) is used to define or modify an object in a databa
 
 .. note::
 
-   GaussDB(DWS) does not support DDL if its CN is unavailable. For example, if a CN in the cluster is faulty, creating a database or table will fail.
+   DWS does not support DDL operations when the CN is not fully available. For example, if one CN fails in a cluster, operations such as creating a database or table will fail.
 
 Defining a Database
 -------------------
@@ -176,7 +176,7 @@ A stored procedure is a set of SQL statements for achieving specific functions a
 Defining a Function
 -------------------
 
-In GaussDB(DWS), a function is similar to a stored procedure, which is a set of SQL statements. The function and stored procedure are used the same. The following table lists the related SQL statements.
+A DWS function is a reusable block of code that accepts input parameters, performs specific operations, and returns a value or result set. For the related SQL statements, see the following table.
 
 .. table:: **Table 11** SQL statements for defining a function
 
@@ -191,7 +191,7 @@ In GaussDB(DWS), a function is similar to a stored procedure, which is a set of 
 Defining a View
 ---------------
 
-A view is a virtual table exported from one or several basic tables. The view is used to control data accesses for users. The following table lists the related SQL statements.
+A view is a logical virtual table defined by a SQL query. It stores only the view definition and does not physically store data. When the data in the base table changes, the query results of the view are automatically updated. Views provide dynamic data access windows to help users efficiently focus on target data. For the related SQL statements, see the following table.
 
 .. table:: **Table 12** SQL statements for defining a view
 

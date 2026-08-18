@@ -27,7 +27,7 @@ The following example uses two user-created databases, **db1** and **db2**.
 
    ::
 
-      db1=# select * from pgxc_get_residualfiles() order by 4, 6; -- order by is optional.
+      SELECT * FROM pgxc_get_residualfiles() order by 4, 6; -- The order by clause is optional.
 
    |image2|
 
@@ -41,7 +41,7 @@ The following example uses two user-created databases, **db1** and **db2**.
 
    ::
 
-      db1=# SELECT * FROM pgxc_verify_residualfiles();
+      SELECT * FROM pgxc_verify_residualfiles();
 
    |image3|
 
@@ -51,7 +51,7 @@ The following example uses two user-created databases, **db1** and **db2**.
 
    ::
 
-      db1=# SELECT * FROM pgxc_get_residualfiles() order by 4, 6;
+      SELECT * FROM pgxc_get_residualfiles() order by 4, 6;
 
    |image4|
 
@@ -61,11 +61,15 @@ The following example uses two user-created databases, **db1** and **db2**.
 
    ::
 
-      db1=# SELECT * FROM pgxc_rm_residualfiles();
+      SELECT * FROM pgxc_rm_residualfiles();
 
    |image5|
 
 #. Call the **pgxc_get_residualfiles()** function again to check the deletion result.
+
+   ::
+
+      SELECT * FROM pgxc_get_residualfiles() order by 4, 6;
 
    |image6|
 
@@ -79,17 +83,33 @@ The following example uses two user-created databases, **db1** and **db2**.
 
    a. Go to the **db2** database and call the verification function.
 
+      ::
+
+         SELECT * FROM pgxc_verify_residualfiles();
+
       |image8|
 
       Query the verification result:
+
+      ::
+
+         SELECT * FROM pgxc_get_residualfiles() order by 4, 6;
 
       |image9|
 
    b. Call the deletion function:
 
+      ::
+
+         SELECT * FROM pgxc_rm_residualfiles();
+
       |image10|
 
    c. Query the deletion result:
+
+      ::
+
+         SELECT * FROM pgxc_get_residualfiles() order by 4, 6;
 
       |image11|
 
